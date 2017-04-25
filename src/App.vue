@@ -8,6 +8,9 @@
         <router-link to="/top">Top</router-link>
         <router-link to="/new">New</router-link>
         <router-link to="/recommendations">Recommendations</router-link>
+
+        <router-link to="/login">Login</router-link>
+        <router-link to="/regsiter">Register</router-link>
       </nav>
     </header>
     <transition name="fade" mode="out-in">
@@ -26,7 +29,7 @@ export default {
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
-  background-color lighten(#eceef1, 30%)
+  background-color lighten(#eceef1, 30%) !important
   margin 0
   padding-top 55px
   color #34495e

@@ -97,6 +97,26 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) => {
         resolve()
       })
+    },
+
+    login: ({commit, state}, { email, password }) => {
+      // @TODO API call
+      console.log('login')
+      return new Promise((resolve, reject) => {
+        // @TODO: save token
+        // commit('downVote', { articleId: id })
+        resolve()
+      })
+    },
+
+    register: ({commit, state}, { email, password }) => {
+      console.log('register')
+      // @TODO API call
+      return new Promise((resolve, reject) => {
+        // @TODO: save token
+        // commit('downVote', { articleId: id })
+        resolve()
+      })
     }
   },
 
