@@ -48,7 +48,9 @@ export default {
         password: this.password
       })
       .then(() => {
+        console.log('loggedin')
         this.loading = false
+        this.$router.go('/')
       })
     }
   }

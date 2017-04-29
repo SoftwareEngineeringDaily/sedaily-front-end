@@ -106,8 +106,7 @@ const store = new Vuex.Store({
           password
         })
         .then(function (response) {
-          // @TODO: Save token
-          console.log(response)
+          localStorage.setItem('token', response.token)
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
@@ -123,7 +122,6 @@ const store = new Vuex.Store({
           password
         })
         .then(function (response) {
-          console.log(response)
           localStorage.setItem('token', response.token)
         })
         .catch(function (error) {
@@ -146,7 +144,6 @@ const store = new Vuex.Store({
     setItems: (state, { items }) => {
       items.forEach(item => {
         if (item) {
-          console.log(item)
           Vue.set(state.items, item.id, item)
         }
       })
@@ -162,6 +159,11 @@ const store = new Vuex.Store({
       state.items[articleId].score -= 1
       state.items[articleId].upvoted = false
       state.items[articleId].downvoted = true
+    },
+
+    logout: (state) => {
+      console.log('logout')
+      localStorage.setItem('token', '')
     }
   },
 

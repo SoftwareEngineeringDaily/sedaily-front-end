@@ -9,8 +9,9 @@
         <router-link to="/top">Top</router-link>
         <router-link to="/recommendations">Recommendations</router-link>
 
-        <router-link to="/login" style='float:right;'>Login</router-link>
-        <router-link to="/regsiter" style='float:right;margin-right: 1em;'>Register</router-link>
+        <router-link to="/login" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
+        <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
     </header>
     <transition name="fade" mode="out-in">
@@ -21,7 +22,20 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+
+  computed: {
+    isLoggedIn: function () {
+      return Boolean(this.$store.getters.getToken)
+    }
+  },
+
+  methods: {
+    logout: function () {
+      this.$store.commit('logout')
+      this.$router.go('/')
+    }
+  }
 }
 </script>
 
