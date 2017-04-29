@@ -51,8 +51,8 @@ const store = new Vuex.Store({
       commit('setActiveType', { type })
       return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}`)
         .then(function (response) {
-          console.log(response)
           commit('setList', { type, items: response.data })
+          commit('setItems', { items: response.data })
           return {items: response.data, maxPage: 4}
         })
         .catch(function (error) {
@@ -67,6 +67,7 @@ const store = new Vuex.Store({
       return axios.get(`${BASE_URL}/posts/recommendations?page=${page}`)
         .then(function (response) {
           commit('setList', { type, items: response.data })
+          commit('setItems', { items: response.data })
           return {items: response.data, maxPage: 4}
         })
         .catch(function (error) {

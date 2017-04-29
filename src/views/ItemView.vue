@@ -7,7 +7,7 @@
           <span class="score">
             <span class='arrow' v-bind:class="{ active: item.upvoted }" style='margin-left: 1px;' @click='upvote'>▲</span>
             <br>
-            {{ item.score }}
+            {{ item.score || 0}}
             <br>
             <span class='arrow' v-bind:class="{ active: item.downvoted }" style='margin-left: -4px;' @click='downvote'>▼</span>
           </span>
@@ -15,21 +15,24 @@
 
         <div class='item-header-details' style='display:inline-block'>
           <a :href="item.url" target="_blank">
-            <h1>{{ item.title }}</h1>
+            <h1>{{ item.title.rendered }}</h1>
           </a>
           <span v-if="item.url" class="host">
             ({{ item.url | host }})
           </span>
 
           <p class="meta">
-            {{ item.score }} points
-            | by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
-            {{ item.time | timeAgo }} ago
+            {{ item.score || 0 }} points
+            <!-- | by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link> -->
+            {{ item.date | timeAgo }} ago
           </p>
         </div>
       </div>
 
-      <div class="item-view-comments">
+      <div class="item-view-comments" v-html='item.content.rendered'>
+      </div>
+
+      <!-- <div class="item-view-comments">
         <p class="item-view-comments-header">
           {{ item.kids ? item.descendants + ' comments' : 'No comments yet.'}}
           <spinner :show="loading"></spinner>
@@ -37,7 +40,7 @@
         <ul v-if="!loading" class="comment-children">
           <comment v-for="id in item.kids" :key="id" :id="id"></comment>
         </ul>
-      </div>
+      </div> -->
     </template>
   </div>
 </template>
@@ -115,7 +118,10 @@ export default {
 .item-view-comments
   background-color #fff
   margin-top 10px
-  padding 0 2em .5em
+  padding 1em 2em .5em
+
+  .row, h2
+    display: none
 
 .item-view-comments-header
   margin 0
