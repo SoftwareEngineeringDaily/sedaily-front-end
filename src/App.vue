@@ -9,8 +9,8 @@
         <router-link to="/top">Top</router-link>
         <router-link to="/recommendations">Recommendations</router-link>
 
-        <router-link to="/login">Login</router-link>
-        <router-link to="/regsiter">Register</router-link>
+        <router-link to="/login" style='float:right;'>Login</router-link>
+        <router-link to="/regsiter" style='float:right;margin-right: 1em;'>Register</router-link>
       </nav>
     </header>
     <transition name="fade" mode="out-in">

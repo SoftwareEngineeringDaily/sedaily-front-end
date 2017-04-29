@@ -2,7 +2,7 @@
   <div class="news-view">
     <spinner :show="loading"></spinner>
 
-    <div v-if='this.displayedItems.length === 0' class='alert alert-notice'>
+    <div v-if='this.displayedItems.length === 0' class='alert alert-info'>
       We are building recommendations for you. Please ensure you are logged in and
       have voted on podcasts :D
     </div>
@@ -54,6 +54,7 @@ export default {
     this.$store.dispatch('fetchRecommendations', {
       type: this.type
     }).then((result) => {
+      if (!result) return
       this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })
@@ -64,6 +65,7 @@ export default {
     this.$store.dispatch('fetchRecommendations', {
       type: this.type
     }).then((result) => {
+      if (!result) return
       this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })

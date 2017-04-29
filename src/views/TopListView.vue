@@ -2,11 +2,11 @@
   <div class="news-view">
     <spinner :show="loading"></spinner>
 
-    <div class='alert alert-notice'>
+    <div class='alert alert-info'>
       This page will display new items while we are waiting for users to start voting.
       Come back soon for top podcasts!
     </div>
-    
+
     <div class="news-list-nav">
       <router-link v-if="page > 1" :to="'/' + type + '/' + (page - 1)">&lt; prev</router-link>
       <a v-else class="disabled">&lt; prev</a>
