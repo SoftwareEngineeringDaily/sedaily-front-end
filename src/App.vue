@@ -3,7 +3,7 @@
     <header class="header">
       <nav class="inner">
         <router-link to="/" exact>
-          <img class="logo" src="https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed21.png" alt="logo">
+          <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
         <router-link to="/new">New</router-link>
         <router-link to="/top">Top</router-link>
@@ -72,7 +72,7 @@ a
     margin 0
     float right
 .logo
-  width 24px
+  width 30px
   margin-right 10px
   display inline-block
   vertical-align middle
