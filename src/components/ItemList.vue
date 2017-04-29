@@ -24,7 +24,6 @@
 <script>
 import Spinner from './Spinner.vue'
 import Item from './Item.vue'
-// import { watchList } from '../store/api'
 
 let isInitialRender = true
 
@@ -72,64 +71,6 @@ export default {
       return this.page < this.maxPage
     }
   }
-  //
-  // beforeMount () {
-  //   if (this.$root._isMounted) {
-  //     // this.loadItems(this.page)
-  //   }
-  //
-  //   // this.$store.commit('SET_LIST', { type: this.type, ids })
-  //   this.$store.commit('SET_ACTIVE_TYPE', { type: this.type })
-  //   // this.$store.dispatch('ENSURE_ACTIVE_ITEMS').then(() => {
-  //   //   this.displayedItems = this.$store.getters.activeItems
-  //   //   console.log(this.displayedItems)
-  //   // })
-  //
-  //   this.$store.dispatch('FETCH_LIST_DATA', { type: this.type })
-  //   .then((result) => {
-  //     console.log(result)
-  //     this.displayedItems = this.$store.getters.activeItems
-  //     console.log(this.displayedItems)
-  //   })
-  //
-  //   // watch the current list for realtime updates
-  //   // this.unwatchList = watchList(this.type, ids => {
-  //   //   this.$store.commit('SET_LIST', { type: this.type, ids })
-  //   //   this.$store.dispatch('ENSURE_ACTIVE_ITEMS').then(() => {
-  //   //     this.displayedItems = this.$store.getters.activeItems
-  //   //   })
-  //   // })
-  // },
-  //
-  // beforeDestroy () {
-  //   // this.unwatchList()
-  // },
-  //
-  // watch: {
-  //   page (to, from) {
-  //     // this.loadItems(to, from)
-  //   }
-  // },
-  //
-  // methods: {
-  //   loadItems (to = this.page, from = -1) {
-  //     this.loading = true
-  //     this.$store.dispatch('FETCH_LIST_DATA', {
-  //       type: this.type
-  //     }).then(() => {
-  //       if (this.page < 0 || this.page > this.maxPage) {
-  //         this.$router.replace(`/${this.type}/1`)
-  //         return
-  //       }
-  //       this.transition = from === -1
-  //         ? null
-  //         : to > from ? 'slide-left' : 'slide-right'
-  //       this.displayedPage = to
-  //       this.displayedItems = this.$store.getters.activeItems
-  //       this.loading = false
-  //     })
-  //   }
-  // }
 }
 </script>
 

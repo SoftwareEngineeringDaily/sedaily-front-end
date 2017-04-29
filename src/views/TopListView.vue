@@ -29,6 +29,7 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import Item from '@/components/Item.vue'
+import moment from 'moment'
 
 export default {
   name: 'top-list',
@@ -99,6 +100,20 @@ export default {
           ? null
           : to > from ? 'slide-left' : 'slide-right'
         this.displayedPage = to
+
+        if (this.$store.getters.activeItems(to).length === 0) {
+          let lastItem = this.displayedItems[this.displayedItems.length - 1]
+          if (lastItem) {
+            return this.$store.dispatch('fetchListData',
+              {type: this.type, page: this.page, createdAtBefore: moment(lastItem.date).toISOString()})
+              .then((result) => {
+                this.displayedItems = result.items.slice(0, this.$store.state.itemsPerPage)
+                this.maxPage = result.maxPage
+                this.loading = false
+              })
+          }
+        }
+
         this.displayedItems = this.$store.getters.activeItems(to)
         this.loading = false
       })

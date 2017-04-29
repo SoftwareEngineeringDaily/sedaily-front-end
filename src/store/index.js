@@ -47,9 +47,10 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    fetchListData: ({ commit, dispatch, state }, { type, page = 1 }) => {
+    fetchListData: ({ commit, dispatch, state }, { type, page = 1, createdAtBefore }) => {
+      if (!createdAtBefore) createdAtBefore = moment().toISOString()
       commit('setActiveType', { type })
-      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}`)
+      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`)
         .then(function (response) {
           commit('setList', { type, items: response.data })
           commit('setItems', { items: response.data })
@@ -139,7 +140,7 @@ const store = new Vuex.Store({
     },
 
     setList: (state, { type, items }) => {
-      state.lists[type] = items
+      state.lists[type].concat(items)
     },
 
     setItems: (state, { items }) => {
@@ -163,7 +164,6 @@ const store = new Vuex.Store({
     },
 
     logout: (state) => {
-      console.log('logout')
       localStorage.setItem('token', '')
     }
   },

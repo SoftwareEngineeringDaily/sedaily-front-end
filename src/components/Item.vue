@@ -3,7 +3,7 @@
     <span class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }" style='margin-left: 1px;' @click='upvote(item)'>▲</span>
       <br>
-      {{ item.score }}
+      {{ item.score || 0 }}
       <br>
       <span class='arrow' v-bind:class="{ active: item.downvoted }" style='margin-left: -4px;' @click='downvote(item)'>▼</span>
     </span>
@@ -22,13 +22,14 @@
         by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
       </span>
       <span class="time">
-        {{ item.time | timeAgo }} ago
+        <!-- {{ item.time | timeAgo }} ago -->
+        {{item.date}}
       </span>
-      <span v-if="item.type !== 'job'" class="comments-link">
+      <!-- <span v-if="item.type !== 'job'" class="comments-link">
         | <router-link :to="'/item/' + item.id">{{ item.descendants }} comments</router-link>
-      </span>
+      </span> -->
     </span>
-    <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span>
+    <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
   </li>
 </template>
 
