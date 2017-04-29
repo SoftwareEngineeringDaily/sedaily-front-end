@@ -43,10 +43,12 @@ export default {
   methods: {
     login: function () {
       this.loading = true
-      console.log(this.email, this.password)
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password
+      })
+      .then(() => {
+        this.loading = false
       })
     }
   }

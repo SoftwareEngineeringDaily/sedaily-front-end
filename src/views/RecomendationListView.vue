@@ -2,11 +2,11 @@
   <div class="news-view">
     <spinner :show="loading"></spinner>
 
-    <div class='alert alert-notice'>
-      This page will display new items while we are waiting for users to start voting.
-      Come back soon for top podcasts!
+    <div v-if='this.displayedItems.length === 0' class='alert alert-notice'>
+      We are building recommendations for you. Please ensure you are logged in and
+      have voted on podcasts :D
     </div>
-    
+
     <div class="news-list-nav">
       <router-link v-if="page > 1" :to="'/' + type + '/' + (page - 1)">&lt; prev</router-link>
       <a v-else class="disabled">&lt; prev</a>
@@ -31,7 +31,7 @@ import Spinner from '@/components/Spinner.vue'
 import Item from '@/components/Item.vue'
 
 export default {
-  name: 'top-list',
+  name: 'recommendation-list',
 
   components: {
     Spinner,
@@ -40,7 +40,7 @@ export default {
 
   data () {
     return {
-      type: 'top',
+      type: 'recommendation',
       loading: false,
       transition: 'slide-up',
       maxPage: 1,
@@ -51,20 +51,20 @@ export default {
 
   beforeMount: function () {
     this.$store.commit('setActiveType', {type: this.type})
-    this.$store.dispatch('fetchListData', {
+    this.$store.dispatch('fetchRecommendations', {
       type: this.type
     }).then((result) => {
-      this.displayedItems = result.items.slice(0, this.$store.state.itemsPerPage)
+      this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })
   },
 
   created: function () {
     this.$store.commit('setActiveType', {type: this.type})
-    this.$store.dispatch('fetchListData', {
+    this.$store.dispatch('fetchRecommendations', {
       type: this.type
     }).then((result) => {
-      this.displayedItems = result.items.slice(0, this.$store.state.itemsPerPage)
+      this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })
   },

@@ -5,8 +5,8 @@
         <router-link to="/" exact>
           <img class="logo" src="https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed21.png" alt="logo">
         </router-link>
-        <router-link to="/top">Top</router-link>
         <router-link to="/new">New</router-link>
+        <router-link to="/top">Top</router-link>
         <router-link to="/recommendations">Recommendations</router-link>
 
         <router-link to="/login">Login</router-link>

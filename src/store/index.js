@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
+import axios from 'axios'
+
+let BASE_URL = 'http://localhost:4040/api'
 
 Vue.use(Vuex)
 
@@ -31,26 +34,10 @@ let fakeItems = [
   }
 ]
 
-// function fetchItems () {
-//   return new Promise((resolve, reject) => {
-//     resolve(fakeItems)
-//   })
-// }
-
-function fetchIdsByType (type) {
-  return new Promise((resolve, reject) => {
-    resolve(fakeItems)
-  })
-}
-
-function fetchUser () {
-  return {}
-}
-
 const store = new Vuex.Store({
   state: {
     activeType: null,
-    itemsPerPage: 2,
+    itemsPerPage: 25,
     items: {},
     users: {},
     lists: {
@@ -60,24 +47,37 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    FETCH_LIST_DATA: ({ commit, dispatch, state }, { type, page = 1 }) => {
-      commit('SET_ACTIVE_TYPE', { type })
-      return fetchIdsByType(type, page)
-        .then((items) => {
-          commit('SET_LIST', { type, items })
-          // @TODO: return max pages to
-          return {items, maxPage: 3}
+    fetchListData: ({ commit, dispatch, state }, { type, page = 1 }) => {
+      commit('setActiveType', { type })
+      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}`)
+        .then(function (response) {
+          console.log(response)
+          commit('setList', { type, items: response.data })
+          return {items: response.data, maxPage: 4}
+        })
+        .catch(function (error) {
+          // @TODO: Add pretty pop up here
+          console.log(error)
+          alert(error.message)
         })
     },
 
-    FETCH_USER: ({ commit, state }, { id }) => {
-      return state.users[id]
-        ? Promise.resolve(state.users[id])
-        : fetchUser(id).then(user => commit('SET_USER', { user }))
+    fetchRecommendations: ({ commit, dispatch, state }, { page = 1, type }) => {
+      commit('setActiveType', { type })
+      return axios.get(`${BASE_URL}/posts/recommendations?page=${page}`)
+        .then(function (response) {
+          commit('setList', { type, items: response.data })
+          return {items: response.data, maxPage: 4}
+        })
+        .catch(function (error) {
+          // @TODO: Add pretty pop up here
+          console.log(error)
+          // alert(error.message)
+        })
     },
 
     fetchArticle: ({commit, state}, { id }) => {
-      commit('SET_ITEMS', { items: fakeItems })
+      commit('setItems', { items: fakeItems })
       return new Promise((resolve, reject) => {
         resolve(fakeItems)
       })
@@ -100,46 +100,56 @@ const store = new Vuex.Store({
     },
 
     login: ({commit, state}, { email, password }) => {
-      // @TODO API call
-      console.log('login')
-      return new Promise((resolve, reject) => {
-        // @TODO: save token
-        // commit('downVote', { articleId: id })
-        resolve()
-      })
+      return axios.post(`${BASE_URL}/auth/login`,
+        {
+          username: email,
+          password
+        })
+        .then(function (response) {
+          // @TODO: Save token
+          console.log(response)
+        })
+        .catch(function (error) {
+          // @TODO: Add pretty pop up here
+          console.log(error)
+          alert(error.message)
+        })
     },
 
     register: ({commit, state}, { email, password }) => {
-      console.log('register')
-      // @TODO API call
-      return new Promise((resolve, reject) => {
-        // @TODO: save token
-        // commit('downVote', { articleId: id })
-        resolve()
-      })
+      return axios.post(`${BASE_URL}/auth/register`,
+        {
+          username: email,
+          password
+        })
+        .then(function (response) {
+          console.log(response)
+          localStorage.setItem('token', response.token)
+        })
+        .catch(function (error) {
+          // @TODO: Add pretty pop up here
+          console.log(error)
+          alert(error.message)
+        })
     }
   },
 
   mutations: {
-    SET_ACTIVE_TYPE: (state, { type }) => {
+    setActiveType: (state, { type }) => {
       state.activeType = type
     },
 
-    SET_LIST: (state, { type, items }) => {
+    setList: (state, { type, items }) => {
       state.lists[type] = items
     },
 
-    SET_ITEMS: (state, { items }) => {
+    setItems: (state, { items }) => {
       items.forEach(item => {
         if (item) {
           console.log(item)
           Vue.set(state.items, item.id, item)
         }
       })
-    },
-
-    SET_USER: (state, { user }) => {
-      Vue.set(state.users, user.id, user)
     },
 
     upVote: (state, { articleId }) => {
@@ -159,10 +169,14 @@ const store = new Vuex.Store({
     activeItems: (state, getters) => (page = 0) => {
       // @TODO if page is larger then send new request
       let prev = page - 1
-      let prevOffset = prev * 2
-      let pageOffset = page * 2
+      let prevOffset = prev * state.itemsPerPage
+      let pageOffset = page * state.itemsPerPage
 
       return state.lists[state.activeType].slice(prevOffset, pageOffset)
+    },
+
+    getToken: () => {
+      return localStorage.getItem('token')
     }
   }
 })

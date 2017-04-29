@@ -45,21 +45,21 @@ export default {
   },
 
   beforeMount: function () {
-    this.$store.commit('SET_ACTIVE_TYPE', {type: this.type})
-    this.$store.dispatch('FETCH_LIST_DATA', {
+    this.$store.commit('setActiveType', {type: this.type})
+    this.$store.dispatch('fetchListData', {
       type: this.type
     }).then((result) => {
-      this.displayedItems = result.items.slice(0, 2)
+      this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })
   },
 
   created: function () {
-    this.$store.commit('SET_ACTIVE_TYPE', {type: this.type})
-    this.$store.dispatch('FETCH_LIST_DATA', {
+    this.$store.commit('setActiveType', {type: this.type})
+    this.$store.dispatch('fetchListData', {
       type: this.type
     }).then((result) => {
-      this.displayedItems = result.items.slice(0, 2)
+      this.displayedItems = result.items.slice(0, this.$store.state.maxPage)
       this.maxPage = result.maxPage
     })
   },
@@ -82,7 +82,7 @@ export default {
   methods: {
     loadItems (to = this.page, from = -1) {
       this.loading = true
-      this.$store.dispatch('FETCH_LIST_DATA', {
+      this.$store.dispatch('fetchListData', {
         type: this.type,
         page: this.page
       }).then(() => {
