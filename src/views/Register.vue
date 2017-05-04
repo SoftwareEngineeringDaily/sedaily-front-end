@@ -48,6 +48,10 @@ export default {
         email: this.email,
         password: this.password
       })
+      .then((response) => {
+        this.loading = false
+        if (response.data.token) this.$router.replace('/')
+      })
     }
   }
 }

@@ -47,10 +47,9 @@ export default {
         email: this.email,
         password: this.password
       })
-      .then(() => {
-        console.log('loggedin')
+      .then((response) => {
         this.loading = false
-        // this.$router.go('/')
+        if (response.data.token) this.$router.replace('/')
       })
     }
   }

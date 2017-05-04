@@ -25,11 +25,15 @@ const store = new Vuex.Store({
       if (!createdAtBefore) createdAtBefore = moment().toISOString()
       let token = getters.getToken
       commit('setActiveType', { type })
-      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`, {
-        headers: {
+      let options = {}
+
+      if (token) {
+        options.headers = {
           'Authorization': 'Bearer ' + token
         }
-      })
+      }
+
+      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`, options)
         .then(function (response) {
           commit('setList', { type, items: response.data })
           commit('setItems', { items: response.data })
@@ -66,9 +70,13 @@ const store = new Vuex.Store({
     },
 
     upvote: ({commit, getters, state}, { id }) => {
+      let token = getters.getToken
+      if (!token) {
+        alert('You must login to vote')
+        return
+      }
       commit('upVote', { articleId: id })
       let article = state.items[id]
-      let token = getters.getToken
       return axios.post(`${BASE_URL}/posts/${article._id}/upvote`, {}, {
         headers: {
           'Authorization': 'Bearer ' + token
@@ -77,8 +85,12 @@ const store = new Vuex.Store({
     },
 
     downvote: ({commit, getters, state}, { id }) => {
-      commit('downVote', { articleId: id })
       let token = getters.getToken
+      if (!token) {
+        alert('You must login to vote')
+        return
+      }
+      commit('downVote', { articleId: id })
       let article = state.items[id]
       return axios.post(`${BASE_URL}/posts/${article._id}/downvote`, {}, {
         headers: {
@@ -94,13 +106,14 @@ const store = new Vuex.Store({
           password
         })
         .then(function (response) {
-          console.log(response)
           commit('setToken', {token: response.data.token})
+          return response
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
           console.log(error)
           alert(error.message)
+          return error
         })
     },
 
@@ -112,11 +125,13 @@ const store = new Vuex.Store({
         })
         .then(function (response) {
           commit('setToken', {token: response.data.token})
+          return response
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
           console.log(error)
           alert(error.message)
+          return error
         })
     }
   },
