@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <form class='col-md-6 offset-md-3'>
+      <div class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Login</h1>
 
         <div class="form-group">
@@ -15,7 +15,7 @@
         </div>
 
         <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Login</button>
-      </form>
+      </div>
     </div>
 
     <spinner :show="loading"></spinner>
@@ -50,7 +50,7 @@ export default {
       .then(() => {
         console.log('loggedin')
         this.loading = false
-        this.$router.go('/')
+        // this.$router.go('/')
       })
     }
   }

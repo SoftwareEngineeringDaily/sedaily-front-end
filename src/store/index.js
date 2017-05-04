@@ -7,33 +7,6 @@ let BASE_URL = 'http://localhost:4040/api'
 
 Vue.use(Vuex)
 
-let fakeItems = [
-  {
-    id: 1,
-    score: 1,
-    title: 'Testing',
-    time: moment().toISOString(),
-    upvoted: true,
-    downvoted: false
-  },
-  {
-    id: 2,
-    score: 8,
-    title: 'Testing 2',
-    time: moment().toISOString(),
-    upvoted: false,
-    downvoted: true
-  },
-  {
-    id: 3,
-    score: 1,
-    title: 'Testing 3',
-    time: moment().toISOString(),
-    upvoted: false,
-    downvoted: false
-  }
-]
-
 const store = new Vuex.Store({
   state: {
     activeType: null,
@@ -43,14 +16,20 @@ const store = new Vuex.Store({
     lists: {
       top: [],
       new: []
-    }
+    },
+    token: localStorage.getItem('token')
   },
 
   actions: {
-    fetchListData: ({ commit, dispatch, state }, { type, page = 1, createdAtBefore }) => {
+    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore }) => {
       if (!createdAtBefore) createdAtBefore = moment().toISOString()
+      let token = getters.getToken
       commit('setActiveType', { type })
-      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`)
+      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
         .then(function (response) {
           commit('setList', { type, items: response.data })
           commit('setItems', { items: response.data })
@@ -63,9 +42,14 @@ const store = new Vuex.Store({
         })
     },
 
-    fetchRecommendations: ({ commit, dispatch, state }, { page = 1, type }) => {
+    fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, type }) => {
+      let token = getters.getToken
       commit('setActiveType', { type })
-      return axios.get(`${BASE_URL}/posts/recommendations?page=${page}`)
+      return axios.get(`${BASE_URL}/posts/recommendations?page=${page}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
         .then(function (response) {
           commit('setList', { type, items: response.data })
           commit('setItems', { items: response.data })
@@ -79,25 +63,27 @@ const store = new Vuex.Store({
     },
 
     fetchArticle: ({commit, state}, { id }) => {
-      commit('setItems', { items: fakeItems })
-      return new Promise((resolve, reject) => {
-        resolve(fakeItems)
-      })
     },
 
-    upvote: ({commit, state}, { id }) => {
+    upvote: ({commit, getters, state}, { id }) => {
       commit('upVote', { articleId: id })
-      // @TODO API call
-      return new Promise((resolve, reject) => {
-        resolve()
+      let article = state.items[id]
+      let token = getters.getToken
+      return axios.post(`${BASE_URL}/posts/${article._id}/upvote`, {}, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
       })
     },
 
-    downvote: ({commit, state}, { id }) => {
+    downvote: ({commit, getters, state}, { id }) => {
       commit('downVote', { articleId: id })
-      // @TODO API call
-      return new Promise((resolve, reject) => {
-        resolve()
+      let token = getters.getToken
+      let article = state.items[id]
+      return axios.post(`${BASE_URL}/posts/${article._id}/downvote`, {}, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
       })
     },
 
@@ -108,7 +94,8 @@ const store = new Vuex.Store({
           password
         })
         .then(function (response) {
-          localStorage.setItem('token', response.token)
+          console.log(response)
+          commit('setToken', {token: response.data.token})
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
@@ -124,7 +111,7 @@ const store = new Vuex.Store({
           password
         })
         .then(function (response) {
-          localStorage.setItem('token', response.token)
+          commit('setToken', {token: response.data.token})
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
@@ -152,19 +139,41 @@ const store = new Vuex.Store({
     },
 
     upVote: (state, { articleId }) => {
-      state.items[articleId].score += 1
-      state.items[articleId].upvoted = true
+      let incrementValue = 1
+
+      if (state.items[articleId].downvoted) incrementValue += 1
+
+      if (state.items[articleId].upvoted) {
+        state.items[articleId].score -= incrementValue
+      } else {
+        state.items[articleId].score += incrementValue
+      }
+      state.items[articleId].upvoted = !state.items[articleId].upvoted
       state.items[articleId].downvoted = false
     },
 
     downVote: (state, { articleId }) => {
-      state.items[articleId].score -= 1
+      let incrementValue = 1
+
+      if (state.items[articleId].upvoted) incrementValue += 1
+
+      if (state.items[articleId].downvoted) {
+        state.items[articleId].score += incrementValue
+      } else {
+        state.items[articleId].score -= incrementValue
+      }
       state.items[articleId].upvoted = false
-      state.items[articleId].downvoted = true
+      state.items[articleId].downvoted = !state.items[articleId].downvoted
     },
 
     logout: (state) => {
       localStorage.setItem('token', '')
+      state.token = ''
+    },
+
+    setToken: (state, { token }) => {
+      localStorage.setItem('token', token)
+      state.token = token
     }
   },
 
@@ -178,8 +187,8 @@ const store = new Vuex.Store({
       return state.lists[state.activeType].slice(prevOffset, pageOffset)
     },
 
-    getToken: () => {
-      return localStorage.getItem('token')
+    getToken: (state) => {
+      return state.token
     }
   }
 })

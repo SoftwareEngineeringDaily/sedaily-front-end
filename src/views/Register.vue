@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <form class='col-md-6 offset-md-3'>
+      <form class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Register</h1>
 
         <div class="form-group">
