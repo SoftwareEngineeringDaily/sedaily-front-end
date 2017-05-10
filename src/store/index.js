@@ -45,8 +45,8 @@ const store = new Vuex.Store({
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
-          console.log(error)
-          // alert(error.message)
+          console.log(error.response)
+          alert(error.response.data.message)
         })
     },
 
@@ -67,6 +67,7 @@ const store = new Vuex.Store({
           // @TODO: Add pretty pop up here
           console.log(error)
           // alert(error.message)
+          alert(error.response.data.message)
         })
     },
 
@@ -116,7 +117,7 @@ const store = new Vuex.Store({
         .catch(function (error) {
           // @TODO: Add pretty pop up here
           console.log(error)
-          alert(error.message)
+          alert(error.response.data.message)
           return error
         })
     },
@@ -133,8 +134,8 @@ const store = new Vuex.Store({
         })
         .catch(function (error) {
           // @TODO: Add pretty pop up here
-          console.log(error)
-          alert(error.message)
+          console.log(error.response)
+          alert(error.response.data.message)
           return error
         })
     }
