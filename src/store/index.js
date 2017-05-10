@@ -21,8 +21,8 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore }) => {
-      if (!createdAtBefore) createdAtBefore = moment().toISOString()
+    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore, createdAfter }) => {
+      if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
       let token = getters.getToken
       commit('setActiveType', { type })
       let options = {}
@@ -33,7 +33,11 @@ const store = new Vuex.Store({
         }
       }
 
-      return axios.get(`${BASE_URL}/posts?page=${page}&type=${type}&createdAtBefore=${createdAtBefore}`, options)
+      let url = `${BASE_URL}/posts?page=${page}&type=${type}`
+      if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
+      if (createdAfter) url += `&createdAfter=${createdAfter}`
+
+      return axios.get(url, options)
         .then(function (response) {
           commit('setList', { type, items: response.data })
           commit('setItems', { items: response.data })
@@ -42,7 +46,7 @@ const store = new Vuex.Store({
         .catch(function (error) {
           // @TODO: Add pretty pop up here
           console.log(error)
-          alert(error.message)
+          // alert(error.message)
         })
     },
 

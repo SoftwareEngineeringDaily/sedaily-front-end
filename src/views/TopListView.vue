@@ -50,16 +50,6 @@ export default {
     }
   },
 
-  beforeMount: function () {
-    this.$store.commit('setActiveType', {type: this.type})
-    this.$store.dispatch('fetchListData', {
-      type: this.type
-    }).then((result) => {
-      this.displayedItems = result.items.slice(0, this.$store.state.itemsPerPage)
-      this.maxPage = result.maxPage
-    })
-  },
-
   created: function () {
     this.$store.commit('setActiveType', {type: this.type})
     this.$store.dispatch('fetchListData', {
@@ -88,33 +78,31 @@ export default {
   methods: {
     loadItems (to = this.page, from = -1) {
       this.loading = true
-      this.$store.dispatch('fetchListData', {
+      let params = {
         type: this.type,
         page: this.page
-      }).then(() => {
+      }
+
+      if (to > from) {
+        let lastItem = this.displayedItems[this.displayedItems.length - 1]
+        params.createdAtBefore = moment(lastItem.date).toISOString()
+      } else if (to < from) {
+        let firstItem = this.displayedItems[0]
+        params.createdAfter = moment(firstItem.date).toISOString()
+      }
+
+      this.$store.dispatch('fetchListData', params).then((result) => {
         if (this.page < 0 || this.page > this.maxPage) {
           this.$router.replace(`/${this.type}/1`)
           return
         }
+
         this.transition = from === -1
           ? null
           : to > from ? 'slide-left' : 'slide-right'
         this.displayedPage = to
 
-        if (this.$store.getters.activeItems(to).length === 0) {
-          let lastItem = this.displayedItems[this.displayedItems.length - 1]
-          if (lastItem) {
-            return this.$store.dispatch('fetchListData',
-              {type: this.type, page: this.page, createdAtBefore: moment(lastItem.date).toISOString()})
-              .then((result) => {
-                this.displayedItems = result.items.slice(0, this.$store.state.itemsPerPage)
-                this.maxPage = result.maxPage
-                this.loading = false
-              })
-          }
-        }
-
-        this.displayedItems = this.$store.getters.activeItems(to)
+        this.displayedItems = result.items // this.$store.getters.activeItems(to)
         this.loading = false
       })
     }
