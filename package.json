@@ -13,7 +13,7 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "deploy": "git subtree push — prefix dist heroku master"
+    "deploy": "git subtree push --prefix dist heroku master"
   },
   "dependencies": {
     "autoprefixer": "^6.7.2",
