@@ -85,7 +85,8 @@
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "yarn": "^0.23.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
