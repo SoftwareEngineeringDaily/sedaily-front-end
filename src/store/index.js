@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import moment from 'moment'
 import axios from 'axios'
 
-let BASE_URL = 'http://localhost:4040/api'
+let BASE_URL = 'https://software-enginnering-daily-api.herokuapp.com/api'
 
 Vue.use(Vuex)
 
