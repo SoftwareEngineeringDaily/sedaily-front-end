@@ -4,6 +4,7 @@ import moment from 'moment'
 import axios from 'axios'
 
 let BASE_URL = 'https://software-enginnering-daily-api.herokuapp.com/api'
+// let BASE_URL = 'http://localhost:4040/api'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     users: {},
     lists: {
       top: [],
-      new: []
+      new: [],
+      recommendation: []
     },
     token: localStorage.getItem('token')
   },
@@ -67,7 +69,7 @@ const store = new Vuex.Store({
           // @TODO: Add pretty pop up here
           console.log(error)
           // alert(error.message)
-          alert(error.response.data.message)
+          // alert(error.response.data.message)
         })
     },
 

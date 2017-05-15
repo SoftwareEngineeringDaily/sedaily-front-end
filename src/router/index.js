@@ -13,8 +13,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'TopListView',
-      component: TopListView
+      name: 'NewListView',
+      component: NewListView
     },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', component: NewListView },
