@@ -10,6 +10,20 @@
       <a v-else class="disabled">more &gt;</a>
     </div>
 
+    <div class='filters'>
+      <div>
+        <input type='text' v-model='newTag' />
+      </div>
+
+      <div class='active-tags'>
+        <span v-for='(tag, index) in activeTags' class='active-tag'>{{tag.name}} <span class='remove-tag-button' @click='removeTag(index)'>x</span></span>
+      </div>
+
+      <div class='auto-complete' v-if='suggestedTags.length > 0'>
+        <div v-for='tag in suggestedTags'>{{tag.name}}  <span class='add-tag-button' @click='addTag(tag)'>add</span></div>
+      </div>
+    </div>
+
     <transition :name="transition">
       <div class="news-list" :key="displayedPage" v-if="displayedPage > 0">
         <transition-group tag="ul" name="item">
@@ -41,7 +55,15 @@ export default {
       transition: 'slide-up',
       maxPage: 1,
       displayedPage: Number(this.$store.state.route.params.page) || 1,
-      displayedItems: []
+      displayedItems: [],
+      newTag: '',
+      activeTags: [],
+      tags: [
+        {
+          id: 1200,
+          name: '.NET Rocks!'
+        }
+      ]
     }
   },
 
@@ -61,6 +83,17 @@ export default {
     },
     hasMore () {
       return this.page < this.maxPage
+    },
+    suggestedTags () {
+      let suggestedTags = []
+
+      if (!this.newTag) return suggestedTags
+
+      this.tags.forEach((tag) => {
+        if (tag.name.toLowerCase().indexOf(this.newTag.toLowerCase()) !== -1) suggestedTags.push(tag)
+      })
+
+      return suggestedTags
     }
   },
 
@@ -71,6 +104,31 @@ export default {
   },
 
   methods: {
+    removeTag (index) {
+      this.activeTags.splice(index, 1)
+      if (this.activeTags.length === 0) this.loadItems(1, 0)
+    },
+    addTag (tag) {
+      this.activeTags.push(tag)
+      this.newTag = ''
+      this.filterTags()
+    },
+    filterTags () {
+      let serverTags = this.activeTags.map((tag) => {
+        return tag.id
+      })
+
+      let params = {
+        type: this.type,
+        page: this.page,
+        tags: serverTags
+      }
+
+      this.$store.dispatch('fetchListData', params)
+        .then((result) => {
+          this.displayedItems = result.items
+        })
+    },
     loadItems (to = this.page, from = -1) {
       this.loading = true
       let params = {
@@ -160,4 +218,45 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
+
+
+/* Filters */
+.filters
+  position: relative
+  margin-top: 1em
+  input
+    width: 100%
+  button
+    background-color: #f60
+    color: #fff
+    box-shadow: none
+    border: none
+    font-size: 14px
+    height: 30px
+    border-radius: 2px
+
+.active-tags
+  margin-top: 1em
+
+.active-tag
+  padding: .5em
+  color: #fff
+  background-color: #f60
+
+.remove-tag-button:hover
+  cursor: pointer;
+
+.auto-complete
+  width: 200px;
+  background: #fff;
+  padding: 1em;
+  position: absolute;
+  top: 30px;
+  z-index: 1000
+  box-shadow: 6px 0px 10px #efefef
+  .add-tag-button
+    color: #f60
+    font-size: 10px
+  .add-tag-button:hover
+    cursor: pointer;
 </style>

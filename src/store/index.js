@@ -23,7 +23,7 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore, createdAfter }) => {
+    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore, createdAfter, tags }) => {
       if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
       let token = getters.getToken
       commit('setActiveType', { type })
@@ -38,6 +38,10 @@ const store = new Vuex.Store({
       let url = `${BASE_URL}/posts?page=${page}&type=${type}`
       if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
       if (createdAfter) url += `&createdAfter=${createdAfter}`
+      if (tags) {
+        let tagString = tags.join(',')
+        url += `&tags=${tagString}`
+      }
 
       return axios.get(url, options)
         .then(function (response) {
