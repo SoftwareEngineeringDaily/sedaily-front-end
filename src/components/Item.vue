@@ -13,7 +13,7 @@
         <span class="host"> ({{ item.url | host }})</span>
       </template>
       <template v-else>
-        <router-link :to="'/item/' + item.id">{{ item.title.rendered }}</router-link>
+        <router-link :to="'/item/' + item._id">{{ item.title.rendered }}</router-link>
       </template>
     </span>
     <br>
@@ -26,7 +26,7 @@
         {{item.date}}
       </span>
       <!-- <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item.id">{{ item.descendants }} comments</router-link>
+        | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
       </span> -->
     </span>
     <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
@@ -41,12 +41,12 @@ export default {
   methods: {
     upvote: function (item) {
       this.$store.dispatch('upvote', {
-        id: item.id
+        id: item._id
       })
     },
     downvote: function (item) {
       this.$store.dispatch('downvote', {
-        id: item.id
+        id: item._id
       })
     }
   }

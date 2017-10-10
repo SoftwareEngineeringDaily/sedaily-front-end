@@ -159,7 +159,7 @@ const store = new Vuex.Store({
     setItems: (state, { items }) => {
       items.forEach(item => {
         if (item) {
-          Vue.set(state.items, item.id, item)
+          Vue.set(state.items, item._id, item)
         }
       })
     },
