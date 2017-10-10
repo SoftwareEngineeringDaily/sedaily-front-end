@@ -19,7 +19,7 @@ export default new Router({
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
-    { path: '/item/:id(\\d+)?', component: ItemView },
+    { path: '/item/:id([A-Za-z0-9-_]+)?', component: ItemView },
     { path: '/login', component: Login },
     { path: '/regsiter', component: Register }
   ]
