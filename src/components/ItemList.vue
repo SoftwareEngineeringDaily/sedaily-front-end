@@ -13,7 +13,7 @@
     <transition :name="transition">
       <div class="news-list" :key="displayedPage" v-if="displayedPage > 0">
         <transition-group tag="ul" name="item">
-          <item v-for="item in displayedItems" :key="item.id" :item="item">
+          <item v-for="item in displayedItems" :key="item._id" :item="item">
           </item>
         </transition-group>
       </div>
