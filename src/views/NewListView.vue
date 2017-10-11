@@ -9,7 +9,7 @@
       <a v-else class="disabled">more &gt;</a>
     </div>
 
-    <div class='filters'>
+    <!--<div class='filters'>
       <div>
         <input type='text' v-model='newTag' placeholder='filters & tags'/>
       </div>
@@ -26,11 +26,10 @@
           <span class='add-tag-button' @click='addTag(tag)'>add</span>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <div>
+    <div class='search-bar'>
       <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
-      <button @click='makeSearch'>Search</button>
     </div>
 
     <transition :name="transition">
@@ -268,8 +267,12 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
-
-
+.search-bar
+  margin-top 1em
+  input
+    width 100%
+    margin 20px 0
+    padding 10px
 /* Filters */
 .filters
   position: relative
