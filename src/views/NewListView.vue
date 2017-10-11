@@ -9,6 +9,10 @@
       <a v-else class="disabled">more &gt;</a>
     </div>
 
+    <div>
+      <input type='text' v-model='searchTerm' />
+    </div>
+
     <div class='filters'>
       <div>
         <input type='text' v-model='newTag' />
@@ -29,7 +33,6 @@
     </div>
 
     <transition :name="transition">
-      <div class="news-list" :key="displayedPage" v-if="displayedPage > 0">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
           <transition-group tag="ul" name="item">
             <item v-for="item in displayedItems" :key="item._id" :item="item">
@@ -39,8 +42,6 @@
             <spinner :show="loading"></spinner>
           </div>
         </div>
-      </div>
-
     </transition>
   </div>
 </template>
@@ -68,6 +69,7 @@ export default {
       displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: [],
       newTag: '',
+      searchTerm: '',
       activeTags: [],
       tags: [
         {
@@ -87,6 +89,12 @@ export default {
     },
     hasMore () {
       return this.page < this.maxPage
+    },
+    tagIds () {
+      let serverTags = this.activeTags.map((tag) => {
+        return tag.id
+      })
+      return serverTags
     },
     suggestedTags () {
       let suggestedTags = []
@@ -144,14 +152,9 @@ export default {
       this.filterTags()
     },
     filterTags () {
-      let serverTags = this.activeTags.map((tag) => {
-        return tag.id
-      })
-
       let params = {
         type: this.type,
-        page: this.page,
-        tags: serverTags
+        tags: this.tagIds
       }
 
       this.$store.dispatch('fetchListData', params)
