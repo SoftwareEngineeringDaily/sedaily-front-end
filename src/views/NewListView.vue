@@ -33,7 +33,6 @@
       <button @click='makeSearch'>Search</button>
     </div>
 
-
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
             <item v-for="item in displayedItems" :key="item._id" :item="item">
@@ -140,8 +139,7 @@ export default {
       this.loading = true
       let params = {
         type: this.type,
-        tags: this.tagIds,
-        searchTerm: this.search
+        tags: this.tagIds
       }
 
       if (this.searchTerm) {
@@ -162,6 +160,7 @@ export default {
         this.loading = false
       })
       .catch(_ => {
+        // TODO: log events
         this.loading = false
       })
     },
