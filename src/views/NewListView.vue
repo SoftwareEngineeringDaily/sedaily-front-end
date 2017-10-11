@@ -75,7 +75,15 @@ export default {
         {
           id: 1200,
           name: '.NET Rocks!'
-        }
+        } /* ,
+        {
+          id: 1084,
+          name: 'Javascript'
+        },
+        {
+          id: 1080,
+          name: 'Machine Learning'
+        } */
       ]
     }
   },
