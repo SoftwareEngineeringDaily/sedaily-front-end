@@ -1,6 +1,14 @@
 <template>
   <li class="news-item">
     <div>
+      <a-player :music="{
+        title: item.title.rendered,
+        url: item.mp3,
+        pic: item.featuredImage,
+        lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
+      }"></a-player>
+    </div>
+    <div>
       <router-link :to="'/item/' + item._id">
       <img class="hero-img":src="item.featuredImage" />
       </router-link>
@@ -42,9 +50,13 @@
 
 <script>
 import moment from 'moment'
+import VueAplayer from 'vue-aplayer'
 export default {
   name: 'news-item',
   props: ['item'],
+  components: {
+    'a-player': VueAplayer
+  },
   computed: {
     date () {
       return moment(this.item.date).format('MMM Do YY')
