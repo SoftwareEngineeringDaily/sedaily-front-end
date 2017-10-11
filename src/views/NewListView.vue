@@ -9,10 +9,6 @@
       <a v-else class="disabled">more &gt;</a>
     </div>
 
-    <div>
-      <input type='text' v-model='searchTerm' />
-    </div>
-
     <div class='filters'>
       <div>
         <input type='text' v-model='newTag' placeholder='filters & tags'/>
@@ -31,6 +27,12 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <input type='text' placeholder='Search...' v-model='searchTerm' />
+      <button @click='makeSearch'>Search</button>
+    </div>
+
 
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
@@ -69,7 +71,7 @@ export default {
       displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: [],
       newTag: '',
-      searchTerm: '',
+      searchTerm: null,
       activeTags: [],
       tags: [
         {
@@ -124,6 +126,12 @@ export default {
   },
 
   methods: {
+    makeSearch () {
+      if (this.searchTerm === ' ') {
+        this.searchTerm = null
+      }
+      this.resetItems()
+    },
     loadMore () {
       if (this.endOfItems) {
         return
@@ -131,7 +139,12 @@ export default {
       this.loading = true
       let params = {
         type: this.type,
-        tags: this.tagIds
+        tags: this.tagIds,
+        searchTerm: this.search
+      }
+
+      if (this.searchTerm) {
+        params.search = this.searchTerm
       }
       if (this.displayedItems.length > 0) {
         let lastItem = this.displayedItems[this.displayedItems.length - 1]
