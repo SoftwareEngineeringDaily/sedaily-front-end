@@ -15,7 +15,7 @@
 
     <div class='filters'>
       <div>
-        <input type='text' v-model='newTag' />
+        <input type='text' v-model='newTag' placeholder='filters & tags'/>
       </div>
 
       <div class='active-tags'>
@@ -122,7 +122,8 @@ export default {
       }
       this.loading = true
       let params = {
-        type: this.type
+        type: this.type,
+        tags: this.tagIds
       }
       if (this.displayedItems.length > 0) {
         let lastItem = this.displayedItems[this.displayedItems.length - 1]
@@ -144,23 +145,18 @@ export default {
     },
     removeTag (index) {
       this.activeTags.splice(index, 1)
-      if (this.activeTags.length === 0) this.loadItems(1, 0)
+      this.resetItems()
     },
     addTag (tag) {
       this.activeTags.push(tag)
       this.newTag = ''
-      this.filterTags()
+      this.resetItems()
     },
-    filterTags () {
-      let params = {
-        type: this.type,
-        tags: this.tagIds
-      }
-
-      this.$store.dispatch('fetchListData', params)
-        .then((result) => {
-          this.displayedItems = result.items
-        })
+    resetItems () {
+      this.displayedItems = []
+      this.endOfItems = false
+      this.loading = false
+      this.loadMore()
     },
     loadItems (to = this.page, from = -1) {
       this.loading = true
