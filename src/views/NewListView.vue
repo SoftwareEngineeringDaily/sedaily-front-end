@@ -15,11 +15,16 @@
       </div>
 
       <div class='active-tags'>
-        <span v-for='(tag, index) in activeTags' class='active-tag'>{{tag.name}} <span class='remove-tag-button' @click='removeTag(index)'>x</span></span>
+        <span v-for='(tag, index) in activeTags' class='active-tag'>
+          {{tag.name}}
+          <span class='remove-tag-button' @click='removeTag(index)'>x</span>
+        </span>
       </div>
 
       <div class='auto-complete' v-if='suggestedTags.length > 0'>
-        <div v-for='tag in suggestedTags'>{{tag.name}}  <span class='add-tag-button' @click='addTag(tag)'>add</span></div>
+        <div v-for='tag in suggestedTags'>{{tag.name}}
+          <span class='add-tag-button' @click='addTag(tag)'>add</span>
+        </div>
       </div>
     </div>
 
@@ -108,7 +113,6 @@ export default {
         return
       }
       this.loading = true
-      console.log('load more')
       let params = {
         type: this.type
       }
