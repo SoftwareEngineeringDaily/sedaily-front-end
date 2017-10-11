@@ -82,11 +82,8 @@ export default {
   display inline-flex
   flex-wrap wrap
   flex-direction column
-  width 33%
+  width 50%
 
-  .hero-img
-    max-width 90%
-    margin 10px 0
   .arrow
     color #888
     &:hover
