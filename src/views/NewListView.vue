@@ -29,7 +29,7 @@
     </div>
 
     <div>
-      <input type='text' placeholder='Search...' v-model='searchTerm' />
+      <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
       <button @click='makeSearch'>Search</button>
     </div>
 
@@ -122,6 +122,9 @@ export default {
   watch: {
     page (to, from) {
       // this.loadItems(to, from)
+    },
+    searchTerm () {
+      this.makeSearch()
     }
   },
 
