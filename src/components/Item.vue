@@ -8,11 +8,6 @@
         lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
       }"></a-player>
     </div>
-    <div>
-      <router-link :to="'/item/' + item._id">
-      <img class="hero-img":src="item.featuredImage" />
-      </router-link>
-    </div>
     <span class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }"
       style='margin-left: 1px;' @click='upvote(item)'>▲</span>
