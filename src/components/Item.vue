@@ -1,11 +1,18 @@
 <template>
   <li class="news-item">
+    <div>
+      <router-link :to="'/item/' + item._id">
+      <img class="hero-img":src="item.featuredImage" />
+      </router-link>
+    </div>
     <span class="score">
-      <span class='arrow' v-bind:class="{ active: item.upvoted }" style='margin-left: 1px;' @click='upvote(item)'>▲</span>
+      <span class='arrow' v-bind:class="{ active: item.upvoted }"
+      style='margin-left: 1px;' @click='upvote(item)'>▲</span>
       <br>
       {{ item.score || 0 }}
       <br>
-      <span class='arrow' v-bind:class="{ active: item.downvoted }" style='margin-left: -4px;' @click='downvote(item)'>▼</span>
+      <span class='arrow' v-bind:class="{ active: item.downvoted }"
+      style='margin-left: -4px;' @click='downvote(item)'>▼</span>
     </span>
     <span class="title">
       <template v-if="item.url">
@@ -13,20 +20,20 @@
         <span class="host"> ({{ item.url | host }})</span>
       </template>
       <template v-else>
-        <router-link :to="'/item/' + item.id">{{ item.title.rendered }}</router-link>
+        <router-link :to="'/item/' + item._id">{{ item.title.rendered }}</router-link>
       </template>
     </span>
     <br>
     <span class="meta">
-      <span v-if="item.type !== 'job'" class="by">
+      <!-- <span v-if="item.type !== 'job'" class="by">
         by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
-      </span>
+      </span> -->
       <span class="time">
         <!-- {{ item.time | timeAgo }} ago -->
-        {{item.date}}
+        {{date}}
       </span>
       <!-- <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item.id">{{ item.descendants }} comments</router-link>
+        | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
       </span> -->
     </span>
     <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
@@ -34,19 +41,24 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'news-item',
   props: ['item'],
-
+  computed: {
+    date () {
+      return moment(this.item.date).format('MMM Do YY')
+    }
+  },
   methods: {
     upvote: function (item) {
       this.$store.dispatch('upvote', {
-        id: item.id
+        id: item._id
       })
     },
     downvote: function (item) {
       this.$store.dispatch('downvote', {
-        id: item.id
+        id: item._id
       })
     }
   }
@@ -60,7 +72,14 @@ export default {
   border-bottom 1px solid #eee
   position relative
   line-height 20px
+  display inline-flex
+  flex-wrap wrap
+  flex-direction column
+  width 33%
 
+  .hero-img
+    max-width 90%
+    margin 10px 0
   .arrow
     color #888
     &:hover
@@ -91,4 +110,8 @@ export default {
       text-decoration underline
       &:hover
         color #ff6600
+
+@media (max-width 576px)
+  .news-item
+    width 100%
 </style>

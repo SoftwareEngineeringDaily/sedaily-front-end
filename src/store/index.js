@@ -23,6 +23,10 @@ const store = new Vuex.Store({
   },
 
   actions: {
+    // Pages should probably start at largest page and go down in number
+    // this way links stay around and it's easy to link toa  particular page.
+    // perhaps even including a limit and redirect to max if something
+    // too large is provided (in the url).
     fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore, createdAfter, tags }) => {
       if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
       let token = getters.getToken
@@ -77,7 +81,30 @@ const store = new Vuex.Store({
         })
     },
 
-    fetchArticle: ({commit, state}, { id }) => {
+    fetchArticle: ({commit, state, getters}, { id }) => {
+      console.log('fetch article', id)
+
+      let options = {}
+
+      let token = getters.getToken
+      if (token) {
+        options.headers = {
+          'Authorization': 'Bearer ' + token
+        }
+      }
+
+      return axios.get(`${BASE_URL}/posts/${id}`, options)
+        .then(function (response) {
+          console.log('response', response)
+          var item = response.data
+          commit('setItems', { items: [item] })
+          return {item}
+        })
+        .catch(function (error) {
+          // @TODO: Add pretty pop up here
+          console.log(error.response)
+          alert(error.response.data.message)
+        })
     },
 
     upvote: ({commit, getters, state}, { id }) => {
@@ -153,13 +180,21 @@ const store = new Vuex.Store({
     },
 
     setList: (state, { type, items }) => {
-      state.lists[type].concat(items)
+      // This is currently doing an append to the list but
+      // it should probably do a simple set like the function name
+      // suggets.
+      //
+      // Though, I imagine what we are aiming for is to have pagination be
+      // cached and so for that I think a better approach might be a simple
+      // map. I am leaning towards not caching for the time being to avoid
+      // extra complexity.
+      state.lists[type] = state.lists[type].concat(items)
     },
 
     setItems: (state, { items }) => {
       items.forEach(item => {
         if (item) {
-          Vue.set(state.items, item.id, item)
+          Vue.set(state.items, item._id, item)
         }
       })
     },

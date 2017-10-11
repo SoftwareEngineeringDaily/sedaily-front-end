@@ -1,6 +1,5 @@
 <template>
   <div class="news-view">
-    <spinner :show="loading"></spinner>
 
     <div class="news-list-nav">
       <router-link v-if="page > 1" :to="'/' + type + '/' + (page - 1)">&lt; prev</router-link>
@@ -26,11 +25,17 @@
 
     <transition :name="transition">
       <div class="news-list" :key="displayedPage" v-if="displayedPage > 0">
-        <transition-group tag="ul" name="item">
-          <item v-for="item in displayedItems" :key="item.id" :item="item">
-          </item>
-        </transition-group>
+        <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+          <transition-group tag="ul" name="item">
+            <item v-for="item in displayedItems" :key="item._id" :item="item">
+            </item>
+          </transition-group>
+          <div class="spinner-holder">
+            <spinner :show="loading"></spinner>
+          </div>
+        </div>
       </div>
+
     </transition>
   </div>
 </template>
@@ -52,6 +57,7 @@ export default {
     return {
       type: 'new',
       loading: false,
+      endOfItems: false,
       transition: 'slide-up',
       maxPage: 1,
       displayedPage: Number(this.$store.state.route.params.page) || 1,
@@ -69,14 +75,7 @@ export default {
 
   created: function () {
     this.$store.commit('setActiveType', {type: this.type})
-    this.$store.dispatch('fetchListData', {
-      type: this.type
-    }).then((result) => {
-      this.displayedItems = result.items
-      this.maxPage = result.maxPage
-    })
   },
-
   computed: {
     page () {
       return Number(this.$store.state.route.params.page) || 1
@@ -99,11 +98,38 @@ export default {
 
   watch: {
     page (to, from) {
-      this.loadItems(to, from)
+      // this.loadItems(to, from)
     }
   },
 
   methods: {
+    loadMore () {
+      if (this.endOfItems) {
+        return
+      }
+      this.loading = true
+      console.log('load more')
+      let params = {
+        type: this.type
+      }
+      if (this.displayedItems.length > 0) {
+        let lastItem = this.displayedItems[this.displayedItems.length - 1]
+        params.createdAtBefore = moment(lastItem.date).toISOString()
+      }
+      this.$store.dispatch('fetchListData', params)
+      .then((result) => {
+        this.displayedItems = this.displayedItems.concat(result.items)
+        if (result.items && result.items.length > 0) {
+        } else {
+          this.endOfItems = true
+        }
+
+        this.loading = false
+      })
+      .catch(_ => {
+        this.loading = false
+      })
+    },
     removeTag (index) {
       this.activeTags.splice(index, 1)
       if (this.activeTags.length === 0) this.loadItems(1, 0)
@@ -245,6 +271,11 @@ export default {
 
 .remove-tag-button:hover
   cursor: pointer;
+
+.spinner-holder
+  width 100%
+  text-align center
+  margin 10px
 
 .auto-complete
   width: 200px;

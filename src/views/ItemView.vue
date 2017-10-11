@@ -67,11 +67,11 @@ export default {
     }
   },
   beforeMount () {
-    // this.$store.dispatch('fetchArticle', {
-    //   ids: [this.$store.state.route.params.id]
-    // }).then(() => {
-    //   this.loading = false
-    // })
+    this.$store.dispatch('fetchArticle', {
+      id: this.$store.state.route.params.id
+    }).then(() => {
+      this.loading = false
+    })
   },
   methods: {
     upvote: function () {

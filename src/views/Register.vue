@@ -15,7 +15,7 @@
           <input type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
 
-        <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Login</button>
+        <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Register</button>
       </form>
     </div>
 
