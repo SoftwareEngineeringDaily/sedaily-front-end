@@ -1,5 +1,5 @@
 <template>
-  <li class="news-item">
+  <span class="news-item">
     <div>
       <a-player :music="{
         title: item.title.rendered || ' ',
@@ -41,7 +41,7 @@
       </span> -->
     </span>
     <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
-  </li>
+  </span>
 </template>
 
 <script>
@@ -82,6 +82,7 @@ export default {
   line-height 20px
   display inline-flex
   flex-wrap wrap
+  height 220px
   flex-direction column
   width 50%
 
@@ -119,4 +120,5 @@ export default {
 @media (max-width 576px)
   .news-item
     width 100%
+    height default
 </style>

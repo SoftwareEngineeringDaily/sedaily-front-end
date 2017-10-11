@@ -36,10 +36,8 @@
 
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-          <transition-group tag="ul" name="item">
             <item v-for="item in displayedItems" :key="item._id" :item="item">
             </item>
-          </transition-group>
           <div class="spinner-holder">
             <spinner :show="loading"></spinner>
           </div>
