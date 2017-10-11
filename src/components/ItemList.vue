@@ -75,8 +75,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.news-view
-  padding-top 45px
 
 .news-list-nav, .news-list
   background-color #fff

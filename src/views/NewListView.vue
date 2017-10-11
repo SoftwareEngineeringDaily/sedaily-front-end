@@ -1,14 +1,5 @@
 <template>
   <div class="news-view">
-
-    <div class="news-list-nav">
-      <router-link v-if="page > 1" :to="'/' + type + '/' + (page - 1)">&lt; prev</router-link>
-      <a v-else class="disabled">&lt; prev</a>
-      <span>{{ page }}/{{ maxPage }}</span>
-      <router-link v-if="hasMore" :to="'/' + type + '/' + (page + 1)">more &gt;</router-link>
-      <a v-else class="disabled">more &gt;</a>
-    </div>
-
     <!--<div class='filters'>
       <div>
         <input type='text' v-model='newTag' placeholder='filters & tags'/>
@@ -214,7 +205,7 @@ export default {
 
 <style lang="stylus">
 .news-view
-  padding-top 45px
+  padding-top 10px
 
 .news-list-nav, .news-list
   background-color #fff
@@ -268,7 +259,6 @@ export default {
   .news-list
     margin 10px 0
 .search-bar
-  margin-top 1em
   input
     width 100%
     margin 20px 0
