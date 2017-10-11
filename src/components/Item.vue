@@ -3,6 +3,7 @@
     <div>
       <a-player :music="{
         title: item.title.rendered,
+        author: ' ',
         url: item.mp3,
         pic: item.featuredImage,
         lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
