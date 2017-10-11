@@ -1,24 +1,5 @@
 <template>
   <div class="news-view">
-    <!--<div class='filters'>
-      <div>
-        <input type='text' v-model='newTag' placeholder='filters & tags'/>
-      </div>
-
-      <div class='active-tags'>
-        <span v-for='(tag, index) in activeTags' class='active-tag'>
-          {{tag.name}}
-          <span class='remove-tag-button' @click='removeTag(index)'>x</span>
-        </span>
-      </div>
-
-      <div class='auto-complete' v-if='suggestedTags.length > 0'>
-        <div v-for='tag in suggestedTags'>{{tag.name}}
-          <span class='add-tag-button' @click='addTag(tag)'>add</span>
-        </div>
-      </div>
-    </div>-->
-
     <div class='search-bar'>
       <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
@@ -54,62 +35,16 @@ export default {
       loading: false,
       endOfItems: false,
       transition: 'slide-up',
-      maxPage: 1,
-      displayedPage: Number(this.$store.state.route.params.page) || 1,
       displayedItems: [],
-      newTag: '',
-      searchTerm: null,
-      activeTags: [],
-      tags: [
-        {
-          id: 1200,
-          name: '.NET Rocks!'
-        } /* ,
-        {
-          id: 1084,
-          name: 'Javascript'
-        },
-        {
-          id: 1080,
-          name: 'Machine Learning'
-        } */
-      ]
+      searchTerm: null
     }
   },
 
   created: function () {
     this.$store.commit('setActiveType', {type: this.type})
   },
-  computed: {
-    page () {
-      return Number(this.$store.state.route.params.page) || 1
-    },
-    hasMore () {
-      return this.page < this.maxPage
-    },
-    tagIds () {
-      let serverTags = this.activeTags.map((tag) => {
-        return tag.id
-      })
-      return serverTags
-    },
-    suggestedTags () {
-      let suggestedTags = []
-
-      if (!this.newTag) return suggestedTags
-
-      this.tags.forEach((tag) => {
-        if (tag.name.toLowerCase().indexOf(this.newTag.toLowerCase()) !== -1) suggestedTags.push(tag)
-      })
-
-      return suggestedTags
-    }
-  },
 
   watch: {
-    page (to, from) {
-      // this.loadItems(to, from)
-    },
     searchTerm () {
       this.makeSearch()
     }
@@ -128,8 +63,7 @@ export default {
       }
       this.loading = true
       let params = {
-        type: this.type,
-        tags: this.tagIds
+        type: this.type
       }
 
       if (this.searchTerm) {
@@ -154,50 +88,11 @@ export default {
         this.loading = false
       })
     },
-    removeTag (index) {
-      this.activeTags.splice(index, 1)
-      this.resetItems()
-    },
-    addTag (tag) {
-      this.activeTags.push(tag)
-      this.newTag = ''
-      this.resetItems()
-    },
     resetItems () {
       this.displayedItems = []
       this.endOfItems = false
       this.loading = false
       this.loadMore()
-    },
-    loadItems (to = this.page, from = -1) {
-      this.loading = true
-      let params = {
-        type: this.type,
-        page: this.page
-      }
-
-      if (to > from) {
-        let lastItem = this.displayedItems[this.displayedItems.length - 1]
-        params.createdAtBefore = moment(lastItem.date).toISOString()
-      } else if (to < from) {
-        let firstItem = this.displayedItems[0]
-        params.createdAfter = moment(firstItem.date).toISOString()
-      }
-
-      this.$store.dispatch('fetchListData', params).then((result) => {
-        if (this.page < 0 || this.page > this.maxPage) {
-          this.$router.replace(`/${this.type}/1`)
-          return
-        }
-
-        this.transition = from === -1
-          ? null
-          : to > from ? 'slide-left' : 'slide-right'
-        this.displayedPage = to
-
-        this.displayedItems = result.items // this.$store.getters.activeItems(to)
-        this.loading = false
-      })
     }
   }
 }
@@ -307,4 +202,9 @@ export default {
     font-size: 10px
   .add-tag-button:hover
     cursor: pointer;
+
+@media (max-width 600px)
+  .news-list
+    margin 10px 0
+
 </style>
