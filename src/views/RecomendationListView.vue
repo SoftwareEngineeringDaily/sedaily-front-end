@@ -18,6 +18,9 @@ export default {
 
   methods: {
     loadMore () {
+      // TODO: note that we have to override this method
+      // because it seems like fetchRecommendations /
+      // /posts/recommendations? does not resport createdAtBefore
       if (this.endOfItems) {
         return
       }
