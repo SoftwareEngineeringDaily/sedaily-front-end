@@ -58,8 +58,39 @@ export default {
         {
           name: 'Blockchain',
           id: '1082'
+        },
+        {
+          name: 'Cloud Engineering',
+          id: '1079'
+        },
+        {
+          name: 'Data',
+          id: '1081'
+        },
+        {
+          name: 'JavaScript',
+          id: '1084'
+        },
+        {
+          name: 'Machine Learning',
+          id: '1080'
+        },
+        {
+          name: 'Open Source',
+          id: '1078'
+        },
+        {
+          name: 'Security',
+          id: '1083'
+        },
+        {
+          name: 'Hackers',
+          id: '1085'
+        },
+        {
+          name: 'Greatest Hits',
+          id: '1069'
         }
-
       ],
       activeCategory: {name: 'All', id: null},
       searchTerm: null
@@ -139,10 +170,12 @@ export default {
   padding-bottom 20px
 
 .category-item
-  padding-left 20px
+  margin 5px 20px
+  display inline-block
   cursor pointer
   &:hover
     text-decoration underline
+
 .category-active
   color orange
 
@@ -251,6 +284,8 @@ export default {
     cursor: pointer;
 
 @media (max-width 600px)
+  .category-item
+    width 100%
   .news-list
     margin 10px 0
 
