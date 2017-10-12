@@ -11,6 +11,7 @@ export default {
   data () {
     return {
       type: 'recommendation',
+      showFilteringElements: false,
       endPoint: 'fetchRecommendations'
     }
   },
@@ -25,7 +26,8 @@ export default {
       }
       this.loading = true
       let params = {
-        type: this.type
+        type: this.type,
+        category: this.activeCategory.id
       }
 
       if (this.searchTerm) {

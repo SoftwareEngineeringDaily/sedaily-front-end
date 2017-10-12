@@ -1,10 +1,14 @@
 <template>
   <div class="news-view">
-    <div class='search-bar'>
+    <div class='search-bar' v-if="showFilteringElements">
       <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
+    <div v-else>
+      <br />
+      <br />
+    </div>
 
-    <div class='categories'>
+    <div class='categories' v-if="showFilteringElements">
       <span class='category-item' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
       <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-item' :class='getClassForCategory(category.name)'> {{category.name}}</span>
     </div>
@@ -40,6 +44,7 @@ export default {
   data () {
     return {
       type: 'new',
+      showFilteringElements: true,
       endPoint: 'fetchListData',
       loading: false,
       endOfItems: false,
@@ -137,7 +142,7 @@ export default {
   padding-left 20px
   cursor pointer
   &:hover
-    color grey
+    text-decoration underline
 .category-active
   color orange
 

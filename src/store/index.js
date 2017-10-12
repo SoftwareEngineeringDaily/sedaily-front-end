@@ -45,9 +45,6 @@ const store = new Vuex.Store({
       if (createdAfter) url += `&createdAfter=${createdAfter}`
       if (search) url += `&search=${search}`
       if (category) url += `&categories=${category}`
-      if (category) {
-        console.log(category)
-      }
 
       if (tags) {
         let tagString = tags.join(',')
@@ -67,11 +64,12 @@ const store = new Vuex.Store({
         })
     },
 
-    fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, createdAtBefore, type }) => {
+    fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
       let token = getters.getToken
       commit('setActiveType', { type })
       let url = `${BASE_URL}/posts/recommendations?page=${page}`
       if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
+      if (category) url += `&categories=${category}`
       return axios.get(url, {
         headers: {
           'Authorization': 'Bearer ' + token
