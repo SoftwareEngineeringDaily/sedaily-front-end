@@ -62,10 +62,12 @@ const store = new Vuex.Store({
         })
     },
 
-    fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, type }) => {
+    fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, createdAtBefore, type }) => {
       let token = getters.getToken
       commit('setActiveType', { type })
-      return axios.get(`${BASE_URL}/posts/recommendations?page=${page}`, {
+      let url = `${BASE_URL}/posts/recommendations?page=${page}`
+      if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
+      return axios.get(url, {
         headers: {
           'Authorization': 'Bearer ' + token
         }
