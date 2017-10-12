@@ -1,5 +1,5 @@
 <script>
-import BaseListView from './BaseListView.vue'
+import BaseListView from '../components/BaseListView.vue'
 /*
     <div v-if='this.displayedItems.length === 0' class='alert alert-info'>
       We are building recommendations for you. Please ensure you are logged in and
