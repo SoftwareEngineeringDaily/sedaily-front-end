@@ -73,8 +73,8 @@ export default {
 
   methods: {
     setSelectedCategory (category) {
-      console.log(category)
       this.activeCategory = category
+      this.resetItems()
     },
     getClassForCategory (categoryName) {
       return categoryName === this.activeCategory.name ? 'category-active' : ''
@@ -91,7 +91,8 @@ export default {
       }
       this.loading = true
       let params = {
-        type: this.type
+        type: this.type,
+        category: this.activeCategory.id
       }
 
       if (this.searchTerm) {

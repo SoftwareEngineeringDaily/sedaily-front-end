@@ -27,7 +27,8 @@ const store = new Vuex.Store({
     // this way links stay around and it's easy to link toa  particular page.
     // perhaps even including a limit and redirect to max if something
     // too large is provided (in the url).
-    fetchListData: ({ commit, dispatch, state, getters }, { type, page = 1, createdAtBefore, createdAfter, tags, search }) => {
+    fetchListData: ({ commit, dispatch, state, getters },
+      { type, category, page = 1, createdAtBefore, createdAfter, tags, search }) => {
       if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
       let token = getters.getToken
       commit('setActiveType', { type })
@@ -43,6 +44,10 @@ const store = new Vuex.Store({
       if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
       if (createdAfter) url += `&createdAfter=${createdAfter}`
       if (search) url += `&search=${search}`
+      if (category) url += `&categories=${category}`
+      if (category) {
+        console.log(category)
+      }
 
       if (tags) {
         let tagString = tags.join(',')
