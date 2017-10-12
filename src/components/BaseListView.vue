@@ -4,6 +4,11 @@
       <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
 
+    <div class='categories'>
+      <span class='category-item' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
+      <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-item' :class='getClassForCategory(category.name)'> {{category.name}}</span>
+    </div>
+
     <instructions :displayedItems="displayedItems"> </instructions>
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
@@ -40,6 +45,18 @@ export default {
       endOfItems: false,
       transition: 'slide-up',
       displayedItems: [],
+      categories: [
+        {
+          name: 'Business and Philosophy',
+          id: '1068'
+        },
+        {
+          name: 'Blockchain',
+          id: '1082'
+        }
+
+      ],
+      activeCategory: {name: 'All', id: null},
       searchTerm: null
     }
   },
@@ -55,6 +72,13 @@ export default {
   },
 
   methods: {
+    setSelectedCategory (category) {
+      console.log(category)
+      this.activeCategory = category
+    },
+    getClassForCategory (categoryName) {
+      return categoryName === this.activeCategory.name ? 'category-active' : ''
+    },
     makeSearch () {
       if (this.searchTerm === ' ') {
         this.searchTerm = null
@@ -103,6 +127,19 @@ export default {
 </script>
 
 <style lang="stylus">
+
+
+.categories
+  padding-bottom 20px
+
+.category-item
+  padding-left 20px
+  cursor pointer
+  &:hover
+    color grey
+.category-active
+  color orange
+
 .news-view
   padding-top 10px
 
