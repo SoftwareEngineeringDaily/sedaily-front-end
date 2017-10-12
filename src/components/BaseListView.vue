@@ -4,6 +4,7 @@
       <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
 
+    <instructions :displayedItems="displayedItems"> </instructions>
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
             <item v-for="item in displayedItems" :key="item._id" :item="item">
@@ -20,11 +21,13 @@
 import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import Item from '@/components/Item.vue'
+import Blank from '@/components/Blank.vue'
 
 export default {
   name: 'top-list',
 
   components: {
+    instructions: Blank,
     Spinner,
     Item
   },

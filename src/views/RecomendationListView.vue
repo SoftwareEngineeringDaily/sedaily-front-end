@@ -1,14 +1,13 @@
 <script>
-import BaseListView from '../components/BaseListView.vue'
-/*
-    <div v-if='this.displayedItems.length === 0' class='alert alert-info'>
-      We are building recommendations for you. Please ensure you are logged in and
-      have voted on podcasts :D
-    </div>
-*/
+import BaseListView from '@/components/BaseListView.vue'
+import RecommendationSnippet from '@/components/RecommendationSnippet.vue'
+
 export default {
   extends: BaseListView,
 
+  components: {
+    instructions: RecommendationSnippet
+  },
   data () {
     return {
       type: 'recommendation',
