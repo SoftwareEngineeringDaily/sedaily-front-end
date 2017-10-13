@@ -1,8 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
-
-// let BASE_URL = 'https://software-enginnering-daily-api.herokuapp.com/api'
-let BASE_URL = 'http://localhost:4040/api'
+import {BASE_URL} from './config.js'
 
 export default {
   // Pages should probably start at largest page and go down in number
