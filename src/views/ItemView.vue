@@ -29,6 +29,7 @@
         </div>
       </div>
 
+      <div v-for="comment in comments"> Comment: {{comment.content}} </div>
       <div class="item-view-comments" v-html='item.content.rendered'>
       </div>
 
@@ -61,9 +62,8 @@ export default {
     item () {
       return this.$store.state.items[this.$route.params.id]
     },
-
-    itemsPerPage () {
-      return this.$store.state.itemsPerPage
+    comments () {
+      return this.$store.state.itemComments[this.$route.params.id] || []
     }
   },
   beforeMount () {
@@ -71,6 +71,12 @@ export default {
       id: this.$store.state.route.params.id
     }).then(() => {
       this.loading = false
+    })
+    // Fetch comments
+    this.$store.dispatch('commentsFetch', {
+      postId: this.$store.state.route.params.id
+    }).then(() => {
+      console.log('comments fetched!')
     })
   },
   methods: {

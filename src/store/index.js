@@ -9,8 +9,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     activeType: null,
-    itemsPerPage: 25,
     items: {},
+    itemComments: {},
     users: {},
     lists: {
       top: [],
