@@ -1,14 +1,6 @@
 <template>
   <span class="news-item">
-    <div>
-      <a-player :music="{
-        title: item.title.rendered || ' ',
-        author: ' ',
-        url: item.mp3 || ' ',
-        pic: item.featuredImage || ' ',
-        lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-      }"></a-player>
-    </div>
+    <button @click='setActivePlayerItem(item)' >Play</button>
     <span class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }"
       style='margin-left: 1px;' @click='upvote(item)'>▲</span>
@@ -59,7 +51,11 @@ export default {
     }
   },
   methods: {
+    setActivePlayerItem: function (item) {
+      this.$store.commit('setActivePlayerItem', { item })
+    },
     upvote: function (item) {
+      console.log(item)
       this.$store.dispatch('upvote', {
         id: item._id
       })

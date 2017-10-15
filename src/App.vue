@@ -2,6 +2,7 @@
   <div id="app">
     <header class="header">
       <nav class="inner">
+        <sticky-player></sticky-player>
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
@@ -13,6 +14,7 @@
         <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
+
     </header>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
@@ -21,8 +23,15 @@
 </template>
 
 <script>
+import StickyPlayer from './components/StickyPlayer.vue'
+
 export default {
+
   name: 'app',
+
+  components: {
+    StickyPlayer
+  },
 
   computed: {
     isLoggedIn: function () {
