@@ -29,6 +29,8 @@
         </div>
       </div>
 
+      <input type='text' v-model='commentContent' />
+      <button @click='submitComment'> Comment </button>
       <div v-for="comment in comments"> Comment: {{comment.content}} </div>
       <div class="item-view-comments" v-html='item.content.rendered'>
       </div>
@@ -55,10 +57,14 @@ export default {
   components: { Spinner, Comment },
   data () {
     return {
+      commentContent: 'Your comment here',
       loading: true
     }
   },
   computed: {
+    postId () {
+      return this.$store.state.route.params.id
+    },
     item () {
       return this.$store.state.items[this.$route.params.id]
     },
@@ -73,14 +79,21 @@ export default {
       this.loading = false
     })
     // Fetch comments
-    console.log('id? ', this.$store.state.route.params.id)
+    console.log('id? ', this.postId)
     this.$store.dispatch('commentsFetch', {
-      postId: this.$store.state.route.params.id
+      postId: this.postId
     }).then((comments) => {
       console.log('comments fetched!', comments)
     })
   },
   methods: {
+    submitComment () {
+      console.log('commentContent', this.commentContent)
+      this.$store.dispatch('commentsCreate', {
+        postId: this.postId,
+        content: this.commentContent
+      })
+    },
     upvote: function () {
       this.$store.dispatch('upvote', {
         id: this.$store.state.route.params.id

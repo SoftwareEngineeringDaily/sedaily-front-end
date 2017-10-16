@@ -5,14 +5,15 @@ export default {
   commentsCreate ({getters}, {content, postId}) {
     let options = {content}
     let token = getters.getToken
+    let config = {}
     if (token) {
-      options.headers = {
+      config.headers = {
         'Authorization': 'Bearer ' + token
       }
     }
 
     let url = `${BASE_URL}/posts/${postId}/comment`
-    return axios.post(url, options)
+    return axios.post(url, options, config)
     .then((response) => {
       console.log('create comment response', response)
     })
