@@ -16,6 +16,10 @@ export default {
     state.lists[type] = state.lists[type].concat(items)
   },
 
+  setComments: (state, {comments, postId}) => {
+    Vue.set(state.itemComments, postId, comments)
+  },
+
   setItems: (state, { items }) => {
     items.forEach(item => {
       if (item) {

@@ -21,8 +21,7 @@ export default {
       alert(error.response.data.message)
     })
   },
-  commentsFetch ({getters}, {postId}) {
-    console.log('postId', postId)
+  commentsFetch ({getters, commit}, {postId}) {
     let options = {}
     let token = getters.getToken
     if (token) {
@@ -34,8 +33,9 @@ export default {
     let url = `${BASE_URL}/posts/${postId}/comments`
     return axios.get(url, options)
       .then((response) => {
-        console.log('response', response.data.comments)
-        return response.data.comments
+        const {comments} = response.data
+        commit('setComments', {postId, comments})
+        return comments
       })
   }
 }
