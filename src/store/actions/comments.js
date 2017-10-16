@@ -34,8 +34,8 @@ export default {
     let url = `${BASE_URL}/posts/${postId}/comments`
     return axios.get(url, options)
       .then((response) => {
-        console.log('response', response)
-        return response
+        console.log('response', response.data.comments)
+        return response.data.comments
       })
   }
 }
