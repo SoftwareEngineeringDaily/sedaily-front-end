@@ -34,7 +34,7 @@ export default {
     let url = `${BASE_URL}/posts/${postId}/comments`
     return axios.get(url, options)
       .then((response) => {
-        const {comments} = response.data
+        const comments = response.data.result
         commit('setComments', {postId, comments})
         return comments
       })
