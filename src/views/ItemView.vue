@@ -48,7 +48,7 @@
 
 <script>
 import Spinner from '../components/Spinner.vue'
-import Comment from '../components/Comment.vue'
+// import Comment from '../components/Comment.vue'
 
 export default {
   name: 'item-view',
@@ -73,10 +73,11 @@ export default {
       this.loading = false
     })
     // Fetch comments
+    console.log('id? ', this.$store.state.route.params.id)
     this.$store.dispatch('commentsFetch', {
       postId: this.$store.state.route.params.id
-    }).then(() => {
-      console.log('comments fetched!')
+    }).then((comments) => {
+      console.log('comments fetched!', comments)
     })
   },
   methods: {

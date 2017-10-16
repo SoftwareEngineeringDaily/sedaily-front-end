@@ -11,8 +11,8 @@ export default {
       }
     }
 
-    let url = `${BASE_URL}/posts/${postId}`
-    return axios.get(url, options)
+    let url = `${BASE_URL}/posts/${postId}/comment`
+    return axios.post(url, options)
     .then((response) => {
       console.log('create comment response', response)
     })
@@ -21,6 +21,21 @@ export default {
       alert(error.response.data.message)
     })
   },
-  commentsFetch ({postId}) {
+  commentsFetch ({getters}, {postId}) {
+    console.log('postId', postId)
+    let options = {}
+    let token = getters.getToken
+    if (token) {
+      options.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    let url = `${BASE_URL}/posts/${postId}/comments`
+    return axios.get(url, options)
+      .then((response) => {
+        console.log('response', response)
+        return response
+      })
   }
 }
