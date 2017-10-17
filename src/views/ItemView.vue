@@ -29,37 +29,26 @@
         </div>
       </div>
 
-      <div >
+      <div class="item-view-comments">
         <button @click="toggleShowContent">{{contentButtonText}}</button>
-        <div v-if="showContent" class="item-view-comments" v-html='item.content.rendered'>
+        <div v-if="showContent"  v-html='item.content.rendered'>
         </div>
-
       </div>
-
       <input type='text' v-model='commentContent' />
       <button @click='submitComment'> Comment </button>
-      <div v-for="comment in comments"> Comment: {{comment.content}} </div>
-
-      <!-- <div class="item-view-comments">
-        <p class="item-view-comments-header">
-          {{ item.kids ? item.descendants + ' comments' : 'No comments yet.'}}
-          <spinner :show="loading"></spinner>
-        </p>
-        <ul v-if="!loading" class="comment-children">
-          <comment v-for="id in item.kids" :key="id" :id="id"></comment>
-        </ul>
-      </div> -->
+      <comments-list :comments='comments'></comments-list>
     </template>
   </div>
 </template>
 
 <script>
-import Spinner from '../components/Spinner.vue'
+import Spinner from '@/components/Spinner.vue'
+import CommentsList from '@/components/CommentsList.vue'
 // import Comment from '../components/Comment.vue'
 
 export default {
   name: 'item-view',
-  components: { Spinner, Comment },
+  components: { Spinner, CommentsList },
   data () {
     return {
       showContent: true,
