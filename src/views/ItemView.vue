@@ -29,11 +29,16 @@
         </div>
       </div>
 
+      <div >
+        <button @click="toggleShowContent">{{contentButtonText}}</button>
+        <div v-if="showContent" class="item-view-comments" v-html='item.content.rendered'>
+        </div>
+
+      </div>
+
       <input type='text' v-model='commentContent' />
       <button @click='submitComment'> Comment </button>
       <div v-for="comment in comments"> Comment: {{comment.content}} </div>
-      <div class="item-view-comments" v-html='item.content.rendered'>
-      </div>
 
       <!-- <div class="item-view-comments">
         <p class="item-view-comments-header">
@@ -57,11 +62,15 @@ export default {
   components: { Spinner, Comment },
   data () {
     return {
+      showContent: true,
       commentContent: 'Your comment here',
       loading: true
     }
   },
   computed: {
+    contentButtonText () {
+      return this.showContent ? '-' : '+'
+    },
     postId () {
       return this.$store.state.route.params.id
     },
@@ -87,6 +96,9 @@ export default {
     })
   },
   methods: {
+    toggleShowContent () {
+      this.showContent = !this.showContent
+    },
     submitComment () {
       console.log('commentContent', this.commentContent)
       this.$store.dispatch('commentsCreate', {
