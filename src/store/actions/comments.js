@@ -2,7 +2,7 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  commentsCreate ({getters}, {content, postId}) {
+  commentsCreate ({commit, getters}, {content, postId}) {
     let options = {content}
     let token = getters.getToken
     let config = {}
@@ -13,6 +13,8 @@ export default {
     }
 
     let url = `${BASE_URL}/posts/${postId}/comment`
+
+    commit('commentPrepend', {content, postId, dateCreated: Date.now()})
     return axios.post(url, options, config)
     .then((response) => {
       console.log('create comment response', response)
