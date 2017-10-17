@@ -1,8 +1,11 @@
 
 <template>
   <div>
-    <input type='text' v-model='commentContent' />
-    <button @click='submitComment'> Comment </button>
+    <textarea placeholder='Your comment here...'
+    class='comment-box'
+    type='text'
+    v-model='commentContent' />
+    <button class='btn-success' @click='submitComment'> Comment </button>
   </div>
 </template>
 
@@ -11,7 +14,7 @@ export default {
   name: 'compose-comment',
   data () {
     return {
-      commentContent: 'Your comment here'
+      commentContent: ''
     }
   },
   computed: {
@@ -30,5 +33,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  .comment-box {
+    width: 100%;
+    padding: 20px 10px;
+    margin-bottom: 12px;
+    border-radius: 7px;
+    border-color: #c5c5c5;
+  }
 </style>

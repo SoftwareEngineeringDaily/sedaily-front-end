@@ -34,7 +34,9 @@
         <div v-if="showContent"  v-html='item.content.rendered'>
         </div>
       </div>
+      <br />
       <compose-comment></compose-comment>
+      <br />
       <comments-list :comments='comments'></comments-list>
     </template>
   </div>
