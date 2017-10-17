@@ -16,6 +16,9 @@ export default {
     state.lists[type] = state.lists[type].concat(items)
   },
   commentPrepend: (state, comment) => {
+    if (!state.itemComments[comment.postId]) {
+      Vue.set(state.itemComments, comment.postId, [])
+    }
     state.itemComments[comment.postId].unshift(comment)
   },
   setComments: (state, {comments, postId}) => {

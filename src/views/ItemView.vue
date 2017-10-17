@@ -34,8 +34,7 @@
         <div v-if="showContent"  v-html='item.content.rendered'>
         </div>
       </div>
-      <input type='text' v-model='commentContent' />
-      <button @click='submitComment'> Comment </button>
+      <compose-comment></compose-comment>
       <comments-list :comments='comments'></comments-list>
     </template>
   </div>
@@ -44,15 +43,14 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
-// import Comment from '../components/Comment.vue'
+import ComposeComment from '@/components/ComposeComment.vue'
 
 export default {
   name: 'item-view',
-  components: { Spinner, CommentsList },
+  components: { Spinner, CommentsList, ComposeComment },
   data () {
     return {
       showContent: true,
-      commentContent: 'Your comment here',
       loading: true
     }
   },
