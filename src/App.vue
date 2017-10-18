@@ -2,7 +2,10 @@
   <div id="app">
     <header class="header">
       <nav class="inner">
-        <sticky-player></sticky-player>
+        <transition name="fade" mode="out-in">
+          <sticky-player v-show="isPlayerActive"></sticky-player>          
+        </transition>
+
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
@@ -34,6 +37,10 @@ export default {
   },
 
   computed: {
+    isPlayerActive () {
+      console.log('this.$store.state.activePlayerItem', this.$store.state.activePlayerItem)
+      return this.$store.state.activePlayerItem.mp3
+    },
     isLoggedIn: function () {
       return Boolean(this.$store.getters.getToken)
     }
