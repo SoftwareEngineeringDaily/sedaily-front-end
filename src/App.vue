@@ -2,8 +2,6 @@
   <div id="app">
     <header class="header">
       <nav class="inner">
-
-
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
@@ -33,9 +31,7 @@
 import StickyPlayer from './components/StickyPlayer.vue'
 
 export default {
-
   name: 'app',
-
   components: {
     StickyPlayer
   },
