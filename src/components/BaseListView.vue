@@ -196,7 +196,6 @@ export default {
   padding 15px 30px
   position fixed
   text-align center
-  top 55px
   left 0
   right 0
   z-index 998

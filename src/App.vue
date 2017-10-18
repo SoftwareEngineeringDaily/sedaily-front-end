@@ -2,9 +2,7 @@
   <div id="app">
     <header class="header">
       <nav class="inner">
-        <transition name="fade" mode="out-in">
-          <sticky-player v-show="isPlayerActive"></sticky-player>          
-        </transition>
+
 
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
@@ -17,6 +15,11 @@
         <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
+      <transition name="fade" mode="out-in">
+        <div class="player-holder">
+          <sticky-player v-show="isPlayerActive"></sticky-player>
+        </div>
+      </transition>
 
     </header>
     <transition name="fade" mode="out-in">
@@ -38,7 +41,6 @@ export default {
 
   computed: {
     isPlayerActive () {
-      console.log('this.$store.state.activePlayerItem', this.$store.state.activePlayerItem)
       return this.$store.state.activePlayerItem.mp3
     },
     isLoggedIn: function () {
@@ -61,7 +63,6 @@ body
   font-size 15px
   background-color lighten(#eceef1, 30%) !important
   margin 0
-  padding-top 55px
   color #34495e
   overflow-y scroll
 a
@@ -69,7 +70,6 @@ a
   text-decoration none
 .header
   background-color #ff6600
-  position fixed
   z-index 999
   top 0
   left 0
@@ -100,6 +100,8 @@ a
     font-size .9em
     margin 0
     float right
+.player-holder
+  padding 20px
 .logo
   width 30px
   margin-right 10px
