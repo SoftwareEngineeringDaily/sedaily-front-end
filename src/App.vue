@@ -15,16 +15,17 @@
         <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
-      <transition name="fade" mode="out-in">
-        <div class="player-holder">
-          <sticky-player v-show="isPlayerActive"></sticky-player>
-        </div>
-      </transition>
-
     </header>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
+
+    <transition name="fade" mode="out-in">
+      <div class="player-holder" v-show="isPlayerActive">
+        <sticky-player ></sticky-player>
+      </div>
+    </transition>
+
   </div>
 </template>
 
@@ -65,6 +66,8 @@ body
   margin 0
   color #34495e
   overflow-y scroll
+  #app
+    margin-bottom 100px
 a
   color #34495e
   text-decoration none
@@ -101,7 +104,12 @@ a
     margin 0
     float right
 .player-holder
-  padding 20px
+  padding 10px 20px
+  background-color white
+  width 100%
+  position fixed
+  bottom 0
+  left 0
 .logo
   width 30px
   margin-right 10px
