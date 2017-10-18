@@ -67,7 +67,7 @@ body
   color #34495e
   overflow-y scroll
   #app
-    margin-bottom 100px
+    margin-bottom 120px
 a
   color #34495e
   text-decoration none
@@ -105,6 +105,8 @@ a
     float right
 .player-holder
   padding 10px 20px
+  box-shadow: -5px -5px 5px -2px rgba(176,176,176,0.3)
+
   background-color white
   width 100%
   position fixed
@@ -130,6 +132,7 @@ a
   body
     font-size 14px
   .header
+    min-height 80px
     .inner
       padding 15px
     a
