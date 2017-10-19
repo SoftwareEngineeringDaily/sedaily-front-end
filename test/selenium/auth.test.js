@@ -17,6 +17,8 @@ const minutes = 60 * seconds;
 
 describe('Basic Auth', function() {
   let driver;
+  const username = 'userZ4';
+  const password = 'password';
 
   // beforeEach(async function() {
   before(async function() {
@@ -34,9 +36,10 @@ describe('Basic Auth', function() {
   });
 
   it('register', async function() {
-    // this.timeout(10 * minutes); // Mocha timeout is only two seconds  by default
     await driver.get('http://localhost:8080');
-    await register(driver, 'userY', 'password');
+    await register(driver, username, password);
+    // Check for logout login link
+    const $registerLink = await driver.wait(until.elementLocated(By.name('logouts-nav-link')), 1.5 * minutes);
   });
 
 });
