@@ -1,6 +1,11 @@
 <template>
   <span class="news-item">
-    <button @click='setActivePlayerItem(item)' >Play</button>
+    <div>
+    <img class="hero-img":src="item.featuredImage" />
+    <span class="play-button" @click='setActivePlayerItem(item)'>
+      <img class="play-icon" src="../assets/play.png" alt="play">
+    </span>
+  </div>
     <span class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }"
       style='margin-left: 1px;' @click='upvote(item)'>▲</span>
@@ -69,7 +74,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 .news-item
   background-color #fff
   padding 20px 30px 20px 80px
@@ -81,7 +86,8 @@ export default {
   height 220px
   flex-direction column
   width 50%
-
+  .hero-img
+    width 100px
   .arrow
     color #888
     &:hover
@@ -94,6 +100,16 @@ export default {
         cursor pointer
         color #888
 
+  .play-button
+    width 80px
+    height 80px
+    position relative
+    top 1px
+    left -95px
+    .play-icon
+      width 80px
+  .title
+    padding-top 10px
   .score
     color #ff6600
     font-size 1.1em
