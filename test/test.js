@@ -1,28 +1,40 @@
-// var webdriver = require('selenium-webdriver');
-//
-// var driver = new webdriver.Builder().forBrowser('chrome').build();
-
-
+// Import Selenium web driver
 const webdriver = require('selenium-webdriver');
-const {Builder, By, until} = webdriver;
+const {Builder, By, until, promise} = webdriver;
 const test = require('selenium-webdriver/testing');
+// Unit testing Helpers
+const it = test.it;
+const after = test.after;
 var chrome = require('selenium-webdriver/chrome');
 var path = require('chromedriver').path;
 
-var service = new chrome.ServiceBuilder(path).build();
-chrome.setDefaultService(service);
+// Must turn off promises to make sure that await/async work correctly
+promise.USE_PROMISE_MANAGER = false;
 
-var driver = new webdriver.Builder()
+describe('Basic Auth', function() {
+  let driver;
+
+  beforeEach(async function() {
+
+    var service = await new chrome.ServiceBuilder(path).build();
+    chrome.setDefaultService(service);
+    driver = await new webdriver.Builder()
     .withCapabilities(webdriver.Capabilities.chrome())
     .build();
 
+  });
 
-driver.manage().window().maximize();
+  afterEach(async function() {
+    await driver.quit();
+  });
 
-driver.get('http://localhost:8080');
-// driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-// driver.findElement(By.name('login-nav-link')).click();
+  it('login', async function() {
+    await driver.get('http://localhost:8080');
+    await driver.manage().window().maximize();
 
-var $loginLink = driver.wait(until.elementLocated(By.name('login-nav-link')), 5000);
-$loginLink.click();
-// driver.quit();
+
+    var $loginLink = await driver.wait(until.elementLocated(By.name('login-nav-link')), 5000);
+    await $loginLink.click();
+
+  });
+});
