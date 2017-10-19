@@ -19,7 +19,6 @@ describe('Basic Auth', function() {
   let driver;
 
   beforeEach(async function() {
-
     var service = await new chrome.ServiceBuilder(path).build();
     chrome.setDefaultService(service);
     driver = await new webdriver.Builder()
@@ -32,20 +31,10 @@ describe('Basic Auth', function() {
     await driver.quit();
   });
 
-
   it('register', async function() {
-    this.timeout(10 * minutes); // Mocha timeout is only two seconds  by default
+    // this.timeout(10 * minutes); // Mocha timeout is only two seconds  by default
     await driver.get('http://localhost:8080');
-
     await register(driver, 'userx', 'password');
   });
 
-  // it('login', async function() {
-  //   await driver.get('http://localhost:8080');
-  //   await driver.manage().window().maximize();
-  //
-  //
-  //   var $loginLink = await driver.wait(until.elementLocated(By.name('login-nav-link')), 5000);
-  //   await $loginLink.click();
-  // });
 });

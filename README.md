@@ -17,6 +17,11 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
+
+# run selenium tests (working)
+npm run selenium-test
+
+
 # run unit tests
 npm run unit
 
@@ -24,10 +29,9 @@ npm run unit
 npm run e2e
 
 # run all tests
-npm test
-```
 
-node test/test.js
+
+```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
