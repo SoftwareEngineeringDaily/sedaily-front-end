@@ -20,6 +20,9 @@ var driver = new webdriver.Builder()
 driver.manage().window().maximize();
 
 driver.get('http://localhost:8080');
-driver.findElement(By.name('login-nav-link')).click();
 // driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+// driver.findElement(By.name('login-nav-link')).click();
+
+var $loginLink = driver.wait(until.elementLocated(By.name('login-nav-link')), 5000);
+$loginLink.click();
 // driver.quit();
