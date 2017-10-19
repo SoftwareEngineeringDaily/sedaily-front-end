@@ -5,18 +5,15 @@ const test = require('selenium-webdriver/testing');
 // Unit testing Helpers
 const it = test.it;
 const after = test.after;
-var chrome = require('selenium-webdriver/chrome');
-var path = require('chromedriver').path;
+const chrome = require('selenium-webdriver/chrome');
+const path = require('chromedriver').path;
+const {register, login} = require('../helpers/auth.test-helper')
 
 // Must turn off promises to make sure that await/async work correctly
 promise.USE_PROMISE_MANAGER = false;
 const seconds = 1000;
 const minutes = 60 * seconds;
 
-async function register(driver, username, password) {
-  const $loginLink = await driver.wait(until.elementLocated(By.name('register-nav-link')), 5000);
-  await $loginLink.click();
-};
 
 describe('Basic Auth', function() {
   let driver;
