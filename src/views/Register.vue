@@ -1,21 +1,21 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
+      <form class='col-md-6 offset-md-3' v-on:submit.prevent='register'>
         <h1>Register</h1>
 
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" v-model='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <input name='email-input-field' type="email" v-model='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
 
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input name='password-input-field' type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
 
-        <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Register</button>
+        <button name='register-button' class='btn btn-primary' @click.prevent='register' :disabled='loading'>Register</button>
       </form>
     </div>
 
@@ -42,7 +42,7 @@ export default {
   },
 
   methods: {
-    login: function () {
+    register: function () {
       this.loading = true
       this.$store.dispatch('register', {
         email: this.email,
