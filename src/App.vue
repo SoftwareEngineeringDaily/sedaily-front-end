@@ -5,13 +5,13 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
-        <router-link to="/new">New</router-link>
-        <router-link to="/top">Top</router-link>
-        <router-link to="/recommendations">Recommendations</router-link>
+        <router-link to="/new" name="new-nav-link">New</router-link>
+        <router-link to="/top" name="top-nav-link">Top</router-link>
+        <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
 
-        <router-link to="/login" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
-        <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
+        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
+        <router-link to="/regsiter" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
     </header>
     <transition name="fade" mode="out-in">
