@@ -3,10 +3,10 @@
 // var driver = new webdriver.Builder().forBrowser('chrome').build();
 
 
-var webdriver = require('selenium-webdriver');
+const webdriver = require('selenium-webdriver');
+const {Builder, By, until} = webdriver;
+const test = require('selenium-webdriver/testing');
 var chrome = require('selenium-webdriver/chrome');
-var By = webdriver.By;
-var until = webdriver.until;
 var path = require('chromedriver').path;
 
 var service = new chrome.ServiceBuilder(path).build();
