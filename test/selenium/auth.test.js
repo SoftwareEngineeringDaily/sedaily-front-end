@@ -18,7 +18,8 @@ const minutes = 60 * seconds;
 describe('Basic Auth', function() {
   let driver;
 
-  beforeEach(async function() {
+  // beforeEach(async function() {
+  before(async function() {
     var service = await new chrome.ServiceBuilder(path).build();
     chrome.setDefaultService(service);
     driver = await new webdriver.Builder()
@@ -27,14 +28,15 @@ describe('Basic Auth', function() {
     await driver.manage().window().maximize();
   });
 
-  afterEach(async function() {
-    await driver.quit();
+  // afterEach(async function() {
+  after(async function() {
+    //  await driver.quit();
   });
 
   it('register', async function() {
     // this.timeout(10 * minutes); // Mocha timeout is only two seconds  by default
     await driver.get('http://localhost:8080');
-    await register(driver, 'userx', 'password');
+    await register(driver, 'userY', 'password');
   });
 
 });
