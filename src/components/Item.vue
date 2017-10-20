@@ -8,37 +8,45 @@
   </div>
     <span class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }"
-      style='margin-left: 1px;' @click='upvote(item)'>▲</span>
-      <br>
-      {{ item.score || 0 }}
-      <br>
+       @click='upvote(item)'>▲</span>
+      <div>{{ item.score || 0 }}</div>
       <span class='arrow' v-bind:class="{ active: item.downvoted }"
-      style='margin-left: -4px;' @click='downvote(item)'>▼</span>
-    </span>
-    <span class="title">
-      <template v-if="item.url">
-        <a :href="item.url" target="_blank">{{ item.title.rendered }}</a>
-        <span class="host"> ({{ item.url | host }})</span>
-      </template>
-      <template v-else>
-        <router-link :to="'/item/' + item._id">{{ item.title.rendered }}</router-link>
-      </template>
-    </span>
-    <br>
-    <span class="meta">
-      <!-- <span v-if="item.type !== 'job'" class="by">
-        by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
-      </span> -->
-      <span class="time">
-        <!-- {{ item.time | timeAgo }} ago -->
-        {{date}}
-      </span>
-      <!-- <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
-      </span> -->
-    </span>
-    <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
-  </span>
+      @click='downvote(item)'>▼</span>
+    </div>
+    <div class="news-content" style="width: 80%;">
+      <div class="player" style="min-width: 95%;">
+        <a-player :music="{
+          title: item.title.rendered || ' ',
+          author: ' ',
+          url: item.mp3 || ' ',
+          pic: item.featuredImage || ' ',
+          lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
+        }"></a-player>
+      </div>
+      <div class="title">
+        <template v-if="item.url">
+          <a :href="item.url" target="_blank">{{ item.title.rendered }}</a>
+          <span class="host"> ({{ item.url | host }})</span>
+        </template>
+        <template v-else>
+          <router-link :to="'/item/' + item._id">{{ item.title.rendered }}</router-link>
+        </template>
+      </div>
+      <div class="meta">
+        <!-- <span v-if="item.type !== 'job'" class="by">
+          by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
+        </span> -->
+        <span class="time">
+          <!-- {{ item.time | timeAgo }} ago -->
+          {{date}}
+        </span>
+        <!-- <span v-if="item.type !== 'job'" class="comments-link">
+          | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
+        </span> -->
+      </div>
+      <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
+    </div>
+  </div>
 </template>
 
 <script>
@@ -76,18 +84,25 @@ export default {
 
 <style scoped lang="stylus">
 .news-item
+  display inline-flex
+  flex-direction row
   background-color #fff
-  padding 20px 30px 20px 80px
   border-bottom 1px solid #eee
+  border-left 1px solid #eee
   position relative
   line-height 20px
-  display inline-flex
-  flex-wrap wrap
   height 220px
-  flex-direction column
   width 50%
+
+  .news-content
+    display inline-flex
+    flex-direction column
+    margin-top 12.5%
+    max-width 100%
+
   .hero-img
     width 100px
+
   .arrow
     color #888
     &:hover
@@ -111,18 +126,19 @@ export default {
   .title
     padding-top 10px
   .score
+    display flex
+    flex-direction column
+    align-items center
+    justify-content center
     color #ff6600
     font-size 1.1em
     font-weight 700
-    position absolute
-    top 50%
-    left 0
-    width 80px
-    text-align center
-    margin-top -30px
+    width 15%
+
   .meta, .host
     font-size .85em
     color #999
+    margin-top 5px
     a
       color #999
       text-decoration underline
@@ -132,5 +148,7 @@ export default {
 @media (max-width 576px)
   .news-item
     width 100%
-    height default
+
+    .news-content
+      margin-top 8%
 </style>
