@@ -1,5 +1,10 @@
 import Vue from 'vue'
 export default {
+
+  setActivePlayerItem: (state, { item }) => {
+    state.activePlayerItem = item
+  },
+
   setActiveType: (state, { type }) => {
     state.activeType = type
   },

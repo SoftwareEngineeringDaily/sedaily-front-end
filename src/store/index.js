@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    activePlayerItem: { title: {} },
     activeType: null,
     items: {},
     itemComments: {},

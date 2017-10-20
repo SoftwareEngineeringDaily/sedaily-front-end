@@ -5,26 +5,41 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
-        <router-link to="/new">New</router-link>
-        <router-link to="/top">Top</router-link>
-        <router-link to="/recommendations">Recommendations</router-link>
+        <router-link to="/new" name="new-nav-link">New</router-link>
+        <router-link to="/top" name="top-nav-link">Top</router-link>
+        <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
 
-        <router-link to="/login" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/regsiter" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
-        <a href='/' style='float:right;' v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
+        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
+        <router-link to="/regsiter" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
     </header>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
+
+    <transition name="fade" mode="out-in">
+      <div class="player-holder" v-show="isPlayerActive">
+        <sticky-player ></sticky-player>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script>
+import StickyPlayer from './components/StickyPlayer.vue'
+
 export default {
   name: 'app',
+  components: {
+    StickyPlayer
+  },
 
   computed: {
+    isPlayerActive () {
+      return this.$store.state.activePlayerItem.mp3
+    },
     isLoggedIn: function () {
       return Boolean(this.$store.getters.getToken)
     }
@@ -45,15 +60,15 @@ body
   font-size 15px
   background-color lighten(#eceef1, 30%) !important
   margin 0
-  padding-top 55px
   color #34495e
   overflow-y scroll
+  #app
+    margin-bottom 120px
 a
   color #34495e
   text-decoration none
 .header
   background-color #ff6600
-  position fixed
   z-index 999
   top 0
   left 0
@@ -84,6 +99,15 @@ a
     font-size .9em
     margin 0
     float right
+.player-holder
+  padding 10px 20px
+  box-shadow: -5px -5px 5px -2px rgba(176,176,176,0.3)
+
+  background-color white
+  width 100%
+  position fixed
+  bottom 0
+  left 0
 .logo
   width 30px
   margin-right 10px
@@ -104,6 +128,7 @@ a
   body
     font-size 14px
   .header
+    min-height 80px
     .inner
       padding 15px
     a

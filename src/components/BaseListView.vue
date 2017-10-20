@@ -16,7 +16,7 @@
     <instructions :displayedItems="displayedItems"> </instructions>
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-            <item v-for="item in displayedItems" :key="item._id" :item="item">
+            <item v-for="item in displayedItems" :key="item._id" :item="item"  v-on:play-podcast="playPodcast">
             </item>
           <div class="spinner-holder">
             <spinner :show="loading"></spinner>
@@ -43,6 +43,7 @@ export default {
 
   data () {
     return {
+      playingItem: {title: 'starting title'},
       type: 'new',
       showFilteringElements: true,
       endPoint: 'fetchListData',
@@ -158,6 +159,11 @@ export default {
       this.endOfItems = false
       this.loading = false
       this.loadMore()
+    },
+    playPodcast (item) {
+      console.log('inside play podacst')
+      this.playingItem = item
+      console.log(item)
     }
   }
 }
@@ -190,7 +196,6 @@ export default {
   padding 15px 30px
   position fixed
   text-align center
-  top 55px
   left 0
   right 0
   z-index 998

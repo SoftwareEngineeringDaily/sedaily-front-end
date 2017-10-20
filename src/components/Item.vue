@@ -2,21 +2,17 @@
   <div class="news-item">
     <div class="score">
       <span class='arrow' v-bind:class="{ active: item.upvoted }"
-       @click='upvote(item)'>▲</span>
+      @click='upvote(item)'>▲</span>
       <div>{{ item.score || 0 }}</div>
       <span class='arrow' v-bind:class="{ active: item.downvoted }"
       @click='downvote(item)'>▼</span>
     </div>
     <div class="news-content" style="width: 80%;">
-      <div class="player" style="min-width: 95%;">
-        <a-player :music="{
-          title: item.title.rendered || ' ',
-          author: ' ',
-          url: item.mp3 || ' ',
-          pic: item.featuredImage || ' ',
-          lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-        }"></a-player>
-      </div>
+      <img class="hero-img":src="item.featuredImage" />
+      <span class="play-button" @click='setActivePlayerItem(item)'>
+        <img class="play-icon" src="../assets/play.png" alt="play">
+      </span>
+
       <div class="title">
         <template v-if="item.url">
           <a :href="item.url" target="_blank">{{ item.title.rendered }}</a>
@@ -27,7 +23,7 @@
         </template>
       </div>
       <div class="meta">
-        <!-- <span v-if="item.type !== 'job'" class="by">
+          <!-- <span v-if="item.type !== 'job'" class="by">
           by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
         </span> -->
         <span class="time">
@@ -35,12 +31,13 @@
           {{date}}
         </span>
         <!-- <span v-if="item.type !== 'job'" class="comments-link">
-          | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
-        </span> -->
+        | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
+      </span> -->
       </div>
       <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -58,7 +55,11 @@ export default {
     }
   },
   methods: {
+    setActivePlayerItem: function (item) {
+      this.$store.commit('setActivePlayerItem', { item })
+    },
     upvote: function (item) {
+      console.log(item)
       this.$store.dispatch('upvote', {
         id: item._id
       })
@@ -72,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 .news-item
   display inline-flex
   flex-direction row
@@ -90,9 +91,8 @@ export default {
     margin-top 12.5%
     max-width 100%
 
-  .aplayer
-    margin 0
-    margin-bottom 5px
+  .hero-img
+    width 100px
 
   .arrow
     color #888
@@ -106,6 +106,17 @@ export default {
         cursor pointer
         color #888
 
+  .play-button
+    width 80px
+    height 80px
+    position absolute
+    top 40px
+    left 70px
+
+    .play-icon
+      width 80px
+  .title
+    padding-top 10px
   .score
     display flex
     flex-direction column
