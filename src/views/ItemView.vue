@@ -29,36 +29,40 @@
         </div>
       </div>
 
-      <div v-for="comment in comments"> Comment: {{comment.content}} </div>
-      <div class="item-view-comments" v-html='item.content.rendered'>
+      <div class="item-view-comments">
+        <button @click="toggleShowContent">{{contentButtonText}}</button>
+        <div v-if="showContent"  v-html='item.content.rendered'>
+        </div>
       </div>
-
-      <!-- <div class="item-view-comments">
-        <p class="item-view-comments-header">
-          {{ item.kids ? item.descendants + ' comments' : 'No comments yet.'}}
-          <spinner :show="loading"></spinner>
-        </p>
-        <ul v-if="!loading" class="comment-children">
-          <comment v-for="id in item.kids" :key="id" :id="id"></comment>
-        </ul>
-      </div> -->
+      <br />
+      <compose-comment></compose-comment>
+      <br />
+      <comments-list :comments='comments'></comments-list>
     </template>
   </div>
 </template>
 
 <script>
-import Spinner from '../components/Spinner.vue'
-import Comment from '../components/Comment.vue'
+import Spinner from '@/components/Spinner.vue'
+import CommentsList from '@/components/CommentsList.vue'
+import ComposeComment from '@/components/ComposeComment.vue'
 
 export default {
   name: 'item-view',
-  components: { Spinner, Comment },
+  components: { Spinner, CommentsList, ComposeComment },
   data () {
     return {
+      showContent: true,
       loading: true
     }
   },
   computed: {
+    contentButtonText () {
+      return this.showContent ? '-' : '+'
+    },
+    postId () {
+      return this.$store.state.route.params.id
+    },
     item () {
       return this.$store.state.items[this.$route.params.id]
     },
@@ -73,13 +77,24 @@ export default {
       this.loading = false
     })
     // Fetch comments
+    console.log('id? ', this.postId)
     this.$store.dispatch('commentsFetch', {
-      postId: this.$store.state.route.params.id
-    }).then(() => {
-      console.log('comments fetched!')
+      postId: this.postId
+    }).then((comments) => {
+      console.log('comments fetched!', comments)
     })
   },
   methods: {
+    toggleShowContent () {
+      this.showContent = !this.showContent
+    },
+    submitComment () {
+      console.log('commentContent', this.commentContent)
+      this.$store.dispatch('commentsCreate', {
+        postId: this.postId,
+        content: this.commentContent
+      })
+    },
     upvote: function () {
       this.$store.dispatch('upvote', {
         id: this.$store.state.route.params.id
