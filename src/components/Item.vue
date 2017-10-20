@@ -90,9 +90,9 @@ export default {
     margin-top 12.5%
     max-width 100%
 
-      .aplayer
-        margin 0
-        margin-bottom 5px
+  .aplayer
+    margin 0
+    margin-bottom 5px
 
   .arrow
     color #888
@@ -129,6 +129,7 @@ export default {
 @media (max-width 576px)
   .news-item
     width 100%
-    height 180px
-    margin-top 6.5%
+
+    .news-content
+      margin-top 8%
 </style>
