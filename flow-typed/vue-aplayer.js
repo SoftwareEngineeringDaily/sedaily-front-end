@@ -1,3 +1,3 @@
-declare module  'vue-aplayer' {
+declare module 'vue-aplayer' {
   declare module.exports: any;
 }
