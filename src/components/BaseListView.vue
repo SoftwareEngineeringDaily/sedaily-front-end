@@ -27,6 +27,10 @@
 </template>
 
 <script>
+/* @flow */
+const randomThing: string = 'Boop!'
+console.log('randomThing, randomThing')
+
 import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import Item from '@/components/Item.vue'
