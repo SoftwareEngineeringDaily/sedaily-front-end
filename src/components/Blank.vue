@@ -2,7 +2,7 @@
 </template>
 <script>
 /* @flow */
-const randomThing: string = 'Boop!'
-console.log('randomThing', randomThing)
+const flowWorks: string = 'Flow!'
+console.log('isFLow?', flowWorks)
 export default {}
 </script>
