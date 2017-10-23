@@ -41,6 +41,7 @@
 </template>
 
 <script>
+/* @flow */
 import moment from 'moment'
 import VueAplayer from 'vue-aplayer'
 export default {
@@ -55,16 +56,16 @@ export default {
     }
   },
   methods: {
-    setActivePlayerItem: function (item) {
+    setActivePlayerItem: function (item:any) {
       this.$store.commit('setActivePlayerItem', { item })
     },
-    upvote: function (item) {
+    upvote: function (item:any) {
       console.log(item)
       this.$store.dispatch('upvote', {
         id: item._id
       })
     },
-    downvote: function (item) {
+    downvote: function (item:any) {
       this.$store.dispatch('downvote', {
         id: item._id
       })
