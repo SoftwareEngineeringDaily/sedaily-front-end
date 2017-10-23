@@ -22,14 +22,14 @@ export default {
   name: 'comments-list',
   props: ['comments'],
   methods: {
-    username (comment: {content: string, dateCreated: string, author: any }) {
+    username (comment: {content: string, dateCreated: string, author: {username: string} }) {
       if (comment.author && comment.author.username) {
         return comment.author.username
       } else {
         return 'You'
       }
     },
-    date (comment: {content: string, dateCreated: string, author: any }) {
+    date (comment: {content: string, dateCreated: string, author: {username: string} }) {
       if (comment.dateCreated) {
         return moment(comment.dateCreated).format('LL')
       } else {
