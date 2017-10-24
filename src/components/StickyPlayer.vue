@@ -13,6 +13,7 @@
 </template>
 
 <script>
+/* @flow */
 import VueAplayer from './VuePlayerClone.vue'
 
 export default {

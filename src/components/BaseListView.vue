@@ -27,6 +27,7 @@
 </template>
 
 <script>
+
 import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import Item from '@/components/Item.vue'

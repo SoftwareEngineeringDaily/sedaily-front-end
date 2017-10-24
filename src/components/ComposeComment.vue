@@ -10,6 +10,7 @@
 </template>
 
 <script>
+/* @flow */
 export default {
   name: 'compose-comment',
   data () {
