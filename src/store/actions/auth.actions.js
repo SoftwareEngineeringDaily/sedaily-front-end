@@ -5,6 +5,7 @@ export default {
   login: ({commit, state}, { email, password }) => {
     return axios.post(`${BASE_URL}/auth/login`,
       {
+        // TODO: change to username here
         username: email,
         password
       })

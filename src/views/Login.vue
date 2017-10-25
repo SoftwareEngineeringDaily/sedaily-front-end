@@ -26,7 +26,7 @@
 import Spinner from '@/components/Spinner.vue'
 
 export default {
-  name: 'top-list',
+  name: 'login',
 
   components: {
     Spinner
