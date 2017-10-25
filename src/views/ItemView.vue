@@ -77,11 +77,8 @@ export default {
       this.loading = false
     })
     // Fetch comments
-    console.log('id? ', this.postId)
     this.$store.dispatch('commentsFetch', {
       postId: this.postId
-    }).then((comments) => {
-      console.log('comments fetched!', comments)
     })
   },
   methods: {
@@ -89,7 +86,6 @@ export default {
       this.showContent = !this.showContent
     },
     submitComment () {
-      console.log('commentContent', this.commentContent)
       this.$store.dispatch('commentsCreate', {
         postId: this.postId,
         content: this.commentContent
