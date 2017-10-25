@@ -2,7 +2,6 @@
   <div>
     <div v-for="comment in comments">
       <div class='comment'>
-        <img class='profile-img' src='http://lorempixel.com/80/80/'>
         <span class='content'>
           <div>
             {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
