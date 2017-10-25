@@ -81,7 +81,6 @@ export default {
 
     return axios.get(`${BASE_URL}/posts/${id}`, options)
     .then(function (response) {
-      console.log('response', response)
       var item = response.data
       commit('setItems', { items: [item] })
       return {item}
