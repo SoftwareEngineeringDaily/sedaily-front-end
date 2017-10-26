@@ -36,7 +36,6 @@ export default {
     this.fetchMyProfileData()
     .then(() => {
       this.loading = false
-      console.log(this.username, 'username', this.me)
       this.username = this.me.username
     })
   },
