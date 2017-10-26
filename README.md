@@ -39,3 +39,6 @@ http://www.seleniumhq.org/download/
 
 master = production / live
 develop -> gets pushed to staging
+
+## Flow
+flow status

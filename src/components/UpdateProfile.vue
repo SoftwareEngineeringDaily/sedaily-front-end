@@ -58,7 +58,7 @@ export default {
   },
 
   methods: {
-    submit (dsdfsd) {
+    submit () {
     }
   }
 }

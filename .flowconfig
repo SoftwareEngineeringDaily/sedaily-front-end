@@ -6,4 +6,5 @@
 [libs]
 flow-typed
 [options]
-strip_root=true
+module.file_ext=.js
+module.file_ext=.vue
