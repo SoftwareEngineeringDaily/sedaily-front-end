@@ -27,6 +27,10 @@
           v-validate="'required'"
           aria-describedby="nameHelp"
           placeholder="Alex Smith">
+
+          <div v-show="errors.has('name')"
+          class="alert alert-danger">
+          {{ errors.first('name') }}</div>
         </div>
 
         <div class="form-group">
@@ -34,7 +38,6 @@
           <input type="text" v-model='bio'
           id="bioInput"
           class="form-control"
-          v-validate="'required'"
           aria-describedby="bioHelp"
           placeholder="A short bio">
         </div>
@@ -73,7 +76,7 @@
 /* @flow */
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
-
+import { mapState } from 'vuex'
 // TODO: remove usename update for now?
 export default {
   name: 'update-profile',
@@ -93,14 +96,24 @@ export default {
     }
   },
 
+  computed: {
+    // local computed methods +
+    ...mapState({
+      id (state) {
+        return state.me._id
+      }
+    })
+  },
   methods: {
     submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const {username, email, bio, website} = this
+          const {username, email, bio, website, name, id} = this
           this.$store.dispatch('updateProfile', {
             username,
+            id,
+            name,
             bio,
             website,
             email
