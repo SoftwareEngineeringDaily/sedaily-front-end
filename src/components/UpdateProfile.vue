@@ -11,7 +11,7 @@
           v-validate="'required|email'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="username">
+          placeholder="Username">
 
           <div v-show="errors.has('username')"
           class="alert alert-danger">

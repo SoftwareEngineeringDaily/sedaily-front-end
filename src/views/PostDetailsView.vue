@@ -46,6 +46,7 @@
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import ComposeComment from '@/components/ComposeComment.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'post-view',
@@ -60,15 +61,25 @@ export default {
     contentButtonText () {
       return this.showContent ? '-' : '+'
     },
-    postId () {
-      return this.$store.state.route.params.id
-    },
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
+
     comments () {
-      return this.$store.state.postComments[this.$route.params.id] || []
-    }
+      return this.postComments[this.$route.params.id] || []
+    },
+    ...mapState({
+      postId (state) {
+        return state.route.params.id
+      },
+
+      posts (state) {
+        return state.posts
+      },
+      postComments (state) {
+        return state.postComments
+      }
+    })
   },
   beforeMount () {
     this.$store.dispatch('fetchArticle', {
