@@ -9,6 +9,10 @@ export default {
     state.activeType = type
   },
 
+  setMe: (state, me) => {
+    state.me = me
+  },
+
   setList: (state, { type, posts }) => {
     // This is currently doing an append to the list but
     // it should probably do a simple set like the function name

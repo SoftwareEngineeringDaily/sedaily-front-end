@@ -7,8 +7,10 @@ export default {
 
     return state.lists[state.activeType].slice(prevOffset, pageOffset)
   },
-
   getToken: (state) => {
     return state.token
+  },
+  isLoggedIn: function (state, getters) {
+    return Boolean(getters.getToken)
   }
 }

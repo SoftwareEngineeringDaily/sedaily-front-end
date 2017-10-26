@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     activeType: null,
     posts: {},
     postComments: {},
+    me: {},
     users: {},
     lists: {
       top: [],

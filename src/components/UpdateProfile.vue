@@ -21,6 +21,7 @@
         <div class="form-group">
           <label for="nameInput">Name</label>
           <input type="text" v-model='name'
+          name="name"
           id="nameInput"
           class="form-control"
           v-validate="'required'"
@@ -73,7 +74,7 @@
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
 
-// TODO: username should come down as a prop
+// TODO: remove usename update for now?
 export default {
   name: 'update-profile',
   components: {
@@ -83,6 +84,7 @@ export default {
   data () {
     return {
       username: '',
+      name: '',
       email: '',
       bio: '',
       website: '',

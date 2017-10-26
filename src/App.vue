@@ -29,6 +29,7 @@
 
 <script>
 import StickyPlayer from './components/StickyPlayer.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
@@ -40,9 +41,7 @@ export default {
     isPlayerActive () {
       return this.$store.state.activePlayerPost.mp3
     },
-    isLoggedIn: function () {
-      return Boolean(this.$store.getters.getToken)
-    }
+    ...mapGetters(['isLoggedIn'])
   },
 
   methods: {
