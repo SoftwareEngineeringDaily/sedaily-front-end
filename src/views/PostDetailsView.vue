@@ -35,7 +35,7 @@
         </div>
       </div>
       <br />
-      <compose-comment></compose-comment>
+      <compose-comment v-if="isLoggedIn"></compose-comment>
       <br />
       <comments-list :comments='comments'></comments-list>
     </template>
@@ -46,7 +46,7 @@
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import ComposeComment from '@/components/ComposeComment.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
@@ -68,6 +68,7 @@ export default {
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       postId (state) {
         return state.route.params.id
