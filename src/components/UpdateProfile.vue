@@ -4,6 +4,13 @@
     <div class='row'>
       <div class='col-md-6 offset-md-3' v-on:submit.prevent='submit'>
         <div class="form-group">
+
+          <label for="exampleInputEmail1">Usenrname</label>
+          <input type="username" v-model='username'
+          v-validate="'required|email'" 
+          class="form-control" id="exampleInputEmail1"
+          aria-describedby="usernameHelp" placeholder="Enter a username">
+
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" v-model='email'
           class="form-control" id="exampleInputEmail1"

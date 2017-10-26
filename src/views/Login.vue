@@ -6,12 +6,14 @@
 
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" v-model='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <input name='email' type="email" v-validate="'required'" v-model='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <div v-show="errors.has('email')" class="alert alert-danger">{{ errors.first('email') }}</div>
         </div>
 
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input name='password' v-validate="'required'" type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <div v-show="errors.has('password')" class="alert alert-danger">{{ errors.first('password') }}</div>
         </div>
 
         <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Login</button>
@@ -42,14 +44,21 @@ export default {
 
   methods: {
     login: function () {
-      this.loading = true
-      this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password
-      })
-      .then((response) => {
-        this.loading = false
-        if (response.data.token) this.$router.replace('/')
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.loading = true
+          this.$store.dispatch('login', {
+            email: this.email,
+            password: this.password
+          })
+          .then((response) => {
+            this.loading = false
+            if (response.data.token) this.$router.replace('/')
+          })
+        } else {
+          console.log('Invalid values..')
+          // alert('Please fix the errors')
+        }
       })
     }
   }
