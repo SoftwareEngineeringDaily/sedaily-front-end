@@ -9,7 +9,10 @@
         Comment
       </button>
     </div>
-    <update-profile v-else> </update-profile>
+    <div v-else>
+      Please make sure to update your profile before you can comment:
+      <update-profile  :username="username"> </update-profile>
+    </div>
   </div>
 </template>
 
@@ -29,9 +32,10 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.dispatch('fetchMyProfileData')
+    this.fetchMyProfileData()
     .then(() => {
       this.loading = false
+      this.username = this.me.username
     })
   },
 
@@ -47,21 +51,19 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['commentsCreate']),
+    ...mapActions(['commentsCreate', 'fetchMyProfileData']),
     submitComment () {
       this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
       })
       .then((response) => {
-        console.log('resonse', response)
         this.commentContent = ''
       })
       .catch((error) => {
         alert(error.response.data.message)
       })
-    }
-  }
+    } }
 }
 </script>
 
