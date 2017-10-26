@@ -5,18 +5,31 @@
         <h1>Login</h1>
 
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input name='email' type="email" v-validate="'required'" v-model='email' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <div v-show="errors.has('email')" class="alert alert-danger">{{ errors.first('email') }}</div>
+          <label for="emailInput">Email address</label>
+          <input name='email' type="email"
+          v-validate="'required'" v-model='email' class="form-control"
+          id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter email">
+          <div v-show="errors.has('email')"
+          class="alert alert-danger">
+          {{ errors.first('email') }}
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input name='password' v-validate="'required'" type="password" v-model='password' class="form-control" id="exampleInputPassword1" placeholder="Password">
-          <div v-show="errors.has('password')" class="alert alert-danger">{{ errors.first('password') }}</div>
+          <label for="inputPassword">Password</label>
+          <input name='password'
+          v-validate="'required'"
+           type="password"
+           v-model='password' class="form-control"
+           id="inputPassword" placeholder="Password">
+          <div v-show="errors.has('password')"
+          class="alert alert-danger">
+          {{ errors.first('password') }}</div>
         </div>
 
-        <button class='btn btn-primary' @click.prevent='login' :disabled='loading'>Login</button>
+        <button class='btn btn-primary'
+        @click.prevent='login' :disabled='loading'>Login</button>
       </div>
     </div>
 
