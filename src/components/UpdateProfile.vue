@@ -7,7 +7,7 @@
 
           <label for="exampleInputEmail1">Usenrname</label>
           <input type="username" v-model='username'
-          v-validate="'required|email'" 
+          v-validate="'required|email'"
           class="form-control" id="exampleInputEmail1"
           aria-describedby="usernameHelp" placeholder="Enter a username">
 
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-
+/* @flow */
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
 
@@ -58,7 +58,7 @@ export default {
   },
 
   methods: {
-    submit: function() {
+    submit (dsdfsd) {
     }
   }
 }

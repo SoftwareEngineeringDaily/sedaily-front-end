@@ -5,14 +5,20 @@
     class='comment-box'
     type='text'
     v-model='commentContent' />
-    <button class='btn-success' @click='submitComment'> Comment </button>
+    <button class='btn-success' @click='submitComment'>
+      Comment
+    </button>
   </div>
 </template>
 
 <script>
 /* @flow */
+import UpdateProfile from './UpdateProfile.vue'
 export default {
   name: 'compose-comment',
+  components: {
+    UpdateProfile
+  },
   data () {
     return {
       commentContent: ''
