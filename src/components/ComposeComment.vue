@@ -40,6 +40,9 @@ export default {
         postId: this.postId,
         content: this.commentContent
       })
+      .then((response) => {
+        this.commentContent = ''
+      })
     }
   }
 }

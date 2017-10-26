@@ -98,12 +98,7 @@ export default {
     toggleShowContent () {
       this.showContent = !this.showContent
     },
-    submitComment () {
-      this.commentsCreate({
-        postId: this.postId,
-        content: this.commentContent
-      })
-    },
+
     upvoteHandler: function () {
       this.upvote({
         id: this.postId
