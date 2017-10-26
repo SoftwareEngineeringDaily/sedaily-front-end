@@ -14,7 +14,7 @@
 <script>
 /* @flow */
 import UpdateProfile from './UpdateProfile.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'compose-comment',
   components: {
@@ -34,8 +34,9 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['commentsCreate']),
     submitComment () {
-      this.$store.dispatch('commentsCreate', {
+      this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
       })
