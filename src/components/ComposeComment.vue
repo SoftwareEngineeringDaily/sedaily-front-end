@@ -14,6 +14,7 @@
 <script>
 /* @flow */
 import UpdateProfile from './UpdateProfile.vue'
+import { mapState } from 'vuex'
 export default {
   name: 'compose-comment',
   components: {
@@ -25,9 +26,12 @@ export default {
     }
   },
   computed: {
-    postId () {
-      return this.$store.state.route.params.id
-    }
+    // local computed methods +
+    ...mapState({
+      postId (state) {
+        return state.route.params.id
+      }
+    })
   },
   methods: {
     submitComment () {
