@@ -67,12 +67,12 @@ export default {
   },
 
   logout: (state) => {
-    localStorage.setPost('token', '')
+    localStorage.setItem('token', '')
     state.token = ''
   },
 
   setToken: (state, { token }) => {
-    localStorage.setPost('token', token)
+    localStorage.setItem('token', token)
     state.token = token
   }
 }
