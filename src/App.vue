@@ -38,7 +38,7 @@ export default {
 
   computed: {
     isPlayerActive () {
-      return this.$store.state.activePlayerItem.mp3
+      return this.$store.state.activePlayerPost.mp3
     },
     isLoggedIn: function () {
       return Boolean(this.$store.getters.getToken)

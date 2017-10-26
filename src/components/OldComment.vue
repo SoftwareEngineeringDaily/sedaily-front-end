@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     comment () {
-      return this.$store.state.items[this.id]
+      return this.$store.state.posts[this.id]
     }
   },
   methods: {

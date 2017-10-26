@@ -1,5 +1,5 @@
 <template>
-    <div v-if='this.displayedItems.length === 0' class='alert alert-info'>
+    <div v-if='this.displayedPosts.length === 0' class='alert alert-info'>
       We are building recommendations for you. Please ensure you are logged in and
       have voted on podcasts :D
     </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props: ['displayedItems']
+  props: ['displayedPosts']
 }
 </script>
 

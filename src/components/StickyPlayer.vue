@@ -2,10 +2,10 @@
   <div id='sticky-player'>
 
         <a-player :music="{
-          title: this.$store.state.activePlayerItem.title.rendered || ' ',
+          title: this.$store.state.activePlayerPost.title.rendered || ' ',
           author: ' ',
-          url: this.$store.state.activePlayerItem.mp3 || ' ' ,
-          pic: this.$store.state.activePlayerItem.featuredImage || ' ',
+          url: this.$store.state.activePlayerPost.mp3 || ' ' ,
+          pic: this.$store.state.activePlayerPost.featuredImage || ' ',
           lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
         }"></a-player>
 
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      playingItem: null
+      playingPost: null
     }
   }
 }

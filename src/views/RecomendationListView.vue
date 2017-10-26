@@ -21,7 +21,7 @@ export default {
       // TODO: note that we have to override this method
       // because it seems like fetchRecommendations /
       // /posts/recommendations? does not resport createdAtBefore
-      if (this.endOfItems) {
+      if (this.endOfPosts) {
         return
       }
       this.loading = true
@@ -36,15 +36,15 @@ export default {
 
       this.$store.dispatch(this.endPoint, params)
       .then((result) => {
-        if (result && result.items && result.items.length > 0) {
-          this.displayedItems = this.displayedItems.concat(result.items)
+        if (result && result.posts && result.posts.length > 0) {
+          this.displayedPosts = this.displayedPosts.concat(result.posts)
         }
-        this.endOfItems = true
+        this.endOfPosts = true
         this.loading = false
       })
       .catch(_ => {
         // TODO: log events
-        this.endOfItems = true
+        this.endOfPosts = true
         this.loading = false
       })
     }

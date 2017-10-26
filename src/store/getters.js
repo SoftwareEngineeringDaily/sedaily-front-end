@@ -1,9 +1,9 @@
 export default {
-  activeItems: (state, getters) => (page = 0) => {
+  activePosts: (state, getters) => (page = 0) => {
     // @TODO if page is larger then send new request
     let prev = page - 1
-    let prevOffset = prev * state.itemsPerPage
-    let pageOffset = page * state.itemsPerPage
+    let prevOffset = prev * state.postsPerPage
+    let pageOffset = page * state.postsPerPage
 
     return state.lists[state.activeType].slice(prevOffset, pageOffset)
   },
