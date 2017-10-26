@@ -5,11 +5,11 @@
 
         <div class='voting' style='display:inline-block; height: 100%;'>
           <span class="score">
-            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvote'>▲</span>
+            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
             <br>
             {{ post.score || 0}}
             <br>
-            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvote'>▼</span>
+            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvoteHandler'>▼</span>
           </span>
         </div>
 
@@ -81,9 +81,10 @@ export default {
       }
     })
   },
+
   beforeMount () {
     this.$store.dispatch('fetchArticle', {
-      id: this.$store.state.route.params.id
+      id: this.postId
     }).then(() => {
       this.loading = false
     })
@@ -103,14 +104,14 @@ export default {
         content: this.commentContent
       })
     },
-    upvote: function () {
+    upvoteHandler: function () {
       this.upvote({
-        id: this.$store.state.route.params.id
+        id: this.postId
       })
     },
-    downvote: function () {
+    downvoteHandler: function () {
       this.downvote({
-        id: this.$store.state.route.params.id
+        id: this.postId
       })
     }
   }
