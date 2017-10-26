@@ -1,6 +1,6 @@
-
 <template>
   <div>
+    <update-profile> </update-profile>
     <textarea placeholder='Your comment here...'
     class='comment-box'
     type='text'

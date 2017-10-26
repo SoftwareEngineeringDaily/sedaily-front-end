@@ -2,28 +2,54 @@
 <template>
   <div class="update-profile-view container">
     <div class='row'>
-      <div class='col-md-6 offset-md-3' v-on:submit.prevent='submit'>
+      <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
         <div class="form-group">
-
-          <label for="exampleInputEmail1">Usenrname</label>
+          <label for="usernameInput">Username</label>
           <input type="username" v-model='username'
+          id="usernameInput"
+          name="username"
           v-validate="'required|email'"
-          class="form-control" id="exampleInputEmail1"
-          aria-describedby="usernameHelp" placeholder="Enter a username">
-
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" v-model='email'
-          class="form-control" id="exampleInputEmail1"
-          aria-describedby="emailHelp" placeholder="Enter email">
+          class="form-control"
+          aria-describedby="usernameHelp"
+          placeholder="Enter a username">
         </div>
 
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input
-          type="password"
-          v-model='password'
+          <label for="nameInput">Name</label>
+          <input type="text" v-model='name'
+          id="nameInput"
           class="form-control"
-          id="exampleInputPassword1" placeholder="Password">
+          v-validate="'required'"
+          aria-describedby="nameHelp"
+          placeholder="Alex Smith">
+        </div>
+
+        <div class="form-group">
+          <label for="bioInput">Bio</label>
+          <input type="text" v-model='bio'
+          id="bioInput"
+          class="form-control"
+          v-validate="'required'"
+          aria-describedby="bioHelp"
+          placeholder="A short bio.">
+        </div>
+
+        <div class="form-group">
+          <label for="emailInput">Email address</label>
+          <input type="email"
+          v-model='email'
+          class="form-control" id="emailInput"
+          aria-describedby="emailHelp"
+           placeholder="Enter email">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">Website</label>
+          <input type="text" v-model='website'
+          id="websiteInput"
+          class="form-control"
+          aria-describedby="websiteHelp"
+          placeholder="yourWebsite.com">
         </div>
 
         <button
@@ -51,8 +77,10 @@ export default {
 
   data () {
     return {
+      username: '',
       email: '',
-      password: '',
+      bio: '',
+      website: '',
       loading: false
     }
   },
