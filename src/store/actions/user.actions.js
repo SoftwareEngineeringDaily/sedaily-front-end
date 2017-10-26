@@ -3,7 +3,7 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  getMyProfileData: ({commit, state}, { }) => {
+  fetchMyProfileData: ({commit, state, getters}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -11,10 +11,11 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     }
-    return axios.get(`${BASE_URL}/users/me`, {}, config
+    return axios.get(`${BASE_URL}/users/me`, config
       )
       .then(function (response) {
-        commit('setMe', {token: response.data.token})
+        console.log('data', response.data)
+        commit('setMe', {me: response.data})
         return response
       })
       .catch(function (error) {

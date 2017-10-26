@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="me">
     <update-profile> </update-profile>
     <textarea placeholder='Your comment here...'
     class='comment-box'
@@ -22,12 +22,23 @@ export default {
   },
   data () {
     return {
-      commentContent: ''
+      commentContent: '',
+      loading: true
     }
   },
+  beforeMount () {
+    this.$store.dispatch('fetchMyProfileData')
+    .then(() => {
+      this.loading = false
+    })
+  },
+
   computed: {
     // local computed methods +
     ...mapState({
+      me (state) {
+        return state.me
+      },
       postId (state) {
         return state.route.params.id
       }

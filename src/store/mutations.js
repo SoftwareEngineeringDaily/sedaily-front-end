@@ -9,7 +9,7 @@ export default {
     state.activeType = type
   },
 
-  setMe: (state, me) => {
+  setMe: (state, {me}) => {
     state.me = me
   },
 
