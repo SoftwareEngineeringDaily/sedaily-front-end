@@ -41,7 +41,11 @@ export default {
         content: this.commentContent
       })
       .then((response) => {
+        console.log('resonse', response)
         this.commentContent = ''
+      })
+      .catch((error) => {
+        alert(error.response.data.message)
       })
     }
   }
