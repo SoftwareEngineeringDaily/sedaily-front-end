@@ -11,7 +11,7 @@
     </div>
     <div v-else>
       Please make sure to update your profile before you can comment:
-      <update-profile  :username="username"> </update-profile>
+      <update-profile  v-if="username" :initialUsername="username"> </update-profile>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
   data () {
     return {
       commentContent: '',
+      username: null,
       loading: true
     }
   },
@@ -35,6 +36,7 @@ export default {
     this.fetchMyProfileData()
     .then(() => {
       this.loading = false
+      console.log(this.username, 'username', this.me)
       this.username = this.me.username
     })
   },

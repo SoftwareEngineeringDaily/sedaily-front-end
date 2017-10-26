@@ -77,13 +77,14 @@ import Spinner from './Spinner.vue'
 // TODO: remove usename update for now?
 export default {
   name: 'update-profile',
+  props: ['initialUsername'],
   components: {
     Spinner
   },
 
   data () {
     return {
-      username: '',
+      username: this.initialUsername,
       name: '',
       email: '',
       bio: '',
