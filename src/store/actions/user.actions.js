@@ -14,7 +14,6 @@ export default {
     return axios.get(`${BASE_URL}/users/me`, config
       )
       .then(function (response) {
-        console.log('data', response.data)
         commit('setMe', {me: response.data})
         return response
       })

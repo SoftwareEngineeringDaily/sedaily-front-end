@@ -1,13 +1,15 @@
 <template>
   <div v-if="me">
-    <update-profile> </update-profile>
-    <textarea placeholder='Your comment here...'
-    class='comment-box'
-    type='text'
-    v-model='commentContent' />
-    <button class='btn-success' @click='submitComment'>
-      Comment
-    </button>
+    <div v-if="me.name">
+      <textarea placeholder='Your comment here...'
+      class='comment-box'
+      type='text'
+      v-model='commentContent' />
+      <button class='btn-success' @click='submitComment'>
+        Comment
+      </button>
+    </div>
+    <update-profile v-else> </update-profile>
   </div>
 </template>
 
