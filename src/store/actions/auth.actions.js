@@ -2,11 +2,10 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  login: ({commit, state}, { email, password }) => {
+  login: ({commit, state}, { username, password }) => {
     return axios.post(`${BASE_URL}/auth/login`,
       {
-        // TODO: change to username here
-        username: email,
+        username,
         password
       })
       .then(function (response) {

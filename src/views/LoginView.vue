@@ -4,16 +4,19 @@
       <div class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Login</h1>
 
+
         <div class="form-group">
-          <label for="emailInput">Email address</label>
-          <input name='email' type="email"
-          v-validate="'required'" v-model='email' class="form-control"
-          id="exampleInputEmail1" aria-describedby="emailHelp"
-          placeholder="Enter email">
-          <div v-show="errors.has('email')"
+          <label for="usernameInput">Username</label>
+          <input type="username" v-model='username'
+          id="usernameInput"
+          name="username"
+          v-validate="'required'"
+          class="form-control"
+          aria-describedby="usernameHelp"
+          placeholder="Enter a username">
+          <div v-show="errors.has('username')"
           class="alert alert-danger">
-          {{ errors.first('email') }}
-          </div>
+          {{ errors.first('username') }}</div>
         </div>
 
         <div class="form-group">
@@ -49,7 +52,7 @@ export default {
 
   data () {
     return {
-      email: '',
+      username: '',
       password: '',
       loading: false
     }
@@ -60,9 +63,10 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
+          const {username, password} = this
           this.$store.dispatch('login', {
-            email: this.email,
-            password: this.password
+            username,
+            password
           })
           .then((response) => {
             this.loading = false

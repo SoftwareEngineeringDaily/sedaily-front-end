@@ -11,7 +11,11 @@
           v-validate="'required|email'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="Enter a username">
+          placeholder="username">
+
+          <div v-show="errors.has('username')"
+          class="alert alert-danger">
+          {{ errors.first('username') }}</div>
         </div>
 
         <div class="form-group">
@@ -31,7 +35,7 @@
           class="form-control"
           v-validate="'required'"
           aria-describedby="bioHelp"
-          placeholder="A short bio.">
+          placeholder="A short bio">
         </div>
 
         <div class="form-group">
@@ -40,7 +44,7 @@
           v-model='email'
           class="form-control" id="emailInput"
           aria-describedby="emailHelp"
-           placeholder="Enter email">
+           placeholder="youremail@email.com">
         </div>
 
         <div class="form-group">
@@ -69,6 +73,7 @@
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
 
+// TODO: username should come down as a prop
 export default {
   name: 'update-profile',
   components: {
@@ -87,6 +92,23 @@ export default {
 
   methods: {
     submit () {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          this.loading = true
+          const {username, email, bio, website} = this
+          this.$store.dispatch('updateProfile', {
+            username,
+            bio,
+            website,
+            email
+          })
+          .then((response) => {
+            this.loading = false
+          })
+        } else {
+          console.log('Invalid fields in form :(')
+        }
+      })
     }
   }
 }
