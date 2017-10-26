@@ -46,7 +46,7 @@
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import ComposeComment from '@/components/ComposeComment.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'post-view',
@@ -93,22 +93,23 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['commentsCreate', 'upvote', 'downvote']),
     toggleShowContent () {
       this.showContent = !this.showContent
     },
     submitComment () {
-      this.$store.dispatch('commentsCreate', {
+      this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
       })
     },
     upvote: function () {
-      this.$store.dispatch('upvote', {
+      this.upvote({
         id: this.$store.state.route.params.id
       })
     },
     downvote: function () {
-      this.$store.dispatch('downvote', {
+      this.downvote({
         id: this.$store.state.route.params.id
       })
     }
