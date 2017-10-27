@@ -19,6 +19,7 @@ describe('Basic Auth', function() {
   let driver;
   const username = 'userZ4';
   const password = 'password';
+  const name = 'Alex Smith'
 
   // beforeEach(async function() {
   before(async function() {
@@ -37,7 +38,7 @@ describe('Basic Auth', function() {
 
   it('register', async function() {
     await driver.get('http://localhost:8080');
-    await register(driver, username, password);
+    await register(driver, {username, password, name});
     // Check for logout login link
     const $registerLink = await driver.wait(until.elementLocated(By.name('logouts-nav-link')), 1.5 * minutes);
   });

@@ -8,10 +8,11 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    activePlayerItem: { title: {} },
+    activePlayerPost: { title: {} },
     activeType: null,
-    items: {},
-    itemComments: {},
+    posts: {},
+    postComments: {},
+    me: {},
     users: {},
     lists: {
       top: [],

@@ -9,15 +9,15 @@
     </div>
 
     <div class='categories' v-if="showFilteringElements">
-      <span class='category-item' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
-      <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-item' :class='getClassForCategory(category.name)'> {{category.name}}</span>
+      <span class='category-post' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
+      <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-post' :class='getClassForCategory(category.name)'> {{category.name}}</span>
     </div>
 
-    <instructions :displayedItems="displayedItems"> </instructions>
+    <instructions :displayedPosts="displayedPosts"> </instructions>
     <transition :name="transition">
         <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-            <item v-for="item in displayedItems" :key="item._id" :item="item"  v-on:play-podcast="playPodcast">
-            </item>
+            <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"  v-on:play-podcast="playPodcast">
+            </post-summary>
           <div class="spinner-holder">
             <spinner :show="loading"></spinner>
           </div>
@@ -30,7 +30,7 @@
 
 import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
-import Item from '@/components/Item.vue'
+import PostSummary from '@/components/PostSummary.vue'
 import Blank from '@/components/Blank.vue'
 
 export default {
@@ -39,19 +39,19 @@ export default {
   components: {
     instructions: Blank,
     Spinner,
-    Item
+    PostSummary
   },
 
   data () {
     return {
-      playingItem: {title: 'starting title'},
+      playingPost: {title: 'starting title'},
       type: 'new',
       showFilteringElements: true,
       endPoint: 'fetchListData',
       loading: false,
-      endOfItems: false,
+      endOfPosts: false,
       transition: 'slide-up',
-      displayedItems: [],
+      displayedPosts: [],
       categories: [
         {
           name: 'Business and Philosophy',
@@ -112,7 +112,7 @@ export default {
   methods: {
     setSelectedCategory (category) {
       this.activeCategory = category
-      this.resetItems()
+      this.resetPosts()
     },
     getClassForCategory (categoryName) {
       return categoryName === this.activeCategory.name ? 'category-active' : ''
@@ -121,10 +121,10 @@ export default {
       if (this.searchTerm === ' ') {
         this.searchTerm = null
       }
-      this.resetItems()
+      this.resetPosts()
     },
     loadMore () {
-      if (this.endOfItems) {
+      if (this.endOfPosts) {
         return
       }
       this.loading = true
@@ -136,35 +136,35 @@ export default {
       if (this.searchTerm) {
         params.search = this.searchTerm
       }
-      if (this.displayedItems.length > 0) {
-        let lastItem = this.displayedItems[this.displayedItems.length - 1]
-        params.createdAtBefore = moment(lastItem.date).toISOString()
+      if (this.displayedPosts.length > 0) {
+        let lastPost = this.displayedPosts[this.displayedPosts.length - 1]
+        params.createdAtBefore = moment(lastPost.date).toISOString()
       }
       this.$store.dispatch(this.endPoint, params)
       .then((result) => {
-        if (result && result.items && result.items.length > 0) {
-          this.displayedItems = this.displayedItems.concat(result.items)
+        if (result && result.posts && result.posts.length > 0) {
+          this.displayedPosts = this.displayedPosts.concat(result.posts)
         } else {
-          this.endOfItems = true
+          this.endOfPosts = true
         }
         this.loading = false
       })
       .catch(_ => {
         // TODO: log events
-        this.endOfItems = true
+        this.endOfPosts = true
         this.loading = false
       })
     },
-    resetItems () {
-      this.displayedItems = []
-      this.endOfItems = false
+    resetPosts () {
+      this.displayedPosts = []
+      this.endOfPosts = false
       this.loading = false
       this.loadMore()
     },
-    playPodcast (item) {
+    playPodcast (post) {
       console.log('inside play podacst')
-      this.playingItem = item
-      console.log(item)
+      this.playingPost = post
+      console.log(post)
     }
   }
 }
@@ -176,7 +176,7 @@ export default {
 .categories
   padding-bottom 20px
 
-.category-item
+.category-post
   margin 5px 20px
   display inline-block
   cursor pointer
@@ -224,14 +224,14 @@ export default {
   opacity 0
   transform translate(-30px, 0)
 
-.item-move, .item-enter-active, .item-leave-active
+.post-move, .post-enter-active, .post-leave-active
   transition all .5s cubic-bezier(.55,0,.1,1)
 
-.item-enter
+.post-enter
   opacity 0
   transform translate(30px, 0)
 
-.item-leave-active
+.post-leave-active
   position absolute
   opacity 0
   transform translate(30px, 0)
@@ -290,7 +290,7 @@ export default {
     cursor: pointer;
 
 @media (max-width 600px)
-  .category-item
+  .category-post
     width 100%
   .news-list
     margin 10px 0

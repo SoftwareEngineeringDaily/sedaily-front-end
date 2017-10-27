@@ -10,7 +10,7 @@
 export default {
   name: 'spinner',
   props: ['show'],
-  serverCacheKey: (props:{show: string}) => props.show
+  serverCacheKey: (props:{show: string}):any => props.show
 }
 </script>
 

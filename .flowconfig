@@ -2,3 +2,6 @@
 .*/node_modules/vue-aplayer.*
 [libs]
 flow-typed
+[options]
+module.file_ext=.js
+module.file_ext=.vue

@@ -10,7 +10,7 @@
         <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
 
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/regsiter" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
     </header>
@@ -29,6 +29,7 @@
 
 <script>
 import StickyPlayer from './components/StickyPlayer.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
@@ -38,11 +39,9 @@ export default {
 
   computed: {
     isPlayerActive () {
-      return this.$store.state.activePlayerItem.mp3
+      return this.$store.state.activePlayerPost.mp3
     },
-    isLoggedIn: function () {
-      return Boolean(this.$store.getters.getToken)
-    }
+    ...mapGetters(['isLoggedIn'])
   },
 
   methods: {

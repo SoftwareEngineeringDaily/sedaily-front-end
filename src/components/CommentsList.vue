@@ -2,7 +2,6 @@
   <div>
     <div v-for="comment in comments">
       <div class='comment'>
-        <img class='profile-img' src='http://lorempixel.com/80/80/'>
         <span class='content'>
           <div>
             {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
@@ -18,18 +17,27 @@
 <script>
 /* @flow */
 import moment from 'moment'
+import { mapState } from 'vuex'
 export default {
   name: 'comments-list',
   props: ['comments'],
+  computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    })
+  },
   methods: {
-    username (comment: {content: string, dateCreated: string, author: {username: string} }) {
-      if (comment.author && comment.author.username) {
-        return comment.author.username
+    username (comment: {content: string, dateCreated: string, author: {name: string} }) {
+      if (comment.author) {
+        return comment.author.name
       } else {
-        return 'You'
+        // Means we just made this comment
+        return this.me.name
       }
     },
-    date (comment: {content: string, dateCreated: string, author: {username: string} }) {
+    date (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.dateCreated) {
         return moment(comment.dateCreated).format('LL')
       } else {

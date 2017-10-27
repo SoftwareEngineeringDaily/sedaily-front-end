@@ -16,13 +16,6 @@ export default {
 
     commit('commentPrepend', {content, postId, dateCreated: Date.now()})
     return axios.post(url, options, config)
-    .then((response) => {
-      console.log('create comment response', response)
-    })
-    .catch((error) => {
-      console.error('create comment', error.response)
-      alert(error.response.data.message)
-    })
   },
   commentsFetch ({getters, commit}, {postId}) {
     let options = {}

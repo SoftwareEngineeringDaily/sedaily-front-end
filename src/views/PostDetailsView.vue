@@ -1,41 +1,41 @@
 <template>
-  <div class="item-view" v-if="item">
-    <template v-if="item">
-      <div class="item-view-header">
+  <div class="post-view" v-if="post">
+    <template v-if="post">
+      <div class="post-view-header">
 
         <div class='voting' style='display:inline-block; height: 100%;'>
           <span class="score">
-            <span class='arrow' v-bind:class="{ active: item.upvoted }" style='margin-left: 1px;' @click='upvote'>▲</span>
+            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
             <br>
-            {{ item.score || 0}}
+            {{ post.score || 0}}
             <br>
-            <span class='arrow' v-bind:class="{ active: item.downvoted }" style='margin-left: -4px;' @click='downvote'>▼</span>
+            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvoteHandler'>▼</span>
           </span>
         </div>
 
-        <div class='item-header-details' style='display:inline-block'>
-          <a :href="item.url" target="_blank">
-            <h1>{{ item.title.rendered }}</h1>
+        <div class='post-header-details' style='display:inline-block'>
+          <a :href="post.url" target="_blank">
+            <h1>{{ post.title.rendered }}</h1>
           </a>
-          <span v-if="item.url" class="host">
-            ({{ item.url | host }})
+          <span v-if="post.url" class="host">
+            ({{ post.url | host }})
           </span>
 
           <p class="meta">
-            {{ item.score || 0 }} points
-            <!-- | by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link> -->
-            {{ item.date | timeAgo }} ago
+            {{ post.score || 0 }} points
+            <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
+            {{ post.date | timeAgo }} ago
           </p>
         </div>
       </div>
 
-      <div class="item-view-comments">
+      <div class="post-view-comments">
         <button @click="toggleShowContent">{{contentButtonText}}</button>
-        <div v-if="showContent"  v-html='item.content.rendered'>
+        <div v-if="showContent"  v-html='post.content.rendered'>
         </div>
       </div>
       <br />
-      <compose-comment></compose-comment>
+      <compose-comment v-if="isLoggedIn"></compose-comment>
       <br />
       <comments-list :comments='comments'></comments-list>
     </template>
@@ -46,9 +46,10 @@
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import ComposeComment from '@/components/ComposeComment.vue'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'item-view',
+  name: 'post-view',
   components: { Spinner, CommentsList, ComposeComment },
   data () {
     return {
@@ -60,49 +61,54 @@ export default {
     contentButtonText () {
       return this.showContent ? '-' : '+'
     },
-    postId () {
-      return this.$store.state.route.params.id
+    post () {
+      return this.$store.state.posts[this.$route.params.id]
     },
-    item () {
-      return this.$store.state.items[this.$route.params.id]
-    },
+
     comments () {
-      return this.$store.state.itemComments[this.$route.params.id] || []
-    }
+      return this.postComments[this.$route.params.id] || []
+    },
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      postId (state) {
+        return state.route.params.id
+      },
+
+      posts (state) {
+        return state.posts
+      },
+      postComments (state) {
+        return state.postComments
+      }
+    })
   },
+
   beforeMount () {
-    this.$store.dispatch('fetchArticle', {
-      id: this.$store.state.route.params.id
+    this.fetchArticle({
+      id: this.postId
     }).then(() => {
       this.loading = false
     })
     // Fetch comments
-    console.log('id? ', this.postId)
-    this.$store.dispatch('commentsFetch', {
+    this.commentsFetch({
       postId: this.postId
-    }).then((comments) => {
-      console.log('comments fetched!', comments)
     })
   },
   methods: {
+    ...mapActions(['commentsCreate', 'upvote',
+      'downvote', 'fetchArticle', 'commentsFetch']),
     toggleShowContent () {
       this.showContent = !this.showContent
     },
-    submitComment () {
-      console.log('commentContent', this.commentContent)
-      this.$store.dispatch('commentsCreate', {
-        postId: this.postId,
-        content: this.commentContent
+
+    upvoteHandler: function () {
+      this.upvote({
+        id: this.postId
       })
     },
-    upvote: function () {
-      this.$store.dispatch('upvote', {
-        id: this.$store.state.route.params.id
-      })
-    },
-    downvote: function () {
-      this.$store.dispatch('downvote', {
-        id: this.$store.state.route.params.id
+    downvoteHandler: function () {
+      this.downvote({
+        id: this.postId
       })
     }
   }
@@ -110,7 +116,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.item-view-header
+.post-view-header
   background-color #fff
   padding 1.8em 2em 1em
   box-shadow 0 1px 2px rgba(0,0,0,.1)
@@ -136,7 +142,7 @@ export default {
         cursor pointer
         color #888
 
-.item-view-comments
+.post-view-comments
   background-color #fff
   margin-top 10px
   padding 1em 2em .5em
@@ -144,7 +150,7 @@ export default {
   .row, h2
     display: none
 
-.item-view-comments-header
+.post-view-comments-header
   margin 0
   font-size 1.1em
   padding 1em 0
@@ -161,7 +167,7 @@ export default {
   margin 0
 
 @media (max-width 600px)
-  .item-view-header
+  .post-view-header
     h1
       font-size 1.25em
 </style>
