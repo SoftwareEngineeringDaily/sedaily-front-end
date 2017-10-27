@@ -17,15 +17,24 @@
 <script>
 /* @flow */
 import moment from 'moment'
+import { mapState } from 'vuex'
 export default {
   name: 'comments-list',
   props: ['comments'],
+  computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    })
+  },
   methods: {
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
         return comment.author.name
       } else {
-        return 'You'
+        // Means we just made this comment
+        return this.me.name
       }
     },
     date (comment: {content: string, dateCreated: string, author: {name: string} }) {
