@@ -10,7 +10,7 @@
         <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
 
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/regsiter" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
       </nav>
     </header>

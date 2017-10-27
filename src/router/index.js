@@ -21,6 +21,6 @@ export default new Router({
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/post/:id([A-Za-z0-9-_]+)?', component: PostDetailsView },
     { path: '/login', component: LoginView },
-    { path: '/regsiter', component: RegisterView }
+    { path: '/register', component: RegisterView }
   ]
 })
