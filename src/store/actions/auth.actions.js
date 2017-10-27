@@ -20,8 +20,15 @@ export default {
       })
   },
 
-  register: ({commit, state}, { email, password }) => {
-    return axios.post(`${BASE_URL}/auth/register`, { username: email, password })
+  register: ({commit, state}, {password, username, bio, website, name, email}) => {
+    return axios.post(`${BASE_URL}/auth/register`, {
+      username,
+      bio,
+      password,
+      website,
+      name,
+      email
+    })
     .then(function (response) {
       commit('setToken', {token: response.data.token})
       return response
