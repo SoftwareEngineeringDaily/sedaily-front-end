@@ -113,6 +113,7 @@ export default {
     position absolute
     top 40px
     left 70px
+    cursor pointer
 
     .play-icon
       width 80px
