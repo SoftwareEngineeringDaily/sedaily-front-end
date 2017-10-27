@@ -8,7 +8,7 @@
           <input type="username" v-model='username'
           id="usernameInput"
           name="username"
-          v-validate="'required|email'"
+          v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
           placeholder="Username">
