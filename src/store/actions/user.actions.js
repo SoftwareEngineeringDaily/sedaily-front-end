@@ -33,6 +33,7 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     }
+
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,

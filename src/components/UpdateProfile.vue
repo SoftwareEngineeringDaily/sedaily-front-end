@@ -76,7 +76,7 @@
 /* @flow */
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 // TODO: remove usename update for now?
 export default {
   name: 'update-profile',
@@ -105,12 +105,13 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['updateProfile']),
     submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const {username, email, bio, website, name, id} = this
-          this.$store.dispatch('updateProfile', {
+          this.updateProfile({
             username,
             id,
             name,

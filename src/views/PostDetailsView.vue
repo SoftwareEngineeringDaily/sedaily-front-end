@@ -84,18 +84,19 @@ export default {
   },
 
   beforeMount () {
-    this.$store.dispatch('fetchArticle', {
+    this.fetchArticle({
       id: this.postId
     }).then(() => {
       this.loading = false
     })
     // Fetch comments
-    this.$store.dispatch('commentsFetch', {
+    this.commentsFetch({
       postId: this.postId
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'upvote', 'downvote']),
+    ...mapActions(['commentsCreate', 'upvote',
+      'downvote', 'fetchArticle', 'commentsFetch']),
     toggleShowContent () {
       this.showContent = !this.showContent
     },
