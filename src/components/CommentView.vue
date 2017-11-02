@@ -10,19 +10,18 @@
   </div>
 </template>
 
-
 <script>
 /* @flow */
 import moment from 'moment'
 import { mapState } from 'vuex'
 export default {
-  name: 'comments-list',
+  name: 'comment-view',
   props: ['comment'],
   computed: {
     ...mapState({
-      isRootLevelComment() {
-        return !this.comment.parentComment 
-      }
+      isRootLevelComment () {
+        return !this.comment.parentComment
+      },
       me (state) {
         return state.me
       }
