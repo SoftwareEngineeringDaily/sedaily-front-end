@@ -25,6 +25,12 @@ npm run selenium-test
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+# Changing from prod to localhost:
+
+Change this file:
+
+https://github.com/SoftwareEngineeringDaily/sedaily-front-end/blob/develop/src/store/actions/config.js
+
 
 
 # Install selenium web driver:
