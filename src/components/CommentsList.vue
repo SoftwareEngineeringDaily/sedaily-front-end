@@ -7,9 +7,11 @@
       <div class='replies'>
         <div v-for="reply in comment.replies">
           <comment-view :comment='reply'></comment-view>
+          <br />
+          <br />
         </div>
       </div>
-      <hr />
+      <br />
     </div>
   </div>
 </template>
@@ -33,6 +35,6 @@ export default {
 .replies {
   margin-top: 20px;
   margin-left: 50px;
-  border-left: 1px solid black;
+  border-left: 1px solid #ccc;
 }
 </style>
