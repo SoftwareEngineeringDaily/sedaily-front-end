@@ -22,6 +22,7 @@ import UpdateProfile from './UpdateProfile.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'compose-comment',
+  props: ['parentComment'],
   components: {
     UpdateProfile
   },
