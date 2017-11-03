@@ -5,6 +5,7 @@
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
       {{comment.content}}
+      <compose-comment v-if="isLoggedIn" :isReply='true' :comment='comment'></compose-comment>
     </span>
     <hr />
   </div>
@@ -13,11 +14,14 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+import ComposeComment from './ComposeComment.vue'
 export default {
   name: 'comment-view',
   props: ['comment'],
+  components: {ComposeComment},
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       isRootLevelComment () {
         return !this.comment.parentComment

@@ -10,8 +10,11 @@
       </button>
     </div>
     <div v-else>
-      Please make sure to update your profile before you can comment:
-      <update-profile  v-if="username" :initialUsername="username"> </update-profile>
+      <div v-if="isReply"></div>
+      <div v-else>
+        Please make sure to update your profile before you can comment:
+        <update-profile  v-if="username" :initialUsername="username"> </update-profile>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +25,7 @@ import UpdateProfile from './UpdateProfile.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'compose-comment',
-  props: ['parentComment'],
+  props: ['comment', 'isReply'],
   components: {
     UpdateProfile
   },
