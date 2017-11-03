@@ -1,11 +1,6 @@
 <template>
   <div v-if="me">
     <div v-if="me.name">
-      <div v-if="justSubmitted">
-          Thanks for commenting!
-          <button @click="justSubmitted=false"> Add another </button>
-      </div>
-      <div v-else="justSubmitted">
         <textarea placeholder='Your comment here...'
         class='comment-box'
         type='text'
@@ -13,8 +8,6 @@
         <button class='btn-success' @click='submitComment'>
           Comment
         </button>
-      </div>
-
     </div>
     <div v-else>
       Please make sure to update your profile before you can comment:
@@ -35,7 +28,6 @@ export default {
   data () {
     return {
       commentContent: '',
-      justSubmitted: false,
       username: null,
       loading: true
     }
@@ -60,20 +52,24 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
     submitComment () {
-      this.justSubmitted = true
       this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
       })
       .then((response) => {
         this.commentContent = ''
+        // Fetch comments
+        this.commentsFetch({
+          postId: this.postId
+        })
       })
       .catch((error) => {
         alert(error.response.data.message)
       })
-    } }
+    }
+  }
 }
 </script>
 
