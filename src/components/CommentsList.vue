@@ -5,7 +5,7 @@
       <!-- Replies -->
       <div class='replies'>
 
-        <compose-comment v-if="isLoggedIn" :isReply='true' :comment='comment'></compose-comment>
+        <comment-reply v-if="isLoggedIn" :isReply='true' :comment='comment'></comment-reply>
         <div v-for="reply in comment.replies">
           <comment-view :comment='reply'></comment-view>
         </div>
@@ -18,12 +18,12 @@
 <script>
 /* @flow */
 import CommentView from './CommentView.vue'
-import ComposeComment from './ComposeComment.vue'
+import CommentReply from './CommentReply.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'comments-list',
   props: ['comments'],
-  components: {CommentView, ComposeComment},
+  components: {CommentView, CommentReply},
   computed: {
     ...mapGetters(['isLoggedIn'])
   }

@@ -1,17 +1,13 @@
 <template>
   <div v-if="me">
     <div v-if="me.name">
-      <textarea placeholder='Your comment here...'
+      <input placeholder='Your comment here...'
       class='comment-box'
       type='text'
       v-model='commentContent' />
       <button class='btn-success' @click='submitComment'>
-        Comment
+        Reply
       </button>
-    </div>
-    <div v-else>
-      Please make sure to update your profile before you can comment:
-      <update-profile  v-if="username" :initialUsername="username"> </update-profile>
     </div>
   </div>
 </template>
@@ -21,7 +17,8 @@
 import UpdateProfile from './UpdateProfile.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'compose-comment',
+  name: 'comment-reply',
+  props: ['comment'],
   components: {
     UpdateProfile
   },
