@@ -37,13 +37,6 @@ export default {
       loading: true
     }
   },
-  beforeMount () {
-    this.fetchMyProfileData()
-    .then(() => {
-      this.loading = false
-      this.username = this.me.username
-    })
-  },
 
   computed: {
     // local computed methods +
@@ -81,7 +74,7 @@ export default {
   .collapsed-area{
     margin-left: 20px;
   }
-  
+
   .link {
     color: green;
     cursor: pointer;
