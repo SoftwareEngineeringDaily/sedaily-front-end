@@ -1,8 +1,8 @@
 <template>
-  <div v-if="me">
+  <div v-if="me" class='reply-container'>
     <div v-if="me.name">
       <input placeholder='Your comment here...'
-      class='comment-box'
+      class='reply-box'
       type='text'
       v-model='commentContent' />
       <button class='btn-success' @click='submitComment'>
@@ -66,11 +66,14 @@ export default {
 </script>
 
 <style scoped>
-  .comment-box {
+  .reply-container {
+    margin-left: 20px;
+  }
+  .reply-box {
     width: 100%;
-    padding: 20px 10px;
+    padding: 5px 5px;
     margin-bottom: 12px;
-    border-radius: 7px;
+    border-radius: 2px;
     border-color: #c5c5c5;
   }
 </style>
