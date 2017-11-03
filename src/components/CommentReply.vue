@@ -1,13 +1,20 @@
 <template>
-  <div v-if="me" class='reply-container'>
+  <div v-if="me" >
     <div v-if="me.name">
-      <input placeholder='Your comment here...'
-      class='reply-box'
-      type='text'
-      v-model='commentContent' />
-      <button class='btn-success' @click='submitComment'>
-        Reply
-      </button>
+      <div v-if="expanded" class='reply-container'>
+        <input placeholder='Your message here...'
+        class='reply-box'
+        type='text'
+        v-model='commentContent' />
+        <button class='btn-success' @click='submitComment'>
+          Reply
+        </button>
+        <span class='link' @click="expanded=!expanded">Cancel</span>
+
+      </div>
+      <div v-else class='collapsed-area'>
+        <span class='link' @click="expanded=!expanded">Reply</span>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +32,7 @@ export default {
   data () {
     return {
       commentContent: '',
+      expanded: false,
       username: null,
       loading: true
     }
@@ -67,8 +75,18 @@ export default {
 
 <style scoped>
   .reply-container {
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+  .collapsed-area{
     margin-left: 20px;
   }
+  
+  .link {
+    color: green;
+    cursor: pointer;
+  }
+
   .reply-box {
     width: 100%;
     padding: 5px 5px;
