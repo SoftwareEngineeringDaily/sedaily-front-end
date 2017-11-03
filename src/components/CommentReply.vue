@@ -73,6 +73,7 @@ export default {
   }
   .collapsed-area{
     margin-left: 20px;
+    margin-top: 10px;
   }
 
   .link {

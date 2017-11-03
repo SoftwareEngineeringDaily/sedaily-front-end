@@ -8,7 +8,6 @@
         <div v-for="reply in comment.replies">
           <comment-view :comment='reply'></comment-view>
           <br />
-          <br />
         </div>
       </div>
       <br />
