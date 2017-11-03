@@ -2,14 +2,20 @@
   <div v-if="me" >
     <div v-if="me.name">
       <div v-if="expanded" class='reply-container'>
-        <input placeholder='Your message here...'
-        class='reply-box'
-        type='text'
-        v-model='commentContent' />
-        <button class='btn-success' @click='submitComment'>
-          Reply
-        </button>
-        <span class='link' @click="expanded=!expanded">Cancel</span>
+        <div v-if="justSubmitted">
+          Thanks for submitting!
+          <button @click="justSubmitted=false"> Add another </button>
+        </div>
+        <div v-else="justSubmitted">
+          <input placeholder='Your message here...'
+          class='reply-box'
+          type='text'
+          v-model='commentContent' />
+          <button class='btn-success' @click='submitComment'>
+            Reply
+          </button>
+          <span class='link' @click="expanded=!expanded">Cancel</span>
+        </div>
 
       </div>
       <div v-else class='collapsed-area'>
@@ -25,13 +31,14 @@ import UpdateProfile from './UpdateProfile.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-reply',
-  props: ['comment'],
+  props: ['parentComment'],
   components: {
     UpdateProfile
   },
   data () {
     return {
       commentContent: '',
+      justSubmitted: false,
       expanded: false,
       username: null,
       loading: true
@@ -52,12 +59,15 @@ export default {
   methods: {
     ...mapActions(['commentsCreate', 'fetchMyProfileData']),
     submitComment () {
+      this.justSubmitted = true
       this.commentsCreate({
         postId: this.postId,
+        parentCommentId: this.parentComment._id,
         content: this.commentContent
       })
       .then((response) => {
         this.commentContent = ''
+        // TODO Should also refetch all comments!
       })
       .catch((error) => {
         alert(error.response.data.message)

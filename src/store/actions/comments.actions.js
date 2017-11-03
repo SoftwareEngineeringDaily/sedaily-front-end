@@ -2,8 +2,9 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  commentsCreate ({commit, getters}, {content, postId}) {
+  commentsCreate ({commit, getters}, {content, postId, parentCommentId}) {
     let options = {content}
+    if (parentCommentId) options.parentCommentId = parentCommentId
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -14,7 +15,7 @@ export default {
 
     let url = `${BASE_URL}/posts/${postId}/comment`
 
-    commit('commentPrepend', {content, postId, dateCreated: Date.now()})
+    // commit('commentPrepend', {content, postId, dateCreated: Date.now()})
     return axios.post(url, options, config)
   },
   commentsFetch ({getters, commit}, {postId}) {

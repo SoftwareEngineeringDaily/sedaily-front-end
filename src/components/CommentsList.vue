@@ -3,10 +3,11 @@
     <div v-for="comment in comments">
       <comment-view :comment='comment'></comment-view>
       <!-- Replies -->
-      <comment-reply v-if="isLoggedIn" :isReply='true' :comment='comment'></comment-reply>
+      <comment-reply v-if="isLoggedIn"
+      :isReply='true' :parentComment='comment'></comment-reply>
       <div class='replies'>
-        <div v-for="reply in comment.replies">
-          <comment-view :comment='reply'></comment-view>
+        <div v-for="replyComment in comment.replies">
+          <comment-view :comment='replyComment'></comment-view>
           <br />
         </div>
       </div>
