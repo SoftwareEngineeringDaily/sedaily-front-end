@@ -1,5 +1,5 @@
 import Vue from 'vue'
-// import each from 'lodash/each'
+import find from 'lodash/find'
 
 export default {
 
@@ -44,14 +44,33 @@ export default {
     })
   },
 
-  /*
   likeComment: (state, { commentId, postId, parentCommentId }) => {
     let incrementValue = 1
     // First let's find our comment:
+    let entity
 
-    each
-    // Let's find our comment:
-    if (state.postComments)
+    const parentComments = state.postComments[postId]
+    // Weird error if this is not defiend:
+    if (!parentComments) return
+    if (!parentCommentId) {
+       // We are a root level comment so it's easy
+      entity = find(parentComments, (comment) => {
+        return comment._id === commentId
+      })
+      if (!entity) return
+    } else {
+      // First we need to find our parent:
+      const parentComment = find(parentComments, (comment) => {
+        return comment._id === parentCommentId
+      })
+      if (!parentComment) return
+      // Now we can find our actual comment:
+      entity = find(parentComment.replies, (comment) => {
+        return comment._id === commentId
+      })
+      if (!entity) return
+    }
+
     if (entity.downvoted) incrementValue += 1
 
     if (entity.upvoted) {
@@ -61,7 +80,7 @@ export default {
     }
     entity.upvoted = !entity.upvoted
     entity.downvoted = false
-  }, */
+  },
 
   upVote: (state, { articleId }) => {
     let incrementValue = 1
