@@ -44,6 +44,7 @@ export default {
     })
   },
 
+  // TODO: This is a bit uggly, will need to refactor:
   likeComment: (state, { commentId, postId, parentCommentId }) => {
     let incrementValue = 1
     // First let's find our comment:
