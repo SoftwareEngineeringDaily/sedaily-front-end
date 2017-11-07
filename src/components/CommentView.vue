@@ -2,6 +2,16 @@
   <div class='comment'>
     <span class='content'>
       <div>
+
+        <div class='voting' style='display:inline-block; height: 100%;'>
+          <span class="score">
+            <span class='arrow' v-bind:class="{ active: comment.upvoted }"
+            style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
+            <br>
+            {{ comment.score || 0}}
+          </span>
+        </div>
+
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
       {{comment.content}}
@@ -28,6 +38,9 @@ export default {
     })
   },
   methods: {
+    upvoteHandler () {
+    },
+
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
         return comment.author.name
@@ -47,7 +60,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+
+
+.arrow
+  color #888
+  &:hover
+    cursor pointer
+    color #ff6600
+
+  &.active
+    color #ff6600 !important
+    &:hover
+      cursor pointer
+      color #888
+
+
 .comment-date {
   padding-left: 10px;
   color: #ccc;
