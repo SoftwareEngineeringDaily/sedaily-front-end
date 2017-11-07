@@ -23,7 +23,7 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-view',
   props: ['comment'],
@@ -38,9 +38,12 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['likeComment']),
     upvoteHandler () {
+      this.likeComment({
+        id: this.comment._id
+      })
     },
-
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
         return comment.author.name

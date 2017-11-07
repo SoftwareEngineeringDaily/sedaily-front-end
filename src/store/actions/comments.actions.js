@@ -18,6 +18,22 @@ export default {
     // commit('commentPrepend', {content, postId, dateCreated: Date.now()})
     return axios.post(url, options, config)
   },
+
+  likeComment: ({commit, getters, state}, { id }) => {
+    let token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    console.log('id', id)
+    // commit('upVote', { articleId: id })
+    return axios.post(`${BASE_URL}/comments/${id}/upvote`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
   commentsFetch ({getters, commit}, {postId}) {
     let options = {}
     let token = getters.getToken
