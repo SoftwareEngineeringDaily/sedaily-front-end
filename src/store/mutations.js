@@ -1,4 +1,6 @@
 import Vue from 'vue'
+// import each from 'lodash/each'
+
 export default {
 
   setActivePostInPlayer: (state, { post }) => {
@@ -41,6 +43,25 @@ export default {
       }
     })
   },
+
+  /*
+  likeComment: (state, { commentId, postId, parentCommentId }) => {
+    let incrementValue = 1
+    // First let's find our comment:
+
+    each
+    // Let's find our comment:
+    if (state.postComments)
+    if (entity.downvoted) incrementValue += 1
+
+    if (entity.upvoted) {
+      entity.score -= incrementValue
+    } else {
+      entity.score += incrementValue
+    }
+    entity.upvoted = !entity.upvoted
+    entity.downvoted = false
+  }, */
 
   upVote: (state, { articleId }) => {
     let incrementValue = 1

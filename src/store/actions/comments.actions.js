@@ -19,14 +19,13 @@ export default {
     return axios.post(url, options, config)
   },
 
-  likeComment: ({commit, getters, state}, { id }) => {
+  likeComment: ({commit, getters, state}, { id, postId, parentCommentId }) => {
     let token = getters.getToken
     if (!token) {
       alert('You must login to vote')
       return
     }
-    console.log('id', id)
-    // commit('upVote', { articleId: id })
+    commit('likeComment', { commentId: id, postId, parentCommentId })
     return axios.post(`${BASE_URL}/comments/${id}/upvote`, {}, {
       headers: {
         'Authorization': 'Bearer ' + token

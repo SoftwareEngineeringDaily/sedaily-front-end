@@ -41,7 +41,9 @@ export default {
     ...mapActions(['likeComment']),
     upvoteHandler () {
       this.likeComment({
-        id: this.comment._id
+        id: this.comment._id,
+        parentCommentId: this.comment.parentComment,
+        postId: this.comment.post
       })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
