@@ -56,8 +56,9 @@ export default {
       }
     })
   },
+
   methods: {
-    ...mapActions(['commentsCreate', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'commentsFetch', 'fetchMyProfileData']),
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({
@@ -68,6 +69,10 @@ export default {
       .then((response) => {
         this.commentContent = ''
         // TODO Should also refetch all comments!
+        this.justSubmitted = false
+        this.commentsFetch({
+          postId: this.postId
+        })
       })
       .catch((error) => {
         alert(error.response.data.message)
