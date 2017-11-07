@@ -4,7 +4,7 @@
       <div v-if="expanded" class='reply-container'>
         <div v-if="justSubmitted">
           Thanks for submitting!
-          <button @click="justSubmitted=false"> Add another </button>
+          <spinner :show="true"></spinner>
         </div>
         <div v-else="justSubmitted">
           <input placeholder='Your message here...'
@@ -28,12 +28,14 @@
 <script>
 /* @flow */
 import UpdateProfile from './UpdateProfile.vue'
+import Spinner from './Spinner'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-reply',
   props: ['parentComment'],
   components: {
-    UpdateProfile
+    UpdateProfile,
+    Spinner
   },
   data () {
     return {
@@ -68,7 +70,7 @@ export default {
       })
       .then((response) => {
         this.commentContent = ''
-        // TODO Should also refetch all comments!
+        // NOTE: this won't work too well once we are paginating comments:
         this.justSubmitted = false
         this.commentsFetch({
           postId: this.postId
