@@ -7,7 +7,7 @@
           <spinner :show="true"></spinner>
         </div>
         <div v-else="justSubmitted">
-          <input placeholder='Your message here...'
+          <textarea placeholder='Your message here...'
           class='reply-box'
           type='text'
           v-model='commentContent' />
