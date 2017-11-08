@@ -1,13 +1,21 @@
 <template>
   <div v-if="me">
     <div v-if="me.name">
-      <textarea placeholder='Your comment here...'
-      class='comment-box'
-      type='text'
-      v-model='commentContent' />
-      <button class='btn-success' @click='submitComment'>
-        Comment
-      </button>
+        <textarea placeholder='Your comment here...'
+        class='comment-box'
+        :disabled="isSubmitting"
+        type='text'
+        v-model='commentContent' />
+        <div v-if="isSubmitting">
+          <spinner :show="true"></spinner>
+        </div>
+        <div v-else="isSubmitting">
+          <button class='btn-success'
+          :disabled="isSubmitting"
+          @click='submitComment'>
+          Comment
+          </button>
+        </div>
     </div>
     <div v-else>
       Please make sure to update your profile before you can comment:
@@ -19,15 +27,18 @@
 <script>
 /* @flow */
 import UpdateProfile from './UpdateProfile.vue'
+import Spinner from './Spinner'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'compose-comment',
   components: {
-    UpdateProfile
+    UpdateProfile,
+    Spinner
   },
   data () {
     return {
       commentContent: '',
+      isSubmitting: false,
       username: null,
       loading: true
     }
@@ -52,19 +63,27 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
     submitComment () {
+      this.isSubmitting = true
       this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
       })
       .then((response) => {
         this.commentContent = ''
+        this.isSubmitting = false
+        // Fetch comments
+        this.commentsFetch({
+          postId: this.postId
+        })
       })
       .catch((error) => {
+        this.isSubmitting = false
         alert(error.response.data.message)
       })
-    } }
+    }
+  }
 }
 </script>
 
