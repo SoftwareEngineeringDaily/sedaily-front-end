@@ -32,9 +32,9 @@ export default {
 
     return axios.get(url, options)
     .then(function (response) {
-      commit('setList', { type, items: response.data })
-      commit('setItems', { items: response.data })
-      return {items: response.data, maxPage: 4}
+      commit('setList', { type, posts: response.data })
+      commit('setPosts', { posts: response.data })
+      return {posts: response.data, maxPage: 4}
     })
     .catch(function (error) {
       // @TODO: Add pretty pop up here
@@ -55,9 +55,9 @@ export default {
       }
     })
     .then(function (response) {
-      commit('setList', { type, items: response.data })
-      commit('setItems', { items: response.data })
-      return {items: response.data, maxPage: 4}
+      commit('setList', { type, posts: response.data })
+      commit('setPosts', { posts: response.data })
+      return {posts: response.data, maxPage: 4}
     })
     .catch(function (error) {
       // @TODO: Add pretty pop up here
@@ -81,10 +81,9 @@ export default {
 
     return axios.get(`${BASE_URL}/posts/${id}`, options)
     .then(function (response) {
-      console.log('response', response)
-      var item = response.data
-      commit('setItems', { items: [item] })
-      return {item}
+      var post = response.data
+      commit('setPosts', { posts: [post] })
+      return {post}
     })
     .catch(function (error) {
       // @TODO: Add pretty pop up here
@@ -100,7 +99,7 @@ export default {
       return
     }
     commit('upVote', { articleId: id })
-    let article = state.items[id]
+    let article = state.posts[id]
     return axios.post(`${BASE_URL}/posts/${article._id}/upvote`, {}, {
       headers: {
         'Authorization': 'Bearer ' + token
@@ -115,7 +114,7 @@ export default {
       return
     }
     commit('downVote', { articleId: id })
-    let article = state.items[id]
+    let article = state.posts[id]
     return axios.post(`${BASE_URL}/posts/${article._id}/downvote`, {}, {
       headers: {
         'Authorization': 'Bearer ' + token

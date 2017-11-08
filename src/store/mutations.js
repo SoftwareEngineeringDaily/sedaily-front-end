@@ -1,15 +1,21 @@
 import Vue from 'vue'
+import find from 'lodash/find'
+
 export default {
 
-  setActivePlayerItem: (state, { item }) => {
-    state.activePlayerItem = item
+  setActivePostInPlayer: (state, { post }) => {
+    state.activePlayerPost = post
   },
 
   setActiveType: (state, { type }) => {
     state.activeType = type
   },
 
-  setList: (state, { type, items }) => {
+  setMe: (state, {me}) => {
+    state.me = me
+  },
+
+  setList: (state, { type, posts }) => {
     // This is currently doing an append to the list but
     // it should probably do a simple set like the function name
     // suggets.
@@ -18,52 +24,91 @@ export default {
     // cached and so for that I think a better approach might be a simple
     // map. I am leaning towards not caching for the time being to avoid
     // extra complexity.
-    state.lists[type] = state.lists[type].concat(items)
+    state.lists[type] = state.lists[type].concat(posts)
   },
   commentPrepend: (state, comment) => {
-    if (!state.itemComments[comment.postId]) {
-      Vue.set(state.itemComments, comment.postId, [])
+    if (!state.postComments[comment.postId]) {
+      Vue.set(state.postComments, comment.postId, [])
     }
-    state.itemComments[comment.postId].unshift(comment)
+    state.postComments[comment.postId].unshift(comment)
   },
   setComments: (state, {comments, postId}) => {
-    Vue.set(state.itemComments, postId, comments)
+    Vue.set(state.postComments, postId, comments)
   },
 
-  setItems: (state, { items }) => {
-    items.forEach(item => {
-      if (item) {
-        Vue.set(state.items, item._id, item)
+  setPosts: (state, { posts }) => {
+    posts.forEach(post => {
+      if (post) {
+        Vue.set(state.posts, post._id, post)
       }
     })
+  },
+
+  // TODO: This is a bit uggly, will need to refactor:
+  likeComment: (state, { commentId, postId, parentCommentId }) => {
+    let incrementValue = 1
+    // First let's find our comment:
+    let entity
+
+    const parentComments = state.postComments[postId]
+    // Weird error if this is not defiend:
+    if (!parentComments) return
+    if (!parentCommentId) {
+       // We are a root level comment so it's easy
+      entity = find(parentComments, (comment) => {
+        return comment._id === commentId
+      })
+      if (!entity) return
+    } else {
+      // First we need to find our parent:
+      const parentComment = find(parentComments, (comment) => {
+        return comment._id === parentCommentId
+      })
+      if (!parentComment) return
+      // Now we can find our actual comment:
+      entity = find(parentComment.replies, (comment) => {
+        return comment._id === commentId
+      })
+      if (!entity) return
+    }
+
+    if (entity.downvoted) incrementValue += 1
+
+    if (entity.upvoted) {
+      entity.score -= incrementValue
+    } else {
+      entity.score += incrementValue
+    }
+    entity.upvoted = !entity.upvoted
+    entity.downvoted = false
   },
 
   upVote: (state, { articleId }) => {
     let incrementValue = 1
 
-    if (state.items[articleId].downvoted) incrementValue += 1
+    if (state.posts[articleId].downvoted) incrementValue += 1
 
-    if (state.items[articleId].upvoted) {
-      state.items[articleId].score -= incrementValue
+    if (state.posts[articleId].upvoted) {
+      state.posts[articleId].score -= incrementValue
     } else {
-      state.items[articleId].score += incrementValue
+      state.posts[articleId].score += incrementValue
     }
-    state.items[articleId].upvoted = !state.items[articleId].upvoted
-    state.items[articleId].downvoted = false
+    state.posts[articleId].upvoted = !state.posts[articleId].upvoted
+    state.posts[articleId].downvoted = false
   },
 
   downVote: (state, { articleId }) => {
     let incrementValue = 1
 
-    if (state.items[articleId].upvoted) incrementValue += 1
+    if (state.posts[articleId].upvoted) incrementValue += 1
 
-    if (state.items[articleId].downvoted) {
-      state.items[articleId].score += incrementValue
+    if (state.posts[articleId].downvoted) {
+      state.posts[articleId].score += incrementValue
     } else {
-      state.items[articleId].score -= incrementValue
+      state.posts[articleId].score -= incrementValue
     }
-    state.items[articleId].upvoted = false
-    state.items[articleId].downvoted = !state.items[articleId].downvoted
+    state.posts[articleId].upvoted = false
+    state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
   logout: (state) => {

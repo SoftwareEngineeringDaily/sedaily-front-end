@@ -21,19 +21,15 @@ npm run build --report
 # run selenium tests (working)
 npm run selenium-test
 
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-
-
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+# Changing from prod to localhost:
+
+Change this file:
+
+https://github.com/SoftwareEngineeringDaily/sedaily-front-end/blob/develop/src/store/actions/config.js
 
 
 
@@ -45,3 +41,10 @@ http://www.seleniumhq.org/download/
 
 
 
+# Branches / git flow
+
+master = production / live
+develop -> gets pushed to staging
+
+## Flow
+flow status

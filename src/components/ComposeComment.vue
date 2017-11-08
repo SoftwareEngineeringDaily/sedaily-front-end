@@ -1,33 +1,86 @@
-
 <template>
-  <div>
-    <textarea placeholder='Your comment here...'
-    class='comment-box'
-    type='text'
-    v-model='commentContent' />
-    <button class='btn-success' @click='submitComment'> Comment </button>
+  <div v-if="me">
+    <div v-if="me.name">
+        <textarea placeholder='Your comment here...'
+        class='comment-box'
+        :disabled="isSubmitting"
+        type='text'
+        v-model='commentContent' />
+        <div v-if="isSubmitting">
+          <spinner :show="true"></spinner>
+        </div>
+        <div v-else="isSubmitting">
+          <button class='btn-success'
+          :disabled="isSubmitting"
+          @click='submitComment'>
+          Comment
+          </button>
+        </div>
+    </div>
+    <div v-else>
+      Please make sure to update your profile before you can comment:
+      <update-profile  v-if="username" :initialUsername="username"> </update-profile>
+    </div>
   </div>
 </template>
 
 <script>
 /* @flow */
+import UpdateProfile from './UpdateProfile.vue'
+import Spinner from './Spinner'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'compose-comment',
+  components: {
+    UpdateProfile,
+    Spinner
+  },
   data () {
     return {
-      commentContent: ''
+      commentContent: '',
+      isSubmitting: false,
+      username: null,
+      loading: true
     }
   },
+  beforeMount () {
+    this.fetchMyProfileData()
+    .then(() => {
+      this.loading = false
+      this.username = this.me.username
+    })
+  },
+
   computed: {
-    postId () {
-      return this.$store.state.route.params.id
-    }
+    // local computed methods +
+    ...mapState({
+      me (state) {
+        return state.me
+      },
+      postId (state) {
+        return state.route.params.id
+      }
+    })
   },
   methods: {
+    ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
     submitComment () {
-      this.$store.dispatch('commentsCreate', {
+      this.isSubmitting = true
+      this.commentsCreate({
         postId: this.postId,
         content: this.commentContent
+      })
+      .then((response) => {
+        this.commentContent = ''
+        this.isSubmitting = false
+        // Fetch comments
+        this.commentsFetch({
+          postId: this.postId
+        })
+      })
+      .catch((error) => {
+        this.isSubmitting = false
+        alert(error.response.data.message)
       })
     }
   }

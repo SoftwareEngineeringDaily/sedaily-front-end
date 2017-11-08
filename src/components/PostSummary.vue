@@ -1,40 +1,40 @@
 <template>
-  <div class="news-item">
+  <div class="news-post">
     <div class="score">
-      <span class='arrow' v-bind:class="{ active: item.upvoted }"
-      @click='upvote(item)'>▲</span>
-      <div>{{ item.score || 0 }}</div>
-      <span class='arrow' v-bind:class="{ active: item.downvoted }"
-      @click='downvote(item)'>▼</span>
+      <span class='arrow' v-bind:class="{ active: post.upvoted }"
+      @click='upvote(post)'>▲</span>
+      <div>{{ post.score || 0 }}</div>
+      <span class='arrow' v-bind:class="{ active: post.downvoted }"
+      @click='downvote(post)'>▼</span>
     </div>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img":src="item.featuredImage" />
-      <span class="play-button" @click='setActivePlayerItem(item)'>
+      <img class="hero-img":src="post.featuredImage" />
+      <span class="play-button" @click='setActivePostInPlayer(post)'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
 
       <div class="title">
-        <template v-if="item.url">
-          <a :href="item.url" target="_blank">{{ item.title.rendered }}</a>
-          <span class="host"> ({{ item.url | host }})</span>
+        <template v-if="post.url">
+          <a :href="post.url" target="_blank">{{ post.title.rendered }}</a>
+          <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/item/' + item._id">{{ item.title.rendered }}</router-link>
+          <router-link :to="'/post/' + post._id">{{ post.title.rendered }}</router-link>
         </template>
       </div>
       <div class="meta">
-          <!-- <span v-if="item.type !== 'job'" class="by">
-          by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
+          <!-- <span v-if="post.type !== 'job'" class="by">
+          by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
         </span> -->
         <span class="time">
-          <!-- {{ item.time | timeAgo }} ago -->
+          <!-- {{ post.time | timeAgo }} ago -->
           {{date}}
         </span>
-        <!-- <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item._id">{{ item.descendants }} comments</router-link>
+        <!-- <span v-if="post.type !== 'job'" class="comments-link">
+        | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
       </span> -->
       </div>
-      <!-- <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span> -->
+      <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
 </div>
@@ -45,29 +45,29 @@
 import moment from 'moment'
 import VueAplayer from 'vue-aplayer'
 export default {
-  name: 'news-item',
-  props: ['item'],
+  name: 'PostSummary',
+  props: ['post'],
   components: {
     'a-player': VueAplayer
   },
   computed: {
     date () {
-      return moment(this.item.date).format('MMM Do YY')
+      return moment(this.post.date).format('MMM Do YY')
     }
   },
   methods: {
-    setActivePlayerItem: function (item:any) {
-      this.$store.commit('setActivePlayerItem', { item })
+    setActivePostInPlayer: function (post:any) {
+      this.$store.commit('setActivePostInPlayer', { post })
     },
-    upvote: function (item:any) {
-      console.log(item)
+    upvote: function (post:any) {
+      console.log(post)
       this.$store.dispatch('upvote', {
-        id: item._id
+        id: post._id
       })
     },
-    downvote: function (item:any) {
+    downvote: function (post:any) {
       this.$store.dispatch('downvote', {
-        id: item._id
+        id: post._id
       })
     }
   }
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.news-item
+.news-post
   display inline-flex
   flex-direction row
   background-color #fff
@@ -113,6 +113,7 @@ export default {
     position absolute
     top 40px
     left 70px
+    cursor pointer
 
     .play-icon
       width 80px
@@ -121,7 +122,7 @@ export default {
   .score
     display flex
     flex-direction column
-    align-items center
+    align-posts center
     justify-content center
     color #ff6600
     font-size 1.1em
@@ -139,7 +140,7 @@ export default {
         color #ff6600
 
 @media (max-width 576px)
-  .news-item
+  .news-post
     width 100%
 
     .news-content

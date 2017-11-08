@@ -1,58 +1,40 @@
 <template>
   <div>
     <div v-for="comment in comments">
-      <div class='comment'>
-        <img class='profile-img' src='http://lorempixel.com/80/80/'>
-        <span class='content'>
-          <div>
-            {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
-          </div>
-          {{comment.content}}
-        </span>
+      <comment-view :comment='comment'></comment-view>
+      <!-- Replies -->
+      <comment-reply v-if="isLoggedIn"
+      :isReply='true' :parentComment='comment'></comment-reply>
+      <div class='replies'>
+        <div v-for="replyComment in comment.replies">
+          <comment-view :comment='replyComment'></comment-view>
+          <br />
+        </div>
       </div>
-      <hr />
+      <br />
     </div>
   </div>
 </template>
 
 <script>
 /* @flow */
-import moment from 'moment'
+import CommentView from './CommentView.vue'
+import CommentReply from './CommentReply.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'comments-list',
   props: ['comments'],
-  methods: {
-    username (comment: {content: string, dateCreated: string, author: {username: string} }) {
-      if (comment.author && comment.author.username) {
-        return comment.author.username
-      } else {
-        return 'You'
-      }
-    },
-    date (comment: {content: string, dateCreated: string, author: {username: string} }) {
-      if (comment.dateCreated) {
-        return moment(comment.dateCreated).format('LL')
-      } else {
-        return 'Now'
-      }
-    }
+  components: {CommentView, CommentReply},
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
 
 <style scoped>
-.comment-date {
-  padding-left: 10px;
-  color: #ccc;
-}
-.comment {
-  display: flex;
-}
-.profile-img {
-  width: 80px;
-  height: 80px;
-}
-.content {
-  margin-left: 20px;
+.replies {
+  margin-top: 20px;
+  margin-left: 50px;
+  border-left: 1px solid #ccc;
 }
 </style>

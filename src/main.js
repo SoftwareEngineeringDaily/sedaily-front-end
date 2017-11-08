@@ -8,6 +8,7 @@ import * as filters from './filters'
 
 import { sync } from 'vuex-router-sync'
 import infiniteScroll from 'vue-infinite-scroll'
+import VeeValidate from 'vee-validate'
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -20,6 +21,7 @@ Object.keys(filters).forEach(key => {
 
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
+Vue.use(VeeValidate)
 
 /* eslint-disable no-new */
 new Vue({
