@@ -48,3 +48,6 @@ develop -> gets pushed to staging
 
 ## Flow
 flow status
+
+# Pushing to Prod
+Remember to npm run build and then ** commit all new files** and then npm run deploy2
