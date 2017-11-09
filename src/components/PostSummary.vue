@@ -8,7 +8,7 @@
       @click='downvote(post)'>▼</span>
     </div>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img":src="post.featuredImage" />
+      <img class="hero-img":src="featuredImage" />
       <span class="play-button" @click='setActivePostInPlayer(post)'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
@@ -51,6 +51,11 @@ export default {
     'a-player': VueAplayer
   },
   computed: {
+
+    featuredImage () {
+      return this.post.featureImage ? this.post.featureImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+    },
+
     date () {
       return moment(this.post.date).format('MMM Do YY')
     }
@@ -99,10 +104,10 @@ export default {
     color #888
     &:hover
       cursor pointer
-      color #ff6600
+      color #3F58AF
 
     &.active
-      color #ff6600 !important
+      color #3F58AF !important
       &:hover
         cursor pointer
         color #888
@@ -124,10 +129,11 @@ export default {
     flex-direction column
     align-posts center
     justify-content center
-    color #ff6600
+    color #3F58AF
     font-size 1.1em
     font-weight 700
     width 15%
+    text-align: center
 
   .meta, .host
     font-size .85em
@@ -137,7 +143,7 @@ export default {
       color #999
       text-decoration underline
       &:hover
-        color #ff6600
+        color #3F58AF
 
 @media (max-width 576px)
   .news-post

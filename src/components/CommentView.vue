@@ -72,10 +72,10 @@ export default {
   color #888
   &:hover
     cursor pointer
-    color #ff6600
+    color #3F58AF
 
   &.active
-    color #ff6600 !important
+    color #3F58AF !important
     &:hover
       cursor pointer
       color #888
