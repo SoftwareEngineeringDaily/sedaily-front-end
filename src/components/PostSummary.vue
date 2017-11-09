@@ -8,7 +8,7 @@
       @click='downvote(post)'>▼</span>
     </div>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img":src="post.featuredImage" />
+      <img class="hero-img":src="featuredImage" />
       <span class="play-button" @click='setActivePostInPlayer(post)'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
@@ -51,6 +51,11 @@ export default {
     'a-player': VueAplayer
   },
   computed: {
+
+    featuredImage () {
+      return this.post.featureImage ? this.post.featureImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+    },
+
     date () {
       return moment(this.post.date).format('MMM Do YY')
     }
