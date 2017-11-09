@@ -13,7 +13,7 @@
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <span v-if='isLoggedIn' style='float:right;'>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
-          <a href='/edit-profile'   name="profile-nav-link">Profile</a>
+          <!-- <a href='/edit-profile'   name="profile-nav-link">Profile</a> -->
         </span>
       </nav>
     </header>
@@ -70,7 +70,7 @@ a
   color #34495e
   text-decoration none
 .header
-  background-color #ff6600
+  background-color #3F58AF
   z-index 999
   top 0
   left 0

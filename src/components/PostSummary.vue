@@ -99,10 +99,10 @@ export default {
     color #888
     &:hover
       cursor pointer
-      color #ff6600
+      color #3F58AF
 
     &.active
-      color #ff6600 !important
+      color #3F58AF !important
       &:hover
         cursor pointer
         color #888
@@ -124,7 +124,7 @@ export default {
     flex-direction column
     align-posts center
     justify-content center
-    color #ff6600
+    color #3F58AF
     font-size 1.1em
     font-weight 700
     width 15%
@@ -138,7 +138,7 @@ export default {
       color #999
       text-decoration underline
       &:hover
-        color #ff6600
+        color #3F58AF
 
 @media (max-width 576px)
   .news-post
