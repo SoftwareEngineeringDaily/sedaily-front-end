@@ -128,6 +128,7 @@ export default {
     font-size 1.1em
     font-weight 700
     width 15%
+    text-align: center
 
   .meta, .host
     font-size .85em
