@@ -20,7 +20,7 @@
     <div class='container'>
       <div class="row">
         <div class="col-md-8 col-centered text-center">
-          We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> github </a>.
+          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github </a>.
         </div>
       </div>
     </div>
