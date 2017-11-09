@@ -53,7 +53,7 @@ export default {
   computed: {
 
     featuredImage () {
-      return this.post.featureImage ? this.post.featureImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+      return this.post.featuredImage ? this.post.featuredImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
 
     date () {

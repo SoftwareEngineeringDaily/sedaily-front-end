@@ -48,3 +48,11 @@ develop -> gets pushed to staging
 
 ## Flow
 flow status
+
+# Pushing to Prod
+Remember to npm run build and then ** commit all new files** and then npm run deploy2
+Works if done from master branch.
+To delete commit:
+
+git fetch origin
+git reset --hard origin/master
