@@ -11,7 +11,10 @@
 
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
-        <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
+        <span v-if='isLoggedIn' style='float:right;'>
+          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
+          <a href='/edit-profile'   name="profile-nav-link">Profile</a>
+        </span>
       </nav>
     </header>
     <transition name="fade" mode="out-in">
