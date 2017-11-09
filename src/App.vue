@@ -11,9 +11,19 @@
 
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
-        <a href='/' style='float:right;'  name="logouts-nav-link"  v-if='isLoggedIn' @click.prevent='logout()'>Logout</a>
+        <span v-if='isLoggedIn' style='float:right;'>
+          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
+          <!-- <a href='/edit-profile'   name="profile-nav-link">Profile</a> -->
+        </span>
       </nav>
     </header>
+    <div class='container'>
+      <div class="row">
+        <div class="col-md-8 col-centered text-center">
+          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github </a>.
+        </div>
+      </div>
+    </div>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -54,6 +64,10 @@ export default {
 </script>
 
 <style lang="stylus">
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
@@ -67,7 +81,7 @@ a
   color #34495e
   text-decoration none
 .header
-  background-color #ff6600
+  background-color #3F58AF
   z-index 999
   top 0
   left 0

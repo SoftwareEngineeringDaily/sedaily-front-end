@@ -184,7 +184,7 @@ export default {
     text-decoration underline
 
 .category-active
-  color orange
+  color #3F58AF
 
 .news-view
   padding-top 10px
@@ -251,7 +251,7 @@ export default {
   input
     width: 100%
   button
-    background-color: #f60
+    background-color: #3F58AF
     color: #fff
     box-shadow: none
     border: none
@@ -265,7 +265,7 @@ export default {
 .active-tag
   padding: .5em
   color: #fff
-  background-color: #f60
+  background-color: #3F58AF
 
 .remove-tag-button:hover
   cursor: pointer;
@@ -284,7 +284,7 @@ export default {
   z-index: 1000
   box-shadow: 6px 0px 10px #efefef
   .add-tag-button
-    color: #f60
+    color: #3F58AF
     font-size: 10px
   .add-tag-button:hover
     cursor: pointer;
