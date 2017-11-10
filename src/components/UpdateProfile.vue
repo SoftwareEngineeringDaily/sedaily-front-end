@@ -65,6 +65,7 @@
         @click.prevent='submit' :disabled='loading'>
           Update
         </button>
+        {{msg}}
       </div>
     </div>
 
@@ -80,18 +81,19 @@ import { mapState, mapActions } from 'vuex'
 // TODO: remove usename update for now?
 export default {
   name: 'update-profile',
-  props: ['initialUsername'],
+  props: ['initialUsername', 'me'],
   components: {
     Spinner
   },
 
   data () {
     return {
+      msg: '',
       username: this.initialUsername,
-      name: '',
-      email: '',
-      bio: '',
-      website: '',
+      name: this.me ? this.me.name : '',
+      email: this.me ? this.me.email : '',
+      bio: this.me ? this.me.bio : '',
+      website: this.me ? this.me.website : '',
       loading: false
     }
   },
@@ -107,6 +109,7 @@ export default {
   methods: {
     ...mapActions(['updateProfile']),
     submit () {
+      this.msg = ''
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
@@ -121,6 +124,11 @@ export default {
           })
           .then((response) => {
             this.loading = false
+            // This means we are just updating our profile:
+            // TODO: have it be a componenet that is passed on
+            if (this.me) {
+              this.msg = 'Success, your profile was Updated :)'
+            }
           })
         } else {
           console.log('Invalid fields in form :(')
