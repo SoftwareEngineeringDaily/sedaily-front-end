@@ -116,7 +116,6 @@ export default {
     submit () {
       this.msg = ''
       this.$validator.validateAll().then((result) => {
-        console.log('result', result)
         if (result) {
           this.loading = true
           const {username, email, bio, website, name, id} = this
@@ -138,7 +137,6 @@ export default {
           })
         } else {
           this.msg = 'Invalid fields on form :('
-          console.log('Invalid fields in form :(')
         }
       })
     }
