@@ -35,6 +35,7 @@
         </div>
       </div>
       <br />
+      <related-link-list :relatedLinks='relatedLinks'></related-link-list>
       <compose-comment v-if="isLoggedIn"></compose-comment>
       <br />
       <comments-list :comments='comments'></comments-list>
@@ -45,12 +46,13 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
+import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import ComposeComment from '@/components/ComposeComment.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, ComposeComment },
+  components: { Spinner, CommentsList, ComposeComment, RelatedLinkList },
   data () {
     return {
       showContent: true,
@@ -65,6 +67,10 @@ export default {
       return this.$store.state.posts[this.$route.params.id]
     },
 
+    relatedLinks () {
+      return this.postRelatedLinks[this.$route.params.id] || []
+    },
+
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
@@ -77,6 +83,11 @@ export default {
       posts (state) {
         return state.posts
       },
+
+      postRelatedLinks (state) {
+        return state.postRelatedLinks
+      },
+
       postComments (state) {
         return state.postComments
       }
@@ -93,9 +104,15 @@ export default {
     this.commentsFetch({
       postId: this.postId
     })
+
+    // Fetch relatedLinks
+    this.relatedLinksFetch({
+      postId: this.postId
+    })
   },
+
   methods: {
-    ...mapActions(['commentsCreate', 'upvote',
+    ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch']),
     toggleShowContent () {
       this.showContent = !this.showContent
