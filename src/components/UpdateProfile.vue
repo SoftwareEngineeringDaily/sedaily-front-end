@@ -46,9 +46,14 @@
           <label for="emailInput">Email address</label>
           <input type="email"
           v-model='email'
+          v-validate="{ required: false, email: true}"
+          name='email'
           class="form-control" id="emailInput"
           aria-describedby="emailHelp"
            placeholder="youremail@email.com">
+           <div v-show="errors.has('email')"
+           class="alert alert-danger">
+           {{ errors.first('email') }}</div>
         </div>
 
         <div class="form-group">
@@ -111,6 +116,7 @@ export default {
     submit () {
       this.msg = ''
       this.$validator.validateAll().then((result) => {
+        console.log('result', result)
         if (result) {
           this.loading = true
           const {username, email, bio, website, name, id} = this
@@ -131,6 +137,7 @@ export default {
             }
           })
         } else {
+          this.msg = 'Invalid fields on form :('
           console.log('Invalid fields in form :(')
         }
       })
