@@ -57,7 +57,7 @@ export default {
     },
 
     date () {
-      return moment(this.post.date).format('MMM Do YY')
+      return moment(this.post.date).format('MMMM Do, YYYY')
     }
   },
   methods: {
