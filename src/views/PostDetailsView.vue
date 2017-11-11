@@ -47,13 +47,14 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
-import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
+import RelatedLinkList from '@/components/RelatedLinkList.vue'
+import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList },
+  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose },
   data () {
     return {
       showContent: true,

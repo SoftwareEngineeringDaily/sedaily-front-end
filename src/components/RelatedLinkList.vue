@@ -1,5 +1,6 @@
 <template>
   <div>
+    Related Links
     <div v-for="relatedLink in relatedLinks">
       <related-link :relatedLink="relatedLink"> </related-link>
     </div>
