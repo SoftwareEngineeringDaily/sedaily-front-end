@@ -1,7 +1,7 @@
 <template>
   <div>
-    Related Links
-    <div v-for="relatedLink in relatedLinks">
+    <h4> Related Links </h4>
+    <div v-for="relatedLink in relatedLinks" class="related-links-list">
       <related-link :relatedLink="relatedLink"> </related-link>
     </div>
 </div>
@@ -24,4 +24,7 @@ export default {
 </script>
 
 <style scoped>
+.related-links-list {
+  margin: 20px 0px;
+}
 </style>

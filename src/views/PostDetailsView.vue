@@ -1,7 +1,7 @@
 <template>
   <div class="post-view" v-if="post">
     <template v-if="post">
-      <div class="post-view-header">
+      <div class="post-view-header row">
 
         <div class='voting' style='display:inline-block; height: 100%;'>
           <span class="score">
@@ -29,14 +29,19 @@
         </div>
       </div>
 
-      <div class="post-view-comments">
-        <button @click="toggleShowContent">{{contentButtonText}}</button>
-        <div v-if="showContent"  v-html='post.content.rendered'>
+      <div class="row">
+        <div class="post-view-comments col-md-8">
+          <button @click="toggleShowContent">{{contentButtonText}}</button>
+          <div v-if="showContent"  v-html='post.content.rendered'>
+          </div>
+        </div>
+        <div class="col-md-4 related-links-container">
+          <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+          <related-link-compose v-if="isLoggedIn"></related-link-compose>
         </div>
       </div>
       <br />
-      <related-link-list :relatedLinks='relatedLinks'></related-link-list>
-      <related-link-compose v-if="isLoggedIn"></related-link-compose>
+      <br />
       <comment-compose v-if="isLoggedIn"></comment-compose>
       <br />
       <comments-list :comments='comments'></comments-list>
@@ -179,7 +184,9 @@ export default {
     top 0
     right 0
     bottom auto
-
+.related-links-container{
+  padding-top: 30px;
+}
 .comment-children
   list-style-type none
   padding 0

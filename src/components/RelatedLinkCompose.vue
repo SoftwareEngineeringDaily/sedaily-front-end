@@ -1,17 +1,18 @@
 <template>
   <div>
         <textarea placeholder='Add a related link...'
+        class='related-link-box'
         :disabled="isSubmitting"
         type='text'
         v-model='url' />
-        <div v-if="isSubmitting">
+        <span v-if="isSubmitting">
           <spinner :show="true"></spinner>
-        </div>
+        </span>
         <div v-else="isSubmitting">
           <button class='btn-success'
           :disabled="isSubmitting"
           @click='submit'>
-          Add Related Link
+          Add New Link
           </button>
         </div>
   </div>
@@ -75,9 +76,9 @@ export default {
 <style scoped>
   .related-link-box {
     width: 100%;
-    padding: 20px 10px;
+    padding: 0px 5px;
     margin-bottom: 12px;
-    border-radius: 7px;
+    border-radius: 2px;
     border-color: #c5c5c5;
   }
 </style>
