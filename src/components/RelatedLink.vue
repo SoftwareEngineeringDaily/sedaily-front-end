@@ -1,6 +1,6 @@
 <template>
   <div>
-    {relatedLink.url}
+    <a :href="relatedLink.url" target="_blank"> {{relatedLink.url}} </a>
   </div>
 </template>
 
