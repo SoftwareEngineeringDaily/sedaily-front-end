@@ -4,7 +4,7 @@
         class='related-link-box'
         :disabled="isSubmitting"
         name="url"
-        v-validate="'required|url'"
+        v-validate="'url'"
         type='text'
         v-model='url' />
         <span v-if="isSubmitting">
