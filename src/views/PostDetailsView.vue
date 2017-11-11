@@ -36,7 +36,8 @@
       </div>
       <br />
       <related-link-list :relatedLinks='relatedLinks'></related-link-list>
-      <compose-comment v-if="isLoggedIn"></compose-comment>
+      <related-link-compose v-if="isLoggedIn"></related-link-compose>
+      <comment-compose v-if="isLoggedIn"></comment-compose>
       <br />
       <comments-list :comments='comments'></comments-list>
     </template>
@@ -47,12 +48,12 @@
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
-import ComposeComment from '@/components/ComposeComment.vue'
+import CommentCompose from '@/components/CommentCompose.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, ComposeComment, RelatedLinkList },
+  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList },
   data () {
     return {
       showContent: true,
