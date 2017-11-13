@@ -4,9 +4,24 @@
         class='related-link-box'
         :disabled="isSubmitting"
         name="url"
-        v-validate="'url'"
+        v-validate="'required|url'"
         type='text'
         v-model='url' />
+        <div v-show="errors.has('url')"
+        class="alert alert-danger">
+        {{ errors.first('url') }}</div>
+
+        <input placeholder='Add a short title...'
+        class='related-title-box'
+        :disabled="isSubmitting"
+        name="title"
+        v-validate="'required'"
+        type='text'
+        v-model='title' />
+        <div v-show="errors.has('title')"
+        class="alert alert-danger">
+        {{ errors.first('title') }}</div>
+
         <span v-if="isSubmitting">
           <spinner :show="true"></spinner>
         </span>
@@ -17,9 +32,6 @@
           Add New Link
           </button>
 
-          <div v-show="errors.has('url')"
-          class="alert alert-danger">
-          {{ errors.first('url') }}</div>
         </div>
   </div>
 </template>
@@ -36,6 +48,7 @@ export default {
   data () {
     return {
       url: '',
+      title: '',
       isSubmitting: false,
       loading: true
     }
@@ -60,10 +73,11 @@ export default {
           this.isSubmitting = true
           this.relatedLinksCreate({
             postId: this.postId,
+            title: this.title,
             url: this.url
           })
           .then((response) => {
-            this.url = ''
+            // this.url = ''
             this.isSubmitting = false
             // Fetch comments
             this.relatedLinksFetch({
@@ -91,4 +105,13 @@ export default {
     border-radius: 2px;
     border-color: #c5c5c5;
   }
+
+  .related-title-box {
+    width: 100%;
+    padding: 0px 5px;
+    margin-bottom: 12px;
+    border: none;
+  }
+
+
 </style>
