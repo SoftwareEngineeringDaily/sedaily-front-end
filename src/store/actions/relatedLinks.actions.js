@@ -2,8 +2,8 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  relatedLinksCreate ({commit, getters}, {url, postId}) {
-    let options = {url}
+  relatedLinksCreate ({commit, getters}, {url, title, postId}) {
+    let options = {url, title}
     let token = getters.getToken
     let config = {}
     if (token) {
