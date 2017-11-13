@@ -13,7 +13,8 @@
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <span v-if='isLoggedIn' style='float:right;'>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
-          <!-- <a href='/edit-profile'   name="profile-nav-link">Profile</a> -->
+
+          <router-link to="/edit-profile" name="top-nav-link">Profile</router-link>
         </span>
       </nav>
     </header>
