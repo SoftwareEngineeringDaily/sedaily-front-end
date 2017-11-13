@@ -30,7 +30,7 @@ import UpdateProfile from './UpdateProfile.vue'
 import Spinner from './Spinner'
 import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'compose-comment',
+  name: 'comment-compose',
   components: {
     UpdateProfile,
     Spinner

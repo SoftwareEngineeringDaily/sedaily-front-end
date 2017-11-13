@@ -32,8 +32,13 @@ export default {
     }
     state.postComments[comment.postId].unshift(comment)
   },
+
   setComments: (state, {comments, postId}) => {
     Vue.set(state.postComments, postId, comments)
+  },
+
+  setRelatedLinks: (state, {relatedLinks, postId}) => {
+    Vue.set(state.postRelatedLinks, postId, relatedLinks)
   },
 
   setPosts: (state, { posts }) => {

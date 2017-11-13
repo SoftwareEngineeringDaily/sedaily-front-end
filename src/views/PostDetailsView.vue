@@ -1,7 +1,7 @@
 <template>
   <div class="post-view" v-if="post">
     <template v-if="post">
-      <div class="post-view-header">
+      <div class="post-view-header row">
 
         <div class='voting' style='display:inline-block; height: 100%;'>
           <span class="score">
@@ -29,13 +29,20 @@
         </div>
       </div>
 
-      <div class="post-view-comments">
-        <button @click="toggleShowContent">{{contentButtonText}}</button>
-        <div v-if="showContent"  v-html='post.content.rendered'>
+      <div class="row">
+        <div class="post-view-comments col-md-8">
+          <button @click="toggleShowContent">{{contentButtonText}}</button>
+          <div v-if="showContent"  v-html='post.content.rendered'>
+          </div>
+        </div>
+        <div class="col-md-4 related-links-container">
+          <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+          <related-link-compose v-if="isLoggedIn"></related-link-compose>
         </div>
       </div>
       <br />
-      <compose-comment v-if="isLoggedIn"></compose-comment>
+      <br />
+      <comment-compose v-if="isLoggedIn"></comment-compose>
       <br />
       <comments-list :comments='comments'></comments-list>
     </template>
@@ -45,12 +52,14 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
-import ComposeComment from '@/components/ComposeComment.vue'
+import CommentCompose from '@/components/CommentCompose.vue'
+import RelatedLinkList from '@/components/RelatedLinkList.vue'
+import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, ComposeComment },
+  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose },
   data () {
     return {
       showContent: true,
@@ -65,6 +74,10 @@ export default {
       return this.$store.state.posts[this.$route.params.id]
     },
 
+    relatedLinks () {
+      return this.postRelatedLinks[this.$route.params.id] || []
+    },
+
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
@@ -77,6 +90,11 @@ export default {
       posts (state) {
         return state.posts
       },
+
+      postRelatedLinks (state) {
+        return state.postRelatedLinks
+      },
+
       postComments (state) {
         return state.postComments
       }
@@ -93,9 +111,15 @@ export default {
     this.commentsFetch({
       postId: this.postId
     })
+
+    // Fetch relatedLinks
+    this.relatedLinksFetch({
+      postId: this.postId
+    })
   },
+
   methods: {
-    ...mapActions(['commentsCreate', 'upvote',
+    ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch']),
     toggleShowContent () {
       this.showContent = !this.showContent
@@ -160,7 +184,9 @@ export default {
     top 0
     right 0
     bottom auto
-
+.related-links-container{
+  padding-top: 30px;
+}
 .comment-children
   list-style-type none
   padding 0
