@@ -1,16 +1,5 @@
 <template>
   <div>
-        <input placeholder='Add a short title...'
-        class='related-title-box'
-        :disabled="isSubmitting"
-        name="title"
-        v-validate="'required'"
-        type='text'
-        v-model='title' />
-        <div v-show="errors.has('title')"
-        class="alert alert-danger">
-        {{ errors.first('title') }}</div>
-
         <textarea placeholder='Add a related link...'
         class='related-link-box'
         :disabled="isSubmitting"
@@ -22,6 +11,16 @@
         class="alert alert-danger">
         {{ errors.first('url') }}</div>
 
+        <input placeholder='Add a short title...'
+        class='related-title-box'
+        :disabled="isSubmitting"
+        name="title"
+        v-validate="'required'"
+        type='text'
+        v-model='title' />
+        <div v-show="errors.has('title')"
+        class="alert alert-danger">
+        {{ errors.first('title') }}</div>
 
         <span v-if="isSubmitting">
           <spinner :show="true"></spinner>
@@ -78,7 +77,7 @@ export default {
             url: this.url
           })
           .then((response) => {
-            this.url = ' '
+            // this.url = ''
             this.isSubmitting = false
             // Fetch comments
             this.relatedLinksFetch({
