@@ -106,6 +106,27 @@ export default {
     Vue.set(state.postRelatedLinks, postId, links)
   },
 
+  downvoteRelatedLink: (state, { id, postId }) => {
+    const links = state.postRelatedLinks[postId]
+    if (!links) return
+    const entity = find(links, (link) => {
+      return link._id === id
+    })
+    if (!entity) return
+    let incrementValue = 1
+    if (entity.upvoted) incrementValue += 1
+
+    if (entity.downvoted) {
+      entity.score += incrementValue
+    } else {
+      entity.score -= incrementValue
+    }
+    entity.upvoted = false
+    entity.downvoted = !entity.downvoted
+
+    Vue.set(state.postRelatedLinks, postId, links)
+  },
+
   upVote: (state, { articleId }) => {
     let incrementValue = 1
 
