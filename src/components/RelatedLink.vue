@@ -18,7 +18,7 @@
     rel="external nofollow"
     > {{relatedLink.title}} </a>
 
-    <div v-if='myLink'> <button> delete </button> </div>
+    <div v-if='myLink' @click='remove'> <button> delete </button> </div>
   </div>
 </template>
 
@@ -28,7 +28,21 @@ export default {
   name: 'related-link',
   props: ['relatedLink'],
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink']),
+    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    remove () {
+      this.removeRelatedLink({
+        id: this.relatedLink._id
+      })
+      .then(() => {
+        this.relatedLinksFetch({
+          postId: this.postId
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        alert('Error deleting :(')
+      })
+    },
     upvoteHandler () {
       this.upvoteRelatedLink({
         id: this.relatedLink._id,

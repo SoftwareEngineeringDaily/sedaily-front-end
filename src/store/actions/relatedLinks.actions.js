@@ -16,6 +16,19 @@ export default {
     return axios.post(requestUrl, options, config)
   },
 
+  removeRelatedLink: ({commit, getters, state}, {id}) => {
+    let token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    return axios.delete(`${BASE_URL}/related-links/${id}`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
   upvoteRelatedLink: ({commit, getters, state}, {id, postId}) => {
     let token = getters.getToken
     if (!token) {
