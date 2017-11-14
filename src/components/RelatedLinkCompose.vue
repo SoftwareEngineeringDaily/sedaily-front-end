@@ -77,7 +77,11 @@ export default {
             url: this.url
           })
           .then((response) => {
-            // this.url = ''
+            this.url = ''
+            this.title = ''
+            this.$nextTick(() => {
+              this.errors.clear()
+            })
             this.isSubmitting = false
             // Fetch comments
             this.relatedLinksFetch({
