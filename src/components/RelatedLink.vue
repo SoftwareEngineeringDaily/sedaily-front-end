@@ -1,5 +1,15 @@
 <template>
   <div class='link-holder'>
+
+    <div class='voting' style='display:inline-block; height: 100%;'>
+      <span class="score">
+        <span class='arrow' v-bind:class="{ active: relatedLink.upvoted }"
+        style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
+        <br>
+        {{ relatedLink.score || 0}}
+      </span>
+    </div>
+
     <a :href="url" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title}} </a>
@@ -7,10 +17,19 @@
 </template>
 
 <script>
-// import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'related-link',
   props: ['relatedLink'],
+  methods: {
+    ...mapActions(['upvoteRelatedLink']),
+    upvoteHandler () {
+      this.upvoteRelatedLink({
+        id: this.relatedLink._id,
+        postId: this.relatedLink.post
+      })
+    }
+  },
   computed: {
     url () {
       // Turn url into clickable
