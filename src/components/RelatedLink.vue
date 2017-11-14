@@ -7,7 +7,8 @@
         style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
         <br>
         {{ relatedLink.score || 0}}
-        <span class='arrow' v-bind:class="{ active: relatedLinksFetch.downvoted }"
+        <br />
+        <span class='arrow' v-bind:class="{ active: relatedLink.downvoted }"
       @click='downvoteHandler'>▼</span>
       </span>
     </div>
