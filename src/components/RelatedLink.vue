@@ -10,17 +10,20 @@
         <br />
         <span class='arrow' v-bind:class="{ active: relatedLink.downvoted }"
       @click='downvoteHandler'>▼</span>
+
       </span>
     </div>
 
     <a :href="url" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title}} </a>
+
+    <div v-if='myLink'> <button> delete </button> </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'related-link',
   props: ['relatedLink'],
@@ -40,6 +43,15 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
+    myLink () {
+      if (!this.me._id) return false
+      return this.me._id === this.relatedLink.author
+    },
     url () {
       // Turn url into clickable
       const {url} = this.relatedLink
