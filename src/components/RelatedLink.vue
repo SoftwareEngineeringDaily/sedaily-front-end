@@ -53,7 +53,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+
+.arrow
+  color #888
+  &:hover
+    cursor pointer
+    color #3F58AF
+
+  &.active
+    color #3F58AF !important
+    &:hover
+      cursor pointer
+      color #888
+
   .link-holder {
     padding-bottom: 20px;
     border-bottom: 1px solid #e8e8e8;

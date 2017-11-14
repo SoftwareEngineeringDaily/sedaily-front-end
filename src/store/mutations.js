@@ -103,6 +103,7 @@ export default {
     }
     entity.upvoted = !entity.upvoted
     entity.downvoted = false
+    Vue.set(state.postRelatedLinks, postId, links)
   },
 
   upVote: (state, { articleId }) => {
