@@ -88,6 +88,23 @@ export default {
     entity.downvoted = false
   },
 
+  upvoteRelatedLink: (state, { id, postId }) => {
+    const links = state.postRelatedLinks[postId]
+    if (!links) return
+    const entity = find(links, (link) => {
+      return link._id === id
+    })
+    if (!entity) return
+    let incrementValue = 1
+    if (entity.upvoted) {
+      entity.score -= incrementValue
+    } else {
+      entity.score += incrementValue
+    }
+    entity.upvoted = !entity.upvoted
+    entity.downvoted = false
+  },
+
   upVote: (state, { articleId }) => {
     let incrementValue = 1
 

@@ -7,6 +7,8 @@
         style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
         <br>
         {{ relatedLink.score || 0}}
+        <span class='arrow' v-bind:class="{ active: relatedLinksFetch.downvoted }"
+      @click='downvoteHandler'>▼</span>
       </span>
     </div>
 
@@ -22,9 +24,15 @@ export default {
   name: 'related-link',
   props: ['relatedLink'],
   methods: {
-    ...mapActions(['upvoteRelatedLink']),
+    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink']),
     upvoteHandler () {
       this.upvoteRelatedLink({
+        id: this.relatedLink._id,
+        postId: this.relatedLink.post
+      })
+    },
+    downvoteHandler () {
+      this.downvoteRelatedLink({
         id: this.relatedLink._id,
         postId: this.relatedLink.post
       })

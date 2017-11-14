@@ -16,6 +16,34 @@ export default {
     return axios.post(requestUrl, options, config)
   },
 
+  upvoteRelatedLink: ({commit, getters, state}, {id, postId}) => {
+    let token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    commit('upvoteRelatedLink', {id, postId})
+    return axios.post(`${BASE_URL}/related-links/${id}/upvote`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
+  downvoteRelatedLink: ({commit, getters, state}, {id, postId}) => {
+    let token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    commit('downvoteRelatedLink', {id, postId})
+    return axios.post(`${BASE_URL}/related-links/${id}/downvote`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
   relatedLinksFetch ({getters, commit}, {postId}) {
     let options = {}
     let token = getters.getToken
