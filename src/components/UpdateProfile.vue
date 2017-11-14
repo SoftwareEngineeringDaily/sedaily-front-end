@@ -4,7 +4,7 @@
     <div class='row'>
       <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <div v-if="!image">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
@@ -13,7 +13,8 @@
             <img :src="image" />
             <button @click="removeImage">Remove image</button>
           </div>
-        </div>
+        </div>-->
+
         <div class="form-group">
           <label for="usernameInput">Username</label>
           <input type="username" v-model='username'
