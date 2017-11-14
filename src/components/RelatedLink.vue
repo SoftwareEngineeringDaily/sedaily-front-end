@@ -1,9 +1,8 @@
 <template>
   <div class='link-holder'>
-    <p> {{relatedLink.title}} </p>
     <a :href="url" target="_blank"
     rel="external nofollow"
-    > {{relatedLink.url}} </a>
+    > {{relatedLink.title}} </a>
   </div>
 </template>
 
