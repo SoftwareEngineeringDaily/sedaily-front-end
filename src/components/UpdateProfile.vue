@@ -125,7 +125,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['updateProfile']),
+    ...mapActions(['updateProfile', 'uploadAvatarImage']),
 
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
@@ -134,6 +134,14 @@ export default {
       }
       const file = files[0]
       this.file = file
+      console.log('file', file)
+      this.uploadAvatarImage({imageFile: file})
+        .then((result) => {
+          console.log('image?', result)
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
       this.createImage(file)
     },
 
