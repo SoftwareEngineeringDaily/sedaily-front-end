@@ -22,6 +22,10 @@ export default {
       alert('You must login to vote')
       return
     }
+    if (!id) {
+      alert('Error with that link')
+      return
+    }
     return axios.delete(`${BASE_URL}/related-links/${id}`, {
       headers: {
         'Authorization': 'Bearer ' + token

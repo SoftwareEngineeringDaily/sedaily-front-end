@@ -35,7 +35,7 @@ export default {
       })
       .then(() => {
         this.relatedLinksFetch({
-          postId: this.postId
+          postId: this.relatedLink.post
         })
       })
       .catch((error) => {
