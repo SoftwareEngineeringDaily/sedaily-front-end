@@ -16,7 +16,7 @@
 
     <a :href="url" target="_blank"
     rel="external nofollow"
-    > {{relatedLink.title}} </a>
+    > {{relatedLink.title || relatedLink.url}} </a>
 
     <div v-if='myLink' @click='remove'> <button> delete </button> </div>
   </div>
