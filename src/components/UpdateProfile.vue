@@ -3,6 +3,18 @@
   <div class="update-profile-view container">
     <div class='row'>
       <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
+
+        <!-- <div class="form-group">
+          <div v-if="!image">
+            <h2>Select an image</h2>
+            <input type="file" @change="onFileChange">
+          </div>
+          <div v-else>
+            <img :src="image" />
+            <button @click="removeImage">Remove image</button>
+          </div>
+        </div>-->
+
         <div class="form-group">
           <label for="usernameInput">Username</label>
           <input type="username" v-model='username'
@@ -94,6 +106,8 @@ export default {
   data () {
     return {
       msg: '',
+      image: '',
+      file: null,
       username: this.initialUsername,
       name: this.me ? this.me.name : '',
       email: this.me ? this.me.email : '',
@@ -112,7 +126,43 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['updateProfile']),
+    ...mapActions(['updateProfile', 'uploadAvatarImage']),
+
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      const file = files[0]
+      this.file = file
+      console.log('file', file)
+      this.uploadAvatarImage({imageFile: file})
+        .then((result) => {
+          console.log('image?', result)
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
+      this.createImage(file)
+    },
+
+    createImage (file) {
+      var image = new Image()
+      var reader = new FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      console.log(image)
+      reader.readAsDataURL(file)
+    },
+
+    removeImage (e) {
+      this.file = null
+      this.image = ''
+    },
+
     submit () {
       this.msg = ''
       this.$validator.validateAll().then((result) => {

@@ -143,6 +143,7 @@ export default {
 .post-view-header
   background-color #fff
   padding 1.8em 2em 1em
+  margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
   h1
     display inline
