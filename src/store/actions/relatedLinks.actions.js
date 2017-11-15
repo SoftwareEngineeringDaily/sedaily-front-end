@@ -22,7 +22,7 @@ export default {
       alert('You must login to vote')
       return
     }
-    return axios.delete(`${BASE_URL}/related-links/${id}`, {}, {
+    return axios.delete(`${BASE_URL}/related-links/${id}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
