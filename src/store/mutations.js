@@ -88,6 +88,48 @@ export default {
     entity.downvoted = false
   },
 
+  upvoteRelatedLink: (state, { id, postId }) => {
+    const links = state.postRelatedLinks[postId]
+
+    if (!links) return
+    const entity = find(links, (link) => {
+      return link._id === id
+    })
+    if (!entity) return
+    let incrementValue = 1
+    if (!entity.score) entity.score = 0
+    if (entity.upvoted) {
+      entity.score -= incrementValue
+    } else {
+      entity.score += incrementValue
+    }
+    entity.upvoted = !entity.upvoted
+    entity.downvoted = false
+    Vue.set(state.postRelatedLinks, postId, links)
+  },
+
+  downvoteRelatedLink: (state, { id, postId }) => {
+    const links = state.postRelatedLinks[postId]
+    if (!links) return
+    const entity = find(links, (link) => {
+      return link._id === id
+    })
+    if (!entity) return
+    if (!entity.score) entity.score = 0
+    let incrementValue = 1
+    if (entity.upvoted) incrementValue += 1
+
+    if (entity.downvoted) {
+      entity.score += incrementValue
+    } else {
+      entity.score -= incrementValue
+    }
+    entity.upvoted = false
+    entity.downvoted = !entity.downvoted
+
+    Vue.set(state.postRelatedLinks, postId, links)
+  },
+
   upVote: (state, { articleId }) => {
     let incrementValue = 1
 

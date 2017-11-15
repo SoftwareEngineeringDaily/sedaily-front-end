@@ -1,6 +1,8 @@
 <template>
   <div>
-    Edit Your Profile:
+    <br />
+    <br />
+    <h2> Edit Your Profile:</h2>
     <update-profile  v-if="username" :initialUsername="username" :me="me"> </update-profile>
   </div>
 </template>
