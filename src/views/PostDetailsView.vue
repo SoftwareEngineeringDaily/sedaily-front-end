@@ -15,7 +15,7 @@
 
         <div class='post-header-details' style='display:inline-block'>
           <a :href="post.url" target="_blank">
-            <h1>{{ post.title.rendered }}</h1>
+            <h1>{{ post.title.rendered | decodeString }}</h1>
           </a>
           <span v-if="post.url" class="host">
             ({{ post.url | host }})
