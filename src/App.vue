@@ -9,7 +9,8 @@
         <router-link to="/top" name="top-nav-link">Top</router-link>
         <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
 
-        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
+        <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span>
+        <router-link to="/login" name="login-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Login</router-link>
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
         <span v-if='isLoggedIn' style='float:right;'>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
@@ -69,6 +70,7 @@ export default {
     float: none;
     margin: 0 auto;
 }
+
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
@@ -135,6 +137,25 @@ a
   transition all .2s ease
 .fade-enter, .fade-leave-active
   opacity 0
+
+.online-indicator {
+  float right
+  vertical-align middle
+  font-weight bold
+  letter-spacing .075em
+  font-size: 13px;
+  line-height: 26px;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  background-color: rgb(35, 170, 90);
+  padding: 0px 8px;
+  border-radius: 2px;
+
+  img {
+    width 15px
+  }
+}
+
 @media (max-width 860px)
   .header .inner
     padding 15px 30px
