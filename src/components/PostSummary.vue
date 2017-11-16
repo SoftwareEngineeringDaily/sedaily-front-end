@@ -15,11 +15,11 @@
 
       <div class="title">
         <template v-if="post.url">
-          <a :href="post.url" target="_blank">{{ post.title.rendered }}</a>
+          <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/post/' + post._id">{{ post.title.rendered }}</router-link>
+          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
       <div class="meta">
