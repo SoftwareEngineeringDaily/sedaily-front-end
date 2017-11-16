@@ -1,4 +1,5 @@
 export function host (url) {
+  console.log(url)
   const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
   const parts = host.split('.').slice(-3)
   if (parts[0] === 'www') parts.shift()
@@ -21,4 +22,10 @@ function pluralize (time, label) {
     return time + label
   }
   return time + label + 's'
+}
+
+export function decodeString (string) {
+  const div = document.createElement('div')
+  div.innerHTML = string
+  return typeof div.textContent !== 'undefined' ? div.textContent : div.innerText
 }
