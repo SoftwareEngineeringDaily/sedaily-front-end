@@ -41,6 +41,10 @@ export default {
     Vue.set(state.postRelatedLinks, postId, relatedLinks)
   },
 
+  setFeedItems: (state, {feedItems}) => {
+    state.feed = feedItems
+  },
+
   setPosts: (state, { posts }) => {
     posts.forEach(post => {
       if (post) {
