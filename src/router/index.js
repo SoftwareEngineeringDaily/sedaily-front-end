@@ -6,7 +6,8 @@ import PostDetailsView from '@/views/PostDetailsView'
 import LoginView from '@/views/LoginView'
 import RegisterView from '@/views/RegisterView'
 import RecomendationListView from '@/views/RecomendationListView'
-import EditProfile from '@/views/EditProfile'
+import EditProfile from '@/views/EditProfileView'
+import FeedView from '@/views/FeedView'
 
 Vue.use(Router)
 
@@ -20,6 +21,7 @@ export default new Router({
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
+    { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?', component: PostDetailsView },
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },

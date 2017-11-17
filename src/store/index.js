@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     posts: {},
     postComments: {},
     postRelatedLinks: {},
+    feed: [],
     me: {},
     users: {},
     lists: {
