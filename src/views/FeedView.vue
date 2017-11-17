@@ -6,7 +6,7 @@
         <br />
         <br />
         <div v-for="feedItem in feed">
-          <a :href="feedItem.url" target="_blank"
+          <a :href="feedItem.url | externalUrl" target="_blank"
           rel="external nofollow">
           <img class="feed-item-img":src="image(feedItem.image)"  />
            <span class='title'>
