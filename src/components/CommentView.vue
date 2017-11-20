@@ -12,6 +12,7 @@
           </span>
         </div>
 
+        <img :src='avatar(comment)' class='avatar'/>
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
       {{comment.content}}
@@ -32,6 +33,11 @@ export default {
       isRootLevelComment () {
         return !this.comment.parentComment
       },
+
+      placeholderAvatar (state) {
+        return state.placeholderAvatar
+      },
+
       me (state) {
         return state.me
       }
@@ -54,6 +60,13 @@ export default {
         return this.me.name
       }
     },
+
+    avatar (comment: {content: string, dateCreated: string, author: {name: string, avatarUrl: string} }) {
+      // If we just made this comment, no author is defined:
+      const author = comment.author ? comment.author : this.me
+      return author.avatarUrl == null ? this.placeholderAvatar : author.avatarUrl
+    },
+
     date (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.dateCreated) {
         return moment(comment.dateCreated).format('LL')
@@ -66,6 +79,10 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+.avatar
+  width: 50px
+
 
 
 .arrow
