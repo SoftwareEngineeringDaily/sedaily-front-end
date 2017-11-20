@@ -51,7 +51,7 @@ export default {
       })
   },
 
-  updateProfile: ({commit, state, getters}, {id, username, bio, website, name, email}) => {
+  updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -65,6 +65,7 @@ export default {
       bio,
       website,
       name,
+      isAvatarSet,
       email
     }, config)
       .then(function (response) {
