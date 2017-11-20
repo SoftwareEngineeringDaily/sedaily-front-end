@@ -1,8 +1,11 @@
-
 <template>
   <div class="update-profile-view container">
     <div class='row'>
       <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
+
+        <div v-if="showExisintAvatarUrl">
+          <img :src="avatarUrl" />
+        </div>
 
         <div class="form-group">
           <div v-if="!image">
@@ -122,7 +125,16 @@ export default {
     ...mapState({
       id (state) {
         return state.me._id
+      },
+
+      avatarUrl (state) {
+        return state.me.avatarUrl
+      },
+
+      showExisintAvatarUrl (state) {
+        return state.me.avatarUrl && !this.image
       }
+
     })
   },
   methods: {
@@ -183,7 +195,7 @@ export default {
               id,
               name,
               bio,
-              isAvatarSet: false,
+              isAvatarSet: this.avatarUrl == null,
               website,
               email
             })
