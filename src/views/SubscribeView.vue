@@ -14,6 +14,7 @@
 <script>
 // import { stripeKey, stripeOptions } from './stripeConfig.json'
 import { Card, createToken } from 'vue-stripe-elements-plus'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -29,6 +30,7 @@ export default {
   components: { Card },
 
   methods: {
+    ...mapActions(['createSubscription']),
     pay () {
       // createToken returns a Promise which resolves in a result object with
       // either a token or an error key.
@@ -36,10 +38,18 @@ export default {
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
       createToken().then(data => {
-        console.log(data.token)
-        console.log('token', data.token.id)
+        // console.log(data.token)
+        const stripeToken = data.token.id
+        this.createSubscription({stripeToken})
+        .then((result) => {
+          console.log('result')
+          console.log('result', result)
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
         // We want : stripeToken tok_1BQj6ULmlLorKKLQ6xoRYTHR
-        console.log(data)
+        // console.log(data)
       })
     }
   }

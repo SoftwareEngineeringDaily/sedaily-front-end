@@ -10,6 +10,8 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     }
+
+    console.log('token id', stripeToken)
     return axios.post(`${BASE_URL}/subscription`, {stripeToken}, config)
   }
 }
