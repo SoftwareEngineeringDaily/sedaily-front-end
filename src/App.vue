@@ -15,7 +15,7 @@
         <span v-if='isLoggedIn' style='float:right;'>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
 
-          <router-link to="/edit-profile" name="top-nav-link">Profile</router-link>
+          <router-link to="/profile" name="top-nav-link">Profile</router-link>
         </span>
       </nav>
     </header>
