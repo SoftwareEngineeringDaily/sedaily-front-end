@@ -3,30 +3,25 @@
   <div>
     <br />
         <h1>My Feed </h1>
+        Hello
         <br />
         <br />
-        <div v-for="feedItem in feed">
-          <a :href="feedItem.url | externalUrl" target="_blank"
-          rel="external nofollow">
-          <img class="feed-item-img":src="image(feedItem.image)"  />
-           <span class='title'>
-           {{feedItem.title || feedItem.url}}
-           </span>
-         </a>
-         <br />
-           <p class='votes'>
-           Votes:{{feedItem.score}}
-           </p>
-          <hr />
-        </div>
+        <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
+        </feed-item>
     <br />
   </div>
 </template>
 
 <script>
+import FeedItem from '@/components/FeedItem.vue'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',
+
+  components: {
+    FeedItem
+  },
+
   data () {
     return {
       loading: true
@@ -44,11 +39,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ]),
-    image (image) {
-      console.log(image)
-      return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
-    }
+    ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ])
   },
 
   computed: {
@@ -63,15 +54,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.title {
-  margin-left: 10px;
-}
-.votes {
-  padding-top: 5px;
-}
-.feed-item-img {
-  width:  100px;
-}
-</style>
