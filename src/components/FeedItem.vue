@@ -1,16 +1,24 @@
 <template>
   <div class="feed-item">
-    <a :href="feedItem.url | externalUrl" target="_blank"
-    rel="external nofollow">
-    <img class="feed-item-img":src="image(feedItem.image)"  />
-     <span class='title'>
-     {{feedItem.title || feedItem.url}}
-     </span>
-   </a>
-   <br />
-     <p class='votes'>
-     Votes:{{feedItem.score}}
-     </p>
+    <v-card>
+      <v-card-media :src="image(feedItem.image)" height="200px">
+      </v-card-media>
+      <div>
+        <a :href="feedItem.url | externalUrl" target="_blank"
+        rel="external nofollow">
+         <span class='title'>
+         {{feedItem.title || feedItem.url}}
+         </span>
+       </a>
+        <div>A description for the link belongs here.</div>
+        <p class='votes'>
+        Votes:{{feedItem.score}}
+        </p>
+      </div>
+      <v-card-title primary-title>
+      </v-card-title>
+    </v-card>
+    <br />
     <hr />
   </div>
 </template>
@@ -31,8 +39,9 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  margin-left: 10px;
+.feed-item {
+  margin-left: 30px;
+  margin-right: 30px;
 }
 .votes {
   padding-top: 5px;

@@ -3,7 +3,6 @@
   <div>
     <br />
         <h1>My Feed </h1>
-        Hello
         <br />
         <br />
         <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
