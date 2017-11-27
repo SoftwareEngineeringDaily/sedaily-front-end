@@ -94,7 +94,7 @@ export default {
   .news-content
     display inline-flex
     flex-direction column
-    margin-top 12.5%
+    justify-content center
     max-width 100%
 
   .hero-img
