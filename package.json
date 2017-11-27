@@ -86,6 +86,7 @@
     "vue-stripe-elements-plus": "^0.2.6",
     "vue-style-loader": "^2.0.5",
     "vue-template-compiler": "^2.2.6",
+    "vuetify": "^0.17.3",
     "vuex": "^2.3.1",
     "vuex-router-sync": "^4.1.2",
     "webpack": "^2.3.3",
