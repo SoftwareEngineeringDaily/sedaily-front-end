@@ -14,14 +14,15 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     }
-    return axios.get(`${BASE_URL}/auth/sign-s3`, config)
+
+    const fileType = imageFile.type
+    return axios.post(`${BASE_URL}/auth/sign-s3`, {fileType}, config)
       .then((result) => {
-        console.log('result', result)
         const {signedRequest} = result.data
         console.log('signedRequest', signedRequest)
         var options = {
           headers: {
-            'Content-Type': imageFile.type
+            'Content-Type': fileType
           }
         }
         return axios.put(signedRequest, imageFile, options)
@@ -50,7 +51,7 @@ export default {
       })
   },
 
-  updateProfile: ({commit, state, getters}, {id, username, bio, website, name, email}) => {
+  updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -64,6 +65,7 @@ export default {
       bio,
       website,
       name,
+      isAvatarSet,
       email
     }, config)
       .then(function (response) {
