@@ -9,6 +9,7 @@
       :options='stripeOptions'
       @change='complete = $event.complete'
     />
+    <div> {{error}} </div>
     <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
 
   </div>
@@ -23,6 +24,7 @@ export default {
   data () {
     return {
       complete: false,
+      error: null,
       stripeOptions: {
         hidePostalCode: false
         // see https://stripe.com/docs/stripe.js#element-options for details
@@ -35,6 +37,8 @@ export default {
   methods: {
     ...mapActions(['createSubscription']),
     pay () {
+      // TODO: GET subscription
+
       // createToken returns a Promise which resolves in a result object with
       // either a token or an error key.
       // See https://stripe.com/docs/api#tokens for the token object.
@@ -50,6 +54,7 @@ export default {
         })
         .catch((error) => {
           console.log('error', error)
+          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
         })
         // We want : stripeToken tok_1BQj6ULmlLorKKLQ6xoRYTHR
         // console.log(data)
