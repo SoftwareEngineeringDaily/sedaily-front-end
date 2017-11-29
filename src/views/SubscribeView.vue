@@ -24,13 +24,14 @@
 <script>
 // import { stripeKey, stripeOptions } from './stripeConfig.json'
 import { Card, createToken } from 'vue-stripe-elements-plus'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import Spinner from '../components/Spinner.vue'
 
 export default {
   data () {
     return {
       complete: false,
+      loadingUser: true,
       processing: false,
       successSubscribingMessage: null,
       justSubscribed: false,
@@ -42,10 +43,15 @@ export default {
     }
   },
 
+  beforeMount () {
+    this.fetchMyProfileData().then(() => {
+    })
+  },
+
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription']),
+    ...mapActions(['createSubscription', 'fetchMyProfileData']),
     pay () {
       // TODO: GET subscription
       this.processing = true
@@ -71,6 +77,13 @@ export default {
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
       })
     }
+  },
+  computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    })
   }
 }
 </script>
