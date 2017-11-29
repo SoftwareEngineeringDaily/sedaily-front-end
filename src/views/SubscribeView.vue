@@ -9,7 +9,7 @@
       :options='stripeOptions'
       @change='complete = $event.complete'
     />
-    <div> {{error}} </div>
+    <div><h2> {{error}} </h2> </div>
     <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
 
   </div>
@@ -67,11 +67,20 @@ export default {
 
 <style>
 .pay-button {
-background: #e8e8e8;
-padding: 9px 14px;
-margin: 17px 0px;
-border: 1px solid #b9b9b9;
+  background: #ceffa8;
+  padding: 9px 14px;
+  margin: 17px 0px;
+  border: 2px solid #33ff00;
+  box-shadow: 1px 1px 2px #888888;
 }
+.pay-button:disabled {
+  background: #e8e8e8;
+  padding: 9px 14px;
+  margin: 17px 0px;
+  border: 1px solid #b9b9b9;
+  opacity: 0.3;
+}
+
 .stripe-card {
   width: 300px;
   border: 1px solid grey;
