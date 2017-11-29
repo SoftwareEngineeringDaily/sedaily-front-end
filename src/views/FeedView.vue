@@ -2,9 +2,6 @@
 <template>
   <div>
     <br />
-        <h1>My Feed </h1>
-        <br />
-        <br />
         <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
         </feed-item>
     <br />
@@ -32,7 +29,6 @@ export default {
     .then(() => {
       this.fetchMyFeed({userId: this.me._id})
         .then((feedItems) => {
-          console.log(feedItems)
           this.loading = false
         })
     })
