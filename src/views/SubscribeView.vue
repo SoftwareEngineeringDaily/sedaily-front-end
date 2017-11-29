@@ -10,8 +10,14 @@
       @change='complete = $event.complete'
     />
     <div><h2> {{error}} </h2> </div>
-    <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
-
+    <div v-if="processing">
+      Submitting...
+    <spinner :show="processing"></spinner>
+    </div>
+    <div v-else>
+      <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
+      <div><h2> {{successSubscribingMessage}} </h2> </div>
+    </div>
   </div>
 </template>
 
@@ -19,11 +25,15 @@
 // import { stripeKey, stripeOptions } from './stripeConfig.json'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions } from 'vuex'
+import Spinner from '../components/Spinner.vue'
 
 export default {
   data () {
     return {
       complete: false,
+      processing: false,
+      successSubscribingMessage: null,
+      justSubscribed: false,
       error: null,
       stripeOptions: {
         hidePostalCode: false
@@ -32,13 +42,13 @@ export default {
     }
   },
 
-  components: { Card },
+  components: { Card, Spinner },
 
   methods: {
     ...mapActions(['createSubscription']),
     pay () {
       // TODO: GET subscription
-
+      this.processing = true
       // createToken returns a Promise which resolves in a result object with
       // either a token or an error key.
       // See https://stripe.com/docs/api#tokens for the token object.
@@ -47,17 +57,18 @@ export default {
       createToken().then(data => {
         // console.log(data.token)
         const stripeToken = data.token.id
-        this.createSubscription({stripeToken})
+        return this.createSubscription({stripeToken})
         .then((result) => {
           console.log('result')
           console.log('result', result)
+          this.processing = false
+          this.successSubscribingMessage = 'Thanks for subscribing!'
         })
-        .catch((error) => {
-          console.log('error', error)
-          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
-        })
-        // We want : stripeToken tok_1BQj6ULmlLorKKLQ6xoRYTHR
-        // console.log(data)
+      })
+      .catch((error) => {
+        console.log('error', error)
+        this.processing = false
+        this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
       })
     }
   }
