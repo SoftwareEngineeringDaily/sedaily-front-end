@@ -1,13 +1,16 @@
 <template>
   <div id='app'>
-    <h1>Please give us your payment details:</h1>
+    <h1> Subscribe </h1>
+    <h3>Please provide your payment details:</h3>
+    <br />
     <card class='stripe-card'
       :class='{ complete }'
       stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
       :options='stripeOptions'
       @change='complete = $event.complete'
     />
-    <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Pay with credit card</button>
+    <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
+
   </div>
 </template>
 
@@ -56,7 +59,14 @@ export default {
 }
 </script>
 
+
 <style>
+.pay-button {
+background: #e8e8e8;
+padding: 9px 14px;
+margin: 17px 0px;
+border: 1px solid #b9b9b9;
+}
 .stripe-card {
   width: 300px;
   border: 1px solid grey;
