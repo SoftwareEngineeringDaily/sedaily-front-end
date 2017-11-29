@@ -10,7 +10,7 @@
          {{feedItem.title || feedItem.url}}
          </span>
        </a>
-        <div>A description for the link belongs here.</div>
+        <div>{{feedItem.description}}</div>
         <p class='votes'>
         Votes:{{feedItem.score}}
         </p>
