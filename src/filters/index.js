@@ -22,3 +22,17 @@ function pluralize (time, label) {
   }
   return time + label + 's'
 }
+
+export function decodeString (string) {
+  const div = document.createElement('div')
+  div.innerHTML = string
+  return typeof div.textContent !== 'undefined' ? div.textContent : div.innerText
+}
+
+export function externalUrl (url) {
+  let newUrl = url
+  if (url.indexOf('://') === -1) {
+    newUrl = '//' + url
+  }
+  return newUrl
+}

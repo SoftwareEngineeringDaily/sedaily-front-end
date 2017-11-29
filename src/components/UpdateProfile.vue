@@ -1,10 +1,13 @@
-
 <template>
   <div class="update-profile-view container">
     <div class='row'>
       <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
 
-        <!-- <div class="form-group">
+        <div v-if="showExisintAvatarUrl">
+          <img :src="avatarUrl" />
+        </div>
+
+        <div class="form-group">
           <div v-if="!image">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
@@ -13,7 +16,7 @@
             <img :src="image" />
             <button @click="removeImage">Remove image</button>
           </div>
-        </div>-->
+        </div>
 
         <div class="form-group">
           <label for="usernameInput">Username</label>
@@ -122,7 +125,16 @@ export default {
     ...mapState({
       id (state) {
         return state.me._id
+      },
+
+      avatarUrl (state) {
+        return state.me.avatarUrl
+      },
+
+      showExisintAvatarUrl (state) {
+        return state.me.avatarUrl && !this.image
       }
+
     })
   },
   methods: {
@@ -131,18 +143,11 @@ export default {
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
+        this.file = null
         return
       }
       const file = files[0]
       this.file = file
-      console.log('file', file)
-      this.uploadAvatarImage({imageFile: file})
-        .then((result) => {
-          console.log('image?', result)
-        })
-        .catch((error) => {
-          console.log('error', error)
-        })
       this.createImage(file)
     },
 
@@ -169,14 +174,34 @@ export default {
         if (result) {
           this.loading = true
           const {username, email, bio, website, name, id} = this
-          this.updateProfile({
-            username,
-            id,
-            name,
-            bio,
-            website,
-            email
-          })
+
+          let updatePromise = null
+          if (this.file) {
+            updatePromise = this.uploadAvatarImage({imageFile: this.file})
+            .then((imageSuccess) => {
+              return this.updateProfile({
+                username,
+                id,
+                name,
+                bio,
+                isAvatarSet: true,
+                website,
+                email
+              })
+            })
+          } else {
+            updatePromise = this.updateProfile({
+              username,
+              id,
+              name,
+              bio,
+              isAvatarSet: this.avatarUrl == null,
+              website,
+              email
+            })
+          }
+
+          updatePromise
           .then((response) => {
             this.loading = false
             // This means we are just updating our profile:
@@ -184,6 +209,10 @@ export default {
             if (this.me) {
               this.msg = 'Success, your profile was Updated :)'
             }
+          })
+          .catch((error) => {
+            console.log('Error Updaating', error)
+            alert('There was a problem updating your profile')
           })
         } else {
           this.msg = 'Invalid fields on form :('

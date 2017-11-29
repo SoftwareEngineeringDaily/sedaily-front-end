@@ -5,17 +5,28 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
-        <router-link to="/new" name="new-nav-link">New</router-link>
-        <router-link to="/top" name="top-nav-link">Top</router-link>
-        <router-link to="/recommendations" name="recommendations-nav-link">Recommendations</router-link>
+        <router-link to="/feed"  v-if='isLoggedIn' name="feed-nav-link" exact>
+          <img class="feed-icon" src="./assets/feed-icon.png" alt="feed-icon">
+        </router-link>
+        <router-link to="/new" name="new-nav-link">
+          <img class="new-icon" src="./assets/new-icon.png" alt="new">
+        </router-link>
+        <router-link to="/top" name="top-nav-link">
+          <img class="trophy-icon" src="./assets/trophy-icon.png" alt="top">
+        </router-link>
+        <router-link to="/recommendations" name="recommendations-nav-link">
+          <img class="like-icon" src="./assets/like-icon.png" alt="recommendations">
+        </router-link>
 
         <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span>
-        <router-link to="/login" name="login-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>Register</router-link>
+        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
+        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
+          <img class="registration-icon" src="./assets/registration-icon.png" alt="registration-icon">
+        </router-link>
         <span v-if='isLoggedIn' style='float:right;'>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
 
-          <router-link to="/edit-profile" name="top-nav-link">Profile</router-link>
+          <router-link to="/profile" name="top-nav-link">Profile</router-link>
         </span>
       </nav>
     </header>
@@ -129,6 +140,16 @@ a
   margin-right 10px
   display inline-block
   vertical-align middle
+.feed-icon
+  width 30px
+.registration-icon
+  width 30px
+.like-icon
+  width 30px
+.trophy-icon
+  width 30px
+.new-icon
+  width 30px
 .view
   max-width 800px
   margin 0 auto
