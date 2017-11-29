@@ -18,7 +18,7 @@
           <img class="like-icon" src="./assets/like-icon.png" alt="recommendations">
         </router-link>
 
-        <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span>
+        <!-- <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span> -->
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
           <img class="registration-icon" src="./assets/registration-icon.png" alt="registration-icon">
@@ -40,24 +40,26 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-
     <transition name="fade" mode="out-in">
       <div class="player-holder" v-show="isPlayerActive">
         <sticky-player ></sticky-player>
       </div>
     </transition>
+    <chat-box />
 
   </div>
 </template>
 
 <script>
 import StickyPlayer from './components/StickyPlayer.vue'
+import ChatBox from './components/ChatBox.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    StickyPlayer
+    StickyPlayer,
+    ChatBox
   },
 
   computed: {
