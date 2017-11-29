@@ -10,28 +10,20 @@
     </br>
     <!-- <img class="profile-img" src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_80%2Cw_300/MTIwNjA4NjMzODIyNjc2NDky/bill-gates-9307520-1-402.jpg"  /> -->
 
-    <div v-for="feedItem in feed">
-      <a :href="feedItem.url | externalUrl" target="_blank"
-      rel="external nofollow">
-      <img class="feed-item-img":src="image(feedItem.image)"  />
-       <span class='title'>
-       {{feedItem.title || feedItem.url}}
-       </span>
-     </a>
-     <br />
-       <p class='votes'>
-       Votes:{{feedItem.score}}
-       </p>
-      <hr />
-    </div>
+    <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
+    </feed-item>
   </div>
 
 </template>
 <script type="text/javascript">
 import { mapActions, mapState } from 'vuex'
+import FeedItem from '@/components/FeedItem.vue'
 
 export default {
   name: 'profile-view',
+  components: {
+    FeedItem
+  },
   data () {
     return {
     }
