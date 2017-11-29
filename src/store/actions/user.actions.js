@@ -33,7 +33,7 @@ export default {
     let token = getters.getToken
     let config = {}
     if (!token) {
-      return
+      throw new Error('User not signed in.')
     }
     config.headers = {
       'Authorization': 'Bearer ' + token

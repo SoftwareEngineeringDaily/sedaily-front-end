@@ -30,12 +30,17 @@ export default {
   },
 
   beforeMount () {
-    this.fetchMyProfileData().then(() => {
-      this.fetchProfileFeed({userId: this.me._id})
+    this.fetchMyProfileData()
+    .then(() => {
+      return this.fetchProfileFeed({userId: this.me._id})
         .then((feedItems) => {
           console.log(feedItems)
           this.loading = false
         })
+    })
+    .catch((error) => {
+      console.log('error', error)
+      alert('There was an error fetching your feed')
     })
   },
 
