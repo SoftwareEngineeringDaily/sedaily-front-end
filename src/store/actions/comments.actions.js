@@ -33,13 +33,13 @@ export default {
     })
   },
 
-  removeComment: ({commit, getters, state}, { id, postId, parentCommentId }) => {
+  removeComment: ({commit, getters, state}, { id }) => {
     console.log('ID', id)
     let token = getters.getToken
     if (!token) {
       return
     }
-    return axios.delete(`${BASE_URL}/comments/${id}`, {}, {
+    return axios.delete(`${BASE_URL}/comments/${id}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
