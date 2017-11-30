@@ -16,6 +16,9 @@
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
       {{comment.content}}
+      <div class='delete' v-if='this.me.name == comment.author.name' @click='remove'>
+        Delete
+      </div>
     </span>
     <hr />
   </div>
@@ -44,12 +47,17 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['likeComment']),
+    ...mapActions(['likeComment', 'removeComment']),
     upvoteHandler () {
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
         postId: this.comment.post
+      })
+    },
+    remove () {
+      this.removeComment({
+        id: this.comment._id
       })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
@@ -105,6 +113,12 @@ export default {
 .comment {
   display: flex;
 }
+
+.delete
+  color: red
+  &:hover
+    cursor pointer
+
 .profile-img {
   width: 80px;
   height: 80px;
