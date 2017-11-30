@@ -1,5 +1,14 @@
 <template>
   <div id='app'>
+    <div v-if="loadingUser">
+    <spinner :show="loadingUser"></spinner>
+    </div>
+    <div v-if="alreadySubscribed">
+      <br />
+      <h1> You are already subscribed :) </h1>
+      <br />
+      <br />
+    </div>
     <h1> Subscribe </h1>
     <h3>Please provide your payment details:</h3>
     <br />
@@ -44,7 +53,14 @@ export default {
   },
 
   beforeMount () {
-    this.fetchMyProfileData().then(() => {
+    this.fetchMyProfileData()
+    .then((myData) => {
+      console.log('myData', myData)
+      this.loadingUser = false
+    })
+    .catch((error) => {
+      alert('Error loading your uer')
+      console.log('error loading user', error)
     })
   },
 
@@ -80,6 +96,13 @@ export default {
   },
   computed: {
     ...mapState({
+      alreadySubscribed (state) {
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return true
+        } else {
+          return false
+        }
+      },
       me (state) {
         return state.me
       }
