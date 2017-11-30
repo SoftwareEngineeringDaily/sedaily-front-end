@@ -10,6 +10,7 @@ import { sync } from 'vuex-router-sync'
 import infiniteScroll from 'vue-infinite-scroll'
 import VeeValidate from 'vee-validate'
 import Vuetify from 'vuetify'
+import SocialSharing from 'vue-social-sharing'
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -20,6 +21,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
