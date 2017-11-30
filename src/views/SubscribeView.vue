@@ -8,7 +8,9 @@
       <h1> You are already subscribed :) </h1>
       <br />
       <br />
+      <button> Cancel </button>
     </div>
+
     <h1> Subscribe </h1>
     <h3>Please provide your payment details:</h3>
     <br />
