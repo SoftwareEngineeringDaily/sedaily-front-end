@@ -21,7 +21,7 @@
       <div v-else>
         <i>Comment has been deleted</i>
       </div>
-      <div class='delete' v-if='this.me.name == comment.author.name' @click='remove'>
+      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
         Delete
       </div>
     </span>
@@ -48,6 +48,10 @@ export default {
 
       me (state) {
         return state.me
+      },
+
+      isMyComment (state) {
+        return this.me.name === this.comment.author.name
       }
     })
   },
