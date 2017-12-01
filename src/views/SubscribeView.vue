@@ -75,7 +75,6 @@ export default {
   methods: {
     ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
     pay () {
-      // TODO: GET subscription
       this.processing = true
       // createToken returns a Promise which resolves in a result object with
       // either a token or an error key.
@@ -86,12 +85,11 @@ export default {
         // console.log(data.token)
         const stripeToken = data.token.id
         return this.createSubscription({stripeToken})
-        .then((result) => {
-          console.log('result')
-          console.log('result', result)
-          this.processing = false
-          this.successSubscribingMessage = 'Thanks for subscribing!'
-        })
+      })
+      .then((result) => {
+        // Successfully created subscription:
+        this.processing = false
+        this.successSubscribingMessage = 'Thanks for subscribing!'
       })
       .catch((error) => {
         console.log('error', error)
@@ -101,7 +99,18 @@ export default {
     },
 
     cancelSubscription () {
-      console.log('cancel subscription')
+      this.processing = true
+      return this.cancelSubscription()
+      .then((result) => {
+        this.processing = false
+        console.log('cancel subscription')
+        this.successSubscribingMessage = 'Your subscription has been cancelled.'
+      })
+      .catch((error) => {
+        console.log('error', error)
+        this.processing = false
+        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+      })
     }
   },
   computed: {

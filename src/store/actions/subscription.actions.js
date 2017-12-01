@@ -10,13 +10,13 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     } else {
-      throw new Error('Your are not signed in.');
+      throw new Error('Your are not signed in.')
     }
 
     return axios.post(`${BASE_URL}/subscription`, {stripeToken}, config)
-  }
+  },
 
-  cancelSubscription: ({commit, getters}, {}) => {
+  cancelSubscription: ({commit, getters}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
