@@ -14,7 +14,7 @@
         <spinner :show="processing"></spinner>
       </div>
       <div v-else="processing">
-        
+
       <button class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
@@ -123,6 +123,7 @@ export default {
       })
     }
   },
+
   computed: {
     ...mapState({
       alreadySubscribed (state) {
