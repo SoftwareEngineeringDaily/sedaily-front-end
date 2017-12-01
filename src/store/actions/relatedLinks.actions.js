@@ -19,7 +19,7 @@ export default {
   removeRelatedLink: ({commit, getters, state}, {id}) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      alert('You must login to remove your link')
       return
     }
     if (!id) {
