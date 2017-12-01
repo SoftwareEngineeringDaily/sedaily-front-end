@@ -8,9 +8,17 @@
       <h1> You are already subscribed :) </h1>
       <br />
       <br />
-      <button class="cancel-button" @click="cancelSubscription">
+
+      <div v-if="processing">
+        Canceling...
+        <spinner :show="processing"></spinner>
+      </div>
+      <div v-else="processing">
+        
+      <button class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
+    </div>
     </div>
 
     <div v-else="alreadySubscribed">
@@ -99,7 +107,7 @@ export default {
       })
     },
 
-    cancelSubscription () {
+    cancelSubscriptionClicked () {
       this.processing = true
       return this.cancelSubscription()
       .then((result) => {
