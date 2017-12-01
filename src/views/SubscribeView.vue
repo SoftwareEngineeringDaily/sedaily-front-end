@@ -8,7 +8,9 @@
       <h1> You are already subscribed :) </h1>
       <br />
       <br />
-      <button class="cancel-button" @click="cancelSubscription"> Cancel Your Subscription </button>
+      <button class="cancel-button" @click="cancelSubscription">
+        Cancel Your Subscription
+      </button>
     </div>
 
     <div v-else="alreadySubscribed">
@@ -31,8 +33,6 @@
         <div><h2> {{successSubscribingMessage}} </h2> </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -73,7 +73,7 @@ export default {
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData']),
+    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
     pay () {
       // TODO: GET subscription
       this.processing = true
@@ -120,7 +120,6 @@ export default {
   }
 }
 </script>
-
 
 <style>
 
