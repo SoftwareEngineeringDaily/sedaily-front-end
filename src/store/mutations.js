@@ -170,5 +170,9 @@ export default {
   setToken: (state, { token }) => {
     localStorage.setItem('token', token)
     state.token = token
+  },
+
+  toggleChatWindow: (state) => {
+    state.chat.settings.isActive = !state.chat.settings.isActive
   }
 }

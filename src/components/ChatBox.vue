@@ -1,13 +1,13 @@
 <template>
   <div class="chat-wrapper">
-		<header class="clearfix">
+		<header @click='toggleChatBox' class="clearfix" >
 			<a href="#" class="chat-close">-</a>
 			<h4>Edgar Pino</h4>
 			<span class="chat-message-counter">3</span>
 		</header>
-		<div class="chat-box">
+		<div v-bind:class="{ active: chat.settings.isActive, 'chat-box': true }">
       <chat-message-list />
-			<comment-add-box />
+			<chat-add-form :on-submit="addMessage" />
 		</div> <!-- end chat -->
 	</div> <!-- end live-chat -->
 </template>
@@ -15,15 +15,27 @@
 
 
 <script>
-/* @flow */
 import ChatMessageList from './ChatMessageList'
-import CommentAddBox from './CommentAddBox'
+import ChatAddForm from './ChatAddForm'
 
 export default {
   name: 'chat-box',
   components: {
     ChatMessageList,
-    CommentAddBox
+    ChatAddForm
+  },
+  methods: {
+    toggleChatBox: function (e) {
+      this.$store.commit('toggleChatWindow')
+    },
+    addMessage: function (e) {
+      console.log(e.target.value)
+    }
+  },
+  computed: {
+    chat: function chat () {
+      return this.$store.state.chat
+    }
   }
 }
 </script>
@@ -142,6 +154,11 @@ p {
 
 .chat-box {
   background: #fff;
+  display: none;
+}
+
+.chat-box.active {
+  display: block;
 }
 </style>
 

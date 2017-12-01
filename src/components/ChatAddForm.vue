@@ -1,15 +1,15 @@
 <template>
-  <form action="#" method="post">
+  <form @submit.prevent>
 				<fieldset>
-					<input type="text" placeholder="Type your message…" autofocus>
-					<input type="hidden">
+					<input @keyup.enter="onSubmit" type="text" placeholder="Type your message…" autofocus>
 				</fieldset>
 	</form>
 </template>
 
 <script>
 export default {
-  name: 'comment-add-form'
+  name: 'chat-add-form',
+  props: ['onSubmit']
 }
 </script>
 
