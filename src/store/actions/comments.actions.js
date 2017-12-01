@@ -37,6 +37,7 @@ export default {
     console.log('ID', id)
     let token = getters.getToken
     if (!token) {
+      alert('Login to delete your comment')
       return
     }
     return axios.delete(`${BASE_URL}/comments/${id}`, {
