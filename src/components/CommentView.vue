@@ -18,7 +18,7 @@
       <div v-if='!comment.deleted'>
         {{comment.content}}
       </div>
-      <div v-if='comment.deleted'>
+      <div v-else>
         <i>Comment has been deleted</i>
       </div>
       <div class='delete' v-if='this.me.name == comment.author.name' @click='remove'>
