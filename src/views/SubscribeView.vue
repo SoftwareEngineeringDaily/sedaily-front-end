@@ -1,11 +1,14 @@
 <template>
   <div id='app'>
     <div v-if="loadingUser">
+
+
       <spinner :show="loadingUser"></spinner>
     </div>
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are already subscribed :) </h1>
+
       <br />
       <br />
 
@@ -15,6 +18,7 @@
       </div>
       <div v-else="processing">
 
+      <div><h2> {{error}} </h2> </div>
       <button class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
@@ -119,6 +123,7 @@ export default {
       .catch((error) => {
         console.log('error', error)
         this.processing = false
+        this.justSubscribed = false
         this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
       })
     }

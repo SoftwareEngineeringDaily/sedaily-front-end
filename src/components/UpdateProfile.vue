@@ -7,7 +7,7 @@
           <img :src="avatarUrl" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-if="false">
           <div v-if="!image">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
