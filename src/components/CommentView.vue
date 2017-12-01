@@ -15,7 +15,15 @@
         <img :src='avatar(comment)' class='avatar'/>
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
-      {{comment.content}}
+      <div v-if='!comment.deleted'>
+        {{comment.content}}
+      </div>
+      <div v-else>
+        <i>Comment has been deleted</i>
+      </div>
+      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
+        Delete
+      </div>
     </span>
     <hr />
   </div>
@@ -40,16 +48,34 @@ export default {
 
       me (state) {
         return state.me
+      },
+
+      isMyComment (state) {
+        return this.me._id === this.comment.author._id
       }
     })
   },
   methods: {
-    ...mapActions(['likeComment']),
+    ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
     upvoteHandler () {
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
         postId: this.comment.post
+      })
+    },
+    remove () {
+      this.removeComment({
+        id: this.comment._id
+      })
+      .then(() => {
+        this.commentsFetch({
+          postId: this.comment.post
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        alert('Error deleting :(')
       })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
@@ -105,6 +131,12 @@ export default {
 .comment {
   display: flex;
 }
+
+.delete
+  color: red
+  &:hover
+    cursor pointer
+
 .profile-img {
   width: 80px;
   height: 80px;
