@@ -1,34 +1,38 @@
 <template>
   <div id='app'>
     <div v-if="loadingUser">
-    <spinner :show="loadingUser"></spinner>
+      <spinner :show="loadingUser"></spinner>
     </div>
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are already subscribed :) </h1>
       <br />
       <br />
-      <button> Cancel </button>
+      <button class="cancel-button" @click="cancelSubscription"> Cancel Your Subscription </button>
     </div>
 
-    <h1> Subscribe </h1>
-    <h3>Please provide your payment details:</h3>
-    <br />
-    <card class='stripe-card'
+    <div v-else="alreadySubscribed">
+      <h1> Subscribe </h1>
+      <h3>Please provide your payment details:</h3>
+      <br />
+      <card class='stripe-card'
       :class='{ complete }'
       stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
       :options='stripeOptions'
       @change='complete = $event.complete'
-    />
-    <div><h2> {{error}} </h2> </div>
-    <div v-if="processing">
-      Submitting...
-    <spinner :show="processing"></spinner>
+      />
+      <div><h2> {{error}} </h2> </div>
+      <div v-if="processing">
+        Submitting...
+        <spinner :show="processing"></spinner>
+      </div>
+      <div v-else>
+        <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
+        <div><h2> {{successSubscribingMessage}} </h2> </div>
+      </div>
     </div>
-    <div v-else>
-      <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
-      <div><h2> {{successSubscribingMessage}} </h2> </div>
-    </div>
+
+
   </div>
 </template>
 
@@ -94,6 +98,10 @@ export default {
         this.processing = false
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
       })
+    },
+
+    cancelSubscription () {
+      console.log('cancel subscription')
     }
   },
   computed: {
@@ -115,6 +123,14 @@ export default {
 
 
 <style>
+
+.cancel-button {
+  background: #e8e8e8;
+  padding: 9px 14px;
+  margin: 17px 0px;
+  border: 1px solid black;
+}
+
 .pay-button {
   background: #ceffa8;
   padding: 9px 14px;
