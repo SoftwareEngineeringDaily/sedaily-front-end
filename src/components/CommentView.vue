@@ -15,7 +15,12 @@
         <img :src='avatar(comment)' class='avatar'/>
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
-      {{comment.content}}
+      <div v-if='!comment.deleted'>
+        {{comment.content}}
+      </div>
+      <div v-if='comment.deleted'>
+        <i>Comment has been deleted</i>
+      </div>
       <div class='delete' v-if='this.me.name == comment.author.name' @click='remove'>
         Delete
       </div>
@@ -47,7 +52,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['likeComment', 'removeComment']),
+    ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
     upvoteHandler () {
       this.likeComment({
         id: this.comment._id,
@@ -58,6 +63,15 @@ export default {
     remove () {
       this.removeComment({
         id: this.comment._id
+      })
+      .then(() => {
+        this.commentsFetch({
+          postId: this.comment.post
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        alert('Error deleting :(')
       })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
