@@ -19,7 +19,9 @@
       <div v-else="processing">
 
       <div><h2> {{error}} </h2> </div>
-      <button class="cancel-button" @click="cancelSubscriptionClicked">
+      <div><h2> {{successSubscribingMessage}} </h2> </div>
+
+      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
     </div>
@@ -62,6 +64,7 @@ export default {
       processing: false,
       successSubscribingMessage: null,
       justSubscribed: false,
+      justCancelled: false,
       error: null,
       stripeOptions: {
         hidePostalCode: false
@@ -77,7 +80,7 @@ export default {
       this.loadingUser = false
     })
     .catch((error) => {
-      alert('Error loading your uer')
+      alert('Error loading user info.')
       console.log('error loading user', error)
     })
   },
@@ -87,6 +90,7 @@ export default {
   methods: {
     ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
     pay () {
+      this.justCancelled = false
       this.processing = true
       // createToken returns a Promise which resolves in a result object with
       // either a token or an error key.
@@ -113,17 +117,19 @@ export default {
 
     cancelSubscriptionClicked () {
       this.processing = true
+      this.justCancelled = false
       return this.cancelSubscription()
       .then((result) => {
         this.processing = false
         this.justSubscribed = false
         console.log('cancel subscription')
+        this.justCancelled = true
         this.successSubscribingMessage = 'Your subscription has been cancelled.'
       })
       .catch((error) => {
         console.log('error', error)
         this.processing = false
-        this.justSubscribed = false
+        // this.justSubscribed = false
         this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
       })
     }
