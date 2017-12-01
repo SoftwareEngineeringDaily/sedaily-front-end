@@ -89,6 +89,7 @@ export default {
       .then((result) => {
         // Successfully created subscription:
         this.processing = false
+        this.justSubscribed = true
         this.successSubscribingMessage = 'Thanks for subscribing!'
       })
       .catch((error) => {
@@ -103,6 +104,7 @@ export default {
       return this.cancelSubscription()
       .then((result) => {
         this.processing = false
+        this.justSubscribed = false
         console.log('cancel subscription')
         this.successSubscribingMessage = 'Your subscription has been cancelled.'
       })
@@ -116,6 +118,7 @@ export default {
   computed: {
     ...mapState({
       alreadySubscribed (state) {
+        if (this.justSubscribed) return true
         if (state.me && state.me.subscription && state.me.subscription.active) {
           return true
         } else {
