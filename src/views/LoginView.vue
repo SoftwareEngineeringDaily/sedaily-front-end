@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='checkSubmit'>
+      <form class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Login</h1>
 
 
