@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <div class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
+      <form class='col-md-6 offset-md-3' v-on:submit.prevent='checkSubmit'>
         <h1>Login</h1>
 
 
@@ -32,8 +32,8 @@
         </div>
 
         <button class='btn btn-primary'
-        @click.prevent='login' :disabled='loading'>Login</button>
-      </div>
+        :disabled='loading'>Login</button>
+      </form>
     </div>
 
     <spinner :show="loading"></spinner>
