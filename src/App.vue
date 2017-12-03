@@ -5,7 +5,7 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
-        <router-link to="/feed"  v-if='isLoggedIn' name="feed-nav-link" exact>
+        <router-link to="/feed"  name="feed-nav-link" exact>
           <img class="feed-icon" src="./assets/feed-icon.png" alt="feed-icon">
         </router-link>
         <router-link to="/new" name="new-nav-link">

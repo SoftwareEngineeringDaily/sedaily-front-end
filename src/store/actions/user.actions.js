@@ -32,10 +32,11 @@ export default {
   fetchMyProfileData: ({commit, state, getters}) => {
     let token = getters.getToken
     let config = {}
-    if (token) {
-      config.headers = {
-        'Authorization': 'Bearer ' + token
-      }
+    if (!token) {
+      return
+    }
+    config.headers = {
+      'Authorization': 'Bearer ' + token
     }
     return axios.get(`${BASE_URL}/users/me`, config
       )

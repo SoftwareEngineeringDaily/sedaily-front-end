@@ -10,7 +10,7 @@
          {{feedItem.title || feedItem.url}}
          </span>
        </a>
-        <div>A description for the link belongs here.</div>
+        <div>{{feedItem.description}}</div>
         <p class='votes'>
         Votes:{{feedItem.score}}
         </p>
@@ -37,7 +37,7 @@ export default {
 
 }
 </script>
-
+<style src="../../static/vuetify.min.css"></style>
 <style scoped>
 .feed-item {
   margin-left: 30px;
