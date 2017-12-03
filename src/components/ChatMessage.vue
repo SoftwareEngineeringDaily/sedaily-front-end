@@ -1,7 +1,7 @@
 <template>
   <div>
 		<div class="chat-message clearfix">
-					<img src="https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-1/p40x40/20638887_10208675220992306_8291799041169735554_n.jpg?oh=1bc2af73938c635331d20fe1a6659032&oe=5A97CFB9" alt="" width="32" height="32">
+					<img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y" alt="" width="32" height="32">
 					<div class="chat-message-content clearfix">
 						<span class="chat-time">{{this.formatDate(message.sent_at)}}</span>
 						<h5>{{message.name}}</h5>
