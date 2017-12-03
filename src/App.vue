@@ -45,7 +45,8 @@
         <sticky-player ></sticky-player>
       </div>
     </transition>
-    <chat-box />
+
+    <chat-box v-if='isLoggedIn'/>
 
   </div>
 </template>
