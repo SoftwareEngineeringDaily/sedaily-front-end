@@ -12,5 +12,6 @@ export default {
   },
   isLoggedIn: function (state, getters) {
     return Boolean(getters.getToken)
-  }
+  },
+  isChatBoxDisplayed: ({chat}) => Boolean(chat.settings.displayBox)
 }

@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     },
     chat: {
       settings: {
-        isActive: true
+        displayBox: true
       },
       messages: []
     },

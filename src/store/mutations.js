@@ -173,7 +173,7 @@ export default {
   },
 
   toggleChatWindow: (state) => {
-    state.chat.settings.isActive = !state.chat.settings.isActive
+    state.chat.settings.displayBox = !state.chat.settings.displayBox
   },
   addChatMessage: ({chat}, message) => {
     chat.messages.push(message)

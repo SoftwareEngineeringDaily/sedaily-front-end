@@ -1,11 +1,11 @@
 <template>
   <div class="chat-wrapper">
 		<header @click='toggleChatBox' class="clearfix" >
-			<a href="#" class="chat-close">-</a>
+			<a class="chat-close">{{ isChatBoxDisplayed ? '-' : '+' }}</a>
 			<h4>{{me.name}}</h4>
 			<span class="chat-message-counter">3</span>
 		</header>
-		<div v-bind:class="{ active: chat.settings.isActive, 'chat-box': true }">
+		<div v-bind:class="{ active: isChatBoxDisplayed, 'chat-box': true }">
       <chat-message-list />
 			<chat-add-form  :user="me"/>
 		</div> <!-- end chat -->
@@ -15,7 +15,7 @@
 <script>
 import ChatMessageList from './ChatMessageList'
 import ChatAddForm from './ChatAddForm'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'chat-box',
@@ -38,6 +38,9 @@ export default {
         return state.me
       }
     }),
+    ...mapGetters([
+      'isChatBoxDisplayed'
+    ]),
     chat: function chat () {
       return this.$store.state.chat
     }
