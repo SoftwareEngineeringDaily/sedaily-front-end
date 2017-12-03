@@ -4,6 +4,7 @@ import postActions from './actions/posts.actions'
 import commentActions from './actions/comments.actions'
 import relatedLinksActions from './actions/relatedLinks.actions'
 import feedActions from './actions/feed.actions'
+import chatActions from './actions/chat.actions'
 
 export default {
   ...authActions,
@@ -11,5 +12,6 @@ export default {
   ...commentActions,
   ...relatedLinksActions,
   ...postActions,
-  ...feedActions
+  ...feedActions,
+  ...chatActions
 }

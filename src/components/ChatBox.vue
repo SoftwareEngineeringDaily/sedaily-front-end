@@ -2,21 +2,20 @@
   <div class="chat-wrapper">
 		<header @click='toggleChatBox' class="clearfix" >
 			<a href="#" class="chat-close">-</a>
-			<h4>Edgar Pino</h4>
+			<h4>{{me.name}}</h4>
 			<span class="chat-message-counter">3</span>
 		</header>
 		<div v-bind:class="{ active: chat.settings.isActive, 'chat-box': true }">
       <chat-message-list />
-			<chat-add-form :on-submit="addMessage" />
+			<chat-add-form  :user="me"/>
 		</div> <!-- end chat -->
 	</div> <!-- end live-chat -->
 </template>
 
-
-
 <script>
 import ChatMessageList from './ChatMessageList'
 import ChatAddForm from './ChatAddForm'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'chat-box',
@@ -25,14 +24,20 @@ export default {
     ChatAddForm
   },
   methods: {
+    ...mapActions(['fetchMyProfileData']),
     toggleChatBox: function (e) {
       this.$store.commit('toggleChatWindow')
-    },
-    addMessage: function (e) {
-      console.log(e.target.value)
     }
   },
+  beforeMount () {
+    this.fetchMyProfileData()
+  },
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
     chat: function chat () {
       return this.$store.state.chat
     }

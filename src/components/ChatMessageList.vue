@@ -1,12 +1,8 @@
 <template>
   <div class="chat-history">
-        <chat-message />
-        <chat-message />
-        <chat-message />
-        <chat-message />
-        <chat-message />
-        <chat-message />
-        <chat-message />
+      <div v-for="message in messages">
+        <chat-message :message="message" />
+      </div>
 	</div> <!-- end chat-history -->
 </template>
 
@@ -14,10 +10,14 @@
 
 <script>
 /* @flow */
+import { mapState } from 'vuex'
 import ChatMessage from './ChatMessage'
 
 export default {
   name: 'chat-message-list',
+  computed: mapState({
+    messages: state => state.chat.messages
+  }),
   components: {
     ChatMessage
   }

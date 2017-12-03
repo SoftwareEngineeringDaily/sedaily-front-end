@@ -1,15 +1,39 @@
 <template>
   <form @submit.prevent>
 				<fieldset>
-					<input @keyup.enter="onSubmit" type="text" placeholder="Type your message…" autofocus>
+					<input @keyup.enter="addMessage" type="text" v-model="body" placeholder="Type your message…" autofocus>
 				</fieldset>
 	</form>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'chat-add-form',
-  props: ['onSubmit']
+  props: [
+    'user'
+  ],
+  data: () => ({
+    body: ''
+  }),
+  methods: {
+    ...mapActions([
+      'sendChatMessage'
+    ]),
+    addMessage: function (e) {
+      const { username, name } = this.user
+      const message = {
+        username,
+        name,
+        sent_at: new Date(),
+        body: this.body
+      }
+      this.body = ''
+      this.sendChatMessage(message)
+    }
+
+  }
 }
 </script>
 
