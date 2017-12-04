@@ -4,7 +4,7 @@
 					<img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y" alt="" width="32" height="32">
 					<div class="chat-message-content clearfix">
 						<span class="chat-time">{{this.formatDate(message.sent_at)}}</span>
-						<h5>{{message.name}}</h5>
+						<h5>{{message.user.name}}</h5>
 						<p>{{message.body}}</p>
 					</div> <!-- end chat-message-content -->
 		</div> <!-- end chat-message -->

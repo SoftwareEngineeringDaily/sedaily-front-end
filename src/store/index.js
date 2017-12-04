@@ -26,6 +26,7 @@ const store = new Vuex.Store({
       settings: {
         displayBox: true
       },
+      online: false,
       messages: []
     },
     token: localStorage.getItem('token')

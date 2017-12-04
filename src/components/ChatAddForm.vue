@@ -1,13 +1,13 @@
 <template>
   <form @submit.prevent>
 				<fieldset>
-					<input @keyup.enter="addMessage" type="text" v-model="body" placeholder="Type your message…" autofocus>
+					<input @keyup.enter="addMessage" v-bind:disabled="!isChatOnline" type="text" v-model="body" placeholder="Type your message…" autofocus>
 				</fieldset>
 	</form>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'chat-add-form',
@@ -17,6 +17,11 @@ export default {
   data: () => ({
     body: ''
   }),
+  computed: {
+    ...mapGetters([
+      'isChatOnline'
+    ])
+  },
   methods: {
     ...mapActions([
       'sendChatMessage'
@@ -60,6 +65,9 @@ input[type="text"] {
   padding: 8px;
   outline: none;
   width: 274px;
+}
+input:disabled {
+  background-color: #ececec;
 }
 </style>
 

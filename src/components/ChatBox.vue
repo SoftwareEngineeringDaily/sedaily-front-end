@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-wrapper">
+  <div v-bind:class="{ online: isChatOnline, 'chat-wrapper': true }">
 		<header @click='toggleChatBox' class="clearfix" >
 			<a class="chat-close">{{ isChatBoxDisplayed ? '-' : '+' }}</a>
 			<h4>{{me.name}}</h4>
@@ -7,7 +7,7 @@
 		</header>
 		<div v-bind:class="{ active: isChatBoxDisplayed, 'chat-box': true }">
       <chat-message-list />
-			<chat-add-form  :user="me"/>
+			<chat-add-form :user="me"/>
 		</div> <!-- end chat -->
 	</div> <!-- end live-chat -->
 </template>
@@ -24,13 +24,17 @@ export default {
     ChatAddForm
   },
   methods: {
-    ...mapActions(['fetchMyProfileData']),
+    ...mapActions([
+      'fetchMyProfileData',
+      'connectToChatChannel'
+    ]),
     toggleChatBox: function (e) {
       this.$store.commit('toggleChatWindow')
     }
   },
-  beforeMount () {
-    this.fetchMyProfileData()
+  async beforeMount () {
+    await this.fetchMyProfileData()
+    await this.connectToChatChannel()
   },
   computed: {
     ...mapState({
@@ -39,7 +43,8 @@ export default {
       }
     }),
     ...mapGetters([
-      'isChatBoxDisplayed'
+      'isChatBoxDisplayed',
+      'isChatOnline'
     ]),
     chat: function chat () {
       return this.$store.state.chat
@@ -112,8 +117,12 @@ p {
   cursor: pointer;
   padding: 16px 24px;
 }
-.chat-wrapper h4:before {
+.chat-wrapper.online h4:before {
   background: #1a8a34;
+}
+
+.chat-wrapper h4:before {
+  background: #ca3535;
   border-radius: 50%;
   content: "";
   display: inline-block;

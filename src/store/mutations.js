@@ -175,7 +175,10 @@ export default {
   toggleChatWindow: (state) => {
     state.chat.settings.displayBox = !state.chat.settings.displayBox
   },
-  addChatMessage: ({chat}, message) => {
-    chat.messages.push(message)
-  }
+  addChatMessage: ({ chat }, message) => {
+    const formatted = { ...message, sent_at: new Date(message.sent_at) }
+    chat.messages.push(formatted)
+  },
+  setChatOnline: ({ chat }) => (chat.online = true),
+  setChatOffline: ({ chat }) => (chat.online = false)
 }
