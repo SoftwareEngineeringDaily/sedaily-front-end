@@ -7,13 +7,14 @@
 
         <div class="form-group">
           <label for="usernameInput">Username</label>
-          <input type="username" v-model='username'
+          <input type="text" v-model='username'
           id="usernameInput"
           name="username"
           v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
           placeholder="Enter a username">
+
           <div v-show="errors.has('username')"
           class="alert alert-danger">
           {{ errors.first('username') }}</div>
@@ -21,18 +22,19 @@
 
         <div class="form-group">
           <label for="inputPassword">Password</label>
-          <input name='password'
+          <input name='password' v-model='password'
           v-validate="'required'"
-           type="password"
-           v-model='password' class="form-control"
-           id="inputPassword" placeholder="Password">
+          type="password"
+          class="form-control"
+          id="inputPassword"
+          placeholder="Password">
+
           <div v-show="errors.has('password')"
           class="alert alert-danger">
           {{ errors.first('password') }}</div>
         </div>
 
-        <button class='btn btn-primary'
-        :disabled='loading'>Login</button>
+        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
       </form>
     </div>
 
