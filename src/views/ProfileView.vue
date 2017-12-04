@@ -1,6 +1,6 @@
 <template>
   <div class='profile-details'>
-    <router-link to="/subscribe">Sbuscribe</router-link>
+    <!-- <router-link to="/subscribe">Sbuscribe</router-link> -->
     <br />
     <router-link to="/edit-profile">Edit Profile</router-link>
     </br>
