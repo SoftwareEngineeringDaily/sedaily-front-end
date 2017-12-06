@@ -1,25 +1,36 @@
 <template>
   <div class="chat-history">
-      <div v-for="message in messages">
-        <chat-message :message="message" />
-      </div>
+      <chat-message v-for="message in messages" :key="message.id" :message="message" />
 	</div> <!-- end chat-history -->
 </template>
 
-
-
 <script>
 /* @flow */
-import { mapState } from 'vuex'
 import ChatMessage from './ChatMessage'
 
 export default {
   name: 'chat-message-list',
-  computed: mapState({
-    messages: state => state.chat.messages
-  }),
+  props: {
+    messages: {
+      type: Array,
+      default: []
+    }
+  },
   components: {
     ChatMessage
+  },
+  methods: {
+    scrollToBottom () {
+      this.$nextTick(() => {
+        const messagesList = this.$el
+        messagesList.scrollTop = messagesList.scrollHeight
+      })
+    }
+  },
+  watch: {
+    messages () {
+      this.messages.length && this.scrollToBottom()
+    }
   }
 }
 </script>
