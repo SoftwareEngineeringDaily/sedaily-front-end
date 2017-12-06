@@ -6,7 +6,7 @@
 			<span class="chat-message-counter">3</span>
 		</header>
 		<div v-bind:class="{ active: isChatBoxDisplayed, 'chat-box': true }">
-      <chat-message-list />
+      <chat-message-list :messages="messages" />
 			<chat-add-form :user="me"/>
 		</div> <!-- end chat -->
 	</div> <!-- end live-chat -->
@@ -40,7 +40,8 @@ export default {
     ...mapState({
       me (state) {
         return state.me
-      }
+      },
+      messages: state => state.chat.messages
     }),
     ...mapGetters([
       'isChatBoxDisplayed',
