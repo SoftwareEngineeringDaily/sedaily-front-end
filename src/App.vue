@@ -86,7 +86,6 @@ body
   background-color lighten(#eceef1, 30%) !important
   margin 0
   color #34495e
-  overflow-y scroll
   #app
     margin-bottom 120px
 a
