@@ -10,6 +10,7 @@ import RecomendationListView from '@/views/RecomendationListView'
 import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
+import ForgotPassword from '@/views/ForgotPassword'
 
 Vue.use(Router)
 
@@ -29,6 +30,7 @@ export default new Router({
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },
     { path: '/register', component: RegisterView },
+    { path: '/forgot-password', component: ForgotPassword },
     { path: '/profile', component: ProfileView }
   ]
 })

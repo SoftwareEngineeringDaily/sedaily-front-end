@@ -36,6 +36,9 @@
 
         <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
       </form>
+      <div>
+        <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+      </div>
     </div>
 
     <spinner :show="loading"></spinner>
