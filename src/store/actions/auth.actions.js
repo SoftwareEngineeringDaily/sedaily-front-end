@@ -39,5 +39,12 @@ export default {
       alert(error.response.data.message)
       return error
     })
+  },
+
+  sendForgotPasswordEmail: ({commit, state}, { email }) => {
+    return axios.post(`${BASE_URL}/users/request-password-reset`,
+      {
+        email
+      })
   }
 }

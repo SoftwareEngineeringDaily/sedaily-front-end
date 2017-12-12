@@ -55,7 +55,7 @@ export default {
         if (result) {
           this.loading = true
           const { email } = this
-          this.$store.dispatch('resetPassword', {
+          this.$store.dispatch('sendForgotPasswordEmail', {
             email
           })
           .then((response) => {
@@ -63,6 +63,8 @@ export default {
             this.submitted = true
           })
           .catch(() => {
+            this.loading = false
+            this.submitted = false
             alert('There was an error with your submission, make sure you are using the right email.')
           })
         }
