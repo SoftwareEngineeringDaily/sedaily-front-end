@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       password: '',
+      submitted: false,
       loading: false
     }
   },
@@ -53,11 +54,15 @@ export default {
           })
           .then((response) => {
             this.loading = false
+            this.submitted = true
             // TODO: should log you in :)
             if (response.data.token) this.$router.replace('/')
           })
         } else {
           console.log('Invalid values..')
+          this.loading = false
+          this.submitted = false
+          alert('There was an error with your submission, please contact us.')
           // alert('Please fix the errors')
         }
       })
