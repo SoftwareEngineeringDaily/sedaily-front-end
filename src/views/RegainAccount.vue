@@ -58,12 +58,14 @@ export default {
             // TODO: should log you in :)
             if (response.data.token) this.$router.replace('/')
           })
+          .catch((error) {
+            console.log('error', error)
+            this.loading = false
+            this.submitted = false
+            alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
+          })
         } else {
-          console.log('Invalid values..')
-          this.loading = false
-          this.submitted = false
-          alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than 30 minutes.')
-          // alert('Please fix the errors')
+          console.log('Invalid values..')                    
         }
       })
     }
