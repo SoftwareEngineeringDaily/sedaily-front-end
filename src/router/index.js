@@ -22,7 +22,7 @@ export default new Router({
       name: 'NewListView',
       component: NewListView
     },
-    { path: '/regain-account/:userKey/:userId', component: RegainAccount },
+    { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
     // Match route TODO: https://router.vuejs.org/en/essentials/dynamic-matching.html
 

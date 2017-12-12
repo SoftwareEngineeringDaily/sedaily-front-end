@@ -45,13 +45,13 @@ export default {
         if (result) {
           this.loading = true
           const { password } = this
-          const { userKey, userId } = this.$route.params
+          const { secretKey, resetUID } = this.$route.params
           console.log('password', password)
-          console.log('userKey', userKey)
+          console.log('secretKey', secretKey)
           this.$store.dispatch('regainAccount', {
             newPassword: password,
-            userKey,
-            userId
+            secretKey,
+            resetUID
           })
           .then((response) => {
             this.loading = false
