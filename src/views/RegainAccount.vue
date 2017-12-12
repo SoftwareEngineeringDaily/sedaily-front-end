@@ -45,12 +45,13 @@ export default {
         if (result) {
           this.loading = true
           const { password } = this
-          const { userKey } = this.$route.params
+          const { userKey, userId } = this.$route.params
           console.log('password', password)
           console.log('userKey', userKey)
           this.$store.dispatch('regainAccount', {
             newPassword: password,
-            userKey
+            userKey,
+            userId
           })
           .then((response) => {
             this.loading = false
@@ -58,14 +59,14 @@ export default {
             // TODO: should log you in :)
             if (response.data.token) this.$router.replace('/')
           })
-          .catch((error) {
+          .catch((error) => {
             console.log('error', error)
             this.loading = false
             this.submitted = false
             alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
           })
         } else {
-          console.log('Invalid values..')                    
+          console.log('Invalid values..')
         }
       })
     }
