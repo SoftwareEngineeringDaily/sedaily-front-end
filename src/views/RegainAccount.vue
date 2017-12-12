@@ -62,7 +62,7 @@ export default {
           console.log('Invalid values..')
           this.loading = false
           this.submitted = false
-          alert('There was an error with your submission, please contact us.')
+          alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than 30 minutes.')
           // alert('Please fix the errors')
         }
       })
