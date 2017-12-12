@@ -25,7 +25,7 @@
         Check your email for your reset link.
         Give it a few minutes and make sure to check your Spam folder.
       </p>
-      <h3 v-else>We'll send you a special link to allow you to reset your password. j</h3>
+      <h3 v-else>We'll send you a special link to allow you to reset your password.</h3>
 
       <div v-if=showForm>
         <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
