@@ -43,11 +43,10 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { password, } = this
+          const { password } = this
           const { userKey } = this.$route.params
           console.log('password', password)
           console.log('userKey', userKey)
-          
           this.$store.dispatch('regainAccount', {
             newPassword: password,
             userKey

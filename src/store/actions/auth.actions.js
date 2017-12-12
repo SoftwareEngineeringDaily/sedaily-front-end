@@ -46,13 +46,13 @@ export default {
       {
         email
       })
-  }
+  },
 
   regainAccount: ({commit, state}, { newPassword, userKey }) => {
     return axios.post(`${BASE_URL}/users/regain-password`,
       {
         newPassword,
-        userKey,
+        userKey
       })
   }
 }
