@@ -16,7 +16,8 @@
         class="alert alert-danger">
         {{ errors.first('password') }}
       </div>
-      </div>
+    </div>
+    <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
     </form>
   </div>
 </template>
@@ -42,9 +43,14 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const {password} = this
-          this.$store.dispatch('regain-account', {
-            password
+          const { password, } = this
+          const { userKey } = this.$route.params
+          console.log('password', password)
+          console.log('userKey', userKey)
+          
+          this.$store.dispatch('regainAccount', {
+            newPassword: password,
+            userKey
           })
           .then((response) => {
             this.loading = false
