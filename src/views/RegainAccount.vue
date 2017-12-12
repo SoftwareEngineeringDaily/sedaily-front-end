@@ -57,7 +57,8 @@ export default {
             this.loading = false
             this.submitted = true
             // TODO: should log you in :)
-            if (response.data.token) this.$router.replace('/')
+            // TODO: should alert success:
+            this.$router.replace('/login')
           })
           .catch((error) => {
             console.log('error', error)
