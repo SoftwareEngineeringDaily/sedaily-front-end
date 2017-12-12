@@ -11,6 +11,7 @@ import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
+import RegainAccount from '@/views/RegainAccount'
 
 Vue.use(Router)
 
@@ -22,6 +23,9 @@ export default new Router({
       component: NewListView
     },
     { path: '/top/:page(\\d+)?', component: TopListView },
+    // Match route TODO: https://router.vuejs.org/en/essentials/dynamic-matching.html
+    { path: '/regain-account/:userKey', component: RegainAccount },
+
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
