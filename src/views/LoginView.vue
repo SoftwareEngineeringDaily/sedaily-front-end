@@ -79,6 +79,7 @@ export default {
           })
         } else {
           console.log('Invalid values..')
+          this.loading = false
           // alert('Please fix the errors')
         }
       })
