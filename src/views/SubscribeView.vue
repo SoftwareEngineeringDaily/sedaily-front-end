@@ -29,6 +29,14 @@
 
     <div v-else="alreadySubscribed">
       <h1> Subscribe </h1>
+
+      <input type="radio" id="monthly" value="monthly" v-model="planType">
+      <label for="one">Monthly  ($10 / month )</label>
+      <br>
+      <input type="radio" id="yearly" value="yearly" v-model="planType">
+      <label for="two">Yearly  ($100 / year ) </label>
+      <br>
+
       <h3>Please provide your payment details:</h3>
       <br />
       <card class='stripe-card'
@@ -46,6 +54,7 @@
         <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
         <div><h2> {{successSubscribingMessage}} </h2> </div>
       </div>
+      <span>Your Plan: {{ planType }}</span>
     </div>
   </div>
 </template>
@@ -60,6 +69,7 @@ export default {
   data () {
     return {
       complete: false,
+      planType: 'monthly',
       loadingUser: true,
       processing: false,
       successSubscribingMessage: null,
