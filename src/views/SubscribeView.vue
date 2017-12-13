@@ -8,7 +8,7 @@
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are subscribed :) </h1>
-
+      Your plan: {{subscribedToPlan}}
       <br />
       <br />
 
@@ -155,6 +155,16 @@ export default {
           return false
         }
       },
+      subscribedToPlan (state) {
+        if (this.justCancelled) return 'cancelled'
+        if (this.justSubscribed) return this.planType
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return state.me.subscription.planFrequency
+        } else {
+          return ''
+        }
+      },
+
       me (state) {
         return state.me
       }
