@@ -99,6 +99,7 @@ export default {
   methods: {
     ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
     pay () {
+      this.error = null
       this.justCancelled = false
       this.processing = true
       // createToken returns a Promise which resolves in a result object with
@@ -126,6 +127,7 @@ export default {
     },
 
     cancelSubscriptionClicked () {
+      this.error = null
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
