@@ -54,7 +54,6 @@
         <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
         <div><h2> {{successSubscribingMessage}} </h2> </div>
       </div>
-      <span>Your Plan: {{ planType }}</span>
     </div>
   </div>
 </template>
@@ -110,7 +109,8 @@ export default {
       createToken().then(data => {
         // console.log(data.token)
         const stripeToken = data.token.id
-        return this.createSubscription({stripeToken})
+        const { planType } = this
+        return this.createSubscription({stripeToken, planType})
       })
       .then((result) => {
         // Successfully created subscription:
