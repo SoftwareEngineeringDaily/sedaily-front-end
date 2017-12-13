@@ -46,8 +46,6 @@ export default {
           this.loading = true
           const { password } = this
           const { secretKey, resetUID } = this.$route.params
-          console.log('password', password)
-          console.log('secretKey', secretKey)
           this.$store.dispatch('regainAccount', {
             newPassword: password,
             secretKey,
