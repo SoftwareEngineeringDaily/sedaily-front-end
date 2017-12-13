@@ -35,10 +35,12 @@
         </div>
 
         <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
+
+        <div class="col-med-12">
+          <br />
+          <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+        </div>
       </form>
-      <div>
-        <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
-      </div>
     </div>
 
     <spinner :show="loading"></spinner>
