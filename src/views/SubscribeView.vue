@@ -7,7 +7,7 @@
     </div>
     <div v-if="alreadySubscribed">
       <br />
-      <h1> You are already subscribed :) </h1>
+      <h1> You are subscribed :) </h1>
 
       <br />
       <br />
