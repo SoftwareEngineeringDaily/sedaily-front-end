@@ -83,6 +83,8 @@
     "vue-infinite-scroll": "^2.0.2",
     "vue-loader": "^11.3.4",
     "vue-router": "^2.3.1",
+    "vue-social-sharing": "^2.3.1",
+    "vue-stripe-elements-plus": "^0.2.6",
     "vue-style-loader": "^2.0.5",
     "vue-template-compiler": "^2.2.6",
     "vuetify": "^0.17.3",

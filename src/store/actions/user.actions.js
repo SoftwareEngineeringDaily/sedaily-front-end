@@ -33,23 +33,23 @@ export default {
     let token = getters.getToken
     let config = {}
     if (!token) {
-      return
+      throw new Error('User not signed in.')
     }
     config.headers = {
       'Authorization': 'Bearer ' + token
     }
     return axios.get(`${BASE_URL}/users/me`, config
-      )
-      .then(function (response) {
-        commit('setMe', {me: response.data})
-        return response
-      })
-      .catch(function (error) {
-        // @TODO: Add pretty pop up here
-        console.log(error)
-        alert(error.response.data.message)
-        return error
-      })
+    )
+    .then(function (response) {
+      commit('setMe', {me: response.data})
+      return response
+    })
+    .catch(function (error) {
+      // @TODO: Add pretty pop up here
+      console.log(error)
+      alert(error.response.data.message)
+      return error
+    })
   },
 
   updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {

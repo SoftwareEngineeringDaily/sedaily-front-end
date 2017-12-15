@@ -25,6 +25,23 @@
             {{ post.score || 0 }} points
             <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
             {{ post.date | timeAgo }} ago
+            <social-sharing :url="post.url"
+                      :title="post.title.rendered"
+                      :description="post.content.rendered"
+                      twitter-user="software_daily"
+                      inline-template>
+              <div class="sharing">
+                <network network="facebook">
+                  <i class="fa fa-facebook"></i> Facebook
+                </network>
+                <network network="linkedin">
+                  <i class="fa fa-linkedin"></i> LinkedIn
+                </network>
+                <network network="twitter">
+                  <i class="fa fa-twitter"></i> Twitter
+                </network>
+              </div>
+            </social-sharing>
           </p>
         </div>
       </div>
@@ -145,6 +162,7 @@ export default {
   padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
+
   h1
     display inline
     font-size 1.5em
