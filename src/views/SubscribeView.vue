@@ -8,8 +8,9 @@
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are subscribed :) </h1>
-      Your plan: {{subscribedToPlan}}
       Your subscription started: {{dateSubscriptionStarted}}
+      <br />
+      Your plan: {{subscribedToPlan}}
       <br />
       <br />
 
@@ -22,15 +23,15 @@
       <div><h2> {{error}} </h2> </div>
       <div><h2> {{successSubscribingMessage}} </h2> </div>
 
+      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
+        Cancel Your Subscription
+      </button>
       <p>
-      <h3> Cancelling?</h3>
+      <h4> Cancelling?</h4>
       Your subscription will be cancelled right away and you won't be charged again
       but you will lose access to the premium content right away.
       Contact jeff@softwaredaily.com for any questions.
       </p>
-      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
-        Cancel Your Subscription
-      </button>
     </div>
     </div>
 
