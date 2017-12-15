@@ -35,6 +35,11 @@
         </div>
 
         <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
+
+        <div class="col-med-12">
+          <br />
+          <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+        </div>
       </form>
     </div>
 
@@ -76,6 +81,7 @@ export default {
           })
         } else {
           console.log('Invalid values..')
+          this.loading = false
           // alert('Please fix the errors')
         }
       })

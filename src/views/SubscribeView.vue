@@ -7,8 +7,10 @@
     </div>
     <div v-if="alreadySubscribed">
       <br />
-      <h1> You are already subscribed :) </h1>
-
+      <h1> You are subscribed :) </h1>
+      Your subscription started: {{dateSubscriptionStarted}}
+      <br />
+      Your plan: {{subscribedToPlan}}
       <br />
       <br />
 
@@ -24,11 +26,25 @@
       <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
+      <p>
+      <h4> Cancelling?</h4>
+      Your subscription will be cancelled right away and you won't be charged again
+      but you will lose access to the premium content right away.
+      Contact jeff@softwaredaily.com for any questions.
+      </p>
     </div>
     </div>
 
     <div v-else="alreadySubscribed">
       <h1> Subscribe </h1>
+
+      <input type="radio" id="monthly" value="monthly" v-model="planType">
+      <label for="one">Monthly  ($10 / month )</label>
+      <br>
+      <input type="radio" id="yearly" value="yearly" v-model="planType">
+      <label for="two">Yearly  ($100 / year ) </label>
+      <br>
+
       <h3>Please provide your payment details:</h3>
       <br />
       <card class='stripe-card'
@@ -52,14 +68,16 @@
 
 <script>
 // import { stripeKey, stripeOptions } from './stripeConfig.json'
+import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '../components/Spinner.vue'
 
 export default {
   data () {
     return {
       complete: false,
+      planType: 'monthly',
       loadingUser: true,
       processing: false,
       successSubscribingMessage: null,
@@ -74,15 +92,19 @@ export default {
   },
 
   beforeMount () {
-    this.fetchMyProfileData()
-    .then((myData) => {
-      console.log('myData', myData)
-      this.loadingUser = false
-    })
-    .catch((error) => {
-      alert('Error loading user info.')
-      console.log('error loading user', error)
-    })
+    if (!this.isLoggedIn) {
+      alert('Please log in first')
+    } else {
+      this.fetchMyProfileData()
+      .then((myData) => {
+        console.log('myData', myData)
+        this.loadingUser = false
+      })
+      .catch((error) => {
+        alert('Error loading user info.')
+        console.log('error loading user', error)
+      })
+    }
   },
 
   components: { Card, Spinner },
@@ -90,6 +112,7 @@ export default {
   methods: {
     ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
     pay () {
+      this.error = null
       this.justCancelled = false
       this.processing = true
       // createToken returns a Promise which resolves in a result object with
@@ -100,7 +123,8 @@ export default {
       createToken().then(data => {
         // console.log(data.token)
         const stripeToken = data.token.id
-        return this.createSubscription({stripeToken})
+        const { planType } = this
+        return this.createSubscription({stripeToken, planType})
       })
       .then((result) => {
         // Successfully created subscription:
@@ -116,6 +140,7 @@ export default {
     },
 
     cancelSubscriptionClicked () {
+      this.error = null
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
@@ -136,6 +161,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       alreadySubscribed (state) {
         if (this.justSubscribed) return true
@@ -145,6 +171,26 @@ export default {
           return false
         }
       },
+      subscribedToPlan (state) {
+        if (this.justCancelled) return 'cancelled'
+        if (this.justSubscribed) return this.planType
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return state.me.subscription.planFrequency
+        } else {
+          return ''
+        }
+      },
+
+      dateSubscriptionStarted (state) {
+        if (this.justSubscribed) return 'Today'
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          const startDate = state.me.subscription.dateCreated
+          return moment(startDate).format('MMMM Do, YYYY')
+        } else {
+          return 'Loading...'
+        }
+      },
+
       me (state) {
         return state.me
       }

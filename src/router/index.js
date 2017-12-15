@@ -10,6 +10,8 @@ import RecomendationListView from '@/views/RecomendationListView'
 import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
+import ForgotPassword from '@/views/ForgotPassword'
+import RegainAccount from '@/views/RegainAccount'
 
 Vue.use(Router)
 
@@ -20,6 +22,7 @@ export default new Router({
       name: 'NewListView',
       component: NewListView
     },
+    { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
@@ -29,6 +32,7 @@ export default new Router({
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },
     { path: '/register', component: RegisterView },
+    { path: '/forgot-password', component: ForgotPassword },
     { path: '/profile', component: ProfileView }
   ]
 })
