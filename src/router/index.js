@@ -24,8 +24,6 @@ export default new Router({
     },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
-    // Match route TODO: https://router.vuejs.org/en/essentials/dynamic-matching.html
-
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
