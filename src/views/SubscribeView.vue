@@ -72,6 +72,7 @@ import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '../components/Spinner.vue'
+import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan, selectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
   data () {
@@ -93,12 +94,19 @@ export default {
 
   beforeMount () {
     if (!this.isLoggedIn) {
-      alert('Please log in first')
+      // First set a token for month, then Redirect  to /register
+      // TODO: maake pretty
+      alert('Please login or register first.')
     } else {
       this.fetchMyProfileData()
       .then((myData) => {
         console.log('myData', myData)
         this.loadingUser = false
+        if (!this.alreadySubscribed) {
+          if (wantedToSubscribe()) {
+            this.planType = preSelectedSubscriptionPlan()
+          }
+        } // else unselectSubscriptionPlan ?
       })
       .catch((error) => {
         alert('Error loading user info.')
