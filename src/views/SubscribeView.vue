@@ -101,10 +101,8 @@ export default {
 
   beforeMount () {
     if (!this.isLoggedIn) {
-      // First set a token for month, then Redirect  to /register
-      // TODO: maake pretty
-      alert('Please login or register first.')
-      this.$router.replace('/register')
+      // If user is not logged in we should show
+      this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
       .then((myData) => {
