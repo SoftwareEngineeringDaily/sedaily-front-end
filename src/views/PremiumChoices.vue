@@ -1,12 +1,32 @@
 <template>
-  <div>
-    <h1>Subscribe</h1>
+  <div class="container">
+
+    <!--
+    <div class="row">
+
+      <div class="col-md-12 text-center subscribe-logo">
+        <img width="60%" src="https://s3-us-west-2.amazonaws.com/sd-profile-pictures/SED_Logo_Vector.svg"/>
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1>Subscribe</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3>Get ad-free episodes and premium content</h3>
+      </div>
+    </div>
+
     Monthly
     <button @click="signUpForSubscriptionMonthly"> Get Started </button>
     Yearly
     <button @click="signUpForSubscriptionYearly"> Get Started </button>
     <div>
-      <h3>Why Premium?</h3>
+      <h3>Why Subscribe?</h3>
       <p>
         Blah
       </p>
@@ -60,5 +80,14 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+h1 {
+  font-size: 4rem;
+  
+}
+.container {
+  background: white;
+  padding: 30px;
+	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
+}
 </style>

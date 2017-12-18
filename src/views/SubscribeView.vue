@@ -190,6 +190,7 @@ export default {
           return false
         }
       },
+
       subscribedToPlan (state) {
         if (this.justCancelled) return 'cancelled'
         if (this.justSubscribed) return this.planType
