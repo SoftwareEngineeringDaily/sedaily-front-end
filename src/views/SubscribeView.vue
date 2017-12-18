@@ -20,8 +20,15 @@
       </div>
       <div v-else="processing">
 
+      <h3>
+         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+
+       </h3>
+       <br />
       <div><h2> {{error}} </h2> </div>
-      <div><h2> {{successSubscribingMessage}} </h2> </div>
+      <div><h2> {{successSubscribingMessage}} </h2>
+
+       </div>
 
       <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
@@ -72,7 +79,7 @@ import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '../components/Spinner.vue'
-import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan, selectSubscriptionPlan } from '../utils/subscription.utils.js'
+import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
   data () {
@@ -97,6 +104,7 @@ export default {
       // First set a token for month, then Redirect  to /register
       // TODO: maake pretty
       alert('Please login or register first.')
+      this.$router.replace('/register')
     } else {
       this.fetchMyProfileData()
       .then((myData) => {
@@ -106,7 +114,9 @@ export default {
           if (wantedToSubscribe()) {
             this.planType = preSelectedSubscriptionPlan()
           }
-        } // else unselectSubscriptionPlan ?
+        } else {
+          unselectSubscriptionPlan()
+        }
       })
       .catch((error) => {
         alert('Error loading user info.')
@@ -139,11 +149,14 @@ export default {
         this.processing = false
         this.justSubscribed = true
         this.successSubscribingMessage = 'Thanks for subscribing!'
+        unselectSubscriptionPlan()
       })
       .catch((error) => {
         console.log('error', error)
         this.processing = false
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Probably don't need to do this but should:
+        unselectSubscriptionPlan()
       })
     },
 
