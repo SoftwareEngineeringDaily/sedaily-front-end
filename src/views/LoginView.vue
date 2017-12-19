@@ -49,6 +49,7 @@
 
 <script>
 import Spinner from '@/components/Spinner.vue'
+import { wantedToSubscribe } from '../utils/subscription.utils.js'
 
 export default {
   name: 'login',
@@ -77,7 +78,15 @@ export default {
           })
           .then((response) => {
             this.loading = false
-            if (response.data.token) this.$router.replace('/')
+            if (response.data.token) {
+              if (wantedToSubscribe()) {
+                this.$router.replace('/subscribe')
+              } else {
+                this.$router.replace('/')
+              }
+            } else {
+              alert('Invalid login')
+            }
           })
         } else {
           console.log('Invalid values..')
