@@ -27,7 +27,7 @@
             {{ post.date | timeAgo }} ago
             <social-sharing :url="post.url"
                       :title="post.title.rendered"
-                      :description="post.content.rendered"
+                      :description="postContent"
                       twitter-user="software_daily"
                       inline-template>
               <div class="sharing">
@@ -49,7 +49,7 @@
       <div class="row">
         <div class="post-view-comments col-md-8">
           <button @click="toggleShowContent">{{contentButtonText}}</button>
-          <div v-if="showContent"  v-html='post.content.rendered'>
+          <div v-if="showContent"  v-html='postContent'>
           </div>
         </div>
         <div class="col-md-4 related-links-container">
@@ -84,6 +84,13 @@ export default {
     }
   },
   computed: {
+    postContent () {
+      if (this.post.cleanedContent) {
+        return this.post.cleanedContent
+      } else {
+        return this.post.content.rendered
+      }
+    }
     contentButtonText () {
       return this.showContent ? '-' : '+'
     },
