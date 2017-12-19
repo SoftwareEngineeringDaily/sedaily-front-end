@@ -23,7 +23,7 @@
 
 
 <div class="row text-center">
-  <div class="col-md-offset-2 col-md-5 text-center">
+  <div class="col-md-offset-2 col-md-6 text-center">
     <h4 class="plan-name"> Monthly </h4>
     <h4 class="price"> <span class="dollars"> $10 </span>  / mo </h4>
     <span class="billed-terms"> billed monthly </span>

@@ -31,7 +31,7 @@
     </header>
     <div class='container'>
       <div class="row">
-        <div class="col-md-8 col-centered text-center">
+        <div class="col-md-8 col-centered text-center" v-if="showBeta">
           Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github </a>.
         </div>
       </div>
@@ -62,6 +62,9 @@ export default {
   computed: {
     isPlayerActive () {
       return this.$store.state.activePlayerPost.mp3
+    },
+    showBeta () {
+      return this.$route.path === '/'
     },
     ...mapGetters(['isLoggedIn'])
   },
