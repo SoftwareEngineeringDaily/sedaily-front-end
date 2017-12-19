@@ -41,17 +41,88 @@
 
 
 <div class="row why-subscribe">
-  <div class="col-md-12 text-center why-subscribe-inner">
+  <div class="col-md-12 text-center why-subscribe-title">
+
     <h3>Why Subscribe?</h3>
+  </div>
+  <div class="col-md-12 why-subscribe-inner">
     <br />
     <p>
       For 2.5 years, our business model has been to sell advertisements in exchange for exposure on the podcast. We love our sponsors, and believe in the products that we promote. But we want to give listeners the ability to opt out of advertisements.
     </p>
+    <p>
+      When you subscribe to Software Engineering Daily, you are supporting us and enabling us to think bigger about what Software Engineering Daily could become.
+    </p>
+    <p>
+
+      We are investing heavily in both content and new products. We would like to invest more, and hope you will help us.
+    </p>
   </div>
 </div>
-<div>
+<div class='row faq'>
   <h3> Frequently Asked Questions </h3>
+  <br />
+  <div class='question'>
+    <h4 class="question-title">
+      How do I listen to ad free episodes?
+    </h4>
+    <p class="question-answer">
+      Download the Software Engineering Daily app for iOS or Android (add links), or go to softwaredaily.com and login.
+    </p>
+  </div>
+
+  <div class='question'>
+    <h4 class="question-title">
+      What premium content are you offering?
+    </h4>
+    <p class="question-answer">
+      Audio episodes that are only available to subscribers. The first premium episode is planned for January 2018. We will have other value-add features of a premium subscription over time.
+    </p>
+  </div>
+
+
+  <div class='question'>
+    <h4 class="question-title">
+      Why didn't you do Patreon?
+    </h4>
+    <p class="question-answer">
+      We did set up a Patreon account, but never promoted it. We didn't configure any premium offerings, and it was mixed messaging to have advertising and ask for donations.
+    </p>
+  </div>
+
+
+  <div class='question'>
+    <h4 class="question-title">
+      How does payment work for a subscription?
+    </h4>
+    <p class="question-answer">
+      You’ll need a credit card to sign up for a subscription. Payment’s are handled through stripe.
+    </p>
+  </div>
+
+
+  <div class='question'>
+    <h4 class="question-title">
+      How do I cancel my subscription?
+    </h4>
+    <p class="question-answer">
+      You can cancel your subscription at anytime. Visit your subscription settings to cancel.
+    </p>
+  </div>
+
+
+  <div class='question'>
+    <h4 class="question-title">
+      Have more questions?
+    </h4>
+    <p class="question-answer">
+      Feel free to contact us at jeff@softwaredaily.com if you have any more questions.
+    </p>
+  </div>
+
+
 </div>
+
 </div>
 
 
@@ -150,13 +221,29 @@ button:hover {
 	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
 }
 
+.why-subscribe-title {
+  margin: 0 auto;
+  margin-top: 50px;
+  max-width: 80%;
+}
+
 .why-subscribe-inner {
-  margin: 50px auto;
+  margin:  30px auto;
   max-width: 80%;
 }
 
 .why-subscribe {
   margin: 50px auto;
   background: #F6F6F6;
+}
+.faq {
+  max-width: 80%;
+  margin: auto;
+}
+.question {
+  margin: 20px 0;
+}
+.question-title {
+  margin: 20px 0;
 }
 </style>
