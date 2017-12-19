@@ -12,6 +12,7 @@ import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
+import PremiumChoices from '@/views/PremiumChoices'
 
 Vue.use(Router)
 
@@ -29,6 +30,7 @@ export default new Router({
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?', component: PostDetailsView },
     { path: '/subscribe', component: SubscribeView },
+    { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },
     { path: '/register', component: RegisterView },

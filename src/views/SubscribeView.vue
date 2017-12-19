@@ -20,8 +20,15 @@
       </div>
       <div v-else="processing">
 
+      <h3>
+         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+
+       </h3>
+       <br />
       <div><h2> {{error}} </h2> </div>
-      <div><h2> {{successSubscribingMessage}} </h2> </div>
+      <div><h2> {{successSubscribingMessage}} </h2>
+
+       </div>
 
       <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
@@ -72,6 +79,7 @@ import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '../components/Spinner.vue'
+import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
   data () {
@@ -93,12 +101,20 @@ export default {
 
   beforeMount () {
     if (!this.isLoggedIn) {
-      alert('Please log in first')
+      // If user is not logged in we should show
+      this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
       .then((myData) => {
         console.log('myData', myData)
         this.loadingUser = false
+        if (!this.alreadySubscribed) {
+          if (wantedToSubscribe()) {
+            this.planType = preSelectedSubscriptionPlan()
+          }
+        } else {
+          unselectSubscriptionPlan()
+        }
       })
       .catch((error) => {
         alert('Error loading user info.')
@@ -131,11 +147,14 @@ export default {
         this.processing = false
         this.justSubscribed = true
         this.successSubscribingMessage = 'Thanks for subscribing!'
+        unselectSubscriptionPlan()
       })
       .catch((error) => {
         console.log('error', error)
         this.processing = false
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Probably don't need to do this but should:
+        unselectSubscriptionPlan()
       })
     },
 
@@ -171,6 +190,7 @@ export default {
           return false
         }
       },
+
       subscribedToPlan (state) {
         if (this.justCancelled) return 'cancelled'
         if (this.justSubscribed) return this.planType

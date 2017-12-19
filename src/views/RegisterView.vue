@@ -79,13 +79,22 @@
 
         <button name='submit-button' class='btn btn-primary' :disabled='loading'>Register</button>
       </form>
+
     </div>
 
+    <br />
+    <div class='row'>
+      <div class='col-md-6 offset-md-3'>
+        Already have an account?
+        <router-link to="/login" name="login-link">Login</router-link>
+      </div>
+    </div>
     <spinner :show="loading"></spinner>
   </div>
 </template>
 
 <script>
+import { wantedToSubscribe } from '../utils/subscription.utils.js'
 import Spinner from '@/components/Spinner.vue'
 
 export default {
@@ -123,7 +132,16 @@ export default {
           })
           .then((response) => {
             this.loading = false
-            if (response.data.token) this.$router.replace('/')
+
+            if (response.data.token) {
+              if (wantedToSubscribe()) {
+                this.$router.replace('/subscribe')
+              } else {
+                this.$router.replace('/')
+              }
+            } else {
+              alert('Invalid registration')
+            }
           })
         } else {
           console.log('Failed to validate for registraiotn')
