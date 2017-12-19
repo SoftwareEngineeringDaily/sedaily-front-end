@@ -90,7 +90,7 @@ export default {
       } else {
         return this.post.content.rendered
       }
-    }
+    },
     contentButtonText () {
       return this.showContent ? '-' : '+'
     },
