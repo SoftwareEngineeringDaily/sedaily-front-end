@@ -67,7 +67,7 @@
       How do I listen to ad free episodes?
     </h4>
     <p class="question-answer">
-      Download the Software Engineering Daily app for iOS or Android (add links), or go to softwaredaily.com and login.
+      Download the Software Engineering Daily app for <a href="https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8" target="_blank"> iOS </a> or <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily" target="_blank">Android</a>, or go to softwaredaily.com and login.
     </p>
   </div>
 
@@ -202,10 +202,10 @@ button {
   margin: 20px;
   padding: 5px 0;
   min-width: 200px;
-  transition: width 3s;
+  transition: opacity 0.2s;
 }
 button:hover {
-  width: 220px;
+  opacity: 0.5;
 }
 .monthly-button {
   border: 1px solid black;
