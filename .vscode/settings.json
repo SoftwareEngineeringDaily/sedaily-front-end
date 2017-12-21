@@ -1,0 +1,14 @@
+{
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false,
+  "flow.useNPMPackagedFlow": true,
+  "flow.fileExtensions": [
+    ".js",
+    ".mjs",
+    ".jsx",
+    ".flow",
+    ".json",
+    ".vue"
+  ],
+  "vetur.validation.script": false
+}

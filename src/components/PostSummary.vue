@@ -8,7 +8,7 @@
       @click='downvote(post)'>▼</span>
     </div>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img":src="featuredImage" />
+      <img class="hero-img" :src="featuredImage" />
       <span class="play-button" @click='setActivePostInPlayer(post)'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
@@ -37,13 +37,14 @@
       <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
-</div>
 </template>
 
 <script>
 /* @flow */
 import moment from 'moment'
 import VueAplayer from 'vue-aplayer'
+import { Post } from 'sedaily-model'
+
 export default {
   name: 'PostSummary',
   props: ['post'],
@@ -61,10 +62,10 @@ export default {
     }
   },
   methods: {
-    setActivePostInPlayer: function (post:any) {
+    setActivePostInPlayer: function (post: Post) {
       this.$store.commit('setActivePostInPlayer', { post })
     },
-    upvote: function (post:any) {
+    upvote: function (post: Post) {
       console.log(post)
       this.$store.dispatch('upvote', {
         id: post._id

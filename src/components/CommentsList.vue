@@ -1,4 +1,4 @@
-<template>
+hb<template>
   <div>
     <div v-for="comment in comments">
       <comment-view :comment='comment'></comment-view>
