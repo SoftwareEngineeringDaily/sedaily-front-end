@@ -8,3 +8,5 @@ test/e2e/reports
 selenium-debug.log
 *.swp
 *.swo
+.vscode/
+.idea/
