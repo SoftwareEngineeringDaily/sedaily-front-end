@@ -1,17 +1,17 @@
-hb<template>
+<template>
   <div>
-    <div v-for="comment in comments">
+    <div v-for="comment in comments" :key="comment._id">
       <comment-view :comment='comment'></comment-view>
-      <!-- Replies -->
+      
       <comment-reply v-if="isLoggedIn"
-      :isReply='true' :parentComment='comment'></comment-reply>
+        :isReply='true'
+        :parentComment='comment' />
+
       <div class='replies'>
-        <div v-for="replyComment in comment.replies">
-          <comment-view :comment='replyComment'></comment-view>
-          <br />
+        <div v-for="replyComment in comment.replies" :key="replyComment._id">
+          <comment-view :comment='replyComment'></comment-view>          
         </div>
-      </div>
-      <br />
+      </div>      
     </div>
   </div>
 </template>
@@ -21,20 +21,28 @@ hb<template>
 import CommentView from './CommentView.vue'
 import CommentReply from './CommentReply.vue'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'comments-list',
-  props: ['comments'],
-  components: {CommentView, CommentReply},
+  props: {
+    comments: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    CommentView,
+    CommentReply
+  },
   computed: {
     ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
 
-<style scoped>
-.replies {
-  margin-top: 20px;
-  margin-left: 50px;
-  border-left: 1px solid #ccc;
-}
+<style lang="stylus" scoped>
+.replies
+  margin-top 20px
+  margin-left 50px
+  border-left 1px solid #ccc
 </style>

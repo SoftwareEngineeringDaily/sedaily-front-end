@@ -1,96 +1,67 @@
 <template>
-  <div class="login-view container">
-    <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='register'>
-        <h1>Register</h1>
+  <v-form>
+    <div class="headline">Register</div>
+    
+    <v-text-field 
+      label="Username" 
+      v-model="username"
+      v-validate="'required'" 
+      :error-messages="errors.collect('username')"
+      @keyup.enter.prevent="register"
+      data-vv-name="username"
+      required />                  
 
-        <div class="form-group">
-          <label for="usernameInput">Username</label>
-          <input type="text" v-model='username'
-          id="usernameInput"
-          name="username"
-          v-validate="'required'"
-          class="form-control"
-          aria-describedby="usernameHelp"
-          placeholder="Username">
+    <v-text-field 
+      label="Password" 
+      v-model="password"
+      type="password"
+      v-validate="'required'"
+      @keyup.enter.prevent="register"
+      :error-messages="errors.collect('password')"
+      data-vv-name="password"
+      required />
 
-          <div v-show="errors.has('username')"
-          class="alert alert-danger">
-          {{ errors.first('username') }}</div>
-        </div>
+    <v-text-field 
+      label="Name" 
+      v-model="name"
+      v-validate="'required'"
+      @keyup.enter.prevent="register"
+      :error-messages="errors.collect('name')"
+      data-vv-name="name"
+      required />
 
-        <div class="form-group">
-          <label for="passwordInput">Password</label>
-          <input type="password" v-model='password'
-          id="passwordInput"
-          name="password"
-          v-validate="'required'"
-          class="form-control"
-          aria-describedby="passwordHelp"
-          placeholder="Password">
+    <v-text-field 
+      label="Bio" 
+      @keyup.enter.prevent="register"
+      v-model="bio" /> 
 
-          <div v-show="errors.has('password')"
-          class="alert alert-danger">
-          {{ errors.first('password') }}</div>
-        </div>
+    <v-text-field 
+      label="Email address" 
+      v-model="email"
+      type="email"
+      @keyup.enter.prevent="register"
+      v-validate="'required'"
+      :error-messages="errors.collect('email')"
+      data-vv-name="email"
+      required />
 
-
-        <div class="form-group">
-          <label for="nameInput">Name</label>
-          <input type="text" v-model='name'
-          name="name"
-          id="nameInput"
-          class="form-control"
-          v-validate="'required'"
-          aria-describedby="nameHelp"
-          placeholder="Alex Smith">
-
-          <div v-show="errors.has('name')"
-          class="alert alert-danger">
-          {{ errors.first('name') }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="bioInput">Bio</label>
-          <input type="text" v-model='bio'
-          id="bioInput"
-          class="form-control"
-          aria-describedby="bioHelp"
-          placeholder="A short bio">
-        </div>
-
-        <div class="form-group">
-          <label for="emailInput">Email address</label>
-          <input type="email"
-          v-model='email'
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
-        </div>
-
-        <div class="form-group">
-          <label for="websiteInput">Website</label>
-          <input type="text" v-model='website'
-          id="websiteInput"
-          class="form-control"
-          aria-describedby="websiteHelp"
-          placeholder="yourWebsite.com">
-        </div>
-
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Register</button>
-      </form>
-
-    </div>
-
-    <br />
-    <div class='row'>
-      <div class='col-md-6 offset-md-3'>
+    <v-text-field 
+      label="Website" 
+      @keyup.enter.prevent="register"
+      v-model="website" />
+  
+    <v-layout row>
+      <v-flex xs6>
         Already have an account?
-        <router-link to="/login" name="login-link">Login</router-link>
-      </div>
-    </div>
-    <spinner :show="loading"></spinner>
-  </div>
+        <router-link to="/login" name="login-link">Login</router-link>    
+      </v-flex>
+      <v-flex xs6 class="text-xs-right">        
+        <v-btn  @click.prevent='register' :disabled="loading">Register</v-btn>  
+      </v-flex>
+    </v-layout>
+
+    <spinner :show="loading" />
+  </v-form>
 </template>
 
 <script>
@@ -130,19 +101,19 @@ export default {
             website,
             email
           })
-          .then((response) => {
-            this.loading = false
+            .then((response) => {
+              this.loading = false
 
-            if (response.data.token) {
-              if (wantedToSubscribe()) {
-                this.$router.replace('/subscribe')
+              if (response.data.token) {
+                if (wantedToSubscribe()) {
+                  this.$router.replace('/subscribe')
+                } else {
+                  this.$router.replace('/')
+                }
               } else {
-                this.$router.replace('/')
+                alert('Invalid registration')
               }
-            } else {
-              alert('Invalid registration')
-            }
-          })
+            })
         } else {
           console.log('Failed to validate for registraiotn')
         }

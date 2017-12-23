@@ -166,7 +166,6 @@ export default {
     ...mapGetters(['isLoggedIn'])
   }
 }
-
 </script>
 
 <style scoped>

@@ -1,30 +1,21 @@
 <template>
   <div>
-    <h4> Related Links </h4>
-    <div v-for="relatedLink in relatedLinks" class="related-links-list">
-      <related-link :relatedLink="relatedLink"> </related-link>
-    </div>
-</div>
+    <h4>Related Links </h4>
+    <related-link :relatedLink="relatedLink" v-for="relatedLink in relatedLinks" :key="relatedLink._id" />
+  </div>
 </template>
 
 <script>
 import RelatedLink from '@/components/RelatedLink.vue'
-// import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'related-link-list',
-  components: {RelatedLink},
-  props: ['relatedLinks'],
-  data () {
-    return {
-      loading: true,
-      username: null
+  components: { RelatedLink },
+  props: {
+    relatedLinks: {
+      type: Array,
+      required: true
     }
   }
 }
 </script>
-
-<style scoped>
-.related-links-list {
-  margin: 20px 0px;
-}
-</style>

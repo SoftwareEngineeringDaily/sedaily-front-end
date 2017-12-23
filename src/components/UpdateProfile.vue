@@ -1,107 +1,89 @@
 <template>
-  <div class="update-profile-view container">
-    <div class='row'>
-      <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
+  <v-form>
+    <div class="headline">Update Profile</div>
 
-        <div v-if="showExisintAvatarUrl">
-          <img :src="avatarUrl" />
-        </div>
+    <div v-if="showExistingAvatarUrl">
+      <img :src="avatarUrl" />
+    </div>
 
-        <div class="form-group" v-if="false">
-          <div v-if="!image">
-            <h2>Select an image</h2>
-            <input type="file" @change="onFileChange">
-          </div>
-          <div v-else>
-            <img :src="image" />
-            <button @click="removeImage">Remove image</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="usernameInput">Username</label>
-          <input type="username" v-model='username'
-          id="usernameInput"
-          name="username"
-          v-validate="'required'"
-          class="form-control"
-          aria-describedby="usernameHelp"
-          placeholder="Username">
-
-          <div v-show="errors.has('username')"
-          class="alert alert-danger">
-          {{ errors.first('username') }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="nameInput">Name</label>
-          <input type="text" v-model='name'
-          name="name"
-          id="nameInput"
-          class="form-control"
-          v-validate="'required'"
-          aria-describedby="nameHelp"
-          placeholder="Alex Smith">
-
-          <div v-show="errors.has('name')"
-          class="alert alert-danger">
-          {{ errors.first('name') }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="bioInput">Bio</label>
-          <input type="text" v-model='bio'
-          id="bioInput"
-          class="form-control"
-          aria-describedby="bioHelp"
-          placeholder="A short bio">
-        </div>
-
-        <div class="form-group">
-          <label for="emailInput">Email address</label>
-          <input type="email"
-          v-model='email'
-          v-validate="{ required: false, email: true}"
-          name='email'
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-           placeholder="youremail@email.com">
-           <div v-show="errors.has('email')"
-           class="alert alert-danger">
-           {{ errors.first('email') }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="websiteInput">Website</label>
-          <input type="text" v-model='website'
-          id="websiteInput"
-          class="form-control"
-          aria-describedby="websiteHelp"
-          placeholder="yourWebsite.com">
-        </div>
-
-        <button
-        class='btn btn-primary'
-        @click.prevent='submit' :disabled='loading'>
-          Update
-        </button>
-        {{msg}}
+    <div class="form-group">
+      <div v-if="!image">
+        <div class="headline">Select an image</div>
+        <input type="file" @change="onFileChange">
+      </div>
+      <div v-else>
+        <img :src="image" />
+        <v-btn @click.prevent="removeImage">Remove image</v-btn>
       </div>
     </div>
 
+    <v-text-field 
+      label="Username" 
+      v-model="username"
+      v-validate="'required'" 
+      :error-messages="errors.collect('username')"
+      @keyup.enter.prevent="submit"
+      data-vv-name="username"
+      required />  
+
+    <v-text-field 
+      @keyup.enter.prevent="submit"
+      label="Name" 
+      v-model="name"
+      v-validate="'required'"
+      :error-messages="errors.collect('name')"
+      data-vv-name="name"
+      required />
+
+    <v-text-field 
+      label="Bio" 
+      @keyup.enter.prevent="submit"
+      v-model="bio" /> 
+
+    <v-text-field 
+      label="Email address" 
+      v-model="email"
+      @keyup.enter.prevent="submit"
+      type="email"
+      v-validate="'required'"
+      :error-messages="errors.collect('email')"
+      data-vv-name="email"
+      required />
+
+    <v-text-field 
+      label="Website" 
+      @keyup.enter.prevent="submit"
+      v-model="website" />
+  
+    <v-layout row>
+      <v-flex xs6>{{ msg }}</v-flex>
+      <v-flex xs6 class="text-xs-right">
+        <v-btn  @click.prevent='submit' :disabled="loading">Submit</v-btn>
+      </v-flex>
+    </v-layout>
+    
     <spinner :show="loading"></spinner>
-  </div>
+  </v-form>
 </template>
 
 <script>
 /* @flow */
-// Maybe this can be a simple updater of profiles etc:
 import Spinner from './Spinner.vue'
 import { mapState, mapActions } from 'vuex'
-// TODO: remove usename update for now?
+
 export default {
+  $validates: true,
   name: 'update-profile',
-  props: ['initialUsername', 'me'],
+  props: {
+    initialUsername: {
+      type: String,
+      required: true
+    },
+    me: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     Spinner
   },
@@ -131,7 +113,7 @@ export default {
         return state.me.avatarUrl
       },
 
-      showExisintAvatarUrl (state) {
+      showExistingAvatarUrl (state) {
         return state.me.avatarUrl && !this.image
       }
 
@@ -178,17 +160,17 @@ export default {
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({imageFile: this.file})
-            .then((imageSuccess) => {
-              return this.updateProfile({
-                username,
-                id,
-                name,
-                bio,
-                isAvatarSet: true,
-                website,
-                email
+              .then((imageSuccess) => {
+                return this.updateProfile({
+                  username,
+                  id,
+                  name,
+                  bio,
+                  isAvatarSet: true,
+                  website,
+                  email
+                })
               })
-            })
           } else {
             updatePromise = this.updateProfile({
               username,
@@ -202,18 +184,18 @@ export default {
           }
 
           updatePromise
-          .then((response) => {
-            this.loading = false
-            // This means we are just updating our profile:
-            // TODO: have it be a componenet that is passed on
-            if (this.me) {
-              this.msg = 'Success, your profile was Updated :)'
-            }
-          })
-          .catch((error) => {
-            console.log('Error Updaating', error)
-            alert('There was a problem updating your profile')
-          })
+            .then((response) => {
+              this.loading = false
+              // This means we are just updating our profile:
+              // TODO: have it be a componenet that is passed on
+              if (this.me) {
+                this.msg = 'Success, your profile was Updated :)'
+              }
+            })
+            .catch((error) => {
+              console.log('Error Updaating', error)
+              alert('There was a problem updating your profile')
+            })
         } else {
           this.msg = 'Invalid fields on form :('
         }
@@ -222,6 +204,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-</style>

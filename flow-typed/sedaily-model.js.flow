@@ -1,0 +1,5 @@
+declare module 'sedaily-model' {
+  declare class Post {
+    _id: number
+  }
+}

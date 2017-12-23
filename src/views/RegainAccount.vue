@@ -51,19 +51,19 @@ export default {
             secretKey,
             resetUID
           })
-          .then((response) => {
-            this.loading = false
-            this.submitted = true
-            // TODO: should log you in :)
-            // TODO: should alert success:
-            this.$router.replace('/login')
-          })
-          .catch((error) => {
-            console.log('error', error)
-            this.loading = false
-            this.submitted = false
-            alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
-          })
+            .then((response) => {
+              this.loading = false
+              this.submitted = true
+              // TODO: should log you in :)
+              // TODO: should alert success:
+              this.$router.replace('/login')
+            })
+            .catch((error) => {
+              console.log('error', error)
+              this.loading = false
+              this.submitted = false
+              alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
+            })
         } else {
           console.log('Invalid values..')
         }
@@ -71,5 +71,4 @@ export default {
     }
   }
 }
-
 </script>

@@ -35,7 +35,12 @@ import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-view',
-  props: ['comment'],
+  props: {
+    comment: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState({
       isRootLevelComment () {
@@ -68,15 +73,15 @@ export default {
       this.removeComment({
         id: this.comment._id
       })
-      .then(() => {
-        this.commentsFetch({
-          postId: this.comment.post
+        .then(() => {
+          this.commentsFetch({
+            postId: this.comment.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
@@ -108,8 +113,6 @@ export default {
 
 .avatar
   width: 50px
-
-
 
 .arrow
   color #888

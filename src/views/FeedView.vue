@@ -1,16 +1,14 @@
 
 <template>
   <div>
-    <br />
-        <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
-        </feed-item>
-    <br />
+    <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />    
   </div>
 </template>
 
 <script>
 import FeedItem from '@/components/FeedItem.vue'
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'feed-view',
 
@@ -26,12 +24,12 @@ export default {
 
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.fetchMyFeed({userId: this.me._id})
-        .then((feedItems) => {
-          this.loading = false
-        })
-    })
+      .then(() => {
+        this.fetchMyFeed({userId: this.me._id})
+          .then((feedItems) => {
+            this.loading = false
+          })
+      })
   },
   methods: {
     ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ])

@@ -21,7 +21,12 @@
 <script>
 export default {
   name: 'comment',
-  props: ['id'],
+  props: {
+    id: {
+      type: number,
+      required: true
+    }
+  },
   data () {
     return {
       open: true

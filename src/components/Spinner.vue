@@ -9,7 +9,12 @@
 /* @flow */
 export default {
   name: 'spinner',
-  props: ['show'],
+  props: {
+    show: {
+      type: Boolean,
+      required: true
+    }
+  },
   serverCacheKey: (props:{show: string}):any => props.show
 }
 </script>
