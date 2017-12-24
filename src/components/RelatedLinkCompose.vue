@@ -65,7 +65,11 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['relatedLinksCreate', 'relatedLinksFetch']),
+    ...mapActions([
+      'relatedLinksCreate',
+      'showErrorMessage',
+      'relatedLinksFetch'
+    ]),
     submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -89,10 +93,10 @@ export default {
             })
             .catch((error) => {
               this.isSubmitting = false
-              alert(error.response.data.message)
+              this.showErrorMessage(error.response.data.message)
             })
         } else {
-          alert('Sorry there was a problem :(')
+          this.showErrorMessage('Sorry there was a problem :(')
         }
       })
     }

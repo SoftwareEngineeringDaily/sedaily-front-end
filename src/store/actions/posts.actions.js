@@ -37,9 +37,8 @@ export default {
         return {posts: response.data, maxPage: 4}
       })
       .catch(function (error) {
-      // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
       })
   },
 
@@ -64,14 +63,12 @@ export default {
         return {posts: response.data, maxPage: 4}
       })
       .catch(function (error) {
-      // @TODO: Add pretty pop up here
         console.log(error)
-      // alert(error.message)
-      // alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
       })
   },
 
-  fetchArticle: ({commit, state, getters}, { id }) => {
+  fetchArticle: ({commit, dispatch, state, getters}, { id }) => {
     console.log('fetch article', id)
 
     let options = {}
@@ -90,16 +87,15 @@ export default {
         return {post}
       })
       .catch(function (error) {
-      // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
       })
   },
 
-  upvote: ({commit, getters, state}, { id }) => {
+  upvote: ({commit, dispatch, getters, state}, { id }) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('upVote', { articleId: id })
@@ -111,10 +107,10 @@ export default {
     })
   },
 
-  downvote: ({commit, getters, state}, { id }) => {
+  downvote: ({commit, dispatch, getters, state}, { id }) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('downVote', { articleId: id })

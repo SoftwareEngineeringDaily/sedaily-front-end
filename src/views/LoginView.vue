@@ -40,6 +40,7 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
+import { mapActions } from 'vuex'
 
 export default {
   $validates: true,
@@ -58,6 +59,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['showErrorMessage']),
     login: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -76,13 +78,12 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid login')
+                this.showErrorMessage('Invalid login')
               }
             })
         } else {
           console.log('Invalid values..')
           this.loading = false
-          // alert('Please fix the errors')
         }
       })
     }

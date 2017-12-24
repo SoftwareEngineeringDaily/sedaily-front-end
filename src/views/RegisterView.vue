@@ -70,6 +70,7 @@
 <script>
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
 import Spinner from '@/components/Spinner.vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'top-list',
@@ -91,6 +92,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['showErrorMessage']),
     register: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -114,7 +116,7 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid registration')
+                this.showErrorMessage('Invalid registration')
               }
             })
         } else {

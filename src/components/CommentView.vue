@@ -60,7 +60,12 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    ...mapActions([
+      'likeComment',
+      'removeComment',
+      'commentsFetch',
+      'showErrorMessage'
+    ]),
     upvoteHandler () {
       this.likeComment({
         id: this.comment._id,
@@ -79,7 +84,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.showErrorMessage('Error deleting :(')
         })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {

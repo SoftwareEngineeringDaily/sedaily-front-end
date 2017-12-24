@@ -19,10 +19,10 @@ export default {
     return axios.post(url, options, config)
   },
 
-  likeComment: ({commit, getters, state}, { id, postId, parentCommentId }) => {
+  likeComment: ({commit, dispatch, getters, state}, { id, postId, parentCommentId }) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('likeComment', { commentId: id, postId, parentCommentId })
@@ -33,11 +33,11 @@ export default {
     })
   },
 
-  removeComment: ({commit, getters, state}, { id }) => {
+  removeComment: ({commit, dispatch, getters, state}, { id }) => {
     console.log('ID', id)
     let token = getters.getToken
     if (!token) {
-      alert('Login to delete your comment')
+      dispatch('showErrorMessage', 'Login to delete your comment')
       return
     }
     return axios.delete(`${BASE_URL}/comments/${id}`, {

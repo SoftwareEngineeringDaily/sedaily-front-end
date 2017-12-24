@@ -120,7 +120,11 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['updateProfile', 'uploadAvatarImage']),
+    ...mapActions([
+      'updateProfile',
+      'showErrorMessage',
+      'uploadAvatarImage'
+    ]),
 
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
@@ -194,7 +198,7 @@ export default {
             })
             .catch((error) => {
               console.log('Error Updaating', error)
-              alert('There was a problem updating your profile')
+              this.showErrorMessage('There was a problem updating your profile')
             })
         } else {
           this.msg = 'Invalid fields on form :('

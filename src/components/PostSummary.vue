@@ -16,7 +16,7 @@
       <div class="news-content">    
         <div class="news-title">
           <template v-if="post.url">
-            <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
+            <a :href="post.url" target="_blank" rel="noopener" >{{ post.title.rendered | decodeString }}</a>
             <span class="host"> ({{ post.url | host }})</span>
           </template>
           <template v-else>

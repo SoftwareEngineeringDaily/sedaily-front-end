@@ -2,7 +2,7 @@ import axios from 'axios'
 import {BASE_URL} from './config.js'
 
 export default {
-  login: ({commit, state}, { username, password }) => {
+  login: ({commit, dispatch, state}, { username, password }) => {
     return axios.post(`${BASE_URL}/auth/login`,
       {
         username,
@@ -13,14 +13,13 @@ export default {
         return response
       })
       .catch(function (error) {
-        // @TODO: Add pretty pop up here
-        console.log(error)
-        alert(error.response.data.message)
+        console.log(error.response)
+        dispatch('showErrorMessage', error.response.data.message)
         return error
       })
   },
 
-  register: ({commit, state}, {password, username, bio, website, name, email}) => {
+  register: ({commit, dispatch, state}, {password, username, bio, website, name, email}) => {
     return axios.post(`${BASE_URL}/auth/register`, {
       username,
       bio,
@@ -34,9 +33,8 @@ export default {
         return response
       })
       .catch(function (error) {
-      // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
         return error
       })
   },

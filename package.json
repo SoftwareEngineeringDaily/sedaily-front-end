@@ -7,6 +7,7 @@
   "scripts": {
     "launch": "npm run build && npm start",
     "dev": "node build/dev-server.js",
+    "prod": "npm run build && node dist/server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
@@ -20,7 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "moment": "^2.20.1",
+    "moment": "^2.20.1",        
     "vee-validate": "^2.0.0-rc.27",
     "vue": "^2.5.13",
     "vue-aplayer": "^0.1.1",
@@ -98,6 +99,8 @@
     "sinon-chai": "^2.14.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
+    "sw-precache-webpack-plugin": "^0.11.4",
+    "uglify-es": "^3.2.2",
     "url-loader": "^0.6.2",
     "vue-loader": "^13.6.1",
     "vue-style-loader": "^3.0.3",

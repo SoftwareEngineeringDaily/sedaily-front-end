@@ -29,7 +29,7 @@ export default {
       })
   },
 
-  fetchMyProfileData: ({commit, state, getters}) => {
+  fetchMyProfileData: ({commit, dispatch, state, getters}) => {
     let token = getters.getToken
     let config = {}
     if (!token) {
@@ -45,14 +45,13 @@ export default {
         return response
       })
       .catch(function (error) {
-      // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
         return error
       })
   },
 
-  updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
+  updateProfile: ({commit, dispatch, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -74,9 +73,8 @@ export default {
         return response
       })
       .catch(function (error) {
-        // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
         return error
       })
   }

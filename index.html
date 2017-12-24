@@ -1,16 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3f58af">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#3f58af">
+    <meta name="apple-mobile-web-app-title" content="my-pwa">
+
     <title>Software Daily</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon.png">
+
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
   </head>
   <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <noscript>
+      This site required javascript enabled to function correctly
+    </noscript>
 
+    <div id="app"></div>
+
+    <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
+    <!-- built files will be auto injected -->
     <script src="https://js.stripe.com/v3/"></script>
   </body>
 </html>

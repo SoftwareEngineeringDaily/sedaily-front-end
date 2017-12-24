@@ -2,6 +2,15 @@ import Vue from 'vue'
 import find from 'lodash/find'
 
 export default {
+  showErrorDialog (state, message) {
+    state.errorMessage = message
+    state.showErrorDialog = true
+  },
+
+  hideErrorDialog (state) {
+    state.errorMessage = ''
+    state.showErrorDialog = false
+  },
 
   setActivePostInPlayer: (state, { post }) => {
     state.activePlayerPost = post

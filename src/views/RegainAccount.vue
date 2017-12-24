@@ -24,6 +24,8 @@
 
 <script>
 import Spinner from '@/components/Spinner.vue'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'regain-account',
 
@@ -40,6 +42,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['showErrorMessage']),
     regainAccount: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -62,7 +65,7 @@ export default {
               console.log('error', error)
               this.loading = false
               this.submitted = false
-              alert('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
+              this.showErrorMessage('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
             })
         } else {
           console.log('Invalid values..')

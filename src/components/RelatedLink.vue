@@ -13,8 +13,8 @@
       </span>
     </v-flex>
     <v-flex xs11>
-      <a :href="relatedLink.url | externalUrl" target="_blank"
-    rel="external nofollow"
+      <a :href="relatedLink.url | externalUrl" target="_blank" 
+    rel="external nofollow noopener"
     > {{relatedLink.title || relatedLink.url}} </a>
 
      <v-btn v-if='myLink' @click.prevent='remove'>Delete</v-btn>
@@ -37,7 +37,8 @@ export default {
       'upvoteRelatedLink',
       'downvoteRelatedLink',
       'removeRelatedLink',
-      'relatedLinksFetch'
+      'relatedLinksFetch',
+      'showErrorMessage'
     ]),
     remove () {
       this.removeRelatedLink({
@@ -50,7 +51,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.showErrorMessage('Error deleting :(')
         })
     },
     upvoteHandler () {

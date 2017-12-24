@@ -34,6 +34,7 @@
 
 <script>
 import Spinner from '@/components/Spinner.vue'
+import { mapActions } from 'vuex'
 
 export default {
   $validates: true,
@@ -58,6 +59,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['showErrorMessage']),
     submit: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -73,7 +75,7 @@ export default {
             .catch(() => {
               this.loading = false
               this.submitted = false
-              alert('There was an error with your submission, make sure you are using the right email.')
+              this.showErrorMessage('There was an error with your submission, make sure you are using the right email.')
             })
         }
       })

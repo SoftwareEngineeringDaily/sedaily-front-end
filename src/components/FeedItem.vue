@@ -4,7 +4,7 @@
     
     <v-card-title>
       <a :href="feedItem.url | externalUrl" target="_blank"
-      rel="external nofollow">
+      rel="external nofollow noopener">
         <span class='title'>
         {{feedItem.title || feedItem.url}}
         </span>

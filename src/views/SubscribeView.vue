@@ -114,7 +114,7 @@ export default {
           }
         })
         .catch((error) => {
-          alert('Error loading user info.')
+          this.showErrorMessage('Error loading user info.')
           console.log('error loading user', error)
         })
     }
@@ -123,7 +123,12 @@ export default {
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
+    ...mapActions([
+      'createSubscription',
+      'fetchMyProfileData',
+      'showErrorMessage',
+      'cancelSubscription'
+    ]),
     pay () {
       this.error = null
       this.justCancelled = false

@@ -68,6 +68,7 @@ export default {
     ...mapActions([
       'commentsCreate',
       'commentsFetch',
+      'showErrorMessage',
       'fetchMyProfileData'
     ]),
     submitComment () {
@@ -87,7 +88,7 @@ export default {
           })
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          this.showErrorMessage(error.response.data.message)
         })
     }
   }

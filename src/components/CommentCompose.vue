@@ -67,7 +67,12 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
+    ...mapActions([
+      'commentsCreate',
+      'fetchMyProfileData',
+      'showErrorMessage',
+      'commentsFetch'
+    ]),
     submitComment () {
       this.isSubmitting = true
       this.commentsCreate({
@@ -84,20 +89,9 @@ export default {
         })
         .catch((error) => {
           this.isSubmitting = false
-          alert(error.response.data.message)
+          this.showErrorMessage(error.response.data.message)
         })
     }
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-.comment-box
-  width 100%
-  padding 20px 10px
-  margin-bottom 12px
-  border-radius 7px
-  border-color #c5c5c5
-
-</style>

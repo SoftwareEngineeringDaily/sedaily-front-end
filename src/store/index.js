@@ -22,6 +22,8 @@ const store = new Vuex.Store({
       new: [],
       recommendation: []
     },
+    showErrorDialog: false,
+    errorMessage: '',
     token: localStorage.getItem('token')
   },
   actions,

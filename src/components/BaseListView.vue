@@ -198,7 +198,7 @@ export default {
 
 <style lang="stylus" scoped>
 .search-box
-  width 400px
+  max-width 400px
   float right
 </style>
 
