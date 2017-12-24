@@ -1,4 +1,5 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <v-form>
     <div class="headline">Register</div>
     
@@ -6,6 +7,7 @@
       label="Username" 
       v-model="username"
       v-validate="'required'" 
+      autofocus
       :error-messages="errors.collect('username')"
       @keyup.enter.prevent="register"
       data-vv-name="username"
@@ -62,6 +64,7 @@
 
     <spinner :show="loading" />
   </v-form>
+</v-flex>
 </template>
 
 <script>
@@ -122,6 +125,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-</style>

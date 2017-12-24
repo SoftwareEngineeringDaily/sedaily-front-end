@@ -8,12 +8,10 @@
           Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github </a>.
         </v-flex>
       </v-layout>
-      <v-layout row>
-        <v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
-          <transition name="fade" mode="out-in">
-            <router-view />
-          </transition>
-        </v-flex>
+      <v-layout row>        
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
       </v-layout>
     </v-container>
     

@@ -1,8 +1,11 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <div class="news-view">
     <div v-if="showFilteringElements">
       <v-text-field 
         label="Search..."
+        class="search-box"
+        prepend-icon="search"
         v-model="searchTerm"
         debounce="900" />
     </div>
@@ -25,7 +28,7 @@
       <div fluid grid-list-xs v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
         <v-container>
           <v-layout row wrap>
-            <v-flex xs6 
+            <v-flex xs12 sm6
               v-for="post in displayedPosts" 
               :key="post._id">
               <post-summary             
@@ -44,6 +47,7 @@
           
     </transition>
   </div>
+</v-flex>
 </template>
 
 <script>
@@ -191,3 +195,10 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.search-box
+  width 400px
+  float right
+</style>
+

@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .comment-children
   .comment-children
     margin-left 1.5em

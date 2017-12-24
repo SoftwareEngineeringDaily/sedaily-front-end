@@ -53,7 +53,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .logo
 .feed-icon
 .new-icon
@@ -65,8 +65,8 @@ export default {
 
 .btn--active .btn__content:before, 
 .btn:hover .btn__content:before, 
-.btn:focus .btn__content:before {
-  background-color: inherit;
-}
+.btn:focus .btn__content:before
+  background-color inherit
+
 </style>
 

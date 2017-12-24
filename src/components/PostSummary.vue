@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 .news-content
   display inline-flex
   flex-direction column

@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 .row
   justify-content center
   align-items center
@@ -100,9 +100,7 @@ export default {
       cursor pointer
       color #888
 
-  .link-holder {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e8e8e8;
-
-  }
+  .link-holder
+    padding-bottom 20px
+    border-bottom 1px solid #e8e8e8
 </style>

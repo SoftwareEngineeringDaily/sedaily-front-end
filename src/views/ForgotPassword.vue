@@ -1,4 +1,5 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <v-form>
     <div class="headline">Reset Your Password</div>
 
@@ -6,6 +7,7 @@
       label="Email address" 
       v-model="email"
       type="email"
+      autofocus
       v-validate="'required'"
       @keyup.enter.prevent="submit"
       :error-messages="errors.collect('email')"
@@ -27,6 +29,7 @@
     
     <spinner :show="loading" />
   </v-form>
+</v-flex>
 </template>
 
 <script>
@@ -78,6 +81,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

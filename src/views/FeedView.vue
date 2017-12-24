@@ -1,8 +1,10 @@
 
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <div>
     <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />    
   </div>
+</v-flex>
 </template>
 
 <script>

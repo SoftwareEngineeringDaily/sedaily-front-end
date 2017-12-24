@@ -94,26 +94,25 @@ export default {
 }
 </script>
 
-<style scoped>
-  .reply-container {
-    margin-left: 50px;
-    margin-top: 10px;
-  }
-  .collapsed-area{
-    margin-left: 20px;
-    margin-top: 10px;
-  }
+<style lang="stylus" scoped>
 
-  .link {
-    color: green;
-    cursor: pointer;
-  }
+.reply-container 
+  margin-left 50px
+  margin-top 10px
 
-  .reply-box {
-    width: 100%;
-    padding: 5px 5px;
-    margin-bottom: 12px;
-    border-radius: 2px;
-    border-color: #c5c5c5;
-  }
+.collapsed-area
+  margin-left 20px
+  margin-top 10px
+
+.link 
+  color green
+  cursor pointer
+
+.reply-box 
+  width 100%
+  padding 5px 5px
+  margin-bottom 12px
+  border-radius 2px
+  border-color #c5c5c5
+
 </style>

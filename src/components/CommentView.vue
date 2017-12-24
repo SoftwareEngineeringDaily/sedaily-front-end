@@ -2,11 +2,10 @@
   <div class='comment'>
     <span class='content'>
       <div>
-
-        <div class='voting' style='display:inline-block; height: 100%;'>
+        <div class='voting'>
           <span class="score">
-            <span class='arrow' v-bind:class="{ active: comment.upvoted }"
-            style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
+            <span class='arrow' :class="{ active: comment.upvoted }"
+              @click.prevent='upvoteHandler'>▲</span>
             <br>
             {{ comment.score || 0}}
           </span>
@@ -21,7 +20,7 @@
       <div v-else>
         <i>Comment has been deleted</i>
       </div>
-      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
+      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click.prevent='remove'>
         Delete
       </div>
     </span>
@@ -109,13 +108,15 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 
 .avatar
   width: 50px
 
 .arrow
   color #888
+  margin-left 1px
+
   &:hover
     cursor pointer
     color #3F58AF
@@ -126,25 +127,27 @@ export default {
       cursor pointer
       color #888
 
+.comment-date
+  padding-left 10px
+  color #ccc
 
-.comment-date {
-  padding-left: 10px;
-  color: #ccc;
-}
-.comment {
-  display: flex;
-}
+.comment
+  display flex
 
 .delete
   color: red
   &:hover
     cursor pointer
 
-.profile-img {
-  width: 80px;
-  height: 80px;
-}
-.content {
-  margin-left: 20px;
-}
+.profile-img
+  width 80px
+  height 80px
+
+.content
+  margin-left 20px
+
+.voting
+  display inline-block
+  height 100%
+
 </style>

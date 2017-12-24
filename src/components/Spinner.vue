@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 $offset = 126
 $duration = 1.4s
 

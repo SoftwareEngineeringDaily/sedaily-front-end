@@ -1,4 +1,5 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <v-form>
     <div class="headline">Login</div>
     
@@ -8,6 +9,7 @@
       v-validate="'required'" 
       :error-messages="errors.collect('username')"
       data-vv-name="username"
+      autofocus
       @keyup.enter.prevent="login"
       required />                  
 
@@ -32,6 +34,7 @@
     
     <spinner :show="loading" />
   </v-form>
+</v-flex>
 </template>
 
 <script>

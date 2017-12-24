@@ -100,21 +100,19 @@ export default {
 }
 </script>
 
-<style scoped>
-  .related-link-box {
-    width: 100%;
-    padding: 0px 5px;
-    margin-bottom: 12px;
-    border-radius: 2px;
-    border-color: #c5c5c5;
-  }
+<style lang="stylus" scoped>
 
-  .related-title-box {
-    width: 100%;
-    padding: 0px 5px;
-    margin-bottom: 12px;
-    border: none;
-  }
+.related-link-box
+  width 100%
+  padding 0px 5px
+  margin-bottom 12px
+  border-radius 2px
+  border-color #c5c5c5
 
+.related-title-box
+  width 100%
+  padding 0px 5px
+  margin-bottom 12px
+  border none
 
 </style>

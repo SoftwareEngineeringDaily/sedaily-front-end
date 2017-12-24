@@ -11,6 +11,7 @@
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
       </div>
+
       <div v-else class="text-xs-right">
         <v-btn
           :disabled="isSubmitting"
@@ -90,12 +91,13 @@ export default {
 }
 </script>
 
-<style scoped>
-  .comment-box {
-    width: 100%;
-    padding: 20px 10px;
-    margin-bottom: 12px;
-    border-radius: 7px;
-    border-color: #c5c5c5;
-  }
+<style lang="stylus" scoped>
+
+.comment-box
+  width 100%
+  padding 20px 10px
+  margin-bottom 12px
+  border-radius 7px
+  border-color #c5c5c5
+
 </style>

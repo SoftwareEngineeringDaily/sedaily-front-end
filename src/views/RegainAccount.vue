@@ -1,25 +1,25 @@
 <template>
-  <div>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
+  <v-form>
+    <h1>Enter your new password:</h1>
 
-    <form class='col-md-6 offset-md-3' v-on:submit.prevent='regainAccount'>
-      <h1>Enter your new password:</h1>
-      <div class="form-group">
-        <label for="inputPassword">New Password</label>
-        <input name='password' v-model='password'
-        v-validate="'required'"
-        type="password"
-        class="form-control"
-        id="inputPassword"
-        placeholder="Password">
+    <v-text-field 
+      label="Password" 
+      v-model="password"
+      type="password"
+      v-validate="'required'"
+      autofocus
+      @keyup.enter.prevent="register"
+      :error-messages="errors.collect('password')"
+      data-vv-name="password"
+      required />
 
-        <div v-show="errors.has('password')"
-        class="alert alert-danger">
-        {{ errors.first('password') }}
-      </div>
-    </div>
-    <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
-    </form>
-  </div>
+    <v-btn name='submit-button'  
+      @click.prevent='regainAccount' 
+      primary 
+      :disabled='loading'>Submit</v-btn>
+  </v-form>
+</v-flex>
 </template>
 
 <script>
