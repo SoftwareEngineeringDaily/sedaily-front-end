@@ -4,7 +4,7 @@
       <v-card-media :src="image(feedItem.image)" height="200px">
       </v-card-media>
       <div>
-        <a :href="feedItem.url | externalUrl" target="_blank"
+        <a @click="userClickedLink" :href="feedItem.url | externalUrl" target="_blank"
         rel="external nofollow">
          <span class='title'>
          {{feedItem.title || feedItem.url}}
@@ -24,14 +24,31 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'FeedItem',
   props: ['feedItem'],
-
+  computed: {
+    // local computed methods +
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    })
+  },
   methods: {
+    ...mapActions(['linkUserClicked']),
     image: function (image) {
       console.log(image)
       return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
+    },
+    userClickedLink: function () {
+      console.log('FEED ITEM ', this.feedItem)
+      console.log('User ', this.me._id)
+      this.linkUserClicked({
+        linkId: this.feedItem._id,
+        userId: this.me._id
+      })
     }
   }
 

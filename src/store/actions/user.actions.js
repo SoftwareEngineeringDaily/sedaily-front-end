@@ -79,6 +79,22 @@ export default {
         alert(error.response.data.message)
         return error
       })
+  },
+
+  linkUserClicked: ({getters, commit}, {linkId, userId}) => {
+    console.log('user is ', userId)
+    let token = getters.getToken
+    let config = {}
+    if (token) {
+      config.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    return axios.post(`${BASE_URL}/userClickedLink`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
   }
 
 }
