@@ -1,17 +1,17 @@
 <template>
   <v-card class="ma-2">
     <v-card-media :src="featuredImage" height="200px">      
-      <span class="play-button" @click='setActivePostInPlayer(post)'>
+      <span class="play-button" @click.prevent='clickHandler'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
     </v-card-media>
     <v-card-title>
       <div class="score">
         <span class='arrow' v-bind:class="{ active: post.upvoted }"
-        @click='upvote(post)'>▲</span>
+        @click.prevent="upvoteHandler">▲</span>
         <div>{{ post.score || 0 }}</div>
         <span class='arrow' v-bind:class="{ active: post.downvoted }"
-        @click='downvote(post)'>▼</span>
+        @click.prevent="downvoteHandler">▼</span>
       </div>
       <div class="news-content">    
         <div class="news-title">
@@ -36,7 +36,7 @@
 /* @flow */
 import moment from 'moment'
 import VueAplayer from 'vue-aplayer'
-import type { Post } from 'sedaily-model'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'PostSummary',
@@ -50,30 +50,32 @@ export default {
     'a-player': VueAplayer
   },
   computed: {
-
     featuredImage () {
       return this.post.featuredImage
         ? this.post.featuredImage
         : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
-
     date () {
       return moment(this.post.date).format('MMMM Do, YYYY')
     }
   },
   methods: {
-    setActivePostInPlayer: function (post: Post) {
-      this.$store.commit('setActivePostInPlayer', { post })
+    ...mapActions([
+      'upvote',
+      'downvote',
+      'setActivePostInPlayer'
+    ]),
+    clickHandler () {
+      this.setActivePostInPlayer(this.post)
     },
-    upvote: function (post: Post) {
-      console.log(post)
-      this.$store.dispatch('upvote', {
-        id: post._id
+    upvoteHandler () {
+      this.upvote({
+        id: this.post._id
       })
     },
-    downvote: function (post: Post) {
-      this.$store.dispatch('downvote', {
-        id: post._id
+    downvoteHandler () {
+      this.downvote({
+        id: this.post._id
       })
     }
   }

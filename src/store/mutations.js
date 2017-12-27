@@ -2,17 +2,17 @@ import Vue from 'vue'
 import find from 'lodash/find'
 
 export default {
-  showErrorDialog (state, message) {
+  showErrorDialog: (state, message) => {
     state.errorMessage = message
     state.showErrorDialog = true
   },
 
-  hideErrorDialog (state) {
+  hideErrorDialog: (state) => {
     state.errorMessage = ''
     state.showErrorDialog = false
   },
 
-  setActivePostInPlayer: (state, { post }) => {
+  updateActivePostInPlayer: (state, post) => {
     state.activePlayerPost = post
   },
 
@@ -169,11 +169,6 @@ export default {
     }
     state.posts[articleId].upvoted = false
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
-  },
-
-  logout: (state) => {
-    localStorage.setItem('token', '')
-    state.token = ''
   },
 
   setToken: (state, { token }) => {

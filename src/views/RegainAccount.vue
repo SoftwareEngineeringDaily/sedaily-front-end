@@ -9,13 +9,13 @@
       type="password"
       v-validate="'required'"
       autofocus
-      @keyup.enter.prevent="register"
+      @keyup.enter.prevent="regainAccountHandler"
       :error-messages="errors.collect('password')"
       data-vv-name="password"
       required />
 
     <v-btn name='submit-button'  
-      @click.prevent='regainAccount' 
+      @click.prevent='regainAccountHandler' 
       primary 
       :disabled='loading'>Submit</v-btn>
   </v-form>
@@ -42,14 +42,17 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showErrorMessage']),
-    regainAccount: function () {
+    ...mapActions([
+      'regainAccount',
+      'showErrorMessage'
+    ]),
+    regainAccountHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { password } = this
           const { secretKey, resetUID } = this.$route.params
-          this.$store.dispatch('regainAccount', {
+          this.regainAccount({
             newPassword: password,
             secretKey,
             resetUID

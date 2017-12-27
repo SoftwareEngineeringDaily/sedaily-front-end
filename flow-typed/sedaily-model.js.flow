@@ -2,4 +2,13 @@ declare module 'sedaily-model' {
   declare class Post {
     _id: number
   }
+
+  declare class User {
+    username: string,
+    password: string,
+    bio: string,
+    website: string,
+    name: string,
+    email: string
+  }
 }

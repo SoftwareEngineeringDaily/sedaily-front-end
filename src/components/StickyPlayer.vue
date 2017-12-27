@@ -1,10 +1,10 @@
 <template>
   <div id='sticky-player'>
     <a-player :music="{
-      title: this.$store.state.activePlayerPost.title.rendered || ' ',
+      title: activePlayerPost.title.rendered || ' ',
       author: ' ',
-      url: this.$store.state.activePlayerPost.mp3 || ' ' ,
-      pic: this.$store.state.activePlayerPost.featuredImage || ' ',
+      url: activePlayerPost.mp3 || ' ' ,
+      pic: activePlayerPost.featuredImage || ' ',
       lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
     }"></a-player>
   </div>
@@ -13,16 +13,15 @@
 <script>
 /* @flow */
 import VueAplayer from './VuePlayerClone.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'sticky-player',
   components: {
     'a-player': VueAplayer
   },
-  data () {
-    return {
-      playingPost: null
-    }
+  computed: {
+    ...mapState(['activePlayerPost'])
   }
 }
 </script>

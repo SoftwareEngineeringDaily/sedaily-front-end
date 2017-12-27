@@ -10,7 +10,7 @@
       :error-messages="errors.collect('username')"
       data-vv-name="username"
       autofocus
-      @keyup.enter.prevent="login"
+      @keyup.enter.prevent="loginHandler"
       required />                  
 
     <v-text-field 
@@ -20,7 +20,7 @@
       v-validate="'required'"
       :error-messages="errors.collect('password')"
       data-vv-name="password"
-      @keyup.enter.prevent="login"
+      @keyup.enter.prevent="loginHandler"
       required />            
   
     <v-layout row>
@@ -28,7 +28,7 @@
         <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
       </v-flex>
       <v-flex xs6 class="text-xs-right">
-        <v-btn  @click.prevent='login'>Login</v-btn>
+        <v-btn  @click.prevent='loginHandler' color="primary">Login</v-btn>
       </v-flex>
     </v-layout>
     
@@ -59,13 +59,16 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showErrorMessage']),
-    login: function () {
+    ...mapActions([
+      'login',
+      'showErrorMessage'
+    ]),
+    loginHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const {username, password} = this
-          this.$store.dispatch('login', {
+          this.login({
             username,
             password
           })

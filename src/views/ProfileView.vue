@@ -2,7 +2,7 @@
 <v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <div class='profile-details'>
     <br>
-    <router-link to="/edit-profile">Edit Profile</router-link>
+    <router-link color="primary" to="/edit-profile">Edit Profile</router-link>
     <br>
     {{me.name}}
     <br>

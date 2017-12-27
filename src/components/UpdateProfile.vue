@@ -58,7 +58,7 @@
     <v-layout row>
       <v-flex xs6>{{ msg }}</v-flex>
       <v-flex xs6 class="text-xs-right">
-        <v-btn  @click.prevent='submit' :disabled="loading">Submit</v-btn>
+        <v-btn  @click.prevent='submit' color="primary" :disabled="loading">Submit</v-btn>
       </v-flex>
     </v-layout>
     

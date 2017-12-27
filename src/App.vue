@@ -29,6 +29,7 @@
 import StickyPlayer from './components/StickyPlayer.vue'
 import NavigationBar from './components/NavigationBar.vue'
 import ErrorMessageDialog from './dialogs/ErrorMessageDialog.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'app',
@@ -38,12 +39,25 @@ export default {
     ErrorMessageDialog
   },
   computed: {
-    isPlayerActive () {
-      return this.$store.state.activePlayerPost.mp3
-    },
+    ...mapState({
+      isPlayerActive (state) {
+        return state.activePlayerPost.mp3
+      }
+    }),
     showBeta () {
       return this.$route.path === '/'
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.player-holder
+  padding 10px 20px
+  box-shadow: -5px -5px 5px -2px rgba(176,176,176,0.3)
+  background-color white
+  width 100%
+  position fixed
+  bottom 0
+  left 0
+</style>

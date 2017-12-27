@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'comment',
   props: {
@@ -33,9 +35,11 @@ export default {
     }
   },
   computed: {
-    comment () {
-      return this.$store.state.posts[this.id]
-    }
+    ...mapState({
+      comment (state) {
+        return state.posts[this.id]
+      }  
+    })    
   },
   methods: {
     pluralize: n => n + (n === 1 ? ' reply' : ' replies')

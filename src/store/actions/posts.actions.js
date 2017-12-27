@@ -92,6 +92,10 @@ export default {
       })
   },
 
+  setActivePostInPlayer: ({ commit }, post) => {
+    commit('updateActivePostInPlayer', post)
+  },
+
   upvote: ({commit, dispatch, getters, state}, { id }) => {
     let token = getters.getToken
     if (!token) {

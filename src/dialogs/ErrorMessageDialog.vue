@@ -6,7 +6,7 @@
       <v-card-text>{{ errorMessage }}</v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn primary @click.prevent="closeErrorDialog">Close</v-btn>
+        <v-btn color="primary" @click.prevent="closeErrorDialog">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -9,7 +9,7 @@
       type="email"
       autofocus
       v-validate="'required'"
-      @keyup.enter.prevent="submit"
+      @keyup.enter="submitHandler"
       :error-messages="errors.collect('email')"
       data-vv-name="email"
       required /> 
@@ -23,7 +23,7 @@
         <p v-else>We'll send you a special link to allow you to reset your password.</p>
       </v-flex>
       <v-flex xs6 class="text-xs-right">        
-        <v-btn  @click.prevent='submit'>Submit</v-btn>  
+        <v-btn  @click.prevent='submitHandler' color="primary">Submit</v-btn>  
       </v-flex>
     </v-layout>
     
@@ -59,13 +59,15 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showErrorMessage']),
-    submit: function () {
+    ...mapActions([
+      'sendForgotPasswordEmail',
+      'showErrorMessage']),
+    submitHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { email } = this
-          this.$store.dispatch('sendForgotPasswordEmail', {
+          this.sendForgotPasswordEmail({
             email
           })
             .then((response) => {

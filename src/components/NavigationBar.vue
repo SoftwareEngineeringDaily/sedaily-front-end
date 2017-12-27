@@ -27,7 +27,7 @@
             <v-btn icon to="/register" v-if="!isLoggedIn">
               <img class="registration-icon" src="./../assets/registration-icon.png" alt="registration-icon">
             </v-btn>
-            <v-btn flat color="white" @click.prevent='logout()' v-if="isLoggedIn">Logout</v-btn>
+            <v-btn flat color="white" @click.prevent='logoutHandler' v-if="isLoggedIn">Logout</v-btn>
             <v-btn flat color="white" to="/profile" v-if="isLoggedIn">Profile</v-btn>        
           </v-toolbar-items>  
         </v-flex>      
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'navigation-bar',
@@ -45,9 +45,10 @@ export default {
     ...mapGetters(['isLoggedIn'])
   },
   methods: {
-    logout: function () {
-      this.$store.commit('logout')
-      this.$router.go('/')
+    ...mapActions(['logout']),
+    logoutHandler: function () {
+      this.logout()
+      this.$router.replace('/')
     }
   }
 }

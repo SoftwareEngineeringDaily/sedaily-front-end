@@ -58,7 +58,7 @@
         <router-link to="/login" name="login-link">Login</router-link>    
       </v-flex>
       <v-flex xs6 class="text-xs-right">        
-        <v-btn  @click.prevent='register' :disabled="loading">Register</v-btn>  
+        <v-btn  @click.prevent='registerHandler' :disabled="loading" color="primary">Register</v-btn>  
       </v-flex>
     </v-layout>
 
@@ -92,13 +92,16 @@ export default {
   },
 
   methods: {
-    ...mapActions(['showErrorMessage']),
-    register: function () {
+    ...mapActions([
+      'register',
+      'showErrorMessage'
+    ]),
+    registerHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const {username, email, bio, website, name, password} = this
-          this.$store.dispatch('register', {
+          this.register({
             username,
             password,
             name,

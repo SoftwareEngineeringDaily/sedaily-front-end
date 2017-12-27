@@ -33,7 +33,7 @@
               :key="post._id">
               <post-summary             
                 :post="post"  
-                v-on:play-podcast="playPodcast" />
+                @play-podcast="playPodcast" />
             </v-flex>
           </v-layout>
 
