@@ -18,6 +18,7 @@
           <img class="like-icon" src="./assets/like-icon.png" alt="recommendations">
         </router-link>
 
+        <!-- <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span> -->
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
         <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
           <img class="registration-icon" src="./assets/registration-icon.png" alt="registration-icon">
@@ -39,24 +40,27 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-
     <transition name="fade" mode="out-in">
       <div class="player-holder" v-show="isPlayerActive">
         <sticky-player ></sticky-player>
       </div>
     </transition>
 
+    <chat-box v-if='isLoggedIn && false'/>
+
   </div>
 </template>
 
 <script>
 import StickyPlayer from './components/StickyPlayer.vue'
+import ChatBox from './components/ChatBox.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    StickyPlayer
+    StickyPlayer,
+    ChatBox
   },
 
   computed: {
@@ -83,6 +87,7 @@ export default {
     float: none;
     margin: 0 auto;
 }
+
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
@@ -158,6 +163,25 @@ a
   transition all .2s ease
 .fade-enter, .fade-leave-active
   opacity 0
+
+.online-indicator {
+  float right
+  vertical-align middle
+  font-weight bold
+  letter-spacing .075em
+  font-size: 13px;
+  line-height: 26px;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  background-color: rgb(35, 170, 90);
+  padding: 0px 8px;
+  border-radius: 2px;
+
+  img {
+    width 15px
+  }
+}
+
 @media (max-width 860px)
   .header .inner
     padding 15px 30px

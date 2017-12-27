@@ -170,5 +170,15 @@ export default {
   setToken: (state, { token }) => {
     localStorage.setItem('token', token)
     state.token = token
-  }
+  },
+
+  toggleChatWindow: (state) => {
+    state.chat.settings.displayBox = !state.chat.settings.displayBox
+  },
+  addChatMessage: ({ chat }, message) => {
+    const formatted = { ...message, sent_at: new Date(message.sent_at) }
+    chat.messages.push(formatted)
+  },
+  setChatOnline: ({ chat }) => (chat.online = true),
+  setChatOffline: ({ chat }) => (chat.online = false)
 }

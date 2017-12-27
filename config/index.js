@@ -34,5 +34,8 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
+  },
+  chat: {
+    websocketURL: 'ws://localhost:4000/socket'
   }
 }

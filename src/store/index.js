@@ -22,6 +22,13 @@ const store = new Vuex.Store({
       new: [],
       recommendation: []
     },
+    chat: {
+      settings: {
+        displayBox: true
+      },
+      online: false,
+      messages: []
+    },
     token: localStorage.getItem('token')
   },
   actions,
