@@ -19,7 +19,7 @@ export default {
     return axios.post(`${BASE_URL}/auth/sign-s3`, {fileType}, config)
       .then((result) => {
         const {signedRequest} = result.data
-        console.log('signedRequest', signedRequest)
+
         var options = {
           headers: {
             'Content-Type': fileType
@@ -45,7 +45,6 @@ export default {
         return response
       })
       .catch(function (error) {
-        console.log(error)
         dispatch('showErrorMessage', error.response.data.message)
         return error
       })
@@ -73,7 +72,6 @@ export default {
         return response
       })
       .catch(function (error) {
-        console.log(error)
         dispatch('showErrorMessage', error.response.data.message)
         return error
       })

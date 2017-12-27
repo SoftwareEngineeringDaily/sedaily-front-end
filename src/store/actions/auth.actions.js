@@ -13,7 +13,6 @@ export default {
         return response
       })
       .catch(function (error) {
-        console.log(error.response)
         dispatch('showErrorMessage', error.response.data.message)
         return error
       })
@@ -37,7 +36,6 @@ export default {
         return response
       })
       .catch(function (error) {
-        console.log(error.response)
         dispatch('showErrorMessage', error.response.data.message)
         return error
       })

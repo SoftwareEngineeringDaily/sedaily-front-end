@@ -37,7 +37,6 @@ export default {
         return {posts: response.data, maxPage: 4}
       })
       .catch(function (error) {
-        console.log(error.response)
         dispatch('showErrorMessage', error.response.data.message)
       })
   },
@@ -63,14 +62,11 @@ export default {
         return {posts: response.data, maxPage: 4}
       })
       .catch(function (error) {
-        console.log(error)
         dispatch('showErrorMessage', error.response.data.message)
       })
   },
 
   fetchArticle: ({commit, dispatch, state, getters}, { id }) => {
-    console.log('fetch article', id)
-
     let options = {}
 
     let token = getters.getToken
@@ -87,7 +83,6 @@ export default {
         return {post}
       })
       .catch(function (error) {
-        console.log(error.response)
         dispatch('showErrorMessage', error.response.data.message)
       })
   },

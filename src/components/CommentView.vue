@@ -83,8 +83,7 @@ export default {
           })
         })
         .catch((error) => {
-          console.log(error)
-          this.showErrorMessage('Error deleting :(')
+          this.showErrorMessage(error.response.data.message)
         })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {

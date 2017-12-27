@@ -65,13 +65,10 @@ export default {
               this.$router.replace('/login')
             })
             .catch((error) => {
-              console.log('error', error)
               this.loading = false
               this.submitted = false
               this.showErrorMessage('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
             })
-        } else {
-          console.log('Invalid values..')
         }
       })
     }

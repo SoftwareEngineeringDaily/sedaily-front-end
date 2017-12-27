@@ -72,7 +72,6 @@ import Spinner from './Spinner.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  $validates: true,
   name: 'update-profile',
   props: {
     initialUsername: {
@@ -127,7 +126,8 @@ export default {
     ]),
 
     onFileChange (e) {
-      var files = e.target.files || e.dataTransfer.files
+      const files = e.target.files || e.dataTransfer.files
+
       if (!files.length) {
         this.file = null
         return
@@ -138,14 +138,13 @@ export default {
     },
 
     createImage (file) {
-      var image = new Image()
-      var reader = new FileReader()
-      var vm = this
+      const reader = new FileReader()
+      const vm = this
 
       reader.onload = (e) => {
         vm.image = e.target.result
       }
-      console.log(image)
+
       reader.readAsDataURL(file)
     },
 
@@ -197,7 +196,6 @@ export default {
               }
             })
             .catch((error) => {
-              console.log('Error Updaating', error)
               this.showErrorMessage('There was a problem updating your profile')
             })
         } else {

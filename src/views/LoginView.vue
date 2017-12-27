@@ -43,7 +43,6 @@ import { wantedToSubscribe } from '../utils/subscription.utils.js'
 import { mapActions } from 'vuex'
 
 export default {
-  $validates: true,
   name: 'login',
 
   components: {
@@ -85,7 +84,6 @@ export default {
               }
             })
         } else {
-          console.log('Invalid values..')
           this.loading = false
         }
       })

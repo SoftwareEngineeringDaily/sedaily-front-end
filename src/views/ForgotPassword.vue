@@ -37,7 +37,6 @@ import Spinner from '@/components/Spinner.vue'
 import { mapActions } from 'vuex'
 
 export default {
-  $validates: true,
   name: 'forgot-password',
 
   components: {

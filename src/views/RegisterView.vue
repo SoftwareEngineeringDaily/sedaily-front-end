@@ -122,8 +122,6 @@ export default {
                 this.showErrorMessage('Invalid registration')
               }
             })
-        } else {
-          console.log('Failed to validate for registraiotn')
         }
       })
     }

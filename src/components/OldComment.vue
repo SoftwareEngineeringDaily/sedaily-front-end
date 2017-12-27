@@ -25,7 +25,7 @@ export default {
   name: 'comment',
   props: {
     id: {
-      type: number,
+      type: Number,
       required: true
     }
   },
@@ -38,8 +38,8 @@ export default {
     ...mapState({
       comment (state) {
         return state.posts[this.id]
-      }  
-    })    
+      }
+    })
   },
   methods: {
     pluralize: n => n + (n === 1 ? ' reply' : ' replies')

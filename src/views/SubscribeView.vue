@@ -103,7 +103,6 @@ export default {
     } else {
       this.fetchMyProfileData()
         .then((myData) => {
-          console.log('myData', myData)
           this.loadingUser = false
           if (!this.alreadySubscribed) {
             if (wantedToSubscribe()) {
@@ -114,8 +113,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.showErrorMessage('Error loading user info.')
-          console.log('error loading user', error)
+          this.showErrorMessage(error.response.data.message)
         })
     }
   },
@@ -139,7 +137,6 @@ export default {
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
       createToken().then(data => {
-        // console.log(data.token)
         const stripeToken = data.token.id
         const { planType } = this
         return this.createSubscription({stripeToken, planType})
@@ -152,7 +149,6 @@ export default {
           unselectSubscriptionPlan()
         })
         .catch((error) => {
-          console.log('error', error)
           this.processing = false
           this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
           // Probably don't need to do this but should:
@@ -168,12 +164,10 @@ export default {
         .then((result) => {
           this.processing = false
           this.justSubscribed = false
-          console.log('cancel subscription')
           this.justCancelled = true
           this.successSubscribingMessage = 'Your subscription has been cancelled.'
         })
         .catch((error) => {
-          console.log('error', error)
           this.processing = false
           // this.justSubscribed = false
           this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'

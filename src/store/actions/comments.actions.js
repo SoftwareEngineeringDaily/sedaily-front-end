@@ -34,7 +34,6 @@ export default {
   },
 
   removeComment: ({commit, dispatch, getters, state}, { id }) => {
-    console.log('ID', id)
     let token = getters.getToken
     if (!token) {
       dispatch('showErrorMessage', 'Login to delete your comment')

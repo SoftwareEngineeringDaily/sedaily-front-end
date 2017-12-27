@@ -188,9 +188,7 @@ export default {
       this.loadMore()
     },
     playPodcast (post) {
-      console.log('inside play podacst')
       this.playingPost = post
-      console.log(post)
     }
   }
 }

@@ -1,6 +1,7 @@
-import Vue from 'vue'
+import chai from 'chai'
 
-Vue.config.productionTip = false
+chai.should()
+chai.use(require('chai-things'))
 
 // require all test files (files that ends with .spec.js)
 const testsContext = require.context('./specs', true, /\.spec$/)

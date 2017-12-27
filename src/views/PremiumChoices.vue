@@ -109,7 +109,7 @@
 
 import { mapGetters } from 'vuex'
 import { selectSubscriptionPlan } from '../utils/subscription.utils.js'
-console.log('subs plan', selectSubscriptionPlan)
+
 export default {
   methods: {
     signUpForSubscriptionYearly () {
