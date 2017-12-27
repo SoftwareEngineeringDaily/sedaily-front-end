@@ -39,15 +39,13 @@ export default {
   methods: {
     ...mapActions(['linkUserClicked']),
     image: function (image) {
-      console.log(image)
       return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
     },
     userClickedLink: function () {
-      console.log('FEED ITEM ', this.feedItem)
-      console.log('User ', this.me._id)
+      console.log('FEED ITEM', this.feedItem)
       this.linkUserClicked({
-        linkId: this.feedItem._id,
-        userId: this.me._id
+        type: this.feedItem.post ? 'RelatedLink' : 'UnrelatedLink',
+        linkId: this.feedItem._id
       })
     }
   }

@@ -81,16 +81,16 @@ export default {
       })
   },
 
-  linkUserClicked: ({getters, commit}, {linkId, userId}) => {
-    console.log('user is ', userId)
+  linkUserClicked: ({getters, commit}, {type, linkId}) => {
     let token = getters.getToken
     let config = {}
+    let options = {type, linkId}
     if (token) {
       config.headers = {
         'Authorization': 'Bearer ' + token
       }
     }
-    return axios.post(`${BASE_URL}/userClickedLink`, {}, {
+    return axios.post(`${BASE_URL}/users/userClickedLink`, options, {
       headers: {
         'Authorization': 'Bearer ' + token
       }

@@ -14,7 +14,7 @@
       </span>
     </div>
 
-    <a :href="relatedLink.url | externalUrl" target="_blank"
+    <a @click="userClickedLink" :href="relatedLink.url | externalUrl" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>
 
@@ -28,7 +28,7 @@ export default {
   name: 'related-link',
   props: ['relatedLink'],
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch', 'linkUserClicked']),
     remove () {
       this.removeRelatedLink({
         id: this.relatedLink._id
@@ -53,6 +53,13 @@ export default {
       this.downvoteRelatedLink({
         id: this.relatedLink._id,
         postId: this.relatedLink.post
+      })
+    },
+    userClickedLink: function () {
+      console.log('RELATED LINK: ', this.relatedLink)
+      this.linkUserClicked({
+        type: 'RelatedLink',
+        linkId: this.relatedLink._id
       })
     }
   },
