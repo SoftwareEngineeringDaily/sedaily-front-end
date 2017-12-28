@@ -1,5 +1,5 @@
 import { shallow } from 'vue-test-utils'
-import localVue from './helpers'
+import localVue from './../helpers'
 import FeedItem from '@/components/FeedItem.vue'
 
 describe('FeedItem.vue', () => {
@@ -33,5 +33,15 @@ describe('FeedItem.vue', () => {
 
     const wrapper = createComponentWrapper(feedItemWithoutTitle)
     expect(wrapper.find('.title').text()).to.equal(feedItem.url)
+  })
+
+  it('should return default image when not provided', () => {
+    const feedItemWithoutImage = {
+      ...feedItem,
+      image: undefined
+    }
+
+    const wrapper = createComponentWrapper(feedItemWithoutImage)
+    expect(wrapper.vm.image).to.not.be.an('undefined')
   })
 })

@@ -1,20 +1,14 @@
 export function preSelectedSubscriptionPlan () {
-  const planType = localStorage.getItem('planType')
-  return planType
+  return localStorage.getItem('planType')
 }
 
 export function wantedToSubscribe () {
-  const planType = localStorage.getItem('planType')
-  if (planType) {
-    return true
-  } else {
-    return false
-  }
+  return !!preSelectedSubscriptionPlan()
 }
 
 // for when we don't want to subscribe anymore
 export function unselectSubscriptionPlan () {
-  localStorage.setItem('planType', null)
+  selectSubscriptionPlan(null)
 }
 
 export function selectSubscriptionPlan (planType) {

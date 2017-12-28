@@ -20,9 +20,9 @@
               <img class="like-icon" src="./../assets/like-icon.png" alt="recommendations">
             </v-btn>
           </v-toolbar-items>
-          </v-flex>
-          <v-flex xs4>  
-            <v-toolbar-items>              
+        </v-flex>
+        <v-flex xs4>  
+          <v-toolbar-items>              
             <v-btn v-if="!isLoggedIn" flat color="white" to="/login">Login</v-btn>
             <v-btn icon to="/register" v-if="!isLoggedIn">
               <img class="registration-icon" src="./../assets/registration-icon.png" alt="registration-icon">
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     ...mapActions(['logout']),
-    logoutHandler: function () {
+    logoutHandler () {
       this.logout()
       this.$router.replace('/')
     }
