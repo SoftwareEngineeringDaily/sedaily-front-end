@@ -7,13 +7,13 @@
     {{me.name}}
     <br>
     {{me.bio}}
-    <br>    
+    <br>
   </div>
 </v-flex>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'profile-view',
@@ -30,6 +30,9 @@ export default {
         return state.me
       }
     })
+  },
+  methods: {
+    ...mapActions(['fetchMyProfileData'])
   }
 }
 </script>
