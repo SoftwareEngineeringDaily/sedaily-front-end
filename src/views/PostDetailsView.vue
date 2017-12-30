@@ -1,74 +1,34 @@
 <template>
-  <div class="post-view" v-if="post">
-    <template v-if="post">
-      <div class="post-view-header row">
+<v-layout row justify-space-between>
+  <v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
+    <div class="post-view" v-if="post">
+      <post-header :post="post" />
 
-        <div class='voting' style='display:inline-block; height: 100%;'>
-          <span class="score">
-            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
-            <br>
-            {{ post.score || 0}}
-            <br>
-            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvoteHandler'>▼</span>
-          </span>
-        </div>
-
-        <div class='post-header-details' style='display:inline-block'>
-          <a :href="post.url" target="_blank">
-            <h1>{{ post.title.rendered | decodeString }}</h1>
-          </a>
-          <span v-if="post.url" class="host">
-            ({{ post.url | host }})
-          </span>
-
-          <p class="meta">
-            {{ post.score || 0 }} points
-            <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
-            {{ post.date | timeAgo }} ago
-            <social-sharing :url="post.url"
-                      :title="post.title.rendered"
-                      :description="postContent"
-                      twitter-user="software_daily"
-                      inline-template>
-              <div class="sharing">
-                <network network="facebook">
-                  <i class="fa fa-facebook"></i> Facebook
-                </network>
-                <network network="linkedin">
-                  <i class="fa fa-linkedin"></i> LinkedIn
-                </network>
-                <network network="twitter">
-                  <i class="fa fa-twitter"></i> Twitter
-                </network>
-              </div>
-            </social-sharing>
-          </p>
-        </div>
+      <div class="post-view-comments">
+        <button @click.prevent="toggleShowContent">{{contentButtonText}}</button>
+        <div v-if="showContent"  v-html='post.content.rendered' />            
       </div>
-
-      <div class="row">
-        <div class="post-view-comments col-md-8">
-          <button @click="toggleShowContent">{{contentButtonText}}</button>
-          <div v-if="showContent"  v-html='postContent'>
-          </div>
-        </div>
-        <div class="col-md-4 related-links-container">
-          <related-link-list :relatedLinks='relatedLinks'></related-link-list>
-          <related-link-compose v-if="isLoggedIn"></related-link-compose>
-        </div>
-      </div>
-      <br />
-      <br />
+          
       <comment-compose v-if="isLoggedIn"></comment-compose>
-      <br />
+      <p class="ml-3" v-else>
+        <router-link to="/login">Login</router-link> to comment
+      </p>
       <comments-list :comments='comments'></comments-list>
-    </template>
-  </div>
+    </div>
+  </v-flex>
+  <v-flex xs1 sm1 md2 lg3>
+    <div class="ml-2">
+      <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+      <related-link-compose v-if="isLoggedIn"></related-link-compose>
+    </div>
+  </v-flex>
+</v-layout>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
+import PostHeader from '@/components/PostHeader.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
@@ -76,7 +36,14 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose },
+  components: {
+    Spinner,
+    CommentsList,
+    CommentCompose,
+    RelatedLinkList,
+    RelatedLinkCompose,
+    PostHeader
+  },
   data () {
     return {
       showContent: true,
@@ -84,24 +51,22 @@ export default {
     }
   },
   computed: {
-    postContent () {
-      if (this.post.cleanedContent) {
-        return this.post.cleanedContent
-      } else {
-        return this.post.content.rendered
-      }
+    layout () {
+      const binding = {}
+
+      if (this.$vuetify.breakpoint.mdAndUp) binding.column = true
+
+      return binding
     },
     contentButtonText () {
       return this.showContent ? '-' : '+'
     },
     post () {
-      return this.$store.state.posts[this.$route.params.id]
+      return this.posts[this.$route.params.id]
     },
-
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
     },
-
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
@@ -143,55 +108,20 @@ export default {
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch']),
+    ...mapActions([
+      'commentsCreate',
+      'relatedLinksFetch',
+      'fetchArticle',
+      'commentsFetch'
+    ]),
     toggleShowContent () {
       this.showContent = !this.showContent
-    },
-
-    upvoteHandler: function () {
-      this.upvote({
-        id: this.postId
-      })
-    },
-    downvoteHandler: function () {
-      this.downvote({
-        id: this.postId
-      })
     }
   }
 }
 </script>
 
-<style lang="stylus">
-.post-view-header
-  background-color #fff
-  padding 1.8em 2em 1em
-  margin-top 20px
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
-
-  h1
-    display inline
-    font-size 1.5em
-    margin 0
-    margin-right .5em
-  .host, .meta, .meta a
-    color #999
-  .meta a
-    text-decoration underline
-
-  .arrow
-    color #888
-    &:hover
-      cursor pointer
-      color #3F58AF
-
-    &.active
-      color #3F58AF !important
-      &:hover
-        cursor pointer
-        color #888
-
+<style lang="stylus" scoped>
 .post-view-comments
   background-color #fff
   margin-top 10px
@@ -210,9 +140,10 @@ export default {
     top 0
     right 0
     bottom auto
-.related-links-container{
-  padding-top: 30px;
-}
+
+.related-links-container
+  padding-top 30px
+
 .comment-children
   list-style-type none
   padding 0

@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <br />
-    <br />
-    <h2> Edit Your Profile:</h2>
-    <update-profile  v-if="username" :initialUsername="username" :me="me"> </update-profile>
-  </div>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
+  <update-profile  v-if="username" :initialUsername="username" :me="me"> </update-profile>  
+</v-flex>
 </template>
 
 <script>
 import UpdateProfile from '@/components/UpdateProfile.vue'
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'edit-profile',
-  components: {UpdateProfile},
+  components: { UpdateProfile },
   data () {
     return {
       loading: true,
@@ -21,10 +19,10 @@ export default {
   },
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.loading = false
-      this.username = this.me.username
-    })
+      .then(() => {
+        this.loading = false
+        this.username = this.me.username
+      })
   },
   methods: {
     ...mapActions([ 'fetchMyProfileData' ])
@@ -39,6 +37,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

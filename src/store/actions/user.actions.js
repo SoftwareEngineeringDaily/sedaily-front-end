@@ -19,7 +19,7 @@ export default {
     return axios.post(`${BASE_URL}/auth/sign-s3`, {fileType}, config)
       .then((result) => {
         const {signedRequest} = result.data
-        console.log('signedRequest', signedRequest)
+
         var options = {
           headers: {
             'Content-Type': fileType
@@ -29,7 +29,7 @@ export default {
       })
   },
 
-  fetchMyProfileData: ({commit, state, getters}) => {
+  fetchMyProfileData: ({commit, dispatch, state, getters}) => {
     let token = getters.getToken
     let config = {}
     if (!token) {
@@ -40,19 +40,17 @@ export default {
     }
     return axios.get(`${BASE_URL}/users/me`, config
     )
-    .then(function (response) {
-      commit('setMe', {me: response.data})
-      return response
-    })
-    .catch(function (error) {
-      // @TODO: Add pretty pop up here
-      console.log(error)
-      alert(error.response.data.message)
-      return error
-    })
+      .then(function (response) {
+        commit('setMe', {me: response.data})
+        return response
+      })
+      .catch(function (error) {
+        dispatch('showErrorMessage', error.response.data.message)
+        return error
+      })
   },
 
-  updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
+  updateProfile: ({commit, dispatch, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
     let token = getters.getToken
     let config = {}
     if (token) {
@@ -74,9 +72,7 @@ export default {
         return response
       })
       .catch(function (error) {
-        // @TODO: Add pretty pop up here
-        console.log(error)
-        alert(error.response.data.message)
+        dispatch('showErrorMessage', error.response.data.message)
         return error
       })
   }

@@ -1,41 +1,51 @@
 <template>
   <div id='sticky-player'>
-
-        <a-player :music="{
-          title: this.$store.state.activePlayerPost.title.rendered || ' ',
-          author: ' ',
-          url: this.$store.state.activePlayerPost.mp3 || ' ' ,
-          pic: this.$store.state.activePlayerPost.featuredImage || ' ',
-          lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-        }"></a-player>
-
+    <a-player v-if="music" :music="music" autoplay ref="player"></a-player>
   </div>
 </template>
 
 <script>
-/* @flow */
-import VueAplayer from './VuePlayerClone.vue'
+import APlayer from 'vue-aplayer'
+import { mapState } from 'vuex'
 
 export default {
   name: 'sticky-player',
-  components: {
-    'a-player': VueAplayer
-  },
   data () {
     return {
-      playingPost: null
+      music: null
+    }
+  },
+  components: {
+    'a-player': APlayer
+  },
+  computed: {
+    ...mapState(['activePlayerPost'])
+  },
+  watch: {
+    activePlayerPost (newValue) {
+      this.music = null
+
+      if (newValue && newValue.mp3) {
+        this.$nextTick(() => {
+          this.music = {
+            title: newValue.title.rendered || ' ',
+            author: 'Software Engineering Daily Podcast',
+            url: newValue.mp3 || ' ',
+            pic: newValue.featuredImage || ' ',
+            lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
+          }
+        })
+      }
     }
   }
 }
 </script>
 
-<style scoped>
-  #bigDiv{
-    height:150vh
-  }
+<style lang="stylus" scoped>
+#bigDiv
+  height 150vh
 
-  #toolbar{
-    position:sticky;
-    top:1px;
-  }
+#toolbar
+  position sticky
+  top 1px  
 </style>

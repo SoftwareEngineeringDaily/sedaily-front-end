@@ -1,22 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import TopListView from '@/views/TopListView'
-import NewListView from '@/views/NewListView'
-import PostDetailsView from '@/views/PostDetailsView'
-import LoginView from '@/views/LoginView'
-import SubscribeView from '@/views/SubscribeView.vue'
-import RegisterView from '@/views/RegisterView'
-import RecomendationListView from '@/views/RecomendationListView'
-import EditProfile from '@/views/EditProfileView'
-import FeedView from '@/views/FeedView'
-import ProfileView from '@/views/ProfileView'
-import ForgotPassword from '@/views/ForgotPassword'
-import RegainAccount from '@/views/RegainAccount'
-import PremiumChoices from '@/views/PremiumChoices'
+import {
+  TopListView,
+  NewListView,
+  PostDetailsView,
+  LoginView,
+  SubscribeView,
+  RegisterView,
+  RecomendationListView,
+  EditProfileView,
+  FeedView,
+  ProfileView,
+  ForgotPassword,
+  RegainAccount,
+  PremiumChoices
+} from '@/views'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -32,7 +35,7 @@ export default new Router({
     { path: '/subscribe', component: SubscribeView },
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
-    { path: '/edit-profile', component: EditProfile },
+    { path: '/edit-profile', component: EditProfileView },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/profile', component: ProfileView }

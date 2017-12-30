@@ -31,16 +31,18 @@ export default {
     }
 
     return axios.get(url, options)
-    .then(function (response) {
-      commit('setList', { type, posts: response.data })
-      commit('setPosts', { posts: response.data })
-      return {posts: response.data, maxPage: 4}
-    })
-    .catch(function (error) {
-      // @TODO: Add pretty pop up here
-      console.log(error.response)
-      alert(error.response.data.message)
-    })
+      .then(function (response) {
+        commit('setList', { type, posts: response.data })
+        commit('setPosts', { posts: response.data })
+        return {posts: response.data, maxPage: 4}
+      })
+      .catch(function (error) {
+        dispatch('showErrorMessage', error.response.data.message)
+      })
+  },
+
+  setActiveType: ({commit}, type) => {
+    commit('setActiveType', type)
   },
 
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
@@ -54,22 +56,17 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     })
-    .then(function (response) {
-      commit('setList', { type, posts: response.data })
-      commit('setPosts', { posts: response.data })
-      return {posts: response.data, maxPage: 4}
-    })
-    .catch(function (error) {
-      // @TODO: Add pretty pop up here
-      console.log(error)
-      // alert(error.message)
-      // alert(error.response.data.message)
-    })
+      .then(function (response) {
+        commit('setList', { type, posts: response.data })
+        commit('setPosts', { posts: response.data })
+        return {posts: response.data, maxPage: 4}
+      })
+      .catch(function (error) {
+        dispatch('showErrorMessage', error.response.data.message)
+      })
   },
 
-  fetchArticle: ({commit, state, getters}, { id }) => {
-    console.log('fetch article', id)
-
+  fetchArticle: ({commit, dispatch, state, getters}, { id }) => {
     let options = {}
 
     let token = getters.getToken
@@ -80,22 +77,24 @@ export default {
     }
 
     return axios.get(`${BASE_URL}/posts/${id}`, options)
-    .then(function (response) {
-      var post = response.data
-      commit('setPosts', { posts: [post] })
-      return {post}
-    })
-    .catch(function (error) {
-      // @TODO: Add pretty pop up here
-      console.log(error.response)
-      alert(error.response.data.message)
-    })
+      .then(function (response) {
+        var post = response.data
+        commit('setPosts', { posts: [post] })
+        return {post}
+      })
+      .catch(function (error) {
+        dispatch('showErrorMessage', error.response.data.message)
+      })
   },
 
-  upvote: ({commit, getters, state}, { id }) => {
+  setActivePostInPlayer: ({ commit }, post) => {
+    commit('updateActivePostInPlayer', post)
+  },
+
+  upvote: ({commit, dispatch, getters, state}, { id }) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('upVote', { articleId: id })
@@ -107,10 +106,10 @@ export default {
     })
   },
 
-  downvote: ({commit, getters, state}, { id }) => {
+  downvote: ({commit, dispatch, getters, state}, { id }) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('downVote', { articleId: id })

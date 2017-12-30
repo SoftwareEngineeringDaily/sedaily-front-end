@@ -19,18 +19,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'comment',
-  props: ['id'],
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  },
   data () {
     return {
       open: true
     }
   },
   computed: {
-    comment () {
-      return this.$store.state.posts[this.id]
-    }
+    ...mapState({
+      comment (state) {
+        return state.posts[this.id]
+      }
+    })
   },
   methods: {
     pluralize: n => n + (n === 1 ? ' reply' : ' replies')
@@ -38,7 +47,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .comment-children
   .comment-children
     margin-left 1.5em

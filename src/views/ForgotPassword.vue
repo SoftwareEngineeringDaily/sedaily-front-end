@@ -1,44 +1,40 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
+  <v-form>
+    <div class="headline">Reset Your Password</div>
 
-  <div>
-    <h1> Reset Your Password </h1>
-
-    <form class='col-md-9' v-on:submit.prevent='submit'>
-
-      <div v-if=showForm>
-        <div class="form-group">
-          <label for="emailInput">Email address</label>
-          <input type="email"
-          v-model='email'
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
-        </div>
-
-        <div v-show="errors.has('email')"
-        class="alert alert-danger">
-          {{ errors.first('email') }}
-        </div>
-      </div>
-
-      <p v-if=submitted>
-        Check your email for your reset link.
-        Give it a few minutes and make sure to check your Spam folder.
-      </p>
-      <h3 v-else>We'll send you a special link to allow you to reset your password.</h3>
-
-      <div v-if=showForm>
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
-      </div>
-    </form>
-
-  <spinner :show="loading"></spinner>
-</div>
-
-
+    <v-text-field 
+      label="Email address" 
+      v-model="email"
+      type="email"
+      autofocus
+      v-validate="'required'"
+      @keyup.enter="submitHandler"
+      :error-messages="errors.collect('email')"
+      data-vv-name="email"
+      required /> 
+    
+    <v-layout row>
+      <v-flex xs6>
+        <p v-if="submitted">
+          Check your email for your reset link.
+          Give it a few minutes and make sure to check your Spam folder.
+        </p>
+        <p v-else>We'll send you a special link to allow you to reset your password.</p>
+      </v-flex>
+      <v-flex xs6 class="text-xs-right">        
+        <v-btn  @click.prevent='submitHandler' color="primary">Submit</v-btn>  
+      </v-flex>
+    </v-layout>
+    
+    <spinner :show="loading" />
+  </v-form>
+</v-flex>
 </template>
+
 <script>
 import Spinner from '@/components/Spinner.vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'forgot-password',
@@ -62,30 +58,29 @@ export default {
   },
 
   methods: {
-    submit: function () {
+    ...mapActions([
+      'sendForgotPasswordEmail',
+      'showErrorMessage']),
+    submitHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { email } = this
-          this.$store.dispatch('sendForgotPasswordEmail', {
+          this.sendForgotPasswordEmail({
             email
           })
-          .then((response) => {
-            this.loading = false
-            this.submitted = true
-          })
-          .catch(() => {
-            this.loading = false
-            this.submitted = false
-            alert('There was an error with your submission, make sure you are using the right email.')
-          })
+            .then((response) => {
+              this.loading = false
+              this.submitted = true
+            })
+            .catch(() => {
+              this.loading = false
+              this.submitted = false
+              this.showErrorMessage('There was an error with your submission, make sure you are using the right email.')
+            })
         }
       })
     }
   }
 }
-
 </script>
-
-<style>
-</style>

@@ -1,6 +1,11 @@
-import Vue from 'vue'
+import chai from 'chai'
 
-Vue.config.productionTip = false
+chai.should()
+chai.use(require('chai-things'))
+
+var app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
 
 // require all test files (files that ends with .spec.js)
 const testsContext = require.context('./specs', true, /\.spec$/)

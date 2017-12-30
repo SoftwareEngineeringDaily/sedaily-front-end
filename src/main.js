@@ -12,6 +12,8 @@ import VeeValidate from 'vee-validate'
 import Vuetify from 'vuetify'
 import SocialSharing from 'vue-social-sharing'
 
+import './assets/sedaily.styl'
+
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router)
@@ -25,7 +27,11 @@ Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#3f58af'
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

@@ -2,8 +2,17 @@ import Vue from 'vue'
 import find from 'lodash/find'
 
 export default {
+  showErrorDialog: (state, message) => {
+    state.errorMessage = message
+    state.showErrorDialog = true
+  },
 
-  setActivePostInPlayer: (state, { post }) => {
+  hideErrorDialog: (state) => {
+    state.errorMessage = ''
+    state.showErrorDialog = false
+  },
+
+  updateActivePostInPlayer: (state, post) => {
     state.activePlayerPost = post
   },
 
@@ -63,7 +72,7 @@ export default {
     // Weird error if this is not defiend:
     if (!parentComments) return
     if (!parentCommentId) {
-       // We are a root level comment so it's easy
+      // We are a root level comment so it's easy
       entity = find(parentComments, (comment) => {
         return comment._id === commentId
       })
@@ -160,11 +169,6 @@ export default {
     }
     state.posts[articleId].upvoted = false
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
-  },
-
-  logout: (state) => {
-    localStorage.setItem('token', '')
-    state.token = ''
   },
 
   setToken: (state, { token }) => {

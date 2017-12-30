@@ -1,10 +1,9 @@
 <template>
-  <div class='link-holder'>
-
-    <div class='voting' style='display:inline-block; height: 100%;'>
+  <v-layout row class="ml-2">
+    <v-flex xs1>
       <span class="score">
         <span class='arrow' v-bind:class="{ active: relatedLink.upvoted }"
-        style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
+        @click='upvoteHandler'>▲</span>
         <br>
         {{ relatedLink.score || 0 }}
         <br />
@@ -12,36 +11,47 @@
       @click='downvoteHandler'>▼</span>
 
       </span>
-    </div>
-
-    <a :href="relatedLink.url | externalUrl" target="_blank"
-    rel="external nofollow"
+    </v-flex>
+    <v-flex xs11>
+      <a :href="relatedLink.url | externalUrl" target="_blank" 
+    rel="external nofollow noopener"
     > {{relatedLink.title || relatedLink.url}} </a>
 
-    <div v-if='myLink' @click='remove'> <button> delete </button> </div>
-  </div>
+     <v-btn v-if='myLink' @click.prevent='remove'>Delete</v-btn>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'related-link',
-  props: ['relatedLink'],
+  props: {
+    relatedLink: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    ...mapActions([
+      'upvoteRelatedLink',
+      'downvoteRelatedLink',
+      'removeRelatedLink',
+      'relatedLinksFetch',
+      'showErrorMessage'
+    ]),
     remove () {
       this.removeRelatedLink({
         id: this.relatedLink._id
       })
-      .then(() => {
-        this.relatedLinksFetch({
-          postId: this.relatedLink.post
+        .then(() => {
+          this.relatedLinksFetch({
+            postId: this.relatedLink.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          this.showErrorMessage('Error deleting :(')
+        })
     },
     upvoteHandler () {
       this.upvoteRelatedLink({
@@ -70,10 +80,16 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
-
+<style lang="stylus" scoped>
+.row
+  justify-content center
+  align-items center
+.voting 
+  display inline-block
+  height 100%
 .arrow
   color #888
+  margin-left -2px
   &:hover
     cursor pointer
     color #3F58AF
@@ -84,9 +100,7 @@ export default {
       cursor pointer
       color #888
 
-  .link-holder {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e8e8e8;
-
-  }
+  .link-holder
+    padding-bottom 20px
+    border-bottom 1px solid #e8e8e8
 </style>

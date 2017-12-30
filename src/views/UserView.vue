@@ -1,4 +1,5 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <div class="user-view">
     <spinner :show="!user"></spinner>
     <template v-if="user">
@@ -14,6 +15,7 @@
       </p>
     </template>
   </div>
+</v-flex>
 </template>
 
 <script>
@@ -38,7 +40,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .user-view
   background-color #fff
   box-sizing border-box

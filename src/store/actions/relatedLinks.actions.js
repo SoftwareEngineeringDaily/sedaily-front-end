@@ -16,14 +16,14 @@ export default {
     return axios.post(requestUrl, options, config)
   },
 
-  removeRelatedLink: ({commit, getters, state}, {id}) => {
+  removeRelatedLink: ({commit, dispatch, getters, state}, {id}) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to remove your link')
+      dispatch('showErrorMessage', 'You must login to remove your link')
       return
     }
     if (!id) {
-      alert('Error with that link')
+      dispatch('showErrorMessage', 'Error with that link')
       return
     }
     return axios.delete(`${BASE_URL}/related-links/${id}`, {
@@ -33,10 +33,10 @@ export default {
     })
   },
 
-  upvoteRelatedLink: ({commit, getters, state}, {id, postId}) => {
+  upvoteRelatedLink: ({commit, dispatch, getters, state}, {id, postId}) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('upvoteRelatedLink', {id, postId})
@@ -47,10 +47,10 @@ export default {
     })
   },
 
-  downvoteRelatedLink: ({commit, getters, state}, {id, postId}) => {
+  downvoteRelatedLink: ({commit, dispatch, getters, state}, {id, postId}) => {
     let token = getters.getToken
     if (!token) {
-      alert('You must login to vote')
+      dispatch('showErrorMessage', 'You must login to vote')
       return
     }
     commit('downvoteRelatedLink', {id, postId})

@@ -1,52 +1,39 @@
 <template>
-  <div class="feed-item">
-    <v-card>
-      <v-card-media :src="image(feedItem.image)" height="200px">
-      </v-card-media>
-      <div>
-        <a :href="feedItem.url | externalUrl" target="_blank"
-        rel="external nofollow">
-         <span class='title'>
-         {{feedItem.title || feedItem.url}}
-         </span>
-       </a>
-        <div>{{feedItem.description}}</div>
-        <p class='votes'>
+  <v-card class="my-2">
+    <v-card-media :src="image" height="200px" />
+    
+    <v-card-title>
+      <a :href="feedItem.url | externalUrl" target="_blank"
+      rel="external nofollow noopener">
+        <span class='title'>
+        {{feedItem.title || feedItem.url}}
+        </span>
+      </a>
+      <div class="mt-1">{{feedItem.description}}</div>
+    </v-card-title>     
+    <v-card-actions>
+      <p class="ml-2">
         Votes:{{feedItem.score}}
-        </p>
-      </div>
-      <v-card-title primary-title>
-      </v-card-title>
-    </v-card>
-    <br />
-    <hr />
-  </div>
+      </p>
+    </v-card-actions>
+  </v-card>    
 </template>
 
 <script>
 export default {
   name: 'FeedItem',
-  props: ['feedItem'],
-
-  methods: {
-    image: function (image) {
-      console.log(image)
-      return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
+  props: {
+    feedItem: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    image () {
+      return this.feedItem.image !== undefined
+        ? this.feedItem.image
+        : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
     }
   }
-
 }
 </script>
-<style src="../../static/vuetify.min.css"></style>
-<style scoped>
-.feed-item {
-  margin-left: 30px;
-  margin-right: 30px;
-}
-.votes {
-  padding-top: 5px;
-}
-.feed-item-img {
-  width:  100px;
-}
-</style>

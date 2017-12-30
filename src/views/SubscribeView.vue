@@ -1,8 +1,7 @@
 <template>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
   <div id='app'>
     <div v-if="loadingUser">
-
-
       <spinner :show="loadingUser"></spinner>
     </div>
     <div v-if="alreadySubscribed">
@@ -18,11 +17,10 @@
         Canceling...
         <spinner :show="processing"></spinner>
       </div>
-      <div v-else="processing">
+      <div v-else>
 
       <h3>
          Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
-
        </h3>
        <br />
       <div><h2> {{error}} </h2> </div>
@@ -30,9 +28,9 @@
 
        </div>
 
-      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
+      <v-btn v-if="justCancelled === false" class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
-      </button>
+      </v-btn>
       <p>
       <h4> Cancelling?</h4>
       Your subscription will be cancelled right away and you won't be charged again
@@ -42,35 +40,34 @@
     </div>
     </div>
 
-    <div v-else="alreadySubscribed">
+    <div v-else>
       <h1> Subscribe </h1>
 
-      <input type="radio" id="monthly" value="monthly" v-model="planType">
-      <label for="one">Monthly  ($10 / month )</label>
-      <br>
-      <input type="radio" id="yearly" value="yearly" v-model="planType">
-      <label for="two">Yearly  ($100 / year ) </label>
-      <br>
+      <v-radio-group v-model="planType" :mandatory="true">
+        <v-radio label="Monthly ($10 / month)" value="monthly" />
+        <v-radio label="Yearly ($100 / year)" value="yearly" />
+      </v-radio-group>
 
       <h3>Please provide your payment details:</h3>
       <br />
       <card class='stripe-card'
-      :class='{ complete }'
-      stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
-      :options='stripeOptions'
-      @change='complete = $event.complete'
-      />
+        :class='{ complete }'
+        stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
+        :options='stripeOptions'
+        @change='complete = $event.complete'
+        />
       <div><h2> {{error}} </h2> </div>
       <div v-if="processing">
         Submitting...
         <spinner :show="processing"></spinner>
       </div>
       <div v-else>
-        <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
+        <v-btn class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</v-btn>
         <div><h2> {{successSubscribingMessage}} </h2> </div>
       </div>
     </div>
   </div>
+</v-flex>
 </template>
 
 <script>
@@ -105,28 +102,31 @@ export default {
       this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
-      .then((myData) => {
-        console.log('myData', myData)
-        this.loadingUser = false
-        if (!this.alreadySubscribed) {
-          if (wantedToSubscribe()) {
-            this.planType = preSelectedSubscriptionPlan()
+        .then((myData) => {
+          this.loadingUser = false
+          if (!this.alreadySubscribed) {
+            if (wantedToSubscribe()) {
+              this.planType = preSelectedSubscriptionPlan()
+            }
+          } else {
+            unselectSubscriptionPlan()
           }
-        } else {
-          unselectSubscriptionPlan()
-        }
-      })
-      .catch((error) => {
-        alert('Error loading user info.')
-        console.log('error loading user', error)
-      })
+        })
+        .catch((error) => {
+          this.showErrorMessage(error.response.data.message)
+        })
     }
   },
 
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
+    ...mapActions([
+      'createSubscription',
+      'fetchMyProfileData',
+      'showErrorMessage',
+      'cancelSubscription'
+    ]),
     pay () {
       this.error = null
       this.justCancelled = false
@@ -137,25 +137,23 @@ export default {
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
       createToken().then(data => {
-        // console.log(data.token)
         const stripeToken = data.token.id
         const { planType } = this
         return this.createSubscription({stripeToken, planType})
       })
-      .then((result) => {
+        .then((result) => {
         // Successfully created subscription:
-        this.processing = false
-        this.justSubscribed = true
-        this.successSubscribingMessage = 'Thanks for subscribing!'
-        unselectSubscriptionPlan()
-      })
-      .catch((error) => {
-        console.log('error', error)
-        this.processing = false
-        this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
-        // Probably don't need to do this but should:
-        unselectSubscriptionPlan()
-      })
+          this.processing = false
+          this.justSubscribed = true
+          this.successSubscribingMessage = 'Thanks for subscribing!'
+          unselectSubscriptionPlan()
+        })
+        .catch((error) => {
+          this.processing = false
+          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+          // Probably don't need to do this but should:
+          unselectSubscriptionPlan()
+        })
     },
 
     cancelSubscriptionClicked () {
@@ -163,19 +161,17 @@ export default {
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
-      .then((result) => {
-        this.processing = false
-        this.justSubscribed = false
-        console.log('cancel subscription')
-        this.justCancelled = true
-        this.successSubscribingMessage = 'Your subscription has been cancelled.'
-      })
-      .catch((error) => {
-        console.log('error', error)
-        this.processing = false
-        // this.justSubscribed = false
-        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-      })
+        .then((result) => {
+          this.processing = false
+          this.justSubscribed = false
+          this.justCancelled = true
+          this.successSubscribingMessage = 'Your subscription has been cancelled.'
+        })
+        .catch((error) => {
+          this.processing = false
+          // this.justSubscribed = false
+          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+        })
     }
   },
 
@@ -219,35 +215,32 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.cancel-button
+  background #e8e8e8
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid black
 
-.cancel-button {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid black;
-}
+.pay-button
+  background #ceffa8
+  padding 9px 14px
+  margin 17px 0px
+  border 2px solid #33ff00
+  box-shadow 1px 1px 2px #888888
 
-.pay-button {
-  background: #ceffa8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 2px solid #33ff00;
-  box-shadow: 1px 1px 2px #888888;
-}
-.pay-button:disabled {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid #b9b9b9;
-  opacity: 0.3;
-}
+.pay-button:disabled
+  background #e8e8e8
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid #b9b9b9
+  opacity 0.3
 
-.stripe-card {
-  width: 300px;
-  border: 1px solid grey;
-}
-.stripe-card.complete {
-  border-color: green;
-}
+.stripe-card
+  width 300px
+  border 1px solid grey
+
+.stripe-card.complete
+  border-color green
+
 </style>

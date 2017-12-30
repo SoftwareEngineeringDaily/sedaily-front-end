@@ -1,55 +1,46 @@
 <template>
-  <div class="login-view container">
-    <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
-        <h1>Login</h1>
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3>
+  <v-form>
+    <div class="headline">Login</div>
+    
+    <v-text-field 
+      label="Username or Email" 
+      v-model="username"
+      v-validate="'required'" 
+      :error-messages="errors.collect('username')"
+      data-vv-name="username"
+      autofocus
+      @keyup.enter.prevent="loginHandler"
+      required />                  
 
-
-        <div class="form-group">
-          <label for="usernameInput">Username or Email</label>
-          <input type="text" v-model='username'
-          id="usernameInput"
-          name="username"
-          v-validate="'required'"
-          class="form-control"
-          aria-describedby="usernameHelp"
-          placeholder="Enter a username or email">
-
-          <div v-show="errors.has('username')"
-          class="alert alert-danger">
-          {{ errors.first('username') }}</div>
-        </div>
-
-        <div class="form-group">
-          <label for="inputPassword">Password</label>
-          <input name='password' v-model='password'
-          v-validate="'required'"
-          type="password"
-          class="form-control"
-          id="inputPassword"
-          placeholder="Password">
-
-          <div v-show="errors.has('password')"
-          class="alert alert-danger">
-          {{ errors.first('password') }}</div>
-        </div>
-
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
-
-        <div class="col-med-12">
-          <br />
-          <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
-        </div>
-      </form>
-    </div>
-
-    <spinner :show="loading"></spinner>
-  </div>
+    <v-text-field 
+      label="Password" 
+      v-model="password"
+      type="password"
+      v-validate="'required'"
+      :error-messages="errors.collect('password')"
+      data-vv-name="password"
+      @keyup.enter.prevent="loginHandler"
+      required />            
+  
+    <v-layout row>
+      <v-flex xs6>
+        <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+      </v-flex>
+      <v-flex xs6 class="text-xs-right">
+        <v-btn  @click.prevent='loginHandler' color="primary">Login</v-btn>
+      </v-flex>
+    </v-layout>
+    
+    <spinner :show="loading" />
+  </v-form>
+</v-flex>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'login',
@@ -67,39 +58,36 @@ export default {
   },
 
   methods: {
-    login: function () {
+    ...mapActions([
+      'login',
+      'showErrorMessage'
+    ]),
+    loginHandler: function () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const {username, password} = this
-          this.$store.dispatch('login', {
+          this.login({
             username,
             password
           })
-          .then((response) => {
-            this.loading = false
-            if (response.data.token) {
-              if (wantedToSubscribe()) {
-                this.$router.replace('/subscribe')
+            .then((response) => {
+              this.loading = false
+              if (response.data.token) {
+                if (wantedToSubscribe()) {
+                  this.$router.replace('/subscribe')
+                } else {
+                  this.$router.replace('/')
+                }
               } else {
-                this.$router.replace('/')
+                this.showErrorMessage('Invalid login')
               }
-            } else {
-              alert('Invalid login')
-            }
-          })
+            })
         } else {
-          console.log('Invalid values..')
           this.loading = false
-          // alert('Please fix the errors')
         }
       })
     }
   }
 }
 </script>
-
-<style lang="stylus">
-.container
-  margin-top 45px
-</style>
