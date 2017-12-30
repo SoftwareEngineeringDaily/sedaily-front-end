@@ -2,6 +2,7 @@ import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import Router from 'vue-router'
+import initialState from '@/store/initialState'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentView from '@/components/CommentView.vue'
 import CommentReply from '@/components/CommentReply.vue'
@@ -25,7 +26,7 @@ describe('CommentsList.vue', (done) => {
 
   it('should render all comments', () => {
     const store = new Vuex.Store({
-      state: {},
+      state: initialState,
       getters: {
         isLoggedIn: sandbox.stub().returns(true)
       }
@@ -47,7 +48,7 @@ describe('CommentsList.vue', (done) => {
 
   it('should render reply box when logged in', () => {
     const store = new Vuex.Store({
-      state: {},
+      state: initialState,
       getters: {
         isLoggedIn: sandbox.stub().returns(true)
       }
@@ -68,7 +69,7 @@ describe('CommentsList.vue', (done) => {
 
   it('should not render reply when logged out', () => {
     const store = new Vuex.Store({
-      state: {},
+      state: initialState,
       getters: {
         isLoggedIn: sandbox.stub().returns(false)
       }

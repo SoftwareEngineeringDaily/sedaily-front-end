@@ -57,15 +57,10 @@ export default {
   },
 
   computed: {
-    // local computed methods +
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      postId (state) {
-        return state.route.params.id
-      }
-    })
+    ...mapState(['me']),
+    postId () {
+      return this.$router.params.id
+    }
   },
   methods: {
     ...mapActions([
