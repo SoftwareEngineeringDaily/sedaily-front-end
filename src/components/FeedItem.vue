@@ -37,7 +37,7 @@ export default {
 
 }
 </script>
-<style src="../../static/vuetify.min.css"></style>
+<style scoped src="../../static/vuetify.min.css"></style>
 <style scoped>
 .feed-item {
   margin-left: 30px;
