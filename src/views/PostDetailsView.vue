@@ -164,8 +164,13 @@ export default {
 </script>
 
 <style lang="stylus">
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
 .post-view-header
-  background-color #fff
+  background-color primary-color
+  color white
   padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
@@ -173,6 +178,7 @@ export default {
   h1
     display inline
     font-size 1.5em
+    font-weight 200
     margin 0
     margin-right .5em
   .host, .meta, .meta a
