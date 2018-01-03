@@ -1,18 +1,25 @@
 <template>
   <div class="post-view" v-if="post">
     <template v-if="post">
-      <div class="post-view-header row">
-        <voting-arrows
+
+      <div class="row primary-post-header">
+        <div class="col-md-1">
+          <voting-arrows
           :upvoted="post.upvoted"
           :downvoted="post.downvoted"
           :upvoteHandler="upvoteHandler"
           :downvoteHandler="downvoteHandler"
-          :score="post.score">
-        </voting-arrows>
+          :score="post.score"></voting-arrows>
+        </div>
 
+        <div class="col-md-10">
+          <h1 class="header-title" >{{ post.title.rendered | decodeString }}</h1>
+        </div>
+      </div>
+      <div class="post-view-header row">
         <div class='post-header-details' style='display:inline-block'>
           <a :href="post.url" target="_blank">
-            <h1>{{ post.title.rendered | decodeString }}</h1>
+
           </a>
           <span v-if="post.url" class="host">
             ({{ post.url | host }})
@@ -195,26 +202,26 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 
 primary-color = #856AFF
 secondary-color = #FF8B6A
 
+
+.header-title
+  margin-top 15px
+  font-weight 200
+
 .post-view-header
-  background-color primary-color
+  background primary-color
   color white
   padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
 
-  h1
-    display inline
-    font-size 1.5em
-    font-weight 200
-    margin 0
-    margin-right .5em
   .host, .meta, .meta a
-    color #999
+    color white
+    font-weight 200
   .meta a
     text-decoration underline
 
