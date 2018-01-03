@@ -50,7 +50,7 @@
           </span>
 
           |
-          
+
           <span @click="selectRelatedLinks">
             Related Links
           </span>
@@ -71,6 +71,7 @@
           <div v-if="showComments">
             <comment-compose v-if="isLoggedIn"></comment-compose>
             <br />
+            <h3> Comments </h3>
             <comments-list :comments='comments'></comments-list>
           </div>
 
