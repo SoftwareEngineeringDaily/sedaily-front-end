@@ -1,14 +1,14 @@
 <template>
   <div class="news-post">
-    <div class="score">
-      <span class='arrow' v-bind:class="{ active: post.upvoted }"
-      @click='upvote(post)'>▲</span>
-      <div>{{ post.score || 0 }}</div>
-      <span class='arrow' v-bind:class="{ active: post.downvoted }"
-      @click='downvote(post)'>▼</span>
-    </div>
+    <voting-arrows
+      :upvoted="post.upvoted"
+      :downvoted="post.downvoted"
+      :upvoteHandler="upvoteHandler"
+      :downvoteHandler="downvoteHandler"
+      :score="post.score">
+    </voting-arrows>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img":src="featuredImage" />
+      <img class="hero-img" :src="featuredImage" />
       <span class="play-button" @click='setActivePostInPlayer(post)'>
         <img class="play-icon" src="../assets/play.png" alt="play">
       </span>
@@ -37,19 +37,17 @@
       <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
-</div>
 </template>
 
 <script>
 /* @flow */
 import moment from 'moment'
 import VueAplayer from 'vue-aplayer'
+import VotingArrows from './VotingArrows'
 export default {
   name: 'PostSummary',
   props: ['post'],
-  components: {
-    'a-player': VueAplayer
-  },
+  components: { VotingArrows, 'a-player': VueAplayer },
   computed: {
 
     featuredImage () {
@@ -64,15 +62,15 @@ export default {
     setActivePostInPlayer: function (post:any) {
       this.$store.commit('setActivePostInPlayer', { post })
     },
-    upvote: function (post:any) {
-      console.log(post)
+    upvoteHandler: function () {
+      console.log(this.post)
       this.$store.dispatch('upvote', {
-        id: post._id
+        id: this.post._id
       })
     },
-    downvote: function (post:any) {
+    downvoteHandler: function () {
       this.$store.dispatch('downvote', {
-        id: post._id
+        id: this.post._id
       })
     }
   }
@@ -100,18 +98,6 @@ export default {
   .hero-img
     width 100px
 
-  .arrow
-    color #888
-    &:hover
-      cursor pointer
-      color #3F58AF
-
-    &.active
-      color #3F58AF !important
-      &:hover
-        cursor pointer
-        color #888
-
   .play-button
     width 80px
     height 80px
@@ -124,16 +110,6 @@ export default {
       width 80px
   .title
     padding-top 10px
-  .score
-    display flex
-    flex-direction column
-    align-posts center
-    justify-content center
-    color #3F58AF
-    font-size 1.1em
-    font-weight 700
-    width 15%
-    text-align: center
 
   .meta, .host
     font-size .85em
@@ -144,6 +120,12 @@ export default {
       text-decoration underline
       &:hover
         color #3F58AF
+
+.voting
+  display inline-flex
+  flex-direction column
+  justify-content center
+  align-items center
 
 @media (max-width 576px)
   .news-post
