@@ -52,21 +52,25 @@
 
       <div class="row">
         <div class="post-view-comments col-md-12">
-          <span @click="selectPostContent">
-            Post Content
-          </span>
+          <div class="selection-icons">
+            <span @click="selectPostContent">
+              <img class="icon" src="../assets/icons/post.png"
+              :class="{ active: showPostContent }"
+              alt="Post Content">
+            </span>
 
-          |
+            <span @click="selectRelatedLinks">
+              <img class="icon" src="../assets/icons/relatedlinks.png"
+              :class="{ active: showRelatedLinks}"
+              alt="Related Links">
+            </span>
 
-          <span @click="selectRelatedLinks">
-            Related Links
-          </span>
-
-          |
-
-          <span @click="selectComments">
-            Comments
-          </span>
+            <span @click="selectComments">
+              <img class="icon" src="../assets/icons/comments.png"
+              :class="{ active: showComments}"
+              alt="Comments">
+            </span>
+          </div>
 
           <div v-if="showPostContent"  v-html='postContent'></div>
 
@@ -208,6 +212,19 @@ primary-color = #856AFF
 secondary-color = #FF8B6A
 
 
+.selection-icons {
+  margin-bottom: 30px;
+  .icon {
+    padding-right: 20px
+    cursor: pointer
+    opacity 0.1
+
+    &.active {
+      opacity 1
+    }
+  }
+}
+
 .header-title
   margin-top 15px
   font-weight 200
@@ -244,7 +261,6 @@ secondary-color = #FF8B6A
     right 0
     bottom auto
 .related-links-container{
-  padding-top: 30px;
 }
 .comment-children
   list-style-type none
