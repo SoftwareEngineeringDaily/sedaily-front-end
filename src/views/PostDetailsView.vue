@@ -2,16 +2,13 @@
   <div class="post-view" v-if="post">
     <template v-if="post">
       <div class="post-view-header row">
-
-        <div class='voting' style='display:inline-block; height: 100%;'>
-          <span class="score">
-            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
-            <br>
-            {{ post.score || 0}}
-            <br>
-            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvoteHandler'>▼</span>
-          </span>
-        </div>
+        <voting-arrows
+          :upvoted="post.upvoted"
+          :downvoted="post.downvoted"
+          :upvoteHandler="upvoteHandler"
+          :downvoteHandler="downvoteHandler"
+          :score="post.score">
+        </voting-arrows>
 
         <div class='post-header-details' style='display:inline-block'>
           <a :href="post.url" target="_blank">
@@ -72,11 +69,12 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
+import VotingArrows from '@/components/VotingArrows.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose },
+  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose, VotingArrows },
   data () {
     return {
       showContent: true,
@@ -179,18 +177,6 @@ export default {
     color #999
   .meta a
     text-decoration underline
-
-  .arrow
-    color #888
-    &:hover
-      cursor pointer
-      color #3F58AF
-
-    &.active
-      color #3F58AF !important
-      &:hover
-        cursor pointer
-        color #888
 
 .post-view-comments
   background-color #fff
