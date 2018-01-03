@@ -44,21 +44,38 @@
       </div>
 
       <div class="row">
-        <div class="post-view-comments col-md-8">
-          <button @click="toggleShowContent">{{contentButtonText}}</button>
-          <div v-if="showContent"  v-html='postContent'>
+        <div class="post-view-comments col-md-12">
+          <span @click="selectPostContent">
+            Post Content
+          </span>
+
+          |
+          
+          <span @click="selectRelatedLinks">
+            Related Links
+          </span>
+
+          |
+
+          <span @click="selectComments">
+            Comments
+          </span>
+
+          <div v-if="showPostContent"  v-html='postContent'></div>
+
+          <div class="related-links-container" v-if="showRelatedLinks">
+            <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+            <related-link-compose v-if="isLoggedIn"></related-link-compose>
           </div>
-        </div>
-        <div class="col-md-4 related-links-container">
-          <related-link-list :relatedLinks='relatedLinks'></related-link-list>
-          <related-link-compose v-if="isLoggedIn"></related-link-compose>
+
+          <div v-if="showComments">
+            <comment-compose v-if="isLoggedIn"></comment-compose>
+            <br />
+            <comments-list :comments='comments'></comments-list>
+          </div>
+
         </div>
       </div>
-      <br />
-      <br />
-      <comment-compose v-if="isLoggedIn"></comment-compose>
-      <br />
-      <comments-list :comments='comments'></comments-list>
     </template>
   </div>
 </template>
@@ -77,7 +94,9 @@ export default {
   components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose, VotingArrows },
   data () {
     return {
-      showContent: true,
+      showPostContent: true,
+      showRelatedLinks: false,
+      showComments: false,
       loading: true
     }
   },
@@ -88,9 +107,6 @@ export default {
       } else {
         return this.post.content.rendered
       }
-    },
-    contentButtonText () {
-      return this.showContent ? '-' : '+'
     },
     post () {
       return this.$store.state.posts[this.$route.params.id]
@@ -143,8 +159,25 @@ export default {
   methods: {
     ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch']),
-    toggleShowContent () {
-      this.showContent = !this.showContent
+    selectPostContent () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showPostContent = true
+    },
+
+    selectComments () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showComments = true
+    },
+
+    selectRelatedLinks () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showRelatedLinks = true
     },
 
     upvoteHandler: function () {
