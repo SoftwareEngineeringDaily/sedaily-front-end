@@ -14,7 +14,7 @@ export function wantedToSubscribe () {
 
 // for when we don't want to subscribe anymore
 export function unselectSubscriptionPlan () {
-  localStorage.setItem('planType', null)
+  localStorage.removeItem('planType')
 }
 
 export function selectSubscriptionPlan (planType) {

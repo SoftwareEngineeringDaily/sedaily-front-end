@@ -113,6 +113,7 @@ export default {
             this.planType = preSelectedSubscriptionPlan()
           }
         } else {
+          // Already subbed
           unselectSubscriptionPlan()
         }
       })
