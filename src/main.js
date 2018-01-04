@@ -11,6 +11,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import VeeValidate from 'vee-validate'
 import Vuetify from 'vuetify'
 import SocialSharing from 'vue-social-sharing'
+import VueAnalytics from 'vue-analytics'
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -26,6 +27,11 @@ Vue.use(infiniteScroll)
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(Vuetify)
+Vue.use(VueAnalytics, {
+  id: 'UA-111896817-1',
+  checkDuplicatedScript: true,
+  router
+})
 
 /* eslint-disable no-new */
 new Vue({
