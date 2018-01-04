@@ -10,7 +10,7 @@
           <spinner :show="true"></spinner>
         </div>
         <div v-else="isSubmitting">
-          <button class='btn-success'
+          <button class='submit-btn'
           :disabled="isSubmitting"
           @click='submitComment'>
           Comment
@@ -87,12 +87,19 @@ export default {
 }
 </script>
 
-<style scoped>
-  .comment-box {
-    width: 100%;
-    padding: 20px 10px;
-    margin-bottom: 12px;
-    border-radius: 7px;
-    border-color: #c5c5c5;
-  }
+<style lang="stylus" scoped>
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
+.submit-btn {
+
+}
+.comment-box {
+  width: 100%;
+  padding: 20px 10px;
+  margin-bottom: 12px;
+  border-radius: 7px;
+  border-color: #c5c5c5;
+}
 </style>

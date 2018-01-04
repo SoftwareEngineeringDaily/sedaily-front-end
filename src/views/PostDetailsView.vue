@@ -217,7 +217,7 @@ secondary-color = #FF8B6A
   .icon {
     padding-right: 20px
     cursor: pointer
-    opacity 0.1
+    opacity 0.4
 
     &.active {
       opacity 1
