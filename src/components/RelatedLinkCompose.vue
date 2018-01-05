@@ -26,7 +26,7 @@
           <spinner :show="true"></spinner>
         </span>
         <div v-else="isSubmitting">
-          <button class='btn-success'
+          <button class='button-submit'
           :disabled="isSubmitting"
           @click.prevent='submit'>
           Add New Link

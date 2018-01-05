@@ -1,5 +1,5 @@
 <template>
-  <div class="post-view" v-if="post">
+  <div class="post-view container" v-if="post">
     <template v-if="post">
 
       <div class="row primary-post-header">
@@ -72,7 +72,30 @@
             </span>
           </div>
 
-          <div v-if="showPostContent"  v-html='postContent'></div>
+
+          <div v-if="showPostContent">
+            <div v-html='postContent' class='post-transcript'></div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <comment-compose v-if="isLoggedIn"></comment-compose>
+              </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+              <div class="col-md-7">
+                <h3 class='section-title'> Comments </h3>
+                <comments-list :comments='comments'></comments-list>
+              </div>
+
+              <div class="col-md-4">
+                <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+                <related-link-compose v-if="isLoggedIn"></related-link-compose>
+              </div>
+            </div>
+          </div>
 
           <div class="related-links-container" v-if="showRelatedLinks">
             <related-link-list :relatedLinks='relatedLinks'></related-link-list>
@@ -82,7 +105,7 @@
           <div v-if="showComments">
             <comment-compose v-if="isLoggedIn"></comment-compose>
             <br />
-            <h3> Comments </h3>
+            <h3 class='section-title'> Comments </h3>
             <comments-list :comments='comments'></comments-list>
           </div>
 
@@ -211,6 +234,8 @@ export default {
 primary-color = #856AFF
 secondary-color = #FF8B6A
 
+.post-transcript {
+}
 
 .selection-icons {
   margin-bottom: 30px;
@@ -246,9 +271,6 @@ secondary-color = #FF8B6A
   background-color #fff
   margin-top 10px
   padding 1em 2em .5em
-
-  .row, h2
-    display: none
 
 .post-view-comments-header
   margin 0

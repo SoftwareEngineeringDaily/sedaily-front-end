@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4> Related Links </h4>
+    <h4 class='section-title'> Related Links </h4>
     <div v-for="relatedLink in relatedLinks" class="related-links-list">
       <related-link :relatedLink="relatedLink"> </related-link>
     </div>

@@ -10,10 +10,10 @@
           <spinner :show="true"></spinner>
         </div>
         <div v-else="isSubmitting">
-          <button class='submit-btn'
+          <button class='button-submit'
           :disabled="isSubmitting"
           @click='submitComment'>
-          Comment
+          Add Comment
           </button>
         </div>
     </div>
@@ -92,9 +92,6 @@ export default {
 primary-color = #856AFF
 secondary-color = #FF8B6A
 
-.submit-btn {
-
-}
 .comment-box {
   width: 100%;
   padding: 20px 10px;

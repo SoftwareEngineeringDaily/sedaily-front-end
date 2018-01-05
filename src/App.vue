@@ -92,10 +92,23 @@ export default {
 
 primary-color = #856AFF
 secondary-color = #FF8B6A
+
+.button-submit {
+  background: primary-color
+  color: white
+  padding 10px 20px
+  cursor: pointer
+}
+
+.section-title {
+  font-weight: 300;
+}
+
 .col-centered{
     float: none;
     margin: 0 auto;
 }
+
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 14px
