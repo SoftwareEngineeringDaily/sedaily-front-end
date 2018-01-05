@@ -151,9 +151,16 @@ export default {
         unselectSubscriptionPlan()
       })
       .catch((error) => {
-        console.log('error', error)
+        // First we set it just in case as backup
         this.processing = false
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Then we get the error msg:
+        try {
+          const errorMsg = error.response.data.message
+          console.log('error', errorMsg)
+          this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
+        } catch (e) {
+        }
         // Probably don't need to do this but should:
         unselectSubscriptionPlan()
       })
