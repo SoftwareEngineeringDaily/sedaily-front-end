@@ -100,6 +100,13 @@ secondary-color = #FF8B6A
   cursor: pointer
 }
 
+.button-delete {
+  background: #fbf4f4
+  color: black
+  padding 5px 10px
+  cursor: pointer
+}
+
 .section-title {
   font-weight: 300;
 }

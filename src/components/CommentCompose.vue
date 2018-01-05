@@ -96,7 +96,7 @@ secondary-color = #FF8B6A
   width: 100%;
   padding: 20px 10px;
   margin-bottom: 12px;
-  border-radius: 7px;
+  border-radius: 4px;
   border-color: #c5c5c5;
 }
 </style>

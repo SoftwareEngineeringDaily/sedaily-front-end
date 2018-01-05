@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
   .reply-container {
     margin-left: 50px;
     margin-top: 10px;
@@ -94,7 +94,7 @@ export default {
   }
 
   .link {
-    color: green;
+    color: primary-color;
     cursor: pointer;
   }
 

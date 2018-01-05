@@ -12,7 +12,10 @@
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>
 
-    <div v-if='myLink' @click='remove'> <button> delete </button> </div>
+    <div v-if='myLink' @click='remove'>
+      <br />
+      <button class='button-delete'> Delete Link </button>
+    </div>
   </div>
 </template>
 

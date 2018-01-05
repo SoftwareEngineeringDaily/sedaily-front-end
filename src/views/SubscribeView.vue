@@ -256,6 +256,6 @@ export default {
   border: 1px solid grey;
 }
 .stripe-card.complete {
-  border-color: green;
+  border-color: #856AFF;
 }
 </style>
