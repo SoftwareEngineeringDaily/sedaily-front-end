@@ -100,6 +100,14 @@ secondary-color = #FF8B6A
   cursor: pointer
 }
 
+.button-submit-small {
+  background: primary-color
+  color: white
+  padding 5px 10px
+  border-radius 2px
+  cursor: pointer
+}
+
 .button-delete {
   background: #fbf4f4
   color: black
