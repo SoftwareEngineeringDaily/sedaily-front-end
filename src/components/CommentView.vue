@@ -4,7 +4,7 @@
       <div>
         <voting-arrows
           :upvoteHandler="upvoteHandler"
-          :upvoted="upvoted"
+          :upvoted="comment.upvoted"
           :score="comment.score">
         </voting-arrows>
         <img :src='avatar(comment)' class='avatar'/>
