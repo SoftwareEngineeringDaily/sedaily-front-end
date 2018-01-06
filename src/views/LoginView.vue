@@ -34,7 +34,7 @@
           {{ errors.first('password') }}</div>
         </div>
 
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
+        <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
 
         <div class="col-med-12">
           <br />

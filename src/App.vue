@@ -24,16 +24,17 @@
           Register
         </router-link>
 
-
-        <router-link to="/premium" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
+        <router-link to="/premium" name="register-nav-link"
+        style='float:right;margin-right: 1em;' v-if='!isLoggedIn'
+          class="call-to-action"
+        >
           Subscribe
         </router-link>
 
-
-
         <span v-if='isLoggedIn' style='float:right;'>
-
-          <router-link to="/premium" name="top-nav-link">Subscribe</router-link>
+          <router-link to="/premium" name="top-nav-link"
+          class="call-to-action"
+          >Subscribe</router-link>
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
           <router-link to="/profile" name="top-nav-link">Profile</router-link>
         </span>
@@ -92,6 +93,21 @@ export default {
 
 primary-color = #856AFF
 secondary-color = #FF8B6A
+accent-color = #FF8B6A
+very-light-grey = #EEEEEE
+
+.call-to-action {
+  background: accent-color;
+  color: whie;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+.header .call-to-action {
+  color: white;
+}
 
 .button-submit {
   background: primary-color

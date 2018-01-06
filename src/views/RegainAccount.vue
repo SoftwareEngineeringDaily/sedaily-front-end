@@ -17,7 +17,7 @@
         {{ errors.first('password') }}
       </div>
     </div>
-    <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
+    <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
     </form>
   </div>
 </template>

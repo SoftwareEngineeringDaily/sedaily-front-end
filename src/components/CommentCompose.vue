@@ -18,7 +18,7 @@
         </div>
     </div>
     <div v-else>
-      Please make sure to update your profile before you can comment:
+      <h3> Please make sure to update your profile before you can comment: </h3>
       <update-profile  v-if="username" :initialUsername="username"> </update-profile>
     </div>
   </div>
