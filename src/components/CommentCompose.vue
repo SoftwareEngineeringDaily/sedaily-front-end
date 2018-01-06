@@ -45,10 +45,10 @@ export default {
   },
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.loading = false
-      this.username = this.me.username
-    })
+      .then(() => {
+        this.loading = false
+        this.username = this.me.username
+      })
   },
 
   computed: {
@@ -70,18 +70,18 @@ export default {
         postId: this.postId,
         content: this.commentContent
       })
-      .then((response) => {
-        this.commentContent = ''
-        this.isSubmitting = false
-        // Fetch comments
-        this.commentsFetch({
-          postId: this.postId
+        .then((response) => {
+          this.commentContent = ''
+          this.isSubmitting = false
+          // Fetch comments
+          this.commentsFetch({
+            postId: this.postId
+          })
         })
-      })
-      .catch((error) => {
-        this.isSubmitting = false
-        alert(error.response.data.message)
-      })
+        .catch((error) => {
+          this.isSubmitting = false
+          alert(error.response.data.message)
+        })
     }
   }
 }

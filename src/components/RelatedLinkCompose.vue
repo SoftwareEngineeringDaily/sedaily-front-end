@@ -76,22 +76,22 @@ export default {
             title: this.title,
             url: this.url
           })
-          .then((response) => {
-            this.url = ''
-            this.title = ''
-            this.$nextTick(() => {
-              this.errors.clear()
+            .then((response) => {
+              this.url = ''
+              this.title = ''
+              this.$nextTick(() => {
+                this.errors.clear()
+              })
+              this.isSubmitting = false
+              // Fetch comments
+              this.relatedLinksFetch({
+                postId: this.postId
+              })
             })
-            this.isSubmitting = false
-            // Fetch comments
-            this.relatedLinksFetch({
-              postId: this.postId
+            .catch((error) => {
+              this.isSubmitting = false
+              alert(error.response.data.message)
             })
-          })
-          .catch((error) => {
-            this.isSubmitting = false
-            alert(error.response.data.message)
-          })
         } else {
           alert('Sorry there was a problem :(')
         }

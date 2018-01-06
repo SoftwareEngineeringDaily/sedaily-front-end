@@ -65,15 +65,15 @@ export default {
       this.removeComment({
         id: this.comment._id
       })
-      .then(() => {
-        this.commentsFetch({
-          postId: this.comment.post
+        .then(() => {
+          this.commentsFetch({
+            postId: this.comment.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {

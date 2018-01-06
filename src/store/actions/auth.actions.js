@@ -29,16 +29,16 @@ export default {
       name,
       email
     })
-    .then(function (response) {
-      commit('setToken', {token: response.data.token})
-      return response
-    })
-    .catch(function (error) {
+      .then(function (response) {
+        commit('setToken', {token: response.data.token})
+        return response
+      })
+      .catch(function (error) {
       // @TODO: Add pretty pop up here
-      console.log(error.response)
-      alert(error.response.data.message)
-      return error
-    })
+        console.log(error.response)
+        alert(error.response.data.message)
+        return error
+      })
   },
 
   sendForgotPasswordEmail: ({commit, state}, { email }) => {

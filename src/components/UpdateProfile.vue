@@ -178,17 +178,17 @@ export default {
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({imageFile: this.file})
-            .then((imageSuccess) => {
-              return this.updateProfile({
-                username,
-                id,
-                name,
-                bio,
-                isAvatarSet: true,
-                website,
-                email
+              .then((imageSuccess) => {
+                return this.updateProfile({
+                  username,
+                  id,
+                  name,
+                  bio,
+                  isAvatarSet: true,
+                  website,
+                  email
+                })
               })
-            })
           } else {
             updatePromise = this.updateProfile({
               username,
@@ -202,18 +202,18 @@ export default {
           }
 
           updatePromise
-          .then((response) => {
-            this.loading = false
-            // This means we are just updating our profile:
-            // TODO: have it be a componenet that is passed on
-            if (this.me) {
-              this.msg = 'Success, your profile was Updated :)'
-            }
-          })
-          .catch((error) => {
-            console.log('Error Updaating', error)
-            alert('There was a problem updating your profile')
-          })
+            .then((response) => {
+              this.loading = false
+              // This means we are just updating our profile:
+              // TODO: have it be a componenet that is passed on
+              if (this.me) {
+                this.msg = 'Success, your profile was Updated :)'
+              }
+            })
+            .catch((error) => {
+              console.log('Error Updaating', error)
+              alert('There was a problem updating your profile')
+            })
         } else {
           this.msg = 'Invalid fields on form :('
         }

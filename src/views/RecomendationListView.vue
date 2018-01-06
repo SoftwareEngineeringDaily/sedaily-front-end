@@ -35,18 +35,18 @@ export default {
       }
 
       this.$store.dispatch(this.endPoint, params)
-      .then((result) => {
-        if (result && result.posts && result.posts.length > 0) {
-          this.displayedPosts = this.displayedPosts.concat(result.posts)
-        }
-        this.endOfPosts = true
-        this.loading = false
-      })
-      .catch(_ => {
+        .then((result) => {
+          if (result && result.posts && result.posts.length > 0) {
+            this.displayedPosts = this.displayedPosts.concat(result.posts)
+          }
+          this.endOfPosts = true
+          this.loading = false
+        })
+        .catch(_ => {
         // TODO: log events
-        this.endOfPosts = true
-        this.loading = false
-      })
+          this.endOfPosts = true
+          this.loading = false
+        })
     }
   }
 }
