@@ -101,7 +101,7 @@ export default {
   },
 
   beforeMount () {
-    console.log('props', this.stripePublicKey)
+    console.log('stripe key', this.stripePublicKey)
     if (!this.isLoggedIn) {
       // If user is not logged in we should show
       this.$router.replace('/premium')
