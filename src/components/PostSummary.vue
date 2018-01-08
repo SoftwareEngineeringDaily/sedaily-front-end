@@ -42,12 +42,11 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import VueAplayer from 'vue-aplayer'
 import VotingArrows from './VotingArrows'
 export default {
   name: 'PostSummary',
   props: ['post'],
-  components: { VotingArrows, 'a-player': VueAplayer },
+  components: {VotingArrows},
   computed: {
 
     featuredImage () {
