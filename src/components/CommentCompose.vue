@@ -10,15 +10,15 @@
           <spinner :show="true"></spinner>
         </div>
         <div v-else="isSubmitting">
-          <button class='btn-success'
+          <button class='button-submit'
           :disabled="isSubmitting"
           @click='submitComment'>
-          Comment
+          Add Comment
           </button>
         </div>
     </div>
     <div v-else>
-      Please make sure to update your profile before you can comment:
+      <h3> Please make sure to update your profile before you can comment: </h3>
       <update-profile  v-if="username" :initialUsername="username"> </update-profile>
     </div>
   </div>
@@ -45,10 +45,10 @@ export default {
   },
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.loading = false
-      this.username = this.me.username
-    })
+      .then(() => {
+        this.loading = false
+        this.username = this.me.username
+      })
   },
 
   computed: {
@@ -70,29 +70,33 @@ export default {
         postId: this.postId,
         content: this.commentContent
       })
-      .then((response) => {
-        this.commentContent = ''
-        this.isSubmitting = false
-        // Fetch comments
-        this.commentsFetch({
-          postId: this.postId
+        .then((response) => {
+          this.commentContent = ''
+          this.isSubmitting = false
+          // Fetch comments
+          this.commentsFetch({
+            postId: this.postId
+          })
         })
-      })
-      .catch((error) => {
-        this.isSubmitting = false
-        alert(error.response.data.message)
-      })
+        .catch((error) => {
+          this.isSubmitting = false
+          alert(error.response.data.message)
+        })
     }
   }
 }
 </script>
 
-<style scoped>
-  .comment-box {
-    width: 100%;
-    padding: 20px 10px;
-    margin-bottom: 12px;
-    border-radius: 7px;
-    border-color: #c5c5c5;
-  }
+<style lang="stylus" scoped>
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
+.comment-box {
+  width: 100%;
+  padding: 20px 10px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border-color: #c5c5c5;
+}
 </style>

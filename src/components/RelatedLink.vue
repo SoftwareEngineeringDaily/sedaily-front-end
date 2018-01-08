@@ -1,31 +1,30 @@
 <template>
   <div class='link-holder'>
-
-    <div class='voting' style='display:inline-block; height: 100%;'>
-      <span class="score">
-        <span class='arrow' v-bind:class="{ active: relatedLink.upvoted }"
-        style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
-        <br>
-        {{ relatedLink.score || 0 }}
-        <br />
-        <span class='arrow' v-bind:class="{ active: relatedLink.downvoted }"
-      @click='downvoteHandler'>▼</span>
-
-      </span>
-    </div>
+    <voting-arrows
+      :upvoted="relatedLink.upvoted"
+      :downvoted="relatedLink.downvoted"
+      :upvoteHandler="upvoteHandler"
+      :downvoteHandler="downvoteHandler"
+      :score="relatedLink.score">
+    </voting-arrows>
 
     <a :href="relatedLink.url | externalUrl" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>
 
-    <div v-if='myLink' @click='remove'> <button> delete </button> </div>
+    <div v-if='myLink' @click='remove'>
+      <br />
+      <button class='button-delete'> Delete Link </button>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import VotingArrows from '@/components/VotingArrows.vue'
 export default {
   name: 'related-link',
+  components: { VotingArrows },
   props: ['relatedLink'],
   methods: {
     ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
@@ -33,15 +32,15 @@ export default {
       this.removeRelatedLink({
         id: this.relatedLink._id
       })
-      .then(() => {
-        this.relatedLinksFetch({
-          postId: this.relatedLink.post
+        .then(() => {
+          this.relatedLinksFetch({
+            postId: this.relatedLink.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     upvoteHandler () {
       this.upvoteRelatedLink({
@@ -71,22 +70,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
-.arrow
-  color #888
-  &:hover
-    cursor pointer
-    color #3F58AF
-
-  &.active
-    color #3F58AF !important
-    &:hover
-      cursor pointer
-      color #888
-
   .link-holder {
     padding-bottom: 20px;
-    border-bottom: 1px solid #e8e8e8;
-
   }
 </style>

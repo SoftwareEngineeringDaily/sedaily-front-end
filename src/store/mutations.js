@@ -63,7 +63,7 @@ export default {
     // Weird error if this is not defiend:
     if (!parentComments) return
     if (!parentCommentId) {
-       // We are a root level comment so it's easy
+      // We are a root level comment so it's easy
       entity = find(parentComments, (comment) => {
         return comment._id === commentId
       })

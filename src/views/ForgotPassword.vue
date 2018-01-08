@@ -28,7 +28,7 @@
       <h3 v-else>We'll send you a special link to allow you to reset your password.</h3>
 
       <div v-if=showForm>
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Submit </button>
+        <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
       </div>
     </form>
 
@@ -70,21 +70,20 @@ export default {
           this.$store.dispatch('sendForgotPasswordEmail', {
             email
           })
-          .then((response) => {
-            this.loading = false
-            this.submitted = true
-          })
-          .catch(() => {
-            this.loading = false
-            this.submitted = false
-            alert('There was an error with your submission, make sure you are using the right email.')
-          })
+            .then((response) => {
+              this.loading = false
+              this.submitted = true
+            })
+            .catch(() => {
+              this.loading = false
+              this.submitted = false
+              alert('There was an error with your submission, make sure you are using the right email.')
+            })
         }
       })
     }
   }
 }
-
 </script>
 
 <style>

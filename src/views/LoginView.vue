@@ -34,7 +34,7 @@
           {{ errors.first('password') }}</div>
         </div>
 
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Login</button>
+        <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
 
         <div class="col-med-12">
           <br />
@@ -76,18 +76,18 @@ export default {
             username,
             password
           })
-          .then((response) => {
-            this.loading = false
-            if (response.data.token) {
-              if (wantedToSubscribe()) {
-                this.$router.replace('/subscribe')
+            .then((response) => {
+              this.loading = false
+              if (response.data.token) {
+                if (wantedToSubscribe()) {
+                  this.$router.replace('/subscribe')
+                } else {
+                  this.$router.replace('/')
+                }
               } else {
-                this.$router.replace('/')
+                alert('Invalid login')
               }
-            } else {
-              alert('Invalid login')
-            }
-          })
+            })
         } else {
           console.log('Invalid values..')
           this.loading = false

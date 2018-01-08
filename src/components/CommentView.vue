@@ -2,20 +2,15 @@
   <div class='comment'>
     <span class='content'>
       <div>
-
-        <div class='voting' style='display:inline-block; height: 100%;'>
-          <span class="score">
-            <span class='arrow' v-bind:class="{ active: comment.upvoted }"
-            style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
-            <br>
-            {{ comment.score || 0}}
-          </span>
-        </div>
-
+        <voting-arrows
+          :upvoteHandler="upvoteHandler"
+          :upvoted="comment.upvoted"
+          :score="comment.score">
+        </voting-arrows>
         <img :src='avatar(comment)' class='avatar'/>
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
-      <div v-if='!comment.deleted'>
+      <div v-if='!comment.deleted' class='comment-content'>
         {{comment.content}}
       </div>
       <div v-else>
@@ -33,8 +28,10 @@
 /* @flow */
 import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
+import VotingArrows from './VotingArrows.vue'
 export default {
   name: 'comment-view',
+  components: { VotingArrows },
   props: ['comment'],
   computed: {
     ...mapState({
@@ -68,15 +65,15 @@ export default {
       this.removeComment({
         id: this.comment._id
       })
-      .then(() => {
-        this.commentsFetch({
-          postId: this.comment.post
+        .then(() => {
+          this.commentsFetch({
+            postId: this.comment.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     username (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
@@ -105,6 +102,11 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+.comment-content {
+  padding: 10px;
+  padding-left: 60px;
+}
 
 .avatar
   width: 50px

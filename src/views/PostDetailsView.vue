@@ -1,21 +1,25 @@
 <template>
-  <div class="post-view" v-if="post">
+  <div class="post-view container" v-if="post">
     <template v-if="post">
-      <div class="post-view-header row">
 
-        <div class='voting' style='display:inline-block; height: 100%;'>
-          <span class="score">
-            <span class='arrow' v-bind:class="{ active: post.upvoted }" style='margin-left: 1px;' @click='upvoteHandler'>▲</span>
-            <br>
-            {{ post.score || 0}}
-            <br>
-            <span class='arrow' v-bind:class="{ active: post.downvoted }" style='margin-left: -4px;' @click='downvoteHandler'>▼</span>
-          </span>
+      <div class="row primary-post-header">
+        <div class="col-md-1">
+          <voting-arrows
+          :upvoted="post.upvoted"
+          :downvoted="post.downvoted"
+          :upvoteHandler="upvoteHandler"
+          :downvoteHandler="downvoteHandler"
+          :score="post.score"></voting-arrows>
         </div>
 
+        <div class="col-md-10">
+          <h1 class="header-title" >{{ post.title.rendered | decodeString }}</h1>
+        </div>
+      </div>
+      <div class="post-view-header row">
         <div class='post-header-details' style='display:inline-block'>
           <a :href="post.url" target="_blank">
-            <h1>{{ post.title.rendered | decodeString }}</h1>
+
           </a>
           <span v-if="post.url" class="host">
             ({{ post.url | host }})
@@ -47,21 +51,66 @@
       </div>
 
       <div class="row">
-        <div class="post-view-comments col-md-8">
-          <button @click="toggleShowContent">{{contentButtonText}}</button>
-          <div v-if="showContent"  v-html='postContent'>
+        <div class="post-view-comments col-md-12">
+          <div class="selection-icons">
+            <span @click="selectPostContent">
+              <img class="icon" src="../assets/icons/post.png"
+              :class="{ active: showPostContent }"
+              alt="Post Content">
+            </span>
+
+            <span @click="selectRelatedLinks">
+              <img class="icon" src="../assets/icons/relatedlinks.png"
+              :class="{ active: showRelatedLinks}"
+              alt="Related Links">
+            </span>
+
+            <span @click="selectComments">
+              <img class="icon" src="../assets/icons/comments.png"
+              :class="{ active: showComments}"
+              alt="Comments">
+            </span>
           </div>
-        </div>
-        <div class="col-md-4 related-links-container">
-          <related-link-list :relatedLinks='relatedLinks'></related-link-list>
-          <related-link-compose v-if="isLoggedIn"></related-link-compose>
+
+
+          <div v-if="showPostContent">
+            <div v-html='postContent' class='post-transcript'></div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <comment-compose v-if="isLoggedIn"></comment-compose>
+              </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+              <div class="col-md-7">
+                <h3 class='section-title'> Comments </h3>
+                <comments-list :comments='comments'></comments-list>
+              </div>
+
+              <div class="col-md-4">
+                <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+                <related-link-compose v-if="isLoggedIn"></related-link-compose>
+              </div>
+            </div>
+          </div>
+
+          <div class="related-links-container" v-if="showRelatedLinks">
+            <related-link-list :relatedLinks='relatedLinks'></related-link-list>
+            <related-link-compose v-if="isLoggedIn"></related-link-compose>
+          </div>
+
+          <div v-if="showComments">
+            <comment-compose v-if="isLoggedIn"></comment-compose>
+            <br />
+            <h3 class='section-title'> Comments </h3>
+            <comments-list :comments='comments'></comments-list>
+          </div>
+
         </div>
       </div>
-      <br />
-      <br />
-      <comment-compose v-if="isLoggedIn"></comment-compose>
-      <br />
-      <comments-list :comments='comments'></comments-list>
     </template>
   </div>
 </template>
@@ -72,14 +121,17 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
+import VotingArrows from '@/components/VotingArrows.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'post-view',
-  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose },
+  components: { Spinner, CommentsList, CommentCompose, RelatedLinkList, RelatedLinkCompose, VotingArrows },
   data () {
     return {
-      showContent: true,
+      showPostContent: true,
+      showRelatedLinks: false,
+      showComments: false,
       loading: true
     }
   },
@@ -90,9 +142,6 @@ export default {
       } else {
         return this.post.content.rendered
       }
-    },
-    contentButtonText () {
-      return this.showContent ? '-' : '+'
     },
     post () {
       return this.$store.state.posts[this.$route.params.id]
@@ -145,8 +194,25 @@ export default {
   methods: {
     ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch']),
-    toggleShowContent () {
-      this.showContent = !this.showContent
+    selectPostContent () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showPostContent = true
+    },
+
+    selectComments () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showComments = true
+    },
+
+    selectRelatedLinks () {
+      this.showRelatedLinks = false
+      this.showComments = false
+      this.showPostContent = false
+      this.showRelatedLinks = true
     },
 
     upvoteHandler: function () {
@@ -163,42 +229,48 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
+.post-transcript {
+}
+
+.selection-icons {
+  margin-bottom: 30px;
+  .icon {
+    padding-right: 20px
+    cursor: pointer
+    opacity 0.4
+
+    &.active {
+      opacity 1
+    }
+  }
+}
+
+.header-title
+  margin-top 15px
+  font-weight 200
+
 .post-view-header
-  background-color #fff
+  background primary-color
+  color white
   padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
 
-  h1
-    display inline
-    font-size 1.5em
-    margin 0
-    margin-right .5em
   .host, .meta, .meta a
-    color #999
+    color white
+    font-weight 200
   .meta a
     text-decoration underline
-
-  .arrow
-    color #888
-    &:hover
-      cursor pointer
-      color #3F58AF
-
-    &.active
-      color #3F58AF !important
-      &:hover
-        cursor pointer
-        color #888
 
 .post-view-comments
   background-color #fff
   margin-top 10px
   padding 1em 2em .5em
-
-  .row, h2
-    display: none
 
 .post-view-comments-header
   margin 0
@@ -211,7 +283,6 @@ export default {
     right 0
     bottom auto
 .related-links-container{
-  padding-top: 30px;
 }
 .comment-children
   list-style-type none

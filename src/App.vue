@@ -5,34 +5,52 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
         </router-link>
-        <router-link to="/feed"  name="feed-nav-link" exact>
-          <img class="feed-icon" src="./assets/feed-icon.png" alt="feed-icon">
+        <router-link to="/feed"  name="feed-nav-link" exact   v-if='isLoggedIn'>
+          Feed
         </router-link>
         <router-link to="/new" name="new-nav-link">
-          <img class="new-icon" src="./assets/new-icon.png" alt="new">
+          New
         </router-link>
         <router-link to="/top" name="top-nav-link">
-          <img class="trophy-icon" src="./assets/trophy-icon.png" alt="top">
+          Top
         </router-link>
         <router-link to="/recommendations" name="recommendations-nav-link">
-          <img class="like-icon" src="./assets/like-icon.png" alt="recommendations">
+          Recommended
         </router-link>
 
         <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
-          <img class="registration-icon" src="./assets/registration-icon.png" alt="registration-icon">
-        </router-link>
-        <span v-if='isLoggedIn' style='float:right;'>
-          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
 
+        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
+          Register
+        </router-link>
+
+        <!--
+        <router-link to="/premium" name="subscribe-nav-link"
+        style='float:right;margin-right: 1em;' v-if='!isLoggedIn'
+          class="call-to-action"
+        >
+          Subscribe
+        </router-link>
+        -->
+
+        <span v-if='isLoggedIn' style='float:right;'>
+          <!--
+          <router-link to="/premium" name="top-nav-link"
+          class="call-to-action"
+          >Subscribe</router-link>
+        -->
+
+          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
           <router-link to="/profile" name="top-nav-link">Profile</router-link>
         </span>
+
+
       </nav>
     </header>
     <div class='container'>
       <div class="row">
         <div class="col-md-8 col-centered text-center" v-if="showBeta">
-          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github </a>.
+          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github</a>.
         </div>
       </div>
     </div>
@@ -79,23 +97,67 @@ export default {
 </script>
 
 <style lang="stylus">
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+accent-color = #FF8B6A
+very-light-grey = #EEEEEE
+
+.call-to-action {
+  background: accent-color;
+  color: whie;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+.header .call-to-action {
+  color: white;
+}
+
+.button-submit {
+  background: primary-color
+  color: white
+  padding 10px 20px
+  cursor: pointer
+}
+
+.button-submit-small {
+  background: primary-color
+  color: white
+  padding 5px 10px
+  border-radius 2px
+  cursor: pointer
+}
+
+.button-delete {
+  background: #fbf4f4
+  color: black
+  padding 5px 10px
+  cursor: pointer
+}
+
+.section-title {
+  font-weight: 300;
+}
+
 .col-centered{
     float: none;
     margin: 0 auto;
 }
+
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size 15px
-  background-color lighten(#eceef1, 30%) !important
+  font-size 14px
+  background-color white
   margin 0
-  color #34495e
   #app
     margin-bottom 120px
 a
   color #34495e
   text-decoration none
 .header
-  background-color #3F58AF
   z-index 999
   top 0
   left 0
@@ -106,7 +168,8 @@ a
     margin 0px auto
     padding 15px 5px
   a
-    color rgba(255, 255, 255, .8)
+    font-size 14px
+    color primary-color
     line-height 24px
     transition color .15s ease
     display inline-block
@@ -115,10 +178,11 @@ a
     letter-spacing .075em
     margin-right 1.8em
     &:hover
-      color #fff
+      color secondary-color
+      text-decoration none
     &.router-link-active
-      color #fff
-      font-weight 400
+      color primary-color
+      text-decoration underline
     &:nth-child(6)
       margin-right 0
   .github
