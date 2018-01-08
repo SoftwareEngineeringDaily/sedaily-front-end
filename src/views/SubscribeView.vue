@@ -20,26 +20,26 @@
       </div>
       <div v-else="processing">
 
-        <h3>
-          Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+      <h3>
+         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
 
-        </h3>
-        <br />
-        <div><h2> {{error}} </h2> </div>
-        <div><h2> {{successSubscribingMessage}} </h2>
+       </h3>
+       <br />
+      <div><h2> {{error}} </h2> </div>
+      <div><h2> {{successSubscribingMessage}} </h2>
 
-        </div>
+       </div>
 
-        <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
-          Cancel Your Subscription
-        </button>
-        <p>
-          <h4> Cancelling?</h4>
-          Your subscription will be cancelled right away and you won't be charged again
-          but you will lose access to the premium content right away.
-          Contact jeff@softwaredaily.com for any questions.
-        </p>
-      </div>
+      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
+        Cancel Your Subscription
+      </button>
+      <p>
+      <h4> Cancelling?</h4>
+      Your subscription will be cancelled right away and you won't be charged again
+      but you will lose access to the premium content right away.
+      Contact jeff@softwaredaily.com for any questions.
+      </p>
+    </div>
     </div>
 
     <div v-else="alreadySubscribed">
@@ -115,6 +115,7 @@ export default {
             this.planType = preSelectedSubscriptionPlan()
           }
         } else {
+          // Already subbed
           unselectSubscriptionPlan()
         }
       })
