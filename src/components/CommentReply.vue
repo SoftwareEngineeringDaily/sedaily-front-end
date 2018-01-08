@@ -11,7 +11,7 @@
           class='reply-box'
           type='text'
           v-model='commentContent' />
-          <button class='btn-success' @click='submitComment'>
+          <button class='button-submit-small' @click='submitComment'>
             Reply
           </button>
           <span class='link' @click="expanded=!expanded">Cancel</span>
@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
   .reply-container {
     margin-left: 50px;
     margin-top: 10px;
@@ -94,8 +94,9 @@ export default {
   }
 
   .link {
-    color: green;
+    color: primary-color;
     cursor: pointer;
+    padding: 5px 8px;
   }
 
   .reply-box {

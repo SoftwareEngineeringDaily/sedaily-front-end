@@ -77,7 +77,7 @@
           placeholder="yourWebsite.com">
         </div>
 
-        <button name='submit-button' class='btn btn-primary' :disabled='loading'>Register</button>
+        <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
       </form>
 
     </div>

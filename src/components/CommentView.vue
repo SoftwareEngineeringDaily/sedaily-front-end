@@ -4,13 +4,13 @@
       <div>
         <voting-arrows
           :upvoteHandler="upvoteHandler"
-          :upvoted="upvoted"
+          :upvoted="comment.upvoted"
           :score="comment.score">
         </voting-arrows>
         <img :src='avatar(comment)' class='avatar'/>
         {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
       </div>
-      <div v-if='!comment.deleted'>
+      <div v-if='!comment.deleted' class='comment-content'>
         {{comment.content}}
       </div>
       <div v-else>
@@ -102,6 +102,11 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+.comment-content {
+  padding: 10px;
+  padding-left: 60px;
+}
 
 .avatar
   width: 50px

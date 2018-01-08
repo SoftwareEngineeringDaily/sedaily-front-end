@@ -56,7 +56,7 @@
       <br />
       <card class='stripe-card'
       :class='{ complete }'
-      stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
+      :stripe='stripePublicKey'
       :options='stripeOptions'
       @change='complete = $event.complete'
       />
@@ -82,6 +82,7 @@ import Spinner from '../components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
+  props: ['stripePublicKey'],
   data () {
     return {
       complete: false,
@@ -100,26 +101,28 @@ export default {
   },
 
   beforeMount () {
+    console.log('stripe key', this.stripePublicKey)
     if (!this.isLoggedIn) {
       // If user is not logged in we should show
       this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
-        .then((myData) => {
-          console.log('myData', myData)
-          this.loadingUser = false
-          if (!this.alreadySubscribed) {
-            if (wantedToSubscribe()) {
-              this.planType = preSelectedSubscriptionPlan()
-            }
-          } else {
-            unselectSubscriptionPlan()
+      .then((myData) => {
+        console.log('myData', myData)
+        this.loadingUser = false
+        if (!this.alreadySubscribed) {
+          if (wantedToSubscribe()) {
+            this.planType = preSelectedSubscriptionPlan()
           }
-        })
-        .catch((error) => {
-          alert('Error loading user info.')
-          console.log('error loading user', error)
-        })
+        } else {
+          // Already subbed
+          unselectSubscriptionPlan()
+        }
+      })
+      .catch((error) => {
+        alert('Error loading user info.')
+        console.log('error loading user', error)
+      })
     }
   },
 
@@ -142,20 +145,27 @@ export default {
         const { planType } = this
         return this.createSubscription({stripeToken, planType})
       })
-        .then((result) => {
+      .then((result) => {
         // Successfully created subscription:
-          this.processing = false
-          this.justSubscribed = true
-          this.successSubscribingMessage = 'Thanks for subscribing!'
-          unselectSubscriptionPlan()
-        })
-        .catch((error) => {
-          console.log('error', error)
-          this.processing = false
-          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
-          // Probably don't need to do this but should:
-          unselectSubscriptionPlan()
-        })
+        this.processing = false
+        this.justSubscribed = true
+        this.successSubscribingMessage = 'Thanks for subscribing!'
+        unselectSubscriptionPlan()
+      })
+      .catch((error) => {
+        // First we set it just in case as backup
+        this.processing = false
+        this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Then we get the error msg:
+        try {
+          const errorMsg = error.response.data.message
+          console.log('error', errorMsg)
+          this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
+        } catch (e) {
+        }
+        // Probably don't need to do this but should:
+        unselectSubscriptionPlan()
+      })
     },
 
     cancelSubscriptionClicked () {
@@ -163,19 +173,19 @@ export default {
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
-        .then((result) => {
-          this.processing = false
-          this.justSubscribed = false
-          console.log('cancel subscription')
-          this.justCancelled = true
-          this.successSubscribingMessage = 'Your subscription has been cancelled.'
-        })
-        .catch((error) => {
-          console.log('error', error)
-          this.processing = false
-          // this.justSubscribed = false
-          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-        })
+      .then((result) => {
+        this.processing = false
+        this.justSubscribed = false
+        console.log('cancel subscription')
+        this.justCancelled = true
+        this.successSubscribingMessage = 'Your subscription has been cancelled.'
+      })
+      .catch((error) => {
+        console.log('error', error)
+        this.processing = false
+        // this.justSubscribed = false
+        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+      })
     }
   },
 
@@ -248,6 +258,6 @@ export default {
   border: 1px solid grey;
 }
 .stripe-card.complete {
-  border-color: green;
+  border-color: #856AFF;
 }
 </style>

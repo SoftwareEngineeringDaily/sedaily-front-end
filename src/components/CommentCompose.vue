@@ -10,15 +10,15 @@
           <spinner :show="true"></spinner>
         </div>
         <div v-else="isSubmitting">
-          <button class='btn-success'
+          <button class='button-submit'
           :disabled="isSubmitting"
           @click='submitComment'>
-          Comment
+          Add Comment
           </button>
         </div>
     </div>
     <div v-else>
-      Please make sure to update your profile before you can comment:
+      <h3> Please make sure to update your profile before you can comment: </h3>
       <update-profile  v-if="username" :initialUsername="username"> </update-profile>
     </div>
   </div>
@@ -87,12 +87,16 @@ export default {
 }
 </script>
 
-<style scoped>
-  .comment-box {
-    width: 100%;
-    padding: 20px 10px;
-    margin-bottom: 12px;
-    border-radius: 7px;
-    border-color: #c5c5c5;
-  }
+<style lang="stylus" scoped>
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
+.comment-box {
+  width: 100%;
+  padding: 20px 10px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border-color: #c5c5c5;
+}
 </style>

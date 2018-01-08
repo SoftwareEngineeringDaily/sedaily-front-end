@@ -81,7 +81,7 @@
         </div>
 
         <button
-        class='btn btn-primary'
+        class='button-submit'
         @click.prevent='submit' :disabled='loading'>
           Update
         </button>
