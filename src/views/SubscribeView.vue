@@ -20,26 +20,26 @@
       </div>
       <div v-else="processing">
 
-      <h3>
-         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+        <h3>
+          Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
 
-       </h3>
-       <br />
-      <div><h2> {{error}} </h2> </div>
-      <div><h2> {{successSubscribingMessage}} </h2>
+        </h3>
+        <br />
+        <div><h2> {{error}} </h2> </div>
+        <div><h2> {{successSubscribingMessage}} </h2>
 
-       </div>
+        </div>
 
-      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
-        Cancel Your Subscription
-      </button>
-      <p>
-      <h4> Cancelling?</h4>
-      Your subscription will be cancelled right away and you won't be charged again
-      but you will lose access to the premium content right away.
-      Contact jeff@softwaredaily.com for any questions.
-      </p>
-    </div>
+        <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
+          Cancel Your Subscription
+        </button>
+        <p>
+          <h4> Cancelling?</h4>
+          Your subscription will be cancelled right away and you won't be charged again
+          but you will lose access to the premium content right away.
+          Contact jeff@softwaredaily.com for any questions.
+        </p>
+      </div>
     </div>
 
     <div v-else="alreadySubscribed">
@@ -107,18 +107,14 @@ export default {
       this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
-        .then((myData) => {
-          console.log('myData', myData)
-          this.loadingUser = false
-          if (!this.alreadySubscribed) {
-            if (wantedToSubscribe()) {
-              this.planType = preSelectedSubscriptionPlan()
-            }
-          } else {
-            unselectSubscriptionPlan()
+      .then((myData) => {
+        console.log('myData', myData)
+        this.loadingUser = false
+        if (!this.alreadySubscribed) {
+          if (wantedToSubscribe()) {
+            this.planType = preSelectedSubscriptionPlan()
           }
         } else {
-          // Already subbed
           unselectSubscriptionPlan()
         }
       })
@@ -148,7 +144,7 @@ export default {
         const { planType } = this
         return this.createSubscription({stripeToken, planType})
       })
-        .then((result) => {
+      .then((result) => {
         // Successfully created subscription:
         this.processing = false
         this.justSubscribed = true
@@ -176,19 +172,19 @@ export default {
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
-        .then((result) => {
-          this.processing = false
-          this.justSubscribed = false
-          console.log('cancel subscription')
-          this.justCancelled = true
-          this.successSubscribingMessage = 'Your subscription has been cancelled.'
-        })
-        .catch((error) => {
-          console.log('error', error)
-          this.processing = false
-          // this.justSubscribed = false
-          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-        })
+      .then((result) => {
+        this.processing = false
+        this.justSubscribed = false
+        console.log('cancel subscription')
+        this.justCancelled = true
+        this.successSubscribingMessage = 'Your subscription has been cancelled.'
+      })
+      .catch((error) => {
+        console.log('error', error)
+        this.processing = false
+        // this.justSubscribed = false
+        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+      })
     }
   },
 
