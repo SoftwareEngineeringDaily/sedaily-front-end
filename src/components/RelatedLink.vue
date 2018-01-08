@@ -32,15 +32,15 @@ export default {
       this.removeRelatedLink({
         id: this.relatedLink._id
       })
-      .then(() => {
-        this.relatedLinksFetch({
-          postId: this.relatedLink.post
+        .then(() => {
+          this.relatedLinksFetch({
+            postId: this.relatedLink.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     upvoteHandler () {
       this.upvoteRelatedLink({

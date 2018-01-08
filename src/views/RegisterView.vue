@@ -130,19 +130,19 @@ export default {
             website,
             email
           })
-          .then((response) => {
-            this.loading = false
+            .then((response) => {
+              this.loading = false
 
-            if (response.data.token) {
-              if (wantedToSubscribe()) {
-                this.$router.replace('/subscribe')
+              if (response.data.token) {
+                if (wantedToSubscribe()) {
+                  this.$router.replace('/subscribe')
+                } else {
+                  this.$router.replace('/')
+                }
               } else {
-                this.$router.replace('/')
+                alert('Invalid registration')
               }
-            } else {
-              alert('Invalid registration')
-            }
-          })
+            })
         } else {
           console.log('Failed to validate for registraiotn')
         }

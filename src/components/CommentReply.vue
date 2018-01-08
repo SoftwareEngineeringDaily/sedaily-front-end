@@ -68,17 +68,17 @@ export default {
         parentCommentId: this.parentComment._id,
         content: this.commentContent
       })
-      .then((response) => {
-        this.commentContent = ''
-        // NOTE: this won't work too well once we are paginating comments:
-        this.justSubmitted = false
-        this.commentsFetch({
-          postId: this.postId
+        .then((response) => {
+          this.commentContent = ''
+          // NOTE: this won't work too well once we are paginating comments:
+          this.justSubmitted = false
+          this.commentsFetch({
+            postId: this.postId
+          })
         })
-      })
-      .catch((error) => {
-        alert(error.response.data.message)
-      })
+        .catch((error) => {
+          alert(error.response.data.message)
+        })
     } }
 }
 </script>

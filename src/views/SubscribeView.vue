@@ -107,12 +107,15 @@ export default {
       this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
-      .then((myData) => {
-        console.log('myData', myData)
-        this.loadingUser = false
-        if (!this.alreadySubscribed) {
-          if (wantedToSubscribe()) {
-            this.planType = preSelectedSubscriptionPlan()
+        .then((myData) => {
+          console.log('myData', myData)
+          this.loadingUser = false
+          if (!this.alreadySubscribed) {
+            if (wantedToSubscribe()) {
+              this.planType = preSelectedSubscriptionPlan()
+            }
+          } else {
+            unselectSubscriptionPlan()
           }
         } else {
           // Already subbed
@@ -145,7 +148,7 @@ export default {
         const { planType } = this
         return this.createSubscription({stripeToken, planType})
       })
-      .then((result) => {
+        .then((result) => {
         // Successfully created subscription:
         this.processing = false
         this.justSubscribed = true
@@ -173,19 +176,19 @@ export default {
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
-      .then((result) => {
-        this.processing = false
-        this.justSubscribed = false
-        console.log('cancel subscription')
-        this.justCancelled = true
-        this.successSubscribingMessage = 'Your subscription has been cancelled.'
-      })
-      .catch((error) => {
-        console.log('error', error)
-        this.processing = false
-        // this.justSubscribed = false
-        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-      })
+        .then((result) => {
+          this.processing = false
+          this.justSubscribed = false
+          console.log('cancel subscription')
+          this.justCancelled = true
+          this.successSubscribingMessage = 'Your subscription has been cancelled.'
+        })
+        .catch((error) => {
+          console.log('error', error)
+          this.processing = false
+          // this.justSubscribed = false
+          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+        })
     }
   },
 

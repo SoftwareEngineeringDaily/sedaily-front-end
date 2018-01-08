@@ -21,10 +21,10 @@ export default {
   },
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.loading = false
-      this.username = this.me.username
-    })
+      .then(() => {
+        this.loading = false
+        this.username = this.me.username
+      })
   },
   methods: {
     ...mapActions([ 'fetchMyProfileData' ])

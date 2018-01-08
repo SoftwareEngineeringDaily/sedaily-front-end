@@ -76,18 +76,18 @@ export default {
             username,
             password
           })
-          .then((response) => {
-            this.loading = false
-            if (response.data.token) {
-              if (wantedToSubscribe()) {
-                this.$router.replace('/subscribe')
+            .then((response) => {
+              this.loading = false
+              if (response.data.token) {
+                if (wantedToSubscribe()) {
+                  this.$router.replace('/subscribe')
+                } else {
+                  this.$router.replace('/')
+                }
               } else {
-                this.$router.replace('/')
+                alert('Invalid login')
               }
-            } else {
-              alert('Invalid login')
-            }
-          })
+            })
         } else {
           console.log('Invalid values..')
           this.loading = false

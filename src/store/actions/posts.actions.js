@@ -31,16 +31,16 @@ export default {
     }
 
     return axios.get(url, options)
-    .then(function (response) {
-      commit('setList', { type, posts: response.data })
-      commit('setPosts', { posts: response.data })
-      return {posts: response.data, maxPage: 4}
-    })
-    .catch(function (error) {
+      .then(function (response) {
+        commit('setList', { type, posts: response.data })
+        commit('setPosts', { posts: response.data })
+        return {posts: response.data, maxPage: 4}
+      })
+      .catch(function (error) {
       // @TODO: Add pretty pop up here
-      console.log(error.response)
-      alert(error.response.data.message)
-    })
+        console.log(error.response)
+        alert(error.response.data.message)
+      })
   },
 
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
@@ -54,17 +54,17 @@ export default {
         'Authorization': 'Bearer ' + token
       }
     })
-    .then(function (response) {
-      commit('setList', { type, posts: response.data })
-      commit('setPosts', { posts: response.data })
-      return {posts: response.data, maxPage: 4}
-    })
-    .catch(function (error) {
+      .then(function (response) {
+        commit('setList', { type, posts: response.data })
+        commit('setPosts', { posts: response.data })
+        return {posts: response.data, maxPage: 4}
+      })
+      .catch(function (error) {
       // @TODO: Add pretty pop up here
-      console.log(error)
+        console.log(error)
       // alert(error.message)
       // alert(error.response.data.message)
-    })
+      })
   },
 
   fetchArticle: ({commit, state, getters}, { id }) => {
@@ -80,16 +80,16 @@ export default {
     }
 
     return axios.get(`${BASE_URL}/posts/${id}`, options)
-    .then(function (response) {
-      var post = response.data
-      commit('setPosts', { posts: [post] })
-      return {post}
-    })
-    .catch(function (error) {
+      .then(function (response) {
+        var post = response.data
+        commit('setPosts', { posts: [post] })
+        return {post}
+      })
+      .catch(function (error) {
       // @TODO: Add pretty pop up here
-      console.log(error.response)
-      alert(error.response.data.message)
-    })
+        console.log(error.response)
+        alert(error.response.data.message)
+      })
   },
 
   upvote: ({commit, getters, state}, { id }) => {

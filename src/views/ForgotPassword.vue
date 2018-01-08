@@ -70,21 +70,20 @@ export default {
           this.$store.dispatch('sendForgotPasswordEmail', {
             email
           })
-          .then((response) => {
-            this.loading = false
-            this.submitted = true
-          })
-          .catch(() => {
-            this.loading = false
-            this.submitted = false
-            alert('There was an error with your submission, make sure you are using the right email.')
-          })
+            .then((response) => {
+              this.loading = false
+              this.submitted = true
+            })
+            .catch(() => {
+              this.loading = false
+              this.submitted = false
+              alert('There was an error with your submission, make sure you are using the right email.')
+            })
         }
       })
     }
   }
 }
-
 </script>
 
 <style>
