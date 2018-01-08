@@ -26,12 +26,12 @@ export default {
 
   beforeMount () {
     this.fetchMyProfileData()
-    .then(() => {
-      this.fetchMyFeed({userId: this.me._id})
-        .then((feedItems) => {
-          this.loading = false
-        })
-    })
+      .then(() => {
+        this.fetchMyFeed({userId: this.me._id})
+          .then((feedItems) => {
+            this.loading = false
+          })
+      })
   },
   methods: {
     ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ])
