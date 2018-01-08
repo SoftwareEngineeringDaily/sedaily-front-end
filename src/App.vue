@@ -24,20 +24,27 @@
           Register
         </router-link>
 
-        <router-link to="/premium" name="register-nav-link"
+        <!--
+        <router-link to="/premium" name="subscribe-nav-link"
         style='float:right;margin-right: 1em;' v-if='!isLoggedIn'
           class="call-to-action"
         >
           Subscribe
         </router-link>
+        -->
 
         <span v-if='isLoggedIn' style='float:right;'>
+          <!--
           <router-link to="/premium" name="top-nav-link"
           class="call-to-action"
           >Subscribe</router-link>
+        -->
+
           <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
           <router-link to="/profile" name="top-nav-link">Profile</router-link>
         </span>
+
+
       </nav>
     </header>
     <div class='container'>
