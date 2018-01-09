@@ -2,8 +2,7 @@
 <template>
   <div>
     <br />
-        <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
-        </feed-item>
+      <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     <br />
   </div>
 </template>
@@ -27,14 +26,14 @@ export default {
   beforeMount () {
     this.fetchMyProfileData()
       .then(() => {
-        this.fetchMyFeed({userId: this.me._id})
+        this.fetchMyFeed({ userId: this.me._id })
           .then((feedItems) => {
             this.loading = false
           })
       })
   },
   methods: {
-    ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ])
+    ...mapActions(['fetchMyProfileData', 'fetchMyFeed'])
   },
 
   computed: {

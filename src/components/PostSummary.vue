@@ -46,7 +46,12 @@ import VueAplayer from 'vue-aplayer'
 import VotingArrows from './VotingArrows'
 export default {
   name: 'PostSummary',
-  props: ['post'],
+  props: {
+    post: {
+      type: Object,
+      required: true
+    }
+  },
   components: { VotingArrows, 'a-player': VueAplayer },
   computed: {
 
@@ -59,16 +64,16 @@ export default {
     }
   },
   methods: {
-    setActivePostInPlayer: function (post:any) {
+    setActivePostInPlayer (post:any) {
       this.$store.commit('setActivePostInPlayer', { post })
     },
-    upvoteHandler: function () {
+    upvoteHandler () {
       console.log(this.post)
       this.$store.dispatch('upvote', {
         id: this.post._id
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.$store.dispatch('downvote', {
         id: this.post._id
       })

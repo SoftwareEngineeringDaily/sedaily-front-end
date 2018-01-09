@@ -18,6 +18,7 @@
 
 <script>
 import Spinner from '../components/Spinner.vue'
+
 function fetchUser (store) {
   return store.dispatch('FETCH_USER', {
     id: store.state.route.params.id

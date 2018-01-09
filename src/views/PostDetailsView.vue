@@ -224,13 +224,12 @@ export default {
       this.showPostContent = false
       this.showRelatedLinks = true
     },
-
-    upvoteHandler: function () {
+    upvoteHandler () {
       this.upvote({
         id: this.postId
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.downvote({
         id: this.postId
       })

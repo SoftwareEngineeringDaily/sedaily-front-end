@@ -62,7 +62,7 @@ export default {
   },
 
   methods: {
-    submit: function () {
+    submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true

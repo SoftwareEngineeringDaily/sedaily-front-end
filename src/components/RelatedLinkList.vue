@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4 class='section-title'> Related Links </h4>
-    <div v-for="relatedLink in relatedLinks" class="related-links-list">
+    <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
       <related-link :relatedLink="relatedLink"> </related-link>
     </div>
 </div>
@@ -9,11 +9,16 @@
 
 <script>
 import RelatedLink from '@/components/RelatedLink.vue'
-// import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'related-link-list',
-  components: {RelatedLink},
-  props: ['relatedLinks'],
+  components: { RelatedLink },
+  props: {
+    relatedLinks: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       loading: true,

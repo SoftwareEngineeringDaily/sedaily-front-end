@@ -26,15 +26,18 @@
 <script>
 export default {
   name: 'FeedItem',
-  props: ['feedItem'],
-
+  props: {
+    feedItem: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
-    image: function (image) {
+    image (image) {
       console.log(image)
       return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
     }
   }
-
 }
 </script>
 <style>
