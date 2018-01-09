@@ -13,6 +13,7 @@ export function joinChatChannel ({ token }) {
 
   lobbyChannel.join()
     .receive('ok', ({messages}) => {
+      messages.reverse()
       store.commit('setChatOnline')
       messages.map((message) => {
         store.commit('addChatMessage', message)

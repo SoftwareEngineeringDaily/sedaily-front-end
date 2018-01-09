@@ -46,7 +46,7 @@
       </div>
     </transition>
 
-    <chat-box v-if='isLoggedIn && false'/>
+    <chat-box v-if='isLoggedIn'/>
 
   </div>
 </template>
