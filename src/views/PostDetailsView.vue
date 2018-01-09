@@ -255,6 +255,7 @@ secondary-color = #FF8B6A
 
   .play-icon
     width 80px
+    margin-top -20px
 .details-about-post {
   margin-top: 20px;
   display: inline-block;
