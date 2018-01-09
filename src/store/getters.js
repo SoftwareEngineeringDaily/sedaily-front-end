@@ -14,5 +14,6 @@ export default {
     return Boolean(getters.getToken)
   },
   isChatBoxDisplayed: ({ chat }) => Boolean(chat.settings.displayBox),
-  isChatOnline: ({ chat }) => Boolean(chat.online)
+  isChatOnline: ({ chat }) => Boolean(chat.online),
+  isPlayerActive: ({ activePlayerPost }) => activePlayerPost && activePlayerPost._id
 }

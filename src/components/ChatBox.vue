@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{ online: isChatOnline, 'chat-wrapper': true }">
+  <div v-bind:class="{ online: isChatOnline, playerActive: isPlayerActive, 'chat-wrapper': true }">
 		<header @click='toggleChatBox' class="clearfix" >
 			<a class="chat-close">{{ isChatBoxDisplayed ? '-' : '+' }}</a>
 			<h4>{{me.name}}</h4>
@@ -45,7 +45,8 @@ export default {
     }),
     ...mapGetters([
       'isChatBoxDisplayed',
-      'isChatOnline'
+      'isChatOnline',
+      'isPlayerActive'
     ]),
     chat: function chat () {
       return this.$store.state.chat
@@ -110,6 +111,9 @@ p {
   right: 24px;
   position: fixed;
   width: 325px;
+}
+.chat-wrapper.playerActive {
+  bottom: 96px;
 }
 .chat-wrapper header {
   background: #3f58af;

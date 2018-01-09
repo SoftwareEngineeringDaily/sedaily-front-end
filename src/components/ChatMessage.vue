@@ -39,6 +39,14 @@ h5 {
 }
 .chat-message {
   margin: 16px 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  /* Adds a hyphen where the word breaks */
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
 }
 
 .chat-message img {
