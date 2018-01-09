@@ -14,14 +14,35 @@
 <script>
 export default {
   name: 'voting-arrows',
-  props: ['score', 'upvoteHandler', 'downvoteHandler', 'upvoted', 'downvoted']
+  props: {
+    score: {
+      type: Number,
+      required: true
+    },
+    upvoteHandler: {
+      type: Function,
+      required: false
+    },
+    downvoteHandler: {
+      type: Function,
+      required: false
+    },
+    upvoted: {
+      type: Boolean,
+      required: false
+    },
+    downvoted: {
+      type: Boolean,
+      required: false
+    }
+  }
 }
 </script>
 
 <style scoped lang="stylus">
-.score-text {
+.score-text
   font-weight 400
-}
+
 .score
     text-align center
     color #3F58AF

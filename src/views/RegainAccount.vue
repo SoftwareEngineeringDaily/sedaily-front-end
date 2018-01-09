@@ -40,7 +40,7 @@ export default {
   },
 
   methods: {
-    regainAccount: function () {
+    regainAccount () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true

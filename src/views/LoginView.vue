@@ -67,11 +67,11 @@ export default {
   },
 
   methods: {
-    login: function () {
+    login () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const {username, password} = this
+          const { username, password } = this
           this.$store.dispatch('login', {
             username,
             password

@@ -10,7 +10,11 @@
 
     <div class='categories' v-if="showFilteringElements">
       <span class='category-post' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
-      <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-post' :class='getClassForCategory(category.name)'> {{category.name}}</span>
+      <span v-for="category in categories" 
+        :key="category.id"
+        @click="setSelectedCategory(category)" 
+        class='category-post' 
+        :class='getClassForCategory(category.name)'> {{category.name}}</span>
     </div>
 
     <instructions :displayedPosts="displayedPosts"> </instructions>
@@ -44,7 +48,7 @@ export default {
 
   data () {
     return {
-      playingPost: {title: 'starting title'},
+      playingPost: { title: 'starting title' },
       type: 'new',
       showFilteringElements: true,
       endPoint: 'fetchListData',
@@ -94,13 +98,13 @@ export default {
           id: '1069'
         }
       ],
-      activeCategory: {name: 'All', id: null},
+      activeCategory: { name: 'All', id: null },
       searchTerm: null
     }
   },
 
-  created: function () {
-    this.$store.commit('setActiveType', {type: this.type})
+  created () {
+    this.$store.commit('setActiveType', { type: this.type })
   },
 
   watch: {
@@ -128,7 +132,7 @@ export default {
         return
       }
       this.loading = true
-      let params = {
+      const params = {
         type: this.type,
         category: this.activeCategory.id
       }
@@ -137,7 +141,7 @@ export default {
         params.search = this.searchTerm
       }
       if (this.displayedPosts.length > 0) {
-        let lastPost = this.displayedPosts[this.displayedPosts.length - 1]
+        const lastPost = this.displayedPosts[this.displayedPosts.length - 1]
         params.createdAtBefore = moment(lastPost.date).toISOString()
       }
       this.$store.dispatch(this.endPoint, params)

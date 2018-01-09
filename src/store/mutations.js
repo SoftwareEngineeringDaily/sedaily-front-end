@@ -11,7 +11,7 @@ export default {
     state.activeType = type
   },
 
-  setMe: (state, {me}) => {
+  setMe: (state, { me }) => {
     state.me = me
   },
 
@@ -33,15 +33,15 @@ export default {
     state.postComments[comment.postId].unshift(comment)
   },
 
-  setComments: (state, {comments, postId}) => {
+  setComments: (state, { comments, postId }) => {
     Vue.set(state.postComments, postId, comments)
   },
 
-  setRelatedLinks: (state, {relatedLinks, postId}) => {
+  setRelatedLinks: (state, { relatedLinks, postId }) => {
     Vue.set(state.postRelatedLinks, postId, relatedLinks)
   },
 
-  setFeedItems: (state, {feedItems}) => {
+  setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
   },
 
@@ -100,7 +100,7 @@ export default {
       return link._id === id
     })
     if (!entity) return
-    let incrementValue = 1
+    const incrementValue = 1
     if (!entity.score) entity.score = 0
     if (entity.upvoted) {
       entity.score -= incrementValue
