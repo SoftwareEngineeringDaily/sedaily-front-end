@@ -12,7 +12,10 @@
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>
 
-    <div v-if='myLink' @click='remove'> <button> delete </button> </div>
+    <div v-if='myLink' @click='remove'>
+      <br />
+      <button class='button-delete'> Delete Link </button>
+    </div>
   </div>
 </template>
 
@@ -29,15 +32,15 @@ export default {
       this.removeRelatedLink({
         id: this.relatedLink._id
       })
-      .then(() => {
-        this.relatedLinksFetch({
-          postId: this.relatedLink.post
+        .then(() => {
+          this.relatedLinksFetch({
+            postId: this.relatedLink.post
+          })
         })
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('Error deleting :(')
-      })
+        .catch((error) => {
+          console.log(error)
+          alert('Error deleting :(')
+        })
     },
     upvoteHandler () {
       this.upvoteRelatedLink({
@@ -69,6 +72,5 @@ export default {
 <style scoped lang="stylus">
   .link-holder {
     padding-bottom: 20px;
-    border-bottom: 1px solid #e8e8e8;
   }
 </style>

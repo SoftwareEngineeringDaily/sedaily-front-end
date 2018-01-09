@@ -56,7 +56,7 @@
       <br />
       <card class='stripe-card'
       :class='{ complete }'
-      stripe='pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
+      :stripe='stripePublicKey'
       :options='stripeOptions'
       @change='complete = $event.complete'
       />
@@ -82,6 +82,7 @@ import Spinner from '../components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
+  props: ['stripePublicKey'],
   data () {
     return {
       complete: false,
@@ -100,6 +101,7 @@ export default {
   },
 
   beforeMount () {
+    console.log('stripe key', this.stripePublicKey)
     if (!this.isLoggedIn) {
       // If user is not logged in we should show
       this.$router.replace('/premium')
@@ -113,6 +115,7 @@ export default {
             this.planType = preSelectedSubscriptionPlan()
           }
         } else {
+          // Already subbed
           unselectSubscriptionPlan()
         }
       })
@@ -150,9 +153,16 @@ export default {
         unselectSubscriptionPlan()
       })
       .catch((error) => {
-        console.log('error', error)
+        // First we set it just in case as backup
         this.processing = false
         this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Then we get the error msg:
+        try {
+          const errorMsg = error.response.data.message
+          console.log('error', errorMsg)
+          this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
+        } catch (e) {
+        }
         // Probably don't need to do this but should:
         unselectSubscriptionPlan()
       })
@@ -248,6 +258,6 @@ export default {
   border: 1px solid grey;
 }
 .stripe-card.complete {
-  border-color: green;
+  border-color: #856AFF;
 }
 </style>

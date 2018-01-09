@@ -26,7 +26,7 @@
           <spinner :show="true"></spinner>
         </span>
         <div v-else="isSubmitting">
-          <button class='btn-success'
+          <button class='button-submit'
           :disabled="isSubmitting"
           @click.prevent='submit'>
           Add New Link
@@ -76,22 +76,22 @@ export default {
             title: this.title,
             url: this.url
           })
-          .then((response) => {
-            this.url = ''
-            this.title = ''
-            this.$nextTick(() => {
-              this.errors.clear()
+            .then((response) => {
+              this.url = ''
+              this.title = ''
+              this.$nextTick(() => {
+                this.errors.clear()
+              })
+              this.isSubmitting = false
+              // Fetch comments
+              this.relatedLinksFetch({
+                postId: this.postId
+              })
             })
-            this.isSubmitting = false
-            // Fetch comments
-            this.relatedLinksFetch({
-              postId: this.postId
+            .catch((error) => {
+              this.isSubmitting = false
+              alert(error.response.data.message)
             })
-          })
-          .catch((error) => {
-            this.isSubmitting = false
-            alert(error.response.data.message)
-          })
         } else {
           alert('Sorry there was a problem :(')
         }
@@ -104,18 +104,18 @@ export default {
 <style scoped>
   .related-link-box {
     width: 100%;
-    padding: 0px 5px;
+    padding: 10px;
     margin-bottom: 12px;
-    border-radius: 2px;
+    border-radius: 4px;
     border-color: #c5c5c5;
   }
 
   .related-title-box {
     width: 100%;
-    padding: 0px 5px;
+    padding: 10px;
     margin-bottom: 12px;
     border: none;
+    border-bottom: 1px solid #ccc;
   }
-
 
 </style>

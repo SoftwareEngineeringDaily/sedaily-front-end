@@ -3,9 +3,10 @@
   <div class="score">
     <div v-if="upvoteHandler" class='arrow' :class="{ active: upvoted }"
          @click='upvoteHandler'>▲</div>
-    <div>{{ score || 0}}</div>
     <div v-if="downvoteHandler" class="arrow" :class="{ active: downvoted }"
          @click='downvoteHandler'>▼</div>
+
+    <div class='score-text'>{{ score || 0}}</div>
   </div>
 </div>
 </template>
@@ -18,6 +19,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.score-text {
+  font-weight 400
+}
 .score
     text-align center
     color #3F58AF
@@ -26,7 +30,8 @@ export default {
     width 1.1em
 
 .arrow
-  color #888
+  color #EEEEEE
+  font-fize 30px
   &:hover
     cursor pointer
     color #3F58AF
@@ -36,6 +41,7 @@ export default {
     &:hover
       cursor pointer
       color #888
+
 </style>
 
 <style lang="stylus">

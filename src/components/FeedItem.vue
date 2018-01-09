@@ -37,7 +37,14 @@ export default {
 
 }
 </script>
-<style src="../../static/vuetify.min.css"></style>
+<style>
+
+.card__media__background {
+  width: 100%;
+  height: 100%;
+}
+
+</style>
 <style scoped>
 .feed-item {
   margin-left: 30px;
@@ -49,4 +56,5 @@ export default {
 .feed-item-img {
   width:  100px;
 }
+
 </style>
