@@ -25,7 +25,12 @@ import VotingArrows from '@/components/VotingArrows.vue'
 export default {
   name: 'related-link',
   components: { VotingArrows },
-  props: ['relatedLink'],
+  props: {
+    relatedLink: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
     ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
     remove () {

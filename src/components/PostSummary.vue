@@ -45,10 +45,14 @@ import moment from 'moment'
 import VotingArrows from './VotingArrows'
 export default {
   name: 'PostSummary',
-  props: ['post'],
-  components: {VotingArrows},
+  props: {
+    post: {
+      type: Object,
+      required: true
+    }
+  },
+  components: { VotingArrows },
   computed: {
-
     featuredImage () {
       return this.post.featuredImage ? this.post.featuredImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
@@ -58,16 +62,16 @@ export default {
     }
   },
   methods: {
-    setActivePostInPlayer: function (post:any) {
+    setActivePostInPlayer (post:any) {
       this.$store.commit('setActivePostInPlayer', { post })
     },
-    upvoteHandler: function () {
+    upvoteHandler () {
       console.log(this.post)
       this.$store.dispatch('upvote', {
         id: this.post._id
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.$store.dispatch('downvote', {
         id: this.post._id
       })

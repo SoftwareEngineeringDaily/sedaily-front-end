@@ -173,16 +173,11 @@ h1 {
   font-size: 4rem;
 
 }
-.yearly-plan {
-}
 .subtitle {
   margin-top: 20px;
   margin-bottom: 50px;
 }
 
-.plan-name {
-  font-size:
-}
 .price {
   margin: 20px 0;
 }

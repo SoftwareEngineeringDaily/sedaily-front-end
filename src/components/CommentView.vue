@@ -32,7 +32,12 @@ import VotingArrows from './VotingArrows.vue'
 export default {
   name: 'comment-view',
   components: { VotingArrows },
-  props: ['comment'],
+  props: {
+    comment: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState({
       isRootLevelComment () {
