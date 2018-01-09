@@ -6,7 +6,7 @@
           Thanks for submitting!
           <spinner :show="true"></spinner>
         </div>
-        <div v-else="justSubmitted">
+        <div v-else>
           <textarea placeholder='Your message here...'
           class='reply-box'
           type='text'
@@ -27,12 +27,19 @@
 
 <script>
 /* @flow */
+
 import UpdateProfile from './UpdateProfile.vue'
 import Spinner from './Spinner'
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'comment-reply',
-  props: ['parentComment'],
+  props: {
+    parentComment: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     UpdateProfile,
     Spinner

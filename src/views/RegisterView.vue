@@ -117,11 +117,11 @@ export default {
   },
 
   methods: {
-    register: function () {
+    register () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const {username, email, bio, website, name, password} = this
+          const { username, email, bio, website, name, password } = this
           this.$store.dispatch('register', {
             username,
             password,

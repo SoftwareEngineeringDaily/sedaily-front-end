@@ -25,7 +25,7 @@ export default {
         return
       }
       this.loading = true
-      let params = {
+      const params = {
         type: this.type,
         category: this.activeCategory.id
       }

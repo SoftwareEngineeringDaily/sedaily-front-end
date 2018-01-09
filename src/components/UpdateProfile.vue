@@ -101,7 +101,16 @@ import { mapState, mapActions } from 'vuex'
 // TODO: remove usename update for now?
 export default {
   name: 'update-profile',
-  props: ['initialUsername', 'me'],
+  props: {
+    initialUsername: {
+      type: String,
+      required: true
+    },
+    me: {
+      type: Object,
+      required: false
+    }
+  },
   components: {
     Spinner
   },
@@ -173,11 +182,11 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const {username, email, bio, website, name, id} = this
+          const { username, email, bio, website, name, id } = this
 
           let updatePromise = null
           if (this.file) {
-            updatePromise = this.uploadAvatarImage({imageFile: this.file})
+            updatePromise = this.uploadAvatarImage({ imageFile: this.file })
               .then((imageSuccess) => {
                 return this.updateProfile({
                   username,

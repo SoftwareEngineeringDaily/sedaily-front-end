@@ -9,7 +9,7 @@
         <div v-if="isSubmitting">
           <spinner :show="true"></spinner>
         </div>
-        <div v-else="isSubmitting">
+        <div v-else>
           <button class='button-submit'
           :disabled="isSubmitting"
           @click='submitComment'>
