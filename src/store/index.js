@@ -3,27 +3,12 @@ import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
+import initialState from './initialState'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state: {
-    activePlayerPost: { title: {}},
-    activeType: null,
-    posts: {},
-    postComments: {},
-    postRelatedLinks: {},
-    feed: [],
-    placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png',
-    me: {},
-    users: {},
-    lists: {
-      top: [],
-      new: [],
-      recommendation: []
-    },
-    token: localStorage.getItem('token')
-  },
+  state: initialState,
   actions,
   mutations,
   getters

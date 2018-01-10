@@ -162,11 +162,6 @@ export default {
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
-  logout: (state) => {
-    localStorage.setItem('token', '')
-    state.token = ''
-  },
-
   setToken: (state, { token }) => {
     localStorage.setItem('token', token)
     state.token = token
