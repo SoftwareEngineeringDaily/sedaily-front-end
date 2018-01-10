@@ -20,6 +20,10 @@ export default {
       })
   },
 
+  logout: ({ commit }) => {
+    commit('setToken', { token: '' })
+  },
+
   register: ({ commit, state }, { password, username, bio, website, name, email }) => {
     return axios.post(`${BASE_URL}/auth/register`, {
       username,

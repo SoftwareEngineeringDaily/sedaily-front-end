@@ -1,55 +1,10 @@
 <template>
   <div id="app">
-    <header class="header">
-      <nav class="inner">
-        <router-link to="/" exact>
-          <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
-        </router-link>
-        <router-link to="/feed"  name="feed-nav-link" exact   v-if='isLoggedIn'>
-          Feed
-        </router-link>
-        <router-link to="/new" name="new-nav-link">
-          New
-        </router-link>
-        <router-link to="/top" name="top-nav-link">
-          Top
-        </router-link>
-        <router-link to="/recommendations" name="recommendations-nav-link">
-          Recommended
-        </router-link>
+    <navigation-bar />
 
-        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-
-        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
-          Register
-        </router-link>
-
-        <!--
-        <router-link to="/premium" name="subscribe-nav-link"
-        style='float:right;margin-right: 1em;' v-if='!isLoggedIn'
-          class="call-to-action"
-        >
-          Subscribe
-        </router-link>
-        -->
-
-        <span v-if='isLoggedIn' style='float:right;'>
-          <!--
-          <router-link to="/premium" name="top-nav-link"
-          class="call-to-action"
-          >Subscribe</router-link>
-        -->
-
-          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
-          <router-link to="/profile" name="top-nav-link">Profile</router-link>
-        </span>
-
-
-      </nav>
-    </header>
     <div class='container'>
       <div class="row">
-        <div class="col-md-8 col-centered text-center" v-if="showBeta">
+        <div class="col-md-8 col-centered text-center beta-msg" v-if="showBeta">
           Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github</a>.
         </div>
       </div>
@@ -69,28 +24,23 @@
 
 <script>
 import StickyPlayer from './components/StickyPlayer.vue'
-import { mapGetters } from 'vuex'
+import NavigationBar from './components/NavigationBar.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'app',
   components: {
+    NavigationBar,
     StickyPlayer
   },
 
   computed: {
+    ...mapState(['activePlayerPost']),
     isPlayerActive () {
-      return this.$store.state.activePlayerPost.mp3
+      return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
     },
     showBeta () {
       return this.$route.path === '/'
-    },
-    ...mapGetters(['isLoggedIn'])
-  },
-
-  methods: {
-    logout () {
-      this.$store.commit('logout')
-      this.$router.go('/')
     }
   }
 }
