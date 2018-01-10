@@ -14,14 +14,19 @@
       </span>
 
       <div class="title">
+        CCCCCCCC
+        <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
+          AAAAAAAAAA
           <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
+          BBBBBBBB
           <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
+
       <div class="meta">
           <!-- <span v-if="post.type !== 'job'" class="by">
           by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
@@ -34,6 +39,7 @@
         | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
       </span> -->
       </div>
+
       <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
@@ -81,6 +87,11 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+
 .news-post
   display inline-flex
   flex-direction row
@@ -112,7 +123,11 @@ export default {
     .play-icon
       width 80px
   .title
-    padding-top 10px
+    border-radius 3px
+    padding 10px
+    background primary-color
+    a
+      color white
 
   .meta, .host
     font-size .85em
