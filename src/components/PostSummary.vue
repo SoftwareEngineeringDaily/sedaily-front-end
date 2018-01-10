@@ -108,12 +108,14 @@ secondary-color = #FF8B6A
 
   .hero-img
     width 100px
+    margin-bottom 15px
+
 
   .play-button
     width 80px
     height 80px
     position absolute
-    top 40px
+    top 30px
     left 70px
     cursor pointer
 
