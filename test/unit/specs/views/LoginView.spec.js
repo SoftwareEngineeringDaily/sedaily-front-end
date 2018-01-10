@@ -14,21 +14,23 @@ describe('LoginView.vue', () => {
     expect(wrapper.vm.errors.all().length).to.equal(0)
   })
 
-  it('missing username produces validation error', () => {
+  it('missing username produces validation error', (done) => {
     wrapper.vm.$validator.validate('username')
       .then((result) => {
         expect(result).to.equal(false)
+        done()
       })
   })
 
-  it('missing password produces validation error', () => {
+  it('missing password produces validation error', (done) => {
     wrapper.vm.$validator.validate('password')
       .then((result) => {
         expect(result).to.equal(false)
+        done()
       })
   })
 
-  it('provided username passes validation', () => {
+  it('provided username passes validation', (done) => {
     wrapper.setData({
       username: 'Foo'
     })
@@ -36,10 +38,11 @@ describe('LoginView.vue', () => {
     wrapper.vm.$validator.validate('username')
       .then((result) => {
         expect(result).to.equal(true)
+        done()
       })
   })
 
-  it('provided password passes validation', () => {
+  it('provided password passes validation', (done) => {
     wrapper.setData({
       password: 'Foo'
     })
@@ -47,6 +50,7 @@ describe('LoginView.vue', () => {
     wrapper.vm.$validator.validate('password')
       .then((result) => {
         expect(result).to.equal(true)
+        done()
       })
   })
 })
