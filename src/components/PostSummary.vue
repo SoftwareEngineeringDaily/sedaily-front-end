@@ -14,15 +14,12 @@
       </span>
 
       <div class="title">
-        CCCCCCCC
         <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
-          AAAAAAAAAA
           <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          BBBBBBBB
           <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>

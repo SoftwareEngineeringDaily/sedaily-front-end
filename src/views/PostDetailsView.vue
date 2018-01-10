@@ -246,6 +246,10 @@ secondary-color = #FF8B6A
 .post-transcript {
 }
 
+.primary-post-header{
+  padding-top 2rem
+}
+
 .play-button
 
   height 80px
