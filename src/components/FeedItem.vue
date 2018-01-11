@@ -3,7 +3,7 @@
     <v-card>
       <v-card-media :src="image(feedItem.image)" height="200px">
       </v-card-media>
-      <div>
+      <div class='feed-item-holder'>
         <a :href="feedItem.url | externalUrl" target="_blank"
         rel="external nofollow">
          <span class='title'>
@@ -12,7 +12,7 @@
        </a>
         <div>{{feedItem.description}}</div>
         <p class='votes'>
-        Votes:{{feedItem.score}}
+        Votes: {{feedItem.score}}
         </p>
       </div>
       <v-card-title primary-title>
@@ -40,7 +40,23 @@ export default {
   }
 }
 </script>
-<style>
+<style >
+
+.feed-item-holder {
+  padding: 10px;
+}
+
+.feed-item-holder .title {
+  font-size: 2rem;
+  color: #856AFF;
+}
+
+
+
+.feed-item-holder .votes{
+  padding-top: 20px;
+  color: #706F6F;
+}
 
 .card__media__background {
   width: 100%;

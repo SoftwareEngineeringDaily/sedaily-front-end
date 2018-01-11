@@ -1,7 +1,7 @@
 <template>
   <div class="news-view">
     <div class='search-bar' v-if="showFilteringElements">
-      <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+      <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
     <div v-else>
       <br />
@@ -10,10 +10,10 @@
 
     <div class='categories' v-if="showFilteringElements">
       <span class='category-post' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
-      <span v-for="category in categories" 
+      <span v-for="category in categories"
         :key="category.id"
-        @click="setSelectedCategory(category)" 
-        class='category-post' 
+        @click="setSelectedCategory(category)"
+        class='category-post'
         :class='getClassForCategory(category.name)'> {{category.name}}</span>
     </div>
 
@@ -176,6 +176,12 @@ export default {
 
 <style lang="stylus">
 
+primary-color = #856AFF
+secondary-color = #FF8B6A
+idle-background = #F7F7F7
+idle-foreground = #706F6F
+
+
 
 .categories
   padding-bottom 20px
@@ -184,11 +190,19 @@ export default {
   margin 5px 20px
   display inline-block
   cursor pointer
+  color: #C4C4C4;
+  padding 5px 20px
+  border-radius 3px
   &:hover
-    text-decoration underline
+    color white
+    background: primary-color
+
 
 .category-active
-  color #3F58AF
+  color  primary-color
+  padding 5px 20px
+  border-radius 3px
+  border 1px solid primary-color
 
 .news-view
   padding-top 10px
@@ -248,6 +262,15 @@ export default {
     width 100%
     margin 20px 0
     padding 10px
+
+    font-size: 2rem;
+    font-weight: 100;
+    color: #C4C4C4;
+    padding-left: 20px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+
+
 /* Filters */
 .filters
   position: relative
