@@ -102,7 +102,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
   .related-link-box {
     width: 100%;
     padding: 10px;

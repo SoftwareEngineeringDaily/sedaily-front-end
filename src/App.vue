@@ -47,24 +47,18 @@ export default {
 </script>
 
 <style lang="stylus">
+@import './css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
-accent-color = #FF8B6A
-very-light-grey = #EEEEEE
-
-.main-app {
+.main-app
   margin-top 3rem
-}
 
-.call-to-action {
+.call-to-action
   background: accent-color;
-  color: whie;
+  color: white;
   padding: 4px 10px;
   border-radius: 8px;
   font-weight: 200;
   text-transform: uppercase;
-}
 
 .header .call-to-action {
   color: white;
@@ -97,8 +91,8 @@ very-light-grey = #EEEEEE
 }
 
 .col-centered{
-    float: none;
-    margin: 0 auto;
+  float: none;
+  margin: 0 auto;
 }
 
 body

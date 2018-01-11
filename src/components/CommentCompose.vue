@@ -86,16 +86,13 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style scoped lang="stylus">
+@import './../css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
-
-.comment-box {
-  width: 100%;
-  padding: 20px 10px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  border-color: #c5c5c5;
-}
+.comment-box
+  width 100%
+  padding 20px 10px
+  margin-bottom 12px
+  border-radius 4px
+  border-color #c5c5c5
 </style>

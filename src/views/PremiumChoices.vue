@@ -168,11 +168,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+@import './../css/variables'
+
 h1 {
   font-size: 4rem;
-
 }
+
 .subtitle {
   margin-top: 20px;
   margin-bottom: 50px;
@@ -206,8 +208,8 @@ button:hover {
 }
 
 .yearly-button {
-  background: #856AFF;
-  color: white;
+  background primary-color
+  color white
 }
 .container {
   background: white;

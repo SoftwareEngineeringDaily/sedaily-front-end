@@ -35,7 +35,7 @@
       </button>
 
       <h4> Cancelling?</h4>
-      <p>      
+      <p>
       Your subscription will be cancelled right away and you won't be charged again
       but you will lose access to the premium content right away.
       Contact jeff@softwaredaily.com for any questions.
@@ -235,7 +235,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import './../css/variables'
 
 .cancel-button {
   background: #e8e8e8;
@@ -263,7 +264,7 @@ export default {
   width: 300px;
   border: 1px solid grey;
 }
-.stripe-card.complete {
-  border-color: #856AFF;
-}
+.stripe-card.complete
+  border-color primary-color
+
 </style>

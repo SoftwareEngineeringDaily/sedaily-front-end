@@ -177,13 +177,7 @@ export default {
 </script>
 
 <style lang="stylus">
-
-primary-color = #856AFF
-secondary-color = #FF8B6A
-idle-background = #F7F7F7
-idle-foreground = #706F6F
-
-
+@import './../css/variables'
 
 .categories
   padding-bottom 20px
@@ -198,7 +192,6 @@ idle-foreground = #706F6F
   &:hover
     color white
     background: primary-color
-
 
 .category-active
   color  primary-color

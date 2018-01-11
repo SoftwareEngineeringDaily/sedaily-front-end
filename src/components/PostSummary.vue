@@ -85,13 +85,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
-
-primary-color = #856AFF
-secondary-color = #FF8B6A
-idle-background = #F7F7F7
-idle-foreground = #706F6F
-
+@import './../css/variables'
 
 .news-post
   display inline-flex
