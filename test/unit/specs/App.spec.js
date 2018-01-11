@@ -47,7 +47,7 @@ describe('App.vue', (done) => {
     })
 
     expect(wrapper.vm.isPlayerActive).to.equal(false)
-    expect(wrapper.find('.player-holder').hasStyle('display', 'none')).to.equal(true)
+    expect(wrapper.find('.player-holder').element.style.display).to.equal('none')
   })
 
   it('player should be inactive when activePlayerPost has no associated mp3', () => {
@@ -67,7 +67,7 @@ describe('App.vue', (done) => {
     })
 
     expect(wrapper.vm.isPlayerActive).to.equal(false)
-    expect(wrapper.find('.player-holder').hasStyle('display', 'none')).to.equal(true)
+    expect(wrapper.find('.player-holder').element.style.display).to.equal('none')
   })
 
   it('player should be active when activePlayerPost has associated mp3', () => {
@@ -87,7 +87,7 @@ describe('App.vue', (done) => {
     })
 
     expect(wrapper.vm.isPlayerActive).to.equal(true)
-    expect(wrapper.find('.player-holder').hasStyle('display', 'none')).to.equal(false)
+    expect(wrapper.find('.player-holder').element.style.display).to.not.equal('none')
   })
 
   it('should show beta message when on home page', () => {
