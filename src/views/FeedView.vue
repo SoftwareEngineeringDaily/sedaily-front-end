@@ -52,8 +52,7 @@ export default {
 
 
 <style scoped lang="stylus">
-  h1 {
-    text-align: center;
-    margin: 30px auto;
-  }
+h1
+  text-align center
+  margin 30px auto
 </style>

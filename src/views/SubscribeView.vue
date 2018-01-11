@@ -238,33 +238,30 @@ export default {
 <style lang="stylus">
 @import './../css/variables'
 
-.cancel-button {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid black;
-}
+.cancel-button
+  background #e8e8e8
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid black
 
-.pay-button {
-  background: #ceffa8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 2px solid #33ff00;
-  box-shadow: 1px 1px 2px #888888;
-}
-.pay-button:disabled {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid #b9b9b9;
-  opacity: 0.3;
-}
+.pay-button
+  background #ceffa8
+  padding 9px 14px
+  margin 17px 0px
+  border 2px solid #33ff00
+  box-shadow 1px 1px 2px #888888
 
-.stripe-card {
-  width: 300px;
-  border: 1px solid grey;
-}
+.pay-button:disabled
+  background #e8e8e8
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid #b9b9b9
+  opacity 0.3
+
+.stripe-card
+  width 300px
+  border 1px solid grey
+
 .stripe-card.complete
   border-color primary-color
-
 </style>

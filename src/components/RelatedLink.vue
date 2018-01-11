@@ -75,7 +75,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .link-holder {
-    padding-bottom: 20px;
-  }
+.link-holder
+  padding-bottom 20px
 </style>

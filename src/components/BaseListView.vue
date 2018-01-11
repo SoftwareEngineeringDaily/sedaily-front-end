@@ -186,12 +186,12 @@ export default {
   margin 5px 20px
   display inline-block
   cursor pointer
-  color: #C4C4C4;
+  color #C4C4C4
   padding 5px 20px
   border-radius 3px
   &:hover
     color white
-    background: primary-color
+    background primary-color
 
 .category-active
   color  primary-color
@@ -257,40 +257,38 @@ export default {
     width 100%
     margin 20px 0
     padding 10px
-
-    font-size: 2rem;
-    font-weight: 100;
-    color: #C4C4C4;
-    padding-left: 20px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-
+    font-size 2rem
+    font-weight 100
+    color #C4C4C4
+    padding-left 20px
+    border none
+    border-bottom 1px solid #ccc
 
 /* Filters */
 .filters
-  position: relative
-  margin-top: 1em
+  position relative
+  margin-top 1em
   input
-    width: 100%
+    width 100%
   button
-    background-color: #3F58AF
-    color: #fff
-    box-shadow: none
-    border: none
-    font-size: 14px
-    height: 30px
-    border-radius: 2px
+    background-color #3F58AF
+    color #fff
+    box-shadow none
+    border none
+    font-size 14px
+    height 30px
+    border-radius 2px
 
 .active-tags
-  margin-top: 1em
+  margin-top 1em
 
 .active-tag
-  padding: .5em
-  color: #fff
-  background-color: #3F58AF
+  padding .5em
+  color #fff
+  background-color #3F58AF
 
 .remove-tag-button:hover
-  cursor: pointer;
+  cursor pointer
 
 .spinner-holder
   width 100%
@@ -298,18 +296,18 @@ export default {
   margin 10px
 
 .auto-complete
-  width: 200px;
-  background: #fff;
-  padding: 1em;
-  position: absolute;
-  top: 30px;
-  z-index: 1000
-  box-shadow: 6px 0px 10px #efefef
+  width 200px
+  background #fff
+  padding 1em
+  position absolute
+  top 30px
+  z-index 1000
+  box-shadow 6px 0px 10px #efefef
   .add-tag-button
-    color: #3F58AF
-    font-size: 10px
+    color #3F58AF
+    font-size 10px
   .add-tag-button:hover
-    cursor: pointer;
+    cursor pointer
 
 @media (max-width 600px)
   .category-post

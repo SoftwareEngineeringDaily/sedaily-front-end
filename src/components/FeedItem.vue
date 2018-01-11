@@ -44,7 +44,7 @@ export default {
 @import './../css/variables'
 
 .feed-item-holder
-  padding: 10px;
+  padding 10px
   .title
     font-size 2rem
     color primary-color
@@ -67,5 +67,4 @@ export default {
 
 .feed-item-img
   width 100px
-
 </style>

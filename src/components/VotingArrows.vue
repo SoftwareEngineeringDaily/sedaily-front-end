@@ -72,5 +72,5 @@ export default {
 .voting
   display inline-block
   height 100%
-  margin: 0 1rem;
+  margin 0 1rem
 </style>

@@ -29,7 +29,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.related-links-list {
-  margin: 20px 0px;
-}
+.related-links-list
+  margin 20px 0px
 </style>

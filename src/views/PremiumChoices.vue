@@ -171,75 +171,64 @@ export default {
 <style scoped lang="stylus">
 @import './../css/variables'
 
-h1 {
-  font-size: 4rem;
-}
+h1
+  font-size 4rem
 
-.subtitle {
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
+.subtitle
+  margin-top 20px
+  margin-bottom 50px
 
-.price {
-  margin: 20px 0;
-}
+.price
+  margin 20px 0
 
-.dollars {
-  font-size: 4rem;
-}
+.dollars
+  font-size 4rem
 
-.billed-terms {
-  display: block;
-  font-size: 2rem;
-}
+.billed-terms
+  display block
+  font-size 2rem
 
+button
+  margin 20px
+  padding 5px 0
+  min-width 200px
+  transition opacity 0.2s
 
-button {
-  margin: 20px;
-  padding: 5px 0;
-  min-width: 200px;
-  transition: opacity 0.2s;
-}
-button:hover {
-  opacity: 0.5;
-}
-.monthly-button {
-  border: 1px solid black;
-}
+button:hover
+  opacity 0.5
 
-.yearly-button {
+.monthly-button
+  border 1px solid black
+
+.yearly-button
   background primary-color
   color white
-}
-.container {
-  background: white;
-  padding: 30px;
-	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
-}
 
-.why-subscribe-title {
-  margin: 0 auto;
-  margin-top: 50px;
-  max-width: 80%;
-}
+.container
+  background white
+  padding 30px
+	box-shadow 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
 
-.why-subscribe-inner {
-  margin:  30px auto;
-  max-width: 80%;
-}
+.why-subscribe-title
+  margin 0 auto
+  margin-top 50px
+  max-width 80%
 
-.why-subscribe {
-  margin: 50px auto;
-  background: #F6F6F6;
-}
-.faq {
-  max-width: 80%;
-  margin: auto;
-}
-.question {
-  margin: 20px 0;
-}
-.question-title {
-  margin: 20px 0;
-}
+.why-subscribe-inner
+  margin  30px auto
+  max-width 80%
+
+.why-subscribe
+  margin 50px auto
+  background #F6F6F6
+
+.faq
+  max-width 80%
+  margin auto
+
+.question
+  margin 20px 0
+
+.question-title
+  margin 20px 0
 </style>
