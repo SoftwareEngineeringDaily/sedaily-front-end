@@ -28,8 +28,8 @@
 <script>
 /* @flow */
 
-import UpdateProfile from './UpdateProfile.vue'
-import Spinner from './Spinner'
+import UpdateProfile from 'components/UpdateProfile.vue'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -91,26 +91,23 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .reply-container {
-    margin-left: 50px;
-    margin-top: 10px;
-  }
-  .collapsed-area{
-    margin-left: 20px;
-    margin-top: 10px;
-  }
+.reply-container
+  margin-left 50px
+  margin-top 10px
 
-  .link {
-    color: primary-color;
-    cursor: pointer;
-    padding: 5px 8px;
-  }
+.collapsed-area
+  margin-left 20px
+  margin-top 10px
 
-  .reply-box {
-    width: 100%;
-    padding: 5px 5px;
-    margin-bottom: 12px;
-    border-radius: 2px;
-    border-color: #c5c5c5;
-  }
+.link
+  color primary-color
+  cursor pointer
+  padding 5px 8px
+
+.reply-box
+  width 100%
+  padding 5px 5px
+  margin-bottom 12px
+  border-radius 2px
+  border-color #c5c5c5
 </style>

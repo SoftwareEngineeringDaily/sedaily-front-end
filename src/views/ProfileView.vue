@@ -64,11 +64,10 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .profile-details {
-    padding-top: 5px;
-  }
-  .profile-img {
-    width:  100px;
-  }
+<style scoped lang="stylus">
+.profile-details
+  padding-top 5px
+
+.profile-img
+  width 100px
 </style>

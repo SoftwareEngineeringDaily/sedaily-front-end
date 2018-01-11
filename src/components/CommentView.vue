@@ -26,9 +26,11 @@
 
 <script>
 /* @flow */
+
 import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
-import VotingArrows from './VotingArrows.vue'
+import VotingArrows from 'components/VotingArrows.vue'
+
 export default {
   name: 'comment-view',
   components: { VotingArrows },
@@ -107,16 +109,12 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
-.comment-content {
-  padding: 10px;
-  padding-left: 60px;
-}
+.comment-content
+  padding 10px
+  padding-left 60px
 
 .avatar
-  width: 50px
-
-
+  width 50px
 
 .arrow
   color #888
@@ -130,25 +128,22 @@ export default {
       cursor pointer
       color #888
 
+.comment-date
+  padding-left 10px
+  color #ccc
 
-.comment-date {
-  padding-left: 10px;
-  color: #ccc;
-}
-.comment {
-  display: flex;
-}
+.comment
+  display flex
 
 .delete
-  color: red
+  color red
   &:hover
     cursor pointer
 
-.profile-img {
-  width: 80px;
-  height: 80px;
-}
-.content {
-  margin-left: 20px;
-}
+.profile-img
+  width 80px
+  height 80px
+
+.content
+  margin-left 20px
 </style>

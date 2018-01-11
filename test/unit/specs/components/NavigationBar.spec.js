@@ -1,4 +1,4 @@
-import { mount, shallow, createLocalVue } from 'vue-test-utils'
+import { mount, shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import Router from 'vue-router'

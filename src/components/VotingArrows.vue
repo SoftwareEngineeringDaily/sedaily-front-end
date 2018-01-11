@@ -40,6 +40,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+
 .score-text
   font-weight 400
 
@@ -51,7 +53,7 @@ export default {
     width 1.1em
 
 .arrow
-  color #EEEEEE
+  color very-light-grey
   font-fize 30px
   &:hover
     cursor pointer
@@ -70,5 +72,5 @@ export default {
 .voting
   display inline-block
   height 100%
-  margin: 0 1rem;
+  margin 0 1rem
 </style>

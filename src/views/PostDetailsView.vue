@@ -238,45 +238,33 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style scoped lang="stylus">
+@import './../css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
-
-.post-transcript {
-}
-
-.primary-post-header{
+.primary-post-header
   padding-top 2rem
-}
 
 .play-button
-
   height 80px
   top 40px
   left 70px
   cursor pointer
-
   .play-icon
     width 80px
     margin-top -20px
-.details-about-post {
-  margin-top: 20px;
-  display: inline-block;
-}
 
-.selection-icons {
-  margin-bottom: 30px;
-  .icon {
-    padding-right: 20px
-    cursor: pointer
+.details-about-post
+  margin-top 20px
+  display inline-block
+
+.selection-icons
+  margin-bottom 30px
+  .icon
+    padding-right 20px
+    cursor pointer
     opacity 0.4
-
-    &.active {
+    &.active
       opacity 1
-    }
-  }
-}
 
 .header-title
   margin-top 15px
@@ -309,8 +297,7 @@ secondary-color = #FF8B6A
     top 0
     right 0
     bottom auto
-.related-links-container{
-}
+
 .comment-children
   list-style-type none
   padding 0

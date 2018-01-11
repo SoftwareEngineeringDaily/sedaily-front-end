@@ -38,8 +38,9 @@
 
 <script>
 /* @flow */
-import Spinner from './Spinner'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'related-link-compose',
   components: {
@@ -101,21 +102,18 @@ export default {
 }
 </script>
 
-<style scoped>
-  .related-link-box {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border-radius: 4px;
-    border-color: #c5c5c5;
-  }
+<style scoped lang="stylus">
+.related-link-box
+  width 100%
+  padding 10px
+  margin-bottom 12px
+  border-radius 4px
+  border-color #c5c5c5
 
-  .related-title-box {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-  }
-
+.related-title-box
+  width 100%
+  padding 10px
+  margin-bottom 12px
+  border none
+  border-bottom 1px solid #ccc
 </style>

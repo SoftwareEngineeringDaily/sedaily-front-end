@@ -1,4 +1,4 @@
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import VeeValidate from 'vee-validate'
 import Vuetify from 'vuetify'
 

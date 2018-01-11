@@ -18,8 +18,9 @@
 
 <script>
 /* @flow */
-import CommentView from './CommentView.vue'
-import CommentReply from './CommentReply.vue'
+
+import CommentView from 'components/CommentView.vue'
+import CommentReply from 'components/CommentReply.vue'
 import { mapGetters } from 'vuex'
 
 export default {

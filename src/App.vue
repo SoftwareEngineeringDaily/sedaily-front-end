@@ -47,70 +47,60 @@ export default {
 </script>
 
 <style lang="stylus">
+@import './css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
-accent-color = #FF8B6A
-very-light-grey = #EEEEEE
-
-.main-app {
+.main-app
   margin-top 3rem
-}
 
-.call-to-action {
-  background: accent-color;
-  color: whie;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-weight: 200;
-  text-transform: uppercase;
-}
+.call-to-action
+  background accent-color
+  color white
+  padding 4px 10px
+  border-radius 8px
+  font-weight 200
+  text-transform uppercase
 
-.header .call-to-action {
-  color: white;
-}
+.header .call-to-action
+  color white
 
-.button-submit {
-  background: primary-color
-  color: white
+.button-submit
+  background primary-color
+  color white
   padding 10px 20px
-  cursor: pointer
-}
+  cursor pointer
 
-.button-submit-small {
-  background: primary-color
-  color: white
+.button-submit-small
+  background primary-color
+  color white
   padding 5px 10px
   border-radius 2px
-  cursor: pointer
-}
+  cursor pointer
 
-.button-delete {
-  background: #fbf4f4
-  color: black
+.button-delete
+  background #fbf4f4
+  color black
   padding 5px 10px
-  cursor: pointer
-}
+  cursor pointer
 
-.section-title {
-  font-weight: 300;
-}
+.section-title
+  font-weight 300
 
-.col-centered{
-    float: none;
-    margin: 0 auto;
-}
+.col-centered
+  float none
+  margin 0 auto
 
 body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   font-size 14px
   background-color white
   margin 0
   #app
     margin-bottom 120px
+
 a
   color #34495e
   text-decoration none
+
 .header
   z-index 999
   top 0
@@ -144,41 +134,52 @@ a
     font-size .9em
     margin 0
     float right
+
 .player-holder
   padding 10px 20px
-  box-shadow: -5px -5px 5px -2px rgba(176,176,176,0.3)
-
+  box-shadow -5px -5px 5px -2px rgba(176,176,176,0.3)
   background-color white
   width 100%
   position fixed
   bottom 0
   left 0
+
 .logo
   width 30px
   margin-right 10px
   display inline-block
   vertical-align middle
+
 .feed-icon
   width 30px
+
 .registration-icon
   width 30px
+
 .like-icon
   width 30px
+
 .trophy-icon
   width 30px
+
 .new-icon
   width 30px
+
 .view
   max-width 1200px
   margin 0 auto
   position relative
+
 .fade-enter-active, .fade-leave-active
   transition all .2s ease
+
 .fade-enter, .fade-leave-active
   opacity 0
+
 @media (max-width 860px)
   .header .inner
     padding 15px 30px
+
 @media (max-width 600px)
   body
     font-size 14px
