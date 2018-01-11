@@ -28,8 +28,8 @@
 <script>
 /* @flow */
 
-import UpdateProfile from './UpdateProfile.vue'
-import Spinner from './Spinner'
+import UpdateProfile from 'components/UpdateProfile.vue'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
 export default {

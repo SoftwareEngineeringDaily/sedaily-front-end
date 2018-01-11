@@ -1,21 +1,19 @@
 <template>
   <div v-if="me">
     <div v-if="me.name">
-        <textarea placeholder='Your comment here...'
+      <textarea placeholder='Your comment here...'
         class='comment-box'
         :disabled="isSubmitting"
         type='text'
         v-model='commentContent' />
-        <div v-if="isSubmitting">
-          <spinner :show="true"></spinner>
-        </div>
-        <div v-else>
-          <button class='button-submit'
+      <div v-if="isSubmitting">
+        <spinner :show="true"></spinner>
+      </div>
+      <div v-else>
+        <button class='button-submit'
           :disabled="isSubmitting"
-          @click='submitComment'>
-          Add Comment
-          </button>
-        </div>
+          @click='submitComment'>Add Comment</button>
+      </div>
     </div>
     <div v-else>
       <h3> Please make sure to update your profile before you can comment: </h3>
@@ -26,9 +24,10 @@
 
 <script>
 /* @flow */
-import UpdateProfile from './UpdateProfile.vue'
-import Spinner from './Spinner'
+import UpdateProfile from 'components/UpdateProfile.vue'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'comment-compose',
   components: {

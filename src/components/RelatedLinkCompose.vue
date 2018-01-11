@@ -38,8 +38,9 @@
 
 <script>
 /* @flow */
-import Spinner from './Spinner'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'related-link-compose',
   components: {

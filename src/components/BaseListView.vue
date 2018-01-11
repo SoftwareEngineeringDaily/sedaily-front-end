@@ -31,11 +31,11 @@
 </template>
 
 <script>
-
+/* @flow */
 import moment from 'moment'
-import Spinner from '@/components/Spinner.vue'
-import PostSummary from '@/components/PostSummary.vue'
-import Blank from '@/components/Blank.vue'
+import Spinner from 'components/Spinner.vue'
+import PostSummary from 'components/PostSummary.vue'
+import Blank from 'components/Blank.vue'
 
 export default {
   name: 'top-list',
@@ -114,11 +114,11 @@ export default {
   },
 
   methods: {
-    setSelectedCategory (category) {
+    setSelectedCategory (category: any) {
       this.activeCategory = category
       this.resetPosts()
     },
-    getClassForCategory (categoryName) {
+    getClassForCategory (categoryName: string) {
       return categoryName === this.activeCategory.name ? 'category-active' : ''
     },
     makeSearch () {
@@ -134,7 +134,9 @@ export default {
       this.loading = true
       const params = {
         type: this.type,
-        category: this.activeCategory.id
+        category: this.activeCategory.id,
+        search: undefined,
+        createdAtBefore: undefined
       }
 
       if (this.searchTerm) {
@@ -165,7 +167,7 @@ export default {
       this.loading = false
       this.loadMore()
     },
-    playPodcast (post) {
+    playPodcast (post: any) {
       console.log('inside play podacst')
       this.playingPost = post
       console.log(post)

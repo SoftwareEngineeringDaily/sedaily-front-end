@@ -45,7 +45,8 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import VotingArrows from './VotingArrows'
+import VotingArrows from 'components/VotingArrows'
+
 export default {
   name: 'PostSummary',
   props: {

@@ -26,9 +26,11 @@
 
 <script>
 /* @flow */
+
 import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
-import VotingArrows from './VotingArrows.vue'
+import VotingArrows from 'components/VotingArrows.vue'
+
 export default {
   name: 'comment-view',
   components: { VotingArrows },

@@ -1,4 +1,4 @@
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import localVue from './../helpers'
 import FeedItem from '@/components/FeedItem.vue'
 

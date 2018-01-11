@@ -96,7 +96,7 @@
 <script>
 /* @flow */
 // Maybe this can be a simple updater of profiles etc:
-import Spinner from './Spinner.vue'
+import Spinner from 'components/Spinner.vue'
 import { mapState, mapActions } from 'vuex'
 // TODO: remove usename update for now?
 export default {
@@ -231,6 +231,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-</style>

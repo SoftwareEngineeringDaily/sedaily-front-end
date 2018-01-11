@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import localVue from './../helpers'
 import LoginView from '@/views/LoginView.vue'
 
