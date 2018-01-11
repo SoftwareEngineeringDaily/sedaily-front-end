@@ -206,7 +206,7 @@ button:hover {
 }
 
 .yearly-button {
-  background: #3f58af;
+  background: #856AFF;
   color: white;
 }
 .container {
