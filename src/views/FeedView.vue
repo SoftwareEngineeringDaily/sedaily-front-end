@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <h1> Feed </h1>
     <br />
       <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     <br />
@@ -48,3 +49,11 @@ export default {
   }
 }
 </script>
+
+
+<style scoped lang="stylus">
+  h1 {
+    text-align: center;
+    margin: 30px auto;
+  }
+</style>
