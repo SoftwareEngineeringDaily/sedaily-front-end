@@ -14,6 +14,7 @@
       </span>
 
       <div class="title">
+        <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
           <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
@@ -22,6 +23,7 @@
           <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
+
       <div class="meta">
           <!-- <span v-if="post.type !== 'job'" class="by">
           by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
@@ -34,6 +36,7 @@
         | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
       </span> -->
       </div>
+
       <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
@@ -42,7 +45,6 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import VueAplayer from 'vue-aplayer'
 import VotingArrows from './VotingArrows'
 export default {
   name: 'PostSummary',
@@ -52,9 +54,8 @@ export default {
       required: true
     }
   },
-  components: { VotingArrows, 'a-player': VueAplayer },
+  components: { VotingArrows },
   computed: {
-
     featuredImage () {
       return this.post.featuredImage ? this.post.featuredImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
@@ -83,6 +84,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
+
+primary-color = #856AFF
+secondary-color = #FF8B6A
+idle-background = #F7F7F7
+idle-foreground = #706F6F
+
+
 .news-post
   display inline-flex
   flex-direction row
@@ -102,19 +111,29 @@ export default {
 
   .hero-img
     width 100px
+    margin-bottom 15px
 
   .play-button
     width 80px
     height 80px
     position absolute
-    top 40px
+    top 30px
     left 70px
     cursor pointer
 
     .play-icon
       width 80px
   .title
-    padding-top 10px
+    border-radius 3px
+    padding 10px
+    background idle-background
+    &:hover
+      background primary-color
+      a
+        color white
+    a
+      color idle-foreground
+
 
   .meta, .host
     font-size .85em

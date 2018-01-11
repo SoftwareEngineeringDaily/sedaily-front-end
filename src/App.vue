@@ -2,7 +2,7 @@
   <div id="app">
     <navigation-bar />
 
-    <div class='container'>
+    <div class='container main-app'>
       <div class="row">
         <div class="col-md-8 col-centered text-center beta-msg" v-if="showBeta">
           Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github</a>.
@@ -52,6 +52,10 @@ primary-color = #856AFF
 secondary-color = #FF8B6A
 accent-color = #FF8B6A
 very-light-grey = #EEEEEE
+
+.main-app {
+  margin-top 3rem
+}
 
 .call-to-action {
   background: accent-color;
@@ -113,7 +117,7 @@ a
   left 0
   right 0
   .inner
-    max-width 800px
+    max-width 1200px
     box-sizing border-box
     margin 0px auto
     padding 15px 5px
@@ -165,7 +169,7 @@ a
 .new-icon
   width 30px
 .view
-  max-width 800px
+  max-width 1200px
   margin 0 auto
   position relative
 .fade-enter-active, .fade-leave-active
