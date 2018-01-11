@@ -88,6 +88,9 @@ export default {
 
 primary-color = #856AFF
 secondary-color = #FF8B6A
+idle-background = #F7F7F7
+idle-foreground = #706F6F
+
 
 .news-post
   display inline-flex
@@ -110,7 +113,6 @@ secondary-color = #FF8B6A
     width 100px
     margin-bottom 15px
 
-
   .play-button
     width 80px
     height 80px
@@ -124,9 +126,14 @@ secondary-color = #FF8B6A
   .title
     border-radius 3px
     padding 10px
-    background primary-color
+    background idle-background
+    &:hover
+      background primary-color
+      a
+        color white
     a
-      color white
+      color idle-foreground
+
 
   .meta, .host
     font-size .85em
