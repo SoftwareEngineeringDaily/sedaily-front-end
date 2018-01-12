@@ -74,8 +74,12 @@
       <div v-else>
         <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
         <div><h2> {{successSubscribingMessage}} </h2> </div>
+
       </div>
+
+      <img class="icon" src="../assets/powered_by_stripe.png" />
     </div>
+
   </div>
 </template>
 
