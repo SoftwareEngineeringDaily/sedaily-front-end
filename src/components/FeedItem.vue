@@ -3,7 +3,7 @@
     <v-card>
       <v-card-media :src="image(feedItem.image)" height="200px">
       </v-card-media>
-      <div>
+      <div class='feed-item-holder'>
         <a :href="feedItem.url | externalUrl" target="_blank"
         rel="external nofollow">
          <span class='title'>
@@ -12,7 +12,7 @@
        </a>
         <div>{{feedItem.description}}</div>
         <p class='votes'>
-        Votes:{{feedItem.score}}
+        Votes: {{feedItem.score}}
         </p>
       </div>
       <v-card-title primary-title>
@@ -26,35 +26,45 @@
 <script>
 export default {
   name: 'FeedItem',
-  props: ['feedItem'],
-
+  props: {
+    feedItem: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
-    image: function (image) {
+    image (image) {
       console.log(image)
       return image !== undefined ? image : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
     }
   }
-
 }
 </script>
-<style>
+<style lang="stylus">
+@import './../css/variables'
 
-.card__media__background {
-  width: 100%;
-  height: 100%;
-}
+.feed-item-holder
+  padding 10px
+  .title
+    font-size 2rem
+    color primary-color
+  .votes
+    padding-top 20px
+    color idle-foreground
 
+.card__media__background
+  width 100%
+  height 100%
 </style>
-<style scoped>
-.feed-item {
-  margin-left: 30px;
-  margin-right: 30px;
-}
-.votes {
-  padding-top: 5px;
-}
-.feed-item-img {
-  width:  100px;
-}
 
+<style scoped lang="stylus">
+.feed-item
+  margin-left 30px
+  margin-right 30px
+
+.votes
+  padding-top 5px
+
+.feed-item-img
+  width 100px
 </style>

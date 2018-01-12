@@ -3,11 +3,11 @@
     <!-- <router-link to="/subscribe">Subscribe</router-link> -->
     <br />
     <router-link to="/edit-profile">Edit Profile</router-link>
-    </br>
+    <br />
     {{this.me.name}}
-    </br>
+    <br />
     {{this.me.bio}}
-    </br>
+    <br />
     <!-- <img class="profile-img" src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_80%2Cw_300/MTIwNjA4NjMzODIyNjc2NDky/bill-gates-9307520-1-402.jpg"  /> -->
 
     <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
@@ -32,7 +32,7 @@ export default {
   beforeMount () {
     this.fetchMyProfileData()
       .then(() => {
-        return this.fetchProfileFeed({userId: this.me._id})
+        return this.fetchProfileFeed({ userId: this.me._id })
           .then((feedItems) => {
             console.log(feedItems)
             this.loading = false
@@ -64,11 +64,10 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .profile-details {
-    padding-top: 5px;
-  }
-  .profile-img {
-    width:  100px;
-  }
+<style scoped lang="stylus">
+.profile-details
+  padding-top 5px
+
+.profile-img
+  width 100px
 </style>

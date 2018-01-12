@@ -29,13 +29,11 @@ export default {
 }
 </script>
 
-<style scoped>
-  #bigDiv{
-    height:150vh
-  }
+<style scoped lang="stylus">
+#bigDiv
+  height 150vh
 
-  #toolbar{
-    position:sticky;
-    top:1px;
-  }
+#toolbar
+  position sticky
+  top 1px
 </style>

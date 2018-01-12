@@ -26,14 +26,19 @@
           </span>
 
           <p class="meta">
-            {{ post.score || 0 }} points
-            <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
-            {{ post.date | timeAgo }} ago
-            <social-sharing :url="post.url"
-                      :title="post.title.rendered"
-                      :description="postContent"
-                      twitter-user="software_daily"
-                      inline-template>
+
+            <span class="play-button" @click='setActivePostInPlayer(post)'>
+              <img class="play-icon" src="../assets/play.png" alt="play">
+            </span>
+            <span class='details-about-post'>
+              {{ post.score || 0 }} points
+              <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
+              {{ post.date | timeAgo }} ago
+              <social-sharing :url="post.url"
+              :title="post.title.rendered"
+              :description="postContent"
+              twitter-user="software_daily"
+              inline-template>
               <div class="sharing">
                 <network network="facebook">
                   <i class="fa fa-facebook"></i> Facebook
@@ -46,6 +51,7 @@
                 </network>
               </div>
             </social-sharing>
+          </span>
           </p>
         </div>
       </div>
@@ -194,6 +200,10 @@ export default {
   methods: {
     ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch']),
+
+    setActivePostInPlayer: function (post:any) {
+      this.$store.commit('setActivePostInPlayer', { post })
+    },
     selectPostContent () {
       this.showRelatedLinks = false
       this.showComments = false
@@ -214,13 +224,12 @@ export default {
       this.showPostContent = false
       this.showRelatedLinks = true
     },
-
-    upvoteHandler: function () {
+    upvoteHandler () {
       this.upvote({
         id: this.postId
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.downvote({
         id: this.postId
       })
@@ -229,26 +238,33 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style scoped lang="stylus">
+@import './../css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
+.primary-post-header
+  padding-top 2rem
 
-.post-transcript {
-}
+.play-button
+  height 80px
+  top 40px
+  left 70px
+  cursor pointer
+  .play-icon
+    width 80px
+    margin-top -20px
 
-.selection-icons {
-  margin-bottom: 30px;
-  .icon {
-    padding-right: 20px
-    cursor: pointer
+.details-about-post
+  margin-top 20px
+  display inline-block
+
+.selection-icons
+  margin-bottom 30px
+  .icon
+    padding-right 20px
+    cursor pointer
     opacity 0.4
-
-    &.active {
+    &.active
       opacity 1
-    }
-  }
-}
 
 .header-title
   margin-top 15px
@@ -257,7 +273,6 @@ secondary-color = #FF8B6A
 .post-view-header
   background primary-color
   color white
-  padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
 
@@ -282,8 +297,7 @@ secondary-color = #FF8B6A
     top 0
     right 0
     bottom auto
-.related-links-container{
-}
+
 .comment-children
   list-style-type none
   padding 0
