@@ -1,5 +1,5 @@
 <template>
-  <div id='app'>
+  <div id='app' class='subscribe-view'>
     <div v-if="loadingUser">
 
 
@@ -8,9 +8,12 @@
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are subscribed :) </h1>
+      <br />
+      <p>
       Your subscription started: {{dateSubscriptionStarted}}
       <br />
       Your plan: {{subscribedToPlan}}
+      </p>
       <br />
       <br />
 
@@ -26,7 +29,7 @@
        </h3>
        <br />
       <div><h2> {{error}} </h2> </div>
-      <div><h2> {{successSubscribingMessage}} </h2>
+      <div><h2 class='success-msg'> {{successSubscribingMessage}} </h2>
 
        </div>
 
@@ -34,6 +37,8 @@
         Cancel Your Subscription
       </button>
 
+      <br />
+      <br />
       <h4> Cancelling?</h4>
       <p>
       Your subscription will be cancelled right away and you won't be charged again
@@ -44,7 +49,7 @@
     </div>
 
     <div v-else>
-      <h1> Subscribe </h1>
+      <h1 class='main-title'> Subscribe </h1>
 
       <input type="radio" id="monthly" value="monthly" v-model="planType">
       <label for="one">Monthly  ($10 / month )</label>
@@ -53,7 +58,7 @@
       <label for="two">Yearly  ($100 / year ) </label>
       <br>
 
-      <h3>Please provide your payment details:</h3>
+      <h3 class='secondary-title'>Please provide your payment details:</h3>
       <br />
       <card class='stripe-card'
       :class='{ complete }'
@@ -237,12 +242,24 @@ export default {
 
 <style lang="stylus">
 @import './../css/variables'
+.success-msg
+  margin-top 30px
+.subscribe-view
+  padding 20px
+  h1,h2,h3,h4
+    font-weight 200
+  .main-title
+    margin 30px 0
+  .secondary-title
+    margin 20px 0
 
 .cancel-button
-  background #e8e8e8
+  cursor pointer
+  background white
   padding 9px 14px
   margin 17px 0px
   border 1px solid black
+  border-radius 3px
 
 .pay-button
   background #ceffa8
