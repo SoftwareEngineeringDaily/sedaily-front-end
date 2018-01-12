@@ -40,7 +40,7 @@ export default {
 
 .categories
   margin-bottom 10px
-  @media (max-width 600px) 
+  @media (max-width 600px)
     overflow auto
     white-space nowrap
 
@@ -57,6 +57,7 @@ export default {
 
 .category-active
   border 1px solid primary-color
+  color primary-color
   &:hover
     border-radius 3px
 </style>

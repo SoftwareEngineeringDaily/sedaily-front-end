@@ -24,7 +24,7 @@
       <div v-else>
 
       <h3>
-         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+         Checkout the latest episodes:  <router-link to="/" name="home" class="link">here</router-link>.
 
        </h3>
        <br />
