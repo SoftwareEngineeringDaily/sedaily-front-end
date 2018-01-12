@@ -1,5 +1,5 @@
 <template>
-  <div id='app'>
+  <div id='app' class='subscribe-view'>
     <div v-if="loadingUser">
 
 
@@ -8,9 +8,12 @@
     <div v-if="alreadySubscribed">
       <br />
       <h1> You are subscribed :) </h1>
+      <br />
+      <p>
       Your subscription started: {{dateSubscriptionStarted}}
       <br />
       Your plan: {{subscribedToPlan}}
+      </p>
       <br />
       <br />
 
@@ -18,23 +21,26 @@
         Canceling...
         <spinner :show="processing"></spinner>
       </div>
-      <div v-else="processing">
+      <div v-else>
 
       <h3>
-         Checkout the latest episodes:  <router-link to="/" name="home">here</router-link>.
+         Checkout the latest episodes:  <router-link to="/" name="home" class="link">here</router-link>.
 
        </h3>
        <br />
       <div><h2> {{error}} </h2> </div>
-      <div><h2> {{successSubscribingMessage}} </h2>
+      <div><h2 class='success-msg'> {{successSubscribingMessage}} </h2>
 
        </div>
 
       <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
         Cancel Your Subscription
       </button>
-      <p>
+
+      <br />
+      <br />
       <h4> Cancelling?</h4>
+      <p>
       Your subscription will be cancelled right away and you won't be charged again
       but you will lose access to the premium content right away.
       Contact jeff@softwaredaily.com for any questions.
@@ -42,8 +48,8 @@
     </div>
     </div>
 
-    <div v-else="alreadySubscribed">
-      <h1> Subscribe </h1>
+    <div v-else>
+      <h1 class='main-title'> Subscribe </h1>
 
       <input type="radio" id="monthly" value="monthly" v-model="planType">
       <label for="one">Monthly  ($10 / month )</label>
@@ -52,7 +58,7 @@
       <label for="two">Yearly  ($100 / year ) </label>
       <br>
 
-      <h3>Please provide your payment details:</h3>
+      <h3 class='secondary-title'>Please provide your payment details:</h3>
       <br />
       <card class='stripe-card'
       :class='{ complete }'
@@ -82,7 +88,12 @@ import Spinner from '../components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
-  props: ['stripePublicKey'],
+  props: {
+    stripePublicKey: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       complete: false,
@@ -107,22 +118,22 @@ export default {
       this.$router.replace('/premium')
     } else {
       this.fetchMyProfileData()
-      .then((myData) => {
-        console.log('myData', myData)
-        this.loadingUser = false
-        if (!this.alreadySubscribed) {
-          if (wantedToSubscribe()) {
-            this.planType = preSelectedSubscriptionPlan()
-          }
-        } else {
+        .then((myData) => {
+          console.log('myData', myData)
+          this.loadingUser = false
+          if (!this.alreadySubscribed) {
+            if (wantedToSubscribe()) {
+              this.planType = preSelectedSubscriptionPlan()
+            }
+          } else {
           // Already subbed
-          unselectSubscriptionPlan()
-        }
-      })
-      .catch((error) => {
-        alert('Error loading user info.')
-        console.log('error loading user', error)
-      })
+            unselectSubscriptionPlan()
+          }
+        })
+        .catch((error) => {
+          alert('Error loading user info.')
+          console.log('error loading user', error)
+        })
     }
   },
 
@@ -143,29 +154,29 @@ export default {
         // console.log(data.token)
         const stripeToken = data.token.id
         const { planType } = this
-        return this.createSubscription({stripeToken, planType})
+        return this.createSubscription({ stripeToken, planType })
       })
-      .then((result) => {
+        .then((result) => {
         // Successfully created subscription:
-        this.processing = false
-        this.justSubscribed = true
-        this.successSubscribingMessage = 'Thanks for subscribing!'
-        unselectSubscriptionPlan()
-      })
-      .catch((error) => {
+          this.processing = false
+          this.justSubscribed = true
+          this.successSubscribingMessage = 'Thanks for subscribing!'
+          unselectSubscriptionPlan()
+        })
+        .catch((error) => {
         // First we set it just in case as backup
-        this.processing = false
-        this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
-        // Then we get the error msg:
-        try {
-          const errorMsg = error.response.data.message
-          console.log('error', errorMsg)
-          this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
-        } catch (e) {
-        }
-        // Probably don't need to do this but should:
-        unselectSubscriptionPlan()
-      })
+          this.processing = false
+          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+          // Then we get the error msg:
+          try {
+            const errorMsg = error.response.data.message
+            console.log('error', errorMsg)
+            this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
+          } catch (e) {
+          }
+          // Probably don't need to do this but should:
+          unselectSubscriptionPlan()
+        })
     },
 
     cancelSubscriptionClicked () {
@@ -173,19 +184,19 @@ export default {
       this.processing = true
       this.justCancelled = false
       return this.cancelSubscription()
-      .then((result) => {
-        this.processing = false
-        this.justSubscribed = false
-        console.log('cancel subscription')
-        this.justCancelled = true
-        this.successSubscribingMessage = 'Your subscription has been cancelled.'
-      })
-      .catch((error) => {
-        console.log('error', error)
-        this.processing = false
-        // this.justSubscribed = false
-        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-      })
+        .then((result) => {
+          this.processing = false
+          this.justSubscribed = false
+          console.log('cancel subscription')
+          this.justCancelled = true
+          this.successSubscribingMessage = 'Your subscription has been cancelled.'
+        })
+        .catch((error) => {
+          console.log('error', error)
+          this.processing = false
+          // this.justSubscribed = false
+          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+        })
     }
   },
 
@@ -229,35 +240,45 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import './../css/variables'
+.success-msg
+  margin-top 30px
+.subscribe-view
+  padding 20px
+  h1,h2,h3,h4
+    font-weight 200
+  .main-title
+    margin 30px 0
+  .secondary-title
+    margin 20px 0
 
-.cancel-button {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid black;
-}
+.cancel-button
+  cursor pointer
+  background white
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid black
+  border-radius 3px
 
-.pay-button {
-  background: #ceffa8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 2px solid #33ff00;
-  box-shadow: 1px 1px 2px #888888;
-}
-.pay-button:disabled {
-  background: #e8e8e8;
-  padding: 9px 14px;
-  margin: 17px 0px;
-  border: 1px solid #b9b9b9;
-  opacity: 0.3;
-}
+.pay-button
+  background #ceffa8
+  padding 9px 14px
+  margin 17px 0px
+  border 2px solid #33ff00
+  box-shadow 1px 1px 2px #888888
 
-.stripe-card {
-  width: 300px;
-  border: 1px solid grey;
-}
-.stripe-card.complete {
-  border-color: #856AFF;
-}
+.pay-button:disabled
+  background #e8e8e8
+  padding 9px 14px
+  margin 17px 0px
+  border 1px solid #b9b9b9
+  opacity 0.3
+
+.stripe-card
+  width 300px
+  border 1px solid grey
+
+.stripe-card.complete
+  border-color primary-color
 </style>

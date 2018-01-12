@@ -1,7 +1,11 @@
 [ignore]
-.*/node_modules/vue-aplayer.*
+.*/node_modules/.*
+
 [libs]
 flow-typed
+node_modules/vue-flow-definitions/definitions/
+
 [options]
 module.file_ext=.js
 module.file_ext=.vue
+module.name_mapper='^components' ->'<PROJECT_ROOT>/src/components'

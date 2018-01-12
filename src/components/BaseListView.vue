@@ -1,17 +1,18 @@
 <template>
   <div class="news-view">
     <div class='search-bar' v-if="showFilteringElements">
-      <input type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+      <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
     </div>
     <div v-else>
       <br />
       <br />
     </div>
 
-    <div class='categories' v-if="showFilteringElements">
-      <span class='category-post' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
-      <span v-for="category in categories" @click="setSelectedCategory(category)" class='category-post' :class='getClassForCategory(category.name)'> {{category.name}}</span>
-    </div>
+    <category-list 
+      :categories="categories"
+      :active-category="activeCategory"
+      @setSelectedCategory="setSelectedCategory"
+      v-if="showFilteringElements" />
 
     <instructions :displayedPosts="displayedPosts"> </instructions>
     <transition :name="transition">
@@ -27,11 +28,12 @@
 </template>
 
 <script>
-
+/* @flow */
 import moment from 'moment'
-import Spinner from '@/components/Spinner.vue'
-import PostSummary from '@/components/PostSummary.vue'
-import Blank from '@/components/Blank.vue'
+import Spinner from 'components/Spinner.vue'
+import PostSummary from 'components/PostSummary.vue'
+import CategoryList from 'components/CategoryList.vue'
+import Blank from 'components/Blank.vue'
 
 export default {
   name: 'top-list',
@@ -39,12 +41,13 @@ export default {
   components: {
     instructions: Blank,
     Spinner,
+    CategoryList,
     PostSummary
   },
 
   data () {
     return {
-      playingPost: {title: 'starting title'},
+      playingPost: { title: 'starting title' },
       type: 'new',
       showFilteringElements: true,
       endPoint: 'fetchListData',
@@ -94,13 +97,13 @@ export default {
           id: '1069'
         }
       ],
-      activeCategory: {name: 'All', id: null},
+      activeCategory: { name: 'All', id: null },
       searchTerm: null
     }
   },
 
-  created: function () {
-    this.$store.commit('setActiveType', {type: this.type})
+  created () {
+    this.$store.commit('setActiveType', { type: this.type })
   },
 
   watch: {
@@ -110,12 +113,9 @@ export default {
   },
 
   methods: {
-    setSelectedCategory (category) {
+    setSelectedCategory (category: any) {
       this.activeCategory = category
       this.resetPosts()
-    },
-    getClassForCategory (categoryName) {
-      return categoryName === this.activeCategory.name ? 'category-active' : ''
     },
     makeSearch () {
       if (this.searchTerm === ' ') {
@@ -128,16 +128,18 @@ export default {
         return
       }
       this.loading = true
-      let params = {
+      const params = {
         type: this.type,
-        category: this.activeCategory.id
+        category: this.activeCategory.id,
+        search: undefined,
+        createdAtBefore: undefined
       }
 
       if (this.searchTerm) {
         params.search = this.searchTerm
       }
       if (this.displayedPosts.length > 0) {
-        let lastPost = this.displayedPosts[this.displayedPosts.length - 1]
+        const lastPost = this.displayedPosts[this.displayedPosts.length - 1]
         params.createdAtBefore = moment(lastPost.date).toISOString()
       }
       this.$store.dispatch(this.endPoint, params)
@@ -161,7 +163,7 @@ export default {
       this.loading = false
       this.loadMore()
     },
-    playPodcast (post) {
+    playPodcast (post: any) {
       console.log('inside play podacst')
       this.playingPost = post
       console.log(post)
@@ -171,20 +173,7 @@ export default {
 </script>
 
 <style lang="stylus">
-
-
-.categories
-  padding-bottom 20px
-
-.category-post
-  margin 5px 20px
-  display inline-block
-  cursor pointer
-  &:hover
-    text-decoration underline
-
-.category-active
-  color #3F58AF
+@import './../css/variables'
 
 .news-view
   padding-top 10px
@@ -244,31 +233,38 @@ export default {
     width 100%
     margin 20px 0
     padding 10px
+    font-size 2rem
+    font-weight 100
+    color #C4C4C4
+    padding-left 20px
+    border none
+    border-bottom 1px solid #ccc
+
 /* Filters */
 .filters
-  position: relative
-  margin-top: 1em
+  position relative
+  margin-top 1em
   input
-    width: 100%
+    width 100%
   button
-    background-color: #3F58AF
-    color: #fff
-    box-shadow: none
-    border: none
-    font-size: 14px
-    height: 30px
-    border-radius: 2px
+    background-color #3F58AF
+    color #fff
+    box-shadow none
+    border none
+    font-size 14px
+    height 30px
+    border-radius 2px
 
 .active-tags
-  margin-top: 1em
+  margin-top 1em
 
 .active-tag
-  padding: .5em
-  color: #fff
-  background-color: #3F58AF
+  padding .5em
+  color #fff
+  background-color #3F58AF
 
 .remove-tag-button:hover
-  cursor: pointer;
+  cursor pointer
 
 .spinner-holder
   width 100%
@@ -276,22 +272,20 @@ export default {
   margin 10px
 
 .auto-complete
-  width: 200px;
-  background: #fff;
-  padding: 1em;
-  position: absolute;
-  top: 30px;
-  z-index: 1000
-  box-shadow: 6px 0px 10px #efefef
+  width 200px
+  background #fff
+  padding 1em
+  position absolute
+  top 30px
+  z-index 1000
+  box-shadow 6px 0px 10px #efefef
   .add-tag-button
-    color: #3F58AF
-    font-size: 10px
+    color #3F58AF
+    font-size 10px
   .add-tag-button:hover
-    cursor: pointer;
+    cursor pointer
 
 @media (max-width 600px)
-  .category-post
-    width 100%
   .news-list
     margin 10px 0
 
