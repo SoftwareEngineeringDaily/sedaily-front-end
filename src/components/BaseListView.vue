@@ -8,14 +8,11 @@
       <br />
     </div>
 
-    <div class='categories' v-if="showFilteringElements">
-      <span class='category-post' @click="setSelectedCategory({name: 'All', id: null})" :class='getClassForCategory("All")'>All</span>
-      <span v-for="category in categories"
-        :key="category.id"
-        @click="setSelectedCategory(category)"
-        class='category-post'
-        :class='getClassForCategory(category.name)'> {{category.name}}</span>
-    </div>
+    <category-list 
+      :categories="categories"
+      :active-category="activeCategory"
+      @setSelectedCategory="setSelectedCategory"
+      v-if="showFilteringElements" />
 
     <instructions :displayedPosts="displayedPosts"> </instructions>
     <transition :name="transition">
@@ -35,6 +32,7 @@
 import moment from 'moment'
 import Spinner from 'components/Spinner.vue'
 import PostSummary from 'components/PostSummary.vue'
+import CategoryList from 'components/CategoryList.vue'
 import Blank from 'components/Blank.vue'
 
 export default {
@@ -43,6 +41,7 @@ export default {
   components: {
     instructions: Blank,
     Spinner,
+    CategoryList,
     PostSummary
   },
 
@@ -118,9 +117,6 @@ export default {
       this.activeCategory = category
       this.resetPosts()
     },
-    getClassForCategory (categoryName: string) {
-      return categoryName === this.activeCategory.name ? 'category-active' : ''
-    },
     makeSearch () {
       if (this.searchTerm === ' ') {
         this.searchTerm = null
@@ -178,26 +174,6 @@ export default {
 
 <style lang="stylus">
 @import './../css/variables'
-
-.categories
-  padding-bottom 20px
-
-.category-post
-  margin 5px 20px
-  display inline-block
-  cursor pointer
-  color #C4C4C4
-  padding 5px 20px
-  border-radius 3px
-  &:hover
-    color white
-    background primary-color
-
-.category-active
-  color  primary-color
-  padding 5px 20px
-  border-radius 3px
-  border 1px solid primary-color
 
 .news-view
   padding-top 10px
@@ -310,8 +286,6 @@ export default {
     cursor pointer
 
 @media (max-width 600px)
-  .category-post
-    width 100%
   .news-list
     margin 10px 0
 
