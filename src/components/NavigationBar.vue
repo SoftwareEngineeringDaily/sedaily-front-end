@@ -63,6 +63,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+
 .header .call-to-action
   color white
   text-decoration none

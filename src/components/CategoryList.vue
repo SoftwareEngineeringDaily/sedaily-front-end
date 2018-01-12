@@ -39,9 +39,10 @@ export default {
 @import './../css/variables'
 
 .categories
-  overflow auto
-  white-space nowrap
   margin-bottom 10px
+  @media (max-width 600px)
+    overflow auto
+    white-space nowrap
 
 .category-post
   text-align center
@@ -56,8 +57,7 @@ export default {
 
 .category-active
   border 1px solid primary-color
+  color primary-color
   &:hover
     border-radius 3px
-
 </style>
-
