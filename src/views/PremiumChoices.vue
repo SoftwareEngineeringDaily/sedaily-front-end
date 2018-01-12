@@ -204,11 +204,6 @@ button:hover
   background primary-color
   color white
 
-.container
-  background white
-  padding 30px
-	box-shadow 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3
-
 .why-subscribe-title
   margin 0 auto
   margin-top 50px
@@ -231,4 +226,9 @@ button:hover
 
 .question-title
   margin 20px 0
+
+.container
+  background white
+  padding 30px
+
 </style>
