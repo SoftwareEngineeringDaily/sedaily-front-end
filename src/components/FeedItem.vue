@@ -3,12 +3,12 @@
     <div class="feed-image" :style="imageStyle" />
     <div class="feed-item-title">
       <a :href="feedItem.url | externalUrl" target="_blank"
-            rel="external nofollow">
+            rel="external nofollow" class="link">
          <span class='title'>{{feedItem.title || feedItem.url}}</span>
        </a>
     </div>
-    <div class="feed-item-description">{{feedItem.description}}</div>
-    <div class="feed-item-votes">Votes: {{feedItem.score}}</div>
+    <div class="feed-item-description simple-text">{{feedItem.description}}</div>
+    <div class="feed-item-votes simple-text">Votes: {{feedItem.score}}</div>
   </div>
 </template>
 
@@ -44,7 +44,13 @@ export default {
   border 1px solid very-light-grey
 
 .feed-item-title
-  font-size 1.1em
+  padding 10px
+  font-size 2.1em
+  .link
+    color primary-color
+.simple-text
+  padding 10px
+
 
 .votes
   padding-top 5px
