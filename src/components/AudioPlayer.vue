@@ -16,14 +16,16 @@
       </div>
 
       <div class="music-description" v-html="music.title" />
-      
+
       <audio ref="player" @play="onPlay" @pause="onPause" @timeupdate="onTimeUpdate" @volumechange="onVolumeChange" @canplay="onCanPlay">
         <source :src="music.url" type="audio/mpeg" />
-      </audio>      
+      </audio>
     </div>
   </div>
-  <div class="progress">
-    <vue-slider v-bind="progressOptions" v-model="progressOptions.value"></vue-slider>
+  <div class="progress-slider">
+    <vue-slider v-bind="progressOptions"
+      v-model="sliderProgress"
+      @callback="onSliderChange" />
   </div>
 </div>
 </template>
@@ -46,20 +48,48 @@ export default {
       isPlaying: false,
       isPaused: false,
       isMuted: false,
-      duration: 0,
       doubleSpeed: false,
+      progress: 0,
       progressOptions: {
         min: 0,
         max: 100,
         width: '100%',
-        height: 10,
+        height: 8,
+        clickable: true,
         show: true,
-        dotSize: 8,
+        tooltip: 'hover',
+        padding: 0,
+        dotSize: 10,
         interval: 0.1,
-        bgStyle: {
-          color: '#856AFF'
+        formatter (value) {
+          const secondToTime = (second) => {
+            if (isNaN(second)) {
+              return '00:00'
+            }
+
+            const add0 = (num) => {
+              return num < 10 ? '0' + num : '' + num
+            }
+
+            const min = parseInt(second / 60)
+            const sec = parseInt(second - min * 60)
+            const hours = parseInt(min / 60)
+            const minAdjust = parseInt((second / 60) - (60 * parseInt((second / 60) / 60)))
+            return second >= 3600 ? add0(hours) + ':' + add0(minAdjust) + ':' + add0(sec) : add0(min) + ':' + add0(sec)
+          }
+
+          return secondToTime(value) + ' / ' + secondToTime(this.max)
         },
-        value: 0
+        processStyle: {
+          backgroundColor: '#856AFF'
+        },
+        tooltipStyle: {
+          backgroundColor: '#856AFF',
+          fontSize: '0.7em'
+        },
+        bgStyle: {
+          padding: 0
+        }
       }
     }
   },
@@ -74,10 +104,19 @@ export default {
   computed: {
     imageStyle () {
       return `background: url('${this.music.pic}') center center / cover no-repeat`
+    },
+    sliderProgress: {
+      get () { return this.progress },
+      set (value) { this.progress = value }
     }
   },
   methods: {
+    onSliderChange (value) {
+      this.$refs.player.currentTime = value
+    },
     onCanPlay () {
+      this.progressOptions.max = this.$refs.player.duration
+      this.progress = this.$refs.player.currentTime
       this.$refs.player.play()
     },
     onPause () {
@@ -92,7 +131,7 @@ export default {
       this.isPaused = false
     },
     onTimeUpdate () {
-      this.progressOptions.value = Math.round((this.$refs.player.currentTime / this.$refs.player.duration) * 100, 1)
+      this.progress = this.$refs.player.currentTime
     },
     pause () {
       this.$refs.player.pause()
@@ -116,7 +155,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import './../css/variables'
- 
+
 .audio-player-container
   display flex
   flex-direction row
@@ -146,7 +185,7 @@ export default {
       display flex
       flex-direction column
       justify-content center
-      align-items center     
+      align-items center
       margin 0 10px
       .speed
         align-self flex-start
@@ -155,10 +194,12 @@ export default {
         min-width 30px
       .mute
         cursor pointer
-        float left 
+        float left
     .music-description
       color #999
       font-size: 0.9em
-.progress
+.progress-slider
   margin-top 5px
+  .vue-slider-component
+    padding 0
 </style>

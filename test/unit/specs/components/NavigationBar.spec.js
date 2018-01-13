@@ -19,7 +19,8 @@ describe('NavigationBar.vue', (done) => {
     router = new Router()
 
     actions = {
-      logout: sandbox.stub().returns(false)
+      logout: sandbox.stub().returns(false),
+      fetchMyProfileData: sandbox.stub().returns(false)
     }
   })
 
