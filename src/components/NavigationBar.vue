@@ -27,11 +27,11 @@
       style='float:right;margin-right: 1em;' v-if='!alreadySubscribed'
         class="call-to-action"
       >
-        Subscribe!
+        Subscribe
       </router-link>
 
       <span v-if='isLoggedIn' style='float:right;'>
-        <router-link v-if='alreadySubscribed' to="/premium" name="top-nav-link"
+        <router-link v-if='alreadySubscribed' to="/subscribe" name="top-nav-link"
         class="subscribed"
         >Subscribed</router-link>
 

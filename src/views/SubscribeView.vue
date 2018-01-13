@@ -165,6 +165,8 @@ export default {
           this.justSubscribed = true
           this.successSubscribingMessage = 'Thanks for subscribing!'
           unselectSubscriptionPlan()
+          // Ghetto, to update to Navbar menu button
+          this.fetchMyProfileData()
         })
         .catch((error) => {
         // First we set it just in case as backup
@@ -193,6 +195,8 @@ export default {
           console.log('cancel subscription')
           this.justCancelled = true
           this.successSubscribingMessage = 'Your subscription has been cancelled.'
+          // Ghetto, to update to Navbar menu button
+          this.fetchMyProfileData()
         })
         .catch((error) => {
           console.log('error', error)
