@@ -2,7 +2,6 @@
   <div id='app' class='subscribe-view'>
     <div v-if="loadingUser">
 
-
       <spinner :show="loadingUser"></spinner>
     </div>
     <div v-if="alreadySubscribed">
