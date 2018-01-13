@@ -17,7 +17,11 @@
 
       <div class="music-description" v-html="music.title" />
 
-      <audio ref="player" @play="onPlay" @pause="onPause" @timeupdate="onTimeUpdate" @volumechange="onVolumeChange" @canplay="onCanPlay">
+      <audio ref="player" @play="onPlay" 
+        @pause="onPause" 
+        @timeupdate="onTimeUpdate" 
+        @volumechange="onVolumeChange" 
+        @canplay="onCanPlay">
         <source :src="music.url" type="audio/mpeg" />
       </audio>
     </div>
@@ -96,7 +100,6 @@ export default {
   watch: {
     music (newValue) {
       if (newValue.url) {
-        this.progressPct = 0
         this.$refs.player.load()
       }
     }
