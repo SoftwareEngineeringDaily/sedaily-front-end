@@ -14,12 +14,12 @@
 
 <script>
 /* @flow */
-import VueAplayer from './VuePlayerClone.vue'
+import AudioPlayer from './AudioPlayer.vue'
 
 export default {
   name: 'sticky-player',
   components: {
-    'a-player': VueAplayer
+    'a-player': AudioPlayer
   },
   data () {
     return {
