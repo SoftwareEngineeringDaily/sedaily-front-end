@@ -1,6 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
 import Router from 'vue-router'
 import App from '@/App.vue'
 import initialState from '@/store/initialState'
@@ -10,7 +9,6 @@ describe('App.vue', (done) => {
 
   localVue.use(Vuex)
   localVue.use(Router)
-  localVue.use(Vuetify)
 
   let sandbox
   let router
