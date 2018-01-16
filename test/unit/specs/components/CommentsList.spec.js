@@ -1,6 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
 import Router from 'vue-router'
 import initialState from '@/store/initialState'
 import CommentsList from '@/components/CommentsList.vue'
@@ -12,7 +11,6 @@ describe('CommentsList.vue', (done) => {
 
   localVue.use(Vuex)
   localVue.use(Router)
-  localVue.use(Vuetify)
 
   let sandbox
 

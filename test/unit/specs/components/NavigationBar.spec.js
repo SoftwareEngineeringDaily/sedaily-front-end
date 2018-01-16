@@ -1,6 +1,5 @@
 import { mount, shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
 import Router from 'vue-router'
 import NavigationBar from '@/components/NavigationBar.vue'
 
@@ -9,7 +8,6 @@ describe('NavigationBar.vue', (done) => {
 
   localVue.use(Vuex)
   localVue.use(Router)
-  localVue.use(Vuetify)
 
   let sandbox
   let actions
@@ -21,7 +19,8 @@ describe('NavigationBar.vue', (done) => {
     router = new Router()
 
     actions = {
-      logout: sandbox.stub().returns(false)
+      logout: sandbox.stub().returns(false),
+      fetchMyProfileData: sandbox.stub().returns(false)
     }
   })
 

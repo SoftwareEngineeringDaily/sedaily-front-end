@@ -42,6 +42,6 @@ describe('FeedItem.vue', () => {
     }
 
     const wrapper = createComponentWrapper(feedItemWithoutImage)
-    expect(wrapper.vm.image).to.not.be.an('undefined')
+    expect(wrapper.vm.imageStyle).to.not.be.an('undefined')
   })
 })

@@ -1,39 +1,25 @@
 <template>
   <div id='sticky-player'>
-
-        <a-player :music="{
-          title: this.$store.state.activePlayerPost.title.rendered || ' ',
-          author: ' ',
-          url: this.$store.state.activePlayerPost.mp3 || ' ' ,
-          pic: this.$store.state.activePlayerPost.featuredImage || ' ',
-          lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-        }"></a-player>
-
+    <a-player :music="{
+      title: this.activePlayerPost.title.rendered || ' ',
+      url: this.activePlayerPost.mp3 || ' ' ,
+      pic: this.activePlayerPost.featuredImage || ' '
+    }" />
   </div>
 </template>
 
 <script>
 /* @flow */
-import VueAplayer from './VuePlayerClone.vue'
+import AudioPlayer from 'components/AudioPlayer.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'sticky-player',
   components: {
-    'a-player': VueAplayer
+    'a-player': AudioPlayer
   },
-  data () {
-    return {
-      playingPost: null
-    }
+  computed: {
+    ...mapState(['activePlayerPost'])
   }
 }
 </script>
-
-<style scoped lang="stylus">
-#bigDiv
-  height 150vh
-
-#toolbar
-  position sticky
-  top 1px
-</style>

@@ -2,9 +2,10 @@
 <template>
   <div>
     <h1> Feed </h1>
-    <br />
+
+    <div class="feed-list">
       <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
-    <br />
+    </div>
   </div>
 </template>
 
@@ -55,4 +56,9 @@ export default {
 h1
   text-align center
   margin 30px auto
+
+.feed-list
+  display flex
+  flex-direction column
+  justify-content space-around
 </style>
