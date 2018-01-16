@@ -27,9 +27,11 @@
 
           <p class="meta">
 
-            <span class="play-button" @click='setActivePostInPlayer(post)'>
-              <img class="play-icon" src="../assets/play.png" alt="play">
+            <span class="player-controls">
+              <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
+              <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
             </span>
+
             <span class='details-about-post'>
               {{ post.score || 0 }} points
               <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
@@ -129,6 +131,7 @@ import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 import VotingArrows from '@/components/VotingArrows.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import { PlayerState } from './../utils/playerState'
 
 export default {
   name: 'post-view',
@@ -160,8 +163,29 @@ export default {
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
+
+    isActiveEpisode () {
+      return this.activePlayerPost && this.activePlayerPost._id === this.post._id
+    },
+
+    canPause () {
+      return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
+    },
+
+    canPlay () {
+      return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
+    },
+
     ...mapGetters(['isLoggedIn']),
     ...mapState({
+      activePlayerPost (state) {
+        return state.activePlayerPost
+      },
+
+      playerState (state) {
+        return state.playerState
+      },
+
       postId (state) {
         return state.route.params.id
       },
@@ -199,10 +223,18 @@ export default {
 
   methods: {
     ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch']),
-
-    setActivePostInPlayer: function (post:any) {
-      this.$store.commit('setActivePostInPlayer', { post })
+      'downvote', 'fetchArticle', 'commentsFetch', 'playEpisode', 'updatePlayerState']),
+    play () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PLAYING)
+      } else {
+        this.playEpisode(this.post)
+      }
+    },
+    pause () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PAUSED)
+      }
     },
     selectPostContent () {
       this.showRelatedLinks = false
@@ -244,14 +276,14 @@ export default {
 .primary-post-header
   padding-top 2rem
 
-.play-button
-  height 80px
-  top 40px
-  left 70px
-  cursor pointer
-  .play-icon
-    width 80px
-    margin-top -20px
+.player-controls
+  color white
+  margin-left 10px
+  margin-bottom 15px
+  .player-control
+    width 25px
+    margin 0 10px
+    cursor pointer
 
 .details-about-post
   margin-top 20px
