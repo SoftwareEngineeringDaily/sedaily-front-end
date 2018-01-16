@@ -8,18 +8,33 @@
           Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank" class="link"> Github</a>.
         </div>
       </div>
-    </div>
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
-    </transition>
+      <div class="row text-center">
 
-    <transition name="fade" mode="out-in">
-      <div class="player-holder" v-show="isPlayerActive">
-        <sticky-player ></sticky-player>
+        <div class='col-md-12' v-if="showBeta">
+          <br />
+          <h3> Check out the apps: </h3>
+
+          <a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8" target="_blank">
+            <img src="./assets/iosstore.png" class="icon" />
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en" target="_blank">
+            <img src="./assets/androidstore.png" class="icon" />
+          </a>
+        </div>
       </div>
-    </transition>
+</div>
+<transition name="fade" mode="out-in">
+  <router-view class="view"></router-view>
+</transition>
 
+<transition name="fade" mode="out-in">
+  <div class="player-holder" v-show="isPlayerActive">
+    <sticky-player ></sticky-player>
   </div>
+</transition>
+
+</div>
 </template>
 
 <script>
@@ -144,6 +159,10 @@ a
   position fixed
   bottom 0
   left 0
+
+.icon {
+  width: 150px;
+}
 
 .logo
   width 30px
