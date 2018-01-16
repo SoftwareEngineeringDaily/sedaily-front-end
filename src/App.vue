@@ -10,7 +10,7 @@
       </div>
       <div class="row text-center">
 
-        <div class='col-md-12'>
+        <div class='col-md-12' v-if="showBeta">
           <br />
           <h3> Check out the apps: </h3>
 
