@@ -262,6 +262,7 @@ export default {
   .icon
     padding-right 20px
     cursor pointer
+    max-width 55px
     opacity 0.4
     &.active
       opacity 1
