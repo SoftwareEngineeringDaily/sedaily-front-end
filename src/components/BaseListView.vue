@@ -8,7 +8,7 @@
       <br />
     </div>
 
-    <category-list 
+    <category-list
       :categories="categories"
       :active-category="activeCategory"
       @setSelectedCategory="setSelectedCategory"
@@ -123,7 +123,7 @@ export default {
       }
       this.resetPosts()
     },
-    loadMore () {
+    loadMore (newSearch:boolean = false) {
       if (this.endOfPosts) {
         return
       }
@@ -144,6 +144,10 @@ export default {
       }
       this.$store.dispatch(this.endPoint, params)
         .then((result) => {
+          if (newSearch) {
+            this.displayedPosts = []
+          }
+
           if (result && result.posts && result.posts.length > 0) {
             this.displayedPosts = this.displayedPosts.concat(result.posts)
           } else {
@@ -161,7 +165,7 @@ export default {
       this.displayedPosts = []
       this.endOfPosts = false
       this.loading = false
-      this.loadMore()
+      this.loadMore(true)
     },
     playPodcast (post: any) {
       console.log('inside play podacst')
