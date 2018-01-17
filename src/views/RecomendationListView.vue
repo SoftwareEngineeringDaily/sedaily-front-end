@@ -17,7 +17,7 @@ export default {
   },
 
   methods: {
-    loadMore () {
+    loadMore (newSearch = false) {
       // TODO: note that we have to override this method
       // because it seems like fetchRecommendations /
       // /posts/recommendations? does not resport createdAtBefore
@@ -36,6 +36,10 @@ export default {
 
       this.$store.dispatch(this.endPoint, params)
         .then((result) => {
+          if (newSearch) {
+            this.displayedPosts = []
+          }
+
           if (result && result.posts && result.posts.length > 0) {
             this.displayedPosts = this.displayedPosts.concat(result.posts)
           }
