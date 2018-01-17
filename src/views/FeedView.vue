@@ -33,6 +33,14 @@ export default {
             this.loading = false
           })
       })
+      .catch((error) => {
+        console.log('error logging in', error)
+
+        this.fetchMyFeed({ userId: null })
+          .then((feedItems) => {
+            this.loading = false
+          })
+      })
   },
   methods: {
     ...mapActions(['fetchMyProfileData', 'fetchMyFeed'])
