@@ -22,7 +22,7 @@
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
+          <router-link :to="'/post/' + post._id + '/' + postUrlTitle ">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
 
@@ -62,6 +62,23 @@ export default {
   components: { VotingArrows },
   computed: {
     ...mapState(['activePlayerPost', 'playerState']),
+    postUrlTitle () {
+      try {
+        const originalTitle = this.post.title.rendered
+        if (originalTitle) {
+          let title = originalTitle.replace(/[^\w\s]/gi, '')
+          // Ghetto way to replace strings, should use regex:
+          title = title.split(' ').join('-')
+          return title
+        } else {
+          return ''
+        }
+      } catch (e) {
+        console.log('e', e)
+        return ''
+      }
+    },
+
     featuredImage () {
       return this.post.featuredImage
         ? this.post.featuredImage
