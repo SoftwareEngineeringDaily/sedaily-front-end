@@ -1,6 +1,7 @@
 <template>
   <div id='sticky-player'>
     <a-player :music="music"
+      @finished="onFinished"
       :playing.sync="isPlaying"
       :paused.sync="isPaused" />
   </div>
@@ -11,7 +12,7 @@
 
 import AudioPlayer from 'components/AudioPlayer.vue'
 import { PlayerState } from './../utils/playerState'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'sticky-player',
@@ -25,21 +26,30 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      music ({ activePlayerPost }) {
-        return {
-          title: activePlayerPost.title.rendered || ' ',
-          url: activePlayerPost.mp3 || ' ',
-          pic: activePlayerPost.featuredImage || ' '
-        }
-      },
-      playerState (state) {
-        return state.playerState
+    ...mapState([
+      'activePlayerPost',
+      'playerState'
+    ]),
+    music () {
+      return {
+        title: this.activePlayerPost.title.rendered || ' ',
+        url: this.activePlayerPost.mp3 || ' ',
+        pic: this.activePlayerPost.featuredImage || ' '
       }
-    })
+    },
+    ...mapGetters(['getNextEpisode'])
   },
   methods: {
-    ...mapActions(['updatePlayerState'])
+    ...mapActions([
+      'updatePlayerState',
+      'playEpisode'
+    ]),
+    onFinished () {
+      const nextEpisode = this.getNextEpisode(this.activePlayerPost)
+      if (nextEpisode) {
+        this.playEpisode(nextEpisode)
+      }
+    }
   },
   watch: {
     isPlaying (newValue: boolean) {
