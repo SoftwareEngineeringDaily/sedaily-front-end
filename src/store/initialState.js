@@ -1,4 +1,7 @@
+import { PlayerState } from './../utils/playerState'
+
 export default {
+  playerState: PlayerState.STOPPED,
   activePlayerPost: { title: {}},
   activeType: null,
   posts: {},

@@ -17,7 +17,8 @@ export default {
   props: {
     score: {
       type: Number,
-      required: true
+      required: false,
+      default: 0
     },
     upvoteHandler: {
       type: Function,
