@@ -17,10 +17,11 @@
 
       <div class="music-description" v-html="music.title" />
 
-      <audio ref="player" @play="onPlay" 
-        @pause="onPause" 
-        @timeupdate="onTimeUpdate" 
-        @volumechange="onVolumeChange" 
+      <audio ref="player" @play="onPlay"
+        @pause="onPause"
+        @timeupdate="onTimeUpdate"
+        @volumechange="onVolumeChange"
+        @ended="onEnded"
         @canplay="onCanPlay">
         <source :src="music.url" type="audio/mpeg" />
       </audio>
@@ -42,6 +43,16 @@ export default {
     music: {
       type: Object,
       required: true
+    },
+    paused: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    playing: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   components: {
@@ -102,6 +113,16 @@ export default {
       if (newValue.url) {
         this.$refs.player.load()
       }
+    },
+    paused (newValue) {
+      if (newValue) {
+        this.pause()
+      }
+    },
+    playing (newValue) {
+      if (newValue) {
+        this.play()
+      }
     }
   },
   computed: {
@@ -122,9 +143,15 @@ export default {
       this.progress = this.$refs.player.currentTime
       this.$refs.player.play()
     },
+    onEnded () {
+      this.$emit('finished')
+    },
     onPause () {
       this.isPaused = true
       this.isPlaying = false
+
+      this.$emit('update:paused', true)
+      this.$emit('update:playing', false)
     },
     onVolumeChange () {
       this.isMuted = this.$refs.player.muted
@@ -132,6 +159,9 @@ export default {
     onPlay () {
       this.isPlaying = true
       this.isPaused = false
+
+      this.$emit('update:paused', false)
+      this.$emit('update:playing', true)
     },
     onTimeUpdate () {
       this.progress = this.$refs.player.currentTime

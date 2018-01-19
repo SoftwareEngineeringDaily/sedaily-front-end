@@ -7,6 +7,10 @@ export default {
     state.activePlayerPost = post
   },
 
+  updatePlayerState: (state, playerState) => {
+    state.playerState = playerState
+  },
+
   setActiveType: (state, { type }) => {
     state.activeType = type
   },

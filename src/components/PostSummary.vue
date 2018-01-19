@@ -8,10 +8,12 @@
       :score="post.score">
     </voting-arrows>
     <div class="news-content" style="width: 80%;">
-      <img class="hero-img" :src="featuredImage" />
-      <span class="play-button" @click='setActivePostInPlayer(post)'>
-        <img class="play-icon" src="../assets/play.png" alt="play">
-      </span>
+      <div class="image" :style="imageStyle">
+        <div class="player-controls">
+          <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
+          <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+        </div>
+      </div>
 
       <div class="title">
         <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
@@ -46,6 +48,8 @@
 /* @flow */
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
+import { PlayerState } from './../utils/playerState'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'PostSummary',
@@ -57,6 +61,7 @@ export default {
   },
   components: { VotingArrows },
   computed: {
+    ...mapState(['activePlayerPost', 'playerState']),
     postUrlTitle () {
       try {
         const originalTitle = this.post.title.rendered
@@ -73,17 +78,46 @@ export default {
         return ''
       }
     },
+
     featuredImage () {
-      return this.post.featuredImage ? this.post.featuredImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+      return this.post.featuredImage
+        ? this.post.featuredImage
+        : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
 
     date () {
       return moment(this.post.date).format('MMMM Do, YYYY')
+    },
+
+    imageStyle () {
+      return `background: url('${this.featuredImage}') center center / cover no-repeat`
+    },
+
+    isActiveEpisode () {
+      return this.activePlayerPost && this.activePlayerPost._id === this.post._id
+    },
+
+    canPause () {
+      return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
+    },
+
+    canPlay () {
+      return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     }
   },
   methods: {
-    setActivePostInPlayer (post:any) {
-      this.$store.commit('setActivePostInPlayer', { post })
+    ...mapActions(['playEpisode', 'updatePlayerState']),
+    play () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PLAYING)
+      } else {
+        this.playEpisode(this.post)
+      }
+    },
+    pause () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PAUSED)
+      }
     },
     upvoteHandler () {
       console.log(this.post)
@@ -120,9 +154,20 @@ export default {
     justify-content center
     max-width 100%
 
-  .hero-img
-    width 100px
-    margin-bottom 15px
+  .image
+    display flex
+    align-items center
+    justify-content center
+    height 96px
+    width 192px
+    .player-controls
+      color white
+      margin 0 10px
+      .player-control
+        text-shadow 2px 2px #999
+        width 25px
+        margin 0 10px
+        cursor pointer
 
   .play-button
     width 80px
