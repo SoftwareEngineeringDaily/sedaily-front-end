@@ -16,25 +16,27 @@
           class="dropdown-toggle"
           @mouseover.native="showDropdownMenu"
           name="new-nav-link">Podcast</router-link>
-          <div class="dropdown-menu"
-            @mouseleave.stop="hideDropdownMenu"
-            :style="dropdownMenuStyle">
-            <router-link to="/new"
-              class="dropdown-item"
-              name="feed-nav-link"
-              exact
-              >New</router-link>
-            <router-link to="/top"
-              class="dropdown-item"
-              name="feed-nav-link"
-              exact
-              >Top</router-link>
-            <router-link to="/recommended"
-              class="dropdown-item"
-              name="feed-nav-link"
-              exact
-              >Recommended</router-link>
-          </div>
+          <transition name="fade">
+            <div class="dropdown-menu"
+              @mouseleave.stop="hideDropdownMenu"
+              v-show="dropdownVisible">
+              <router-link to="/new"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >New</router-link>
+              <router-link to="/top"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >Top</router-link>
+              <router-link to="/recommended"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >Recommended</router-link>
+            </div>
+          </transition>
       </span>
 
       <span class="pull-right">
@@ -76,9 +78,7 @@ export default {
 
   data () {
     return {
-      dropdownMenuStyle: {
-        display: 'none'
-      }
+      dropdownVisible: false
     }
   },
 
@@ -115,14 +115,10 @@ export default {
       this.$router.replace('/')
     },
     showDropdownMenu () {
-      this.dropdownMenuStyle = {
-        display: 'block'
-      }
+      this.dropdownVisible = true
     },
     hideDropdownMenu () {
-      this.dropdownMenuStyle = {
-        display: 'none'
-      }
+      this.dropdownVisible = false
     }
   }
 }
@@ -138,4 +134,16 @@ export default {
     margin-right 1em
   a.router-link-active
     text-decoration none
+
+.fade-enter-active, .fade-leave-active
+  transform translateY(0%)
+  transition-delay 0s, 0s, 0.3s
+
+.fade-enter, .fade-leave-to
+  transform translateY(-2em)
+  z-index -1
+  transition all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s
+
+.dropdown-menu
+  display block
 </style>
