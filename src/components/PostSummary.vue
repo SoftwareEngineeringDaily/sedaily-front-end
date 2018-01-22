@@ -7,11 +7,14 @@
       :downvoteHandler="downvoteHandler"
       :score="post.score">
     </voting-arrows>
-    <div class="news-content" style="width: 80%;">
+    <div class="news-content">
       <div class="image" :style="imageStyle">
-        <div class="player-controls">
+        <div class="player-controls" v-if="post.mp3">
           <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
           <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+        </div>
+        <div class="player-controls" v-else>
+          <span class="fa fa-2x fa-file-text-o text-only" title="Text-only" />
         </div>
       </div>
 
@@ -152,6 +155,7 @@ export default {
     display inline-flex
     flex-direction column
     justify-content center
+    width 80%
     max-width 100%
 
   .image
@@ -168,6 +172,8 @@ export default {
         width 25px
         margin 0 10px
         cursor pointer
+        &.text-only
+          cursor default
 
   .play-button
     width 80px
