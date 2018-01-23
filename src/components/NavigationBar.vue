@@ -12,31 +12,34 @@
         >Feed</router-link>
 
       <span class="dropdown">
-        <router-link to="/"
-          class="dropdown-toggle"
-          @mouseover.native="showDropdownMenu"
-          name="new-nav-link">Podcast</router-link>
-          <transition name="fade">
-            <div class="dropdown-menu"
-              @mouseleave.stop="hideDropdownMenu"
-              v-show="dropdownVisible">
-              <router-link to="/new"
-                class="dropdown-item"
-                name="feed-nav-link"
-                exact
-                >New</router-link>
-              <router-link to="/top"
-                class="dropdown-item"
-                name="feed-nav-link"
-                exact
-                >Top</router-link>
-              <router-link to="/recommended"
-                class="dropdown-item"
-                name="feed-nav-link"
-                exact
-                >Recommended</router-link>
-            </div>
-          </transition>
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="podcastMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false">
+          Podcast
+        </button>
+        <div
+          class="dropdown-menu"
+          aria-labelledby="podcastMenuButton">
+          <router-link to="/new"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >New</router-link>
+          <router-link to="/top"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Top</router-link>
+          <router-link to="/recommended"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Recommended</router-link>
+        </div>
       </span>
 
       <span class="pull-right">
@@ -125,6 +128,26 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+
+.btn-secondary
+  font-size 14px
+  color primary-color
+  box-shadow none
+  &:hover
+    border-color white
+    color white
+    background-color primary-color
+  &:focus
+    box-shadow none
+
+.show
+  .btn-secondary
+    &.dropdown-toggle
+      border-color white
+      color white
+      background-color primary-color
+
 .header
   .call-to-action
     color white
@@ -134,16 +157,4 @@ export default {
     margin-right 1em
   a.router-link-active
     text-decoration none
-
-.fade-enter-active, .fade-leave-active
-  transform translateY(0%)
-  transition-delay 0s, 0s, 0.3s
-
-.fade-enter, .fade-leave-to
-  transform translateY(-2em)
-  z-index -1
-  transition all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s
-
-.dropdown-menu
-  display block
 </style>
