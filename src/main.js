@@ -9,7 +9,6 @@ import * as filters from './filters'
 import { sync } from 'vuex-router-sync'
 import infiniteScroll from 'vue-infinite-scroll'
 import VeeValidate from 'vee-validate'
-import Vuetify from 'vuetify'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 
@@ -26,7 +25,6 @@ Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
-Vue.use(Vuetify)
 Vue.use(VueAnalytics, {
   id: 'UA-111896817-1',
   checkDuplicatedScript: true,

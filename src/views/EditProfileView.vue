@@ -12,7 +12,7 @@ import UpdateProfile from '@/components/UpdateProfile.vue'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'edit-profile',
-  components: {UpdateProfile},
+  components: { UpdateProfile },
   data () {
     return {
       loading: true,
@@ -27,7 +27,7 @@ export default {
       })
   },
   methods: {
-    ...mapActions([ 'fetchMyProfileData' ])
+    ...mapActions(['fetchMyProfileData'])
   },
 
   computed: {
@@ -39,6 +39,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

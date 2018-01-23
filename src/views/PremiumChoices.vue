@@ -96,7 +96,7 @@
       How does payment work for a subscription?
     </h4>
     <p class="question-answer">
-      You’ll need a credit card to sign up for a subscription. Payment’s are handled through stripe.
+      You’ll need a credit card to sign up for a subscription. Payments are handled through stripe.
     </p>
   </div>
 
@@ -106,7 +106,7 @@
       How do I cancel my subscription?
     </h4>
     <p class="question-answer">
-      You can cancel your subscription at anytime. Visit your subscription settings to cancel.
+      You can cancel your subscription at any time. Visit your subscription settings to cancel.
     </p>
   </div>
 
@@ -168,81 +168,67 @@ export default {
 }
 </script>
 
-<style scoped>
-h1 {
-  font-size: 4rem;
+<style scoped lang="stylus">
+@import './../css/variables'
 
-}
-.yearly-plan {
-}
-.subtitle {
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
+h1
+  font-size 4rem
 
-.plan-name {
-  font-size:
-}
-.price {
-  margin: 20px 0;
-}
+.subtitle
+  margin-top 20px
+  margin-bottom 50px
 
-.dollars {
-  font-size: 4rem;
-}
+.price
+  margin 20px 0
 
-.billed-terms {
-  display: block;
-  font-size: 2rem;
-}
+.dollars
+  font-size 4rem
 
+.billed-terms
+  display block
+  font-size 2rem
 
-button {
-  margin: 20px;
-  padding: 5px 0;
-  min-width: 200px;
-  transition: opacity 0.2s;
-}
-button:hover {
-  opacity: 0.5;
-}
-.monthly-button {
-  border: 1px solid black;
-}
+button
+  margin 20px
+  padding 5px 0
+  min-width 200px
+  transition opacity 0.2s
 
-.yearly-button {
-  background: #3f58af;
-  color: white;
-}
-.container {
-  background: white;
-  padding: 30px;
-	box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
-}
+button:hover
+  opacity 0.5
 
-.why-subscribe-title {
-  margin: 0 auto;
-  margin-top: 50px;
-  max-width: 80%;
-}
+.monthly-button
+  border 1px solid black
 
-.why-subscribe-inner {
-  margin:  30px auto;
-  max-width: 80%;
-}
+.yearly-button
+  background primary-color
+  color white
 
-.why-subscribe {
-  margin: 50px auto;
-  background: #F6F6F6;
-}
-.faq {
-  max-width: 80%;
-  margin: auto;
-}
-.question {
-  margin: 20px 0;
-}
-.question-title {
-  margin: 20px 0;
-}
+.why-subscribe-title
+  margin 0 auto
+  margin-top 50px
+  max-width 80%
+
+.why-subscribe-inner
+  margin  30px auto
+  max-width 80%
+
+.why-subscribe
+  margin 50px auto
+  background #F6F6F6
+
+.faq
+  max-width 80%
+  margin auto
+
+.question
+  margin 20px 0
+
+.question-title
+  margin 20px 0
+
+.container
+  background white
+  padding 30px
+
 </style>

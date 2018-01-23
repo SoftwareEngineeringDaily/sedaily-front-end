@@ -26,14 +26,24 @@
           </span>
 
           <p class="meta">
-            {{ post.score || 0 }} points
-            <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
-            {{ post.date | timeAgo }} ago
-            <social-sharing :url="post.url"
-                      :title="post.title.rendered"
-                      :description="postContent"
-                      twitter-user="software_daily"
-                      inline-template>
+
+            <span class="player-controls" v-if="post.mp3">
+              <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
+              <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+            </span>
+            <span class="player-controls" v-else>
+              <span class="fa fa-2x fa-file-text-o player-control text-only" title="Text-only" />
+            </span>
+
+            <span class='details-about-post'>
+              {{ post.score || 0 }} points
+              <!-- | by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link> -->
+              {{ post.date | timeAgo }} ago
+              <social-sharing :url="post.url"
+              :title="post.title.rendered"
+              :description="postContent"
+              twitter-user="software_daily"
+              inline-template>
               <div class="sharing">
                 <network network="facebook">
                   <i class="fa fa-facebook"></i> Facebook
@@ -46,6 +56,7 @@
                 </network>
               </div>
             </social-sharing>
+          </span>
           </p>
         </div>
       </div>
@@ -123,6 +134,7 @@ import RelatedLinkList from '@/components/RelatedLinkList.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 import VotingArrows from '@/components/VotingArrows.vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import { PlayerState } from './../utils/playerState'
 
 export default {
   name: 'post-view',
@@ -154,8 +166,29 @@ export default {
     comments () {
       return this.postComments[this.$route.params.id] || []
     },
+
+    isActiveEpisode () {
+      return this.activePlayerPost && this.activePlayerPost._id === this.post._id
+    },
+
+    canPause () {
+      return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
+    },
+
+    canPlay () {
+      return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
+    },
+
     ...mapGetters(['isLoggedIn']),
     ...mapState({
+      activePlayerPost (state) {
+        return state.activePlayerPost
+      },
+
+      playerState (state) {
+        return state.playerState
+      },
+
       postId (state) {
         return state.route.params.id
       },
@@ -193,7 +226,19 @@ export default {
 
   methods: {
     ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch']),
+      'downvote', 'fetchArticle', 'commentsFetch', 'playEpisode', 'updatePlayerState']),
+    play () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PLAYING)
+      } else {
+        this.playEpisode(this.post)
+      }
+    },
+    pause () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PAUSED)
+      }
+    },
     selectPostContent () {
       this.showRelatedLinks = false
       this.showComments = false
@@ -214,13 +259,12 @@ export default {
       this.showPostContent = false
       this.showRelatedLinks = true
     },
-
-    upvoteHandler: function () {
+    upvoteHandler () {
       this.upvote({
         id: this.postId
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.downvote({
         id: this.postId
       })
@@ -229,26 +273,36 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style scoped lang="stylus">
+@import './../css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
+.primary-post-header
+  padding-top 2rem
 
-.post-transcript {
-}
+.player-controls
+  color white
+  margin-left 10px
+  margin-bottom 15px
+  .player-control
+    width 25px
+    margin 0 10px
+    cursor pointer
+    &.text-only
+      cursor default
 
-.selection-icons {
-  margin-bottom: 30px;
-  .icon {
-    padding-right: 20px
-    cursor: pointer
+.details-about-post
+  margin-top 20px
+  display inline-block
+
+.selection-icons
+  margin-bottom 30px
+  .icon
+    padding-right 20px
+    cursor pointer
+    max-width 55px
     opacity 0.4
-
-    &.active {
+    &.active
       opacity 1
-    }
-  }
-}
 
 .header-title
   margin-top 15px
@@ -257,7 +311,6 @@ secondary-color = #FF8B6A
 .post-view-header
   background primary-color
   color white
-  padding 1.8em 2em 1em
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
 
@@ -282,8 +335,7 @@ secondary-color = #FF8B6A
     top 0
     right 0
     bottom auto
-.related-links-container{
-}
+
 .comment-children
   list-style-type none
   padding 0

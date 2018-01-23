@@ -1,14 +1,14 @@
 
 import axios from 'axios'
-import {BASE_URL} from './config.js'
+import { BASE_URL } from './config.js'
 
 export default {
-  getS3SingedUploadUrl: ({commit, state, getters}, {fileName, fileType}) => {
+  getS3SingedUploadUrl: ({ commit, state, getters }, { fileName, fileType }) => {
   },
 
-  uploadAvatarImage: ({commit, state, getters}, { imageFile }) => {
-    let token = getters.getToken
-    let config = {}
+  uploadAvatarImage: ({ commit, state, getters }, { imageFile }) => {
+    const token = getters.getToken
+    const config = {}
     if (token) {
       config.headers = {
         'Authorization': 'Bearer ' + token
@@ -16,9 +16,9 @@ export default {
     }
 
     const fileType = imageFile.type
-    return axios.post(`${BASE_URL}/auth/sign-s3`, {fileType}, config)
+    return axios.post(`${BASE_URL}/auth/sign-s3`, { fileType }, config)
       .then((result) => {
-        const {signedRequest} = result.data
+        const { signedRequest } = result.data
         console.log('signedRequest', signedRequest)
         var options = {
           headers: {
@@ -29,32 +29,33 @@ export default {
       })
   },
 
-  fetchMyProfileData: ({commit, state, getters}) => {
-    let token = getters.getToken
-    let config = {}
+  fetchMyProfileData: ({ commit, state, getters }) => {
+    const token = getters.getToken
+    const config = {}
     if (!token) {
-      throw new Error('User not signed in.')
+      return Promise.reject('User not signed in.')
     }
+
     config.headers = {
       'Authorization': 'Bearer ' + token
     }
-    return axios.get(`${BASE_URL}/users/me`, config
-    )
-      .then(function (response) {
-        commit('setMe', {me: response.data})
+
+    return axios.get(`${BASE_URL}/users/me`, config)
+      .then((response) => {
+        commit('setMe', { me: response.data })
         return response
       })
-      .catch(function (error) {
-      // @TODO: Add pretty pop up here
+      .catch((error) => {
+        // @TODO: Add pretty pop up here
         console.log(error)
         alert(error.response.data.message)
         return error
       })
   },
 
-  updateProfile: ({commit, state, getters}, {id, username, bio, isAvatarSet, website, name, email}) => {
-    let token = getters.getToken
-    let config = {}
+  updateProfile: ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) => {
+    const token = getters.getToken
+    const config = {}
     if (token) {
       config.headers = {
         'Authorization': 'Bearer ' + token
@@ -69,11 +70,11 @@ export default {
       isAvatarSet,
       email
     }, config)
-      .then(function (response) {
-        commit('setMe', {me: response.data})
+      .then((response) => {
+        commit('setMe', { me: response.data })
         return response
       })
-      .catch(function (error) {
+      .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
         alert(error.response.data.message)

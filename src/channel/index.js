@@ -12,7 +12,7 @@ export function joinChatChannel ({ token }) {
   socket.onClose(() => store.commit('setChatOffline'))
 
   lobbyChannel.join()
-    .receive('ok', ({messages}) => {
+    .receive('ok', ({ messages }) => {
       messages.reverse()
       store.commit('setChatOnline')
       messages.map((message) => {

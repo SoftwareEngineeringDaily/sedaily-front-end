@@ -13,7 +13,7 @@ import ProfileView from '@/views/ProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
-import {STRIPE_PUBLIC_KEY} from '../store/actions/config'
+import { STRIPE_PUBLIC_KEY } from '../store/actions/config'
 
 Vue.use(Router)
 
@@ -29,8 +29,8 @@ export default new Router({
     { path: '/new/:page(\\d+)?', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
-    { path: '/post/:id([A-Za-z0-9-_]+)?', component: PostDetailsView },
-    { path: '/subscribe', component: SubscribeView, props: {stripePublicKey: STRIPE_PUBLIC_KEY} },
+    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
+    { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },

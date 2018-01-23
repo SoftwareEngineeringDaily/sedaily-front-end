@@ -7,11 +7,15 @@ export default {
     state.activePlayerPost = post
   },
 
+  updatePlayerState: (state, playerState) => {
+    state.playerState = playerState
+  },
+
   setActiveType: (state, { type }) => {
     state.activeType = type
   },
 
-  setMe: (state, {me}) => {
+  setMe: (state, { me }) => {
     state.me = me
   },
 
@@ -33,15 +37,15 @@ export default {
     state.postComments[comment.postId].unshift(comment)
   },
 
-  setComments: (state, {comments, postId}) => {
+  setComments: (state, { comments, postId }) => {
     Vue.set(state.postComments, postId, comments)
   },
 
-  setRelatedLinks: (state, {relatedLinks, postId}) => {
+  setRelatedLinks: (state, { relatedLinks, postId }) => {
     Vue.set(state.postRelatedLinks, postId, relatedLinks)
   },
 
-  setFeedItems: (state, {feedItems}) => {
+  setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
   },
 
@@ -100,7 +104,7 @@ export default {
       return link._id === id
     })
     if (!entity) return
-    let incrementValue = 1
+    const incrementValue = 1
     if (!entity.score) entity.score = 0
     if (entity.upvoted) {
       entity.score -= incrementValue
@@ -162,11 +166,6 @@ export default {
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
-  logout: (state) => {
-    localStorage.setItem('token', '')
-    state.token = ''
-  },
-
   setToken: (state, { token }) => {
     localStorage.setItem('token', token)
     state.token = token
@@ -176,7 +175,7 @@ export default {
     state.chat.settings.displayBox = !state.chat.settings.displayBox
   },
   addChatMessage: ({ chat }, message) => {
-    const formatted = { ...message, sent_at: new Date(message.sent_at) }
+    const formatted = { ...message, sent_at: new Date(message.sent_at) } // eslint-disable-line camelcase
     chat.messages.push(formatted)
   },
   setChatOnline: ({ chat }) => (chat.online = true),

@@ -31,7 +31,7 @@ export default {
       const message = {
         username,
         name,
-        sent_at: new Date(),
+        sent_at: new Date(), // eslint-disable-line camelcase
         body: this.body
       }
       this.body = ''

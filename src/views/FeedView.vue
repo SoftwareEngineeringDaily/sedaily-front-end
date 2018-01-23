@@ -1,10 +1,11 @@
 
 <template>
   <div>
-    <br />
-        <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem">
-        </feed-item>
-    <br />
+    <h1> Feed </h1>
+
+    <div class="feed-list">
+      <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
+    </div>
   </div>
 </template>
 
@@ -25,16 +26,24 @@ export default {
   },
 
   beforeMount () {
+    // You probably only need finally instead of both then and catch
     this.fetchMyProfileData()
       .then(() => {
-        this.fetchMyFeed({userId: this.me._id})
+        return this.fetchMyFeed({ userId: this.me._id })
+          .then((feedItems) => {
+            this.loading = false
+          })
+      })
+      .catch((error) => {
+        console.log('error logging in', error)
+        this.fetchMyFeed({ userId: null })
           .then((feedItems) => {
             this.loading = false
           })
       })
   },
   methods: {
-    ...mapActions([ 'fetchMyProfileData', 'fetchMyFeed' ])
+    ...mapActions(['fetchMyProfileData', 'fetchMyFeed'])
   },
 
   computed: {
@@ -49,3 +58,15 @@ export default {
   }
 }
 </script>
+
+
+<style scoped lang="stylus">
+h1
+  text-align center
+  margin 30px auto
+
+.feed-list
+  display flex
+  flex-direction column
+  justify-content space-around
+</style>

@@ -1,173 +1,132 @@
 <template>
   <div id="app">
-    <header class="header">
-      <nav class="inner">
-        <router-link to="/" exact>
-          <img class="logo" src="./assets/sedaily-logo.png" alt="logo">
-        </router-link>
-        <router-link to="/feed"  name="feed-nav-link" exact   v-if='isLoggedIn'>
-          Feed
-        </router-link>
-        <router-link to="/new" name="new-nav-link">
-          New
-        </router-link>
-        <router-link to="/top" name="top-nav-link">
-          Top
-        </router-link>
-        <router-link to="/recommendations" name="recommendations-nav-link">
-          Recommended
-        </router-link>
+    <navigation-bar />
 
-        <!-- <span class="online-indicator">100 <img src="./assets/groups.png" alt="online users"></span> -->
-        <router-link to="/login" name="login-nav-link" style='float:right;' v-if='!isLoggedIn'>Login</router-link>
-
-        <router-link to="/register" name="register-nav-link" style='float:right;margin-right: 1em;' v-if='!isLoggedIn'>
-          Register
-        </router-link>
-
-        <!--
-        <router-link to="/premium" name="subscribe-nav-link"
-        style='float:right;margin-right: 1em;' v-if='!isLoggedIn'
-          class="call-to-action"
-        >
-          Subscribe
-        </router-link>
-        -->
-
-        <span v-if='isLoggedIn' style='float:right;'>
-          <!--
-          <router-link to="/premium" name="top-nav-link"
-          class="call-to-action"
-          >Subscribe</router-link>
-        -->
-
-          <a href='/'   name="logouts-nav-link"  @click.prevent='logout()'>Logout</a>
-          <router-link to="/profile" name="top-nav-link">Profile</router-link>
-        </span>
-
-
-      </nav>
-    </header>
-    <div class='container'>
+    <div class='container main-app'>
       <div class="row">
-        <div class="col-md-8 col-centered text-center" v-if="showBeta">
-          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank"> Github</a>.
+        <div class="col-md-8 col-centered text-center beta-msg" v-if="showBeta">
+          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank" class="link"> Github</a>.
         </div>
       </div>
-    </div>
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
-    </transition>
-    <transition name="fade" mode="out-in">
-      <div class="player-holder" v-show="isPlayerActive">
-        <sticky-player ></sticky-player>
+      <div class="row text-center">
+
+        <div class='col-md-12' v-if="showBeta">
+          <br />
+          <h3> Check out the apps: </h3>
+
+          <a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8" target="_blank">
+            <img src="./assets/iosstore.png" class="icon" />
+          </a>
+
+          <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en" target="_blank">
+            <img src="./assets/androidstore.png" class="icon" />
+          </a>
+        </div>
       </div>
-    </transition>
+      <chat-box v-if='isLoggedIn'/>
+</div>
+<transition name="fade" mode="out-in">
+  <router-view class="view"></router-view>
+</transition>
 
-    <chat-box v-if='isLoggedIn'/>
-
+<transition name="fade" mode="out-in">
+  <div class="player-holder" v-show="isPlayerActive">
+    <sticky-player ></sticky-player>
   </div>
+</transition>
+
+</div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import StickyPlayer from './components/StickyPlayer.vue'
 import ChatBox from './components/ChatBox.vue'
-import { mapGetters } from 'vuex'
+import NavigationBar from './components/NavigationBar.vue'
 
 export default {
   name: 'app',
   components: {
     StickyPlayer,
-    ChatBox
+    ChatBox,
+    NavigationBar
   },
 
   computed: {
+    ...mapState(['activePlayerPost']),
     isPlayerActive () {
-      return this.$store.state.activePlayerPost.mp3
+      return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
     },
     showBeta () {
       return this.$route.path === '/'
-    },
-    ...mapGetters(['isLoggedIn'])
-  },
-
-  methods: {
-    logout: function () {
-      this.$store.commit('logout')
-      this.$router.go('/')
     }
   }
 }
 </script>
 
 <style lang="stylus">
+@import './css/variables'
 
-primary-color = #856AFF
-secondary-color = #FF8B6A
-accent-color = #FF8B6A
-very-light-grey = #EEEEEE
+.main-app
+  margin-top 3rem
 
-.call-to-action {
-  background: accent-color;
-  color: whie;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-weight: 200;
-  text-transform: uppercase;
-}
+.call-to-action
+  background accent-color
+  color white
+  padding 4px 10px
+  border-radius 8px
+  font-weight 200
+  text-transform uppercase
 
-.header .call-to-action {
-  color: white;
-}
+.header .call-to-action
+  color white
 
-.button-submit {
-  background: primary-color
-  color: white
+.button-submit
+  background primary-color
+  color white
   padding 10px 20px
-  cursor: pointer
-}
+  cursor pointer
 
-.button-submit-small {
-  background: primary-color
-  color: white
+.button-submit-small
+  background primary-color
+  color white
   padding 5px 10px
   border-radius 2px
-  cursor: pointer
-}
+  cursor pointer
 
-.button-delete {
-  background: #fbf4f4
-  color: black
+.button-delete
+  background #fbf4f4
+  color black
   padding 5px 10px
-  cursor: pointer
-}
+  cursor pointer
 
-.section-title {
-  font-weight: 300;
-}
+.section-title
+  font-weight 300
 
-.col-centered{
-    float: none;
-    margin: 0 auto;
-}
+.col-centered
+  float none
+  margin 0 auto
 
 body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   font-size 14px
   background-color white
+  overflow-y scroll
   margin 0
   #app
     margin-bottom 120px
+
 a
   color #34495e
   text-decoration none
+
 .header
   z-index 999
   top 0
   left 0
   right 0
   .inner
-    max-width 800px
+    max-width 1200px
     box-sizing border-box
     margin 0px auto
     padding 15px 5px
@@ -194,36 +153,49 @@ a
     font-size .9em
     margin 0
     float right
+
 .player-holder
   padding 10px 20px
-  box-shadow: -5px -5px 5px -2px rgba(176,176,176,0.3)
-
+  box-shadow -5px -5px 5px -2px rgba(176,176,176,0.3)
   background-color white
   width 100%
   position fixed
   bottom 0
   left 0
+
+.icon {
+  width: 150px;
+}
+
 .logo
   width 30px
   margin-right 10px
   display inline-block
   vertical-align middle
+
 .feed-icon
   width 30px
+
 .registration-icon
   width 30px
+
 .like-icon
   width 30px
+
 .trophy-icon
   width 30px
+
 .new-icon
   width 30px
+
 .view
-  max-width 800px
+  max-width 1200px
   margin 0 auto
   position relative
+
 .fade-enter-active, .fade-leave-active
   transition all .2s ease
+
 .fade-enter, .fade-leave-active
   opacity 0
 
@@ -248,6 +220,7 @@ a
 @media (max-width 860px)
   .header .inner
     padding 15px 30px
+
 @media (max-width 600px)
   body
     font-size 14px

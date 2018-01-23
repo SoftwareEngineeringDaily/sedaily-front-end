@@ -7,21 +7,28 @@
       :downvoteHandler="downvoteHandler"
       :score="post.score">
     </voting-arrows>
-    <div class="news-content" style="width: 80%;">
-      <img class="hero-img" :src="featuredImage" />
-      <span class="play-button" @click='setActivePostInPlayer(post)'>
-        <img class="play-icon" src="../assets/play.png" alt="play">
-      </span>
+    <div class="news-content">
+      <div class="image" :style="imageStyle">
+        <div class="player-controls" v-if="post.mp3">
+          <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
+          <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+        </div>
+        <div class="player-controls" v-else>
+          <span class="fa fa-2x fa-file-text-o text-only" title="Text-only" />
+        </div>
+      </div>
 
       <div class="title">
+        <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
           <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
+          <router-link :to="'/post/' + post._id + '/' + postUrlTitle ">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
+
       <div class="meta">
           <!-- <span v-if="post.type !== 'job'" class="by">
           by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
@@ -34,6 +41,7 @@
         | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
       </span> -->
       </div>
+
       <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
     </div>
   </div>
@@ -42,33 +50,85 @@
 <script>
 /* @flow */
 import moment from 'moment'
-import VueAplayer from 'vue-aplayer'
-import VotingArrows from './VotingArrows'
+import VotingArrows from 'components/VotingArrows'
+import { PlayerState } from './../utils/playerState'
+import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'PostSummary',
-  props: ['post'],
-  components: { VotingArrows, 'a-player': VueAplayer },
+  props: {
+    post: {
+      type: Object,
+      required: true
+    }
+  },
+  components: { VotingArrows },
   computed: {
+    ...mapState(['activePlayerPost', 'playerState']),
+    postUrlTitle () {
+      try {
+        const originalTitle = this.post.title.rendered
+        if (originalTitle) {
+          let title = originalTitle.replace(/[^\w\s]/gi, '')
+          // Ghetto way to replace strings, should use regex:
+          title = title.split(' ').join('-')
+          return title
+        } else {
+          return ''
+        }
+      } catch (e) {
+        console.log('e', e)
+        return ''
+      }
+    },
 
     featuredImage () {
-      return this.post.featuredImage ? this.post.featuredImage : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+      return this.post.featuredImage
+        ? this.post.featuredImage
+        : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
 
     date () {
       return moment(this.post.date).format('MMMM Do, YYYY')
+    },
+
+    imageStyle () {
+      return `background: url('${this.featuredImage}') center center / cover no-repeat`
+    },
+
+    isActiveEpisode () {
+      return this.activePlayerPost && this.activePlayerPost._id === this.post._id
+    },
+
+    canPause () {
+      return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
+    },
+
+    canPlay () {
+      return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     }
   },
   methods: {
-    setActivePostInPlayer: function (post:any) {
-      this.$store.commit('setActivePostInPlayer', { post })
+    ...mapActions(['playEpisode', 'updatePlayerState']),
+    play () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PLAYING)
+      } else {
+        this.playEpisode(this.post)
+      }
     },
-    upvoteHandler: function () {
+    pause () {
+      if (this.isActiveEpisode) {
+        this.updatePlayerState(PlayerState.PAUSED)
+      }
+    },
+    upvoteHandler () {
       console.log(this.post)
       this.$store.dispatch('upvote', {
         id: this.post._id
       })
     },
-    downvoteHandler: function () {
+    downvoteHandler () {
       this.$store.dispatch('downvote', {
         id: this.post._id
       })
@@ -78,6 +138,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+
 .news-post
   display inline-flex
   flex-direction row
@@ -93,23 +155,47 @@ export default {
     display inline-flex
     flex-direction column
     justify-content center
+    width 80%
     max-width 100%
 
-  .hero-img
-    width 100px
+  .image
+    display flex
+    align-items center
+    justify-content center
+    height 96px
+    width 192px
+    .player-controls
+      color white
+      margin 0 10px
+      .player-control
+        text-shadow 2px 2px #999
+        width 25px
+        margin 0 10px
+        cursor pointer
+        &.text-only
+          cursor default
 
   .play-button
     width 80px
     height 80px
     position absolute
-    top 40px
+    top 30px
     left 70px
     cursor pointer
 
     .play-icon
       width 80px
   .title
-    padding-top 10px
+    border-radius 3px
+    padding 10px
+    background idle-background
+    &:hover
+      background primary-color
+      a
+        color white
+    a
+      color idle-foreground
+
 
   .meta, .host
     font-size .85em

@@ -9,7 +9,7 @@ module.exports = {
   // 'BASE_URL': 'https://sedaily-backend-staging.herokuapp.com/api/',
 
   // STAGING / TEST
-  // 'STRIPE_PUBLIC_KEY': 'pk_test_RayhhznsRXj6hqZ8SnKJY70Y'
+  // 'STRIPE_PUBLIC_KEY': 'pk_test_vMQkcW5KspBBOQ0hn5nNshDm'
 
   // PRODUCTION:
   'STRIPE_PUBLIC_KEY': 'pk_live_Cfttsv5i5ZG5IBfrmllzNoSA'

@@ -14,14 +14,38 @@
 <script>
 export default {
   name: 'voting-arrows',
-  props: ['score', 'upvoteHandler', 'downvoteHandler', 'upvoted', 'downvoted']
+  props: {
+    score: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    upvoteHandler: {
+      type: Function,
+      required: false
+    },
+    downvoteHandler: {
+      type: Function,
+      required: false
+    },
+    upvoted: {
+      type: Boolean,
+      required: false
+    },
+    downvoted: {
+      type: Boolean,
+      required: false
+    }
+  }
 }
 </script>
 
 <style scoped lang="stylus">
-.score-text {
+@import './../css/variables'
+
+.score-text
   font-weight 400
-}
+
 .score
     text-align center
     color #3F58AF
@@ -30,7 +54,7 @@ export default {
     width 1.1em
 
 .arrow
-  color #EEEEEE
+  color very-light-grey
   font-fize 30px
   &:hover
     cursor pointer
@@ -49,5 +73,5 @@ export default {
 .voting
   display inline-block
   height 100%
-  margin: 0 1rem;
+  margin 0 1rem
 </style>
