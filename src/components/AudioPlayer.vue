@@ -40,6 +40,7 @@
 
 <script>
 import vueSlider from 'vue-slider-component'
+import { secondToTime } from './../utils/time.utils'
 
 export default {
   props: {
@@ -107,22 +108,6 @@ export default {
   },
   computed: {
     formattedTime () {
-      const secondToTime = (second) => {
-        if (isNaN(second)) {
-          return '00:00'
-        }
-
-        const add0 = (num) => {
-          return num < 10 ? '0' + num : '' + num
-        }
-
-        const min = parseInt(second / 60)
-        const sec = parseInt(second - min * 60)
-        const hours = parseInt(min / 60)
-        const minAdjust = parseInt((second / 60) - (60 * parseInt((second / 60) / 60)))
-        return second >= 3600 ? add0(hours) + ':' + add0(minAdjust) + ':' + add0(sec) : add0(min) + ':' + add0(sec)
-      }
-
       return secondToTime(this.progress) + ' / ' + secondToTime(this.progressOptions.max)
     },
     imageStyle () {
