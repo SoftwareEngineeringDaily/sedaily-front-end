@@ -111,6 +111,7 @@ p {
   right: 24px;
   position: fixed;
   width: 325px;
+  z-index: 1000;
 }
 .chat-wrapper.playerActive {
   bottom: 96px;
@@ -177,6 +178,7 @@ p {
 .chat-box {
   background: #fff;
   display: none;
+  border: solid 1px #f7f7f7;
 }
 
 .chat-box.active {

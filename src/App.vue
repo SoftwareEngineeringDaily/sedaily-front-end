@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import StickyPlayer from './components/StickyPlayer.vue'
 import ChatBox from './components/ChatBox.vue'
 import NavigationBar from './components/NavigationBar.vue'
@@ -59,7 +59,8 @@ export default {
     },
     showBeta () {
       return this.$route.path === '/'
-    }
+    },
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
