@@ -26,9 +26,17 @@ export default {
   },
 
   beforeMount () {
+    // You probably only need finally instead of both then and catch
     this.fetchMyProfileData()
       .then(() => {
-        this.fetchMyFeed({ userId: this.me._id })
+        return this.fetchMyFeed({ userId: this.me._id })
+          .then((feedItems) => {
+            this.loading = false
+          })
+      })
+      .catch((error) => {
+        console.log('error logging in', error)
+        this.fetchMyFeed({ userId: null })
           .then((feedItems) => {
             this.loading = false
           })

@@ -7,45 +7,64 @@
       </router-link>
 
       <router-link to="/feed"
-        name="feed-nav-link" 
-        exact 
-        v-if='isLoggedIn'>Feed</router-link>
+        name="feed-nav-link"
+        exact
+        >Feed</router-link>
 
-      <router-link to="/new" 
-        name="new-nav-link">New</router-link>
-
-      <router-link to="/top" 
-        name="top-nav-link">Top</router-link>
-
-      <router-link to="/recommendations" 
-        name="recommendations-nav-link">Recommended</router-link>
+      <span class="dropdown">
+        <router-link to="/"
+          class="dropdown-toggle"
+          @mouseover.native="showDropdownMenu"
+          name="new-nav-link">Podcast</router-link>
+          <transition name="fade">
+            <div class="dropdown-menu"
+              @mouseleave.stop="hideDropdownMenu"
+              v-show="dropdownVisible">
+              <router-link to="/new"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >New</router-link>
+              <router-link to="/top"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >Top</router-link>
+              <router-link to="/recommended"
+                class="dropdown-item"
+                name="feed-nav-link"
+                exact
+                >Recommended</router-link>
+            </div>
+          </transition>
+      </span>
 
       <span class="pull-right">
         <span v-if="isLoggedIn">
-          <a href='/' 
+          <a href='/'
             name="logouts-nav-link"
             @click.prevent='logoutHandler'>Logout</a>
-          <router-link to="/profile" 
-            name="top-nav-link">Profile</router-link>          
+          <router-link to="/profile"
+            name="top-nav-link">Profile</router-link>
         </span>
         <span v-else>
-          <router-link to="/login" 
+          <router-link to="/login"
             name="login-nav-link">Login</router-link>
 
-          <router-link to="/register" 
-            name="register-nav-link" 
+          <router-link to="/register"
+            name="register-nav-link"
             class="register-nav-link">Register</router-link>
-        </span>   
+        </span>
 
-        <router-link v-if='alreadySubscribed' 
-          to="/subscribe" 
+        <router-link v-if='alreadySubscribed'
+          to="/subscribe"
           name="top-nav-link"
           class="subscribed">Subscribed</router-link>
 
         <router-link v-else
-          to="/premium" 
+          to="/premium"
           name="subscribe-nav-link"
-          class="call-to-action">Subscribe</router-link>  
+          class="call-to-action">Subscribe</router-link>
       </span>
     </nav>
   </header>
@@ -56,6 +75,12 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'navigation-bar',
+
+  data () {
+    return {
+      dropdownVisible: false
+    }
+  },
 
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -88,17 +113,37 @@ export default {
     logoutHandler () {
       this.logout()
       this.$router.replace('/')
+    },
+    showDropdownMenu () {
+      this.dropdownVisible = true
+    },
+    hideDropdownMenu () {
+      this.dropdownVisible = false
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
-.header 
+.header
   .call-to-action
     color white
-    text-decoration none    
+    text-decoration none
     margin-right 1em
   .register-nav-link
     margin-right 1em
+  a.router-link-active
+    text-decoration none
+
+.fade-enter-active, .fade-leave-active
+  transform translateY(0%)
+  transition-delay 0s, 0s, 0.3s
+
+.fade-enter, .fade-leave-to
+  transform translateY(-2em)
+  z-index -1
+  transition all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s
+
+.dropdown-menu
+  display block
 </style>

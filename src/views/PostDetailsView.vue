@@ -27,9 +27,12 @@
 
           <p class="meta">
 
-            <span class="player-controls">
+            <span class="player-controls" v-if="post.mp3">
               <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
               <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+            </span>
+            <span class="player-controls" v-else>
+              <span class="fa fa-2x fa-file-text-o player-control text-only" title="Text-only" />
             </span>
 
             <span class='details-about-post'>
@@ -284,6 +287,8 @@ export default {
     width 25px
     margin 0 10px
     cursor pointer
+    &.text-only
+      cursor default
 
 .details-about-post
   margin-top 20px

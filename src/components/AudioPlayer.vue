@@ -21,6 +21,7 @@
         @pause="onPause"
         @timeupdate="onTimeUpdate"
         @volumechange="onVolumeChange"
+        @ended="onEnded"
         @canplay="onCanPlay">
         <source :src="music.url" type="audio/mpeg" />
       </audio>
@@ -141,6 +142,9 @@ export default {
       this.progressOptions.max = this.$refs.player.duration
       this.progress = this.$refs.player.currentTime
       this.$refs.player.play()
+    },
+    onEnded () {
+      this.$emit('finished')
     },
     onPause () {
       this.isPaused = true

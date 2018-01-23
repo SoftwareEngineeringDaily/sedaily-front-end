@@ -33,19 +33,20 @@ export default {
     const token = getters.getToken
     const config = {}
     if (!token) {
-      throw new Error('User not signed in.')
+      return Promise.reject('User not signed in.')
     }
+
     config.headers = {
       'Authorization': 'Bearer ' + token
     }
-    return axios.get(`${BASE_URL}/users/me`, config
-    )
+
+    return axios.get(`${BASE_URL}/users/me`, config)
       .then((response) => {
         commit('setMe', { me: response.data })
         return response
       })
       .catch((error) => {
-      // @TODO: Add pretty pop up here
+        // @TODO: Add pretty pop up here
         console.log(error)
         alert(error.response.data.message)
         return error
