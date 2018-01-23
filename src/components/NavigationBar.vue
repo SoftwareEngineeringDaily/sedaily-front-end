@@ -11,14 +11,36 @@
         exact
         >Feed</router-link>
 
-      <router-link to="/new"
-        name="new-nav-link">New</router-link>
-
-      <router-link to="/top"
-        name="top-nav-link">Top</router-link>
-
-      <router-link to="/recommendations"
-        name="recommendations-nav-link">Recommended</router-link>
+      <span class="dropdown">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="podcastMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false">
+          Podcast
+        </button>
+        <div
+          class="dropdown-menu"
+          aria-labelledby="podcastMenuButton">
+          <router-link to="/new"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >New</router-link>
+          <router-link to="/top"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Top</router-link>
+          <router-link to="/recommended"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Recommended</router-link>
+        </div>
+      </span>
 
       <span class="pull-right">
         <span v-if="isLoggedIn">
@@ -57,6 +79,12 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'navigation-bar',
 
+  data () {
+    return {
+      dropdownVisible: false
+    }
+  },
+
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
@@ -88,12 +116,38 @@ export default {
     logoutHandler () {
       this.logout()
       this.$router.replace('/')
+    },
+    showDropdownMenu () {
+      this.dropdownVisible = true
+    },
+    hideDropdownMenu () {
+      this.dropdownVisible = false
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+
+.btn-secondary
+  font-size 14px
+  color primary-color
+  box-shadow none
+  &:hover
+    border-color white
+    color white
+    background-color primary-color
+  &:focus
+    box-shadow none
+
+.show
+  .btn-secondary
+    &.dropdown-toggle
+      border-color white
+      color white
+      background-color primary-color
+
 .header
   .call-to-action
     color white
@@ -101,4 +155,6 @@ export default {
     margin-right 1em
   .register-nav-link
     margin-right 1em
+  a.router-link-active
+    text-decoration none
 </style>

@@ -15,7 +15,10 @@
         <span class="fa fa-volume-up player-control mute" title="unmute" @click="unMute" v-if="isMuted" />
       </div>
 
-      <div class="music-description" v-html="music.title" />
+      <div class="description-container">
+        <div class="music-description" v-html="music.title" />
+        <div class="music-time">{{ formattedTime }}</div>
+      </div>
 
       <audio ref="player" @play="onPlay"
         @pause="onPause"
@@ -37,6 +40,7 @@
 
 <script>
 import vueSlider from 'vue-slider-component'
+import { secondToTime } from './../utils/time.utils'
 
 export default {
   props: {
@@ -72,35 +76,12 @@ export default {
         height: 8,
         clickable: true,
         show: true,
-        tooltip: 'hover',
+        tooltip: 'none',
         padding: 0,
         dotSize: 10,
         interval: 0.1,
-        formatter (value) {
-          const secondToTime = (second) => {
-            if (isNaN(second)) {
-              return '00:00'
-            }
-
-            const add0 = (num) => {
-              return num < 10 ? '0' + num : '' + num
-            }
-
-            const min = parseInt(second / 60)
-            const sec = parseInt(second - min * 60)
-            const hours = parseInt(min / 60)
-            const minAdjust = parseInt((second / 60) - (60 * parseInt((second / 60) / 60)))
-            return second >= 3600 ? add0(hours) + ':' + add0(minAdjust) + ':' + add0(sec) : add0(min) + ':' + add0(sec)
-          }
-
-          return secondToTime(value) + ' / ' + secondToTime(this.max)
-        },
         processStyle: {
           backgroundColor: '#856AFF'
-        },
-        tooltipStyle: {
-          backgroundColor: '#856AFF',
-          fontSize: '0.7em'
         },
         bgStyle: {
           padding: 0
@@ -126,6 +107,9 @@ export default {
     }
   },
   computed: {
+    formattedTime () {
+      return secondToTime(this.progress) + ' / ' + secondToTime(this.progressOptions.max)
+    },
     imageStyle () {
       return `background: url('${this.music.pic}') center center / cover no-repeat`
     },
@@ -228,9 +212,11 @@ export default {
       .mute
         cursor pointer
         float left
-    .music-description
-      color #999
-      font-size: 0.9em
+.description-container
+  display flex
+  flex-direction column
+  color #999
+  font-size: 0.9em
 .progress-slider
   margin-top 5px
   .vue-slider-component
