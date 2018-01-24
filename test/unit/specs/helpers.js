@@ -3,6 +3,8 @@ import VeeValidate from 'vee-validate'
 
 const localVue = createLocalVue()
 
-localVue.use(VeeValidate)
+localVue.use(VeeValidate, {
+  events: 'blur'
+})
 
 export default localVue

@@ -1,38 +1,43 @@
 <template>
   <div>
-        <textarea placeholder='Add a related link...'
-        class='related-link-box'
+    <textarea
+      placeholder='Add a related link...'
+      class='related-link-box'
+      :disabled="isSubmitting"
+      name="url"
+      v-validate="'required|url'"
+      type='text'
+      v-model='url' />
+
+    <div
+      v-show="errors.has('url')"
+      class="alert alert-danger">
+      {{ errors.first('url') }}</div>
+
+    <input
+      placeholder='Add a short title...'
+      class='related-title-box'
+      :disabled="isSubmitting"
+      name="title"
+      v-validate="'required'"
+      type='text'
+      v-model='title' />
+
+    <div
+      v-show="errors.has('title')"
+      class="alert alert-danger">
+      {{ errors.first('title') }}</div>
+
+    <span v-if="isSubmitting">
+      <spinner :show="true" />
+    </span>
+
+    <div v-else>
+      <button
+        class='button-submit'
         :disabled="isSubmitting"
-        name="url"
-        v-validate="'required|url'"
-        type='text'
-        v-model='url' />
-        <div v-show="errors.has('url')"
-        class="alert alert-danger">
-        {{ errors.first('url') }}</div>
-
-        <input placeholder='Add a short title...'
-        class='related-title-box'
-        :disabled="isSubmitting"
-        name="title"
-        v-validate="'required'"
-        type='text'
-        v-model='title' />
-        <div v-show="errors.has('title')"
-        class="alert alert-danger">
-        {{ errors.first('title') }}</div>
-
-        <span v-if="isSubmitting">
-          <spinner :show="true"></spinner>
-        </span>
-        <div v-else>
-          <button class='button-submit'
-          :disabled="isSubmitting"
-          @click.prevent='submit'>
-          Add New Link
-          </button>
-
-        </div>
+        @click.prevent='submit'>Add New Link</button>
+    </div>
   </div>
 </template>
 
@@ -67,9 +72,12 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['relatedLinksCreate', 'relatedLinksFetch']),
+    ...mapActions([
+      'relatedLinksCreate',
+      'relatedLinksFetch'
+    ]),
     submit () {
-      this.$validator.validateAll().then((result) => {
+      return this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSubmitting = true
           this.relatedLinksCreate({
@@ -80,9 +88,6 @@ export default {
             .then((response) => {
               this.url = ''
               this.title = ''
-              this.$nextTick(() => {
-                this.errors.clear()
-              })
               this.isSubmitting = false
               // Fetch comments
               this.relatedLinksFetch({

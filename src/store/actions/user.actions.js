@@ -2,6 +2,25 @@
 import axios from 'axios'
 import { BASE_URL } from './config.js'
 
+const uploadFile = (file, signedRequest, url) => {
+  const p = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('PUT', signedRequest)
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          console.log('Success!!! url', url)
+          resolve({ imageUrl: url })
+        } else {
+          reject('Could not upload file.')
+        }
+      }
+    }
+    xhr.send(file)
+  })
+  return p
+}
+
 export default {
   getS3SingedUploadUrl: ({ commit, state, getters }, { fileName, fileType }) => {
   },
@@ -18,14 +37,10 @@ export default {
     const fileType = imageFile.type
     return axios.post(`${BASE_URL}/auth/sign-s3`, { fileType }, config)
       .then((result) => {
-        const { signedRequest } = result.data
+        const { signedRequest, url } = result.data
         console.log('signedRequest', signedRequest)
-        var options = {
-          headers: {
-            'Content-Type': fileType
-          }
-        }
-        return axios.put(signedRequest, imageFile, options)
+        // return axios.put(signedRequest, imageFile, options)
+        return uploadFile(imageFile, signedRequest, url)
       })
   },
 
