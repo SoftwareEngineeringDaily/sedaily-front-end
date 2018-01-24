@@ -24,7 +24,9 @@ Object.keys(filters).forEach(key => {
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, {
+  events: 'blur'
+})
 Vue.use(VueAnalytics, {
   id: 'UA-111896817-1',
   checkDuplicatedScript: true,

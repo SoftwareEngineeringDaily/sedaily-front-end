@@ -80,9 +80,6 @@ export default {
             .then((response) => {
               this.url = ''
               this.title = ''
-              this.$nextTick(() => {
-                this.errors.clear()
-              })
               this.isSubmitting = false
               // Fetch comments
               this.relatedLinksFetch({
