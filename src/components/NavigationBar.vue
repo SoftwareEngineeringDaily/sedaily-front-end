@@ -79,12 +79,6 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'navigation-bar',
 
-  data () {
-    return {
-      dropdownVisible: false
-    }
-  },
-
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
@@ -112,16 +106,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(['logout', 'fetchMyProfileData']),
+    ...mapActions([
+      'logout',
+      'fetchMyProfileData'
+    ]),
     logoutHandler () {
       this.logout()
       this.$router.replace('/')
-    },
-    showDropdownMenu () {
-      this.dropdownVisible = true
-    },
-    hideDropdownMenu () {
-      this.dropdownVisible = false
     }
   }
 }
