@@ -16,6 +16,7 @@ describe('RelatedLinkCompose.vue', (done) => {
   let sandbox
   let actions
   let router
+  let wrapper
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create()
@@ -27,13 +28,7 @@ describe('RelatedLinkCompose.vue', (done) => {
       relatedLinksCreate: sandbox.stub().returns(false),
       relatedLinksFetch: sandbox.stub().returns(false)
     }
-  })
 
-  afterEach(() => {
-    sandbox.restore()
-  })
-
-  it('should validate missing url', (done) => {
     const store = new Vuex.Store({
       state: {
         route: {
@@ -45,12 +40,18 @@ describe('RelatedLinkCompose.vue', (done) => {
       actions
     })
 
-    const wrapper = shallow(RelatedLinkCompose, {
+    wrapper = shallow(RelatedLinkCompose, {
       localVue,
       store,
       router
     })
+  })
 
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it('should validate missing url', (done) => {
     wrapper.setData({
       url: '',
       title: 'Foo'
@@ -64,23 +65,6 @@ describe('RelatedLinkCompose.vue', (done) => {
   })
 
   it('should validate missing title', (done) => {
-    const store = new Vuex.Store({
-      state: {
-        route: {
-          params: {
-            id: 1
-          }
-        }
-      },
-      actions
-    })
-
-    const wrapper = shallow(RelatedLinkCompose, {
-      localVue,
-      store,
-      router
-    })
-
     wrapper.setData({
       url: 'http://foo.com',
       title: ''
@@ -94,23 +78,6 @@ describe('RelatedLinkCompose.vue', (done) => {
   })
 
   it('should show no validation errors after clean submit', (done) => {
-    const store = new Vuex.Store({
-      state: {
-        route: {
-          params: {
-            id: 1
-          }
-        }
-      },
-      actions
-    })
-
-    const wrapper = shallow(RelatedLinkCompose, {
-      localVue,
-      store,
-      router
-    })
-
     wrapper.setData({
       url: 'http://foo.com',
       title: 'foo'
