@@ -34,7 +34,7 @@
             name="feed-nav-link"
             exact
             >Top</router-link>
-          <router-link to="/recommended"
+          <router-link to="/recommendations"
             class="dropdown-item"
             name="feed-nav-link"
             exact
