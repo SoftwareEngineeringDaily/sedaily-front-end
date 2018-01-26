@@ -138,7 +138,7 @@ export default {
                   username
                 })
                   .then((eventResponse) => {
-                    // hello
+                    // Ignore response for now
                   })
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
