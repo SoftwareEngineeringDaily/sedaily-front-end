@@ -16,5 +16,6 @@ export default {
     new: [],
     recommendation: []
   },
+  loggingEnabled: true,
   token: localStorage.getItem('token')
 }
