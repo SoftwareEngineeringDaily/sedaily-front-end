@@ -134,6 +134,12 @@ export default {
               this.loading = false
 
               if (response.data.token) {
+                this.$store.dispatch('registerEvent', {
+                  username
+                })
+                  .then((eventResponse) => {
+                    // hello
+                  })
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
                 } else {
