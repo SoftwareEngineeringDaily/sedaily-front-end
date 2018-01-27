@@ -1,6 +1,7 @@
 
 import axios from 'axios'
-import { BASE_URL } from './config.js'
+import { actionVars } from '../../../config/index.js'
+const BASE_URL = actionVars.BASE_URL
 
 const uploadFile = (file, signedRequest, url) => {
   const p = new Promise((resolve, reject) => {

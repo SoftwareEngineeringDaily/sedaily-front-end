@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { BASE_URL } from './config.js'
+import { actionVars } from '../../../config/index.js'
+const BASE_URL = actionVars.BASE_URL
 
 export default {
   commentsCreate ({ commit, getters }, { content, postId, parentCommentId }) {
