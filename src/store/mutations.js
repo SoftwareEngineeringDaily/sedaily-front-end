@@ -169,5 +169,14 @@ export default {
   setToken: (state, { token }) => {
     localStorage.setItem('token', token)
     state.token = token
+  },
+
+  enableLogging: (state) => {
+    state.loggingEnabled = true
+  },
+
+  disableLogging: (state) => {
+    state.loggingEnabled = false
   }
+
 }

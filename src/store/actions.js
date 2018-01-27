@@ -6,6 +6,7 @@ import relatedLinksActions from './actions/relatedLinks.actions'
 import playerActions from './actions/player.actions'
 import feedActions from './actions/feed.actions'
 import subscriptionActions from './actions/subscription.actions'
+import loggingPostActions from './actions/logging.post.actions'
 
 export default {
   ...authActions,
@@ -15,5 +16,6 @@ export default {
   ...playerActions,
   ...postActions,
   ...subscriptionActions,
-  ...feedActions
+  ...feedActions,
+  ...loggingPostActions
 }
