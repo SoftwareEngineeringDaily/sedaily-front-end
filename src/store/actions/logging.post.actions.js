@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { actionVars } from '../../../config/index.js'
-const EVENTS_API_BASE_URL = actionVars.EVENTS_API_BASE_URL
+import { apiConfig } from '../../../config/apiConfig'
+const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
 export default {
   enableLogging: ({ commit, getters, state }) => {

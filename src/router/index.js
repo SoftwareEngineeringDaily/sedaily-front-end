@@ -13,7 +13,7 @@ import ProfileView from '@/views/ProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
-import { actionVars } from '../../config/index'
+import { apiConfig } from '../../config/apiConfig'
 
 Vue.use(Router)
 
@@ -30,7 +30,7 @@ export default new Router({
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
-    { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: actionVars.STRIPE_PUBLIC_KEY }},
+    { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },

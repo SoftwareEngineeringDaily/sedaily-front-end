@@ -1,20 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 
-var actionVars;
-switch (process.env.NODE_ENV) {
-    case 'development':
-        actionVars = require('./actionvars/dev.actionVars')
-        break;
-    case 'staging':
-        actionVars = require('./actionvars/staging.actionVars')
-        break;
-    case 'production':
-    // Desired fallthrough
-    default:
-        actionVars = require('./actionvars/prod.actionVars')
-}
-
 module.exports = {
   build: {
     env: require('./prod.env'),
@@ -48,6 +34,5 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
-  },
-  actionVars: actionVars
+  }
 }

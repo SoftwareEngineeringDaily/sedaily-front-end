@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { actionVars } from '../../../config/index.js'
-const BASE_URL = actionVars.BASE_URL
+import { apiConfig } from '../../../config/apiConfig'
+const BASE_URL = apiConfig.BASE_URL
 
 export default {
   createSubscription: ({ commit, state, getters }, { stripeToken, planType }) => {
