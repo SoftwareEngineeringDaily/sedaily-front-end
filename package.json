@@ -5,6 +5,7 @@
   "author": "TheHollidayInn <krh121791@gmail.com>",
   "private": true,
   "scripts": {
+    "launch": "npm run build && npm start",
     "dev": "node build/dev-server.js",
     "dev:api-test": "cross-env API_ENV=testing npm run dev",
     "dev:api-prod": "cross-env API_ENV=production npm run dev",
