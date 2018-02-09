@@ -6,6 +6,10 @@
         <img class="logo" src="./../assets/sedaily-logo.png" alt="logo">
       </router-link>
 
+      <router-link
+        to="/jobs"
+        name="jobs-nav-link">Jobs Board</router-link>
+
       <router-link to="/feed"
         name="feed-nav-link"
         exact
