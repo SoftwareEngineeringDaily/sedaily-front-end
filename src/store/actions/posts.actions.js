@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
-import { BASE_URL } from './config.js'
+import { apiConfig } from '../../../config/apiConfig'
+const BASE_URL = apiConfig.BASE_URL
 
 export default {
   // Pages should probably start at largest page and go down in number
