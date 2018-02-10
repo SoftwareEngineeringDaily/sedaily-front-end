@@ -2,17 +2,17 @@
   <div>
     <job-form
       :header="'Update Job:'"
-      :submitFunction="submitUpdateJob"
+      :submitCallback="submitUpdateJob"
+      :deleteCallback="submitDeleteJob"
       :editingJob="true"
       :jobData="job"
+      :loading="loading"
     >
     </job-form>
-    <spinner :show="loading"></spinner>
   </div>
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
 import JobForm from '@/components/JobForm.vue'
 import { mapActions, mapState } from 'vuex'
 // TODO: disable if userId is not the same as postingUser
@@ -32,11 +32,10 @@ export default {
     '$route': 'fetchInitialData'
   },
   components: {
-    JobForm,
-    Spinner
+    JobForm
   },
   methods: {
-    ...mapActions(['updateJob', 'fetchJob']),
+    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
     fetchInitialData () {
       this.loading = true
       this.fetchJob({ jobId: this.jobId })
@@ -80,6 +79,10 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    submitDeleteJob () {
+      this.loading = true
+      this.deleteJob({ jobId: this.jobId })
     }
   },
   computed: {

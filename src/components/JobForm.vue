@@ -149,11 +149,14 @@
           <div v-if="editingJob" class="col-4 offset-4">
             <button
               class="btn button-delete"
-              @click.prevent="destroy"
+              @click.prevent="del"
             >
               Delete
             </button>
           </div>
+        </div>
+        <div class="row">
+          <spinner :show="loading"></spinner>
         </div>
       </form>
       </div>
@@ -162,9 +165,14 @@
 </template>
 
 <script>
+import Spinner from '@/components/Spinner.vue'
 export default {
   name: 'job-form',
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     header: {
       type: String,
       required: true
@@ -173,10 +181,11 @@ export default {
       type: Boolean,
       default: false
     },
-    submitFunction: {
+    submitCallback: {
       type: Function,
       required: true
     },
+    deleteCallback: Function,
     jobData: {
       type: Object,
       default: function () {
@@ -193,7 +202,9 @@ export default {
       }
     }
   },
-
+  components: {
+    Spinner
+  },
   data () {
     return {
       // use locally scoped data when updating form
@@ -211,7 +222,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           const { title, description, employmentType, location, remoteWorkingConsidered, applicationEmailAddress, companyName, tags } = this.jobFormData
-          return this.submitFunction({
+          return this.submitCallback({
             title,
             description,
             employmentType,
@@ -226,8 +237,9 @@ export default {
         }
       })
     },
-    destroy () {
-      alert('TODO: implement delete')
+    del () {
+      return this.deleteCallback()
+      // alert('TODO: implement delete')
     }
   },
   computed: {

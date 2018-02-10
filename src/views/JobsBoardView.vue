@@ -1,25 +1,31 @@
 
 <template>
-  <div>
-    <h1> Jobs Board </h1>
-    <div class="jobs-board">
+  <div class="container">
+    <spinner :show="loading"></spinner>
+    <h4 class="row"> Jobs Board </h4>
+    <div class="row">
       <router-link v-if="isLoggedIn" to="/add-job">
         Post a Job
       </router-link>
-     <router-link v-else to="/login">
+      <router-link v-else to="/login">
         Login to Post a Job
-     </router-link>
-      <!--<div>Log-in to post a job opening</div>-->
+      </router-link>
     </div>
+    <job-summary v-for="job in jobs" :key="job._id" :job="job">
+    </job-summary>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
+import Spinner from '@/components/Spinner.vue'
+import JobSummary from '@/components/JobSummary.vue'
 export default {
   name: 'jobs-board-view',
 
   components: {
+    Spinner,
+    JobSummary
   },
 
   data () {
@@ -27,36 +33,30 @@ export default {
       loading: true
     }
   },
-  // beforeMount () {
-  //   // You probably only need finally instead of both then and catch
-  //   this.fetchMyProfileData()
-  //     .then(() => {
-  //       return this.fetchMyFeed({ userId: this.me._id })
-  //         .then((feedItems) => {
-  //           this.loading = false
-  //         })
-  //     })
-  //     .catch((error) => {
-  //       console.log('error logging in', error)
-  //       this.fetchMyFeed({ userId: null })
-  //         .then((feedItems) => {
-  //           this.loading = false
-  //         })
-  //     })
-  // },
+  beforeMount () {
+    this.fetchJobsList()
+      .then(() => {
+        this.loading = false
+      })
+      .catch((error) => {
+        alert('Error: ' + error)
+      })
+  },
   methods: {
-    // ...mapActions(['fetchMyProfileData', 'fetchMyFeed'])
+    ...mapActions(['fetchJobsList'])
   },
 
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      jobs (state) {
+        return state.jobs
+      }
+    })
   }
 }
 </script>
 
 
 <style scoped lang="stylus">
-h1
-  text-align center
-  margin 30px auto
 </style>

@@ -2,15 +2,14 @@
   <div>
     <job-form
       :header="'Post a New Job:'"
-      :submitFunction="submitCreateJob">
+      :submitCallback="submitCreateJob"
+      :loading="loading">
     </job-form>
-    <spinner :show="loading"></spinner>
   </div>
 </template>
 
 <script>
 import JobForm from '@/components/JobForm.vue'
-import Spinner from '@/components/Spinner.vue'
 import { mapActions } from 'vuex'
 export default {
   name: 'add-job-view',
@@ -21,8 +20,7 @@ export default {
   },
 
   components: {
-    JobForm,
-    Spinner
+    JobForm
   },
   methods: {
     ...mapActions(['createJob']),
