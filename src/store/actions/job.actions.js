@@ -24,12 +24,6 @@ export default {
       employmentType,
       remoteWorkingConsidered
     }, config)
-      .then((response) => {
-        return response
-      })
-      .catch((error) => {
-        return error
-      })
   },
   updateJob: ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) => {
     const token = getters.getToken
@@ -51,12 +45,6 @@ export default {
       employmentType,
       remoteWorkingConsidered
     }, config)
-      .then((response) => {
-        return response
-      })
-      .catch((error) => {
-        return error
-      })
   },
   fetchJob: ({ commit, state, getters }, { jobId }) => {
     const token = getters.getToken
@@ -67,12 +55,6 @@ export default {
       }
     }
     return axios.get(`${BASE_URL}/jobs/${jobId}`, config)
-      .then((response) => {
-        return response
-      })
-      .catch((error) => {
-        return error
-      })
   },
   fetchJobsList: ({ commit, state, getters }) => {
     return axios.get(`${BASE_URL}/jobs`)
@@ -81,7 +63,8 @@ export default {
         return response
       })
       .catch((error) => {
-        return error
+        commit('setJobs', { jobs: [] })
+        throw error
       })
   },
   deleteJob: ({ commit, state, getters }, { jobId }) => {
@@ -96,12 +79,6 @@ export default {
     }
 
     return axios.delete(`${BASE_URL}/jobs/${jobId}`, config)
-      .then((response) => {
-        return response
-      })
-      .catch((error) => {
-        return error
-      })
   }
 
 }
