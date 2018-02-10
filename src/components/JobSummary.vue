@@ -1,24 +1,14 @@
 <template>
-  <div>
-    <div class="row">
-        <div class="col-6">
+  <div class="job-summary">
+        <div class="row job-title">
           <router-link :to="'/jobs/' + job._id">
-            {{ job.title }}
+            {{ job.title }} - {{ job.employmentType }}
           </router-link>
         </div>
-        <div class="col-3">
-          {{ job.companyName }}
+        <div class="row">
+          {{ job.companyName }} - {{ job.location }}
+          <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>
         </div>
-        <div class="job-posted-date col-3">
-          Posted: {{ displayDate }}
-        </div>
-        <div class="col-6">
-          {{ job.employmentType }}
-        </div>
-        <div class="col-3">
-          {{ displayLocation }}
-        </div>
-    </div>
     <div class="row job-short-description">
       {{ shortDescription }}
     </div>
@@ -58,7 +48,20 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.job-posted-date, .job-short-description
-  color: #999
-  font-size: 0.85em
+@import './../css/variables'
+
+.job-summary
+  margin-bottom 30px
+.job-title
+  font-size 1.2em
+  background idle-background
+  &:hover
+    background primary-color
+    a
+      color white
+  a
+    color primary-color
+.job-short-description
+  color #999
+  font-size 0.85em
 </style>

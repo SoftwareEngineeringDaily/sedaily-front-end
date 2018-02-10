@@ -28,7 +28,6 @@ export default {
         return response
       })
       .catch((error) => {
-        alert(error.response.data.message)
         return error
       })
   },
@@ -56,7 +55,6 @@ export default {
         return response
       })
       .catch((error) => {
-        alert(error.response.data.message)
         return error
       })
   },
@@ -73,7 +71,6 @@ export default {
         return response
       })
       .catch((error) => {
-        alert(error.response.data.message)
         return error
       })
   },
@@ -84,7 +81,6 @@ export default {
         return response
       })
       .catch((error) => {
-        alert(error.response.data.message)
         return error
       })
   },
@@ -104,7 +100,6 @@ export default {
         return response
       })
       .catch((error) => {
-        alert(error.response.data.message)
         return error
       })
   }
