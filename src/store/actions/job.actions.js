@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import { BASE_URL } from './config.js'
 
@@ -45,6 +44,23 @@ export default {
       employmentType,
       remoteWorkingConsidered
     }, config)
+  },
+  applyToJob: ({ commit, state, getters }, { jobId, coveringLetter, resume }) => {
+    const token = getters.getToken
+    const config = {}
+    if (!token) {
+      return Promise.reject('User not signed in.')
+    }
+
+    config.headers = {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'multipart/form-data'
+    }
+    const formData = new FormData()
+    formData.append('resume', resume)
+    formData.append('coveringLetter', coveringLetter)
+
+    return axios.post(`${BASE_URL}/jobs/${jobId}/apply`, formData, config)
   },
   fetchJob: ({ commit, state, getters }, { jobId }) => {
     const token = getters.getToken
