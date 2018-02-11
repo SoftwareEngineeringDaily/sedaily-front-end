@@ -98,7 +98,6 @@ export default {
   },
 
   beforeMount () {
-    console.log('stripe key', this.stripePublicKey)
     if (this.isLoggedIn) {
       this.fetchMyProfileData()
         .then((myData) => {

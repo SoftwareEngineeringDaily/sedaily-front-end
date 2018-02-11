@@ -17,7 +17,7 @@ import JobsBoardView from '@/views/JobsBoardView'
 import JobView from '@/views/JobView'
 import AddJobView from '@/views/AddJobView'
 import EditJobView from '@/views/EditJobView'
-import { STRIPE_PUBLIC_KEY } from '../store/actions/config'
+import { apiConfig } from '../../config/apiConfig'
 
 Vue.use(Router)
 
@@ -34,7 +34,7 @@ export default new Router({
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
-    { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: STRIPE_PUBLIC_KEY }},
+    { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
     { path: '/edit-profile', component: EditProfile },
