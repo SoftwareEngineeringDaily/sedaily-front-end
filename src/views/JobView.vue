@@ -13,6 +13,9 @@
         <div v-else-if="error">
           <div class="bg-danger"> Error: {{ error }}</div>
         </div>
+        <div v-else-if="job.isDeleted">
+          <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
+        </div>
         <div v-else class="col-md-10 offset-md-1">
           <h4 class="row">{{ job.title }} - {{ job.employmentType }}</h4>
           <div class="row">{{ job.companyName }} - {{ job.location }}
@@ -39,6 +42,9 @@
           <div class="row job-description">
               {{ job.description }}
           </div>
+          <div class="row job-date">
+            Posted on {{ date }}
+          </div>
           <br>
         </div>
       </div>
@@ -47,6 +53,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import JobApplyModal from '@/components/JobApplyModal.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
@@ -104,6 +111,9 @@ export default {
       },
       ownJobPosting () {
         return this.me._id === this.job.postedUser
+      },
+      date () {
+        return moment(this.job.postedDate).format('MMMM Do, YYYY')
       }
     })
   }
@@ -119,4 +129,8 @@ export default {
 
 .job-description
   white-space: pre-wrap;
+
+.job-date
+  font-size 0.9em
+  color #999
 </style>

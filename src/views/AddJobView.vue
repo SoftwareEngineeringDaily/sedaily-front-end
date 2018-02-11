@@ -1,24 +1,34 @@
 <template>
   <div>
-    <job-form
-      :header="'Post a New Job:'"
-      :submitCallback="submitCreateJob"
-      :loading="loading">
-    </job-form>
+    <div v-if="isLoggedIn">
+      <job-form
+        :header="'Post a New Job:'"
+        :submitCallback="submitCreateJob"
+        :loading="loading">
+      </job-form>
+    </div>
+    <div v-if="error">
+      <div class="bg-danger"> Error: {{ error }}</div>
+    </div>
   </div>
 </template>
 
 <script>
 import JobForm from '@/components/JobForm.vue'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'add-job-view',
   data () {
     return {
-      loading: false
+      loading: false,
+      error: null
     }
   },
-
+  created () {
+    if (!this.isLoggedIn) {
+      this.error = 'Unauthorized'
+    }
+  },
   components: {
     JobForm
   },
@@ -50,7 +60,7 @@ export default {
           this.$router.push('/jobs')
         })
         .catch((error) => {
-          alert('There was an error posting the job: ' + error)
+          this.error = error.response.data.message
         })
         .finally(() => {
           this.loading = false
@@ -58,6 +68,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

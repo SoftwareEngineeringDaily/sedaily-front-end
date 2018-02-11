@@ -5,13 +5,13 @@
       {{ error }}
     </div>
     <div class="row justify-content-center">
-      <h1 class="col-4 text-center">Jobs Board</h1>
+      <h1 class="col-10 text-center">Jobs Board</h1>
     </div>
     <div class="row justify-content-center add-job-link">
-        <router-link class="col-4 text-center" v-if="isLoggedIn" to="/add-job">
+        <router-link class="col-10 text-center" v-if="isLoggedIn" to="/add-job">
           Employers: Post a Job
         </router-link>
-        <router-link class="col-4 text-center" v-else to="/login">
+        <router-link class="col-10 text-center" v-else to="/login">
           Login to Apply or Post a Job
         </router-link>
     </div>

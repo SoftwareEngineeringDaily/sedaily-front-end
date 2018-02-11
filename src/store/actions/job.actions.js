@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 import { BASE_URL } from './config.js'
 
 export default {
@@ -75,7 +76,12 @@ export default {
   fetchJobsList: ({ commit, state, getters }) => {
     return axios.get(`${BASE_URL}/jobs`)
       .then((response) => {
-        commit('setJobs', { jobs: response.data })
+        const { data } = response
+        // TODO: once sorting is done on back-end by default remove this
+        data.sort((left, right) => {
+          return moment.utc(right.postedDate).diff(moment.utc(left.postedDate))
+        })
+        commit('setJobs', { jobs: data })
         return response
       })
       .catch((error) => {

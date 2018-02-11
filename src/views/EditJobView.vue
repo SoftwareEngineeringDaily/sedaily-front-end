@@ -1,49 +1,75 @@
 <template>
-  <div>
-    <job-form
-      :header="'Update Job:'"
-      :submitCallback="submitUpdateJob"
-      :deleteCallback="submitDeleteJob"
-      :editingJob="true"
-      :jobData="job"
-      :loading="loading"
-    >
-    </job-form>
+  <div v-if="job.isDeleted">
+    <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
+  </div>
+  <div v-else>
+    <div v-if="isLoggedIn">
+      <job-form
+        :header="'Update Job:'"
+        :submitCallback="submitUpdateJob"
+        :deleteCallback="submitDeleteJob"
+        :editingJob="true"
+        :jobData="job"
+        :loading="loading"
+      >
+      </job-form>
+    </div>
+    <div v-if="error">
+      <div class="bg-danger"> Error: {{ error }}</div>
+    </div>
   </div>
 </template>
 
 <script>
 import JobForm from '@/components/JobForm.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 // TODO: disable if userId is not the same as postingUser
 export default {
   name: 'add-job-view',
   data () {
     return {
       loading: false,
-      job: null
+      job: null,
+      error: null
     }
   },
   created () {
-    this.fetchInitialData()
+    if (!this.isLoggedIn) {
+      this.error = 'Unauthorized'
+      return
+    }
+    this.fetchData()
   },
   watch: {
     // re-fetch if route changes
-    '$route': 'fetchInitialData'
+    '$route': 'fetchData'
   },
   components: {
     JobForm
   },
   methods: {
-    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
-    fetchInitialData () {
+    // TODO: once profile issue resolved, don't fetch profile here
+    // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
+    ...mapActions(['fetchMyProfileData', 'updateJob', 'fetchJob', 'deleteJob']),
+    fetchData () {
       this.loading = true
-      this.fetchJob({ jobId: this.jobId })
-        .then((response) => {
-          this.job = response.data
-        }).catch((error) => {
-          alert('There was an error fetching data: ' + error)
-        }).finally(() => {
+      const promiseActions = [this.fetchJob({ jobId: this.jobId })]
+      if (this.isLoggedIn) {
+        promiseActions.push(this.fetchMyProfileData())
+      }
+
+      Promise.all(promiseActions).then((responses) => {
+        if (responses[0].data.postedUser !== responses[1].data._id) {
+          this.error = 'Unauthorized'
+          return
+        }
+        this.job = responses[0].data
+        this.error = null
+      })
+        .catch((error) => {
+          this.error = error.response.data.message
+        })
+        .finally(() => {
           this.loading = false
         })
     },
@@ -74,7 +100,7 @@ export default {
           this.$router.push('/jobs')
         })
         .catch((error) => {
-          alert('There was an error updating the job: ' + error)
+          this.error = error.response.data.message
         })
         .finally(() => {
           this.loading = false
@@ -83,9 +109,20 @@ export default {
     submitDeleteJob () {
       this.loading = true
       this.deleteJob({ jobId: this.jobId })
+        .then(() => {
+          alert('Successfully Deleted!')
+          this.$router.push('/jobs')
+        })
+        .catch((error) => {
+          this.error = error.response.data.message
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       jobId (state) {
         return state.route.params.id
