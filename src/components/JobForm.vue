@@ -7,8 +7,8 @@
         <br>
         <form>
         <div class="form-group row">
-          <label for="companyNameInput" class="col-2 col-form-label">Company</label>
-          <div class="col-10">
+          <label for="companyNameInput" class="col-sm-2 col-form-label">Company</label>
+          <div class="col-sm-10">
             <input
               class="form-control"
               type="text"
@@ -20,15 +20,15 @@
             >
           </div>
           <div
-            class="col-10 offset-2 alert alert-danger"
+            class="col-sm-10 offset-sm-2 alert alert-danger"
             v-show="errors.has('companyName')"
           >
             {{ errors.first('companyName') }}
           </div>
         </div>
         <div class="form-group row">
-          <label for="locationInput" class="col-2 col-form-label">Location</label>
-          <div class="col-10 col-sm-6">
+          <label for="locationInput" class="col-sm-2 col-form-label">Location</label>
+          <div class="col-sm-6">
             <input
               class="form-control"
               type="text"
@@ -40,7 +40,7 @@
             >
           </div>
           <div
-            class="col-10 offset-2 alert alert-danger"
+            class="hidden-sm-up alert alert-danger"
             v-show="errors.has('location')">
             {{ errors.first('location') }}
           </div>
@@ -54,10 +54,15 @@
               >Remote Ok?
             </label>
           </div>
+          <div
+            class="hidden-xs-down col-sm-6 offset-sm-2 alert alert-danger"
+            v-show="errors.has('location')">
+            {{ errors.first('location') }}
+          </div>
         </div>
         <div class="form-group row">
-          <label for="titleInput" class="col-2 col-form-label">Title</label>
-          <div class="col-10">
+          <label for="titleInput" class="col-sm-2 col-form-label">Title</label>
+          <div class="col-sm-10">
             <input
               class="form-control"
               type="text"
@@ -69,14 +74,14 @@
             >
           </div>
           <div
-            class="col-10 offset-2 alert alert-danger"
+            class="col-sm-10 offset-sm-2 alert alert-danger"
             v-show="errors.has('title')">
             {{ errors.first('title') }}
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-2 col-form-label">Type</label>
-          <div class="col-8 mt-1">
+          <label class="col-sm-2 col-form-label">Type</label>
+          <div class="col-sm-8 mt-1">
             <div class="form-check form-check-inline">
               <label class="form-check-label">
                 <input
@@ -118,8 +123,8 @@
           </div>
         </div>
           <div class="form-group row">
-            <label for="applicationEmailAddressInput" class="col-2 col-form-label">Apply-to Email</label>
-            <div class="col-10">
+            <label for="applicationEmailAddressInput" class="col-sm-2 col-form-label">Apply-to Email</label>
+            <div class="col-sm-10">
               <input
                 class="form-control"
                 type="email"
@@ -131,7 +136,7 @@
               >
             </div>
             <div
-              class="col-10 offset-2 alert alert-danger"
+              class="col-sm-10 offset-sm-2 alert alert-danger"
               v-show="errors.has('applicationEmailAddress')">
               {{ errors.first('applicationEmailAddress') }}
             </div>
