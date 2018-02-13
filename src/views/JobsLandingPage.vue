@@ -1,9 +1,9 @@
 <template>
   <div class="login-view container">
-    <jobs-company-listing-header />
+    <jobs-company-listing-header
+    companyName="Company Z"
+    headerImage="http://softwareengineeringdaily.com/wp-content/uploads/2018/02/box1200x630.jpg" />
   </div>
-
-
 </template>
 
 <script>
