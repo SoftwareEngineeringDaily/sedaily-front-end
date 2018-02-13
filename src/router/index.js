@@ -14,10 +14,13 @@ import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
 import { apiConfig } from '../../config/apiConfig'
+import JobsLandingPage from '@/views/JobsLandingPage'
+import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history', // removes the # from urls
   routes: [
     {
       path: '/',
@@ -36,6 +39,9 @@ export default new Router({
     { path: '/edit-profile', component: EditProfile },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
-    { path: '/profile', component: ProfileView }
+    { path: '/profile', component: ProfileView },
+    { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
+    { path: '*', component: JobsLandingPage }
+
   ]
 })
