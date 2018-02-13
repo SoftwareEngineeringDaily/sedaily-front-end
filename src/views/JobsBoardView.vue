@@ -7,13 +7,6 @@
     <div class="row justify-content-center">
       <h1 class="col-10 text-center">Jobs Board</h1>
     </div>
-    <div class='search-bar'>
-      <input
-        class='search-bar-input'
-        type='text'
-        placeholder='Search...'
-        v-model='searchTerm'/>
-    </div>
     <div class="row justify-content-center add-job-link">
         <router-link class="col-10 text-center" v-if="isLoggedIn" to="/add-job">
           Employers: Post a Job
@@ -27,8 +20,51 @@
     </div>
     <br>
     <div class="row">
+      <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+        <div class="row justify-content-center">
+        <div class="form-group col-sm-5">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="title or company..."
+            id="keywordSearchInput"
+            name="keywordSearch"
+            v-model="keywordSearch"
+            @keydown.enter="search"
+          />
+        </div>
+        <div class="form-group col-sm-5">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="location or remote..."
+            id="locationSearchInput"
+            name="locationSearch"
+            v-model="locationSearch"
+            @keydown.enter="search"
+          />
+        </div>
+        <div class="form-group col-sm-2 job-search-button">
+          <!--<div class="row align-items-center">-->
+            <button
+              v-if="filtered"
+              class="btn button-submit"
+              @click="clearSearch"
+            >Clear
+            </button>
+            <button
+              v-else
+              class="btn button-submit"
+              @click="search"
+              :disabled="!locationSearch && !keywordSearch"
+            >Search
+            </button>
+          <!--</div>-->
+        </div>
+        </div>
+      </div>
       <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-        <job-summary v-for="job in filteredJobs" :key="job._id" :job="job">
+        <job-summary v-for="job in displayedJobs" :key="job._id" :job="job">
         </job-summary>
       </div>
     </div>
@@ -51,7 +87,10 @@ export default {
     return {
       loading: false,
       error: null,
-      searchTerm: ''
+      isFiltered: false,
+      locationSearch: '',
+      keywordSearch: '',
+      displayedJobs: []
     }
   },
   beforeMount () {
@@ -59,6 +98,7 @@ export default {
     this.fetchJobsList()
       .then(() => {
         this.error = null
+        this.displayedJobs = this.jobs
       })
       .catch((error) => {
         this.error = 'Error: ' + error.response.data.message
@@ -68,25 +108,34 @@ export default {
       })
   },
   methods: {
-    ...mapActions(['fetchJobsList'])
+    ...mapActions(['fetchJobsList']),
+    // TODO: determine best approach to search
+    search () {
+      const keywordSearchRe = this.keywordSearch.trim() === '' ? null : new RegExp(this.keywordSearch.trim(), 'i')
+      const locationSearchRe = this.locationSearch.trim() === '' ? null : new RegExp(this.locationSearch.trim(), 'i')
+      const includeRemote = this.locationSearch.trim().toLowerCase() === 'remote'
+      this.filtered = true
+      this.displayedJobs = this.jobs.filter((job) => {
+        return (
+          keywordSearchRe && (job.title.search(keywordSearchRe) >= 0 || job.companyName.search(keywordSearchRe) >= 0) ||
+          (locationSearchRe && job.location.search(locationSearchRe) >= 0) ||
+          (includeRemote && job.remoteWorkingConsidered)
+        )
+      })
+    },
+    clearSearch () {
+      this.keywordSearch = ''
+      this.locationSearch = ''
+      this.filtered = false
+      this.displayedJobs = this.jobs
+    }
   },
 
   computed: {
     ...mapGetters(['isLoggedIn']),
-    // TODO: determine preferred searching method
     ...mapState({
       jobs (state) {
         return state.jobs
-      },
-      filteredJobs () {
-        if (this.searchTerm.trim() === '') {
-          return this.jobs
-        } else {
-          const searchRe = new RegExp(this.searchTerm.trim(), 'i')
-          return this.jobs.filter((job) => {
-            return job.title.search(searchRe) >= 0 || job.companyName.search(searchRe) >= 0 || job.location.search(searchRe) >= 0
-          })
-        }
       }
     })
   }
@@ -99,15 +148,7 @@ export default {
   a
     color accent-color
 
-.search-bar
-  input
-    width 100%
-    margin 20px 0
-    padding 10px
-    font-size 2rem
-    font-weight 100
-    color #C4C4C4
-    padding-left 20px
-    border none
-    border-bottom 1px solid #ccc
+.job-search-button
+  text-align: center
+
 </style>
