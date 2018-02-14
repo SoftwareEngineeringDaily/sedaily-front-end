@@ -13,6 +13,10 @@ import ProfileView from '@/views/ProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
+import JobsBoardView from '@/views/JobsBoardView'
+import JobView from '@/views/JobView'
+import AddJobView from '@/views/AddJobView'
+import EditJobView from '@/views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
 import JobsLandingPage from '@/views/JobsLandingPage'
 import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
@@ -40,8 +44,11 @@ export default new Router({
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/profile', component: ProfileView },
+    { path: '/jobs', component: JobsBoardView },
+    { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
+    { path: '/add-job', component: AddJobView },
+    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView }
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
     { path: '*', component: JobsLandingPage }
-
   ]
 })
