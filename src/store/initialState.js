@@ -17,5 +17,6 @@ export default {
     recommendation: []
   },
   loggingEnabled: true,
-  token: localStorage.getItem('token')
+  token: localStorage.getItem('token'),
+  jobs: []
 }
