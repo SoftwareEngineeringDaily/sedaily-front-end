@@ -47,7 +47,7 @@ export default new Router({
     { path: '/jobs', component: JobsBoardView },
     { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
     { path: '/add-job', component: AddJobView },
-    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView }
+    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
     { path: '*', component: JobsLandingPage }
   ]
