@@ -7,7 +7,21 @@
         Companeis
       </h2>
       <div v-for="company in companies">
-        {{company.localUrl}}
+
+        <div>
+          Company Name: {{company.companyName}}
+        </div>
+        <div>
+          externalUrl: {{company.externalUrl}}
+        </div>
+        <div>
+          localUrl: {{company.localUrl}}
+
+          <router-link
+          :to='companyPath(company)'
+          >View</router-link>
+        </div>
+        <hr />
       </div>
     </div>
     <div v-else>
@@ -38,7 +52,10 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['companiesFetch', 'fetchMyProfileData'])
+    ...mapActions(['companiesFetch', 'fetchMyProfileData']),
+    companyPath (company) {
+      return '/' + company.localUrl
+    }
   }
 }
 
