@@ -15,7 +15,7 @@ export default {
     const url = `${BASE_URL}/posts/companies`
     return axios.get(url, options)
       .then((response) => {
-        const companies = response.data;
+        const companies = response.data
         commit('setCompanies', { companies })
         return companies
       })

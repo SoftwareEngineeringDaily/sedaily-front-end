@@ -9,11 +9,17 @@
 <script>
 
 import CompanyHeader from '@/components/CompanyHeader.vue'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'CompanyLandingPage',
 
   components: {
     CompanyHeader
+  },
+
+  computed: {
+    ...mapState({
+    })
   },
 
   data () {
@@ -22,6 +28,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['companiesFetch', 'fetchMyProfileData'])
   }
 }
 </script>
