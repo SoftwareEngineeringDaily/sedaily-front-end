@@ -18,8 +18,9 @@ import JobView from '@/views/JobView'
 import AddJobView from '@/views/AddJobView'
 import EditJobView from '@/views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
-import JobsLandingPage from '@/views/JobsLandingPage'
+import CompanyLandingPage from '@/views/CompanyLandingPage'
 import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
+import AdminDashboard from '@/views/AdminDashboard'
 
 Vue.use(Router)
 
@@ -49,6 +50,7 @@ export default new Router({
     { path: '/add-job', component: AddJobView },
     { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
-    { path: '*', component: JobsLandingPage }
+    { path: '/admin', component: AdminDashboard },
+    { path: '*', component: CompanyLandingPage }
   ]
 })

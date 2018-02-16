@@ -8,12 +8,12 @@
 
 <script>
 
-import JobsCompanyListingHeader from '@/components/JobsCompanyListingHeader.vue'
+import CompanyHeader from '@/components/CompanyHeader.vue'
 export default {
-  name: 'JobsLandingPage',
+  name: 'CompanyLandingPage',
 
   components: {
-    JobsCompanyListingHeader
+    CompanyHeader
   },
 
   data () {

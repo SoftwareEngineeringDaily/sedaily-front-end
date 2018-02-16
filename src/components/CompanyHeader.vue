@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    name: 'JobsCompanyListingHeader',
+    name: 'CompanyHeader',
     props: {
       companyName: {
         type: String,

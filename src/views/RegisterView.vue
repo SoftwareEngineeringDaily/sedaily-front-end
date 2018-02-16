@@ -34,7 +34,6 @@
           {{ errors.first('password') }}</div>
         </div>
 
-
         <div class="form-group">
           <label for="nameInput">Name</label>
           <input type="text" v-model='name'
