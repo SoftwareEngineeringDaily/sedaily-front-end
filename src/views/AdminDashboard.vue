@@ -16,8 +16,6 @@ export default {
   name: 'admin-dashboard',
   beforeMount () {
     this.fetchMyProfileData()
-      .then(() => {
-      })
   },
 
   computed: {
