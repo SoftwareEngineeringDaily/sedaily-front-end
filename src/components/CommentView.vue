@@ -7,8 +7,9 @@
           :upvoted="comment.upvoted"
           :score="comment.score">
         </voting-arrows>
-        <img :src='avatar(comment)' class='avatar'/>
-        {{username(comment)}}  <span class='comment-date'> {{date(comment)}} </span>
+        <profile-label :userData="user(comment)">
+          <span class='comment-date'> {{date(comment)}} </span>
+        </profile-label>
       </div>
       <div v-if='!comment.deleted' class='comment-content'>
         {{comment.content}}
@@ -30,10 +31,11 @@
 import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
+import ProfileLabel from 'components/ProfileLabel.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows },
+  components: { VotingArrows, ProfileLabel },
   props: {
     comment: {
       type: Object,
@@ -82,19 +84,13 @@ export default {
           alert('Error deleting :(')
         })
     },
-    username (comment: {content: string, dateCreated: string, author: {name: string} }) {
+    user (comment: {content: string, dateCreated: string, author: {name: string} }) {
       if (comment.author) {
-        return comment.author.name
+        return comment.author
       } else {
         // Means we just made this comment
-        return this.me.name
+        return this.me
       }
-    },
-
-    avatar (comment: {content: string, dateCreated: string, author: {name: string, avatarUrl: string} }) {
-      // If we just made this comment, no author is defined:
-      const author = comment.author ? comment.author : this.me
-      return author.avatarUrl == null ? this.placeholderAvatar : author.avatarUrl
     },
 
     date (comment: {content: string, dateCreated: string, author: {name: string} }) {
@@ -112,9 +108,6 @@ export default {
 .comment-content
   padding 10px
   padding-left 60px
-
-.avatar
-  width 50px
 
 .arrow
   color #888
@@ -139,10 +132,6 @@ export default {
   color red
   &:hover
     cursor pointer
-
-.profile-img
-  width 80px
-  height 80px
 
 .content
   margin-left 20px
