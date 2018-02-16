@@ -8,9 +8,11 @@ import feedActions from './actions/feed.actions'
 import subscriptionActions from './actions/subscription.actions'
 import loggingPostActions from './actions/logging.post.actions'
 import jobActions from './actions/job.actions'
+import companyActions from './actions/company.actions'
 
 export default {
   ...authActions,
+  ...companyActions,
   ...userActions,
   ...commentActions,
   ...relatedLinksActions,
