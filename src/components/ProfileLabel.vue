@@ -4,7 +4,7 @@
       <img :src='avatarUrl' class='avatar'/>
     </router-link>
     {{displayName}}
-    {{$children}}
+    <slot></slot>
   </span>
 </template>
 
