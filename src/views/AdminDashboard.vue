@@ -6,6 +6,10 @@
       <h2>
         Companeis
       </h2>
+      <router-link  to="/add-company">
+        Create a company
+      </router-link>
+
       <div v-for="company in companies">
 
         <div>
