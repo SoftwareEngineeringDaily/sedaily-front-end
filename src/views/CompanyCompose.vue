@@ -4,7 +4,7 @@
       <company-form
         :header="'Post a New Company:'"
         :submitCallback="submitCreateCompany"
-        :loading="loading">
+        >
       </company-form>
     </div>
 
