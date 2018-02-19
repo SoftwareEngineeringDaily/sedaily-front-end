@@ -1,6 +1,6 @@
 <template>
   <div>
-    dsfds
+
     <h4 class="row" >{{ header }}</h4>
     <form>
       <div class="form-group row">
@@ -73,6 +73,14 @@
         </div>
       </div>
 
+      <div class="pl-2 col-4">
+        <button
+          class="btn button-submit"
+          @click.prevent="submit"
+          <span >Submit</span>
+        </button>
+      </div>
+
     </form>
 
   </div>
@@ -96,9 +104,17 @@ export default {
       }
     }
   },
+
   data () {
     return {
       companyFormData: this.companyData
+    }
+  },
+
+  methods: {
+    submit () {
+      console.log('Submitting')
+      console.log(this.companyFormData)
     }
   }
 }
