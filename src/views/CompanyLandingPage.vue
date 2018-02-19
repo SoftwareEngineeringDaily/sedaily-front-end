@@ -1,8 +1,13 @@
 <template>
-  <div class="login-view container">
+  <div class="container">
+    <div v-if="error">
+      {{error}}
+    </div>
     <company-header
-    companyName="Company Z"
-    headerImage="http://softwareengineeringdaily.com/wp-content/uploads/2018/02/box1200x630.jpg" />
+    :companyName="companyName"
+    :description="description"
+    :externalUrl="externalUrl"
+    :headerImage="imageUrl" />
   </div>
 </template>
 
@@ -30,10 +35,14 @@ export default {
         console.log(company)
         const {
           companyName,
-          description
+          imageUrl,
+          description,
+          externalUrl
         } = company
         this.companyName = companyName
         this.description = description
+        this.imageUrl = imageUrl
+        this.externalUrl = externalUrl
 
         // Fetch the jobs:
         return this.jobsSearch({ companyName })
@@ -49,8 +58,10 @@ export default {
   data () {
     return {
       error: null,
-      description: null,
-      companyName: null,
+      description: '',
+      companyName: '',
+      imageUrl: '',
+      externalUrl: '',
       jobs: []
     }
   },
