@@ -8,18 +8,27 @@
     :description="description"
     :externalUrl="externalUrl"
     :headerImage="imageUrl" />
+
+    <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+      <job-summary v-for="job in jobs" :key="job._id" :job="job">
+      </job-summary>
+    </div>
+
   </div>
+
 </template>
 
 <script>
 
 import CompanyHeader from '@/components/CompanyHeader.vue'
+import JobSummary from '@/components/JobSummary.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'CompanyLandingPage',
 
   components: {
-    CompanyHeader
+    CompanyHeader,
+    JobSummary
   },
 
   computed: {
@@ -48,6 +57,7 @@ export default {
         return this.jobsSearch({ companyName })
           .then((jobs) => {
             console.log('jobs', jobs)
+            this.jobs = jobs
           })
       })
       .catch(() => {

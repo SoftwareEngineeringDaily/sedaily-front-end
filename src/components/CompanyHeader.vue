@@ -2,7 +2,7 @@
   <div>
     <h1>
     {{companyName}}
-  </h1>
+    </h1>
     <img :src='headerImage' />
   </div>
 </template>
