@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div class="admin-dashboard">
     <div v-if="me.isAdmin">
       <h1> Admin Dashboard </h1>
 
+      <br />
+      <br />
       <h2>
         Companeis
       </h2>
+      <br />
       <router-link  to="/add-company">
         Create a company
       </router-link>
@@ -64,3 +67,8 @@ export default {
 }
 
 </script>
+
+<style scoped lang="stylus">
+  .admin-dashboard
+    padding 10px 20px
+</style>
