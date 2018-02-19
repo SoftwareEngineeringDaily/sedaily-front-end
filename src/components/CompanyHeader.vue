@@ -3,7 +3,15 @@
     <h1>
     {{companyName}}
     </h1>
+
     <img :src='headerImage' />
+    <p v-if="description">
+      {{description}}
+    </p>
+
+    <p v-if='externalUrl'>
+      Find out more about {{companyName}} <a :href="externalUrl" target="_blank">here</a>.
+    </p>
   </div>
 </template>
 
@@ -14,6 +22,16 @@
       companyName: {
         type: String,
         required: true
+      },
+
+      description: {
+        type: String,
+        required: false
+      },
+
+      externalUrl: {
+        type: String,
+        required: false
       },
 
       headerImage: {
@@ -30,6 +48,6 @@
 
 <style lang="stylus">
 img
-  width 300px
+  max-width 300px
 
 </style>
