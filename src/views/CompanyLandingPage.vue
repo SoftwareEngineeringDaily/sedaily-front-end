@@ -28,7 +28,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['companiesFetch', 'fetchMyProfileData'])
+    ...mapActions(['companiesFetchByLocalUrl', 'fetchMyProfileData'])
   }
 }
 </script>
