@@ -3,7 +3,7 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  companiesCreate ({ commit, getters }, { company }) {
+  companiesCreate ({ commit, getters }, company) {
     const token = getters.getToken
     const config = {}
     if (token) {
@@ -13,6 +13,7 @@ export default {
     }
 
     const url = `${BASE_URL}/companies`
+    console.log('company', company)
     return axios.post(url, company, config)
   },
 

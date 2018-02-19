@@ -91,6 +91,10 @@ export default {
       type: String,
       required: true
     },
+    submitCallback: {
+      type: Function,
+      required: true
+    },
     companyData: {
       type: Object,
       default: function () {
@@ -111,6 +115,7 @@ export default {
     submit () {
       console.log('Submitting')
       console.log(this.companyFormData)
+      return this.submitCallback(this.companyFormData)
     }
   }
 }
