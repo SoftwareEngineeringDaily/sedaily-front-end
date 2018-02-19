@@ -22,13 +22,41 @@ export default {
     })
   },
 
+  beforeMount () {
+    const localUrl = this.$route.params.company
+    console.log(localUrl)
+    this.companiesFetchByLocalUrl(localUrl)
+      .then((company) => {
+        console.log(company)
+        const {
+          companyName,
+          description
+        } = company
+        this.companyName = companyName
+        this.description = description
+
+        // Fetch the jobs:
+        return this.jobsSearch({ companyName })
+          .then((jobs) => {
+            console.log('jobs', jobs)
+          })
+      })
+      .catch(() => {
+        this.error = 'An error occured.'
+      })
+  },
+
   data () {
     return {
+      error: null,
+      description: null,
+      companyName: null,
+      jobs: []
     }
   },
 
   methods: {
-    ...mapActions(['companiesFetchByLocalUrl', 'fetchMyProfileData'])
+    ...mapActions(['companiesFetchByLocalUrl', 'jobsSearch'])
   }
 }
 </script>

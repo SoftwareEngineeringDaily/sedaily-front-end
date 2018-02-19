@@ -73,6 +73,25 @@ export default {
     }
     return axios.get(`${BASE_URL}/jobs/${jobId}`, config)
   },
+
+  jobsSearch: ({ commit, state, getters }, { companyName }) => {
+    let query = '?'
+    if (companyName) {
+      query += `companyName=${companyName}&`
+    }
+
+    return axios.get(`${BASE_URL}/jobs${query}`)
+      .then((response) => {
+        const jobs = response.data
+        commit('setJobs', { jobs })
+        return jobs
+      })
+      .catch((error) => {
+        commit('setJobs', { jobs: [] })
+        throw error
+      })
+  },
+
   fetchJobsList: ({ commit, state, getters }) => {
     return axios.get(`${BASE_URL}/jobs`)
       .then((response) => {

@@ -53,6 +53,6 @@ export default new Router({
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
     { path: '/admin', component: AdminDashboard },
     { path: '/add-company', component: CompanyCompose },
-    { path: '*', component: CompanyLandingPage }
+    { path: '/:company', component: CompanyLandingPage }
   ]
 })
