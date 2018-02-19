@@ -25,6 +25,7 @@
           localUrl: {{company.localUrl}}
 
           <router-link
+          target="_blank"
           :to='companyPath(company)'
           >View</router-link>
         </div>
