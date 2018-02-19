@@ -73,16 +73,12 @@
         </div>
       </div>
 
-      <div class="pl-2 col-4">
-        <button
-          class="btn button-submit"
-          @click.prevent="submit"
-          <span >Submit</span>
-        </button>
-      </div>
-
     </form>
-
+    <button
+    class=""
+    v-on:click="submit">
+    Submit
+  </button>
   </div>
 </template>
 
