@@ -12,6 +12,12 @@
     <p v-if='externalUrl'>
       Find out more about {{companyName}} <a :href="externalUrl" target="_blank">here</a>.
     </p>
+    <br />
+    <br />
+    <h3>
+      Open Positions
+    </h3>
+    <br />
   </div>
 </template>
 
