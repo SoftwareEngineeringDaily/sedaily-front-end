@@ -5,7 +5,7 @@
 > Web front end for the [Software Engineering Daily](https://www.softwaredaily.com) application, a Vue.js project
 
 ## Getting Started
-See the companion projects [API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api) and [event stream](https://github.com/SoftwareEngineeringDaily/sedaily-event-stream) required to run the web front end locally.
+See the companion project [API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api) required to run the web front end locally.
 
 ``` bash
 # cloning the project
