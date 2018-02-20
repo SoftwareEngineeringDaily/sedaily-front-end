@@ -26,7 +26,7 @@
           <input
             class="form-control"
             type="text"
-            placeholder="title or company..."
+            placeholder="Title or Company..."
             id="keywordSearchInput"
             name="keywordSearch"
             v-model="keywordSearch"
@@ -37,7 +37,7 @@
           <input
             class="form-control"
             type="text"
-            placeholder="location or remote..."
+            placeholder="Location or Remote..."
             id="locationSearchInput"
             name="locationSearch"
             v-model="locationSearch"
