@@ -10,6 +10,7 @@ import RecomendationListView from '@/views/RecomendationListView'
 import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
+import PublicProfileView from '@/views/PublicProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
@@ -46,6 +47,7 @@ export default new Router({
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/profile', component: ProfileView },
+    { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
     { path: '/jobs', component: JobsBoardView },
     { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
     { path: '/add-job', component: AddJobView },
