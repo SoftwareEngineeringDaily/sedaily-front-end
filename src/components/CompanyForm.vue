@@ -9,6 +9,7 @@
           <input
           class="form-control"
           type="text"
+          @blur="companyNameBlur"
           placeholder="Company Name"
           id="companyNameInput"
           name="companyName"
@@ -72,20 +73,31 @@
           >
         </div>
       </div>
-
     </form>
     <button
     class=""
     v-on:click="submit">
     Submit
   </button>
+  <br />
+  <br />
+  <p> Jobs will appear here after typing in the company name & pressing tab & pressing tab.</p>
+
+  <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+    <job-summary v-for="job in jobs" :key="job._id" :job="job">
+    </job-summary>
+  </div>
   </div>
 </template>
 
 <script>
-
+import JobSummary from '@/components/JobSummary.vue'
+import { mapActions } from 'vuex'
 export default {
   name: 'company-form',
+  components: {
+    JobSummary
+  },
   props: {
     header: {
       type: String,
@@ -104,14 +116,27 @@ export default {
       }
     }
   },
-
   data () {
     return {
-      companyFormData: this.companyData
+      companyFormData: this.companyData,
+      jobs: []
     }
   },
-
   methods: {
+    ...mapActions(['jobsSearch']),
+    companyNameBlur () {
+      const companyName = this.companyFormData.companyName
+      console.log(companyName)
+
+      return this.jobsSearch({ companyName })
+        .then((jobs) => {
+          console.log('jobs', jobs)
+          this.jobs = jobs
+        })
+        .catch(() => {
+          alert('There was an error searching jobs for that company name.')
+        })
+    },
     submit () {
       console.log('Submitting')
       console.log(this.companyFormData)
