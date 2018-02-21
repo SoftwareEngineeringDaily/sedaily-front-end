@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       loading: false,
-      companyData: {},
+      companyData: null,
       error: null
     }
   },

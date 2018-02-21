@@ -111,7 +111,12 @@ export default {
       type: Object,
       default: function () {
         return {
-          companyName: null
+          companyName: '',
+          description: '',
+          imageUrl: '',
+          externalUrl: '',
+          localUrl: ''
+
         }
       }
     }
@@ -120,6 +125,13 @@ export default {
     return {
       companyFormData: this.companyData,
       jobs: []
+    }
+  },
+  // but update from parent also, e.g. if route changes
+  watch: {
+    companyData: function () {
+      this.companyFormData = this.companyData
+      this.companyNameBlur()
     }
   },
   methods: {
