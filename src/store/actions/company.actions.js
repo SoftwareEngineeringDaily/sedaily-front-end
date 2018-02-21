@@ -17,6 +17,24 @@ export default {
     return axios.post(url, company, config)
   },
 
+  companiesFetchById ({ getters, commit }, id) {
+    const options = {}
+    const token = getters.getToken
+    if (token) {
+      options.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const url = `${BASE_URL}/companies/${id}`
+    return axios.get(url, options)
+      .then((response) => {
+        const company = response.data
+        // commit('setCompanies', { companies })
+        return company
+      })
+  },
+
   companiesFetchByLocalUrl ({ getters, commit }, localUrl) {
     const options = {}
     const token = getters.getToken
@@ -30,7 +48,8 @@ export default {
     return axios.get(url, options)
       .then((response) => {
         const companies = response.data
-        commit('setCompanies', { companies })
+        //  set company... by local url
+        // commit('setCompanies', { companies })
         return companies
       })
   },
