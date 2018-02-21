@@ -4,6 +4,7 @@
       <company-form
         :header="'Edit Company:'"
         :companyData='companyData'
+        :deleteCallback='deleteCoompanyCallback'
         :submitCallback="submitCreateCompany"
         >
       </company-form>
@@ -48,12 +49,22 @@ export default {
     CompanyForm
   },
   methods: {
-    ...mapActions(['companiesEdit', 'companiesFetchById']),
+    ...mapActions(['companiesEdit', 'companiesFetchById', 'deleteCompany']),
+    deleteCoompanyCallback () {
+      this.deleteCompany(this.companyData._id)
+        .then(() => {
+          alert('Company was deleted.')
+          this.$router.push('/admin')
+        })
+        .catch(() => {
+          alert('Error deleting company---------------')
+        })
+    },
     submitCreateCompany (company) {
       this.loading = true
       this.companiesEdit(company)
         .then(() => {
-          alert('Successfully Updated!')
+          alert('Successfully Posted!')
           this.loading = false
           this.$router.push('/admin')
         })

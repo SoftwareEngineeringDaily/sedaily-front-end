@@ -85,7 +85,7 @@ export default {
       })
   },
 
-  deleteCompany: ({ commit, state, getters }, { companyId }) => {
+  deleteCompany: ({ commit, state, getters }, companyId) => {
     const token = getters.getToken
     const config = {}
     if (!token) {
