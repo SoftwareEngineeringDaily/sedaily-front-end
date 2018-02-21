@@ -53,7 +53,7 @@ export default {
       this.loading = true
       this.companiesEdit(company)
         .then(() => {
-          alert('Successfully Posted!')
+          alert('Successfully Updated!')
           this.loading = false
           this.$router.push('/admin')
         })

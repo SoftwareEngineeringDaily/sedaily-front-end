@@ -28,7 +28,7 @@ export default {
 
     const url = `${BASE_URL}/companies/${company._id}`
     console.log('company', company)
-    return axios.post(url, company, config)
+    return axios.put(url, company, config)
   },
   companiesFetchById ({ getters, commit }, id) {
     const options = {}
