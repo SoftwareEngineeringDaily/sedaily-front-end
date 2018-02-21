@@ -111,16 +111,18 @@ export default {
     ...mapActions(['fetchJobsList']),
     // TODO: determine best approach to search
     search () {
-      const keywordSearchRe = this.keywordSearch.trim() === '' ? null : new RegExp(this.keywordSearch.trim(), 'i')
-      const locationSearchRe = this.locationSearch.trim() === '' ? null : new RegExp(this.locationSearch.trim(), 'i')
-      const includeRemote = this.locationSearch.trim().toLowerCase() === 'remote'
+      if (!this.keywordSearch && !this.locationSearch) {
+        // if both blank clear search instead
+        return this.clearSearch()
+      }
       this.filtered = true
+      const keywordSearchRe = !this.keywordSearch ? null : new RegExp(this.keywordSearch, 'i')
+      const locationSearchRe = !this.locationSearch ? null : new RegExp(this.locationSearch, 'i')
+      const includeRemote = this.locationSearch.trim().toLowerCase() === 'remote'
       this.displayedJobs = this.jobs.filter((job) => {
-        return (
-          keywordSearchRe && (job.title.search(keywordSearchRe) >= 0 || job.companyName.search(keywordSearchRe) >= 0) ||
-          (locationSearchRe && job.location.search(locationSearchRe) >= 0) ||
-          (includeRemote && job.remoteWorkingConsidered)
-        )
+        const keywordResult = keywordSearchRe === null ? true : job.title.search(keywordSearchRe) >= 0 || job.companyName.search(keywordSearchRe) >= 0
+        const locationResult = locationSearchRe === null ? true : job.location.search(locationSearchRe) >= 0 || includeRemote && job.remoteWorkingConsidered
+        return keywordResult && locationResult
       })
     },
     clearSearch () {
