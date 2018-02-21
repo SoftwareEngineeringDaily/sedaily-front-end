@@ -28,7 +28,7 @@ import CompanyEdit from '@/views/CompanyEdit'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history', // removes the # from urls
+  mode: 'history', // removes the # from urls
   routes: [
     {
       path: '/',
