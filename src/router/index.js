@@ -23,6 +23,7 @@ import CompanyLandingPage from '@/views/CompanyLandingPage'
 import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
 import AdminDashboard from '@/views/AdminDashboard'
 import CompanyCompose from '@/views/CompanyCompose'
+import CompanyEdit from '@/views/CompanyEdit'
 
 Vue.use(Router)
 
@@ -54,7 +55,8 @@ export default new Router({
     { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
     { path: '/admin', component: AdminDashboard },
-    { path: '/add-company', component: CompanyCompose },
+    { path: '/admin/add-company', component: CompanyCompose },
+    { path: '/admin/edit-company/:id', component: CompanyEdit },
     { path: '/:company', component: CompanyLandingPage }
   ]
 })

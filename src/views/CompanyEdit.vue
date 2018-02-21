@@ -30,6 +30,14 @@ export default {
   beforeMount () {
     // Should probably be fetching by id:
     // actions companiesFetchById
+    this.companiesFetchById(this.$route.params.id)
+      .then((company) => {
+        console.log('company fetched', company)
+        this.companyData = company
+      })
+      .catch(() => {
+        alert('Error fecthing company')
+      })
   },
   created () {
     if (!this.isLoggedIn) {
@@ -40,7 +48,7 @@ export default {
     CompanyForm
   },
   methods: {
-    ...mapActions(['companiesCreate']),
+    ...mapActions(['companiesCreate', 'companiesFetchById']),
     submitCreateCompany (company) {
       this.loading = true
       this.companiesCreate(company)
