@@ -19,10 +19,15 @@ import JobView from '@/views/JobView'
 import AddJobView from '@/views/AddJobView'
 import EditJobView from '@/views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
+import CompanyLandingPage from '@/views/CompanyLandingPage'
+import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
+import AdminDashboard from '@/views/AdminDashboard'
+import CompanyCompose from '@/views/CompanyCompose'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history', // removes the # from urls
   routes: [
     {
       path: '/',
@@ -46,6 +51,10 @@ export default new Router({
     { path: '/jobs', component: JobsBoardView },
     { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
     { path: '/add-job', component: AddJobView },
-    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView }
+    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
+    { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
+    { path: '/admin', component: AdminDashboard },
+    { path: '/add-company', component: CompanyCompose },
+    { path: '/:company', component: CompanyLandingPage }
   ]
 })
