@@ -61,12 +61,10 @@ export default {
         commit('setMe', { me: response.data })
         return response
       })
-      .catch((error) => {
-        // @TODO: Add pretty pop up here
-        console.log(error)
-        alert(error.response.data.message)
-        return error
-      })
+  },
+
+  fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
+    return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
   updateProfile: ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) => {

@@ -10,14 +10,24 @@ import RecomendationListView from '@/views/RecomendationListView'
 import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
 import ProfileView from '@/views/ProfileView'
+import PublicProfileView from '@/views/PublicProfileView'
 import ForgotPassword from '@/views/ForgotPassword'
 import RegainAccount from '@/views/RegainAccount'
 import PremiumChoices from '@/views/PremiumChoices'
+import JobsBoardView from '@/views/JobsBoardView'
+import JobView from '@/views/JobView'
+import AddJobView from '@/views/AddJobView'
+import EditJobView from '@/views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
+import CompanyLandingPage from '@/views/CompanyLandingPage'
+import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
+import AdminDashboard from '@/views/AdminDashboard'
+import CompanyCompose from '@/views/CompanyCompose'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history', // removes the # from urls
   routes: [
     {
       path: '/',
@@ -36,6 +46,15 @@ export default new Router({
     { path: '/edit-profile', component: EditProfile },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
-    { path: '/profile', component: ProfileView }
+    { path: '/profile', component: ProfileView },
+    { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
+    { path: '/jobs', component: JobsBoardView },
+    { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
+    { path: '/add-job', component: AddJobView },
+    { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
+    { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
+    { path: '/admin', component: AdminDashboard },
+    { path: '/add-company', component: CompanyCompose },
+    { path: '/:company', component: CompanyLandingPage }
   ]
 })

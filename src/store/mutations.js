@@ -37,6 +37,10 @@ export default {
     state.postComments[comment.postId].unshift(comment)
   },
 
+  setCompanies: (state, { companies }) => {
+    Vue.set(state, 'companies', companies)
+  },
+
   setComments: (state, { comments, postId }) => {
     Vue.set(state.postComments, postId, comments)
   },
@@ -177,6 +181,8 @@ export default {
 
   disableLogging: (state) => {
     state.loggingEnabled = false
+  },
+  setJobs: (state, { jobs }) => {
+    state.jobs = jobs
   }
-
 }
