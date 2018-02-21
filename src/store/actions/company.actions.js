@@ -17,6 +17,19 @@ export default {
     return axios.post(url, company, config)
   },
 
+  companiesEdit ({ commit, getters }, company) {
+    const token = getters.getToken
+    const config = {}
+    if (token) {
+      config.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const url = `${BASE_URL}/companies/${company._id}`
+    console.log('company', company)
+    return axios.post(url, company, config)
+  },
   companiesFetchById ({ getters, commit }, id) {
     const options = {}
     const token = getters.getToken

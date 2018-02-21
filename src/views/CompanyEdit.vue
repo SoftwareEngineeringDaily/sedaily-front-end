@@ -48,10 +48,10 @@ export default {
     CompanyForm
   },
   methods: {
-    ...mapActions(['companiesCreate', 'companiesFetchById']),
+    ...mapActions(['companiesEdit', 'companiesFetchById']),
     submitCreateCompany (company) {
       this.loading = true
-      this.companiesCreate(company)
+      this.companiesEdit(company)
         .then(() => {
           alert('Successfully Posted!')
           this.loading = false
