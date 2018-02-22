@@ -27,8 +27,8 @@ import CompanyEdit from '@/views/CompanyEdit'
 
 Vue.use(Router)
 
-export default new Router({
-  mode: 'history', // removes the # from urls
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -60,3 +60,20 @@ export default new Router({
     { path: '/:company', component: CompanyLandingPage }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // Redirect all /# (hash) routes to non hash:
+  try {
+    if (to.fullPath && to.fullPath[1] === '#') {
+      const withoutHash = to.fullPath.split('#')[1]
+      router.push(withoutHash)
+    } else {
+      // Default, this will just go to the actual route
+      next()
+    }
+  } catch (_) {
+    // Catch all: go to default route
+    next()
+  }
+})
+export default router
