@@ -9,7 +9,7 @@
         Companeis
       </h2>
       <br />
-      <router-link  to="/add-company">
+      <router-link  to="/admin/add-company">
         Create a company
       </router-link>
 
@@ -17,6 +17,9 @@
 
         <div>
           Company Name: {{company.companyName}}
+          <router-link
+          :to='editCompany(company)'>
+          Edit </router-link>
         </div>
         <div>
           externalUrl: {{company.externalUrl}}
@@ -61,6 +64,9 @@ export default {
   },
   methods: {
     ...mapActions(['companiesFetch', 'fetchMyProfileData']),
+    editCompany (company) {
+      return `/admin/edit-company/${company._id}`
+    },
     companyPath (company) {
       return '/' + company.localUrl
     }

@@ -79,6 +79,9 @@
     v-on:click="submit">
     Submit
   </button>
+  <button v-if="deleteCallback" @click="deleteCallback">
+    Delete
+  </button>
   <br />
   <br />
   <p> Jobs will appear here after typing in the company name & pressing tab & pressing tab.</p>
@@ -107,11 +110,20 @@ export default {
       type: Function,
       required: true
     },
+    deleteCallback: {
+      type: Function,
+      required: false
+    },
     companyData: {
       type: Object,
       default: function () {
         return {
-          companyName: null
+          companyName: '',
+          description: '',
+          imageUrl: '',
+          externalUrl: '',
+          localUrl: ''
+
         }
       }
     }
@@ -120,6 +132,13 @@ export default {
     return {
       companyFormData: this.companyData,
       jobs: []
+    }
+  },
+  // but update from parent also, e.g. if route changes
+  watch: {
+    companyData: function () {
+      this.companyFormData = this.companyData
+      this.companyNameBlur()
     }
   },
   methods: {
