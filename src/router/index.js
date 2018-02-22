@@ -63,25 +63,16 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // Redirect all /# (hash) routes to non hash:
-  // a little ugly.
   try {
     if (to.fullPath && to.fullPath[1] === '#') {
       const withoutHash = to.fullPath.split('#')[1]
       router.push(withoutHash)
-      /*
-      next({
-        path: to.withoutHash,
-        query: {
-          redirect: withoutHash
-        }
-      })
-      */
     } else {
-      // Default, this will work:
+      // Default, this will just go to the actual route
       next()
     }
   } catch (_) {
-    // Try all: default
+    // Catch all: go to default route
     next()
   }
 })
