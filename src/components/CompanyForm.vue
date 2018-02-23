@@ -39,14 +39,8 @@
         </div>
 
         <div class="form-group">
-          <div v-if="!companyFormData.imageUrl">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
-          </div>
-          <div v-else>
-            <img :src="companyFormData.imageUrl" />
-            <button @click="removeImage">Remove image</button>
-          </div>
         </div>
 
 
@@ -175,7 +169,7 @@ export default {
 
     removeImage (e) {
       this.file = null
-      this.companyFormData.imageUrl = null
+      // this.companyFormData.imageUrl = null
     },
 
     companyNameBlur () {
