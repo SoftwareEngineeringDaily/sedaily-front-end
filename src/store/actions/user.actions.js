@@ -8,7 +8,7 @@ export default {
   uploadAvatarImage: ({ commit, state, getters }, { imageFile }) => {
     const token = getters.getToken
     const endpointUrl = `${BASE_URL}/auth/sign-s3`
-    getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })
+    return getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })
   },
 
   fetchMyProfileData: ({ commit, state, getters }) => {
