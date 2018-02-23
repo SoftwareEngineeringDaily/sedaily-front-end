@@ -32,7 +32,7 @@ export default {
     return axios.put(url, company, config)
   },
 
-  uploadImage: ({ commit, state, getters }, { imageFile }) => {
+  companiesUploadImage: ({ commit, state, getters }, { imageFile }) => {
     const token = getters.getToken
     const endpointUrl = `${BASE_URL}/companies/upload-image`
     return getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })

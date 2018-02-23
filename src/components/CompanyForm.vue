@@ -34,18 +34,17 @@
       </div>
 
       <div class="form-group row">
-
-        <div v-if="companyFormData.imageUr">
-          <img :src="companyFormData.imageUr" />
+        <div v-if="companyFormData.imageUrl">
+          <img :src="companyFormData.imageUrl" />
         </div>
 
         <div class="form-group">
-          <div v-if="!companyFormData.imageUr">
+          <div v-if="!companyFormData.imageUrl">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
           </div>
           <div v-else>
-            <img :src="companyFormData.imageUr" />
+            <img :src="companyFormData.imageUrl" />
             <button @click="removeImage">Remove image</button>
           </div>
         </div>
@@ -150,7 +149,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['jobsSearch']),
+    ...mapActions(['jobsSearch', 'companiesUploadImage']),
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
@@ -195,7 +194,16 @@ export default {
     submit () {
       console.log('Submitting')
       console.log(this.companyFormData)
-      return this.submitCallback(this.companyFormData)
+      var vm = this
+      if (this.file) {
+        return this.companiesUploadImage({ imageFile: this.file })
+          .then((imageSuccess) => {
+            this.companyFormData.imageUrl = imageSuccess.imageUrl
+            return vm.submitCallback(this.companyFormData)
+          })
+      } else {
+        return this.submitCallback(this.companyFormData)
+      }
     }
   }
 }
