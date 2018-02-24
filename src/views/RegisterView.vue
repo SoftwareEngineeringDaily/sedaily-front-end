@@ -34,7 +34,6 @@
           {{ errors.first('password') }}</div>
         </div>
 
-
         <div class="form-group">
           <label for="nameInput">Name</label>
           <input type="text" v-model='name'
@@ -134,6 +133,12 @@ export default {
               this.loading = false
 
               if (response.data.token) {
+                this.$store.dispatch('registerEvent', {
+                  username
+                })
+                  .then((eventResponse) => {
+                    // Ignore response for now
+                  })
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
                 } else {

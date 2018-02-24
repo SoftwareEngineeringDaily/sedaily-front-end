@@ -1,32 +1,14 @@
-
 import axios from 'axios'
-import { BASE_URL } from './config.js'
+import { apiConfig } from '../../../config/apiConfig'
+import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
+const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  getS3SingedUploadUrl: ({ commit, state, getters }, { fileName, fileType }) => {
-  },
 
   uploadAvatarImage: ({ commit, state, getters }, { imageFile }) => {
     const token = getters.getToken
-    const config = {}
-    if (token) {
-      config.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-
-    const fileType = imageFile.type
-    return axios.post(`${BASE_URL}/auth/sign-s3`, { fileType }, config)
-      .then((result) => {
-        const { signedRequest } = result.data
-        console.log('signedRequest', signedRequest)
-        var options = {
-          headers: {
-            'Content-Type': fileType
-          }
-        }
-        return axios.put(signedRequest, imageFile, options)
-      })
+    const endpointUrl = `${BASE_URL}/auth/sign-s3`
+    return getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })
   },
 
   fetchMyProfileData: ({ commit, state, getters }) => {
@@ -45,12 +27,10 @@ export default {
         commit('setMe', { me: response.data })
         return response
       })
-      .catch((error) => {
-        // @TODO: Add pretty pop up here
-        console.log(error)
-        alert(error.response.data.message)
-        return error
-      })
+  },
+
+  fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
+    return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
   updateProfile: ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) => {

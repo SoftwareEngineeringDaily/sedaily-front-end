@@ -37,6 +37,10 @@ export default {
     state.postComments[comment.postId].unshift(comment)
   },
 
+  setCompanies: (state, { companies }) => {
+    Vue.set(state, 'companies', companies)
+  },
+
   setComments: (state, { comments, postId }) => {
     Vue.set(state.postComments, postId, comments)
   },
@@ -179,5 +183,15 @@ export default {
     chat.messages.push(formatted)
   },
   setChatOnline: ({ chat }) => (chat.online = true),
-  setChatOffline: ({ chat }) => (chat.online = false)
+  setChatOffline: ({ chat }) => (chat.online = false),
+  enableLogging: (state) => {
+    state.loggingEnabled = true
+  },
+
+  disableLogging: (state) => {
+    state.loggingEnabled = false
+  },
+  setJobs: (state, { jobs }) => {
+    state.jobs = jobs
+  }
 }

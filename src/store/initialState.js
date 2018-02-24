@@ -23,5 +23,8 @@ export default {
     online: false,
     messages: []
   },
-  token: localStorage.getItem('token')
+  token: localStorage.getItem('token'),
+  loggingEnabled: true,
+  token: localStorage.getItem('token'),
+  jobs: []
 }

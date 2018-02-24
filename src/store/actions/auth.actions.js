@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { BASE_URL } from './config.js'
+import { apiConfig } from '../../../config/apiConfig'
+const BASE_URL = apiConfig.BASE_URL
 
 export default {
   login: ({ commit, state }, { username, password }) => {

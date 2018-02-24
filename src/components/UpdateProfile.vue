@@ -7,7 +7,7 @@
           <img :src="avatarUrl" />
         </div>
 
-        <div class="form-group" v-if="false">
+        <div class="form-group">
           <div v-if="!image">
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
@@ -197,6 +197,10 @@ export default {
                   website,
                   email
                 })
+              })
+              .catch((error) => {
+                console.log('Error uploading', error)
+                alert('Error uploading')
               })
           } else {
             updatePromise = this.updateProfile({

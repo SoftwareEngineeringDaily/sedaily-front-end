@@ -68,6 +68,10 @@ export default {
 <style lang="stylus">
 @import './css/variables'
 
+#app
+  margin-left 0.3rem
+  margin-right 0.3rem
+
 .main-app
   margin-top 3rem
 

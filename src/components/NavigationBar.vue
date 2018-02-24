@@ -6,6 +6,10 @@
         <img class="logo" src="./../assets/sedaily-logo.png" alt="logo">
       </router-link>
 
+      <router-link
+        to="/jobs"
+        name="jobs-nav-link">Jobs Board</router-link>
+
       <router-link to="/feed"
         name="feed-nav-link"
         exact
@@ -34,7 +38,7 @@
             name="feed-nav-link"
             exact
             >Top</router-link>
-          <router-link to="/recommended"
+          <router-link to="/recommendations"
             class="dropdown-item"
             name="feed-nav-link"
             exact
@@ -79,12 +83,6 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'navigation-bar',
 
-  data () {
-    return {
-      dropdownVisible: false
-    }
-  },
-
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
@@ -100,7 +98,6 @@ export default {
   },
 
   beforeMount () {
-    console.log('stripe key', this.stripePublicKey)
     if (this.isLoggedIn) {
       this.fetchMyProfileData()
         .then((myData) => {
@@ -112,16 +109,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(['logout', 'fetchMyProfileData']),
+    ...mapActions([
+      'logout',
+      'fetchMyProfileData'
+    ]),
     logoutHandler () {
       this.logout()
       this.$router.replace('/')
-    },
-    showDropdownMenu () {
-      this.dropdownVisible = true
-    },
-    hideDropdownMenu () {
-      this.dropdownVisible = false
     }
   }
 }
