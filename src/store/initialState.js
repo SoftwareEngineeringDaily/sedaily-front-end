@@ -25,6 +25,5 @@ export default {
   },
   token: localStorage.getItem('token'),
   loggingEnabled: true,
-  token: localStorage.getItem('token'),
   jobs: []
 }
