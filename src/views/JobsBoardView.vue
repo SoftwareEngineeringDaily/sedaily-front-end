@@ -87,7 +87,7 @@ export default {
     return {
       loading: false,
       error: null,
-      isFiltered: false,
+      filtered: false,
       locationSearch: '',
       keywordSearch: '',
       displayedJobs: []
