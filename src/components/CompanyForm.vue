@@ -3,6 +3,7 @@
 
     <h4 class="row" >{{ header }}</h4>
     <form>
+
       <div class="form-group row">
         <label for="companyNameInput" class="col-sm-2 col-form-label">Company Name</label>
         <div class="col-sm-10">
@@ -33,17 +34,16 @@
       </div>
 
       <div class="form-group row">
-        <label for="companyNameInput" class="col-sm-2 col-form-label">Image Url:</label>
-        <div class="col-sm-10">
-          <input
-          class="form-control"
-          type="text"
-          placeholder="https://someurl.com/image.jpg"
-          id="imageUrlInput"
-          name="imageUrl"
-          v-model="companyFormData.imageUrl"
-          >
+        <div v-if="companyFormData.imageUrl">
+          <img :src="companyFormData.imageUrl" />
         </div>
+
+        <div class="form-group">
+            <h2>Select an image</h2>
+            <input type="file" @change="onFileChange">
+        </div>
+
+
       </div>
 
       <div class="form-group row">
@@ -120,7 +120,7 @@ export default {
         return {
           companyName: '',
           description: '',
-          imageUrl: '',
+          imageUrl: null,
           externalUrl: '',
           localUrl: ''
 
@@ -130,6 +130,7 @@ export default {
   },
   data () {
     return {
+      file: null,
       companyFormData: this.companyData,
       jobs: []
     }
@@ -142,7 +143,35 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['jobsSearch']),
+    ...mapActions(['jobsSearch', 'companiesUploadImage']),
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        this.file = null
+        return
+      }
+      const file = files[0]
+      this.file = file
+      this.createImage(file)
+    },
+
+    createImage (file) {
+      var image = new Image()
+      var reader = new FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.companyFormData.imageUrl = e.target.result
+      }
+      console.log(image)
+      reader.readAsDataURL(file)
+    },
+
+    removeImage (e) {
+      this.file = null
+      // this.companyFormData.imageUrl = null
+    },
+
     companyNameBlur () {
       const companyName = this.companyFormData.companyName
       console.log(companyName)
@@ -159,7 +188,16 @@ export default {
     submit () {
       console.log('Submitting')
       console.log(this.companyFormData)
-      return this.submitCallback(this.companyFormData)
+      var vm = this
+      if (this.file) {
+        return this.companiesUploadImage({ imageFile: this.file })
+          .then((imageSuccess) => {
+            this.companyFormData.imageUrl = imageSuccess.imageUrl
+            return vm.submitCallback(this.companyFormData)
+          })
+      } else {
+        return this.submitCallback(this.companyFormData)
+      }
     }
   }
 }
