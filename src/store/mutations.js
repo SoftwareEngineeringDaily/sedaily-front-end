@@ -175,6 +175,15 @@ export default {
     state.token = token
   },
 
+  toggleChatWindow: (state) => {
+    state.chat.settings.displayBox = !state.chat.settings.displayBox
+  },
+  addChatMessage: ({ chat }, message) => {
+    const formatted = { ...message, sent_at: new Date(message.sent_at) } // eslint-disable-line camelcase
+    chat.messages.push(formatted)
+  },
+  setChatOnline: ({ chat }) => (chat.online = true),
+  setChatOffline: ({ chat }) => (chat.online = false),
   enableLogging: (state) => {
     state.loggingEnabled = true
   },

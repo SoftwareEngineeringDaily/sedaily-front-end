@@ -23,6 +23,7 @@
           </a>
         </div>
       </div>
+      <chat-box v-if='false && isLoggedIn'/>
 </div>
 <transition name="fade" mode="out-in">
   <router-view class="view"></router-view>
@@ -38,15 +39,17 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import StickyPlayer from './components/StickyPlayer.vue'
+import ChatBox from './components/ChatBox.vue'
 import NavigationBar from './components/NavigationBar.vue'
-import { mapState } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    NavigationBar,
-    StickyPlayer
+    StickyPlayer,
+    ChatBox,
+    NavigationBar
   },
 
   computed: {
@@ -56,7 +59,8 @@ export default {
     },
     showBeta () {
       return this.$route.path === '/'
-    }
+    },
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
@@ -199,6 +203,24 @@ a
 
 .fade-enter, .fade-leave-active
   opacity 0
+
+.online-indicator {
+  float right
+  vertical-align middle
+  font-weight bold
+  letter-spacing .075em
+  font-size: 13px;
+  line-height: 26px;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  background-color: rgb(35, 170, 90);
+  padding: 0px 8px;
+  border-radius: 2px;
+
+  img {
+    width 15px
+  }
+}
 
 @media (max-width 860px)
   .header .inner
