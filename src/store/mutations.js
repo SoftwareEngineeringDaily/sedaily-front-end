@@ -2,7 +2,6 @@ import Vue from 'vue'
 import find from 'lodash/find'
 
 export default {
-
   setActivePostInPlayer: (state, { post }) => {
     state.activePlayerPost = post
   },
@@ -53,6 +52,18 @@ export default {
     state.feed = feedItems
   },
 
+  setThreads: (state, { threads }) => {
+    Vue.set(state, 'threads', threads)
+  },
+
+  setThreadComments: (state, { comments }) => {
+    Vue.set(state, 'threadCommnets', comments)
+  },
+
+  setThread: (state, { thread }) => {
+    Vue.set(state, 'thread', thread)
+  },
+
   setPosts: (state, { posts }) => {
     posts.forEach(post => {
       if (post) {
@@ -72,18 +83,18 @@ export default {
     if (!parentComments) return
     if (!parentCommentId) {
       // We are a root level comment so it's easy
-      entity = find(parentComments, (comment) => {
+      entity = find(parentComments, comment => {
         return comment._id === commentId
       })
       if (!entity) return
     } else {
       // First we need to find our parent:
-      const parentComment = find(parentComments, (comment) => {
+      const parentComment = find(parentComments, comment => {
         return comment._id === parentCommentId
       })
       if (!parentComment) return
       // Now we can find our actual comment:
-      entity = find(parentComment.replies, (comment) => {
+      entity = find(parentComment.replies, comment => {
         return comment._id === commentId
       })
       if (!entity) return
@@ -104,7 +115,7 @@ export default {
     const links = state.postRelatedLinks[postId]
 
     if (!links) return
-    const entity = find(links, (link) => {
+    const entity = find(links, link => {
       return link._id === id
     })
     if (!entity) return
@@ -123,7 +134,7 @@ export default {
   downvoteRelatedLink: (state, { id, postId }) => {
     const links = state.postRelatedLinks[postId]
     if (!links) return
-    const entity = find(links, (link) => {
+    const entity = find(links, link => {
       return link._id === id
     })
     if (!entity) return
@@ -175,11 +186,11 @@ export default {
     state.token = token
   },
 
-  enableLogging: (state) => {
+  enableLogging: state => {
     state.loggingEnabled = true
   },
 
-  disableLogging: (state) => {
+  disableLogging: state => {
     state.loggingEnabled = false
   },
   setJobs: (state, { jobs }) => {

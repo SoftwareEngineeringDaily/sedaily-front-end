@@ -14,6 +14,10 @@
         name="feed-nav-link"
         exact
         >Feed</router-link>
+    
+      <router-link to="/forum"
+        name="forum-nav-link"
+        >Forum</router-link>
 
       <span class="dropdown">
         <button

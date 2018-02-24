@@ -24,6 +24,8 @@ import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
 import AdminDashboard from '@/views/AdminDashboard'
 import CompanyCompose from '@/views/CompanyCompose'
 import CompanyEdit from '@/views/CompanyEdit'
+import ForumView from '@/views/ForumView'
+import ThreadDetailView from '@/views/ThreadDetailView'
 
 Vue.use(Router)
 
@@ -41,6 +43,8 @@ export default new Router({
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
+    { path: '/forum', component: ForumView },
+    { path: '/forum/:id([A-Za-z0-9-_]+)?/:forumTitle([A-Za-z0-9-_]+)?', component: ThreadDetailView },
     { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
