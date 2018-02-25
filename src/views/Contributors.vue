@@ -143,10 +143,6 @@ export default {
         {
           'name': 'nellycheboi12',
           'github': 'nellycheboi12'
-        },
-        {
-          'name': 'Murad Khan',
-          'github': 'muradkhan101'
         }
       ]
     }
