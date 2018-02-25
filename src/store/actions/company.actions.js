@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
+import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
@@ -15,6 +16,26 @@ export default {
     const url = `${BASE_URL}/companies`
     console.log('company', company)
     return axios.post(url, company, config)
+  },
+
+  companiesEdit ({ commit, getters }, company) {
+    const token = getters.getToken
+    const config = {}
+    if (token) {
+      config.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const url = `${BASE_URL}/companies/${company._id}`
+    console.log('company', company)
+    return axios.put(url, company, config)
+  },
+
+  companiesUploadImage: ({ commit, state, getters }, { imageFile }) => {
+    const token = getters.getToken
+    const endpointUrl = `${BASE_URL}/companies/upload-image`
+    return getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })
   },
 
   companiesFetchById ({ getters, commit }, id) {
@@ -72,7 +93,7 @@ export default {
       })
   },
 
-  deleteCompany: ({ commit, state, getters }, { companyId }) => {
+  deleteCompany: ({ commit, state, getters }, companyId) => {
     const token = getters.getToken
     const config = {}
     if (!token) {

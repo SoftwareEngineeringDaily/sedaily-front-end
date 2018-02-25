@@ -16,7 +16,14 @@ export default {
     new: [],
     recommendation: []
   },
-  loggingEnabled: true,
+  chat: {
+    settings: {
+      displayBox: true
+    },
+    online: false,
+    messages: []
+  },
   token: localStorage.getItem('token'),
+  loggingEnabled: true,
   jobs: []
 }

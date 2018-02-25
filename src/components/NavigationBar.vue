@@ -14,7 +14,7 @@
         name="feed-nav-link"
         exact
         >Feed</router-link>
-    
+
       <router-link to="/forum"
         name="forum-nav-link"
         >Forum</router-link>
@@ -47,6 +47,15 @@
             name="feed-nav-link"
             exact
             >Recommended</router-link>
+
+          <router-link to="/contributors"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Contributors</router-link>
+
+
+
         </div>
       </span>
 

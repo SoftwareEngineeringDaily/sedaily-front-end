@@ -9,6 +9,9 @@ export default {
 
     return state.lists[state.activeType].slice(prevOffset, pageOffset)
   },
+  isChatBoxDisplayed: ({ chat }) => Boolean(chat.settings.displayBox),
+  isChatOnline: ({ chat }) => Boolean(chat.online),
+  isPlayerActive: ({ activePlayerPost }) => activePlayerPost && activePlayerPost._id,
   getToken: (state) => state.token,
   isLoggedIn: (state, getters) => Boolean(getters.getToken),
   getNextEpisode: (state) => (previousPost) => {

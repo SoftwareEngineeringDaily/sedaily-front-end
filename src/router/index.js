@@ -26,11 +26,12 @@ import CompanyCompose from '@/views/CompanyCompose'
 import CompanyEdit from '@/views/CompanyEdit'
 import ForumView from '@/views/ForumView'
 import ThreadDetailView from '@/views/ThreadDetailView'
+import Contributors from '@/views/Contributors'
 
 Vue.use(Router)
 
-export default new Router({
-  mode: 'history', // removes the # from urls
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -58,9 +59,27 @@ export default new Router({
     { path: '/add-job', component: AddJobView },
     { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
+    { path: '/contributors', component: Contributors },
     { path: '/admin', component: AdminDashboard },
     { path: '/admin/add-company', component: CompanyCompose },
     { path: '/admin/edit-company/:id', component: CompanyEdit },
     { path: '/:company', component: CompanyLandingPage }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // Redirect all /# (hash) routes to non hash:
+  try {
+    if (to.fullPath && to.fullPath[1] === '#') {
+      const withoutHash = to.fullPath.split('#')[1]
+      router.push(withoutHash)
+    } else {
+      // Default, this will just go to the actual route
+      next()
+    }
+  } catch (_) {
+    // Catch all: go to default route
+    next()
+  }
+})
+export default router
