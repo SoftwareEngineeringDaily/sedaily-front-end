@@ -5,7 +5,8 @@
     <div class='container main-app'>
       <div class="row">
         <div class="col-md-8 col-centered text-center beta-msg" v-if="showBeta">
-          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank" class="link"> Github</a>.
+          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank" class="link"> Github</a> & become a
+          <router-link to="/contributors" class="link">contributor</router-link>.
         </div>
       </div>
       <div class="row text-center">
