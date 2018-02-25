@@ -28,7 +28,6 @@ export default {
           'github': 'dfcook'
         },
         {
-
           'name': 'Andrew',
           'github': 'andrewmarklloyd'
         },
@@ -57,10 +56,94 @@ export default {
           'name': 'Itay Komemy',
           'github': 'itaykomemy'
         },
-          {
+        {
           'name': 'Jeffrey Meyerson',
           'github': 'crablar'
         },
+        {
+          'name': 'Kurian Vithayathil',
+          'github': 'kvithayathil'
+        },
+        {
+          'name': 'Tofuus',
+          'github': 'Tofuus'
+        },
+        {
+          'name': 'Jacob Windle',
+          'github': 'jaketothepast'
+        },
+        {
+          'name': 'Richard Schneeman',
+          'github': 'schneems'
+        },
+        {
+          'name': 'Amokrane Chentir',
+          'github': 'Amokrane'
+        },
+        {
+          'name': 'Samuel Villavicencio',
+          'github': 'samuelrey'
+        },
+        {
+          'name': 'Christopher',
+          'github': 'Canadauni'
+        },
+        {
+          'name': 'Dileep Kumar',
+          'github': 'dileep8014'
+        },
+        {
+          'name': 'Murad Khan',
+          'github': 'muradkhan101'
+        },
+        {
+          'name': 'Carl Mungazi',
+          'github': 'CarlMungazi'
+        },
+        {
+          'name': 'Anderson Reyes',
+          'github': 'AndersonReyes'
+        },
+        {
+          'name': 'Syed Abbas',
+          'github': 'skabbass1'
+        },
+        {
+          'name': 'Craig Holliday',
+          'github': 'themisterholliday'
+        },
+        {
+          'name': 'Justin Lam',
+          'github': 'justinctlam'
+        },
+        {
+          'name': 'tonkatsu7',
+          'github': 'tonkatsu7'
+        },
+        {
+          'name': 'Jake Wernette',
+          'github': 'werne2j'
+        },
+        {
+          'name': 'Sarah F-K',
+          'github': 'sfarnsworthkum'
+        },
+        {
+          'name': 'Mohammad Sami AlMouhtaseb',
+          'github': 'satnami'
+        },
+        {
+          'name': 'Nathan Gelman',
+          'github': 'nathanbacon'
+        },
+        {
+          'name': 'nellycheboi12',
+          'github': 'nellycheboi12'
+        },
+        {
+          'name': 'Murad Khan',
+          'github': 'muradkhan101'
+        }
       ]
     }
   },
@@ -68,7 +151,7 @@ export default {
   computed: {
     alphabeticallyOrderedContributors () {
       return this.contributors.sort((a, b) => {
-        return a.github > b.github
+        return 0.5 - Math.random()
       })
     }
   },
