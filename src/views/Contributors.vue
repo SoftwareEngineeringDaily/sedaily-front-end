@@ -3,7 +3,7 @@
     <h1> Contributors </h1>
     <p> Here are some of the people that are helping create SoftwareDaily. </a>
 
-      <div v-for="contributor in contributors">
+      <div v-for="contributor in alphabeticallyOrderedContributors">
         <div>
           <h3> {{contributor.name}} </h3>
           <p>
@@ -23,12 +23,28 @@ export default {
   name: 'ContributorsList',
   data () {
     return {
-      contributors: [{
-        'name': 'Dan',
-        'github': 'dfcook'
-      }]
+      contributors: [
+        {
+          'name': 'Dan',
+          'github': 'dfcook'
+        },
+        {
+
+          'name': 'Andrew',
+          'github': 'andrewmarklloyd'
+        }
+      ]
     }
   },
+
+  computed: {
+    alphabeticallyOrderedContributors () {
+      return this.contributors.sort((a, b) => {
+        return a.github > b.github
+      })
+    }
+  },
+
   methods: {
     contributorGithub (contributor) {
       return `https://github.com/${contributor.github}`

@@ -42,8 +42,6 @@
             <h2>Select an image</h2>
             <input type="file" @change="onFileChange">
         </div>
-
-
       </div>
 
       <div class="form-group row">
