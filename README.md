@@ -24,8 +24,8 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run selenium tests (working)
-npm run selenium-test
+# run units tests
+npm run unit
 ```
 
 For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
@@ -39,12 +39,6 @@ npm run dev:api-test
 # serve with hot reload at localhost:8080, using API running on production
 npm run dev:api-prod
 ```
-
-## Install selenium web driver:
-
-Download & Install Selenium Standalone Server (v3.6.0)
-http://www.seleniumhq.org/projects/webdriver/
-http://www.seleniumhq.org/download/
 
 ## Contributing
 `master` branch is deployed to production
