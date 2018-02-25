@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <h1> Contributors </h1>
     <p> Here are some of the people that are helping create SoftwareDaily. </a>
 
@@ -55,6 +55,10 @@ export default {
         {
           'name': 'Itay Komemy',
           'github': 'itaykomemy'
+        },
+        {
+          'name': 'Erika Hokanson',
+          'github': 'erikawho'
         },
         {
           'name': 'Jeffrey Meyerson',
