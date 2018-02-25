@@ -14,7 +14,6 @@
         name="feed-nav-link"
         exact
         >Feed</router-link>
-
       <span class="dropdown">
         <button
           class="btn btn-secondary dropdown-toggle"
@@ -43,6 +42,15 @@
             name="feed-nav-link"
             exact
             >Recommended</router-link>
+
+          <router-link to="/contributors"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Contributors</router-link>
+
+
+
         </div>
       </span>
 
