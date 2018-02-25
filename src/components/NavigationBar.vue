@@ -14,7 +14,6 @@
         name="feed-nav-link"
         exact
         >Feed</router-link>
-
       <span class="dropdown">
         <button
           class="btn btn-secondary dropdown-toggle"

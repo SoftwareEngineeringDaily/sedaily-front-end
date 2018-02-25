@@ -7,8 +7,7 @@
         <div>
           <h3> {{contributor.name}} </h3>
           <p>
-          Github: <span> {{contributor.github}}</span>
-          <a v-bind:href="contributorGithub(contributor)" target="_blank" class="link">@{{contributor.github}} </a>.
+          Github: <a v-bind:href="contributorGithub(contributor)" target="_blank" class="link">@{{contributor.github}}</a>
           </p>
         </div>
       </div>
@@ -25,14 +24,43 @@ export default {
     return {
       contributors: [
         {
-          'name': 'Dan',
+          'name': 'Daniel Cook',
           'github': 'dfcook'
         },
         {
 
           'name': 'Andrew',
           'github': 'andrewmarklloyd'
-        }
+        },
+        {
+          'name': 'Keith Holliday',
+          'github': 'TheHollidayInn'
+        },
+        {
+          'name': 'Edgar Pino',
+          'github': 'edgar971'
+        },
+        {
+          'name': 'Josh Morel',
+          'github': 'joshmorel'
+        },
+        {
+          'name': 'Shreyans Sheth',
+          'github': 'bholagabbar'
+        },
+
+        {
+          'name': 'Shreyans Sheth',
+          'github': 'bholagabbar'
+        },
+        {
+          'name': 'Itay Komemy',
+          'github': 'itaykomemy'
+        },
+          {
+          'name': 'Jeffrey Meyerson',
+          'github': 'crablar'
+        },
       ]
     }
   },
