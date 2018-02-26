@@ -49,6 +49,13 @@ We have an active Slack community that you can reach out to for more information
 ## Flow
 Flow status is in progress.
 
+## Testing
+
+Unit tests are written using [vue-test-utils](https://vue-test-utils.vuejs.org/), mocha and chai, and run with karma-webpack.
+Review existing tests in `test/unit/specs` for guidance for testing Vue components and other functions.
+
+An integration testing process is pending development.
+
 ## Pushing to Production
 Remember to `npm run build` and then ** commit all new files** and then `npm run deploy2`
 Works if done from master branch.
