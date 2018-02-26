@@ -1,18 +1,16 @@
-import { shallow } from '@vue/test-utils'
-import localVue from './../helpers'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 import ProfileLabel from '@/components/ProfileLabel.vue'
+import initialState from '@/store/initialState'
 
 describe('ProfileLabel.vue', () => {
+  const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Router)
 
   let router
   let store
-  const initialState = {
-    placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
-  }
 
   beforeEach(() => {
     router = new Router()

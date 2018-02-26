@@ -1,18 +1,18 @@
-import { shallow } from '@vue/test-utils'
-import localVue from './../helpers'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 import ProfileDetails from '@/components/ProfileDetails.vue'
+import initialState from '@/store/initialState'
+import { host, externalUrl } from '@/filters'
 
 describe('ProfileDetails.vue', () => {
+  const localVue = createLocalVue()
+
   localVue.use(Vuex)
   localVue.use(Router)
 
   let router
   let store
-  const initialState = {
-    placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
-  }
 
   beforeEach(() => {
     router = new Router()
@@ -102,8 +102,8 @@ describe('ProfileDetails.vue', () => {
         userData
       }
     })
-    expect(wrapper.find('a').attributes().href).to.have.string(userData.website)
-    expect(wrapper.find('a').text()).to.have.string(userData.website)
+    expect(wrapper.find('a').attributes().href).to.equal(externalUrl(userData.website))
+    expect(wrapper.find('a').text()).to.equal(host(userData.website))
   })
 
   it('should render bio if it exists', () => {

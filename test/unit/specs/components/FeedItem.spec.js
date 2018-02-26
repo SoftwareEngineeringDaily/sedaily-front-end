@@ -1,8 +1,9 @@
-import { shallow } from '@vue/test-utils'
-import localVue from './../helpers'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import FeedItem from '@/components/FeedItem.vue'
 
 describe('FeedItem.vue', () => {
+  const localVue = createLocalVue()
+
   const feedItem = {
     url: 'http://foo.com',
     image: 'bar',
