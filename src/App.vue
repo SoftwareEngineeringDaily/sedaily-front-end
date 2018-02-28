@@ -24,7 +24,7 @@
           </a>
         </div>
       </div>
-      <chat-box v-if='false && isLoggedIn'/>
+      <chat-box v-if='isLoggedIn'/>
 </div>
 <transition name="fade" mode="out-in">
   <router-view class="view"></router-view>

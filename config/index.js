@@ -36,6 +36,6 @@ module.exports = {
     cssSourceMap: false
   },
   chat: {
-    websocketURL: 'wss://infinite-mesa-69601.herokuapp.com/socket'
+    websocketURL: 'wss://ancient-bastion-47373.herokuapp.com/socket'
   }
 }
