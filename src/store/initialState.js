@@ -18,7 +18,7 @@ export default {
   },
   chat: {
     settings: {
-      displayBox: true
+      displayBox: false
     },
     online: false,
     messages: []
