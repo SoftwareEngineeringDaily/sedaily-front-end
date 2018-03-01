@@ -1,9 +1,8 @@
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
+import { localVue } from '../../helpers'
 import CategoryList from '@/components/CategoryList.vue'
 
 describe('CategoryList.vue', (done) => {
-  const localVue = createLocalVue()
-
   it('should render all categories plus All', () => {
     const wrapper = shallow(CategoryList, {
       localVue,

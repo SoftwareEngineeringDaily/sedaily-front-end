@@ -1,11 +1,11 @@
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
+import { localVue } from '../../helpers'
 import ProfileLabel from '@/components/ProfileLabel.vue'
 import initialState from '@/store/initialState'
 
 describe('ProfileLabel.vue', () => {
-  const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Router)
 

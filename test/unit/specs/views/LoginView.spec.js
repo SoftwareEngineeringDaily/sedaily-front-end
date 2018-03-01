@@ -1,8 +1,8 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { localVue } from '../../helpers'
 import LoginView from '@/views/LoginView.vue'
 
 describe('LoginView.vue', () => {
-  const localVue = createLocalVue()
   const wrapper = mount(LoginView, { localVue })
 
   it('adds a $validator to the Vue instance', () => {

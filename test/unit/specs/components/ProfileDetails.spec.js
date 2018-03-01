@@ -1,13 +1,11 @@
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 import Vuex from 'vuex'
+import { localVue } from '../../helpers'
 import Router from 'vue-router'
 import ProfileDetails from '@/components/ProfileDetails.vue'
 import initialState from '@/store/initialState'
-import { host, externalUrl } from '@/filters'
 
 describe('ProfileDetails.vue', () => {
-  const localVue = createLocalVue()
-
   localVue.use(Vuex)
   localVue.use(Router)
 
@@ -88,7 +86,7 @@ describe('ProfileDetails.vue', () => {
     expect(wrapper.find('img').attributes().src).to.equal(userData.avatarUrl)
   })
 
-  it('should render website url if it exists', () => {
+  it('should render relative website url if it exists and transform href to external', () => {
     const userData = {
       _id: '5a7eecd7d5088737e5fb8a59',
       username: 'username',
@@ -102,10 +100,27 @@ describe('ProfileDetails.vue', () => {
         userData
       }
     })
-    expect(wrapper.find('a').attributes().href).to.equal(externalUrl(userData.website))
-    expect(wrapper.find('a').text()).to.equal(host(userData.website))
+    expect(wrapper.find('a').attributes().href).to.equal('//' + userData.website)
+    expect(wrapper.find('a').text()).to.equal(userData.website)
   })
 
+  it('should render external website url if it exists, stripping https prefix', () => {
+    const userData = {
+      _id: '5a7eecd7d5088737e5fb8a59',
+      username: 'username',
+      website: 'http://user.com'
+    }
+    const wrapper = shallow(ProfileDetails, {
+      localVue,
+      store,
+      router,
+      propsData: {
+        userData
+      }
+    })
+    expect(wrapper.find('a').attributes().href).to.equal(userData.website)
+    expect(wrapper.find('a').text()).to.equal(userData.website.replace('http://', ''))
+  })
   it('should render bio if it exists', () => {
     const userData = {
       _id: '5a7eecd7d5088737e5fb8a59',

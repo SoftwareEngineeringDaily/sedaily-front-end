@@ -1,17 +1,12 @@
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 import Vuex from 'vuex'
-import VeeValidate from 'vee-validate'
 import Router from 'vue-router'
+import { localVue } from '../../helpers'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 
 describe('RelatedLinkCompose.vue', (done) => {
-  const localVue = createLocalVue()
-
   localVue.use(Vuex)
   localVue.use(Router)
-  localVue.use(VeeValidate, {
-    events: 'blur'
-  })
 
   let sandbox
   let actions
