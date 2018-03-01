@@ -53,5 +53,27 @@ export default {
         console.log(error.response.data)
         return error
       })
+  },
+
+  playEpisodeEvent: ({ commit, state }, playEvent) => {
+    return axios.post(`${EVENTS_API_BASE_URL}`, {
+      clientId: state.me.username,
+      deviceType: 'Browser',
+      eventTime: new Date().getTime(),
+      eventType: 'playEpisode',
+      eventData: {
+        episodeName: playEvent.episodeName,
+        minutesPlayed: playEvent.minutesPlayed,
+        minutesRemaining: playEvent.minutesRemaining
+      }
+    })
+      .then((response) => {
+        console.log(response)
+        return response
+      })
+      .catch((error) => {
+        console.log(error.response)
+        return error
+      })
   }
 }
