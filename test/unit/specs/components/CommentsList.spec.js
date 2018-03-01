@@ -1,14 +1,13 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
+import { localVue } from '../../helpers'
 import initialState from '@/store/initialState'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentView from '@/components/CommentView.vue'
 import CommentReply from '@/components/CommentReply.vue'
 
 describe('CommentsList.vue', (done) => {
-  const localVue = createLocalVue()
-
   localVue.use(Vuex)
   localVue.use(Router)
 

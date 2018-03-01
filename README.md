@@ -24,8 +24,8 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run selenium tests (working)
-npm run selenium-test
+# run units tests
+npm run unit
 ```
 
 For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
@@ -40,12 +40,6 @@ npm run dev:api-test
 npm run dev:api-prod
 ```
 
-## Install selenium web driver:
-
-Download & Install Selenium Standalone Server (v3.6.0)
-http://www.seleniumhq.org/projects/webdriver/
-http://www.seleniumhq.org/download/
-
 ## Contributing
 `master` branch is deployed to production
 `develop` branch gets pushed to staging
@@ -54,6 +48,13 @@ We have an active Slack community that you can reach out to for more information
 
 ## Flow
 Flow status is in progress.
+
+## Testing
+
+Unit tests are written using [vue-test-utils](https://vue-test-utils.vuejs.org/), mocha and chai, and run with karma-webpack.
+Review existing tests in `test/unit/specs` for guidance for testing Vue components and other functions.
+
+An integration testing process is pending development.
 
 ## Pushing to Production
 Remember to `npm run build` and then ** commit all new files** and then `npm run deploy2`
