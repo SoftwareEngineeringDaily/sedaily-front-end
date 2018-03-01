@@ -36,5 +36,22 @@ export default {
         console.log(error.response)
         return error
       })
+  },
+
+  loginEvent: ({ commit, state }, { username }) => {
+    return axios.post(`${EVENTS_API_BASE_URL}`, {
+      clientId: username,
+      deviceType: 'Browser',
+      eventTime: new Date().getTime(),
+      eventType: 'login',
+      eventData: {}
+    })
+      .then((response) => {
+        return response
+      })
+      .catch((error) => {
+        console.log(error.response.data)
+        return error
+      })
   }
 }
