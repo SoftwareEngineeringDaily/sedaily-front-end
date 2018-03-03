@@ -1,6 +1,6 @@
 <template>
   <div class="login-view container">
-    <div class='row'>
+    <div class='row' v-if="!isLoggedIn">
       <form class='col-md-6 offset-md-3' v-on:submit.prevent='register'>
         <h1>Register</h1>
 
@@ -82,11 +82,16 @@
     </div>
 
     <br />
-    <div class='row'>
+    <div class='row' v-if="!isLoggedIn">
       <div class='col-md-6 offset-md-3'>
         Already have an account?
         <router-link to="/login" name="login-link">Login</router-link>
       </div>
+    </div>
+    <div v-if="isLoggedIn" class="row">
+      <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
+      <p>You're already logged in! <a href="/logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+    </div>
     </div>
     <spinner :show="loading"></spinner>
   </div>
@@ -94,6 +99,7 @@
 
 <script>
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
+import { mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
 
 export default {
@@ -114,8 +120,34 @@ export default {
       loading: false
     }
   },
-
+  created () {
+    this.fetchData()
+  },
+  watch: {
+    // re-fetch if route changes
+    '$route': 'fetchData'
+  },
   methods: {
+    ...mapActions(['fetchPublicProfileData']),
+    fetchData () {
+      this.loading = true
+      Promise.all([
+        this.fetchPublicProfileData({ userId: this.userId })
+      ])
+        .then((responses) => {
+          /* TODO: Discuss best approach for managing fetched data's state
+             in vuex if it's just being displayed and not interacted with:
+             not in vuex like this.user or in vuex like feed below
+           */
+          this.user = responses[0].data
+        })
+        .catch((error) => {
+          this.error = error.response.data.message
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
     register () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -153,6 +185,9 @@ export default {
         }
       })
     }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
