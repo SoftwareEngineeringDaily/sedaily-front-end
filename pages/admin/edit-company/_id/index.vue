@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn && companyData">
       <company-form
         :header="'Edit Company:'"
         :company-data="companyData"
@@ -36,7 +36,7 @@ export default {
     // Should probably be fetching by id:
     // actions companiesFetchById
     store
-      .dispatch('companiedFetchById', params.id)
+      .dispatch('companiesFetchById', params.id)
       .then((company) => {
         this.companyData = company
       })

@@ -3,7 +3,7 @@
     <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
   </div>
   <div v-else>
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn && job">
       <job-form
         :header="'Update Job:'"
         :submit-callback="submitUpdateJob"
@@ -31,7 +31,6 @@ export default {
   data () {
     return {
       loading: false,
-      job: null,
       error: null
     }
   },
@@ -41,45 +40,18 @@ export default {
       me ({ auth }) {
         return auth ? auth.user : null
       },
-      jobId (state) {
-        return state.route.params.id
+      job (state) {
+        return state.job
       }
     })
   },
-  watch: {
-    // re-fetch if route changes
-    '$route': 'fetchData'
-  },
-  created () {
-    if (!this.isLoggedIn) {
-      this.error = 'Unauthorized'
-      return
-    }
-    this.fetchData()
+  fetch ({ store, params }) {
+    return store.dispatch('fetchJob', { jobId: params.id })
   },
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
-    fetchData () {
-      this.loading = true
-      this
-        .fetchJob({ jobId: this.jobId })
-        .then(response => {
-          if (responses.data.postedUser !== this.me._id) {
-            this.error = 'Unauthorized'
-            return
-          }
-          this.job = response.data
-          this.error = null
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
+    ...mapActions(['updateJob', 'deleteJob']),
     submitUpdateJob ({
       title,
       description,
@@ -92,7 +64,7 @@ export default {
     }) {
       this.loading = true
       this.updateJob({
-        jobId: this.jobId,
+        jobId: this.job._id,
         title,
         description,
         employmentType,
@@ -115,7 +87,7 @@ export default {
     },
     submitDeleteJob () {
       this.loading = true
-      this.deleteJob({ jobId: this.jobId })
+      this.deleteJob({ jobId: this.job._id })
         .then(() => {
           alert('Successfully Deleted!')
           this.$router.push('/jobs')

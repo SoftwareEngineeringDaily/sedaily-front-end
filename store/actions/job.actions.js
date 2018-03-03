@@ -16,7 +16,7 @@ export default {
     })
   },
   updateJob ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$.put(`${BASE_URL}/jobs/${jobId}`, {
+    return this.$axios.put(`${BASE_URL}/jobs/${jobId}`, {
       companyName,
       applicationEmailAddress,
       location,
@@ -37,8 +37,11 @@ export default {
 
     return this.$axios.post(`${BASE_URL}/jobs/${jobId}/apply`, formData, config)
   },
-  fetchJob ({ commit, state, getters }, { jobId }) {
-    return this.$axios.get(`${BASE_URL}/jobs/${jobId}`)
+  fetchJob ({ commit, dispatch, state, getters }, { jobId }) {
+    return this
+      .$axios
+      .get(`${BASE_URL}/jobs/${jobId}`)
+      .then(res => commit('setJob', res.data))
   },
 
   jobsSearch ({ commit, state, getters }, { companyName }) {

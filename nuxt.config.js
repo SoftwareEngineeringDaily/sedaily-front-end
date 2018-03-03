@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals')
-const config = require('./config')
+const apiConfig = require('./config')
 
-const baseApiUrl = config.getApiConfig().BASE_URL
+const baseApiUrl = apiConfig.getApiConfig().BASE_URL
 
 module.exports = {
   /*

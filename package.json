@@ -5,7 +5,7 @@
   "author": "dfcook <dfcook@hotmail.com>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "NODE_ENV=development nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",

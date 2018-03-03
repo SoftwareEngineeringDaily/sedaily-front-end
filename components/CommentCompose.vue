@@ -40,7 +40,6 @@ export default {
     return {
       commentContent: '',
       isSubmitting: false,
-      username: null,
       loading: true
     }
   },

@@ -17,9 +17,9 @@ const uploadFile = (file, signedRequest, url) => {
   return p
 }
 
-export function getS3SingedUploadUrlAndUpload ({ imageFile, endpointUrl }) {
+export function getS3SingedUploadUrlAndUpload ({ axios, imageFile, endpointUrl }) {
   const fileType = imageFile.type
-  return this.$axios.post(endpointUrl, { fileType })
+  return axios.post(endpointUrl, { fileType })
     .then((result) => {
       const { signedRequest, url } = result.data
       console.log('signedRequest', signedRequest)

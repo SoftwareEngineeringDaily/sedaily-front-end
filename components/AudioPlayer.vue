@@ -66,6 +66,12 @@
         </audio>
       </div>
     </div>
+    <div class="progress-slider">
+      <vue-slider
+        v-bind="progressOptions"
+        v-model="sliderProgress"
+        @callback="onSliderChange" />
+    </div>
   </div>
 </template>
 
