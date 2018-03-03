@@ -51,7 +51,7 @@
                 type="checkbox"
                 name="remoteWorkingConsidered"
                 v-model="jobFormData.remoteWorkingConsidered"
-              >Remote Ok?
+              > Remote Ok?
             </label>
           </div>
           <div
@@ -90,7 +90,7 @@
                   name="employmentType"
                   value="Permanent"
                   v-model="jobFormData.employmentType"
-                >Permanent
+                > Permanent
               </label>
             </div>
             <div class="form-check form-check-inline">
@@ -101,7 +101,7 @@
                   name="employmentType"
                   value="Contract"
                   v-model="jobFormData.employmentType"
-                >Contract
+                > Contract
               </label>
             </div>
           </div>
