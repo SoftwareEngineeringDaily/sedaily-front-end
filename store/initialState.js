@@ -10,6 +10,7 @@ export default {
   feed: [],
   placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png',
   users: {},
+  planType: null,
   lists: {
     top: [],
     new: [],

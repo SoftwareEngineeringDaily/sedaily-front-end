@@ -4,8 +4,7 @@ const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
 export default {
   enableLogging ({ commit, getters, state }) {
-    const token = getters.getToken
-    if (!token) {
+    if (!getters.isLoggedIn) {
       alert('Login to enable logging')
       return
     }
@@ -13,8 +12,7 @@ export default {
   },
 
   disableLogging ({ commit, getters, state }) {
-    const token = getters.getToken
-    if (!token) {
+    if (!getters.isLoggedIn) {
       alert('Login to disable logging')
       return
     }

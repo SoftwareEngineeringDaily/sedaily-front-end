@@ -27,6 +27,7 @@ export default {
   components: {
     JobForm
   },
+  middleware: 'auth',
   data () {
     return {
       loading: false,

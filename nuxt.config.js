@@ -80,6 +80,7 @@ module.exports = {
   auth: {
     endpoints: {
       login: { url: baseApiUrl + '/auth/login', method: 'post', propertyName: 'token' },
+      logout: false,
       user: { url: baseApiUrl + '/users/me', method: 'get', propertyName: false }
     }
   }

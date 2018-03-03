@@ -3,9 +3,6 @@ import { apiConfig } from '~/config'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  logout ({ commit }) {
-    commit('setToken', { token: '' })
-  },
 
   register ({ commit, state }, { password, username, bio, website, name, email }) {
     return this.$axios.post(`${BASE_URL}/auth/register`, {
@@ -17,8 +14,12 @@ export default {
       email
     })
       .then((response) => {
-        commit('setToken', { token: response.data.token })
-        return response
+        return this.$auth.login({
+          data: {
+            username,
+            password
+          }
+        })
       })
       .catch((error) => {
       // @TODO: Add pretty pop up here

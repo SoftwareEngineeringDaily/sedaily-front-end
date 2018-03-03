@@ -166,11 +166,6 @@ export default {
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
-  setToken: (state, { token }) => {
-    localStorage.setItem('token', token)
-    state.token = token
-  },
-
   toggleChatWindow: (state) => {
     state.chat.settings.displayBox = !state.chat.settings.displayBox
   },

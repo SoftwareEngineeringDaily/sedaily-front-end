@@ -2,9 +2,6 @@
   <div
     id="app"
     class="subscribe-view">
-    <div v-if="loadingUser">
-      <spinner :show="loadingUser" />
-    </div>
     <div v-if="alreadySubscribed">
       <br>
       <h1> You are subscribed :) </h1>
@@ -98,7 +95,7 @@
 </template>
 
 <script>
-// import { stripeKey, stripeOptions } from './stripeConfig.json'
+import config from '../../config'
 import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
@@ -106,18 +103,12 @@ import Spinner from '~/components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '~/utils/subscription.utils.js'
 
 export default {
+  middleware: 'auth',
   components: { Card, Spinner },
-  props: {
-    stripePublicKey: {
-      type: String,
-      required: true
-    }
-  },
   data () {
     return {
       complete: false,
       planType: 'monthly',
-      loadingUser: true,
       processing: false,
       successSubscribingMessage: null,
       justSubscribed: false,
@@ -130,6 +121,9 @@ export default {
     }
   },
   computed: {
+    stripePublicKey () {
+      return config.getApiConfig().STRIPE_PUBLIC_KEY
+    },
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       me ({ auth }) {
@@ -166,33 +160,19 @@ export default {
       }
     })
   },
-  beforeMount () {
-    if (!this.isLoggedIn) {
-      // If user is not logged in we should show
-      this.$router.replace('/premium')
+  fetch ({ store }) {
+    if (!this.alreadySubscribed) {
+      if (wantedToSubscribe(store)) {
+        this.planType = preSelectedSubscriptionPlan(store)
+      }
     } else {
-      this.fetchMyProfileData()
-        .then((myData) => {
-          console.log('myData', myData)
-          this.loadingUser = false
-          if (!this.alreadySubscribed) {
-            if (wantedToSubscribe()) {
-              this.planType = preSelectedSubscriptionPlan()
-            }
-          } else {
-          // Already subbed
-            unselectSubscriptionPlan()
-          }
-        })
-        .catch((error) => {
-          alert('Error loading user info.')
-          console.log('error loading user', error)
-        })
+    // Already subbed
+      unselectSubscriptionPlan(store)
     }
   },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
+    ...mapActions(['createSubscription', 'cancelSubscription']),
     pay () {
       this.error = null
       this.justCancelled = false
@@ -213,7 +193,7 @@ export default {
           this.processing = false
           this.justSubscribed = true
           this.successSubscribingMessage = 'Thanks for subscribing!'
-          unselectSubscriptionPlan()
+          unselectSubscriptionPlan(this.$store)
           // Ghetto, to update to Navbar menu button
           this.fetchMyProfileData()
         })
@@ -229,7 +209,7 @@ export default {
           } catch (e) {
           }
           // Probably don't need to do this but should:
-          unselectSubscriptionPlan()
+          unselectSubscriptionPlan(this.$store)
         })
     },
 

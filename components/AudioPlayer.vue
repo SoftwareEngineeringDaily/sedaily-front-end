@@ -51,7 +51,9 @@
         </div>
 
         <audio
+          v-if="music && music.url"
           ref="player"
+          autoplay="false"
           @play="onPlay"
           @pause="onPause"
           @timeupdate="onTimeUpdate"

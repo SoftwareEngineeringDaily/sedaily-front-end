@@ -98,11 +98,8 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'logout'
-    ]),
     logoutHandler () {
-      this.logout()
+      this.$auth.logout()
       this.$router.replace('/')
     }
   }

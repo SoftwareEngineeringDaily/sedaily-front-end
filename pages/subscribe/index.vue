@@ -135,13 +135,13 @@ export default {
     signUpForSubscription (planType) {
       // if logged in
       if (this.isLoggedIn) {
-        selectSubscriptionPlan(planType)
+        selectSubscriptionPlan(this.$store, planType)
         // Redirect to subscription cc page:
-        this.$router.replace('/subscribe')
+        this.$router.replace('/premium')
       } else {
         // Redirect to  sign up page, then redirect to Subscription
         // OR at least show a banner
-        selectSubscriptionPlan(planType)
+        selectSubscriptionPlan(this.$store, planType)
         this.$router.replace('/register')
       }
 

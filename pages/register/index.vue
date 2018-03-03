@@ -159,7 +159,7 @@ export default {
                   .then((eventResponse) => {
                     // Ignore response for now
                   })
-                if (wantedToSubscribe()) {
+                if (wantedToSubscribe(this.$store)) {
                   this.$router.replace('/subscribe')
                 } else {
                   this.$router.replace('/')
