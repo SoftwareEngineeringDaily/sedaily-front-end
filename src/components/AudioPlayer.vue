@@ -143,7 +143,6 @@ export default {
     onPlay () {
       const minutesRemaining = this.$refs.player.duration - this.$refs.player.currentTime
       this.$emit('update:playEvent', { minutesRemaining, minutesPlayed: this.$refs.player.currentTime })
-      
       this.isPlaying = true
       this.isPaused = false
 

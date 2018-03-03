@@ -73,8 +73,6 @@ export default {
           minutesRemaining: newValue.minutesRemaining,
           episodeName: this.activePlayerPost.title.rendered
         })
-        // console.log(newValue.minutesRemaining)
-        // console.log()
       }
     },
     playerState (newValue: PlayerState) {

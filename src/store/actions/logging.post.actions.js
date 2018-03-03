@@ -50,7 +50,7 @@ export default {
         return response
       })
       .catch((error) => {
-        console.log(error.response.data)
+        console.log(error.response)
         return error
       })
   },
@@ -68,7 +68,6 @@ export default {
       }
     })
       .then((response) => {
-        console.log(response)
         return response
       })
       .catch((error) => {
