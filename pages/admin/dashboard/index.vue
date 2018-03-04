@@ -6,7 +6,7 @@
       <br>
       <br>
       <h2>
-        Companeis
+        Companies
       </h2>
       <br>
       <nuxt-link to="/admin/add-company">

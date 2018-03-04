@@ -4,7 +4,7 @@ export default {
 
   uploadAvatarImage ({ commit, state, getters }, { imageFile }) {
     const endpointUrl = '/auth/sign-s3'
-    return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
+    return getS3SingedUploadUrlAndUpload({ axios: this.$axios, imageFile, endpointUrl })
   },
 
   fetchPublicProfileData ({ commit, state, getters }, { userId }) {

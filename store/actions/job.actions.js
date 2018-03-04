@@ -12,7 +12,7 @@ export default {
     })
   },
   updateJob ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$.put(`/jobs/${jobId}`, {
+    return this.$axios.put(`/jobs/${jobId}`, {
       companyName,
       applicationEmailAddress,
       location,
@@ -24,6 +24,7 @@ export default {
   },
   applyToJob ({ commit, state, getters }, { jobId, coveringLetter, resume }) {
     const config = {
+      'Authorization': 'Bearer ' + this.$auth.token,
       'Content-Type': 'multipart/form-data'
     }
 
@@ -33,8 +34,11 @@ export default {
 
     return this.$axios.post(`/jobs/${jobId}/apply`, formData, config)
   },
-  fetchJob ({ commit, state, getters }, { jobId }) {
-    return this.$axios.get(`/jobs/${jobId}`)
+  fetchJob ({ commit, dispatch, state, getters }, { jobId }) {
+    return this
+      .$axios
+      .get(`/jobs/${jobId}`)
+      .then(res => commit('setJob', res.data))
   },
 
   jobsSearch ({ commit, state, getters }, { companyName }) {

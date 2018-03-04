@@ -45,7 +45,6 @@
     <transition
       name="fade"
       mode="out-in">
-
       <nuxt class="view" />
     </transition>
 
@@ -53,7 +52,7 @@
       name="fade"
       mode="out-in">
       <div
-        v-show="isPlayerActive"
+        v-if="isPlayerActive"
         class="player-holder">
         <sticky-player />
       </div>

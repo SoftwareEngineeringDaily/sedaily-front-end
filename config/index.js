@@ -12,6 +12,7 @@ function getApiConfig (apiEnv) {
 		default:
 			apiConfig = require('./apiConfig/prod.api.config')
 	}
+
 	return apiConfig
 }
 

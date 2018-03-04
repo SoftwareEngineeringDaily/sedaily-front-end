@@ -24,5 +24,6 @@ export default {
     messages: []
   },
   loggingEnabled: true,
+  job: {},
   jobs: []
 }

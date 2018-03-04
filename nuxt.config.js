@@ -1,11 +1,12 @@
 const nodeExternals = require('webpack-node-externals')
 const config = require('./config')
-//
 const apiEnv = process.env.API_ENV || 'production'
 const {
   BASE_URL: baseApiUrl,
   EVENTS_API_BASE_URL: eventsApiBaseUrl
 } = config.getApiConfig(apiEnv)
+
+console.log(baseApiUrl)
 
 module.exports = {
   env: {

@@ -88,8 +88,9 @@ export default {
                 password
               }
             })
-            .then(res => {
-              console.log(res)
+            .catch(err => {
+              alert('Invalid login')
+              this.loading = false
             })
         } else {
           console.log('Invalid values..')

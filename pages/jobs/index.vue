@@ -52,7 +52,7 @@
           <div class="form-group col-sm-2 job-search-button">
             <!--<div class="row align-items-center">-->
             <button
-              v-if="isFiltered"
+              v-if="filter"
               class="btn button-submit"
               @click="clearSearch"
             >Clear
@@ -88,15 +88,13 @@ export default {
     Spinner,
     JobSummary
   },
-
   data () {
     return {
       loading: false,
       error: null,
-      isFiltered: false,
       locationSearch: '',
       keywordSearch: '',
-      displayedJobs: []
+      filter: null
     }
   },
   computed: {
@@ -105,43 +103,35 @@ export default {
       jobs (state) {
         return state.jobs
       }
-    })
-  },
-  fetch ({ store }) {
-    this.loading = true
-    return store.dispatch('fetchJobsList')
-      .then(() => {
-        this.error = null
-        this.displayedJobs = this.jobs
-      })
-      .catch((error) => {
-        this.error = 'Error: ' + error.response.data.message
-      })
-      .finally(() => {
-        this.loading = false
-      })
-  },
-  methods: {
-    ...mapActions(['fetchJobsList']),
-    // TODO: determine best approach to search
-    search () {
-      const keywordSearchRe = this.keywordSearch.trim() === '' ? null : new RegExp(this.keywordSearch.trim(), 'i')
-      const locationSearchRe = this.locationSearch.trim() === '' ? null : new RegExp(this.locationSearch.trim(), 'i')
-      const includeRemote = this.locationSearch.trim().toLowerCase() === 'remote'
-      this.filtered = true
-      this.displayedJobs = this.jobs.filter((job) => {
+    }),
+    displayedJobs () {
+      if (!this.filter) {
+        return this.jobs
+      }
+      return this.jobs.filter((job) => {
         return (
-          keywordSearchRe && (job.title.search(keywordSearchRe) >= 0 || job.companyName.search(keywordSearchRe) >= 0) ||
-          (locationSearchRe && job.location.search(locationSearchRe) >= 0) ||
-          (includeRemote && job.remoteWorkingConsidered)
+          this.filter.keyword && (job.title.search(this.filter.keyword) >= 0 || job.companyName.search(this.filter.keyword) >= 0) ||
+          (this.filter.location && job.location.search(this.filter.location) >= 0) ||
+          (this.filter.includeRemote && job.remoteWorkingConsidered)
         )
       })
+    }
+  },
+  fetch ({ store }) {
+    return store.dispatch('fetchJobsList')
+  },
+  methods: {
+    search () {
+      this.filter = {
+        keyword: this.keywordSearch.trim() === '' ? null : new RegExp(this.keywordSearch.trim(), 'i'),
+        location: this.locationSearch.trim() === '' ? null : new RegExp(this.locationSearch.trim(), 'i'),
+        includeRemote: this.locationSearch.trim().toLowerCase() === 'remote'
+      }
     },
     clearSearch () {
       this.keywordSearch = ''
       this.locationSearch = ''
-      this.filtered = false
-      this.displayedJobs = this.jobs
+      this.filter = null
     }
   }
 }
