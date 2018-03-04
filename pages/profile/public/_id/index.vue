@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <template v-if="loading">
-      <spinner :show="loading" />
-    </template>
-    <template v-else-if="error">
+    <template v-if="error">
       <div class="bg-danger"> Error: {{ error }}</div>
     </template>
     <template v-else>
@@ -38,23 +35,8 @@ export default {
     ProfileDetails,
     Spinner
   },
-  data () {
-    return {
-      loading: false,
-      error: null,
-      user: null
-    }
-  },
-  computed: {
-    ...mapState({
-      feed (state) {
-        return state.feed
-      }
-    })
-  },
-  fetch ({ store, params }) {
-    this.loading = true
-      Promise.all([
+  asyncData ({ store, params }) {
+    return Promise.all([
         store.dispatch('fetchPublicProfileData', { userId: params.id }),
         store.dispatch('fetchProfileFeed', { userId: params.id })
       ])
@@ -63,14 +45,24 @@ export default {
              in vuex if it's just being displayed and not interacted with:
              not in vuex like this.user or in vuex like feed below
            */
-          this.user = responses[0].data
+          return {
+            user: responses[0].data,
+            error: ''
+          }
+        }).
+        catch(err => {
+          return {
+            error: err,
+            user: null
+          }
         })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
+  },
+  computed: {
+    ...mapState({
+      feed (state) {
+        return state.feed
+      }
+    })
   }
 }
 </script>

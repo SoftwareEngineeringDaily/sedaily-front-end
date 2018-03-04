@@ -36,9 +36,6 @@ export default {
   },
   fetch ({ store }) {
     return store.dispatch('fetchMyFeed', { userId: this.me && this.me._id })
-      .then((feedItems) => {
-        this.loading = false
-      })
   },
   methods: {
     ...mapActions(['fetchMyFeed'])

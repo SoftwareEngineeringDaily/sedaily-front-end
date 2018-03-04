@@ -28,6 +28,7 @@ export default {
   },
   applyToJob ({ commit, state, getters }, { jobId, coveringLetter, resume }) {
     const config = {
+      'Authorization': 'Bearer ' + this.$auth.token,
       'Content-Type': 'multipart/form-data'
     }
 

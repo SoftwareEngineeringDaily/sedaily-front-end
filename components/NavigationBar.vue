@@ -100,6 +100,7 @@ export default {
   methods: {
     logoutHandler () {
       this.$auth.logout()
+      this.$axios.setHeader('Authorization', null)
       this.$router.replace('/')
     }
   }
