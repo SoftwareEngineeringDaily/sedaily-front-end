@@ -1,11 +1,7 @@
-import { apiConfig } from '~/config'
-
-const BASE_URL = apiConfig.BASE_URL
-
 export default {
 
   register ({ commit, state }, { password, username, bio, website, name, email }) {
-    return this.$axios.post(`${BASE_URL}/auth/register`, {
+    return this.$axios.post('/auth/register', {
       username,
       bio,
       password,
@@ -30,14 +26,14 @@ export default {
   },
 
   sendForgotPasswordEmail ({ commit, state }, { email }) {
-    return this.$axios.post(`${BASE_URL}/users/request-password-reset`,
+    return this.$axios.post('users/request-password-reset',
       {
         email
       })
   },
 
   regainAccount ({ commit, state }, { newPassword, resetUID, secretKey }) {
-    return this.$axios.post(`${BASE_URL}/users/regain-password`,
+    return this.$axios.post('/users/regain-password',
       {
         newPassword,
         resetUID,

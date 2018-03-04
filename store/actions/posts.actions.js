@@ -1,7 +1,4 @@
 import moment from 'moment'
-import { apiConfig } from '~/config'
-
-const BASE_URL = apiConfig.BASE_URL
 
 export default {
   // Pages should probably start at largest page and go down in number
@@ -13,7 +10,7 @@ export default {
 
     commit('setActiveType', { type })
 
-    let url = `${BASE_URL}/posts?page=${page}&type=${type}`
+    let url = `/posts?page=${page}&type=${type}`
     if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
     if (createdAfter) url += `&createdAfter=${createdAfter}`
     if (search) url += `&search=${search}`
@@ -39,7 +36,7 @@ export default {
 
   fetchRecommendations ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) {
     commit('setActiveType', { type })
-    let url = `${BASE_URL}/posts/recommendations?page=${page}`
+    let url = `/posts/recommendations?page=${page}`
     if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
     if (category) url += `&categories=${category}`
     return this.$axios.get(url)
@@ -59,7 +56,7 @@ export default {
   fetchArticle ({ commit, state, getters }, { id }) {
     console.log('fetch article', id)
 
-    return this.$axios.get(`${BASE_URL}/posts/${id}`)
+    return this.$axios.get(`/posts/${id}`)
       .then((response) => {
         var post = response.data
         commit('setPosts', { posts: [post] })
@@ -79,7 +76,7 @@ export default {
     }
     commit('upVote', { articleId: id })
     const article = state.posts[id]
-    return this.$axios.post(`${BASE_URL}/posts/${article._id}/upvote`, {})
+    return this.$axios.post(`/posts/${article._id}/upvote`, {})
   },
 
   downvote ({ commit, getters, state }, { id }) {
@@ -89,6 +86,6 @@ export default {
     }
     commit('downVote', { articleId: id })
     const article = state.posts[id]
-    return this.$axios.post(`${BASE_URL}/posts/${article._id}/downvote`, {})
+    return this.$axios.post(`/posts/${article._id}/downvote`, {})
   }
 }

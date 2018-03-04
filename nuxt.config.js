@@ -1,9 +1,17 @@
 const nodeExternals = require('webpack-node-externals')
-const apiConfig = require('./config')
+const config = require('./config')
+const apiEnv = process.env.API_ENV || 'production'
+const {
+  BASE_URL: baseApiUrl,
+  EVENTS_API_BASE_URL: eventsApiBaseUrl
+} = config.getApiConfig(apiEnv)
 
-const baseApiUrl = apiConfig.getApiConfig().BASE_URL
+console.log(baseApiUrl)
 
 module.exports = {
+  env: {
+    eventsApiBaseUrl
+  },
   /*
   ** Headers of the page
   */
@@ -83,5 +91,8 @@ module.exports = {
       logout: false,
       user: { url: baseApiUrl + '/users/me', method: 'get', propertyName: false }
     }
+  },
+  axios: {
+    baseURL: baseApiUrl
   }
 }

@@ -1,7 +1,3 @@
-import { apiConfig } from '~/config'
-
-const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
-
 export default {
   enableLogging ({ commit, getters, state }) {
     if (!getters.isLoggedIn) {
@@ -20,7 +16,7 @@ export default {
   },
 
   registerEvent ({ commit, state }, { username }) {
-    return this.$axios.post(`${EVENTS_API_BASE_URL}`, {
+    return this.$axios.post(process.env.eventsApiBaseUrl, {
       clientId: username,
       deviceType: 'Browser',
       eventTime: new Date().getTime(),

@@ -1,11 +1,7 @@
-import { apiConfig } from '~/config'
-
-const BASE_URL = apiConfig.BASE_URL
-
 export default {
 
   createJob ({ commit, state, getters }, { companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$axios.post(`${BASE_URL}/jobs`, {
+    return this.$axios.post('/jobs', {
       companyName,
       applicationEmailAddress,
       location,
@@ -16,7 +12,7 @@ export default {
     })
   },
   updateJob ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$axios.put(`${BASE_URL}/jobs/${jobId}`, {
+    return this.$axios.put(`/jobs/${jobId}`, {
       companyName,
       applicationEmailAddress,
       location,
@@ -36,12 +32,12 @@ export default {
     formData.append('resume', resume)
     formData.append('coveringLetter', coveringLetter)
 
-    return this.$axios.post(`${BASE_URL}/jobs/${jobId}/apply`, formData, config)
+    return this.$axios.post(`/jobs/${jobId}/apply`, formData, config)
   },
   fetchJob ({ commit, dispatch, state, getters }, { jobId }) {
     return this
       .$axios
-      .get(`${BASE_URL}/jobs/${jobId}`)
+      .get(`/jobs/${jobId}`)
       .then(res => commit('setJob', res.data))
   },
 
@@ -51,7 +47,7 @@ export default {
       query += `companyName=${companyName}&`
     }
 
-    return this.$axios.get(`${BASE_URL}/jobs${query}`)
+    return this.$axios.get(`/jobs${query}`)
       .then((response) => {
         const jobs = response.data
         commit('setJobs', { jobs })
@@ -64,7 +60,7 @@ export default {
   },
 
   fetchJobsList ({ commit, state, getters }) {
-    return this.$axios.get(`${BASE_URL}/jobs`)
+    return this.$axios.get('/jobs')
       .then((response) => {
         commit('setJobs', { jobs: response.data })
         return response
@@ -75,7 +71,7 @@ export default {
       })
   },
   deleteJob ({ commit, state, getters }, { jobId }) {
-    return this.$axios.delete(`${BASE_URL}/jobs/${jobId}`)
+    return this.$axios.delete(`/jobs/${jobId}`)
   }
 
 }
