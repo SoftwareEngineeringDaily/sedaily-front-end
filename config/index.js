@@ -1,7 +1,7 @@
-function getApiConfig () {
+function getApiConfig (apiEnv) {
 	var apiConfig;
 
-	switch (process.env.API_ENV) {
+	switch (apiEnv) {
 		case 'development':
 			apiConfig = require('./apiConfig/dev.api.config')
 		break;

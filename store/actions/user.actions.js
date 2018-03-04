@@ -1,21 +1,18 @@
 import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
-import { apiConfig } from '~/config'
-
-const BASE_URL = apiConfig.BASE_URL
 
 export default {
 
   uploadAvatarImage ({ commit, state, getters }, { imageFile }) {
-    const endpointUrl = `${BASE_URL}/auth/sign-s3`
+    const endpointUrl = '/auth/sign-s3'
     return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
   },
 
   fetchPublicProfileData ({ commit, state, getters }, { userId }) {
-    return this.$axios.get(`${BASE_URL}/users/${userId}`)
+    return this.$axios.get(`/users/${userId}`)
   },
 
   updateProfile ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) {
-    return this.$axios.put(`${BASE_URL}/users/${id}`, {
+    return this.$axios.put(`/users/${id}`, {
       username,
       bio,
       website,
