@@ -9,8 +9,8 @@
     </div>
     <div class="player-container">
       <div class="volume-controls">
-        <span class="speed" title="1.5x" v-if="!doubleSpeed" @click="toggleDoubleSpeed" >1.5x</span>
-        <span class="speed" title="1x" v-if="doubleSpeed" @click="toggleDoubleSpeed" >1x</span>
+        <span class="speed" title="1x" v-if="!doubleSpeed" @click="toggleDoubleSpeed" >1x</span>
+        <span class="speed" title="1.5x" v-if="doubleSpeed" @click="toggleDoubleSpeed" >1.5x</span>
         <span class="fa fa-volume-off player-control mute" title="mute" @click="mute" v-if="!isMuted" />
         <span class="fa fa-volume-up player-control mute" title="unmute" @click="unMute" v-if="isMuted" />
       </div>
@@ -163,7 +163,7 @@ export default {
       this.$refs.player.muted = false
     },
     toggleDoubleSpeed () {
-      this.$refs.player.playbackRate = this.doubleSpeed ? 1 : 1.5
+      this.$refs.player.playbackRate = this.doubleSpeed ? 1.5 : 1
       this.doubleSpeed = !this.doubleSpeed
     }
   }
