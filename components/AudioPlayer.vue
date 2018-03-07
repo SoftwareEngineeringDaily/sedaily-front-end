@@ -24,12 +24,12 @@
           <span
             v-if="!doubleSpeed"
             class="speed"
-            title="1.5x"
+            title="1x"
             @click="toggleDoubleSpeed" >1.5x</span>
           <span
             v-if="doubleSpeed"
             class="speed"
-            title="1x"
+            title="1.5x"
             @click="toggleDoubleSpeed" >1x</span>
           <span
             v-if="!isMuted"
@@ -196,7 +196,7 @@ export default {
       this.$refs.player.muted = false
     },
     toggleDoubleSpeed () {
-      this.$refs.player.playbackRate = this.doubleSpeed ? 1 : 1.5
+      this.$refs.player.playbackRate = this.doubleSpeed ? 1.5 : 1
       this.doubleSpeed = !this.doubleSpeed
     }
   }
