@@ -54,7 +54,7 @@
                   class="form-check-input"
                   type="checkbox"
                   name="remoteWorkingConsidered"
-                >Remote Ok?
+                > Remote Ok?
               </label>
             </div>
             <div
@@ -90,24 +90,31 @@
               <div class="form-check form-check-inline">
                 <label class="form-check-label">
                   <input
+                    v-validate.employmentType="'required'"
                     v-model="jobFormData.employmentType"
                     class="form-check-input"
                     type="radio"
                     name="employmentType"
                     value="Permanent"
-                  >Permanent
+                  > Permanent
                 </label>
               </div>
               <div class="form-check form-check-inline">
                 <label class="form-check-label">
                   <input
+                    v-validate.employmentType="'required'"
                     v-model="jobFormData.employmentType"
                     class="form-check-input"
                     type="radio"
                     name="employmentType"
                     value="Contract"
-                  >Contract
+                  > Contract
                 </label>
+              </div>
+              <div
+                v-show="errors.has('employmentType')"
+                class="row alert alert-danger">
+                {{ errors.first('employmentType') }}
               </div>
             </div>
           </div>
