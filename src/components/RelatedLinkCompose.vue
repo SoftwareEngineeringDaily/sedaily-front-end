@@ -42,7 +42,6 @@
 </template>
 
 <script>
-/* @flow */
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 

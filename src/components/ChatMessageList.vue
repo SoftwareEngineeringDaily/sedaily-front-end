@@ -5,7 +5,6 @@
 </template>
 
 <script>
-/* @flow */
 import ChatMessage from './ChatMessage'
 
 export default {
