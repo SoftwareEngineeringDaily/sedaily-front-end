@@ -82,7 +82,7 @@
           <input type="checkbox" v-model='newsletter'
           id="allowNewsletter"
           class="form-control"
-          aria-describedby="websiteHelp">
+          aria-describedby="newsletterHelp">
         </div>
 
         <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
