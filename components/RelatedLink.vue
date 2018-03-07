@@ -39,8 +39,7 @@ export default {
       }
     }),
     myLink () {
-      if (!this.me._id) return false
-      return this.me._id === this.relatedLink.author
+      return this.me && this.me._id === this.relatedLink.author
     }
   },
   methods: {

@@ -61,7 +61,7 @@ export default {
       },
 
       isMyComment (state) {
-        return this.me._id === this.comment.author._id
+        return this.me && this.me._id === this.comment.author._id
       }
     })
   },

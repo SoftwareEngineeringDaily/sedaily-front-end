@@ -30,7 +30,6 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
       })
   },
 
@@ -65,7 +64,6 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
       })
   },
 

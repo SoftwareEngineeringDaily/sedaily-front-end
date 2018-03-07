@@ -83,7 +83,7 @@ export default {
         return auth ? auth.user : null
       },
       ownJobPosting () {
-        return this.me._id === this.job.postedUser
+        return this.me && this.me._id === this.job.postedUser
       },
       date () {
         return moment(this.job.postedDate).format('MMMM Do, YYYY')
