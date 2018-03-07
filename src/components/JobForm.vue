@@ -85,6 +85,7 @@
             <div class="form-check form-check-inline">
               <label class="form-check-label">
                 <input
+                  v-validate.employmentType="'required'"
                   class="form-check-input"
                   type="radio"
                   name="employmentType"
@@ -96,6 +97,7 @@
             <div class="form-check form-check-inline">
               <label class="form-check-label">
                 <input
+                  v-validate.employmentType="'required'"
                   class="form-check-input"
                   type="radio"
                   name="employmentType"
@@ -107,15 +109,22 @@
           </div>
         </div>
         <div class="form-group row">
-                          <textarea
-                            class="form-control"
-                            rows="10"
-                            cols="120"
-                            placeholder="Job Description"
-                            name="description"
-                            v-model="jobFormData.description"
-                            v-validate="'required'"
-                          ></textarea>
+          <div
+            class="col-sm-10 offset-sm-2 alert alert-danger"
+            v-show="errors.has('employmentType')">
+            {{ errors.first('employmentType') }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <textarea
+            class="form-control"
+            rows="10"
+            cols="120"
+            placeholder="Job Description"
+            name="description"
+            v-model="jobFormData.description"
+            v-validate="'required'"
+          ></textarea>
           <div
             class="row alert alert-danger"
             v-show="errors.has('description')">

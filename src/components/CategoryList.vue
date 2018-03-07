@@ -10,7 +10,6 @@
 </template>
 
 <script>
-/* @flow */
 
 export default {
   name: 'category-list',
@@ -25,10 +24,10 @@ export default {
     }
   },
   methods: {
-    setSelectedCategory (category: any) {
+    setSelectedCategory (category) {
       this.$emit('setSelectedCategory', category)
     },
-    getClassForCategory (categoryName: string) {
+    getClassForCategory (categoryName) {
       return (this.activeCategory && this.activeCategory.name === categoryName) ? 'category-active' : ''
     }
   }
