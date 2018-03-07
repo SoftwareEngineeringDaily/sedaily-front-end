@@ -76,7 +76,7 @@ export default {
       })
         .then(() => {
           this.commentsFetch({
-            postId: this.comment.post
+            postId: this.comment.root
           })
         })
         .catch((error) => {

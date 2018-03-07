@@ -30,13 +30,13 @@ export default {
     // extra complexity.
     state.lists[type] = state.lists[type].concat(posts)
   },
+  /*
   commentPrepend: (state, comment) => {
-    if (!state.postComments[comment.postId]) {
-      Vue.set(state.postComments, comment.postId, [])
+    if (!state.postComments[comment.root]) {
+      Vue.set(state.postComments, comment.root, [])
     }
     state.postComments[comment.postId].unshift(comment)
-  },
-
+  },*/
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
