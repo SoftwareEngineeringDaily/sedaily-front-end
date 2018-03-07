@@ -29,6 +29,10 @@ export default {
     return {
       contributors: [
         {
+          'name': 'Gabriel Simmer',
+          'github': 'gmemstr'
+        },
+        {
           'name': 'Daniel Cook',
           'github': 'dfcook'
         },

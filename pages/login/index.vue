@@ -2,6 +2,7 @@
   <div class="login-view container">
     <div class="row">
       <form
+        v-if="!isLoggedIn"
         class="col-md-6 offset-md-3">
         <h1>Login</h1>
 
@@ -56,12 +57,22 @@
     </div>
 
     <spinner :show="loading" />
+    <div
+      v-if="isLoggedIn"
+      class="col-md-6 offset-md-3">
+      <div>
+        You're already logged in! <a
+          href=""
+          @click.prevent="logout">Logout</a> or <nuxt-link to="/profile">go to your profile</nuxt-link>.
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Spinner from '~/components/Spinner'
 import { wantedToSubscribe } from '~/utils/subscription.utils'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -74,7 +85,9 @@ export default {
       loading: false
     }
   },
-
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
   methods: {
     login () {
       this.$validator.validateAll().then((result) => {
@@ -98,6 +111,11 @@ export default {
           // alert('Please fix the errors')
         }
       })
+    },
+    logout () {
+      this.$auth.logout()
+      this.$axios.setHeader('Authorization', null)
+      this.$router.replace('/')
     }
   }
 }
