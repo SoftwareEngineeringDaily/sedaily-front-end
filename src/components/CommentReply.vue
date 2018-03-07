@@ -26,8 +26,6 @@
 </template>
 
 <script>
-/* @flow */
-
 import UpdateProfile from 'components/UpdateProfile.vue'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'

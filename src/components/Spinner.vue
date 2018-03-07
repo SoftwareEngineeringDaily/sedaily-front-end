@@ -5,7 +5,6 @@
 </template>
 
 <script>
-/* @flow */
 export default {
   name: 'spinner',
   props: {
@@ -14,7 +13,7 @@ export default {
       required: true
     }
   },
-  serverCacheKey: (props:{show: string}):any => props.show
+  serverCacheKey: (props) => props.show
 }
 </script>
 
