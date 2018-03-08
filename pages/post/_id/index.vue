@@ -1,21 +1,21 @@
 <template>
   <div
     v-if="post"
-    class="post-view container">
+    class="post-view container-fluid">
     <template v-if="post">
+      <post-sidebar />
 
       <div class="row primary-post-header">
-        <div class="col-md-1">
+        <div class="col-md-11">
+          <h1 class="header-title" >{{ post.title.rendered }}</h1>
+        </div>
+        <div class="col-md-1 voting-arrows-container">
           <voting-arrows
             :upvoted="post.upvoted"
             :downvoted="post.downvoted"
             :upvote-handler="upvoteHandler"
             :downvote-handler="downvoteHandler"
             :score="post.score" />
-        </div>
-
-        <div class="col-md-10">
-          <h1 class="header-title" >{{ post.title.rendered }}</h1>
         </div>
       </div>
       <div class="post-view-header row">
@@ -33,28 +33,31 @@
           </span>
 
           <div class="meta">
+            <span>
+              <span
+                v-if="post.mp3"
+                class="player-controls">
+                <span
+                  v-if="canPlay"
+                  class="fa fa-2x fa-play player-control"
+                  title="play"
+                  @click="play" />
+                <span
+                  v-if="canPause"
+                  class="fa fa-2x fa-pause player-control"
+                  title="pause"
+                  @click="pause" />
+              </span>
+              <span
+                v-else
+                class="player-controls">
+                <span
+                  class="fa fa-2x fa-file-text-o player-control text-only"
+                  title="Text-only" />
+              </span>
+              <span class="publication-date">Published on {{ post.date }}</span>
+            </span>
 
-            <span
-              v-if="post.mp3"
-              class="player-controls">
-              <span
-                v-if="canPlay"
-                class="fa fa-2x fa-play player-control"
-                title="play"
-                @click="play" />
-              <span
-                v-if="canPause"
-                class="fa fa-2x fa-pause player-control"
-                title="pause"
-                @click="pause" />
-            </span>
-            <span
-              v-else
-              class="player-controls">
-              <span
-                class="fa fa-2x fa-file-text-o player-control text-only"
-                title="Text-only" />
-            </span>
 
             <span class="details-about-post">
               {{ post.score || 0 }} points
@@ -160,6 +163,7 @@
 import Spinner from '~/components/Spinner'
 import CommentsList from '~/components/CommentsList'
 import CommentCompose from '~/components/CommentCompose'
+import PostSidebar from '~/components/PostSidebar'
 import RelatedLinkList from '~/components/RelatedLinkList'
 import RelatedLinkCompose from '~/components/RelatedLinkCompose'
 import VotingArrows from '~/components/VotingArrows'
@@ -173,6 +177,7 @@ export default {
     CommentCompose,
     RelatedLinkList,
     RelatedLinkCompose,
+    PostSidebar,
     VotingArrows
   },
   data () {
@@ -296,24 +301,19 @@ export default {
 
 <style scoped lang="stylus">
 @import '../../../assets/stylus/variables'
+.voting-arrows-container
+  align-self flex-end
 
 .primary-post-header
   padding-top 2rem
 
 .player-controls
   color white
-  margin-left 10px
-  margin-bottom 15px
   .player-control
     width 25px
-    margin 0 10px
     cursor pointer
     &.text-only
       cursor default
-
-.details-about-post
-  margin-top 20px
-  display inline-block
 
 .selection-icons
   margin-bottom 30px
@@ -327,13 +327,27 @@ export default {
 
 .header-title
   margin-top 15px
-  font-weight 200
+  font-weight 500
+  font-size 4.5rem
 
 .post-view-header
   background primary-color
   color white
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
+  .post-header-details
+    width 100%
+    .meta
+      margin 10px 20px
+      display flex
+      align-items center
+      justify-content space-between
+      .publication-date
+        margin-left 15px
+        justify-content center
+      .details-about-post
+        text-align right
+        align-self flex-end
 
   .host, .meta, .meta a
     color white

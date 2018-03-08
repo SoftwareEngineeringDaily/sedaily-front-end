@@ -3,11 +3,9 @@
     <nav class="inner">
       <nuxt-link
         to="/"
+        class="site-name"
         exact>
-        <img
-          class="logo"
-          src="~assets/sedaily-logo.png"
-          alt="logo">
+        Software Daily
       </nuxt-link>
 
       <nuxt-link to="/jobs">Jobs Board</nuxt-link>
@@ -45,6 +43,16 @@
       </span>
 
       <span class="pull-right">
+        <nuxt-link
+          v-if="alreadySubscribed"
+          to="/premium"
+          class="subscribed">Subscribed</nuxt-link>
+
+        <nuxt-link
+          v-else
+          to="/subscribe"
+          class="call-to-action">Subscribe</nuxt-link>
+
         <span v-if="isLoggedIn">
           <a
             href="/"
@@ -61,16 +69,6 @@
             to="/register"
             class="register-nav-link">Register</nuxt-link>
         </span>
-
-        <nuxt-link
-          v-if="alreadySubscribed"
-          to="/premium"
-          class="subscribed">Subscribed</nuxt-link>
-
-        <nuxt-link
-          v-else
-          to="/subscribe"
-          class="call-to-action">Subscribe</nuxt-link>
       </span>
     </nav>
   </header>
@@ -112,7 +110,7 @@ export default {
 
 .btn-secondary
   font-size 14px
-  color primary-color
+  margin-top 8px
   box-shadow none
   &:hover
     border-color white
@@ -129,8 +127,23 @@ export default {
       background-color primary-color
 
 .header
+  .site-name
+    text-transform uppercase
+    font-size 32px
+    color #000
+    padding-top 0
+    line-height 32px
+    letter-spacing normal
+    font-weight bold
+    &:hover
+      text-decoration none
+      color #000
   .call-to-action
     color white
+    background-color primary-color
+    margin-top 8px
+    border-radius 20px
+    padding-top 4px
     text-decoration none
     margin-right 1em
   .register-nav-link

@@ -2,7 +2,7 @@
   <div id="app">
     <navigation-bar />
 
-    <div class="container main-app">
+    <div class="container-fluid main-app">
       <div class="row">
         <div
           v-if="showBeta"
@@ -131,7 +131,7 @@ export default {
   margin 0 auto
 
 body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+  font-family 'Roboto', sans-serif
   font-size 14px
   background-color white
   overflow-y scroll
@@ -155,19 +155,17 @@ a
     padding 15px 5px
   a
     font-size 14px
-    color primary-color
-    line-height 24px
+    line-height 16px
+    padding-top 8px
     transition color .15s ease
     display inline-block
     vertical-align middle
-    font-weight 300
     letter-spacing .075em
     margin-right 1.8em
     &:hover
-      color secondary-color
+      color primary-color
       text-decoration none
     &.router-link-active
-      color primary-color
       text-decoration underline
     &:nth-child(6)
       margin-right 0
