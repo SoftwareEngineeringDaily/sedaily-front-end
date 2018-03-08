@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import { PlayerState } from '~/utils/playerState'
 import moment from 'moment'
 
 export default {
@@ -107,6 +108,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'playEpisode',
+      'updatePlayerState'
+    ]),
     play () {
       if (this.isActiveEpisode) {
         this.updatePlayerState(PlayerState.PLAYING)
@@ -131,6 +136,8 @@ export default {
   color white
   margin-top 20px
   box-shadow 0 1px 2px rgba(0,0,0,.1)
+  .player-control
+    cursor pointer
   .post-header-details
     width 100%
     .meta
@@ -149,4 +156,7 @@ export default {
     font-weight 200
   .meta a
     text-decoration underline
+
+i.fa
+  cursor pointer
 </style>
