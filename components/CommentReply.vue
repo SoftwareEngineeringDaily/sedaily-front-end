@@ -67,11 +67,11 @@ export default {
     ...mapState({
       me (state) {
         return state.auth.user
-      },
-      postId (state) {
-        return state.route.params.id
       }
-    })
+    }),
+    postId () {
+      return this.$route.params.id
+    }
   },
 
   methods: {
