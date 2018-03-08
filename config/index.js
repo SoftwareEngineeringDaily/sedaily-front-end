@@ -5,8 +5,8 @@ function getApiConfig (apiEnv) {
 		case 'development':
 			apiConfig = require('./apiConfig/prod.api.config')
 		break;
-		case 'testing':
-			apiConfig = require('./apiConfig/test.api.config')
+		case 'staging':
+			apiConfig = require('./apiConfig/staging.api.config')
 		break;
 			case 'production':
 		default:
