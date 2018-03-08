@@ -41,7 +41,7 @@ export default {
         this.companyData = company
       })
       .catch(() => {
-        alert('Error fetching company')
+        this.$toast.error('Error fetching company')
       })
   },
   created () {
@@ -54,18 +54,18 @@ export default {
     deleteCompanyCallback () {
       this.deleteCompany(this.companyData._id)
         .then(() => {
-          alert('Company was deleted.')
+          this.$toast.show('Company was deleted.')
           this.$router.push('/admin')
         })
         .catch(() => {
-          alert('Error deleting company---------------')
+          this.$toast.error('Error deleting company---------------')
         })
     },
     submitCreateCompany (company) {
       this.loading = true
       this.companiesEdit(company)
         .then(() => {
-          alert('Successfully Posted!')
+          this.$toast.show('Successfully Posted!')
           this.loading = false
           this.$router.push('/admin')
         })

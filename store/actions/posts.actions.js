@@ -69,7 +69,7 @@ export default {
 
   upvote ({ commit, getters, state }, { id }) {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      this.$toast.error('You must login to vote')
       return
     }
     commit('upVote', { articleId: id })
@@ -79,7 +79,7 @@ export default {
 
   downvote ({ commit, getters, state }, { id }) {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      this.$toast.error('You must login to vote')
       return
     }
     commit('downVote', { articleId: id })

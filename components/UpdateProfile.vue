@@ -218,7 +218,7 @@ export default {
               })
               .catch((error) => {
                 console.log('Error uploading', error)
-                alert('Error uploading')
+                this.$toast.error('Error uploading')
               })
           } else {
             updatePromise = this.updateProfile({
@@ -243,7 +243,7 @@ export default {
             })
             .catch((error) => {
               console.log('Error Updaating', error)
-              alert('There was a problem updating your profile')
+              this.$toast.error('There was a problem updating your profile')
             })
         } else {
           this.msg = 'Invalid fields on form :('

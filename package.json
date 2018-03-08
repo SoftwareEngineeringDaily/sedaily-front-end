@@ -30,6 +30,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.0.0-rc.3",
     "@nuxtjs/axios": "^5.1.1",
+    "@nuxtjs/toast": "^3.0.0",
     "axios": "^0.18.0",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",

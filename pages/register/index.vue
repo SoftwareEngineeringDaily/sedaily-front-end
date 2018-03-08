@@ -185,7 +185,7 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid registration')
+                this.$toast.error('Invalid registration')
               }
             })
         } else {

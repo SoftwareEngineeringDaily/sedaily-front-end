@@ -27,7 +27,6 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
         return error
       })
   }

@@ -190,7 +190,7 @@ export default {
           this.jobs = jobs
         })
         .catch(() => {
-          alert('There was an error searching jobs for that company name.')
+          this.$toast.error('There was an error searching jobs for that company name.')
         })
     },
     submit () {

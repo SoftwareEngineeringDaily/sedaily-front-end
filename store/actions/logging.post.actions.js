@@ -1,7 +1,7 @@
 export default {
   enableLogging ({ commit, getters, state }) {
     if (!getters.isLoggedIn) {
-      alert('Login to enable logging')
+      this.$toast.error('Login to enable logging')
       return
     }
     commit('enableLogging')
@@ -9,7 +9,7 @@ export default {
 
   disableLogging ({ commit, getters, state }) {
     if (!getters.isLoggedIn) {
-      alert('Login to disable logging')
+      this.$toast.error('Login to disable logging')
       return
     }
     commit('disableLogging')

@@ -77,14 +77,20 @@ module.exports = {
     { src: '~/plugins/filters' },
     { src: '~/plugins/social-sharing' },
     { src: '~/plugins/vee-validate' },
+    { src: '~/plugins/errorHandler' },
     { src: '~/plugins/channel', ssr: false },
     { src: '~/plugins/vue-infinite-scroll', ssr: false },
     { src: '~/plugins/vue-slider', ssr: false }
   ],
   modules: [
+    '@nuxtjs/auth',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/toast'
   ],
+  toast: {
+    duration: 2000,
+    position: 'bottom-center'
+  },
   auth: {
     endpoints: {
       login: { url: baseApiUrl + '/auth/login', method: 'post', propertyName: 'token' },

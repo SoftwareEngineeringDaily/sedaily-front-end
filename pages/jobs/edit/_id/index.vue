@@ -75,7 +75,7 @@ export default {
         tags
       })
         .then(() => {
-          alert('Successfully Edited!')
+          this.$toast.show('Successfully Edited!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
@@ -89,7 +89,7 @@ export default {
       this.loading = true
       this.deleteJob({ jobId: this.job._id })
         .then(() => {
-          alert('Successfully Deleted!')
+          this.$toast.show('Successfully Deleted!')
           this.$router.push('/jobs')
         })
         .catch((error) => {

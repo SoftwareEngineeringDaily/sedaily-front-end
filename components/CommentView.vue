@@ -85,7 +85,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.$toast.error('Error deleting :(')
         })
     },
     user (comment) {

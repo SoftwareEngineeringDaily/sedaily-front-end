@@ -85,18 +85,16 @@ export default {
             .then((response) => {
               this.url = ''
               this.title = ''
-              this.isSubmitting = false
               // Fetch comments
               this.relatedLinksFetch({
                 postId: this.postId
               })
             })
-            .catch((error) => {
+            .finally(() => {
               this.isSubmitting = false
-              alert(error.response.data.message)
             })
         } else {
-          alert('Sorry there was a problem :(')
+          this.$toast.error('Sorry there was a problem :(')
         }
       })
     }

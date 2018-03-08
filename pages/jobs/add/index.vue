@@ -58,7 +58,7 @@ export default {
         tags
       })
         .then(() => {
-          alert('Successfully Posted!')
+          this.$toast.show('Successfully Posted!')
           this.$router.push('/jobs')
         })
         .catch((error) => {

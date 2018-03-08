@@ -73,9 +73,8 @@ export default {
             postId: this.postId
           })
         })
-        .catch((error) => {
+        .finally(() => {
           this.isSubmitting = false
-          alert(error.response.data.message)
         })
     }
   }

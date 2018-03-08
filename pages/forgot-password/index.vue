@@ -80,7 +80,7 @@ export default {
             .catch(() => {
               this.loading = false
               this.submitted = false
-              alert('There was an error with your submission, make sure you are using the right email.')
+              this.$toast.error('There was an error with your submission, make sure you are using the right email.')
             })
         }
       })

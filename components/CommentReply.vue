@@ -91,9 +91,6 @@ export default {
             postId: this.postId
           })
         })
-        .catch((error) => {
-          alert(error.response.data.message)
-        })
     } }
 }
 </script>

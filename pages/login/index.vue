@@ -101,14 +101,12 @@ export default {
                 password
               }
             })
-            .catch(err => {
-              alert('Invalid login')
+            .finally(() => {
               this.loading = false
             })
         } else {
-          console.log('Invalid values..')
+          this.$toast.error('Invalid values')
           this.loading = false
-          // alert('Please fix the errors')
         }
       })
     },

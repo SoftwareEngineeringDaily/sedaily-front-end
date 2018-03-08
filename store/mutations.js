@@ -2,7 +2,6 @@ import Vue from 'vue'
 import find from 'lodash/find'
 
 export default {
-
   setActivePostInPlayer: (state, { post }) => {
     state.activePlayerPost = post
   },
