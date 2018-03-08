@@ -1,31 +1,29 @@
 <template>
-  <div class="row">
-    <div class="post-view-comments col-md-12">
-      <div class="selection-icons">
-        <span @click="$emit('selectPostContent')">
-          <img
-            :class="{ active: showPostContent }"
-            class="icon"
-            src="~assets/icons/post.png"
-            alt="Post Content">
-        </span>
+  <div class="post-view-comments col-md-12">
+    <div class="selection-icons">
+      <span @click="$emit('selectPostContent')">
+        <img
+          :class="{ active: showPostContent }"
+          class="icon"
+          src="~assets/icons/post.png"
+          alt="Post Content">
+      </span>
 
-        <span @click="$emit('selectRelatedLinks')">
-          <img
-            :class="{ active: showRelatedLinks }"
-            class="icon"
-            src="~assets/icons/relatedlinks.png"
-            alt="Related Links">
-        </span>
+      <span @click="$emit('selectRelatedLinks')">
+        <img
+          :class="{ active: showRelatedLinks }"
+          class="icon"
+          src="~assets/icons/relatedlinks.png"
+          alt="Related Links">
+      </span>
 
-        <span @click="$emit('selectComments')">
-          <img
-            :class="{ active: showComments }"
-            class="icon"
-            src="~assets/icons/comments.png"
-            alt="Comments">
-        </span>
-      </div>
+      <span @click="$emit('selectComments')">
+        <img
+          :class="{ active: showComments }"
+          class="icon"
+          src="~assets/icons/comments.png"
+          alt="Comments">
+      </span>
     </div>
   </div>
 </template>

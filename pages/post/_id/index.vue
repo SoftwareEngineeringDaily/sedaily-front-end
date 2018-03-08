@@ -3,21 +3,30 @@
     v-if="post"
     class="post-view container-fluid">
 
-    <post-header
-      :post="post"
-      :downvote-handler="downvoteHandler"
-      :upvote-handler="upvoteHandler" />
-    <post-meta :post="post" />
+    <div class="post-header">
+      <post-header
+        :post="post"
+        :downvote-handler="downvoteHandler"
+        :upvote-handler="upvoteHandler" />
+    </div>
 
-    <post-selection-icons
-      :show-comments="showComments"
-      :show-related-links="showRelatedLinks"
-      :show-post-content="showPostContent"
-      @selectPostContent="selectPostContent"
-      @selectRelatedLinks="selectRelatedLinks"
-      @selectComments="selectComments" />
+    <div class="post-meta">
+      <post-meta :post="post" />
+    </div>
 
-    <div v-if="showPostContent">
+    <div class="post-selection-icons">
+      <post-selection-icons
+        :show-comments="showComments"
+        :show-related-links="showRelatedLinks"
+        :show-post-content="showPostContent"
+        @selectPostContent="selectPostContent"
+        @selectRelatedLinks="selectRelatedLinks"
+        @selectComments="selectComments" />
+    </div>
+
+    <div
+      v-if="showPostContent"
+      class="post-content">
       <div class="row">
         <div class="col-md-12">
           <div
@@ -53,16 +62,24 @@
 
     <div
       v-if="showRelatedLinks"
-      class="related-links-container">
+      class="related-links">
       <related-link-list :related-links="relatedLinks" />
       <related-link-compose v-if="isLoggedIn" />
     </div>
 
-    <div v-if="showComments">
+    <div
+      v-if="showComments"
+      class="comments">
       <comment-compose v-if="isLoggedIn" />
       <br>
       <h3 class="section-title"> Comments </h3>
       <comments-list :comments="comments" />
+    </div>
+
+    <div class="side-bar">
+      <post-sidebar
+        :comments="comments.length"
+        :related-links="relatedLinks.length" />
     </div>
   </div>
 </template>
@@ -198,6 +215,33 @@ export default {
   list-style-type none
   padding 0
   margin 0
+
+.post-view
+  display grid
+  grid-row-gap 10px
+  grid-column-gap 10px
+
+.post-header
+  grid-row 1
+  grid-column 1
+
+.post-meta
+  grid-row 2
+  grid-column 1
+
+.post-selection-icons
+  grid-row 3
+  grid-column 1
+
+.post-content,
+.related-link,
+.comments
+  grid-row 4
+  grid-column 1
+
+.side-bar
+  grid-row 1 / span 4
+  grid-column 2
 
 @media (max-width 600px)
   .post-view-header

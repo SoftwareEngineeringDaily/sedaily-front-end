@@ -1,5 +1,5 @@
 <template>
-  <div class="post-view-header row">
+  <div class="post-view-header">
     <div
       class="post-header-details"
       style="display:inline-block">

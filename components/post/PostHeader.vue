@@ -1,5 +1,5 @@
 <template>
-  <div class="row primary-post-header">
+  <div class="primary-post-header row">
     <div class="col-md-11">
       <h1 class="header-title" >{{ post.title.rendered }}</h1>
     </div>
