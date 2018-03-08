@@ -8,11 +8,11 @@ export default {
 
   removeRelatedLink ({ commit, getters, state }, { id }) {
     if (!getters.isLoggedIn) {
-      alert('You must login to remove your link')
+      this.$toast.error('You must login to remove your link')
       return
     }
     if (!id) {
-      alert('Error with that link')
+      this.$toast.error('Error with that link')
       return
     }
     return this.$axios.delete(`/related-links/${id}`)
@@ -20,7 +20,7 @@ export default {
 
   upvoteRelatedLink ({ commit, getters, state }, { id, postId }) {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      this.$toast.error('You must login to vote')
       return
     }
     commit('upvoteRelatedLink', { id, postId })
@@ -29,7 +29,7 @@ export default {
 
   downvoteRelatedLink ({ commit, getters, state }, { id, postId }) {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      this.$toast.error('You must login to vote')
       return
     }
     commit('downvoteRelatedLink', { id, postId })
