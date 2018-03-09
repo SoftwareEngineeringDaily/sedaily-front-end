@@ -3,10 +3,11 @@
     <navigation-bar />
 
     <div class="container-fluid main-app">
-      <div class="row">
+      <div
+        v-if="showBeta"
+        class="row">
         <div
-          v-if="showBeta"
-          class="col-md-8 col-centered text-center beta-msg">
+          class="col-md-12 beta-msg text-center">
           Welcome! We are in early beta, checkout the open source project on
           <a
             href="https://github.com/SoftwareEngineeringDaily"
@@ -17,11 +18,12 @@
             class="link">contributor</nuxt-link>.
         </div>
       </div>
-      <div class="row text-center">
+      <div
+        v-if="showBeta"
+        class="row">
         <div
           v-if="showBeta"
-          class="col-md-12">
-          <br>
+          class="col-md-12 text-center">
           <h3> Check out the apps: </h3>
 
           <a
@@ -41,12 +43,14 @@
           </a>
         </div>
       </div>
+      <div class="row">
+        <transition
+          name="fade"
+          mode="out-in">
+          <nuxt class="view" />
+        </transition>
+      </div>
     </div>
-    <transition
-      name="fade"
-      mode="out-in">
-      <nuxt class="view" />
-    </transition>
 
     <transition
       name="fade"
@@ -91,6 +95,7 @@ export default {
   margin-right 0.3rem
 
 .main-app
+  max-width 1200px
   margin-top 3rem
 
 .call-to-action
@@ -184,9 +189,8 @@ a
   bottom 0
   left 0
 
-.icon {
-  width: 150px;
-}
+.icon
+  width 150px
 
 .logo
   width 30px
@@ -210,7 +214,6 @@ a
   width 30px
 
 .view
-  max-width 1200px
   margin 0 auto
   position relative
 
@@ -235,4 +238,7 @@ a
       margin-right 1em
     .github
       display none
+
+.beta-msg
+  margin-bottom 20px
 </style>

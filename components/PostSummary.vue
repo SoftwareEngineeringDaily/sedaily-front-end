@@ -160,8 +160,8 @@ export default {
   display inline-flex
   flex-direction row
   background-color #fff
-  border-bottom 1px solid #eee
-  border-left 1px solid #eee
+  border-bottom 2px solid #eee
+  border-left 2px solid #eee
   position relative
   line-height 20px
   height 220px
@@ -171,13 +171,16 @@ export default {
     display inline-flex
     flex-direction column
     justify-content center
+    align-items center
     width 80%
     max-width 100%
 
   .image
     display flex
+    align-content  center
     align-items center
     justify-content center
+    box-shadow 0 0 3px 3px #ccc
     height 96px
     width 192px
     .player-controls
@@ -202,8 +205,10 @@ export default {
     .play-icon
       width 80px
   .title
-    border-radius 3px
+    margin-top 10px
     padding 10px
+    width 100%
+    text-align right
     background idle-background
     &:hover
       background primary-color
@@ -217,6 +222,8 @@ export default {
     font-size .85em
     color #999
     margin-top 5px
+    width 100%
+    text-align left
     a
       color #999
       text-decoration underline

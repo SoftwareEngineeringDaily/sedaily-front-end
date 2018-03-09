@@ -74,6 +74,7 @@ module.exports = {
     ]
   },
   plugins: [
+    { src: '~/plugins/se-common' },
     { src: '~/plugins/filters' },
     { src: '~/plugins/social-sharing' },
     { src: '~/plugins/vee-validate' },
@@ -84,8 +85,8 @@ module.exports = {
   ],
   modules: [
     '@nuxtjs/auth',
+    '@nuxtjs/toast',
     '@nuxtjs/axios',
-    '@nuxtjs/toast'
   ],
   toast: {
     duration: 2000,
