@@ -1,5 +1,5 @@
 <template>
-  <div class="news-view">
+  <div class="news-view col-sm-12">
     <div
       v-if="showFilteringElements"
       class="search-bar">
