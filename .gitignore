@@ -11,3 +11,5 @@ yarn-error.log
 # Nuxt generate
 dist
 
+# yarn
+yarn.lock
