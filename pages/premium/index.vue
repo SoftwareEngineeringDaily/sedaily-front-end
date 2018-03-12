@@ -160,10 +160,14 @@ export default {
       }
     })
   },
-  fetch ({ store }) {
-    if (!this.alreadySubscribed) {
+  asyncData ({ store }) {
+    if (!(store.state.me && 
+      store.state.me.subscription && 
+      store.state.me.subscription.active)) {
       if (wantedToSubscribe(store)) {
-        this.planType = preSelectedSubscriptionPlan(store)
+        return {
+          planType: preSelectedSubscriptionPlan(store)
+        }
       }
     } else {
     // Already subbed
