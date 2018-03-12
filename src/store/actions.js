@@ -1,6 +1,7 @@
 import authActions from './actions/auth.actions'
 import userActions from './actions/user.actions'
 import postActions from './actions/posts.actions'
+import forumActions from './actions/forum.actions'
 import commentActions from './actions/comments.actions'
 import relatedLinksActions from './actions/relatedLinks.actions'
 import playerActions from './actions/player.actions'
@@ -23,5 +24,6 @@ export default {
   ...feedActions,
   ...chatActions,
   ...loggingPostActions,
-  ...jobActions
+  ...jobActions,
+  ...forumActions
 }
