@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="post"
-    class="post-view container-fluid">
+    class="post-view">
 
     <div class="post-header">
       <post-header
@@ -26,20 +26,14 @@
 
     <div
       v-if="showPostContent"
-      class="post-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div
-            class="post-transcript"
-            v-html="postContent" />
-        </div>
-      </div>
-
-      <hr>
+      class="post-content">      
+      <div
+        class="post-transcript"
+        v-html="postContent" />      
 
       <div
-        v-if="isLoggedIn"
-        class="row">
+        v-if="isLoggedIn">
+        <hr>
         <div class="col-md-12">
           <comment-compose />
         </div>

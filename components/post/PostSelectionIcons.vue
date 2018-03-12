@@ -1,5 +1,5 @@
 <template>
-  <div class="post-view-comments col-md-12">
+  <div class="post-view-comments">
     <div class="selection-icons">
       <span @click="$emit('selectPostContent')">
         <img

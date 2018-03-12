@@ -1,9 +1,9 @@
 <template>
-  <div class="primary-post-header row">
-    <div class="col-md-11">
-      <h1 class="header-title" >{{ post.title.rendered }}</h1>
+  <div class="primary-post-header">
+    <div class="header-title">
+      <h1>{{ post.title.rendered }}</h1>
     </div>
-    <div class="col-md-1 voting-arrows-container">
+    <div class="voting-arrows-container">
       <voting-arrows
         :upvoted="post.upvoted"
         :downvoted="post.downvoted"
@@ -40,21 +40,22 @@ export default {
 
 <style lang="stylus" scoped>
 .voting-arrows-container
+  width 10%
   align-self flex-end
 
 .primary-post-header
+  display flex
   padding-top 2rem
 
 .header-title
-  margin-top 15px
-  font-weight 500
-  font-size 4.5rem
+  width 90%
+  h1
+    margin-top 15px
+    font-weight 500
+    font-size 4.5rem
 
-.player-controls
-  color white
-  .player-control
-    width 25px
-    cursor pointer
-    &.text-only
-      cursor default
+@media (max-width 600px)
+  .header-title
+    h1
+      font-size 2rem
 </style>
