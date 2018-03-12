@@ -96,7 +96,7 @@ module.exports = {
     action: {
       text: 'Close',
       onClick: (e, toastObject) => {
-          toastObject.goAway(0)
+        toastObject.goAway(0)
       }
     }
   },

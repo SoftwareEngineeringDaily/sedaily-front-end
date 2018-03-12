@@ -121,9 +121,6 @@ export default {
     }
   },
   computed: {
-    stripePublicKey () {
-      return config.getApiConfig().STRIPE_PUBLIC_KEY
-    },
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       me ({ auth }) {
@@ -160,18 +157,25 @@ export default {
       }
     })
   },
-  asyncData ({ store }) {
+  asyncData ({ store, isDev }) {
+    const env = isDev ? 'development' : 'production'
+    const stripePublicKey = config.getApiConfig(env).STRIPE_PUBLIC_KEY
+    let planType = 'monthly'
+
     if (!(store.state.me && 
       store.state.me.subscription && 
       store.state.me.subscription.active)) {
       if (wantedToSubscribe(store)) {
-        return {
-          planType: preSelectedSubscriptionPlan(store)
-        }
+        planType = preSelectedSubscriptionPlan(store)
       }
     } else {
     // Already subbed
       unselectSubscriptionPlan(store)
+    }
+
+    return {
+      planType,
+      stripePublicKey
     }
   },
 
