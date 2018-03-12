@@ -64,4 +64,21 @@ props: {
     .rotated
       width 200px
       transform translateX(-30%) translateY(75%) rotate(90deg)
+
+@media (max-width 600px)
+  .sidenav
+    width 50px
+    .related-links      
+      flex-basis 50px
+      p 
+        font-size 1.5em
+      .rotated
+        width 150px
+        transform translateX(-32%) translateY(250%) rotate(90deg)
+    .comments
+      p
+        font-size 1.5em
+      .rotated
+        width 150px
+        transform translateX(-32%) translateY(250%) rotate(90deg)
 </style>

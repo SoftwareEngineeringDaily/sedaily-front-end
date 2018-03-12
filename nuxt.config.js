@@ -90,7 +90,15 @@ module.exports = {
   ],
   toast: {
     duration: 2000,
-    position: 'bottom-center'
+    position: 'bottom-center',
+    theme: 'primary',
+    duration: null,
+    action: {
+      text: 'Close',
+      onClick: (e, toastObject) => {
+          toastObject.goAway(0)
+      }
+    }
   },
   auth: {
     endpoints: {

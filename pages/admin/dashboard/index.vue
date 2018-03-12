@@ -47,7 +47,6 @@ import { mapState, mapActions } from 'vuex'
 export default {
   middleware: 'auth',
   fetch ({ store }) {
-    console.log('fetch..')
     store.dispatch('companiesFetch')
   },
   computed: {
