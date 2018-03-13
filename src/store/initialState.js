@@ -25,5 +25,6 @@ export default {
   },
   token: localStorage.getItem('token'),
   loggingEnabled: true,
-  jobs: []
+  jobs: [],
+  forum: []
 }

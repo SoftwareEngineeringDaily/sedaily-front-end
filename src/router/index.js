@@ -25,6 +25,7 @@ import AdminDashboard from '@/views/AdminDashboard'
 import CompanyCompose from '@/views/CompanyCompose'
 import CompanyEdit from '@/views/CompanyEdit'
 import Contributors from '@/views/Contributors'
+import Forum from '@/views/Forum'
 
 Vue.use(Router)
 
@@ -56,6 +57,7 @@ const router = new Router({
     { path: '/edit-job/:id([A-Za-z0-9-_]+)?', component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
+    { path: '/forum', component: Forum },
     { path: '/admin', component: AdminDashboard },
     { path: '/admin/add-company', component: CompanyCompose },
     { path: '/admin/edit-company/:id', component: CompanyEdit },

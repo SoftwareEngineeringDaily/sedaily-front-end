@@ -53,6 +53,10 @@ export default {
     state.feed = feedItems
   },
 
+  setForumThreads: (state, { list }) => {
+    state.forum = list
+  },
+
   setPosts: (state, { posts }) => {
     posts.forEach(post => {
       if (post) {

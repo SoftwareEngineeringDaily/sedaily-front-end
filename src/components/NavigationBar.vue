@@ -22,7 +22,7 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false">
-          Podcast
+          Menu
         </button>
         <div
           class="dropdown-menu"
@@ -49,7 +49,11 @@
             exact
             >Contributors</router-link>
 
-
+          <router-link to="/forum"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Forum</router-link>
 
         </div>
       </span>
