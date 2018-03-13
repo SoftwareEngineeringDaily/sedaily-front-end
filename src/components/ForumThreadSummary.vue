@@ -7,6 +7,9 @@
 <script>
 export default {
   name: 'ForumThreadSummary',
+  data () {
+    return {}
+  }
 
 }
 </script>
