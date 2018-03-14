@@ -54,7 +54,7 @@ export default {
   },
 
   setForumThreads: (state, { list }) => {
-    state.forum = list
+    state.forumThreads = list
   },
 
   setPosts: (state, { posts }) => {

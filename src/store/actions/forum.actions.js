@@ -3,7 +3,7 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  fetchForum ({ getters, commit }) {
+  fetchForumThreads ({ getters, commit }) {
     const options = {}
     const token = getters.getToken
     if (token) {
