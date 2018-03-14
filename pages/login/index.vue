@@ -63,7 +63,7 @@
       <div>
         You're already logged in! <a
           href=""
-          @click.prevent="logout">Logout</a> or <nuxt-link to="/profile">go to your profile</nuxt-link>.
+          @click.prevent="logoutHandler">Logout</a> or <nuxt-link to="/profile">go to your profile</nuxt-link>.
       </div>
     </div>
   </div>
@@ -89,11 +89,15 @@ export default {
     ...mapGetters(['isLoggedIn'])
   },
   methods: {
-    login () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
+    async login () {
+      const valid = await this.$validator.validateAll()
+
+      if (valid) {
+        this.loading = true
+
+        try {
           const { username, password } = this
+
           this.$auth
             .login({
               data: {
@@ -101,19 +105,15 @@ export default {
                 password
               }
             })
-            .finally(() => {
-              this.loading = false
-            })
-        } else {
-          this.$toast.error('Invalid values')
+        } finally {
           this.loading = false
         }
-      })
+      } else {
+        this.$toast.error('Invalid values')
+      }
     },
-    logout () {
-      this.$auth.logout()
-      this.$axios.setHeader('Authorization', null)
-      this.$router.replace('/')
+    logoutHandler () {
+      this.$store.dispatch('logout')
     }
   }
 }

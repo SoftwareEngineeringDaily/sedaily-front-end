@@ -29,12 +29,18 @@
 <script>
 import UpdateProfile from '~/components/UpdateProfile.vue'
 import Spinner from '~/components/Spinner'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     UpdateProfile,
     Spinner
+  },
+  props: {
+    postId: {
+      type: String,
+      required: true
+    }
   },
   data () {
     return {
@@ -46,36 +52,27 @@ export default {
   computed: {
     // local computed methods +
     ...mapState({
-      username () {
-        return this.me.username
-      },
       me (state) {
         return state.auth.user
       }
     }),
-    postId () {
-      return this.$route.params.id
+    username () {
+      return this.me.username
     }
   },
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitComment () {
+    async submitComment () {
       this.isSubmitting = true
-      this.commentsCreate({
-        postId: this.postId,
-        content: this.commentContent
-      })
-        .then((response) => {
-          this.commentContent = ''
-          this.isSubmitting = false
-          // Fetch comments
-          this.commentsFetch({
-            postId: this.postId
-          })
+
+      try {
+        await this.$axios.post(`/posts/${this.postId}/comment`, {
+          content: this.commentContent
         })
-        .finally(() => {
-          this.isSubmitting = false
-        })
+
+        this.$emit('commentCreated')
+      } finally {
+        this.isSubmitting = false
+      }
     }
   }
 }

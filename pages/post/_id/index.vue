@@ -26,16 +26,18 @@
 
     <div
       v-if="showPostContent"
-      class="post-content">      
+      class="post-content">
       <div
         class="post-transcript"
-        v-html="postContent" />      
+        v-html="postContent" />
 
       <div
         v-if="isLoggedIn">
         <hr>
         <div class="col-md-12">
-          <comment-compose />
+          <comment-compose
+            :post-id="post._id"
+            @commentCreated="refreshComments" />
         </div>
       </div>
 
@@ -44,12 +46,21 @@
       <div class="row">
         <div class="col-md-8">
           <h3 class="section-title"> Comments </h3>
-          <comments-list :comments="comments" />
+          <comments-list
+            :post-id="post._id"
+            :comments="comments"
+            @commentCreated="refreshComments"
+            @commentDeleted="refreshComments" />
         </div>
 
         <div class="col-md-4">
-          <related-link-list :related-links="relatedLinks" />
-          <related-link-compose v-if="isLoggedIn" />
+          <related-link-list
+            :related-links="relatedLinks"
+            @relatedLinkDeleted="refreshRelatedLinks" />
+          <related-link-compose
+            v-if="isLoggedIn"
+            :post-id="post._id"
+            @relatedLinkCreated="refreshRelatedLinks" />
         </div>
       </div>
     </div>
@@ -57,17 +68,29 @@
     <div
       v-if="showRelatedLinks"
       class="related-links">
-      <related-link-list :related-links="relatedLinks" />
-      <related-link-compose v-if="isLoggedIn" />
+      <related-link-list
+        :related-links="relatedLinks"
+        @relatedLinkDeleted="refreshRelatedLinks" />
+      <related-link-compose
+        v-if="isLoggedIn"
+        :post-id="post._id"
+        @relatedLinkCreated="refreshRelatedLinks" />
     </div>
 
     <div
       v-if="showComments"
       class="comments">
-      <comment-compose v-if="isLoggedIn" />
+      <comment-compose
+        v-if="isLoggedIn"
+        :post-id="post._id"
+        @commentCreated="refreshComments" />
       <br>
       <h3 class="section-title"> Comments </h3>
-      <comments-list :comments="comments" />
+      <comments-list
+        :post-id="post._id"
+        :comments="comments"
+        @commentCreated="refreshComments"
+        @commentDeleted="refreshComments" />
     </div>
 
     <div class="side-bar">
@@ -110,14 +133,14 @@ export default {
       showComments: false
     }
   },
-  computed: {    
+  computed: {
     postContent () {
       if (this.post.cleanedContent) {
         return this.post.cleanedContent
       } else {
         return this.post.content.rendered
       }
-    },    
+    },
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       activePlayerPost (state) {
@@ -125,7 +148,7 @@ export default {
       },
       playerState (state) {
         return state.playerState
-      }      
+      }
     })
   },
 
@@ -145,11 +168,21 @@ export default {
 
   methods: {
     ...mapActions([
-      'upvote', 
-      'downvote',        
-      'playEpisode', 
+      'upvote',
+      'downvote',
+      'playEpisode',
       'updatePlayerState'
     ]),
+
+    async refreshComments () {
+      const commentsResponse = await this.$axios.get(`/posts/${this.post._id}/comments`)
+      this.comments = commentsResponse.data.result
+    },
+
+    async refreshRelatedLinks () {
+      const relatedLinksResponse = await this.$axios.get(`/posts/${this.post._id}/related-links`)
+      this.relatedLinks = relatedLinksResponse.data
+    },
 
     selectPostContent () {
       this.showRelatedLinks = false

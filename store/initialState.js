@@ -23,7 +23,5 @@ export default {
     online: false,
     messages: []
   },
-  loggingEnabled: true,
-  job: {},
-  jobs: []
+  loggingEnabled: true
 }

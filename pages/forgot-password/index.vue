@@ -65,25 +65,23 @@ export default {
   },
 
   methods: {
-    submit () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          const { email } = this
-          this.$store.dispatch('sendForgotPasswordEmail', {
-            email
-          })
-            .then((response) => {
-              this.loading = false
-              this.submitted = true
-            })
-            .catch(() => {
-              this.loading = false
-              this.submitted = false
-              this.$toast.error('There was an error with your submission, make sure you are using the right email.')
-            })
+    async submit () {
+      const valid = this.$validator.validateAll()
+      if (valid) {
+        this.loading = true
+        const { email } = this
+
+        try {
+          await this.$store.dispatch('sendForgotPasswordEmail', { email })
+          this.submitted = true
         }
-      })
+        catch (_) {
+          this.submitted = false
+          this.$toast.error('There was an error with your submission, make sure you are using the right email.')
+        }
+
+        this.loading = false
+      }
     }
   }
 }

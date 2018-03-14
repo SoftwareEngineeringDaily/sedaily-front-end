@@ -69,16 +69,26 @@ export default {
   },
   data () {
     return {
-      loading: false,
-      error: null
+      loading: false
+    }
+  },
+  async asyncData ({ $axios, params }) {
+    try {
+      const jobResponse = await $axios.get(`/jobs/${params.id}`)
+      return {
+        job: jobResponse.data,
+        error: null
+      }
+    } catch (err) {
+      return {
+        job: null,
+        error: err
+      }
     }
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
-      job (state) {
-        return state.job
-      },
       me ({ auth }) {
         return auth ? auth.user : null
       },
@@ -89,9 +99,6 @@ export default {
         return moment(this.job.postedDate).format('MMMM Do, YYYY')
       }
     })
-  },
-  fetch ({ store, params }) {
-    return store.dispatch('fetchJob', { jobId: params.id })
   }
 }
 </script>

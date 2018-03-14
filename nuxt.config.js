@@ -101,6 +101,9 @@ module.exports = {
     }
   },
   auth: {
+    cookie: {
+      name: 'se_auth'
+    },
     endpoints: {
       login: { url: baseApiUrl + '/auth/login', method: 'post', propertyName: 'token' },
       logout: false,

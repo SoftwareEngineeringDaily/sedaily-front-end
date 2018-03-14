@@ -66,7 +66,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    ...mapActions(['likeComment']),
     upvoteHandler () {
       this.likeComment({
         id: this.comment._id,
@@ -74,19 +74,9 @@ export default {
         postId: this.comment.post
       })
     },
-    remove () {
-      this.removeComment({
-        id: this.comment._id
-      })
-        .then(() => {
-          this.commentsFetch({
-            postId: this.comment.post
-          })
-        })
-        .catch((error) => {
-          console.log(error)
-          this.$toast.error('Error deleting :(')
-        })
+    async remove () {
+      await this.$axios.delete(`/comments/${this.comment._id}`)
+      this.$emit('commentDeleted')
     },
     user (comment) {
       if (comment.author) {

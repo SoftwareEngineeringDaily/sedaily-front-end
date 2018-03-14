@@ -38,5 +38,12 @@ export default {
         resetUID,
         secretKey
       })
+  },
+
+  logout ({ commit }) {
+    this.$auth.logout()
+    this.$auth.setCookie('se_auth', null)
+    this.$axios.setHeader('Authorization', null)
+    this.$router.replace('/')
   }
 }

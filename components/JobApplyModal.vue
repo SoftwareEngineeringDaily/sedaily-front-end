@@ -119,26 +119,25 @@ export default {
       }
       this.resume = files[0]
     },
-    submit () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          this.error = null
-          const { jobId, coveringLetter, resume } = this
-          return this.applyToJob({ jobId, coveringLetter, resume })
-            .then(() => {
-              this.applySucceeded = true
-            })
-            .catch((error) => {
-              this.error = error.response.data.message
-            })
-            .finally(() => {
-              this.loading = false
-            })
-        } else {
-          this.error = 'Invalid fields on form'
+    async submit () {
+      const valid = await this.$validator.validateAll()
+
+      if (valid) {
+        this.loading = true
+        this.error = null
+        const { jobId, coveringLetter, resume } = this
+
+        try {
+          await this.applyToJob({ jobId, coveringLetter, resume })
+          this.applySucceeded = true
+        } catch (err) {
+          this.error = err.response.data.message
         }
-      })
+
+        this.loading = false
+      } else {
+        this.error = 'Invalid fields on form'
+      }
     }
   }
 }

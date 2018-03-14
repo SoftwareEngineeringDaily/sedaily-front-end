@@ -5,7 +5,9 @@
       v-for="relatedLink in relatedLinks"
       :key="relatedLink._id"
       class="related-links-list">
-      <related-link :related-link="relatedLink" />
+      <related-link
+        :related-link="relatedLink"
+        @relatedLinkDeleted="$emit('relatedLinkDeleted')" />
     </div>
   </div>
 </template>

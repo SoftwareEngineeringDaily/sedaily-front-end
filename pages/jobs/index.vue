@@ -91,7 +91,6 @@ export default {
   data () {
     return {
       loading: false,
-      error: null,
       locationSearch: '',
       keywordSearch: '',
       filter: null
@@ -99,11 +98,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      jobs (state) {
-        return state.jobs
-      }
-    }),
     displayedJobs () {
       if (!this.filter) {
         return this.jobs
@@ -117,8 +111,19 @@ export default {
       })
     }
   },
-  fetch ({ store }) {
-    return store.dispatch('fetchJobsList')
+  async asyncData ({ $axios }) {
+    try {
+      const jobsResponse = await $axios.get('/jobs')
+      return {
+        jobs: jobsResponse.data,
+        error: null
+      }
+    } catch (err) {
+      return {
+        jobs: [],
+        error: err
+      }
+    }
   },
   methods: {
     search () {

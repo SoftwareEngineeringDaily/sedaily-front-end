@@ -48,6 +48,12 @@ export default {
   components: {
     Spinner
   },
+  props: {
+    postId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       url: '',
@@ -56,47 +62,35 @@ export default {
       loading: true
     }
   },
-
   computed: {
-    // local computed methods +
     ...mapState({
       me ({ auth }) {
         return auth ? auth.user : null
       }
-    }),
-    postId () {
-      return this.$route.params.id
-    }
+    })
   },
   methods: {
-    ...mapActions([
-      'relatedLinksCreate',
-      'relatedLinksFetch'
-    ]),
-    submit () {
-      return this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.isSubmitting = true
-          this.relatedLinksCreate({
-            postId: this.postId,
-            title: this.title,
-            url: this.url
-          })
-            .then((response) => {
-              this.url = ''
-              this.title = ''
-              // Fetch comments
-              this.relatedLinksFetch({
-                postId: this.postId
-              })
-            })
-            .finally(() => {
-              this.isSubmitting = false
-            })
-        } else {
-          this.$toast.error('Sorry there was a problem :(')
+    async submit () {
+      const valid = await this.$validator.validateAll()
+      if (valid) {
+        this.isSubmitting = true
+
+        try {
+          const options = {
+            url: this.url,
+            title: this.title
+          }
+
+          const requestUrl = `/posts/${this.postId}/related-link`
+          await this.$axios.post(requestUrl, options)
+
+          this.$emit('relatedLinkCreated')
+        } finally {
+          this.isSubmitting = false
         }
-      })
+      } else {
+        this.$toast.error('Sorry there was a problem :(')
+      }
     }
   }
 }

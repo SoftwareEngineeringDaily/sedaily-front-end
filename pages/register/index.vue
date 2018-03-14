@@ -121,7 +121,7 @@
       <div class="col-md-6 offset-md-3">
         You're already logged in! <a
           href=""
-          @click.prevent="logout">Logout</a> or <nuxt-link to="/profile">go to your profile</nuxt-link>.
+          @click.prevent="logoutHandler">Logout</a> or <nuxt-link to="/profile">go to your profile</nuxt-link>.
       </div>
     </div>
   </div>
@@ -151,47 +151,43 @@ export default {
     ...mapGetters(['isLoggedIn'])
   },
   methods: {
-    logout () {
-      this.$auth.logout()
-      this.$axios.setHeader('Authorization', null)
-      this.$router.replace('/')
+    logoutHandler () {
+      this.$store.dispatch('logout')
     },
-    register () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          const { username, email, bio, website, name, password } = this
-          this.$store.dispatch('register', {
-            username,
-            password,
-            name,
-            bio,
-            website,
-            email
-          })
-            .then((response) => {
-              this.loading = false
+    async register () {
+      const valid = await this.$validator.validateAll()
 
-              if (response.data.token) {
-                this.$store.dispatch('registerEvent', {
-                  username
-                })
-                  .then((eventResponse) => {
-                    // Ignore response for now
-                  })
-                if (wantedToSubscribe(this.$store)) {
-                  this.$router.replace('/subscribe')
-                } else {
-                  this.$router.replace('/')
-                }
-              } else {
-                this.$toast.error('Invalid registration')
-              }
-            })
+      if (valid) {
+        this.loading = true
+        const { username, email, bio, website, name, password } = this
+
+        const response = await this.$store.dispatch('register', {
+          username,
+          password,
+          name,
+          bio,
+          website,
+          email
+        })
+
+        this.loading = false
+
+        if (response.data.token) {
+          await this.$store.dispatch('registerEvent', {
+            username
+          })
+
+          if (wantedToSubscribe(this.$store)) {
+            this.$router.replace('/subscribe')
+          } else {
+            this.$router.replace('/')
+          }
         } else {
-          console.log('Failed to validate for registraiotn')
+          this.$toast.error('Invalid registration')
         }
-      })
+      } else {
+        console.log('Failed to validate for registraiotn')
+      }
     }
   }
 }

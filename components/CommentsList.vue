@@ -3,17 +3,23 @@
     <div
       v-for="comment in comments"
       :key="comment._id">
-      <comment-view :comment="comment" />
+      <comment-view
+        :comment="comment"
+        @commentDeleted="$emit('commentDeleted')" />
       <!-- Replies -->
       <comment-reply
         v-if="isLoggedIn"
+        :post-id="postId"
         :is-reply="true"
-        :parent-comment="comment" />
+        :parent-comment="comment"
+        @commentCreated="$emit('commentCreated')" />
       <div class="replies">
         <div
           v-for="replyComment in comment.replies"
           :key="replyComment._id">
-          <comment-view :comment="replyComment" />
+          <comment-view
+            :comment="replyComment"
+            @commentDeleted="$emit('commentDeleted')" />
           <br>
         </div>
       </div>
@@ -33,6 +39,10 @@ export default {
     CommentReply
   },
   props: {
+    postId: {
+      type: String,
+      required: true
+    },
     comments: {
       type: Array,
       required: true

@@ -242,24 +242,23 @@ export default {
     }
   },
   methods: {
-    submit () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          const { title, description, employmentType, location, remoteWorkingConsidered, applicationEmailAddress, companyName, tags } = this.jobFormData
-          return this.submitCallback({
-            title,
-            description,
-            employmentType,
-            location,
-            remoteWorkingConsidered,
-            applicationEmailAddress,
-            companyName,
-            tags
-          })
-        } else {
-          this.$toast.error('Invalid fields on form :(')
-        }
-      })
+    async submit () {
+      const valid = this.$validator.validateAll()
+      if (valid) {
+        const { title, description, employmentType, location, remoteWorkingConsidered, applicationEmailAddress, companyName, tags } = this.jobFormData
+        return this.submitCallback({
+          title,
+          description,
+          employmentType,
+          location,
+          remoteWorkingConsidered,
+          applicationEmailAddress,
+          companyName,
+          tags
+        })
+      } else {
+        this.$toast.error('Invalid fields on form :(')
+      }
     },
     del () {
       return this.deleteCallback()

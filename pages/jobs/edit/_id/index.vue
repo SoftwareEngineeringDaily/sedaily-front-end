@@ -30,8 +30,21 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      loading: false,
-      error: null
+      loading: false
+    }
+  },
+  async asyncData ({ $axios, params }) {
+    try {
+      const jobResponse = await $axios.get(`/jobs/${params.id}`)
+      return {
+        job: jobResponse.data,
+        error: null
+      }
+    } catch (err) {
+      return {
+        job: null,
+        error: err
+      }
     }
   },
   computed: {
@@ -39,14 +52,8 @@ export default {
     ...mapState({
       me ({ auth }) {
         return auth ? auth.user : null
-      },
-      job (state) {
-        return state.job
       }
     })
-  },
-  fetch ({ store, params }) {
-    return store.dispatch('fetchJob', { jobId: params.id })
   },
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here

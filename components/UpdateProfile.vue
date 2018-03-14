@@ -195,60 +195,49 @@ export default {
       this.image = ''
     },
 
-    submit () {
+    async submit () {
       this.msg = ''
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          const { username, email, bio, website, name, id } = this
 
-          let updatePromise = null
-          if (this.file) {
-            updatePromise = this.uploadAvatarImage({ imageFile: this.file })
-              .then((imageSuccess) => {
-                return this.updateProfile({
-                  username,
-                  id,
-                  name,
-                  bio,
-                  isAvatarSet: true,
-                  website,
-                  email
-                })
-              })
-              .catch((error) => {
-                console.log('Error uploading', error)
-                this.$toast.error('Error uploading')
-              })
-          } else {
-            updatePromise = this.updateProfile({
-              username,
-              id,
-              name,
-              bio,
-              isAvatarSet: this.avatarUrl == null,
-              website,
-              email
-            })
+      const valid = await this.$validator.validateAll()
+      if (valid) {
+        this.loading = true
+        let isAvatarSet = this.avatarUrl == null
+
+        if (this.file) {
+          try {
+            await this.uploadAvatarImage({ imageFile: this.file })
+            isAvatarSet = true
+          } catch (err) {
+            console.log('Error uploading', err)
+            this.$toast.error('Error uploading')
           }
-
-          updatePromise
-            .then((response) => {
-              this.loading = false
-              // This means we are just updating our profile:
-              // TODO: have it be a componenet that is passed on
-              if (this.me) {
-                this.msg = 'Success, your profile was Updated :)'
-              }
-            })
-            .catch((error) => {
-              console.log('Error Updaating', error)
-              this.$toast.error('There was a problem updating your profile')
-            })
-        } else {
-          this.msg = 'Invalid fields on form :('
         }
-      })
+
+        const { username, email, bio, website, name, id } = this
+
+        try {
+          await this.updateProfile({
+            username,
+            id,
+            name,
+            bio,
+            isAvatarSet: true,
+            website,
+            email
+          })
+
+          if (this.me) {
+            this.msg = 'Success, your profile was Updated :)'
+          }
+        } catch (err) {
+          console.log('Error uploading', err)
+          this.$toast.error('Error uploading')
+        }
+
+        this.loading = false
+      } else {
+        this.msg = 'Invalid fields on form :('
+      }
     }
   }
 }

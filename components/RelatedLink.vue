@@ -43,20 +43,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
-    remove () {
-      this.removeRelatedLink({
-        id: this.relatedLink._id
-      })
-        .then(() => {
-          this.relatedLinksFetch({
-            postId: this.relatedLink.post
-          })
-        })
-        .catch((error) => {
-          console.log(error)
-          this.$toast.error('Error deleting :(')
-        })
+    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink']),
+    async remove () {
+      await this.$axios.delete(`/related-links/${this.relatedLink._id}`)
+      this.$emit('relatedLinkDeleted')
     },
     upvoteHandler () {
       this.upvoteRelatedLink({

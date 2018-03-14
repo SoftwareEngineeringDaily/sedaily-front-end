@@ -50,6 +50,10 @@ export default {
     parentComment: {
       type: Object,
       required: true
+    },
+    postId: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -68,30 +72,26 @@ export default {
       me (state) {
         return state.auth.user
       }
-    }),
-    postId () {
-      return this.$route.params.id
-    }
+    })
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitComment () {
+    async submitComment () {
       this.justSubmitted = true
-      this.commentsCreate({
-        postId: this.postId,
-        parentCommentId: this.parentComment._id,
-        content: this.commentContent
-      })
-        .then((response) => {
-          this.commentContent = ''
-          // NOTE: this won't work too well once we are paginating comments:
-          this.justSubmitted = false
-          this.commentsFetch({
-            postId: this.postId
-          })
+
+      try {
+        await this.$axios.post(`/posts/${this.postId}/comment`, {
+          content: this.commentContent,
+          parentCommentId: this.parentComment._id
         })
-    } }
+
+        this.commentContent = ''
+        this.$emit('commentCreated')
+      } finally {
+        this.justSubmitted = false
+      }
+    }
+  }
 }
 </script>
 

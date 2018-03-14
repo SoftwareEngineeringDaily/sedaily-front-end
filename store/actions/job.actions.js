@@ -34,12 +34,6 @@ export default {
 
     return this.$axios.post(`/jobs/${jobId}/apply`, formData, config)
   },
-  fetchJob ({ commit, dispatch, state, getters }, { jobId }) {
-    return this
-      .$axios
-      .get(`/jobs/${jobId}`)
-      .then(res => commit('setJob', res.data))
-  },
 
   jobsSearch ({ commit, state, getters }, { companyName }) {
     let query = '?'
@@ -59,17 +53,6 @@ export default {
       })
   },
 
-  fetchJobsList ({ commit, state, getters }) {
-    return this.$axios.get('/jobs')
-      .then((response) => {
-        commit('setJobs', { jobs: response.data })
-        return response
-      })
-      .catch((error) => {
-        commit('setJobs', { jobs: [] })
-        throw error
-      })
-  },
   deleteJob ({ commit, state, getters }, { jobId }) {
     return this.$axios.delete(`/jobs/${jobId}`)
   }
