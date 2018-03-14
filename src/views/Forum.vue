@@ -2,7 +2,7 @@
   <div>
     <h1> Forum </h1>
     <div class="forum-threads">
-      <forum-thread-summary />
+      <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :thread="forumThread"/>
     </div>
   </div>
 </template>
@@ -19,6 +19,16 @@ export default {
     return {
       loading: true
     }
+  },
+
+  beforeMount () {
+    return this.fetchForumThreads()
+      .then(() => {
+        this.loading = false
+      })
+      .catch((error) => {
+        console.log('error fetching threads', error)
+      })
   },
 
   methods: {
