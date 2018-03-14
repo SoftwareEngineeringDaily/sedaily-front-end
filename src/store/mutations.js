@@ -32,17 +32,17 @@ export default {
   },
   /*
   commentPrepend: (state, comment) => {
-    if (!state.postComments[comment.root]) {
-      Vue.set(state.postComments, comment.root, [])
+    if (!state.entityComments[comment.root]) {
+      Vue.set(state.entityComments, comment.root, [])
     }
-    state.postComments[comment.postId].unshift(comment)
+    state.entityComments[comment.entityId].unshift(comment)
   },*/
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
 
-  setComments: (state, { comments, postId }) => {
-    Vue.set(state.postComments, postId, comments)
+  setComments: (state, { comments, entityId }) => {
+    Vue.set(state.entityComments, entityId, comments)
   },
 
   setRelatedLinks: (state, { relatedLinks, postId }) => {
@@ -66,12 +66,12 @@ export default {
   },
 
   // TODO: This is a bit uggly, will need to refactor:
-  likeComment: (state, { commentId, postId, parentCommentId }) => {
+  likeComment: (state, { commentId, entityId, parentCommentId }) => {
     let incrementValue = 1
     // First let's find our comment:
     let entity
 
-    const parentComments = state.postComments[postId]
+    const parentComments = state.entityComments[entityId]
     // Weird error if this is not defiend:
     if (!parentComments) return
     if (!parentCommentId) {

@@ -3,7 +3,7 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  commentsCreate ({ commit, getters }, { content, postId, parentCommentId }) {
+  commentsCreate ({ commit, getters }, { content, entityId, parentCommentId }) {
     const options = { content }
     if (parentCommentId) options.parentCommentId = parentCommentId
     const token = getters.getToken
@@ -14,19 +14,19 @@ export default {
       }
     }
 
-    const url = `${BASE_URL}/posts/${postId}/comment`
+    const url = `${BASE_URL}/posts/${entityId}/comment`
 
     // commit('commentPrepend', {content, postId, dateCreated: Date.now()})
     return axios.post(url, options, config)
   },
 
-  likeComment: ({ commit, getters, state }, { id, postId, parentCommentId }) => {
+  likeComment: ({ commit, getters, state }, { id, entityId, parentCommentId }) => {
     const token = getters.getToken
     if (!token) {
       alert('You must login to vote')
       return
     }
-    commit('likeComment', { commentId: id, postId, parentCommentId })
+    commit('likeComment', { commentId: id, entityId, parentCommentId })
     return axios.post(`${BASE_URL}/comments/${id}/upvote`, {}, {
       headers: {
         'Authorization': 'Bearer ' + token
@@ -48,7 +48,7 @@ export default {
     })
   },
 
-  commentsFetch ({ getters, commit }, { postId }) {
+  commentsFetch ({ getters, commit }, { entityId }) {
     const options = {}
     const token = getters.getToken
     if (token) {
@@ -57,11 +57,11 @@ export default {
       }
     }
 
-    const url = `${BASE_URL}/posts/${postId}/comments`
+    const url = `${BASE_URL}/posts/${entityId}/comments`
     return axios.get(url, options)
       .then((response) => {
         const comments = response.data.result
-        commit('setComments', { postId, comments })
+        commit('setComments', { entityId, comments })
         return comments
       })
   }
