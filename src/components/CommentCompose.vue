@@ -55,7 +55,7 @@ export default {
       me (state) {
         return state.me
       },
-      postId (state) {
+      enityId (state) {
         return state.route.params.id
       }
     })
@@ -65,7 +65,7 @@ export default {
     submitComment () {
       this.isSubmitting = true
       this.commentsCreate({
-        postId: this.postId,
+        entityId: this.enityId,
         content: this.commentContent
       })
         .then((response) => {
@@ -73,7 +73,7 @@ export default {
           this.isSubmitting = false
           // Fetch comments
           this.commentsFetch({
-            postId: this.postId
+            enityId: this.enityId
           })
         })
         .catch((error) => {
