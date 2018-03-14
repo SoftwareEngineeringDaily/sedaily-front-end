@@ -16,7 +16,7 @@ export default {
 
     const url = `${BASE_URL}/posts/${entityId}/comment`
 
-    // commit('commentPrepend', {content, postId, dateCreated: Date.now()})
+    // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
     return axios.post(url, options, config)
   },
 
