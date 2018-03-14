@@ -25,44 +25,24 @@
 
 <script type="text/javascript">
 import { mapActions, mapState } from 'vuex'
+
 import FeedItem from '~/components/FeedItem.vue'
 import ProfileDetails from '~/components/ProfileDetails.vue'
-import Spinner from '~/components/Spinner.vue'
 
 export default {
   components: {
     FeedItem,
-    ProfileDetails,
-    Spinner
+    ProfileDetails
   },
-  asyncData ({ store, params }) {
-    return Promise.all([
-        store.dispatch('fetchPublicProfileData', { userId: params.id }),
-        store.dispatch('fetchProfileFeed', { userId: params.id })
-      ])
-        .then((responses) => {
-          /* TODO: Discuss best approach for managing fetched data's state
-             in vuex if it's just being displayed and not interacted with:
-             not in vuex like this.user or in vuex like feed below
-           */
-          return {
-            user: responses[0].data,
-            error: ''
-          }
-        }).
-        catch(err => {
-          return {
-            error: err,
-            user: null
-          }
-        })
-  },
-  computed: {
-    ...mapState({
-      feed (state) {
-        return state.feed
-      }
-    })
+  async asyncData ({ store, params, $axios }) {
+    const profileResponse = await $axios.get(`/users/${params.id}`)
+    const feedResponse = await $axios.get(`/feed/profile-feed/${userId}`)
+
+    return {
+      user: profileResponse.data,
+      feed: feedResponse.data,
+      error: ''
+    }
   }
 }
 </script>

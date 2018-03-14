@@ -48,22 +48,7 @@ export default {
       // @TODO: Add pretty pop up here
         console.log(error)
       })
-  },
-
-  fetchArticle ({ commit, state, getters }, { id }) {
-    console.log('fetch article', id)
-
-    return this.$axios.get(`/posts/${id}`)
-      .then((response) => {
-        var post = response.data
-        commit('setPosts', { posts: [post] })
-        return { post }
-      })
-      .catch((error) => {
-      // @TODO: Add pretty pop up here
-        console.log(error.response)
-      })
-  },
+  },  
 
   upvote ({ commit, getters, state }, { id }) {
     if (!getters.isLoggedIn) {

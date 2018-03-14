@@ -13,32 +13,25 @@
 
 <script>
 import FeedItem from '~/components/FeedItem.vue'
-import { mapActions, mapState } from 'vuex'
+import uniqBy from 'lodash/uniqBy'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     FeedItem
-  },
-  data () {
-    return {
-      loading: true
-    }
-  },
+  },  
   computed: {
     ...mapState({
       me ({ auth }) {
         return auth ? auth.user : null
-      },
-      feed (state) {
-        return state.feed
       }
     })
   },
-  fetch ({ store }) {
-    return store.dispatch('fetchMyFeed', { userId: this.me && this.me._id })
-  },
-  methods: {
-    ...mapActions(['fetchMyFeed'])
+  async asyncData ({ $axios }) {
+    const feedResponse = await $axios.get('/feed')
+    return {
+      feed: uniqBy(feedResponse.data, f => f._id)
+    }
   }
 }
 </script>

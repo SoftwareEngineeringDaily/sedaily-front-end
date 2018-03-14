@@ -110,26 +110,14 @@ export default {
       showComments: false
     }
   },
-  computed: {
-    postId () {
-      return this.$route.params.id
-    },
+  computed: {    
     postContent () {
       if (this.post.cleanedContent) {
         return this.post.cleanedContent
       } else {
         return this.post.content.rendered
       }
-    },
-    post () {
-      return this.posts[this.postId]
-    },
-    relatedLinks () {
-      return this.postRelatedLinks[this.postId] || []
-    },
-    comments () {
-      return this.postComments[this.postId] || []
-    },
+    },    
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       activePlayerPost (state) {
@@ -137,36 +125,31 @@ export default {
       },
       playerState (state) {
         return state.playerState
-      },
-      posts (state) {
-        return state.posts
-      },
-      postRelatedLinks (state) {
-        return state.postRelatedLinks
-      },
-      postComments (state) {
-        return state.postComments
-      }
+      }      
     })
   },
 
-  fetch ({ store, params }) {
-    store.dispatch('commentsFetch', {
-      postId: params.id
-    })
+  async asyncData ({ store, params, $axios }) {
+    const postId = params.id
 
-    store.dispatch('relatedLinksFetch', {
-      postId: params.id
-    })
+    const commentsResponse = await $axios.get(`/posts/${postId}/comments`)
+    const relatedLinksResponse = await $axios.get(`/posts/${postId}/related-links`)
+    const postResponse = await $axios.get(`/posts/${postId}`)
 
-    return store.dispatch('fetchArticle', {
-      id: params.id
-    })
+    return {
+      post: postResponse.data,
+      comments: commentsResponse.data.result,
+      relatedLinks: relatedLinksResponse.data
+    }
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch', 'playEpisode', 'updatePlayerState']),
+    ...mapActions([
+      'upvote', 
+      'downvote',        
+      'playEpisode', 
+      'updatePlayerState'
+    ]),
 
     selectPostContent () {
       this.showRelatedLinks = false
@@ -190,12 +173,12 @@ export default {
     },
     upvoteHandler () {
       this.upvote({
-        id: this.postId
+        id: this.post._id
       })
     },
     downvoteHandler () {
       this.downvote({
-        id: this.postId
+        id: this.post._id
       })
     }
   }

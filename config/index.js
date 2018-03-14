@@ -3,7 +3,7 @@ function getApiConfig (apiEnv) {
 
 	switch (apiEnv) {
 		case 'development':
-			apiConfig = require('./apiConfig/dev.api.config')
+			apiConfig = require('./apiConfig/prod.api.config')
 		break;
 		case 'staging':
 			apiConfig = require('./apiConfig/staging.api.config')

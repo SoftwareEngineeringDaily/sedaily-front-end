@@ -1,12 +1,6 @@
 <template>
   <div class="container">
-    <template v-if="loading">
-      <spinner :show="loading" />
-    </template>
-    <template v-else-if="error">
-      <div class="bg-danger"> Error: {{ error }}</div>
-    </template>
-    <template v-else>
+    <template v-if="me">
       <profile-details
         :user-data="me"
         :own-profile="true" />
@@ -30,41 +24,21 @@
 import { mapActions, mapState } from 'vuex'
 import FeedItem from '~/components/FeedItem.vue'
 import ProfileDetails from '~/components/ProfileDetails.vue'
-import Spinner from '~/components/Spinner.vue'
 
 export default {
   components: {
     FeedItem,
-    ProfileDetails,
-    Spinner
+    ProfileDetails
   },
-  data () {
-    return {
-      loading: false,
-      error: null
-    }
-  },
-  computed: {
-    ...mapState({
-      me ({ auth }) {
-        return auth ? auth.user : null
-      },
-      feed (state) {
-        return state.feed
-      }
-    })
-  },
-  fetch ({ store, params }) {
-    this.loading = true
+  async asyncData ({ store, $axios }) {
+    const profileResponse = await $axios.get(`/users/${store.state.auth.user._id}`)
+    const feedResponse = await $axios.get(`/feed/profile-feed/${store.state.auth.user._id}`)
 
-    return store.dispatch('fetchProfileFeed', { userId: store.state.auth.user._id })
-      .then(() => {
-        this.loading = false
-        this.error = null
-      })
-  },
-  methods: {
-    ...mapActions(['fetchProfileFeed'])
+    return {
+      me: profileResponse.data,
+      feed: feedResponse.data,
+      error: ''
+    }
   }
 }
 </script>
