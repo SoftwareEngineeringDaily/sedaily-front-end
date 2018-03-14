@@ -34,22 +34,20 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['companiesCreate']),
-    submitCreateCompany (company) {
+    async submitCreateCompany (company) {
       this.loading = true
-      this.companiesCreate(company)
-        .then(() => {
-          this.$toast.message('Successfully Posted!')
-          this.loading = false
-          this.$router.push('/admin')
-        })
-        .catch((error) => {
-          this.loading = false
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
+
+      try {
+        await this.$axios.post('/companies', company)
+
+        this.$toast.message('Successfully Posted!')
+        this.$router.push('/admin')
+      }
+      catch (err) {
+        this.error = err.response.data.message
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

@@ -1,27 +1,5 @@
 export default {
-
-  createJob ({ commit, state, getters }, { companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$axios.post('/jobs', {
-      companyName,
-      applicationEmailAddress,
-      location,
-      title,
-      description,
-      employmentType,
-      remoteWorkingConsidered
-    })
-  },
-  updateJob ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) {
-    return this.$axios.put(`/jobs/${jobId}`, {
-      companyName,
-      applicationEmailAddress,
-      location,
-      title,
-      description,
-      employmentType,
-      remoteWorkingConsidered
-    })
-  },
+  
   applyToJob ({ commit, state, getters }, { jobId, coveringLetter, resume }) {
     const config = {
       'Authorization': 'Bearer ' + this.$auth.token,
@@ -51,10 +29,5 @@ export default {
         commit('setJobs', { jobs: [] })
         throw error
       })
-  },
-
-  deleteJob ({ commit, state, getters }, { jobId }) {
-    return this.$axios.delete(`/jobs/${jobId}`)
   }
-
 }

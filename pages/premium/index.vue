@@ -180,8 +180,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['createSubscription', 'cancelSubscription']),
-    pay () {
+    async pay () {
       this.error = null
       this.justCancelled = false
       this.processing = true
@@ -190,57 +189,56 @@ export default {
       // See https://stripe.com/docs/api#tokens for the token object.
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
-      createToken().then(data => {
-        // console.log(data.token)
-        const stripeToken = data.token.id
-        const { planType } = this
-        return this.createSubscription({ stripeToken, planType })
-      })
-        .then((result) => {
+      const data = await createToken()
+      // console.log(data.token)
+      const stripeToken = data.token.id
+      const { planType } = this
+
+      try {
+        const subscriptionResult = await this.$axios.post('/subscription', { stripeToken, planType })
         // Successfully created subscription:
-          this.processing = false
-          this.justSubscribed = true
-          this.successSubscribingMessage = 'Thanks for subscribing!'
-          unselectSubscriptionPlan(this.$store)
-          // Ghetto, to update to Navbar menu button
-          this.fetchMyProfileData()
-        })
-        .catch((error) => {
-        // First we set it just in case as backup
-          this.processing = false
-          this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
-          // Then we get the error msg:
-          try {
-            const errorMsg = error.response.data.message
-            console.log('error', errorMsg)
-            this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
-          } catch (e) {
-          }
-          // Probably don't need to do this but should:
-          unselectSubscriptionPlan(this.$store)
-        })
+        this.processing = false
+        this.justSubscribed = true
+        this.successSubscribingMessage = 'Thanks for subscribing!'
+        unselectSubscriptionPlan(this.$store)
+        // Ghetto, to update to Navbar menu button
+        this.$auth.fetchUser()
+      } catch (error) {
+        this.processing = false
+        this.error = 'There seems to have been a problem creating your subscription. Please contact jeff@softwaredaily.com'
+        // Then we get the error msg:
+        try {
+          const errorMsg = error.response.data.message
+          console.log('error', errorMsg)
+          this.error = `${errorMsg} We were not able to start your subscription. Please contact for any questions. jeff@softwaredaily.com`
+        } catch (e) {
+        }
+        // Probably don't need to do this but should:
+        unselectSubscriptionPlan(this.$store)
+      }
     },
 
-    cancelSubscriptionClicked () {
+    async cancelSubscriptionClicked () {
       this.error = null
       this.processing = true
       this.justCancelled = false
-      return this.cancelSubscription()
-        .then((result) => {
-          this.processing = false
-          this.justSubscribed = false
-          console.log('cancel subscription')
-          this.justCancelled = true
-          this.successSubscribingMessage = 'Your subscription has been cancelled.'
-          // Ghetto, to update to Navbar menu button
-          this.fetchMyProfileData()
-        })
-        .catch((error) => {
-          console.log('error', error)
-          this.processing = false
-          // this.justSubscribed = false
-          this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
-        })
+
+      try {
+        await this.$axios.delete('/subscription')
+
+        this.processing = false
+        this.justSubscribed = false
+        console.log('cancel subscription')
+        this.justCancelled = true
+        this.successSubscribingMessage = 'Your subscription has been cancelled.'
+        // Ghetto, to update to Navbar menu button
+        this.$auth.fetchUser()
+      } catch (_) {
+        console.log('error', error)
+        this.processing = false
+        // this.justSubscribed = false
+        this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
+      }
     }
   }
 }

@@ -55,56 +55,34 @@ export default {
       }
     })
   },
-  methods: {
-    // TODO: once profile issue resolved, don't fetch profile here
-    // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['updateJob', 'deleteJob']),
-    submitUpdateJob ({
-      title,
-      description,
-      employmentType,
-      location,
-      remoteWorkingConsidered,
-      applicationEmailAddress,
-      companyName,
-      tags
-    }) {
+  methods: {    
+    async submitUpdateJob (job) {
       this.loading = true
-      this.updateJob({
-        jobId: this.job._id,
-        title,
-        description,
-        employmentType,
-        location,
-        remoteWorkingConsidered,
-        applicationEmailAddress,
-        companyName,
-        tags
-      })
-        .then(() => {
-          this.$toast.show('Successfully Edited!')
-          this.$router.push('/jobs')
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
+
+      try {
+        await this.$axios.put(`/jobs/${this.job._id}`, job)
+
+        this.$toast.show('Successfully Edited!')
+        this.$router.push('/jobs')
+      } catch (err) {
+        this.error = err.response.data.message
+      }
+      
+      this.loading = false
     },
-    submitDeleteJob () {
+    async submitDeleteJob () {
       this.loading = true
-      this.deleteJob({ jobId: this.job._id })
-        .then(() => {
-          this.$toast.show('Successfully Deleted!')
-          this.$router.push('/jobs')
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
+
+      try {
+        await this.$axios.delete(`/jobs/${this.job._id}`)
+
+        this.$toast.show('Successfully Deleted!')
+        this.$router.push('/jobs')
+      } catch (err) {
+        this.error = err.response.data.message
+      }
+      
+      this.loading = false
     }
   }
 }

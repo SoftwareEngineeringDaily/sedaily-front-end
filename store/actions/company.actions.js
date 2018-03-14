@@ -1,12 +1,6 @@
 import { getS3SingedUploadUrlAndUpload } from '~/utils/uploadImage.utils'
 
 export default {
-  companiesCreate ({ commit, getters }, company) {
-    const url = '/companies'
-    console.log('company', company)
-    return this.$axios.post(url, company)
-  },
-
   companiesEdit ({ commit, getters }, company) {
     const url = `/companies/${company._id}`
     console.log('company', company)
@@ -35,16 +29,6 @@ export default {
         const companies = response.data
         //  set company... by local url
         // commit('setCompanies', { companies })
-        return companies
-      })
-  },
-
-  companiesFetch ({ getters, commit }) {
-    const url = '/companies'
-    return this.$axios.get(url)
-      .then((response) => {
-        const companies = response.data
-        commit('setCompanies', { companies })
         return companies
       })
   },

@@ -36,37 +36,19 @@ export default {
   },
   methods: {
     ...mapActions(['createJob']),
-    submitCreateJob ({
-      title,
-      description,
-      employmentType,
-      location,
-      remoteWorkingConsidered,
-      applicationEmailAddress,
-      companyName,
-      tags
-    }) {
+    async submitCreateJob (job) {
       this.loading = true
-      this.createJob({
-        title,
-        description,
-        employmentType,
-        location,
-        remoteWorkingConsidered,
-        applicationEmailAddress,
-        companyName,
-        tags
-      })
-        .then(() => {
-          this.$toast.show('Successfully Posted!')
-          this.$router.push('/jobs')
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
+
+      try {
+        await this.$axios.post('/jobs', job)
+
+        this.$toast.show('Successfully Posted!')
+        this.$router.push('/jobs')
+      } catch (err) {
+        this.error = err.response.data.message
+      }
+     
+      this.loading = false
     }
   }
 }

@@ -46,21 +46,21 @@
 import { mapState, mapActions } from 'vuex'
 export default {
   middleware: 'auth',
-  fetch ({ store }) {
-    store.dispatch('companiesFetch')
+  async asyncData({ $axios }) {
+    const url = '/companies'
+    const companiesResponse = await $axios.get(url)
+    return {
+      companies: companiesResponse.data
+    }
   },
   computed: {
-    ...mapState({
-      companies (state) {
-        return state.companies
-      },
+    ...mapState({      
       me ({ auth }) {
         return auth ? auth.user : null
       }
     })
   },
-  methods: {
-    ...mapActions(['companiesFetch']),
+  methods: {    
     editCompany (company) {
       return `/admin/edit-company/${company._id}`
     },
