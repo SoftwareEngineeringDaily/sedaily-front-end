@@ -1,16 +1,21 @@
 <template>
   <div>
-    Forum Item --
+    <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ForumThreadSummary',
+  props: {
+    forumThread: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {}
   }
-
 }
 </script>
 

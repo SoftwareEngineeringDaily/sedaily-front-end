@@ -2,7 +2,7 @@
   <div>
     <h1> Forum </h1>
     <div class="forum-threads">
-      <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :thread="forumThread"/>
+      <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :forumThread="forumThread"/>
     </div>
   </div>
 </template>
@@ -41,7 +41,6 @@ export default {
       }
     })
   }
-
 }
 
 </script>
