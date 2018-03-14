@@ -76,6 +76,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/se-common' },
     { src: '~/plugins/filters' },
+    { src: '~/plugins/auth' },
     { src: '~/plugins/social-sharing' },
     { src: '~/plugins/vee-validate' },
     { src: '~/plugins/errorHandler' },
@@ -107,8 +108,8 @@ module.exports = {
     endpoints: {
       login: { url: baseApiUrl + '/auth/login', method: 'post', propertyName: 'token' },
       logout: false,
-      user: { url: baseApiUrl + '/users/me', method: 'get', propertyName: false }
-    }
+      user: { url: baseApiUrl + '/users/me', method: 'get', propertyName: false }      
+    }    
   },
   axios: {
     baseURL: baseApiUrl

@@ -34,6 +34,7 @@
     "@nuxtjs/axios": "^5.1.1",
     "@nuxtjs/toast": "^3.0.0",
     "axios": "^0.18.0",
+    "cookieparser": "^0.1.0",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",
     "nuxt": "^1.4.0",

@@ -42,7 +42,10 @@ export default {
 
   logout ({ commit }) {
     this.$auth.logout()
+    this.$auth.reset()
     this.$auth.setCookie('se_auth', null)
+    this.$auth.setToken(null)
+    
     this.$axios.setHeader('Authorization', null)
     this.$router.replace('/')
   }
