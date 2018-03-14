@@ -56,7 +56,7 @@ export default {
         return state.me
       },
       enityId (state) {
-        return state.route.params.id
+        return state.route.params.id // TODO: pass into component
       }
     })
   },

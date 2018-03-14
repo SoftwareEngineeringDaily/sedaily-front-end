@@ -32,8 +32,8 @@ export default {
   },
   /*
   commentPrepend: (state, comment) => {
-    if (!state.entityComments[comment.root]) {
-      Vue.set(state.entityComments, comment.root, [])
+    if (!state.entityComments[comment.rootEntity]) {
+      Vue.set(state.entityComments, comment.rootEntity, [])
     }
     state.entityComments[comment.entityId].unshift(comment)
   },*/
