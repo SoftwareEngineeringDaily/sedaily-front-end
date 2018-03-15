@@ -3,6 +3,20 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
+  forumThreadCreate ({ commit, getters }, { content, title }) {
+    const options = { content, title }
+    const token = getters.getToken
+    const config = {}
+    if (token) {
+      config.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const requestUrl = `${BASE_URL}/forum/`
+    return axios.post(requestUrl, options, config)
+  },
+
   fetchForumThreads ({ getters, commit }) {
     const options = {}
     const token = getters.getToken

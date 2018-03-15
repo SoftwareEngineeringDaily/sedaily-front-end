@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1> Forum </h1>
+    <forum-thread-compose v-if="isLoggedIn"></forum-thread-compose>
     <div class="forum-threads">
       <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :forumThread="forumThread"/>
     </div>
@@ -8,12 +9,14 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import ForumThreadSummary from '@/components/ForumThreadSummary'
+import ForumThreadCompose from '@/components/ForumThreadCompose'
 export default {
   name: 'forum',
   components: {
-    ForumThreadSummary
+    ForumThreadSummary,
+    ForumThreadCompose
   },
   data () {
     return {
@@ -35,6 +38,7 @@ export default {
     ...mapActions(['fetchForumThreads'])
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       forumThreads (state) {
         return state.forumThreads
