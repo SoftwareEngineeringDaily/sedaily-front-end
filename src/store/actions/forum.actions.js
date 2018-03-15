@@ -19,6 +19,27 @@ export default {
         commit('setForumThreads', { list: forumThreads })
         return forumThreads
       })
+  },
+
+  fetchForumThread: ({ commit, state, getters }, { id }) => {
+    const options = {}
+    const token = getters.getToken
+    if (token) {
+      options.headers = {
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    return axios.get(`${BASE_URL}/forum/${id}`, options)
+      .then((response) => {
+        var forumThread = response.data
+        commit('setForumThreads', { list: [forumThread] })
+        return { forumThread }
+      })
+      .catch((error) => {
+      // @TODO: Add pretty pop up here
+        console.log(error.response)
+        alert(error.response.data.message)
+      })
   }
 
 }
