@@ -32,7 +32,6 @@ export default {
     return axios.get(`${BASE_URL}/forum/${id}`, options)
       .then((response) => {
         const forumThread = response.data
-        console.log('formThread', forumThread)
         commit('setForumThreads', { list: [forumThread] })
         return { forumThread }
       })
