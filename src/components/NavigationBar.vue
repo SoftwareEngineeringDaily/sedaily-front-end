@@ -16,6 +16,12 @@
         exact
         >Feed</router-link>
       -->
+
+      <router-link to="/forum"
+      name="feed-nav-link"
+      exact
+      >Forum</router-link>
+
       <span class="dropdown">
         <button
           class="btn btn-secondary dropdown-toggle"
@@ -24,7 +30,7 @@
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false">
-          Menu
+          Podcast
         </button>
         <div
           class="dropdown-menu"
@@ -50,13 +56,6 @@
             name="feed-nav-link"
             exact
             >Contributors</router-link>
-
-          <router-link to="/forum"
-            class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Forum</router-link>
-
         </div>
       </span>
 
