@@ -14,7 +14,7 @@ export default {
       }
     }
 
-    const url = `${BASE_URL}/posts/${entityId}/comment`
+    const url = `${BASE_URL}/comments/forEntity/${entityId}`
 
     // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
     return axios.post(url, options, config)
@@ -57,7 +57,7 @@ export default {
       }
     }
 
-    const url = `${BASE_URL}/posts/${entityId}/comments`
+    const url = `${BASE_URL}/comments/forEntity/${entityId}`
     return axios.get(url, options)
       .then((response) => {
         const comments = response.data.result
