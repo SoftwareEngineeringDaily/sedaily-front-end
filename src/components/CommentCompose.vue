@@ -55,7 +55,7 @@ export default {
       me (state) {
         return state.me
       },
-      enityId (state) {
+      enitityId (state) {
         return state.route.params.id // TODO: pass into component
       }
     })
@@ -64,8 +64,9 @@ export default {
     ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
     submitComment () {
       this.isSubmitting = true
+      console.log('this.entityId', this.entityId)
       this.commentsCreate({
-        entityId: this.enityId,
+        entityId: this.enitityId,
         content: this.commentContent
       })
         .then((response) => {
@@ -73,7 +74,7 @@ export default {
           this.isSubmitting = false
           // Fetch comments
           this.commentsFetch({
-            enityId: this.enityId
+            enitityId: this.enitityId
           })
         })
         .catch((error) => {
