@@ -55,7 +55,7 @@ export default {
       me (state) {
         return state.me
       },
-      enitityId (state) {
+      entityId (state) {
         return state.route.params.id // TODO: pass into component
       }
     })
@@ -66,7 +66,7 @@ export default {
       this.isSubmitting = true
       console.log('this.entityId', this.entityId)
       this.commentsCreate({
-        entityId: this.enitityId,
+        entityId: this.entityId,
         content: this.commentContent
       })
         .then((response) => {
@@ -74,7 +74,7 @@ export default {
           this.isSubmitting = false
           // Fetch comments
           this.commentsFetch({
-            enitityId: this.enitityId
+            entityId: this.entityId
           })
         })
         .catch((error) => {

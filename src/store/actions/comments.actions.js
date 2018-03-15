@@ -14,6 +14,7 @@ export default {
       }
     }
 
+    console.log('entityId', entityId)
     const url = `${BASE_URL}/posts/${entityId}/comment`
 
     // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
