@@ -1,11 +1,13 @@
 <template>
   <div>
-    Forum Thread Deatails:
+    <div v-if="forumThread">
+      Forum Thread Deatails:
 
-    {{forumThread.title}}
-    <p>
-    {{forumThread.content}}
-    </p>
+      {{forumThread.title}}
+      <p>
+        {{forumThread.content}}
+      </p>
+  </div>
   </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
 
   computed: {
     forumThread () {
-      return this.$store.state.threads[this.$route.params.id]
+      return this.$store.state.forumThreads[this.$route.params.id]
     },
 
     ...mapState({
