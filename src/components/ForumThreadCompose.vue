@@ -11,12 +11,26 @@
       v-model='title' />
     </div>
 
+    <div
+      v-show="errors.has('title')"
+      class="alert alert-danger">
+      {{ errors.first('title') }}</div>
+
+
     <div>
       <textarea placeholder='Your content here..'
       class='forum-content-box'
+      :disabled="isSubmitting"
       type='text'
+      v-validate="'required'"
       v-model='content' />
     </div>
+
+    <div
+      v-show="errors.has('content')"
+      class="alert alert-danger">
+      {{ errors.first('content') }}</div>
+
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
     </div>
