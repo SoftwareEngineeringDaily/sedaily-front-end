@@ -1,5 +1,12 @@
 <template>
   <div>
+
+    <div
+      v-if="errorMsg"
+      class="alert alert-danger">
+      {{ errorMsg }}
+    </div>
+
     <div>
       <input
       placeholder='Add a short title...'
@@ -14,14 +21,15 @@
     <div
       v-show="errors.has('title')"
       class="alert alert-danger">
-      {{ errors.first('title') }}</div>
-
+      {{ errors.first('title') }}
+    </div>
 
     <div>
       <textarea placeholder='Your content here..'
       class='forum-content-box'
       :disabled="isSubmitting"
       type='text'
+      name="content"
       v-validate="'required'"
       v-model='content' />
     </div>
@@ -29,7 +37,8 @@
     <div
       v-show="errors.has('content')"
       class="alert alert-danger">
-      {{ errors.first('content') }}</div>
+      {{ errors.first('content') }}
+    </div>
 
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
@@ -56,6 +65,7 @@ export default {
     return {
       title: '',
       content: '',
+      errorMsg: null,
       isSubmitting: false,
       loading: true
     }
@@ -75,6 +85,7 @@ export default {
       'fetchForumThreads'
     ]),
     submit () {
+      this.errorMsg = null
       return this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSubmitting = true
@@ -83,19 +94,20 @@ export default {
             content: this.content
           })
             .then((response) => {
-              this.content = ''
-              this.title = ''
+              this.content = null
+              this.title = null
               this.isSubmitting = false
               // Fetch comments
               this.fetchForumThreads({
               })
             })
             .catch((error) => {
+              this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
               this.isSubmitting = false
               alert(error.response.data.message)
             })
         } else {
-          alert('Sorry there was a problem :(')
+          this.errorMsg = 'Sorry are invalid fields on the form :('
         }
       })
     }
