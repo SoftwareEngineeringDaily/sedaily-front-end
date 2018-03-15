@@ -215,7 +215,7 @@ export default {
     })
     // Fetch comments
     this.commentsFetch({
-      postId: this.postId
+      entityId: this.postId
     })
 
     // Fetch relatedLinks
