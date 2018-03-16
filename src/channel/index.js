@@ -1,4 +1,4 @@
-import { Socket } from 'phoenix/assets/js/phoenix.js'
+import { Socket } from 'phoenix'
 import { chat } from '../../config/index'
 import store from '../store'
 
