@@ -48,7 +48,6 @@
 </template>
 
 <script>
-/* @flow */
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
 import { PlayerState } from './../utils/playerState'

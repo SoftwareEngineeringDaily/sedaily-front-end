@@ -94,7 +94,6 @@
 </template>
 
 <script>
-/* @flow */
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from 'components/Spinner.vue'
 import { mapState, mapActions } from 'vuex'
