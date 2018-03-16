@@ -10,10 +10,20 @@
         to="/jobs"
         name="jobs-nav-link">Jobs Board</router-link>
 
+      <!-- We are disabling the feed for now
       <router-link to="/feed"
         name="feed-nav-link"
         exact
         >Feed</router-link>
+      -->
+
+      <!--
+      <router-link to="/forum"
+      name="feed-nav-link"
+      exact
+      >Forum</router-link>
+      -->
+
       <span class="dropdown">
         <button
           class="btn btn-secondary dropdown-toggle"
@@ -48,9 +58,6 @@
             name="feed-nav-link"
             exact
             >Contributors</router-link>
-
-
-
         </div>
       </span>
 

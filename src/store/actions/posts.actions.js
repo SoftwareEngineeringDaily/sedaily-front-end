@@ -69,8 +69,6 @@ export default {
   },
 
   fetchArticle: ({ commit, state, getters }, { id }) => {
-    console.log('fetch article', id)
-
     const options = {}
 
     const token = getters.getToken
