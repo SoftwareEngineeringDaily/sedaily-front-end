@@ -1,6 +1,9 @@
 <template>
   <div>
     <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
+    <div>
+      by <span>{{forumThread.author.name}}</span>
+    </div>
   </div>
 </template>
 
