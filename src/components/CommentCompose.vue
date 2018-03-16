@@ -23,7 +23,6 @@
 </template>
 
 <script>
-/* @flow */
 import UpdateProfile from 'components/UpdateProfile.vue'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -56,8 +55,8 @@ export default {
       me (state) {
         return state.me
       },
-      postId (state) {
-        return state.route.params.id
+      entityId (state) {
+        return state.route.params.id // TODO: pass into component
       }
     })
   },
@@ -65,8 +64,9 @@ export default {
     ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
     submitComment () {
       this.isSubmitting = true
+      console.log('this.entityId', this.entityId)
       this.commentsCreate({
-        postId: this.postId,
+        entityId: this.entityId,
         content: this.commentContent
       })
         .then((response) => {
@@ -74,7 +74,7 @@ export default {
           this.isSubmitting = false
           // Fetch comments
           this.commentsFetch({
-            postId: this.postId
+            entityId: this.entityId
           })
         })
         .catch((error) => {

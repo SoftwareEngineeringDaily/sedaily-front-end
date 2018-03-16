@@ -30,19 +30,19 @@ export default {
     // extra complexity.
     state.lists[type] = state.lists[type].concat(posts)
   },
+  /*
   commentPrepend: (state, comment) => {
-    if (!state.postComments[comment.postId]) {
-      Vue.set(state.postComments, comment.postId, [])
+    if (!state.entityComments[comment.rootEntity]) {
+      Vue.set(state.entityComments, comment.rootEntity, [])
     }
-    state.postComments[comment.postId].unshift(comment)
-  },
-
+    state.entityComments[comment.entityId].unshift(comment)
+  },*/
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
 
-  setComments: (state, { comments, postId }) => {
-    Vue.set(state.postComments, postId, comments)
+  setComments: (state, { comments, entityId }) => {
+    Vue.set(state.entityComments, entityId, comments)
   },
 
   setRelatedLinks: (state, { relatedLinks, postId }) => {
@@ -51,6 +51,14 @@ export default {
 
   setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
+  },
+
+  setForumThreads: (state, { list }) => {
+    list.forEach(entity => {
+      if (entity) {
+        Vue.set(state.forumThreads, entity._id, entity)
+      }
+    })
   },
 
   setPosts: (state, { posts }) => {
@@ -62,12 +70,12 @@ export default {
   },
 
   // TODO: This is a bit uggly, will need to refactor:
-  likeComment: (state, { commentId, postId, parentCommentId }) => {
+  likeComment: (state, { commentId, entityId, parentCommentId }) => {
     let incrementValue = 1
     // First let's find our comment:
     let entity
 
-    const parentComments = state.postComments[postId]
+    const parentComments = state.entityComments[entityId]
     // Weird error if this is not defiend:
     if (!parentComments) return
     if (!parentCommentId) {
@@ -175,6 +183,15 @@ export default {
     state.token = token
   },
 
+  toggleChatWindow: (state) => {
+    state.chat.settings.displayBox = !state.chat.settings.displayBox
+  },
+  addChatMessage: ({ chat }, message) => {
+    const formatted = { ...message, sent_at: new Date(message.sent_at) } // eslint-disable-line camelcase
+    chat.messages.push(formatted)
+  },
+  setChatOnline: ({ chat }) => (chat.online = true),
+  setChatOffline: ({ chat }) => (chat.online = false),
   enableLogging: (state) => {
     state.loggingEnabled = true
   },

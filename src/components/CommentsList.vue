@@ -17,8 +17,6 @@
 </template>
 
 <script>
-/* @flow */
-
 import CommentView from 'components/CommentView.vue'
 import CommentReply from 'components/CommentReply.vue'
 import { mapGetters } from 'vuex'

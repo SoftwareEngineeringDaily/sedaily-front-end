@@ -1,44 +1,55 @@
 <template>
   <div>
-    <textarea
-      placeholder='Add a related link...'
-      class='related-link-box'
-      :disabled="isSubmitting"
-      name="url"
-      v-validate="'required|url'"
-      type='text'
-      v-model='url' />
 
     <div
-      v-show="errors.has('url')"
+      v-if="errorMsg"
       class="alert alert-danger">
-      {{ errors.first('url') }}</div>
+      {{ errorMsg }}
+    </div>
 
-    <input
+    <div>
+      <input
       placeholder='Add a short title...'
-      class='related-title-box'
+      class='forum-title-box'
       :disabled="isSubmitting"
       name="title"
       v-validate="'required'"
       type='text'
       v-model='title' />
+    </div>
 
     <div
       v-show="errors.has('title')"
       class="alert alert-danger">
-      {{ errors.first('title') }}</div>
+      {{ errors.first('title') }}
+    </div>
 
-    <span v-if="isSubmitting">
-      <spinner :show="true" />
-    </span>
+    <div>
+      <textarea placeholder='Your content here..'
+      class='forum-content-box'
+      :disabled="isSubmitting"
+      type='text'
+      name="content"
+      v-validate="'required'"
+      v-model='content' />
+    </div>
 
+    <div
+      v-show="errors.has('content')"
+      class="alert alert-danger">
+      {{ errors.first('content') }}
+    </div>
+
+    <div v-if="isSubmitting">
+      <spinner :show="true"></spinner>
+    </div>
     <div v-else>
-      <button
-        class='button-submit'
+      <button class='button-submit'
         :disabled="isSubmitting"
-        @click.prevent='submit'>Add New Link</button>
+        @click='submit'>Create Forum Post</button>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -46,14 +57,15 @@ import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'related-link-compose',
+  name: 'forum-thread-compose',
   components: {
     Spinner
   },
   data () {
     return {
-      url: '',
       title: '',
+      content: '',
+      errorMsg: null,
       isSubmitting: false,
       loading: true
     }
@@ -64,60 +76,41 @@ export default {
     ...mapState({
       me (state) {
         return state.me
-      },
-      postId (state) {
-        return state.route.params.id
       }
     })
   },
   methods: {
     ...mapActions([
-      'relatedLinksCreate',
-      'relatedLinksFetch'
+      'forumThreadCreate',
+      'fetchForumThreads'
     ]),
     submit () {
+      this.errorMsg = null
       return this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSubmitting = true
-          this.relatedLinksCreate({
-            postId: this.postId,
+          this.forumThreadCreate({
             title: this.title,
-            url: this.url
+            content: this.content
           })
             .then((response) => {
-              this.url = ''
-              this.title = ''
+              this.content = null
+              this.title = null
               this.isSubmitting = false
               // Fetch comments
-              this.relatedLinksFetch({
-                postId: this.postId
+              this.fetchForumThreads({
               })
             })
             .catch((error) => {
+              this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
               this.isSubmitting = false
               alert(error.response.data.message)
             })
         } else {
-          alert('Sorry there was a problem :(')
+          this.errorMsg = 'Sorry are invalid fields on the form :('
         }
       })
     }
   }
 }
 </script>
-
-<style scoped lang="stylus">
-.related-link-box
-  width 100%
-  padding 10px
-  margin-bottom 12px
-  border-radius 4px
-  border-color #c5c5c5
-
-.related-title-box
-  width 100%
-  padding 10px
-  margin-bottom 12px
-  border none
-  border-bottom 1px solid #ccc
-</style>
