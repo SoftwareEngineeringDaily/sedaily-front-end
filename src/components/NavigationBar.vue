@@ -10,9 +10,19 @@
 
       <router-link to="/jobs">Jobs Board</router-link>
 
-      <router-link
-        to="/feed"
-        exact>Feed</router-link>
+      <!-- We are disabling the feed for now
+      <router-link to="/feed"
+        name="feed-nav-link"
+        exact
+        >Feed</router-link>
+      -->
+
+      <!--
+      <router-link to="/forum"
+      name="feed-nav-link"
+      exact
+      >Forum</router-link>
+      -->
 
       <span class="dropdown">
         <button
@@ -35,10 +45,17 @@
             to="/top"
             class="dropdown-item"
             exact>Top</router-link>
-          <router-link
-            to="/recommendations"
+          <router-link to="/recommendations"
             class="dropdown-item"
-            exact>Recommended</router-link>
+            name="feed-nav-link"
+            exact
+            >Recommended</router-link>
+          <router-link
+            to="/contributors"
+            class="dropdown-item"
+            name="feed-nav-link"
+            exact
+            >Contributors</router-link>
         </div>
       </span>
 

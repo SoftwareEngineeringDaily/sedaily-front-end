@@ -58,8 +58,8 @@ export default {
       me (state) {
         return state.me
       },
-      postId (state) {
-        return state.route.params.id
+      entityId (state) {
+        return state.route.params.id // TODO: pass into component
       }
     })
   },
@@ -69,7 +69,7 @@ export default {
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({
-        postId: this.postId,
+        entityId: this.entityId,
         parentCommentId: this.parentComment._id,
         content: this.commentContent
       })
@@ -78,7 +78,7 @@ export default {
           // NOTE: this won't work too well once we are paginating comments:
           this.justSubmitted = false
           this.commentsFetch({
-            postId: this.postId
+            entityId: this.entityId
           })
         })
         .catch((error) => {

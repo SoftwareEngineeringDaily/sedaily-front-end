@@ -129,7 +129,7 @@ export default {
     },
 
     comments () {
-      return this.postComments[this.$route.params.id] || []
+      return this.entityComments[this.$route.params.id] || []
     },
 
     isActiveEpisode () {
@@ -166,8 +166,8 @@ export default {
         return state.postRelatedLinks
       },
 
-      postComments (state) {
-        return state.postComments
+      entityComments (state) {
+        return state.entityComments
       }
     })
   },
@@ -180,7 +180,7 @@ export default {
     })
     // Fetch comments
     this.commentsFetch({
-      postId: this.postId
+      entityId: this.postId
     })
 
     // Fetch relatedLinks

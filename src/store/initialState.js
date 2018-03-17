@@ -5,7 +5,7 @@ export default {
   activePlayerPost: { title: {}},
   activeType: null,
   posts: {},
-  postComments: {},
+  entityComments: {},
   postRelatedLinks: {},
   feed: [],
   placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png',
@@ -25,5 +25,6 @@ export default {
   },
   token: localStorage.getItem('token'),
   loggingEnabled: true,
-  jobs: []
+  jobs: [],
+  forumThreads: {}
 }

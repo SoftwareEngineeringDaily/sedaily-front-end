@@ -65,7 +65,7 @@ export default {
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
-        postId: this.comment.post
+        entityId: this.comment.entity
       })
     },
     remove () {
@@ -74,7 +74,7 @@ export default {
       })
         .then(() => {
           this.commentsFetch({
-            postId: this.comment.post
+            entityId: this.comment.rootEntity
           })
         })
         .catch((error) => {

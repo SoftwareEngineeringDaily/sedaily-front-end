@@ -27,6 +27,9 @@ npm run build --report
 # run selenium tests (working)
 npm run selenium-test
 ```
+# npm start
+Note this is differnt than the stuff ran on heroku which is inside dist/package.json
+
 
 For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
