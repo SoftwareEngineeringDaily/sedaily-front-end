@@ -1,24 +1,24 @@
 <template>
   <header class="header">
     <nav class="inner">
-      <router-link to="/"
+      <router-link
+        to="/"
+        class="site-name"
         exact>
-        <img class="logo" src="./../assets/sedaily-logo.png" alt="logo">
+        Software Daily
       </router-link>
 
-      <router-link
-        to="/jobs"
-        name="jobs-nav-link">Jobs Board</router-link>
+      <router-link to="/jobs">Jobs Board</router-link>
 
-      <router-link to="/feed"
-        name="feed-nav-link"
-        exact
-        >Feed</router-link>
+      <router-link
+        to="/feed"
+        exact>Feed</router-link>
+
       <span class="dropdown">
         <button
+          id="podcastMenuButton"
           class="btn btn-secondary dropdown-toggle"
           type="button"
-          id="podcastMenuButton"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false">
@@ -27,59 +27,48 @@
         <div
           class="dropdown-menu"
           aria-labelledby="podcastMenuButton">
-          <router-link to="/new"
+          <router-link
+            to="/new"
             class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >New</router-link>
-          <router-link to="/top"
+            exact>New</router-link>
+          <router-link
+            to="/top"
             class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Top</router-link>
-          <router-link to="/recommendations"
+            exact>Top</router-link>
+          <router-link
+            to="/recommendations"
             class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Recommended</router-link>
-
-          <router-link to="/contributors"
-            class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Contributors</router-link>
-
-
-
+            exact>Recommended</router-link>
         </div>
       </span>
 
       <span class="pull-right">
-        <span v-if="isLoggedIn">
-          <a href='/'
-            name="logouts-nav-link"
-            @click.prevent='logoutHandler'>Logout</a>
-          <router-link to="/profile"
-            name="top-nav-link">Profile</router-link>
-        </span>
-        <span v-else>
-          <router-link to="/login"
-            name="login-nav-link">Login</router-link>
-
-          <router-link to="/register"
-            name="register-nav-link"
-            class="register-nav-link">Register</router-link>
-        </span>
-
-        <router-link v-if='alreadySubscribed'
-          to="/subscribe"
-          name="top-nav-link"
+        <router-link
+          v-if="alreadySubscribed"
+          to="/premium"
           class="subscribed">Subscribed</router-link>
 
-        <router-link v-else
-          to="/premium"
-          name="subscribe-nav-link"
+        <router-link
+          v-else
+          to="/subscribe"
           class="call-to-action">Subscribe</router-link>
+
+        <span v-if="isLoggedIn">
+          <a
+            href="/"
+            name="logouts-nav-link"
+            @click.prevent="logoutHandler">Logout</a>
+          <router-link
+            to="/profile">Profile</router-link>
+        </span>
+        <span v-else>
+          <router-link
+            to="/login">Login</router-link>
+
+          <router-link
+            to="/register"
+            class="register-nav-link">Register</router-link>
+        </span>
       </span>
     </nav>
   </header>
@@ -134,7 +123,7 @@ export default {
 
 .btn-secondary
   font-size 14px
-  color primary-color
+  margin-top 8px
   box-shadow none
   &:hover
     border-color white
@@ -151,12 +140,28 @@ export default {
       background-color primary-color
 
 .header
+  .site-name
+    text-transform uppercase
+    font-size 32px
+    color #000
+    padding-top 0
+    line-height 32px
+    letter-spacing normal
+    font-weight bold
+    &:hover
+      text-decoration none
+      color #000
+    &.router-link-active
+      text-decoration none
   .call-to-action
     color white
+    background-color primary-color
+    margin-top 8px
+    border-radius 20px
+    padding-top 4px
     text-decoration none
     margin-right 1em
   .register-nav-link
     margin-right 1em
-  a.router-link-active
-    text-decoration none
+
 </style>
