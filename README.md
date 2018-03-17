@@ -24,8 +24,14 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run selenium tests (working)
-npm run selenium-test
+# run unit tests
+npm run unit
+
+# run integration tests (Work in Progress!)
+npm run dev
+# in another terminal
+npm run cy:open # interactive
+npm run cy:run # non-interactive
 ```
 # npm start
 Note this is differnt than the stuff ran on heroku which is inside dist/package.json
@@ -42,12 +48,6 @@ npm run dev:api-test
 # serve with hot reload at localhost:8080, using API running on production
 npm run dev:api-prod
 ```
-
-## Install selenium web driver:
-
-Download & Install Selenium Standalone Server (v3.6.0)
-http://www.seleniumhq.org/projects/webdriver/
-http://www.seleniumhq.org/download/
 
 ## Contributing
 `master` branch is deployed to production

@@ -10,3 +10,5 @@ selenium-debug.log
 *.swo
 .vscode/
 .idea/
+cypress/videos/
+cypress/screenshots/
