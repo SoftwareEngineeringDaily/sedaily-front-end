@@ -47,7 +47,7 @@
         <transition
           name="fade"
           mode="out-in">
-          <router-view class="view" />
+          <router-view class="view col-md-12" />
         </transition>
       </div>
     </div>

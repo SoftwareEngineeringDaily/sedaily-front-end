@@ -1,17 +1,17 @@
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div v-if="error" class="bg-danger">
       {{ error }}
     </div>
     <div class="row justify-content-center">
-      <h1 class="col-10 text-center">Jobs Board</h1>
+      <h1 class="col-12 text-center">Jobs Board</h1>
     </div>
     <div class="row justify-content-center add-job-link">
-        <router-link class="col-10 text-center" v-if="isLoggedIn" to="/add-job">
+        <router-link class="col-12 text-center" v-if="isLoggedIn" to="/add-job">
           Employers: Post a Job
         </router-link>
-        <router-link class="col-10 text-center" v-else to="/login">
+        <router-link class="col-12 text-center" v-else to="/login">
           Login to Apply or Post a Job
         </router-link>
     </div>
@@ -20,7 +20,7 @@
     </div>
     <br>
     <div class="row">
-      <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+      <div class="col-sm-12 offset-sm-1 col-md-8 offset-md-2">
         <div class="row justify-content-center">
         <div class="form-group col-sm-5">
           <input
@@ -63,7 +63,7 @@
         </div>
         </div>
       </div>
-      <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+      <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
         <job-summary v-for="job in displayedJobs" :key="job._id" :job="job">
         </job-summary>
       </div>
