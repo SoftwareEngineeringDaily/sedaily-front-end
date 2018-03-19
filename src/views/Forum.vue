@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1> Forum </h1>
+    <h1 class='col-md-12'> Forum </h1>
+    <br />
     <div class='col-md-6'>
     <forum-thread-compose v-if="isLoggedIn"></forum-thread-compose>
     </div>
