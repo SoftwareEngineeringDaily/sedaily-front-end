@@ -5,11 +5,14 @@
     </div>
     <div class='forum-summary-misc'>
       by <span>{{forumThread.author.name}}</span>
+      <span class='misc-detail' >{{creationDate}} </span>
+      <span class='comments-count misc-detail'> {{forumThread.commentCount}} comments</span>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'ForumThreadSummary',
   props: {
@@ -20,6 +23,14 @@ export default {
   },
   data () {
     return {}
+  },
+  computed: {
+    creationDate () {
+      if (this.forumThread) {
+        return moment(this.forumThread.dateCreated)
+          .startOf('hour').fromNow()
+      }
+    }
   }
 }
 </script>
@@ -34,4 +45,6 @@ export default {
 .forum-summary-misc
   font-size 1em
   color darkgrey
+.misc-detail
+  padding-left 1rem
 </style>

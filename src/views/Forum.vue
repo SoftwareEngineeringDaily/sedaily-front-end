@@ -2,7 +2,7 @@
   <div>
     <h1 class='col-md-12'> Forum </h1>
     <br />
-    <div class='col-md-6'>
+    <div class='col-md-7'>
     <forum-thread-compose v-if="isLoggedIn"></forum-thread-compose>
     </div>
     <div class="forum-threads col-md-12">

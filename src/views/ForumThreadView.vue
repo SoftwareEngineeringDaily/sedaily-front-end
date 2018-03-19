@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="forumThread">
-      Forum Thread Deatails:
-
-      {{forumThread.title}}
-      <p>
+      <div class='forum-thread-title'>
+        {{forumThread.title}}
+      </div>
+      <p class='forum-thread-content'>
         {{forumThread.content}}
       </p>
 
@@ -77,3 +77,12 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+@import '../css/variables'
+.forum-thread-title
+  font-size 2.5rem
+.forum-thread-content
+  font-size 1.5rem
+  margin-top 1rem
+</style>
