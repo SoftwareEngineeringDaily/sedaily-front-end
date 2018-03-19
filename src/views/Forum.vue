@@ -1,8 +1,10 @@
 <template>
   <div>
     <h1> Forum </h1>
+    <div class='col-md-6'>
     <forum-thread-compose v-if="isLoggedIn"></forum-thread-compose>
-    <div class="forum-threads">
+    </div>
+    <div class="forum-threads col-md-12">
       <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :forumThread="forumThread"/>
     </div>
   </div>
@@ -50,4 +52,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.forum-threads
+  margin-top 30px
 </style>
