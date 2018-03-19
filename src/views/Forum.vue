@@ -44,7 +44,7 @@ export default {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       forumThreads (state) {
-        return state.forumThreads
+        return state.forumThreadsList
       }
     })
   }

@@ -6,7 +6,7 @@
     <div class='forum-summary-misc'>
       by <span>{{forumThread.author.name}}</span>
       <span class='misc-detail' >{{creationDate}} </span>
-      <span class='comments-count misc-detail'> {{forumThread.commentCount}} comments</span>
+      <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
     </div>
   </div>
 </template>
