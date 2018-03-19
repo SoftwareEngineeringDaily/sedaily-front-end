@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-if="emptyComments" class='no-comments'>
+      There are no comments.
+    </div>
     <div v-for="comment in comments" :key="comment._id">
       <comment-view :comment='comment'></comment-view>
       <!-- Replies -->
@@ -31,7 +34,14 @@ export default {
   },
   components: { CommentView, CommentReply },
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+    emptyComments () {
+      console.log('emptyComments', this.comment)
+      if (!this.comments || this.comments.length === 0) {
+        return true
+      }
+      return false
+    }
   }
 }
 </script>
@@ -41,4 +51,7 @@ export default {
   margin-top 20px
   margin-left 50px
   border-left 1px solid #ccc
+.no-comments
+  padding-top 20px
+  color #ccc
 </style>
