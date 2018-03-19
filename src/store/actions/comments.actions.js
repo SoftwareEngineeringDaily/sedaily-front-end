@@ -3,8 +3,9 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  commentsCreate ({ commit, getters }, { content, entityId, parentCommentId }) {
-    const options = { content }
+  commentsCreate ({ commit, getters }, { content, entityId, rootEntityType, parentCommentId }) {
+    const options = { content, entityType: rootEntityType }
+    console.log('type?', options.entityType)
     if (parentCommentId) options.parentCommentId = parentCommentId
     const token = getters.getToken
     const config = {}

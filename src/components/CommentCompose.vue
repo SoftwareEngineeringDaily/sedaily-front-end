@@ -23,6 +23,12 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'comment-compose',
+  props: {
+    rootEntityType: {
+      type: String,
+      required: false
+    }
+  },
   components: {
     UpdateProfile,
     Spinner
@@ -61,6 +67,7 @@ export default {
       console.log('this.entityId', this.entityId)
       this.commentsCreate({
         entityId: this.entityId,
+        rootEntityType: this.rootEntityType,
         content: this.commentContent
       })
         .then((response) => {

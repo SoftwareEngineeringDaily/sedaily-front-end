@@ -4,13 +4,13 @@
       There are no comments.
     </div>
     <div v-for="comment in comments" :key="comment._id">
-      <comment-view :comment='comment'></comment-view>
+      <comment-view :comment='comment'  ></comment-view>
       <!-- Replies -->
       <comment-reply v-if="isLoggedIn"
-      :isReply='true' :parentComment='comment'></comment-reply>
+      :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
       <div class='replies'>
         <div v-for="replyComment in comment.replies" :key="replyComment._id">
-          <comment-view :comment='replyComment'></comment-view>
+          <comment-view :comment='replyComment' ></comment-view>
           <br />
         </div>
       </div>
@@ -30,13 +30,20 @@ export default {
     comments: {
       type: Array,
       required: true
+    },
+    rootEntityType: {
+      type: String,
+      required: false
     }
   },
+  beforeMount () {
+    console.log('rootEntityType--list', this.rootEntityType)
+  },
+
   components: { CommentView, CommentReply },
   computed: {
     ...mapGetters(['isLoggedIn']),
     emptyComments () {
-      console.log('emptyComments', this.comment)
       if (!this.comments || this.comments.length === 0) {
         return true
       }
