@@ -190,7 +190,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'upvote', 'relatedLinksFetch',
+    ...mapActions(['upvote', 'relatedLinksFetch',
       'downvote', 'fetchArticle', 'commentsFetch', 'playEpisode', 'updatePlayerState']),
     play () {
       if (this.isActiveEpisode) {

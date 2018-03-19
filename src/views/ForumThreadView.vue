@@ -1,16 +1,16 @@
 <template>
   <div>
     <div v-if="forumThread">
-      Forum Thread Deatails:
-
-      {{forumThread.title}}
-      <p>
+      <div class='forum-thread-title'>
+        {{forumThread.title}}
+      </div>
+      <p class='forum-thread-content'>
         {{forumThread.content}}
       </p>
 
       <div class="row">
         <div class="col-md-12">
-          <comment-compose v-if="isLoggedIn"></comment-compose>
+          <comment-compose v-if="isLoggedIn" :rootEntityType='"forumthread"'></comment-compose>
         </div>
       </div>
       <br />
@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-md-12">
           <h3 class='section-title'> Comments </h3>
-          <comments-list :comments='comments'></comments-list>
+          <comments-list :comments='comments' :rootEntityType='"forumthread"'></comments-list>
         </div>
 
             </div>
@@ -77,3 +77,12 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+@import '../css/variables'
+.forum-thread-title
+  font-size 2.5rem
+.forum-thread-content
+  font-size 1.5rem
+  margin-top 1rem
+</style>
