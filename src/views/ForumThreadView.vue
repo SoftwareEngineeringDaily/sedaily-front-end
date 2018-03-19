@@ -8,6 +8,12 @@
         {{forumThread.content}}
       </p>
 
+      <div class='forum-thread-misc'>
+        Posted by <span>{{forumThread.author.name}}</span>
+        <span class='misc-detail' >{{creationDate}} </span>
+        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+      </div>
+
       <div class="row">
         <div class="col-md-12">
           <comment-compose v-if="isLoggedIn" :rootEntityType='"forumthread"'></comment-compose>
@@ -28,6 +34,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
@@ -43,6 +50,12 @@ export default {
 
   computed: {
     ...mapGetters(['isLoggedIn']),
+    creationDate () {
+      if (this.forumThread) {
+        return moment(this.forumThread.dateCreated)
+          .startOf('hour').fromNow()
+      }
+    },
     forumThread () {
       return this.$store.state.forumThreads[this.$route.params.id]
     },
@@ -81,8 +94,13 @@ export default {
 <style lang="stylus" scoped>
 @import '../css/variables'
 .forum-thread-title
-  font-size 2.5rem
+  font-size 2.6rem
+  font-weight 200
 .forum-thread-content
   font-size 1.5rem
-  margin-top 1rem
+  font-weight 200
+.forum-thread-misc
+  font-size 0.8rem
+  color darkgrey
+  margin-bottom 2rem
 </style>

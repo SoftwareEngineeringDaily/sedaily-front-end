@@ -54,6 +54,7 @@ export default {
   },
 
   setForumThreads: (state, { list }) => {
+    Vue.set(state, 'forumThreadsList', list)
     list.forEach(entity => {
       if (entity) {
         Vue.set(state.forumThreads, entity._id, entity)
