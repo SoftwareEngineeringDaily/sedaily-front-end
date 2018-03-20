@@ -81,18 +81,15 @@ export default {
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['fetchMyProfileData', 'fetchJob']),
+    ...mapActions(['fetchJob']),
     fetchData () {
       this.loading = true
-      const promiseActions = [this.fetchJob({ jobId: this.jobId })]
-      if (this.isLoggedIn) {
-        promiseActions.push(this.fetchMyProfileData())
-      }
-
-      Promise.all(promiseActions).then((responses) => {
-        this.job = responses[0].data
-        this.error = null
-      })
+      this
+        .fetchJob({ jobId: this.jobId })
+        .then((response) => {
+          this.job = response.data
+          this.error = null
+        })
         .catch((error) => {
           this.error = error.response.data.message
         })

@@ -177,7 +177,7 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid registration')
+                this.$toasted.error('Invalid registration')
               }
             })
         } else {
