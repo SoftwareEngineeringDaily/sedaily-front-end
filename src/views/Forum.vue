@@ -44,6 +44,7 @@ export default {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
       forumThreads (state) {
+        if (!state.forumThreadIdsList) return []
         const threads = state.forumThreadIdsList.map((id) => state.forumThreads[id])
         return threads
       }

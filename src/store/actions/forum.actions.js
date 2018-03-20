@@ -28,6 +28,11 @@ export default {
       headers: {
         'Authorization': 'Bearer ' + token
       }
+    }).then((response) => {
+      const forumThread = response.data.entity
+      console.log('forumThread', forumThread)
+      commit('setForumThread', { entity: forumThread })
+      return response
     })
   },
 
