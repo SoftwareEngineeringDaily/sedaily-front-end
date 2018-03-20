@@ -28,7 +28,7 @@ export default {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
-  updateProfile: ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) => {
+  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,
@@ -38,8 +38,7 @@ export default {
       email
     })
       .then((response) => {
-        commit('setMe', response.data)
-        return response
+        return dispatch('fetchMyProfileData')
       })
       .catch((error) => {
         // @TODO: Add pretty pop up here
