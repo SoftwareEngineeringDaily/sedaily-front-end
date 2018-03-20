@@ -1,6 +1,7 @@
 <template>
   <div>
     <job-apply-modal
+      v-if="job"
       :id="'jobApplyModal'"
       :title="job.title"
       :jobId="jobId"
@@ -13,10 +14,10 @@
         <div v-else-if="error">
           <div class="bg-danger"> Error: {{ error }}</div>
         </div>
-        <div v-else-if="job.isDeleted">
+        <div v-else-if="job && job.isDeleted">
           <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
         </div>
-        <div v-else class="col-md-10 offset-md-1">
+        <div v-else-if="job" class="col-md-10 offset-md-1">
           <h4 class="row">{{ job.title }} - {{ job.employmentType }}</h4>
           <div class="row">{{ job.companyName }} - {{ job.location }}
             <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>

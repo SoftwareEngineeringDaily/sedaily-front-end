@@ -152,38 +152,6 @@ a
   color #34495e
   text-decoration none
 
-.header
-  z-index 999
-  top 0
-  left 0
-  right 0
-  .inner
-    max-width 1200px
-    box-sizing border-box
-    margin 0px auto
-    padding 15px 5px
-  a
-    font-size 14px
-    line-height 16px
-    padding-top 8px
-    transition color .15s ease
-    display inline-block
-    vertical-align middle
-    letter-spacing .075em
-    margin-right 1.3em
-    &:hover
-      color primary-color
-      text-decoration none
-    &.router-link-active
-      text-decoration underline
-    &:nth-child(6)
-      margin-right 0
-  .github
-    color #fff
-    font-size .9em
-    margin 0
-    float right
-
 .player-holder
   padding 10px 20px
   box-shadow -5px -5px 5px -2px rgba(176,176,176,0.3)
