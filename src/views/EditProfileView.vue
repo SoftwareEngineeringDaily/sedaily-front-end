@@ -3,7 +3,7 @@
     <br />
     <br />
     <h2> Edit Your Profile:</h2>
-    <update-profile  v-if="username" :initialUsername="username" :me="me"> </update-profile>
+    <update-profile  v-if="me" :initialUsername="me.username" :me="me"> </update-profile>
   </div>
 </template>
 
@@ -14,12 +14,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'edit-profile',
   components: { UpdateProfile },
-  data () {
-    return {
-      loading: true,
-      username: null
-    }
-  },
   computed: {
     ...mapState({
       me (state) {
