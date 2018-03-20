@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
@@ -16,7 +17,7 @@ export default {
 
   likeComment: ({ commit, getters, state }, { id, entityId, parentCommentId }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('likeComment', { commentId: id, entityId, parentCommentId })
@@ -27,7 +28,7 @@ export default {
     console.log('ID', id)
     const token = getters.getToken
     if (!token) {
-      alert('Login to delete your comment')
+      Vue.toasted.error('Login to delete your comment')
       return
     }
     return axios.delete(`${BASE_URL}/comments/${id}`)

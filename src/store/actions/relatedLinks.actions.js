@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
@@ -12,11 +13,11 @@ export default {
 
   removeRelatedLink: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to remove your link')
+      Vue.toasted.error('You must login to remove your link')
       return
     }
     if (!id) {
-      alert('Error with that link')
+      Vue.toasted.error('Error with that link')
       return
     }
     return axios.delete(`${BASE_URL}/related-links/${id}`)
@@ -24,7 +25,7 @@ export default {
 
   upvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('upvoteRelatedLink', { id, postId })
@@ -33,7 +34,7 @@ export default {
 
   downvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('downvoteRelatedLink', { id, postId })

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
@@ -15,7 +16,7 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
         return Promise.reject(error)
       })
   },
@@ -36,7 +37,7 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
         return error
       })
   },

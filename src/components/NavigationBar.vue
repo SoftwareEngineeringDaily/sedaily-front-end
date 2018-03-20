@@ -126,6 +126,8 @@ export default {
   font-size 14px
   margin-top 8px
   box-shadow none
+  background-color white
+  color black
   &:hover
     border-color white
     color white
@@ -135,6 +137,7 @@ export default {
 
 .show
   .btn-secondary
+    background-color white
     &.dropdown-toggle
       border-color white
       color white
@@ -158,6 +161,7 @@ export default {
     line-height 16px
     padding-top 8px
     transition color .15s ease
+    color black
     display inline-block
     vertical-align middle
     letter-spacing .075em

@@ -15,6 +15,7 @@ module.exports = merge(baseWebpackConfig, {
   devServer: {
     hot: true,
     contentBase: path.join(__dirname, 'dist'),
+    open: true,
     compress: true,
     historyApiFallback: true
   },

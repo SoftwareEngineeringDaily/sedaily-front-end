@@ -104,7 +104,7 @@ export default {
             .catch((error) => {
               this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
               this.isSubmitting = false
-              alert(error.response.data.message)
+              this.$toasted.error(error.response.data.message)
             })
         } else {
           this.errorMsg = 'Sorry are invalid fields on the form :('

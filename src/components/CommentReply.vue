@@ -90,7 +90,7 @@ export default {
           })
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          this.$toasted.error(error.response.data.message)
         })
     } }
 }

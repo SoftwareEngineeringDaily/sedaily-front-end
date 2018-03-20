@@ -13,6 +13,10 @@ import infiniteScroll from 'vue-infinite-scroll'
 import VeeValidate from 'vee-validate'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
+import Toasted from 'vue-toasted'
+
+import 'bootstrap'
+import './css/vendor.scss'
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -24,18 +28,34 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(Router)
+
+Vue.use(Toasted, {
+  position: 'bottom-center',
+  theme: 'primary',
+  duration: null,
+  action: {
+    text: 'Close',
+    onClick: (e, toastObject) => {
+      toastObject.goAway(0)
+    }
+  }
+})
+
 Vue.use(AuthPlugin)
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
-Vue.config.productionTip = false
+
 Vue.use(VeeValidate, {
   events: 'blur'
 })
+
 Vue.use(VueAnalytics, {
   id: 'UA-111896817-1',
   checkDuplicatedScript: true,
   router
 })
+
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

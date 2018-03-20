@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
@@ -43,7 +44,7 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
         return error
       })
   }

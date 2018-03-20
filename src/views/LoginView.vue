@@ -79,7 +79,6 @@ export default {
             password
           })
             .then((response) => {
-              this.loading = false
               if (response.data.token) {
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
@@ -87,13 +86,13 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid login')
+                this.$toasted.error('Invalid login')
               }
             })
+            .finally(() => { this.loading = false })
         } else {
           console.log('Invalid values..')
           this.loading = false
-          // alert('Please fix the errors')
         }
       })
     },

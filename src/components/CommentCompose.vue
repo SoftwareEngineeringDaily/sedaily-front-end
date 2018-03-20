@@ -73,7 +73,7 @@ export default {
         })
         .catch((error) => {
           this.isSubmitting = false
-          alert(error.response.data.message)
+          this.$toasted.error(error.response.data.message)
         })
     }
   }

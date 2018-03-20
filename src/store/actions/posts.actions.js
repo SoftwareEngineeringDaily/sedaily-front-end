@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import moment from 'moment'
 import { apiConfig } from '../../../config/apiConfig'
@@ -33,7 +34,7 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
       })
   },
 
@@ -51,8 +52,8 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error)
-      // alert(error.message)
-      // alert(error.response.data.message)
+      // Vue.toasted.error(error.message)
+      // Vue.toasted.error(error.response.data.message)
       })
   },
 
@@ -66,13 +67,13 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
       })
   },
 
   upvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('upVote', { articleId: id })
@@ -82,7 +83,7 @@ export default {
 
   downvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      alert('You must login to vote')
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('downVote', { articleId: id })
