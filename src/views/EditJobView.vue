@@ -1,9 +1,9 @@
 <template>
-  <div v-if="job.isDeleted">
+  <div v-if="job && job.isDeleted">
     <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
   </div>
   <div v-else>
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn && job">
       <job-form
         :header="'Update Job:'"
         :submitCallback="submitUpdateJob"
@@ -50,22 +50,20 @@ export default {
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['fetchMyProfileData', 'updateJob', 'fetchJob', 'deleteJob']),
+    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
     fetchData () {
       this.loading = true
-      const promiseActions = [this.fetchJob({ jobId: this.jobId })]
-      if (this.isLoggedIn) {
-        promiseActions.push(this.fetchMyProfileData())
-      }
+      this
+        .fetchJob({ jobId: this.jobId })
+        .then(response => {
+          if (response.data.postedUser !== this.me._id) {
+            this.error = 'Unauthorized'
+            return
+          }
 
-      Promise.all(promiseActions).then((responses) => {
-        if (responses[0].data.postedUser !== responses[1].data._id) {
-          this.error = 'Unauthorized'
-          return
-        }
-        this.job = responses[0].data
-        this.error = null
-      })
+          this.job = response.data
+          this.error = null
+        })
         .catch((error) => {
           this.error = error.response.data.message
         })
@@ -96,7 +94,7 @@ export default {
         tags
       })
         .then(() => {
-          alert('Successfully Edited!')
+          this.$toasted.show('Successfully Edited!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
@@ -110,7 +108,7 @@ export default {
       this.loading = true
       this.deleteJob({ jobId: this.jobId })
         .then(() => {
-          alert('Successfully Deleted!')
+          this.$toasted.show('Successfully Deleted!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
@@ -124,6 +122,9 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
+      me (state) {
+        return state.me
+      },
       jobId (state) {
         return state.route.params.id
       }

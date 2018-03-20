@@ -45,7 +45,7 @@ describe('App.vue', (done) => {
     })
 
     expect(wrapper.vm.isPlayerActive).to.equal(false)
-    expect(wrapper.find('.player-holder').element.style.display).to.equal('none')
+    expect(wrapper.find('.player-holder').element).to.be.an('undefined')
   })
 
   it('player should be inactive when activePlayerPost has no associated mp3', () => {
@@ -65,7 +65,7 @@ describe('App.vue', (done) => {
     })
 
     expect(wrapper.vm.isPlayerActive).to.equal(false)
-    expect(wrapper.find('.player-holder').element.style.display).to.equal('none')
+    expect(wrapper.find('.player-holder').element).to.be.an('undefined')
   })
 
   it('player should be active when activePlayerPost has associated mp3', () => {
@@ -73,7 +73,10 @@ describe('App.vue', (done) => {
       ...store,
       state: {
         activePlayerPost: {
-          mp3: 'foo'
+          mp3: 'foo',
+          title: {
+            rendered: 'hello'
+          }
         }
       }
     })

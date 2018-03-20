@@ -90,7 +90,7 @@
     </div>
     <div v-if="isLoggedIn" class="row">
       <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a href="/logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
     <spinner :show="loading"></spinner>
@@ -177,13 +177,16 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid registration')
+                this.$toasted.error('Invalid registration')
               }
             })
         } else {
           console.log('Failed to validate for registraiotn')
         }
       })
+    },
+    logout () {
+      this.$auth.logout()
     }
   },
   computed: {

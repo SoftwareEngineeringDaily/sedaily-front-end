@@ -79,7 +79,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.$toasted.error('Error deleting :(')
         })
     },
     user (comment) {

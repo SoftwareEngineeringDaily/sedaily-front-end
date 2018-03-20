@@ -1,9 +1,28 @@
-import { mount } from '@vue/test-utils'
-import localVue from './../helpers'
+import { mount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
 import LoginView from '@/views/LoginView.vue'
+import initialState from '@/store/initialState'
+import VeeValidate from 'vee-validate'
 
 describe('LoginView.vue', () => {
-  const wrapper = mount(LoginView, { localVue })
+  const localVue = createLocalVue()
+
+  localVue.use(Vuex)
+  localVue.use(VeeValidate)
+
+  const store = {
+    state: initialState,
+    getters: {
+      isLoggedIn () { return false }
+    }
+  }
+
+  const wrapper = mount(LoginView, {
+    localVue,
+    store: new Vuex.Store({
+      ...store
+    })
+  })
 
   it('adds a $validator to the Vue instance', () => {
     expect(wrapper.vm).to.have.property('$validator')

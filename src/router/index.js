@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import TopListView from '@/views/TopListView'
 import NewListView from '@/views/NewListView'
@@ -27,8 +26,6 @@ import CompanyEdit from '@/views/CompanyEdit'
 import Contributors from '@/views/Contributors'
 import Forum from '@/views/Forum'
 import ForumThreadView from '@/views/ForumThreadView'
-
-Vue.use(Router)
 
 const router = new Router({
   mode: 'history',

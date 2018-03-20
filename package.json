@@ -38,6 +38,7 @@
     "vue-slider-component": "^2.5.3",
     "vue-social-sharing": "^2.3.3",
     "vue-stripe-elements-plus": "^0.2.7",
+    "vue-toasted": "^1.1.24",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },
