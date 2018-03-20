@@ -1,20 +1,30 @@
 <template>
   <div class='forum-summary-container'>
-    <div class='forum-summary-title'>
-      <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
-    </div>
-    <div class='forum-summary-misc'>
-      by <span>{{forumThread.author.name}}</span>
-      <span class='misc-detail' >{{creationDate}} </span>
-      <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
-    </div>
+    <voting-arrows
+    :upvoteHandler="upvoteHandler"
+    :upvoted="forumThread.upvoted"
+    :score="forumThread.score">
+  </voting-arrows>
+  <div class='forum-summary-title'>
+    <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
   </div>
+  <div class='forum-summary-misc'>
+    by <span>{{forumThread.author.name}}</span>
+    <span class='misc-detail' >{{creationDate}} </span>
+    <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+  </div>
+</div>
 </template>
 
 <script>
 import moment from 'moment'
+import VotingArrows from 'components/VotingArrows.vue'
+import { mapActions } from 'vuex'
 export default {
   name: 'ForumThreadSummary',
+  components: {
+    VotingArrows
+  },
   props: {
     forumThread: {
       type: Object,
@@ -23,6 +33,14 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    ...mapActions(['forumThreadLike']),
+    upvoteHandler () {
+      this.forumThreadLike({
+        id: this.forumThread._id
+      })
+    }
   },
   computed: {
     creationDate () {

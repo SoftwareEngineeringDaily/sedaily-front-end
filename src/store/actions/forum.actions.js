@@ -17,6 +17,20 @@ export default {
     return axios.post(requestUrl, options, config)
   },
 
+  forumThreadLike: ({ commit, getters, state }, { id }) => {
+    const token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    // commit('likeComment', { commentId: id, entityId, parentCommentId })
+    return axios.post(`${BASE_URL}/forum/${id}/upvote`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
   fetchForumThreads ({ getters, commit }) {
     const options = {}
     const token = getters.getToken
