@@ -1,18 +1,23 @@
 <template>
-  <div class='forum-summary-container'>
-    <voting-arrows
-    :upvoteHandler="upvoteHandler"
-    :upvoted="forumThread.upvoted"
-    :score="forumThread.score">
-  </voting-arrows>
-  <div class='forum-summary-title'>
-    <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
-  </div>
-  <div class='forum-summary-misc'>
-    by <span>{{forumThread.author.name}}</span>
-    <span class='misc-detail' >{{creationDate}} </span>
-    <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
-  </div>
+  <div class='forum-summary-container row'>
+
+    <span class="col-sm-1">
+      <voting-arrows
+      :upvoteHandler="upvoteHandler"
+      :upvoted="forumThread.upvoted"
+      :score="forumThread.score">
+    </voting-arrows>
+  </span>
+    <span class="col-sm-8">
+      <div class='forum-summary-title'>
+        <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
+      </div>
+      <div class='forum-summary-misc'>
+        by <span>{{forumThread.author.name}}</span>
+        <span class='misc-detail' >{{creationDate}} </span>
+        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+      </div>
+    </span>
 </div>
 </template>
 
