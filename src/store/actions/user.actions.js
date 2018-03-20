@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
@@ -12,19 +13,13 @@ export default {
   },
 
   fetchMyProfileData: ({ commit, state, getters }) => {
-    const token = getters.getToken
-    const config = {}
-    if (!token) {
+    if (!getters.isLoggedIn) {
       return Promise.reject('User not signed in.')
     }
 
-    config.headers = {
-      'Authorization': 'Bearer ' + token
-    }
-
-    return axios.get(`${BASE_URL}/users/me`, config)
+    return axios.get(`${BASE_URL}/users/me`)
       .then((response) => {
-        commit('setMe', { me: response.data })
+        commit('setMe', response.data)
         return response
       })
   },
@@ -33,15 +28,7 @@ export default {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
-  updateProfile: ({ commit, state, getters }, { id, username, bio, isAvatarSet, website, name, email }) => {
-    const token = getters.getToken
-    const config = {}
-    if (token) {
-      config.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-
+  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,
@@ -49,15 +36,14 @@ export default {
       name,
       isAvatarSet,
       email
-    }, config)
+    })
       .then((response) => {
-        commit('setMe', { me: response.data })
-        return response
+        return dispatch('fetchMyProfileData')
       })
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
         return error
       })
   }

@@ -72,7 +72,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({
@@ -90,7 +90,7 @@ export default {
           })
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          this.$toasted.error(error.response.data.message)
         })
     } }
 }

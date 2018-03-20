@@ -39,7 +39,7 @@ export default {
       this.loading = true
       this.companiesCreate(company)
         .then(() => {
-          alert('Successfully Posted!')
+          this.$toasted.show('Successfully Posted!')
           this.loading = false
           this.$router.push('/admin')
         })
