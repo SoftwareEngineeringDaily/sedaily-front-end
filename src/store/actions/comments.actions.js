@@ -7,32 +7,20 @@ export default {
     const options = { content, entityType: rootEntityType }
     console.log('type?', options.entityType)
     if (parentCommentId) options.parentCommentId = parentCommentId
-    const token = getters.getToken
-    const config = {}
-    if (token) {
-      config.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
 
     const url = `${BASE_URL}/comments/forEntity/${entityId}`
 
     // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
-    return axios.post(url, options, config)
+    return axios.post(url, options)
   },
 
   likeComment: ({ commit, getters, state }, { id, entityId, parentCommentId }) => {
-    const token = getters.getToken
-    if (!token) {
+    if (!getters.isLoggedIn) {
       alert('You must login to vote')
       return
     }
     commit('likeComment', { commentId: id, entityId, parentCommentId })
-    return axios.post(`${BASE_URL}/comments/${id}/upvote`, {}, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
+    return axios.post(`${BASE_URL}/comments/${id}/upvote`, {})
   },
 
   removeComment: ({ commit, getters, state }, { id }) => {
@@ -42,24 +30,12 @@ export default {
       alert('Login to delete your comment')
       return
     }
-    return axios.delete(`${BASE_URL}/comments/${id}`, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
+    return axios.delete(`${BASE_URL}/comments/${id}`)
   },
 
   commentsFetch ({ getters, commit }, { entityId }) {
-    const options = {}
-    const token = getters.getToken
-    if (token) {
-      options.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-
     const url = `${BASE_URL}/comments/forEntity/${entityId}`
-    return axios.get(url, options)
+    return axios.get(url)
       .then((response) => {
         const comments = response.data.result
         commit('setComments', { entityId, comments })

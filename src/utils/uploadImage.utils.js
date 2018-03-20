@@ -20,15 +20,8 @@ const uploadFile = (file, signedRequest, url) => {
 }
 
 export function getS3SingedUploadUrlAndUpload ({ token, imageFile, endpointUrl }) {
-  const config = {}
-  if (token) {
-    config.headers = {
-      'Authorization': 'Bearer ' + token
-    }
-  }
-
   const fileType = imageFile.type
-  return axios.post(endpointUrl, { fileType }, config)
+  return axios.post(endpointUrl, { fileType })
     .then((result) => {
       const { signedRequest, url } = result.data
       console.log('signedRequest', signedRequest)

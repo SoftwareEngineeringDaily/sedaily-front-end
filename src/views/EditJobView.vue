@@ -50,7 +50,7 @@ export default {
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['fetchMyProfileData', 'updateJob', 'fetchJob', 'deleteJob']),
+    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
     fetchData () {
       this.loading = true
       const promiseActions = [this.fetchJob({ jobId: this.jobId })]

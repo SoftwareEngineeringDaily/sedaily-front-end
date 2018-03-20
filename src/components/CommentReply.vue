@@ -72,7 +72,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({

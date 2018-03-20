@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'navigation-bar',
@@ -110,24 +110,9 @@ export default {
     })
   },
 
-  beforeMount () {
-    if (this.isLoggedIn) {
-      this.fetchMyProfileData()
-        .then((myData) => {
-        })
-        .catch((error) => {
-          console.log('Error loading my data', error)
-        })
-    }
-  },
-
   methods: {
-    ...mapActions([
-      'logout',
-      'fetchMyProfileData'
-    ]),
     logoutHandler () {
-      this.logout()
+      this.$auth.logout()
       this.$router.replace('/')
     }
   }

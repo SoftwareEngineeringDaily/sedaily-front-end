@@ -41,13 +41,6 @@ export default {
       loading: true
     }
   },
-  beforeMount () {
-    this.fetchMyProfileData()
-      .then(() => {
-        this.loading = false
-        this.username = this.me.username
-      })
-  },
 
   computed: {
     // local computed methods +
@@ -61,7 +54,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'fetchMyProfileData', 'commentsFetch']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitComment () {
       this.isSubmitting = true
       console.log('this.entityId', this.entityId)

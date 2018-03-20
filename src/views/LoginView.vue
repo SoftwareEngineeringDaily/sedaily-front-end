@@ -43,7 +43,7 @@
       </form>
     <spinner :show="loading"></spinner>
     <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a href="/logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
   </div>
   </div>
@@ -52,7 +52,7 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'login',
@@ -68,40 +68,13 @@ export default {
       loading: false
     }
   },
-  created () {
-    this.fetchData()
-  },
-  watch: {
-    // re-fetch if route changes
-    '$route': 'fetchData'
-  },
   methods: {
-    ...mapActions(['fetchPublicProfileData']),
-    fetchData () {
-      this.loading = true
-      Promise.all([
-        this.fetchPublicProfileData({ userId: this.userId })
-      ])
-        .then((responses) => {
-          /* TODO: Discuss best approach for managing fetched data's state
-             in vuex if it's just being displayed and not interacted with:
-             not in vuex like this.user or in vuex like feed below
-           */
-          this.user = responses[0].data
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
     login () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, password } = this
-          this.$store.dispatch('login', {
+          this.$auth.login({
             username,
             password
           })
@@ -123,6 +96,9 @@ export default {
           // alert('Please fix the errors')
         }
       })
+    },
+    logout () {
+      this.$auth.logout()
     }
   },
   computed: {

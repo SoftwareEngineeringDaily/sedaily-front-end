@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import * as filters from './filters'
+import AuthPlugin from './plugins/AuthPlugin'
 
 import { sync } from 'vuex-router-sync'
 import infiniteScroll from 'vue-infinite-scroll'
@@ -21,6 +22,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(AuthPlugin)
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
@@ -39,5 +41,10 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created () {
+    if (store.getters.isLoggedIn) {
+      store.dispatch('fetchMyProfileData')
+    }
+  }
 })
