@@ -19,7 +19,6 @@ describe('NavigationBar.vue', (done) => {
     router = new Router()
 
     actions = {
-      logout: sandbox.stub().returns(false),
       fetchMyProfileData: sandbox.stub().returns(false)
     }
   })
@@ -44,9 +43,10 @@ describe('NavigationBar.vue', (done) => {
       router
     })
 
+    wrapper.vm.$auth.logout = sinon.stub().returns(false)
     wrapper.vm.logoutHandler()
 
-    expect(actions.logout.calledOnce).to.equal(true)
+    expect(wrapper.vm.$auth.logout.calledOnce).to.equal(true)
     expect(routerSpy.withArgs('/').calledOnce).to.equal(true)
 
     routerSpy.restore()
