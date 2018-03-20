@@ -60,7 +60,7 @@ export default {
     return axios.get(`${BASE_URL}/forum/${id}`, options)
       .then((response) => {
         const forumThread = response.data
-        commit('setForumThreads', { list: [forumThread] })
+        commit('setForumThread', { entity: forumThread })
         return { forumThread }
       })
       .catch((error) => {
