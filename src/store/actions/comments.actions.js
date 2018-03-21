@@ -27,11 +27,14 @@ export default {
       alert('You must login to vote')
       return
     }
-    commit('likeComment', { commentId: id, entityId, parentCommentId })
     return axios.post(`${BASE_URL}/comments/${id}/upvote`, {}, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
+    }).then((response) => {
+      const comment = response.data.entity
+      commit('setComment', { entity: comment })
+      return response
     })
   },
 

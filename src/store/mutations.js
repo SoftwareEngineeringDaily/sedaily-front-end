@@ -69,6 +69,11 @@ export default {
   setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
   },
+
+  setComment: (state, { entity }) => {
+    Vue.set(state.comments, entity._id, entity)
+  },
+
   setForumThread: (state, { entity }) => {
     Vue.set(state.forumThreads, entity._id, entity)
   },
@@ -89,45 +94,6 @@ export default {
         Vue.set(state.posts, post._id, post)
       }
     })
-  },
-
-  // TODO: This is a bit uggly, will need to refactor:
-  likeComment: (state, { commentId, entityId, parentCommentId }) => {
-    let incrementValue = 1
-    // First let's find our comment:
-    let entity
-
-    const parentComments = state.entityComments[entityId]
-    // Weird error if this is not defiend:
-    if (!parentComments) return
-    if (!parentCommentId) {
-      // We are a root level comment so it's easy
-      entity = find(parentComments, (comment) => {
-        return comment._id === commentId
-      })
-      if (!entity) return
-    } else {
-      // First we need to find our parent:
-      const parentComment = find(parentComments, (comment) => {
-        return comment._id === parentCommentId
-      })
-      if (!parentComment) return
-      // Now we can find our actual comment:
-      entity = find(parentComment.replies, (comment) => {
-        return comment._id === commentId
-      })
-      if (!entity) return
-    }
-
-    if (entity.downvoted) incrementValue += 1
-
-    if (entity.upvoted) {
-      entity.score -= incrementValue
-    } else {
-      entity.score += incrementValue
-    }
-    entity.upvoted = !entity.upvoted
-    entity.downvoted = false
   },
 
   upvoteRelatedLink: (state, { id, postId }) => {
