@@ -38,6 +38,7 @@ import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
+import { parseIdsIntoComments } from '@/utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'forum-thread-view',
@@ -60,7 +61,11 @@ export default {
       return this.$store.state.forumThreads[this.$route.params.id]
     },
     comments () {
-      return this.entityComments[this.$route.params.id] || []
+      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      return parseIdsIntoComments({
+        entityParentCommentIds: parentCommentIds,
+        commentsMap: this.commentsMap
+      })
     },
     ...mapState({
       entityId (state) {
@@ -68,6 +73,9 @@ export default {
       },
       threadId (state) {
         return state.route.params.id
+      },
+      commentsMap (state) {
+        return state.comments
       },
       entityComments (state) {
         return state.entityComments

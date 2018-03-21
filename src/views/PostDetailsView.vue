@@ -90,6 +90,7 @@ import PostSelectionIcons from '@/components/post/PostSelectionIcons'
 import PostMeta from '@/components/post/PostMeta'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { PlayerState } from './../utils/playerState'
+import { parseIdsIntoComments } from '@/utils/comment.utils'
 
 export default {
   name: 'post-view',
@@ -129,7 +130,11 @@ export default {
     },
 
     comments () {
-      return this.entityComments[this.$route.params.id] || []
+      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      return parseIdsIntoComments({
+        entityParentCommentIds: parentCommentIds,
+        commentsMap: this.commentsMap
+      })
     },
 
     isActiveEpisode () {
@@ -164,6 +169,10 @@ export default {
 
       postRelatedLinks (state) {
         return state.postRelatedLinks
+      },
+
+      commentsMap (state) {
+        return state.comments
       },
 
       entityComments (state) {
