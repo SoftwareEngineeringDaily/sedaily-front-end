@@ -42,13 +42,6 @@ export default {
     Vue.set(state, 'companies', companies)
   },
 
-  // Helper function to force reresh:
-  resetComments: (state, { entityId }) => {
-    const temp = state.entityComments[entityId]
-    Vue.set(state.entityComments, entityId, [])
-    Vue.set(state.entityComments, entityId, temp)
-  },
-
   setComments: (state, { comments, entityId }) => {
     comments.forEach(comment => {
       if (comment) {

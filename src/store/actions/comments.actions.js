@@ -38,10 +38,8 @@ export default {
       const currentComment = state.comments[comment._id]
       if (currentComment && currentComment.replies) {
         comment.replies = currentComment.replies
-        console.log('readding replies', comment.replies)
       }
       commit('setComment', { entity: comment })
-      // commit('resetComments', { entityId })
       return response
     })
   },
