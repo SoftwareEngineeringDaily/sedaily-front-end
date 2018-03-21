@@ -101,7 +101,7 @@ export default {
     return {
       complete: false,
       planType: 'monthly',
-      loadingUser: true,
+      loadingUser: false,
       processing: false,
       successSubscribingMessage: null,
       justSubscribed: false,

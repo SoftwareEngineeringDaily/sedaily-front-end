@@ -61,12 +61,12 @@
       <span class="pull-right">
         <router-link
           v-if="alreadySubscribed"
-          to="/premium"
+          to="/subscribe"
           class="subscribed">Subscribed</router-link>
 
         <router-link
           v-else
-          to="/subscribe"
+          to="/premium"
           class="call-to-action">Subscribe</router-link>
 
         <span v-if="isLoggedIn">
