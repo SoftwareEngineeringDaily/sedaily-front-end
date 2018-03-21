@@ -26,8 +26,7 @@ export default {
 
   removeComment: ({ commit, getters, state }, { id }) => {
     console.log('ID', id)
-    const token = getters.getToken
-    if (!token) {
+    if (!getters.isLoggedIn) {
       Vue.toasted.error('Login to delete your comment')
       return
     }

@@ -17,9 +17,8 @@ export default {
   },
 
   companiesUploadImage: ({ commit, state, getters }, { imageFile }) => {
-    const token = getters.getToken
     const endpointUrl = `${BASE_URL}/companies/upload-image`
-    return getS3SingedUploadUrlAndUpload({ token, imageFile, endpointUrl })
+    return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
   },
 
   companiesFetchById ({ getters, commit }, id) {

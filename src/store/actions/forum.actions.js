@@ -12,17 +12,12 @@ export default {
   },
 
   forumThreadLike: ({ commit, getters, state }, { id }) => {
-    const token = getters.getToken
-    if (!token) {
-      alert('You must login to vote')
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('You must login to vote')
       return
     }
     // commit('likeComment', { commentId: id, entityId, parentCommentId })
-    return axios.post(`${BASE_URL}/forum/${id}/upvote`, {}, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }).then((response) => {
+    return axios.post(`${BASE_URL}/forum/${id}/upvote`, {}).then((response) => {
       const forumThread = response.data.entity
       console.log('forumThread', forumThread)
       commit('setForumThread', { entity: forumThread })

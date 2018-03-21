@@ -19,7 +19,7 @@ const uploadFile = (file, signedRequest, url) => {
   return p
 }
 
-export function getS3SingedUploadUrlAndUpload ({ token, imageFile, endpointUrl }) {
+export function getS3SingedUploadUrlAndUpload ({ imageFile, endpointUrl }) {
   const fileType = imageFile.type
   return axios.post(endpointUrl, { fileType })
     .then((result) => {

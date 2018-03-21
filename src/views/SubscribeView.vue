@@ -133,7 +133,7 @@ export default {
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
+    ...mapActions(['createSubscription', 'cancelSubscription']),
     pay () {
       this.error = null
       this.justCancelled = false

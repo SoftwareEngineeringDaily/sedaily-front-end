@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row' v-if="!isLoggedIn">
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='register'>
+      <form class='col-md-6 offset-md-3' @submit.prevent='registerHandler'>
         <h1>Register</h1>
 
         <div class="form-group">
@@ -120,40 +120,14 @@ export default {
       loading: false
     }
   },
-  created () {
-    this.fetchData()
-  },
-  watch: {
-    // re-fetch if route changes
-    '$route': 'fetchData'
-  },
   methods: {
-    ...mapActions(['fetchPublicProfileData']),
-    fetchData () {
-      this.loading = true
-      Promise.all([
-        this.fetchPublicProfileData({ userId: this.userId })
-      ])
-        .then((responses) => {
-          /* TODO: Discuss best approach for managing fetched data's state
-             in vuex if it's just being displayed and not interacted with:
-             not in vuex like this.user or in vuex like feed below
-           */
-          this.user = responses[0].data
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
-    register () {
+    ...mapActions(['register']),
+    registerHandler () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, email, bio, website, name, password } = this
-          this.$store.dispatch('register', {
+          this.register({
             username,
             password,
             name,
