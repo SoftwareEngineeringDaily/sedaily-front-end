@@ -15,7 +15,12 @@
       <div class='forum-summary-misc'>
         by <span>{{forumThread.author.name}}</span>
         <span class='misc-detail' >{{creationDate}} </span>
-        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+        <span class='comments-count misc-detail'>
+          <router-link :to="'/forum/' + forumThread._id"
+          class='forum-summary-misc'>
+             {{forumThread.commentsCount}} comments
+           </router-link>
+         </span>
       </div>
     </span>
 </div>
