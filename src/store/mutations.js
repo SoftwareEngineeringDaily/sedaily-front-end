@@ -42,7 +42,24 @@ export default {
   },
 
   setComments: (state, { comments, entityId }) => {
-    Vue.set(state.entityComments, entityId, comments)
+    comments.forEach(comment => {
+      if (comment) {
+        Vue.set(state.comments, comment._id, comment)
+        if (!comment.replies) return
+        // Loop to get replies:
+        comment.replies.forEach(reply => {
+          if (reply) {
+            Vue.set(state.comments, reply._id, reply)
+          }
+        })
+        // Set replies to ids list:
+        const replyIds = comment.replies.map((entity) => entity._id)
+        comment.replies = replyIds
+      }
+    })
+    const ids = comments.map((entity) => entity._id)
+    //  Only set top level comments:
+    Vue.set(state.entityComments, entityId, ids)
   },
 
   setRelatedLinks: (state, { relatedLinks, postId }) => {

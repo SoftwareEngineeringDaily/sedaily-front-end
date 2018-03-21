@@ -60,7 +60,19 @@ export default {
       return this.$store.state.forumThreads[this.$route.params.id]
     },
     comments () {
-      return this.entityComments[this.$route.params.id] || []
+      // Lets get parentCommentIds
+      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      const parentComments = parentCommentIds.map(id => {
+        const comment = this.commentsMap[id]
+        // Replace reply ids list with actual replies:
+        const replyComments = comment.replies.map(replyId => {
+          const reply = this.commentsMap[replyId]
+          return reply
+        })
+        comment.replies = replyComments
+        return comment
+      })
+      return parentComments
     },
     ...mapState({
       entityId (state) {
@@ -68,6 +80,9 @@ export default {
       },
       threadId (state) {
         return state.route.params.id
+      },
+      commentsMap (state) {
+        return state.comments
       },
       entityComments (state) {
         return state.entityComments

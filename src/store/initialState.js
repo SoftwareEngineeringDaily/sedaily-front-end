@@ -5,7 +5,8 @@ export default {
   activePlayerPost: { title: {}},
   activeType: null,
   posts: {},
-  entityComments: {},
+  entityComments: {}, // arrays of ids, only root comments
+  comments: {}, // Map of all comments, key is comment._id
   postRelatedLinks: {},
   feed: [],
   placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png',
@@ -26,6 +27,6 @@ export default {
   token: localStorage.getItem('token'),
   loggingEnabled: true,
   jobs: [],
-  forumThreadsList: [],
+  forumThreadIdsList: [],
   forumThreads: {}
 }
