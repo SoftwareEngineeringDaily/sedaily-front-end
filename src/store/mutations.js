@@ -52,14 +52,18 @@ export default {
   setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
   },
-
+  setForumThread: (state, { entity }) => {
+    Vue.set(state.forumThreads, entity._id, entity)
+  },
   setForumThreads: (state, { list }) => {
-    Vue.set(state, 'forumThreadsList', list)
     list.forEach(entity => {
       if (entity) {
         Vue.set(state.forumThreads, entity._id, entity)
       }
     })
+    const ids = list.map((thread) => thread._id)
+    console.log('ids', ids)
+    Vue.set(state, 'forumThreadIdsList', ids)
   },
 
   setPosts: (state, { posts }) => {
