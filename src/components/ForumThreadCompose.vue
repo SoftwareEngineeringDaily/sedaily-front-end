@@ -114,3 +114,25 @@ export default {
   }
 }
 </script>
+
+
+<style scoped lang="stylus">
+@import './../css/variables'
+
+.forum-content-box
+  width 100%
+  padding 20px 10px
+  margin-bottom 12px
+  border-radius 4px
+  border-color #c5c5c5
+
+
+.forum-title-box
+  width 100%
+  padding 10px
+  margin-bottom 12px
+  border none
+  border-bottom 1px solid #ccc
+
+
+</style>

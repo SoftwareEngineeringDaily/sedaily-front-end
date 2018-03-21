@@ -2,41 +2,66 @@
   <div id="app">
     <navigation-bar />
 
-    <div class='container main-app'>
-      <div class="row">
-        <div class="col-md-8 col-centered text-center beta-msg" v-if="showBeta">
-          Welcome! We are in early beta, checkout the open source project on <a href="https://github.com/SoftwareEngineeringDaily" target="_blank" class="link"> Github</a> & become a
-          <router-link to="/contributors" class="link">contributor</router-link>.
+    <div class="container-fluid main-app">
+      <div
+        v-if="showBeta"
+        class="row">
+        <div
+          class="col-md-12 beta-msg text-center">
+          Welcome! We are in early beta, checkout the open source project on
+          <a
+            href="https://github.com/SoftwareEngineeringDaily"
+            target="_blank"
+            class="link"> Github</a> &amp; become a
+          <router-link
+            to="/contributors"
+            class="link">contributor</router-link>.
         </div>
       </div>
-      <div class="row text-center">
-
-        <div class='col-md-12' v-if="showBeta">
-          <br />
+      <div
+        v-if="showBeta"
+        class="row">
+        <div
+          v-if="showBeta"
+          class="col-md-12 text-center">
           <h3> Check out the apps: </h3>
 
-          <a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8" target="_blank">
-            <img src="./assets/iosstore.png" class="icon" />
+          <a
+            href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
+            target="_blank">
+            <img
+              src="@/assets/iosstore.png"
+              class="icon">
           </a>
 
-          <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en" target="_blank">
-            <img src="./assets/androidstore.png" class="icon" />
+          <a
+            href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en"
+            target="_blank">
+            <img
+              src="@/assets/androidstore.png"
+              class="icon">
           </a>
         </div>
       </div>
-      <chat-box v-if='false && isLoggedIn'/>
-</div>
-<transition name="fade" mode="out-in">
-  <router-view class="view"></router-view>
-</transition>
+      <div class="row">
+        <transition
+          name="fade"
+          mode="out-in">
+          <router-view class="view col-md-12" />
+        </transition>
+      </div>
+    </div>
 
-<transition name="fade" mode="out-in">
-  <div class="player-holder" v-show="isPlayerActive">
-    <sticky-player ></sticky-player>
+    <transition
+      name="fade"
+      mode="out-in">
+      <div
+        v-if="isPlayerActive"
+        class="player-holder">
+        <sticky-player />
+      </div>
+    </transition>
   </div>
-</transition>
-
-</div>
 </template>
 
 <script>
@@ -74,6 +99,7 @@ export default {
   margin-right 0.3rem
 
 .main-app
+  max-width 1200px
   margin-top 3rem
 
 .call-to-action
@@ -114,7 +140,7 @@ export default {
   margin 0 auto
 
 body
-  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+  font-family 'Roboto', sans-serif
   font-size 14px
   background-color white
   overflow-y scroll
@@ -138,19 +164,17 @@ a
     padding 15px 5px
   a
     font-size 14px
-    color primary-color
-    line-height 24px
+    line-height 16px
+    padding-top 8px
     transition color .15s ease
     display inline-block
     vertical-align middle
-    font-weight 300
     letter-spacing .075em
-    margin-right 1.8em
+    margin-right 1.3em
     &:hover
-      color secondary-color
+      color primary-color
       text-decoration none
     &.router-link-active
-      color primary-color
       text-decoration underline
     &:nth-child(6)
       margin-right 0
@@ -169,9 +193,8 @@ a
   bottom 0
   left 0
 
-.icon {
-  width: 150px;
-}
+.icon
+  width 150px
 
 .logo
   width 30px
@@ -195,7 +218,6 @@ a
   width 30px
 
 .view
-  max-width 1200px
   margin 0 auto
   position relative
 
@@ -204,24 +226,6 @@ a
 
 .fade-enter, .fade-leave-active
   opacity 0
-
-.online-indicator {
-  float right
-  vertical-align middle
-  font-weight bold
-  letter-spacing .075em
-  font-size: 13px;
-  line-height: 26px;
-  text-transform: uppercase;
-  color: rgb(255, 255, 255);
-  background-color: rgb(35, 170, 90);
-  padding: 0px 8px;
-  border-radius: 2px;
-
-  img {
-    width 15px
-  }
-}
 
 @media (max-width 860px)
   .header .inner
@@ -238,4 +242,7 @@ a
       margin-right 1em
     .github
       display none
+
+.beta-msg
+  margin-bottom 20px
 </style>

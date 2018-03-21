@@ -17,6 +17,25 @@ export default {
     return axios.post(requestUrl, options, config)
   },
 
+  forumThreadLike: ({ commit, getters, state }, { id }) => {
+    const token = getters.getToken
+    if (!token) {
+      alert('You must login to vote')
+      return
+    }
+    // commit('likeComment', { commentId: id, entityId, parentCommentId })
+    return axios.post(`${BASE_URL}/forum/${id}/upvote`, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then((response) => {
+      const forumThread = response.data.entity
+      console.log('forumThread', forumThread)
+      commit('setForumThread', { entity: forumThread })
+      return response
+    })
+  },
+
   fetchForumThreads ({ getters, commit }) {
     const options = {}
     const token = getters.getToken
@@ -46,7 +65,7 @@ export default {
     return axios.get(`${BASE_URL}/forum/${id}`, options)
       .then((response) => {
         const forumThread = response.data
-        commit('setForumThreads', { list: [forumThread] })
+        commit('setForumThread', { entity: forumThread })
         return { forumThread }
       })
       .catch((error) => {
