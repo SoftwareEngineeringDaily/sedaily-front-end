@@ -33,7 +33,15 @@ export default {
       }
     }).then((response) => {
       const comment = response.data.entity
+      // Tricky since it doesn't come back down with replies:
+      // We have to re-add them
+      const currentComment = state.comments[comment._id]
+      if (currentComment && currentComment.replies) {
+        comment.replies = currentComment.replies
+        console.log('readding replies', comment.replies)
+      }
       commit('setComment', { entity: comment })
+      // commit('resetComments', { entityId })
       return response
     })
   },

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 export function parseIdsIntoComments ({ entityParentCommentIds, commentsMap }) {
   const parentComments = entityParentCommentIds.map(id => {
     // Important that we clone our object so we dont modify replies in original:
@@ -13,3 +14,17 @@ export function parseIdsIntoComments ({ entityParentCommentIds, commentsMap }) {
   })
   return parentComments
 }// Lets get parentCommentIds
+
+export function repliesToIds ({ state, replies }) {
+  if (!replies) return []
+  // This means replies is already array of ids:
+  if (replies.length >= 0 && typeof replies[0] === 'string') return replies
+  replies.forEach(reply => {
+    if (reply) {
+      Vue.set(state.comments, reply._id, reply)
+    }
+  })
+  // Set replies to ids list:
+  const replyIds = replies.map((entity) => entity._id)
+  return replyIds
+}

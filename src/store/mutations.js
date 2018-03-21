@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import find from 'lodash/find'
+import { repliesToIds } from '@/utils/comment.utils'
 
 export default {
 
@@ -35,10 +36,17 @@ export default {
     if (!state.entityComments[comment.rootEntity]) {
       Vue.set(state.entityComments, comment.rootEntity, [])
     }
-    state.entityComments[comment.entityId].unshift(comment)
+    state.entityComments[comment.rootEntity].unshift(comment)
   },*/
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
+  },
+
+  // Helper function to force reresh:
+  resetComments: (state, { entityId }) => {
+    const temp = state.entityComments[entityId]
+    Vue.set(state.entityComments, entityId, [])
+    Vue.set(state.entityComments, entityId, temp)
   },
 
   setComments: (state, { comments, entityId }) => {
@@ -47,14 +55,7 @@ export default {
         Vue.set(state.comments, comment._id, comment)
         if (!comment.replies) return
         // Loop to get replies:
-        comment.replies.forEach(reply => {
-          if (reply) {
-            Vue.set(state.comments, reply._id, reply)
-          }
-        })
-        // Set replies to ids list:
-        const replyIds = comment.replies.map((entity) => entity._id)
-        comment.replies = replyIds
+        comment.replies = repliesToIds({ state, replies: comment.replies })
       }
     })
     const ids = comments.map((entity) => entity._id)
@@ -71,6 +72,12 @@ export default {
   },
 
   setComment: (state, { entity }) => {
+    const comment = entity
+    if (comment.replies) {
+      comment.replies = repliesToIds({ state,
+        replies: comment.replies
+      })
+    }
     Vue.set(state.comments, entity._id, entity)
   },
 
