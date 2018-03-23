@@ -48,10 +48,20 @@ export default {
     return {}
   },
   methods: {
-    ...mapActions(['forumThreadLike']),
+    ...mapActions(['fetchForumThreads', 'forumThreadLike', 'forumThreadRemove']),
 
     removeMyThread () {
-      console.log('remove!!!!!!!')
+      // TODO: pass this in from parent
+      this.forumThreadRemove({
+        id: this.forumThread._id
+      }).then(() => {
+        // TODO: pass this in from parent
+        console.log('Fetching forum threads after deleting')
+        return this.fetchForumThreads()
+      }).catch((error) => {
+        console.log(error)
+        alert('Error deleting :(')
+      })
     },
 
     upvoteHandler () {

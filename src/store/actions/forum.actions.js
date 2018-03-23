@@ -36,6 +36,19 @@ export default {
     })
   },
 
+  forumThreadRemove: ({ commit, getters, state }, { id }) => {
+    const token = getters.getToken
+    if (!token) {
+      alert('Login to delete.')
+      return
+    }
+    return axios.delete(`${BASE_URL}/forum/${id}`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  },
+
   fetchForumThreads ({ getters, commit }) {
     const options = {}
     const token = getters.getToken
