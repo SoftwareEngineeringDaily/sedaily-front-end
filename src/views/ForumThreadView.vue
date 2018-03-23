@@ -26,8 +26,7 @@
           <h3 class='section-title'> Comments </h3>
           <comments-list :comments='comments' :rootEntityType='"forumthread"'></comments-list>
         </div>
-
-            </div>
+      </div>
     </div>
   </div>
   </div>

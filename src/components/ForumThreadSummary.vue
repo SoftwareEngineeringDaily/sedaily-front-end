@@ -21,6 +21,9 @@
              {{forumThread.commentsCount}} comments
            </router-link>
          </span>
+         <span v-if="isMyCreation" class='misc-detail'>
+          <span @click='removeMyThread'>Delete</span>
+        </span>
       </div>
     </span>
 </div>
@@ -29,7 +32,7 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'ForumThreadSummary',
   components: {
@@ -46,6 +49,11 @@ export default {
   },
   methods: {
     ...mapActions(['forumThreadLike']),
+
+    removeMyThread () {
+      console.log('remove!!!!!!!')
+    },
+
     upvoteHandler () {
       this.forumThreadLike({
         id: this.forumThread._id
@@ -53,6 +61,18 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
+
+    isMyCreation () {
+      if (!this.me._id) return false
+      console.log('forumThread', this.forumThread)
+      return this.me._id === this.forumThread.author._id
+    },
+
     creationDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateCreated)
