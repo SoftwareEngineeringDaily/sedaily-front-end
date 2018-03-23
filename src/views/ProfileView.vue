@@ -42,24 +42,26 @@ export default {
     }
   },
 
-  beforeMount () {
-    this.loading = true
-    this.fetchMyProfileData()
-      .then(() => {
-        return this.fetchProfileFeed({ userId: this.me._id })
+  methods: {
+    ...mapActions(['fetchProfileFeed']),
+    loadProfileFeed () {
+      if (this.me && this.me._id) {
+        this.loading = true
+        return this
+          .fetchProfileFeed({ userId: this.me._id })
           .then(() => {
             this.loading = false
             this.error = null
           })
-      })
-      .catch((error) => {
-        this.error = error.response.data.message
-        this.loading = false
-      })
+      }
+    }
   },
 
-  methods: {
-    ...mapActions(['fetchMyProfileData', 'fetchProfileFeed'])
+  watch: {
+    me: {
+      immediate: 'true',
+      handler: 'loadProfileFeed'
+    }
   },
 
   computed: {

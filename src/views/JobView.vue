@@ -1,6 +1,7 @@
 <template>
   <div>
     <job-apply-modal
+      v-if="job"
       :id="'jobApplyModal'"
       :title="job.title"
       :jobId="jobId"
@@ -13,10 +14,10 @@
         <div v-else-if="error">
           <div class="bg-danger"> Error: {{ error }}</div>
         </div>
-        <div v-else-if="job.isDeleted">
+        <div v-else-if="job && job.isDeleted">
           <div class="bg-warning"> You previously deleted the job: {{ job.title }}</div>
         </div>
-        <div v-else class="col-md-10 offset-md-1">
+        <div v-else-if="job" class="col-md-10 offset-md-1">
           <h4 class="row">{{ job.title }} - {{ job.employmentType }}</h4>
           <div class="row">{{ job.companyName }} - {{ job.location }}
             <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>
@@ -80,18 +81,15 @@ export default {
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['fetchMyProfileData', 'fetchJob']),
+    ...mapActions(['fetchJob']),
     fetchData () {
       this.loading = true
-      const promiseActions = [this.fetchJob({ jobId: this.jobId })]
-      if (this.isLoggedIn) {
-        promiseActions.push(this.fetchMyProfileData())
-      }
-
-      Promise.all(promiseActions).then((responses) => {
-        this.job = responses[0].data
-        this.error = null
-      })
+      this
+        .fetchJob({ jobId: this.jobId })
+        .then((response) => {
+          this.job = response.data
+          this.error = null
+        })
         .catch((error) => {
           this.error = error.response.data.message
         })

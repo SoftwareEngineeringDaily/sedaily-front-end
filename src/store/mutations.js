@@ -16,7 +16,7 @@ export default {
     state.activeType = type
   },
 
-  setMe: (state, { me }) => {
+  setMe: (state, me) => {
     state.me = me
   },
 
@@ -166,7 +166,7 @@ export default {
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
-  setToken: (state, { token }) => {
+  setToken: (state, token) => {
     localStorage.setItem('token', token)
     state.token = token
   },
