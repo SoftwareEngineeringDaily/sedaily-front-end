@@ -76,6 +76,15 @@
           placeholder="yourWebsite.com">
         </div>
 
+        <div class="form-group">
+          <!-- I really shouldn't use center here but it works for now -->
+          <center><label for="allowNewsletter">Register for newsletter?</label></center>
+          <input type="checkbox" v-model='newsletter'
+          id="allowNewsletter"
+          class="form-control"
+          aria-describedby="newsletterHelp">
+        </div>
+
         <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
       </form>
 
@@ -117,6 +126,7 @@ export default {
       email: '',
       bio: '',
       website: '',
+      newsletter: true,
       loading: false
     }
   },
@@ -126,14 +136,15 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, password } = this
-          this.register({
+          const { username, email, bio, website, name, password, newsletter } = this
+          this.$store.dispatch('register', {
             username,
             password,
             name,
             bio,
             website,
-            email
+            email,
+            newsletter
           })
             .then((response) => {
               this.loading = false

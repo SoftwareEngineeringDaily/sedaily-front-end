@@ -21,14 +21,19 @@ export default {
       })
   },
 
-  register: ({ commit, state, dispatch }, { password, username, bio, website, name, email }) => {
+  logout: ({ commit }) => {
+    commit('setToken', { token: '' })
+  },
+
+  register: ({ commit, state, dispatch }, { password, username, bio, website, name, email, newsletter }) => {
     return axios.post(`${BASE_URL}/auth/register`, {
       username,
       bio,
       password,
       website,
       name,
-      email
+      email,
+      newsletter
     })
       .then((response) => {
         commit('setToken', response.data.token)
