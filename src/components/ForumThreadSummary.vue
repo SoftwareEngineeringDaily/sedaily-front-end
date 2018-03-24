@@ -1,26 +1,29 @@
 <template>
   <div class='forum-summary-container row'>
+    <span class="col-sm-1">
+      <profile-label
+        :userData="forumThread.author"
+        :showName="false" />
+    </span>
 
     <span class="col-sm-1">
       <voting-arrows
-      :upvoteHandler="upvoteHandler"
-      :upvoted="forumThread.upvoted"
-      :score="forumThread.score">
-    </voting-arrows>
-  </span>
+        :upvoteHandler="upvoteHandler"
+        :upvoted="forumThread.upvoted"
+        :score="forumThread.score">
+      </voting-arrows>
+    </span>
+
     <span class="col-sm-8">
       <div class='forum-summary-title'>
         <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
       </div>
-      <div class='forum-summary-misc'>
-        by <span>{{forumThread.author.name}}</span>
-        <span class='misc-detail' >{{creationDate}} </span>
-        <span class='comments-count misc-detail'>
-          <router-link :to="'/forum/' + forumThread._id"
-          class='forum-summary-misc'>
-             {{forumThread.commentsCount}} comments
-           </router-link>
-         </span>
+      <div class='forum-thread-misc'>
+        Posted by <span>{{forumThread.author.name}}</span>
+        <div class="bullet-point">&#9679;</div>
+        <span class='misc-detail'>{{creationDate}}</span>
+        <div class="bullet-point">&#9679;</div>
+        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
       </div>
     </span>
 </div>
@@ -29,10 +32,13 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows.vue'
+import ProfileLabel from 'components/ProfileLabel.vue'
 import { mapActions } from 'vuex'
+
 export default {
   name: 'ForumThreadSummary',
   components: {
+    ProfileLabel,
     VotingArrows
   },
   props: {
@@ -65,14 +71,20 @@ export default {
 
 <style scoped lang="stylus">
 .forum-summary-container
-  padding 1rem
   .forum-summary-title a
     font-weight 300
     font-size 1.5rem
     color #591f94
-.forum-summary-misc
-  font-size 1em
+
+.forum-thread-misc
+  font-size 0.8rem
   color darkgrey
-.misc-detail
-  padding-left 1rem
+  margin-bottom 1rem
+
+.bullet-point
+  display inline-flex
+  font-size 0.65em
+  min-height 20px
+  margin-left 5px
+  margin-right 5px
 </style>

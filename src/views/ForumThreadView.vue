@@ -4,13 +4,16 @@
       <div class='forum-thread-title'>
         {{forumThread.title}}
       </div>
-      <p class='forum-thread-content'>
-        {{forumThread.content}}
-      </p>
+      <hr />
+      <div class='forum-thread-content'>
+        <div v-html="compiledMarkdown" />
+      </div>
 
       <div class='forum-thread-misc'>
         Posted by <span>{{forumThread.author.name}}</span>
-        <span class='misc-detail' >{{creationDate}} </span>
+        <div class="bullet-point">&#9679;</div>
+        <span class='misc-detail'>{{creationDate}}</span>
+        <div class="bullet-point">&#9679;</div>
         <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
       </div>
 
@@ -30,7 +33,6 @@
             </div>
     </div>
   </div>
-  </div>
 </template>
 
 <script>
@@ -40,6 +42,8 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import { parseIdsIntoComments } from '@/utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import marked from 'marked'
+
 export default {
   name: 'forum-thread-view',
   components: { Spinner, CommentsList, CommentCompose },
@@ -56,6 +60,9 @@ export default {
         return moment(this.forumThread.dateCreated)
           .startOf('hour').fromNow()
       }
+    },
+    compiledMarkdown () {
+      return marked(this.forumThread.content)
     },
     forumThread () {
       return this.$store.state.forumThreads[this.$route.params.id]
@@ -101,14 +108,25 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../css/variables'
+
 .forum-thread-title
   font-size 2.6rem
   font-weight 200
+
 .forum-thread-content
   font-size 1.5rem
   font-weight 200
+
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
   margin-bottom 2rem
+
+.bullet-point
+  display inline-flex
+  font-size 0.65em
+  min-height 20px
+  margin-left 5px
+  margin-right 5px
+
 </style>

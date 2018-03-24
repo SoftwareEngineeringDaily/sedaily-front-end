@@ -1,12 +1,22 @@
 <template>
   <div>
-    <h1 class='col-md-12'> Forum </h1>
-    <br />
-    <div class='col-md-7'>
-    <forum-thread-compose v-if="isLoggedIn"></forum-thread-compose>
+    <div class="row">
+      <div class="col-sm-10 offset-sm-2">
+        <button
+          @click="$router.push('/new-thread')"
+          class="create-post">
+          <i class="material-icons create-post-icon">border_color</i>
+          <span class="create-post-text">Create New Post</span>
+        </button>
+      </div>
     </div>
-    <div class="forum-threads col-md-12">
-      <forum-thread-summary v-for="forumThread in forumThreads" :key="forumThread._id" :forumThread="forumThread"/>
+    <div class="row">
+      <div class="forum-threads col-sm-12">
+        <forum-thread-summary
+          v-for="forumThread in forumThreads"
+          :key="forumThread._id"
+          :forumThread="forumThread"/>
+      </div>
     </div>
   </div>
 </template>
@@ -15,6 +25,7 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ForumThreadSummary from '@/components/ForumThreadSummary'
 import ForumThreadCompose from '@/components/ForumThreadCompose'
+
 export default {
   name: 'forum',
   components: {
@@ -55,6 +66,26 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import '../css/variables'
+
+.create-post
+  border 2px solid primary-color
+  border-radius 5px
+  background-color white
+  color primary-color
+  padding 10px
+  cursor pointer
+  display flex
+  align-items center
+  justify-content center
+
+.create-post-text
+  align-self center
+  margin-left 5px
+  height 100%
+  font-weight bold
+  font-size 0.9em
+
 .forum-threads
   margin-top 30px
 </style>
