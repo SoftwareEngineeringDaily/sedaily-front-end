@@ -59,7 +59,7 @@ const router = new Router({
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
     { path: '/forum', component: Forum },
-    { path: '/new-thread', component: NewForumThreadView },
+    { path: '/new-thread', beforeEnter: authorize, component: NewForumThreadView },
     { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },
     { path: '/admin', beforeEnter: authorize, component: AdminDashboard },
     { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },

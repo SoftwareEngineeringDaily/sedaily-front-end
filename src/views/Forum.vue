@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="row">
+    <div
+      class="row"
+      v-if="isLoggedIn">
       <div class="col-sm-10 offset-sm-2">
         <button
           @click="$router.push('/new-thread')"
