@@ -21,7 +21,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix",
     "deploy": "git subtree push --prefix dist heroku master",
-    "staging-deploy2": "git push staging `git subtree split --prefix dist master`:master --force",
+    "staging-deploy2": "git push staging `git subtree split --prefix dist develop`:master --force",
     "deploy2": "git push heroku `git subtree split --prefix dist master`:master --force"
   },
   "dependencies": {
@@ -38,6 +38,7 @@
     "vue-slider-component": "^2.5.3",
     "vue-social-sharing": "^2.3.3",
     "vue-stripe-elements-plus": "^0.2.7",
+    "vue-toasted": "^1.1.24",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },

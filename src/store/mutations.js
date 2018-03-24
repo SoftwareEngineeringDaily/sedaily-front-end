@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import find from 'lodash/find'
+import { repliesToIds } from '@/utils/comment.utils'
 
 export default {
 
@@ -15,7 +16,7 @@ export default {
     state.activeType = type
   },
 
-  setMe: (state, { me }) => {
+  setMe: (state, me) => {
     state.me = me
   },
 
@@ -35,14 +36,24 @@ export default {
     if (!state.entityComments[comment.rootEntity]) {
       Vue.set(state.entityComments, comment.rootEntity, [])
     }
-    state.entityComments[comment.entityId].unshift(comment)
+    state.entityComments[comment.rootEntity].unshift(comment)
   },*/
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
 
   setComments: (state, { comments, entityId }) => {
-    Vue.set(state.entityComments, entityId, comments)
+    comments.forEach(comment => {
+      if (comment) {
+        Vue.set(state.comments, comment._id, comment)
+        if (!comment.replies) return
+        // Loop to get replies:
+        comment.replies = repliesToIds({ state, replies: comment.replies })
+      }
+    })
+    const ids = comments.map((entity) => entity._id)
+    //  Only set top level comments:
+    Vue.set(state.entityComments, entityId, ids)
   },
 
   setRelatedLinks: (state, { relatedLinks, postId }) => {
@@ -53,12 +64,28 @@ export default {
     state.feed = feedItems
   },
 
+  setComment: (state, { entity }) => {
+    const comment = entity
+    if (comment.replies) {
+      comment.replies = repliesToIds({ state,
+        replies: comment.replies
+      })
+    }
+    Vue.set(state.comments, entity._id, entity)
+  },
+
+  setForumThread: (state, { entity }) => {
+    Vue.set(state.forumThreads, entity._id, entity)
+  },
   setForumThreads: (state, { list }) => {
     list.forEach(entity => {
       if (entity) {
         Vue.set(state.forumThreads, entity._id, entity)
       }
     })
+    const ids = list.map((thread) => thread._id)
+    console.log('ids', ids)
+    Vue.set(state, 'forumThreadIdsList', ids)
   },
 
   setPosts: (state, { posts }) => {
@@ -67,45 +94,6 @@ export default {
         Vue.set(state.posts, post._id, post)
       }
     })
-  },
-
-  // TODO: This is a bit uggly, will need to refactor:
-  likeComment: (state, { commentId, entityId, parentCommentId }) => {
-    let incrementValue = 1
-    // First let's find our comment:
-    let entity
-
-    const parentComments = state.entityComments[entityId]
-    // Weird error if this is not defiend:
-    if (!parentComments) return
-    if (!parentCommentId) {
-      // We are a root level comment so it's easy
-      entity = find(parentComments, (comment) => {
-        return comment._id === commentId
-      })
-      if (!entity) return
-    } else {
-      // First we need to find our parent:
-      const parentComment = find(parentComments, (comment) => {
-        return comment._id === parentCommentId
-      })
-      if (!parentComment) return
-      // Now we can find our actual comment:
-      entity = find(parentComment.replies, (comment) => {
-        return comment._id === commentId
-      })
-      if (!entity) return
-    }
-
-    if (entity.downvoted) incrementValue += 1
-
-    if (entity.upvoted) {
-      entity.score -= incrementValue
-    } else {
-      entity.score += incrementValue
-    }
-    entity.upvoted = !entity.upvoted
-    entity.downvoted = false
   },
 
   upvoteRelatedLink: (state, { id, postId }) => {
@@ -178,7 +166,7 @@ export default {
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted
   },
 
-  setToken: (state, { token }) => {
+  setToken: (state, token) => {
     localStorage.setItem('token', token)
     state.token = token
   },

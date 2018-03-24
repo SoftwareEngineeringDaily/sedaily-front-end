@@ -1,34 +1,18 @@
 <template>
   <header class="header">
     <nav class="inner">
-      <router-link to="/"
-        exact>
-        <img class="logo" src="./../assets/sedaily-logo.png" alt="logo">
-      </router-link>
-
       <router-link
-        to="/jobs"
-        name="jobs-nav-link">Jobs Board</router-link>
-
-      <!-- We are disabling the feed for now
-      <router-link to="/feed"
-        name="feed-nav-link"
-        exact
-        >Feed</router-link>
-      -->
-
-      <!--
-      <router-link to="/forum"
-      name="feed-nav-link"
-      exact
-      >Forum</router-link>
-      -->
+        to="/"
+        class="site-name"
+        exact>
+        Software Daily
+      </router-link>
 
       <span class="dropdown">
         <button
+          id="podcastMenuButton"
           class="btn btn-secondary dropdown-toggle"
           type="button"
-          id="podcastMenuButton"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false">
@@ -37,23 +21,21 @@
         <div
           class="dropdown-menu"
           aria-labelledby="podcastMenuButton">
-          <router-link to="/new"
+          <router-link
+            to="/new"
             class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >New</router-link>
-          <router-link to="/top"
+            exact>New</router-link>
+          <router-link
+            to="/top"
             class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Top</router-link>
+            exact>Top</router-link>
           <router-link to="/recommendations"
             class="dropdown-item"
             name="feed-nav-link"
             exact
             >Recommended</router-link>
-
-          <router-link to="/contributors"
+          <router-link
+            to="/contributors"
             class="dropdown-item"
             name="feed-nav-link"
             exact
@@ -61,39 +43,55 @@
         </div>
       </span>
 
+      <router-link
+        to="/forum"
+        class="feed-nav-link"
+        exact
+      >Forum</router-link>
+
+      <router-link to="/jobs">Jobs</router-link>
+
+      <!-- We are disabling the feed for now
+      <router-link to="/feed"
+        name="feed-nav-link"
+        exact
+        >Feed</router-link>
+      -->
+
       <span class="pull-right">
-        <span v-if="isLoggedIn">
-          <a href='/'
-            name="logouts-nav-link"
-            @click.prevent='logoutHandler'>Logout</a>
-          <router-link to="/profile"
-            name="top-nav-link">Profile</router-link>
-        </span>
-        <span v-else>
-          <router-link to="/login"
-            name="login-nav-link">Login</router-link>
-
-          <router-link to="/register"
-            name="register-nav-link"
-            class="register-nav-link">Register</router-link>
-        </span>
-
-        <router-link v-if='alreadySubscribed'
+        <router-link
+          v-if="alreadySubscribed"
           to="/subscribe"
-          name="top-nav-link"
           class="subscribed">Subscribed</router-link>
 
-        <router-link v-else
+        <router-link
+          v-else
           to="/premium"
-          name="subscribe-nav-link"
           class="call-to-action">Subscribe</router-link>
+
+        <span v-if="isLoggedIn">
+          <a
+            href="/"
+            name="logouts-nav-link"
+            @click.prevent="logoutHandler">Logout</a>
+          <router-link
+            to="/profile">Profile</router-link>
+        </span>
+        <span v-else>
+          <router-link
+            to="/login">Login</router-link>
+
+          <router-link
+            to="/register"
+            class="register-nav-link">Register</router-link>
+        </span>
       </span>
     </nav>
   </header>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'navigation-bar',
@@ -112,24 +110,9 @@ export default {
     })
   },
 
-  beforeMount () {
-    if (this.isLoggedIn) {
-      this.fetchMyProfileData()
-        .then((myData) => {
-        })
-        .catch((error) => {
-          console.log('Error loading my data', error)
-        })
-    }
-  },
-
   methods: {
-    ...mapActions([
-      'logout',
-      'fetchMyProfileData'
-    ]),
     logoutHandler () {
-      this.logout()
+      this.$auth.logout()
       this.$router.replace('/')
     }
   }
@@ -141,8 +124,10 @@ export default {
 
 .btn-secondary
   font-size 14px
-  color primary-color
+  margin-top 8px
   box-shadow none
+  background-color white
+  color black
   &:hover
     border-color white
     color white
@@ -152,18 +137,69 @@ export default {
 
 .show
   .btn-secondary
+    background-color white
     &.dropdown-toggle
       border-color white
       color white
       background-color primary-color
 
+.feed-nav-link
+  margin-left 5px
+
 .header
+  z-index 999
+  top 0
+  left 0
+  right 0
+  .inner
+    max-width 1200px
+    box-sizing border-box
+    margin 0px auto
+    padding 15px 5px
+  a
+    font-size 14px
+    line-height 16px
+    padding-top 8px
+    transition color .15s ease
+    color black
+    display inline-block
+    vertical-align middle
+    letter-spacing .075em
+    margin-right 0.75em
+    &:hover
+      color primary-color
+      text-decoration none
+    &.router-link-active
+      text-decoration underline
+    &:nth-child(6)
+      margin-right 0
+  .github
+    color #fff
+    font-size .9em
+    margin 0
+    float right
+  .site-name
+    text-transform uppercase
+    font-size 32px
+    color #000
+    padding-top 5px
+    line-height 32px
+    letter-spacing normal
+    font-weight bold
+    &:hover
+      text-decoration none
+      color #000
+    &.router-link-active
+      text-decoration none
   .call-to-action
     color white
+    background-color primary-color
+    margin-top 8px
+    border-radius 20px
+    padding-top 4px
     text-decoration none
     margin-right 1em
   .register-nav-link
     margin-right 1em
-  a.router-link-active
-    text-decoration none
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row' v-if="!isLoggedIn">
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='register'>
+      <form class='col-md-6 offset-md-3' @submit.prevent='registerHandler'>
         <h1>Register</h1>
 
         <div class="form-group">
@@ -76,6 +76,15 @@
           placeholder="yourWebsite.com">
         </div>
 
+        <div class="form-group">
+          <!-- I really shouldn't use center here but it works for now -->
+          <center><label for="allowNewsletter">Register for newsletter?</label></center>
+          <input type="checkbox" v-model='newsletter'
+          id="allowNewsletter"
+          class="form-control"
+          aria-describedby="newsletterHelp">
+        </div>
+
         <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
       </form>
 
@@ -90,7 +99,7 @@
     </div>
     <div v-if="isLoggedIn" class="row">
       <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a href="/logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
     <spinner :show="loading"></spinner>
@@ -117,49 +126,25 @@ export default {
       email: '',
       bio: '',
       website: '',
+      newsletter: true,
       loading: false
     }
   },
-  created () {
-    this.fetchData()
-  },
-  watch: {
-    // re-fetch if route changes
-    '$route': 'fetchData'
-  },
   methods: {
-    ...mapActions(['fetchPublicProfileData']),
-    fetchData () {
-      this.loading = true
-      Promise.all([
-        this.fetchPublicProfileData({ userId: this.userId })
-      ])
-        .then((responses) => {
-          /* TODO: Discuss best approach for managing fetched data's state
-             in vuex if it's just being displayed and not interacted with:
-             not in vuex like this.user or in vuex like feed below
-           */
-          this.user = responses[0].data
-        })
-        .catch((error) => {
-          this.error = error.response.data.message
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    },
-    register () {
+    ...mapActions(['register']),
+    registerHandler () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, password } = this
+          const { username, email, bio, website, name, password, newsletter } = this
           this.$store.dispatch('register', {
             username,
             password,
             name,
             bio,
             website,
-            email
+            email,
+            newsletter
           })
             .then((response) => {
               this.loading = false
@@ -177,13 +162,16 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid registration')
+                this.$toasted.error('Invalid registration')
               }
             })
         } else {
           console.log('Failed to validate for registraiotn')
         }
       })
+    },
+    logout () {
+      this.$auth.logout()
     }
   },
   computed: {

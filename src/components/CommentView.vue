@@ -62,10 +62,11 @@ export default {
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
     upvoteHandler () {
+      console.log('entity::', this.comment.rootEntity, this.comment)
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
-        entityId: this.comment.entity
+        entityId: this.comment.rootEntity
       })
     },
     remove () {
@@ -79,7 +80,7 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.$toasted.error('Error deleting :(')
         })
     },
     user (comment) {

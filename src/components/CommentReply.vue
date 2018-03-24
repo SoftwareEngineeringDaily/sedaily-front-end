@@ -36,11 +36,18 @@ export default {
     parentComment: {
       type: Object,
       required: true
+    },
+    rootEntityType: {
+      type: String,
+      required: false
     }
   },
   components: {
     UpdateProfile,
     Spinner
+  },
+  beforeMount () {
+    console.log('rootEntityType--reply', this.rootEntityType)
   },
   data () {
     return {
@@ -65,11 +72,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({
         entityId: this.entityId,
+        rootEntityType: this.rootEntityType,
         parentCommentId: this.parentComment._id,
         content: this.commentContent
       })
@@ -82,7 +90,7 @@ export default {
           })
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          this.$toasted.error(error.response.data.message)
         })
     } }
 }
