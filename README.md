@@ -39,7 +39,7 @@ npm run test:integration
 
 ## end-to-end with backend api
 # in software-engineering-daily-api
-npm run start:test
+npm run start:e2e
 # in this repo
 npm run test:e2e
 
