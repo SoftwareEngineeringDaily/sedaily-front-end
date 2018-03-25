@@ -28,10 +28,21 @@ npm run build --report
 npm run unit
 
 # run integration tests (Work in Progress!)
+
+## interactive
 npm run dev
 # in another terminal
-npm run cy:open # interactive
-npm run cy:run # non-interactive
+npm run cy:open
+
+## browser integration tests
+npm run test:integration
+
+## end-to-end with backend api
+# in software-engineering-daily-api
+npm run start:test
+# in this repo
+npm run test:e2e
+
 ```
 # npm start
 Note this is differnt than the stuff ran on heroku which is inside dist/package.json

@@ -1,5 +1,4 @@
 describe('The Login Page', function () {
-  // TODO: make this test true e2e - would require some tweaks to api code
   it('Successfully logs user in', function () {
     cy.fixture('token').as('tokenJSON')
     cy.server()
@@ -14,13 +13,8 @@ describe('The Login Page', function () {
       url: '/api/posts*',
       response: [],
     })
-    // TODO: remove stub once issue #307 resolved
-    cy.route({
-      method: 'GET',
-      url: '/api/users/*',
-      response: {},
-    })
-    cy.visit('/login')
+    // not able to visit login directly with vue-router, need hash first
+    cy.visit('/#/login')
     cy.fixture('user')
     .then((userJSON) => {
       cy.get('input[name=username]').type(userJSON.user.username)
