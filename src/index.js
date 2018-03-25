@@ -8,10 +8,12 @@ import store from './store'
 import * as filters from './filters'
 
 import { sync } from 'vuex-router-sync'
+import AuthPlugin from './plugins/AuthPlugin'
 import infiniteScroll from 'vue-infinite-scroll'
 import VeeValidate from 'vee-validate'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
+import Toasted from 'vue-toasted'
 
 import 'bootstrap'
 import './css/vendor.scss'
@@ -26,9 +28,23 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(Router)
-
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
+Vue.config.productionTip = false
+
+Vue.use(Toasted, {
+  position: 'bottom-center',
+  theme: 'primary',
+  duration: null,
+  action: {
+    text: 'Close',
+    onClick: (e, toastObject) => {
+      toastObject.goAway(0)
+    }
+  }
+})
+
+Vue.use(AuthPlugin)
 
 Vue.use(VeeValidate, {
   events: 'blur'
@@ -48,5 +64,10 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created () {
+    if (store.getters.isLoggedIn) {
+      store.dispatch('fetchMyProfileData')
+    }
+  }
 })
