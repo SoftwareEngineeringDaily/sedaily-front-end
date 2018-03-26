@@ -15,6 +15,9 @@ import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 import Toasted from 'vue-toasted'
 
+import 'bootstrap'
+import './css/vendor.scss'
+
 // sync the router with the vuex store.
 // this registers `store.state.route`
 sync(store, router)
@@ -46,11 +49,14 @@ Vue.use(AuthPlugin)
 Vue.use(VeeValidate, {
   events: 'blur'
 })
+
 Vue.use(VueAnalytics, {
   id: 'UA-111896817-1',
   checkDuplicatedScript: true,
   router
 })
+
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
