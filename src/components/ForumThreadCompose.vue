@@ -112,32 +112,26 @@ export default {
       this.content = e.target.value
     }, 200),
     submit () {
-      console.log('here------')
       this.errorMsg = null
       return this.$validator.validateAll().then((result) => {
-        console.log('here------1')
         if (result) {
-          console.log('here------2')
           this.isSubmitting = true
           this.forumThreadCreate({
             title: this.title,
             content: this.content
           })
             .then((response) => {
-              console.log('here------3')
               this.content = ''
               this.title = ''
               this.isSubmitting = false
               this.$router.replace('/forum')
             })
             .catch((error) => {
-              console.log('here------4')
               this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
               this.isSubmitting = false
               this.$toasted.error(error.response.data.message)
             })
         } else {
-          console.log('here------5')
           this.errorMsg = 'Sorry there are invalid fields on the form :('
         }
       })
