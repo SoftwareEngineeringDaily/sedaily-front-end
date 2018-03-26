@@ -78,12 +78,13 @@
 
         <div class="form-group">
           <!-- I really shouldn't use center here but it works for now -->
-          <center><label for="allowNewsletter">Register for newsletter?</label></center>
-          <input type="checkbox" v-model='newsletter'
-          id="allowNewsletter"
-          class="form-control"
-          aria-describedby="newsletterHelp">
-        </div>
+          <center>
+            <input type="checkbox" v-model='newsletter'
+            id="allowNewsletter"
+            class=""
+            aria-describedby="newsletterHelp">
+            <label for="allowNewsletter" class="newsletter-text"> Register for newsletter?</label></center>
+          </div>
 
         <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
       </form>
@@ -179,3 +180,8 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="stylus">
+  .newsletter-text
+    padding-left 15px
+</style>
