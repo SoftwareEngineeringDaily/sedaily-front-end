@@ -246,13 +246,13 @@ export default {
             tags
           })
         } else {
-          alert('Invalid fields on form :(')
+          this.$toasted.error('Invalid fields on form :(')
         }
       })
     },
     del () {
       return this.deleteCallback()
-      // alert('TODO: implement delete')
+      // this.$toasted.error('TODO: implement delete')
     }
   },
   computed: {

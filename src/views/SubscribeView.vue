@@ -101,7 +101,7 @@ export default {
     return {
       complete: false,
       planType: 'monthly',
-      loadingUser: true,
+      loadingUser: false,
       processing: false,
       successSubscribingMessage: null,
       justSubscribed: false,
@@ -119,30 +119,21 @@ export default {
       // If user is not logged in we should show
       this.$router.replace('/premium')
     } else {
-      this.fetchMyProfileData()
-        .then((myData) => {
-          console.log('myData', myData)
-          this.loadingUser = false
-          if (!this.alreadySubscribed) {
-            if (wantedToSubscribe()) {
-              this.planType = preSelectedSubscriptionPlan()
-            }
-          } else {
-          // Already subbed
-            unselectSubscriptionPlan()
-          }
-        })
-        .catch((error) => {
-          alert('Error loading user info.')
-          console.log('error loading user', error)
-        })
+      if (!this.alreadySubscribed) {
+        if (wantedToSubscribe()) {
+          this.planType = preSelectedSubscriptionPlan()
+        }
+      } else {
+      // Already subbed
+        unselectSubscriptionPlan()
+      }
     }
   },
 
   components: { Card, Spinner },
 
   methods: {
-    ...mapActions(['createSubscription', 'fetchMyProfileData', 'cancelSubscription']),
+    ...mapActions(['createSubscription', 'cancelSubscription']),
     pay () {
       this.error = null
       this.justCancelled = false
@@ -164,8 +155,6 @@ export default {
           this.justSubscribed = true
           this.successSubscribingMessage = 'Thanks for subscribing!'
           unselectSubscriptionPlan()
-          // Ghetto, to update to Navbar menu button
-          this.fetchMyProfileData()
         })
         .catch((error) => {
         // First we set it just in case as backup
@@ -194,8 +183,6 @@ export default {
           console.log('cancel subscription')
           this.justCancelled = true
           this.successSubscribingMessage = 'Your subscription has been cancelled.'
-          // Ghetto, to update to Navbar menu button
-          this.fetchMyProfileData()
         })
         .catch((error) => {
           console.log('error', error)
