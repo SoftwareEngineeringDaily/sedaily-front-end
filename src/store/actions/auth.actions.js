@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
@@ -10,22 +11,17 @@ export default {
         password
       })
       .then((response) => {
-        commit('setToken', { token: response.data.token })
         return response
       })
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        alert(error.response.data.message)
-        return error
+        Vue.toasted.error(error.response.data.message)
+        return Promise.reject(error)
       })
   },
 
-  logout: ({ commit }) => {
-    commit('setToken', { token: '' })
-  },
-
-  register: ({ commit, state }, { password, username, bio, website, name, email, newsletter }) => {
+  register: ({ commit, state, dispatch }, { password, username, bio, website, name, email, newsletter }) => {
     return axios.post(`${BASE_URL}/auth/register`, {
       username,
       bio,
@@ -36,13 +32,14 @@ export default {
       newsletter
     })
       .then((response) => {
-        commit('setToken', { token: response.data.token })
+        commit('setToken', response.data.token)
+        dispatch('fetchMyProfileData')
         return response
       })
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
         return error
       })
   },

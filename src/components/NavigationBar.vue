@@ -8,20 +8,6 @@
         Software Daily
       </router-link>
 
-      <router-link to="/jobs">Jobs Board</router-link>
-
-      <!-- We are disabling the feed for now
-      <router-link to="/feed"
-        name="feed-nav-link"
-        exact
-        >Feed</router-link>
-      -->
-
-      <router-link to="/forum"
-      name="feed-nav-link"
-      exact
-      >Forum</router-link>
-
       <span class="dropdown">
         <button
           id="podcastMenuButton"
@@ -57,15 +43,30 @@
         </div>
       </span>
 
+      <router-link
+        to="/forum"
+        class="feed-nav-link"
+        exact
+      >Forum</router-link>
+
+      <router-link to="/jobs">Jobs</router-link>
+
+      <!-- We are disabling the feed for now
+      <router-link to="/feed"
+        name="feed-nav-link"
+        exact
+        >Feed</router-link>
+      -->
+
       <span class="pull-right">
         <router-link
           v-if="alreadySubscribed"
-          to="/premium"
+          to="/subscribe"
           class="subscribed">Subscribed</router-link>
 
         <router-link
           v-else
-          to="/subscribe"
+          to="/premium"
           class="call-to-action">Subscribe</router-link>
 
         <span v-if="isLoggedIn">
@@ -90,7 +91,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'navigation-bar',
@@ -109,24 +110,9 @@ export default {
     })
   },
 
-  beforeMount () {
-    if (this.isLoggedIn) {
-      this.fetchMyProfileData()
-        .then((myData) => {
-        })
-        .catch((error) => {
-          console.log('Error loading my data', error)
-        })
-    }
-  },
-
   methods: {
-    ...mapActions([
-      'logout',
-      'fetchMyProfileData'
-    ]),
     logoutHandler () {
-      this.logout()
+      this.$auth.logout()
       this.$router.replace('/')
     }
   }
@@ -140,6 +126,8 @@ export default {
   font-size 14px
   margin-top 8px
   box-shadow none
+  background-color white
+  color black
   &:hover
     border-color white
     color white
@@ -149,17 +137,52 @@ export default {
 
 .show
   .btn-secondary
+    background-color white
     &.dropdown-toggle
       border-color white
       color white
       background-color primary-color
 
+.feed-nav-link
+  margin-left 5px
+
 .header
+  z-index 999
+  top 0
+  left 0
+  right 0
+  .inner
+    max-width 1200px
+    box-sizing border-box
+    margin 0px auto
+    padding 15px 5px
+  a
+    font-size 14px
+    line-height 16px
+    padding-top 8px
+    transition color .15s ease
+    color black
+    display inline-block
+    vertical-align middle
+    letter-spacing .075em
+    margin-right 0.75em
+    &:hover
+      color primary-color
+      text-decoration none
+    &.router-link-active
+      text-decoration underline
+    &:nth-child(6)
+      margin-right 0
+  .github
+    color #fff
+    font-size .9em
+    margin 0
+    float right
   .site-name
     text-transform uppercase
     font-size 32px
     color #000
-    padding-top 0
+    padding-top 5px
     line-height 32px
     letter-spacing normal
     font-weight bold
