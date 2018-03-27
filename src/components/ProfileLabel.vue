@@ -45,5 +45,8 @@
 
 <style scoped lang="stylus">
   .avatar
-    width 50px
+    min-width 30px
+    max-width 30px
+    min-height 30px
+    border-radius 50%
 </style>

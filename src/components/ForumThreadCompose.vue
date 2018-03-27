@@ -2,85 +2,96 @@
   <div>
     <div class="row">
       <div
-        v-if="errorMsg"
-        class="col-12 alert alert-danger">
-        {{ errorMsg }}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-8">
-        <input
-          placeholder='The title of your post'
-          class='forum-title-box'
-          :disabled="isSubmitting"
-          name="title"
-          v-validate="'required'"
-          type='text'
-          v-model='title' />
-      </div>
-    </div>
-
-    <div class="row">
-      <div
-        v-show="errors.has('title')"
-        class="col-sm-6 alert alert-danger">
-        {{ errors.first('title') }}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-8">
-        <textarea placeholder='Your content here..'
-          class='forum-content-box'
-          :disabled="isSubmitting"
-          type='text'
-          name="content"
-          v-validate="'required'"
-          :value="content"
-          @input="update" />
-      </div>
-      <div class="col-sm-2">
-        <div v-if="isSubmitting">
-          <spinner :show="true"></spinner>
-        </div>
-        <div v-else>
-          <button class='button-submit'
-            :disabled="isSubmitting"
-            @click='submit'>Submit Post</button>
-        </div>
-      </div>
-    </div>
-
-    <div
-      v-show="errors.has('content')"
-      class="alert alert-danger">
-      {{ errors.first('content') }}
-    </div>
-
-    <br>
-    <h4>Preview</h4>
-    <br>
-
-    <div class="row">
-      <div
-        class="col-sm-8 md"
-        v-html="compiledMarkdown">
-      </div>
+      v-if="errorMsg"
+      class="col-12 alert alert-danger">
+      {{ errorMsg }}
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <input
+      placeholder='The title of your post'
+      class='forum-title-box'
+      :disabled="isSubmitting"
+      name="title"
+      v-validate="'required'"
+      type='text'
+      v-model='title' />
+    </div>
+  </div>
+
+  <div class="row">
+    <div
+    v-show="errors.has('title')"
+    class="col-sm-6 alert alert-danger">
+    {{ errors.first('title') }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <textarea placeholder='Your content here..'
+    class='forum-content-box'
+    :disabled="isSubmitting"
+    type='text'
+    name="content"
+    v-validate="'required'"
+    :value="content"
+    @input="update" />
+  </div>
+</div>
+
+<div class="row">
+  <div class='col-sm-12'>
+    <span>
+      <div v-if="isSubmitting">
+        <spinner :show="true"></spinner>
+      </div>
+      <span v-else>
+        <button class='button-submit'
+        :disabled="isSubmitting"
+        @click='submit'>Submit Post</button>
+      </span>
+    </span>
+    <transition name="fade">
+      <span class='preview-hint' v-if="shouldShowPreview">
+        See preview below
+      </span>
+    </transition>
+  </div>
+</div>
+
+<div
+v-show="errors.has('content')"
+class="alert alert-danger">
+{{ errors.first('content') }}
+</div>
+
+<br>
+<br>
+<transition name="fade">
+  <div class="row"  v-if="shouldShowPreview">
+    <div class="col-sm-12">
+      <forum-thread-body
+      :title="title"
+      :content="content"></forum-thread-body>
+    </div>
+  </div>
+</transition>
+</div>
 </template>
 
 <script>
 import Spinner from 'components/Spinner'
-import marked from 'marked'
+import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'forum-thread-compose',
   components: {
-    Spinner
+    Spinner, ForumThreadBody
   },
   data () {
     return {
@@ -99,8 +110,9 @@ export default {
         return state.me
       }
     }),
-    compiledMarkdown () {
-      return marked(this.content)
+
+    shouldShowPreview () {
+      return this.title.length > 0 || this.content.length > 0
     }
   },
   methods: {
@@ -108,6 +120,7 @@ export default {
       'forumThreadCreate',
       'fetchForumThreads'
     ]),
+
     update: debounce(function (e) {
       this.content = e.target.value
     }, 200),
@@ -121,12 +134,10 @@ export default {
             content: this.content
           })
             .then((response) => {
-              this.content = null
-              this.title = null
+              this.content = ''
+              this.title = ''
               this.isSubmitting = false
-              // Fetch comments
-              this.fetchForumThreads({
-              })
+              this.$router.replace('/forum')
             })
             .catch((error) => {
               this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
@@ -157,6 +168,12 @@ export default {
 .button-submit
   border 0
 
+.preview-hint
+  padding-top 10px
+  padding-left 20px
+  color #8c8c8c
+  font-family Roboto-Italic
+
 .forum-title-box
   width 100%
   padding 10px
@@ -164,9 +181,11 @@ export default {
   border none
   border-bottom 1px solid #ccc
 
-.md
-  background-color #eee
-  margin 5px
-  padding 10px
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .8s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>
