@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class='forum-thread-title'>New Forum Post</div>
-    <hr />
+    <br />
     <forum-thread-compose />
   </div>
 </template>

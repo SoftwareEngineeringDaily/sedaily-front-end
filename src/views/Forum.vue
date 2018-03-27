@@ -26,13 +26,11 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ForumThreadSummary from '@/components/ForumThreadSummary'
-import ForumThreadCompose from '@/components/ForumThreadCompose'
 
 export default {
   name: 'forum',
   components: {
-    ForumThreadSummary,
-    ForumThreadCompose
+    ForumThreadSummary
   },
   data () {
     return {

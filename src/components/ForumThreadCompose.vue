@@ -71,15 +71,11 @@ class="alert alert-danger">
 <br>
 <br>
 <transition name="fade">
-  <div class='preview' v-if="shouldShowPreview">
-    <h4>Preview</h4>
-    <br>
-    <div class="row">
-      <div class="col-sm-8 md">
-        <forum-thread-body
-        :title="title"
-        :content="content"></forum-thread-body>
-      </div>
+  <div class="row"  v-if="shouldShowPreview">
+    <div class="col-sm-12">
+      <forum-thread-body
+      :title="title"
+      :content="content"></forum-thread-body>
     </div>
   </div>
 </transition>
