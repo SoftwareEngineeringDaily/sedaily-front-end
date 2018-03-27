@@ -2,84 +2,87 @@
   <div>
     <div class="row">
       <div
-        v-if="errorMsg"
-        class="col-12 alert alert-danger">
-        {{ errorMsg }}
-      </div>
+      v-if="errorMsg"
+      class="col-12 alert alert-danger">
+      {{ errorMsg }}
     </div>
+  </div>
 
-    <div class="row">
-      <div class="col-sm-8">
-        <input
-          placeholder='The title of your post'
-          class='forum-title-box'
-          :disabled="isSubmitting"
-          name="title"
-          v-validate="'required'"
-          type='text'
-          v-model='title' />
-      </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <input
+      placeholder='The title of your post'
+      class='forum-title-box'
+      :disabled="isSubmitting"
+      name="title"
+      v-validate="'required'"
+      type='text'
+      v-model='title' />
     </div>
+  </div>
 
-    <div class="row">
-      <div
-        v-show="errors.has('title')"
-        class="col-sm-6 alert alert-danger">
-        {{ errors.first('title') }}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-8">
-        <textarea placeholder='Your content here..'
-          class='forum-content-box'
-          :disabled="isSubmitting"
-          type='text'
-          name="content"
-          v-validate="'required'"
-          :value="content"
-          @input="update" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <div v-if="isSubmitting">
-          <spinner :show="true"></spinner>
-        </div>
-        <div v-else>
-          <button class='button-submit'
-            :disabled="isSubmitting"
-            @click='submit'>Submit Post</button>
-        </div>
-      </div>
-
-    </div>
-
+  <div class="row">
     <div
-      v-show="errors.has('content')"
-      class="alert alert-danger">
-      {{ errors.first('content') }}
-    </div>
+    v-show="errors.has('title')"
+    class="col-sm-6 alert alert-danger">
+    {{ errors.first('title') }}
+  </div>
+</div>
 
-    <br>
-    <br>
-    <h4>Preview</h4>
-    <br>
-    <div class="row">
-      <div class="col-sm-8 md">
+<div class="row">
+  <div class="col-sm-8">
+    <textarea placeholder='Your content here..'
+    class='forum-content-box'
+    :disabled="isSubmitting"
+    type='text'
+    name="content"
+    v-validate="'required'"
+    :value="content"
+    @input="update" />
+  </div>
+</div>
+
+<div class="row">
+    <span class='col-md-2'>
+      <div v-if="isSubmitting">
+        <spinner :show="true"></spinner>
+      </div>
+      <div v-else>
+        <button class='button-submit'
+        :disabled="isSubmitting"
+        @click='submit'>Submit Post</button>
+      </div>
+    </span>
+    <span class='preview-hint col-md-2' v-if="shouldShowPreview">
+      See preview below
+    </span>
+</div>
+
+<div
+v-show="errors.has('content')"
+class="alert alert-danger">
+{{ errors.first('content') }}
+</div>
+
+<br>
+<br>
+<div class='preview' v-if="shouldShowPreview">
+  <h4>Preview</h4>
+  <br>
+  <div class="row">
+    <div class="col-sm-8 md">
       <forum-thread-body
       :title="title"
       :content="content"></forum-thread-body>
-      </div>
     </div>
   </div>
+</div>
+</div>
 </template>
 
 <script>
 import Spinner from 'components/Spinner'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
-import marked from 'marked'
 import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 
@@ -105,8 +108,9 @@ export default {
         return state.me
       }
     }),
-    compiledMarkdown () {
-      return marked(this.content)
+
+    shouldShowPreview () {
+      return this.title.length > 0 || this.content.length > 0
     }
   },
   methods: {
@@ -114,6 +118,7 @@ export default {
       'forumThreadCreate',
       'fetchForumThreads'
     ]),
+
     update: debounce(function (e) {
       this.content = e.target.value
     }, 200),
@@ -160,6 +165,11 @@ export default {
 
 .button-submit
   border 0
+
+.preview-hint
+  padding-top 10px
+  color #8c8c8c
+  font-family Roboto-Italic
 
 .forum-title-box
   width 100%
