@@ -43,19 +43,23 @@
 </div>
 
 <div class="row">
-    <span class='col-md-2'>
+  <div class='col-sm-12'>
+    <span>
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
       </div>
-      <div v-else>
+      <span v-else>
         <button class='button-submit'
         :disabled="isSubmitting"
         @click='submit'>Submit Post</button>
-      </div>
+      </span>
     </span>
-    <span class='preview-hint col-md-2' v-if="shouldShowPreview">
-      See preview below
-    </span>
+    <transition name="fade">
+      <span class='preview-hint' v-if="shouldShowPreview">
+        See preview below
+      </span>
+    </transition>
+  </div>
 </div>
 
 <div
@@ -66,17 +70,19 @@ class="alert alert-danger">
 
 <br>
 <br>
-<div class='preview' v-if="shouldShowPreview">
-  <h4>Preview</h4>
-  <br>
-  <div class="row">
-    <div class="col-sm-8 md">
-      <forum-thread-body
-      :title="title"
-      :content="content"></forum-thread-body>
+<transition name="fade">
+  <div class='preview' v-if="shouldShowPreview">
+    <h4>Preview</h4>
+    <br>
+    <div class="row">
+      <div class="col-sm-8 md">
+        <forum-thread-body
+        :title="title"
+        :content="content"></forum-thread-body>
+      </div>
     </div>
   </div>
-</div>
+</transition>
 </div>
 </template>
 
@@ -168,6 +174,7 @@ export default {
 
 .preview-hint
   padding-top 10px
+  padding-left 20px
   color #8c8c8c
   font-family Roboto-Italic
 
@@ -177,5 +184,12 @@ export default {
   margin-bottom 12px
   border none
   border-bottom 1px solid #ccc
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .8s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>
