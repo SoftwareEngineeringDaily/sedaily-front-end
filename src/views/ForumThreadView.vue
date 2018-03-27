@@ -1,14 +1,9 @@
 <template>
   <div>
     <div v-if="forumThread">
-      <div class='forum-thread-title'>
-        {{forumThread.title}}
-      </div>
-      <hr />
-      <div class='forum-thread-content'>
-        <div v-html="compiledMarkdown" />
-      </div>
-
+      <forum-thread-body
+      :title="forumThread.title"
+      :content="forumThread.content"></forum-thread-body>
       <div class='forum-thread-misc'>
         Posted by <span>{{forumThread.author.name}}</span>
         <div class="bullet-point">&#9679;</div>
@@ -40,13 +35,13 @@ import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
+import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import { parseIdsIntoComments } from '@/utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import marked from 'marked'
 
 export default {
   name: 'forum-thread-view',
-  components: { Spinner, CommentsList, CommentCompose },
+  components: { Spinner, CommentsList, CommentCompose, ForumThreadBody },
   data () {
     return {
       loading: true
@@ -60,9 +55,6 @@ export default {
         return moment(this.forumThread.dateCreated)
           .startOf('hour').fromNow()
       }
-    },
-    compiledMarkdown () {
-      return marked(this.forumThread.content)
     },
     forumThread () {
       return this.$store.state.forumThreads[this.$route.params.id]
@@ -109,13 +101,6 @@ export default {
 <style lang="stylus" scoped>
 @import '../css/variables'
 
-.forum-thread-title
-  font-size 2.6rem
-  font-weight 200
-
-.forum-thread-content
-  font-size 1.5rem
-  font-weight 200
 
 .forum-thread-misc
   font-size 0.8rem

@@ -40,7 +40,10 @@
           :value="content"
           @input="update" />
       </div>
-      <div class="col-sm-2">
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
         <div v-if="isSubmitting">
           <spinner :show="true"></spinner>
         </div>
@@ -50,6 +53,7 @@
             @click='submit'>Submit Post</button>
         </div>
       </div>
+
     </div>
 
     <div
@@ -59,13 +63,14 @@
     </div>
 
     <br>
+    <br>
     <h4>Preview</h4>
     <br>
-
     <div class="row">
-      <div
-        class="col-sm-8 md"
-        v-html="compiledMarkdown">
+      <div class="col-sm-8 md">
+      <forum-thread-body
+      :title="title"
+      :content="content"></forum-thread-body>
       </div>
     </div>
   </div>
@@ -73,6 +78,7 @@
 
 <script>
 import Spinner from 'components/Spinner'
+import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import marked from 'marked'
 import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
@@ -80,7 +86,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'forum-thread-compose',
   components: {
-    Spinner
+    Spinner, ForumThreadBody
   },
   data () {
     return {
@@ -161,10 +167,5 @@ export default {
   margin-bottom 12px
   border none
   border-bottom 1px solid #ccc
-
-.md
-  background-color #eee
-  margin 5px
-  padding 10px
 
 </style>

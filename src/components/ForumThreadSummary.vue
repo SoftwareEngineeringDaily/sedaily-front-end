@@ -1,6 +1,6 @@
 <template>
   <div class='forum-summary-container row'>
-    <span class="col-sm-1">
+    <span class="col-sm-1 profile-avatar">
       <profile-label
         :userData="forumThread.author"
         :showName="false" />
@@ -87,4 +87,7 @@ export default {
   min-height 20px
   margin-left 5px
   margin-right 5px
+.profile-avatar
+  padding-left 50px
+  padding-top 12px
 </style>
