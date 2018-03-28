@@ -67,7 +67,8 @@ export default {
   setComment: (state, { entity }) => {
     const comment = entity
     if (comment.replies) {
-      comment.replies = repliesToIds({ state,
+      comment.replies = repliesToIds({
+        state,
         replies: comment.replies
       })
     }
@@ -175,6 +176,12 @@ export default {
     state.chat.settings.displayBox = !state.chat.settings.displayBox
   },
   addChatMessage: ({ chat }, message) => {
+    const { id } = message
+    const messageExists = chat.messages.find((message) => message.id === id)
+    if (messageExists) {
+      return
+    }
+
     const formatted = { ...message, sent_at: new Date(message.sent_at) } // eslint-disable-line camelcase
     chat.messages.push(formatted)
   },
