@@ -21,13 +21,11 @@
     </div>
   </div>
 
-  <div class="row">
-    <div
+  <div
     v-show="errors.has('title')"
-    class="col-sm-6 alert alert-danger">
+    class="alert alert-danger">
     {{ errors.first('title') }}
   </div>
-</div>
 
 <div class="row">
   <div class="col-sm-8">
@@ -40,6 +38,12 @@
     :value="content"
     @input="update" />
   </div>
+</div>
+
+<div
+v-show="errors.has('content')"
+class="alert alert-danger">
+{{ errors.first('content') }}
 </div>
 
 <div class="row">
@@ -60,12 +64,6 @@
       </span>
     </transition>
   </div>
-</div>
-
-<div
-v-show="errors.has('content')"
-class="alert alert-danger">
-{{ errors.first('content') }}
 </div>
 
 <br>
