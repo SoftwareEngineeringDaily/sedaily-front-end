@@ -61,7 +61,7 @@
         <sticky-player />
       </div>
     </transition>
-    <chat-box v-if='isLoggedIn'/>
+    <chat-box v-if='isLoggedIn && isMeSet'/>
   </div>
 </template>
 
@@ -87,7 +87,7 @@ export default {
     showBeta () {
       return this.$route.path === '/'
     },
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn', 'isMeSet'])
   }
 }
 </script>
