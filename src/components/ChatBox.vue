@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchMyProfileData',
       'connectToChatChannel'
     ]),
     toggleChatBox: function (e) {
@@ -33,7 +32,6 @@ export default {
     }
   },
   async beforeMount () {
-    await this.fetchMyProfileData()
     await this.connectToChatChannel()
   },
   computed: {

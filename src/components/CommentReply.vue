@@ -26,8 +26,6 @@
 </template>
 
 <script>
-/* @flow */
-
 import UpdateProfile from 'components/UpdateProfile.vue'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -38,11 +36,18 @@ export default {
     parentComment: {
       type: Object,
       required: true
+    },
+    rootEntityType: {
+      type: String,
+      required: false
     }
   },
   components: {
     UpdateProfile,
     Spinner
+  },
+  beforeMount () {
+    console.log('rootEntityType--reply', this.rootEntityType)
   },
   data () {
     return {
@@ -60,18 +65,19 @@ export default {
       me (state) {
         return state.me
       },
-      postId (state) {
-        return state.route.params.id
+      entityId (state) {
+        return state.route.params.id // TODO: pass into component
       }
     })
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch', 'fetchMyProfileData']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitComment () {
       this.justSubmitted = true
       this.commentsCreate({
-        postId: this.postId,
+        entityId: this.entityId,
+        rootEntityType: this.rootEntityType,
         parentCommentId: this.parentComment._id,
         content: this.commentContent
       })
@@ -80,11 +86,11 @@ export default {
           // NOTE: this won't work too well once we are paginating comments:
           this.justSubmitted = false
           this.commentsFetch({
-            postId: this.postId
+            entityId: this.entityId
           })
         })
         .catch((error) => {
-          alert(error.response.data.message)
+          this.$toasted.error(error.response.data.message)
         })
     } }
 }

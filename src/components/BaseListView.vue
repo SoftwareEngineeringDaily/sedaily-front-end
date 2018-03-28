@@ -28,7 +28,6 @@
 </template>
 
 <script>
-/* @flow */
 import moment from 'moment'
 import Spinner from 'components/Spinner.vue'
 import PostSummary from 'components/PostSummary.vue'
@@ -113,7 +112,7 @@ export default {
   },
 
   methods: {
-    setSelectedCategory (category: any) {
+    setSelectedCategory (category) {
       this.activeCategory = category
       this.resetPosts()
     },
@@ -123,7 +122,7 @@ export default {
       }
       this.resetPosts()
     },
-    loadMore (newSearch:boolean = false) {
+    loadMore (newSearch = false) {
       if (this.endOfPosts) {
         return
       }
@@ -167,7 +166,7 @@ export default {
       this.loading = false
       this.loadMore(true)
     },
-    playPodcast (post: any) {
+    playPodcast (post) {
       console.log('inside play podacst')
       this.playingPost = post
       console.log(post)

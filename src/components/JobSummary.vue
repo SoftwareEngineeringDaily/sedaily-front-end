@@ -1,23 +1,30 @@
 <template>
   <div class="job-summary">
-        <div class="row job-title">
-          <router-link :to="'/jobs/' + job._id">
-            {{ job.title }} - {{ job.employmentType }}
-          </router-link>
-        </div>
-        <div class="row">
-          {{ job.companyName }} - {{ job.location }}
-          <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>
-        </div>
+    <div class="row job-title">
+      <div class="col-12">
+        <router-link :to="'/jobs/' + job._id">
+          {{ job.title }} - {{ job.employmentType }}
+        </router-link>
+      </div>
+
+    </div>
+    <div class="row">
+       <div class="col-12">
+        {{ job.companyName }} - {{ job.location }}
+        <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>
+       </div>
+    </div>
     <div class="row job-short-description">
-      {{ shortDescription }}
+      <div class="col-12">
+          {{ shortDescription }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-/* @flow */
 import moment from 'moment'
+
 export default {
   name: 'JobSummary',
   props: {

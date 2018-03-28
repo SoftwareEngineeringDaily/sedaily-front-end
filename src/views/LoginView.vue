@@ -1,7 +1,7 @@
 <template>
   <div class="login-view container">
     <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
+      <form v-if="!isLoggedIn" class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Login</h1>
 
 
@@ -41,15 +41,18 @@
           <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
         </div>
       </form>
-    </div>
-
     <spinner :show="loading"></spinner>
+    <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
+      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+    </div>
+  </div>
   </div>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'login',
@@ -65,19 +68,17 @@ export default {
       loading: false
     }
   },
-
   methods: {
     login () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, password } = this
-          this.$store.dispatch('login', {
+          this.$auth.login({
             username,
             password
           })
             .then((response) => {
-              this.loading = false
               if (response.data.token) {
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
@@ -85,16 +86,22 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                alert('Invalid login')
+                this.$toasted.error('Invalid login')
               }
             })
+            .finally(() => { this.loading = false })
         } else {
           console.log('Invalid values..')
           this.loading = false
-          // alert('Please fix the errors')
         }
       })
+    },
+    logout () {
+      this.$auth.logout()
     }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

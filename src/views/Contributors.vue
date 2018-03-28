@@ -143,6 +143,10 @@ export default {
         {
           'name': 'nellycheboi12',
           'github': 'nellycheboi12'
+        },
+        {
+          'name': 'Gabriel Simmer',
+          'github': 'gmemstr'
         }
       ]
     }

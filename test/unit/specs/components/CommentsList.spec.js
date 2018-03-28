@@ -1,6 +1,7 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount, shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
+import router from '@/router'
 import initialState from '@/store/initialState'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentView from '@/components/CommentView.vue'
@@ -24,16 +25,25 @@ describe('CommentsList.vue', (done) => {
 
   it('should render all comments', () => {
     const store = new Vuex.Store({
-      state: initialState,
+      state: {
+        ...initialState,
+        route: {
+          params: {
+            id: 'foo'
+          }
+        }
+      },
+      router,
       getters: {
         isLoggedIn: sandbox.stub().returns(true)
       }
     })
 
-    const wrapper = mount(CommentsList, {
+    const wrapper = shallow(CommentsList, {
       localVue,
       store,
       propsData: {
+        rootEntityType: 'post',
         comments: [
           { _id: 23, upvoted: false, score: 0, content: 'foo', author: 'me' },
           { _id: 36, upvoted: false, score: 0, content: 'bar', author: 'you' }
@@ -55,7 +65,9 @@ describe('CommentsList.vue', (done) => {
     const wrapper = mount(CommentsList, {
       localVue,
       store,
+      router,
       propsData: {
+        rootEntityType: 'post',
         comments: [
           { _id: 23, upvoted: false, score: 0, content: 'foo', author: 'me' }
         ]
@@ -76,7 +88,9 @@ describe('CommentsList.vue', (done) => {
     const wrapper = mount(CommentsList, {
       localVue,
       store,
+      router,
       propsData: {
+        rootEntityType: 'post',
         comments: [
           { _id: 23, upvoted: false, score: 0, content: 'foo', author: 'me' }
         ]

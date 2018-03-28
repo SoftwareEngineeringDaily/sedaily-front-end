@@ -42,7 +42,6 @@
 </template>
 
 <script>
-/* @flow */
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
@@ -96,10 +95,10 @@ export default {
             })
             .catch((error) => {
               this.isSubmitting = false
-              alert(error.response.data.message)
+              this.$toasted.error(error.response.data.message)
             })
         } else {
-          alert('Sorry there was a problem :(')
+          this.$toasted.error('Sorry there was a problem :(')
         }
       })
     }

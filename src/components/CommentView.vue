@@ -26,8 +26,6 @@
 </template>
 
 <script>
-/* @flow */
-
 import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
@@ -64,10 +62,11 @@ export default {
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
     upvoteHandler () {
+      console.log('entity::', this.comment.rootEntity, this.comment)
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
-        postId: this.comment.post
+        entityId: this.comment.rootEntity
       })
     },
     remove () {
@@ -76,15 +75,15 @@ export default {
       })
         .then(() => {
           this.commentsFetch({
-            postId: this.comment.post
+            entityId: this.comment.rootEntity
           })
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.$toasted.error('Error deleting :(')
         })
     },
-    user (comment: {content: string, dateCreated: string, author: {name: string} }) {
+    user (comment) {
       if (comment.author) {
         return comment.author
       } else {
@@ -93,7 +92,7 @@ export default {
       }
     },
 
-    date (comment: {content: string, dateCreated: string, author: {name: string} }) {
+    date (comment) {
       if (comment.dateCreated) {
         return moment(comment.dateCreated).format('LL')
       } else {

@@ -3,39 +3,56 @@
     <voting-arrows
       :upvoted="post.upvoted"
       :downvoted="post.downvoted"
-      :upvoteHandler="upvoteHandler"
-      :downvoteHandler="downvoteHandler"
-      :score="post.score">
-    </voting-arrows>
+      :upvote-handler="upvoteHandler"
+      :downvote-handler="downvoteHandler"
+      :score="post.score" />
     <div class="news-content">
-      <div class="image" :style="imageStyle">
-        <div class="player-controls" v-if="post.mp3">
-          <span class="fa fa-2x fa-play player-control" title="play" @click="play" v-if="canPlay" />
-          <span class="fa fa-2x fa-pause player-control" title="pause" @click="pause" v-if="canPause" />
+      <div
+        :style="imageStyle"
+        class="image">
+        <div
+          v-if="post.mp3"
+          class="player-controls">
+          <span
+            v-if="canPlay"
+            class="fa fa-2x fa-play player-control"
+            title="play"
+            @click="play" />
+          <span
+            v-if="canPause"
+            class="fa fa-2x fa-pause player-control"
+            title="pause"
+            @click="pause" />
         </div>
-        <div class="player-controls" v-else>
-          <span class="fa fa-2x fa-file-text-o text-only" title="Text-only" />
+        <div
+          v-else
+          class="player-controls">
+          <span
+            class="fa fa-2x fa-file-text-o text-only"
+            title="Text-only" />
         </div>
       </div>
 
       <div class="title">
         <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
-          <a :href="post.url" target="_blank">{{ post.title.rendered | decodeString }}</a>
+          <a
+            :href="post.url"
+            target="_blank">{{ post.title.rendered | decodeString }}</a>
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/post/' + post._id + '/' + postUrlTitle ">{{ post.title.rendered | decodeString }}</router-link>
+          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
 
       <div class="meta">
-          <!-- <span v-if="post.type !== 'job'" class="by">
+        <!-- <span v-if="post.type !== 'job'" class="by">
           by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
         </span> -->
         <span class="time">
           <!-- {{ post.time | timeAgo }} ago -->
-          {{date}}
+          {{ date }}
         </span>
         <!-- <span v-if="post.type !== 'job'" class="comments-link">
         | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
@@ -48,7 +65,6 @@
 </template>
 
 <script>
-/* @flow */
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
 import { PlayerState } from './../utils/playerState'
@@ -144,8 +160,8 @@ export default {
   display inline-flex
   flex-direction row
   background-color #fff
-  border-bottom 1px solid #eee
-  border-left 1px solid #eee
+  border-bottom 2px solid #eee
+  border-left 2px solid #eee
   position relative
   line-height 20px
   height 220px
@@ -155,13 +171,16 @@ export default {
     display inline-flex
     flex-direction column
     justify-content center
+    align-items center
     width 80%
     max-width 100%
 
   .image
     display flex
+    align-content  center
     align-items center
     justify-content center
+    box-shadow 0 0 3px 3px #ccc
     height 96px
     width 192px
     .player-controls
@@ -186,8 +205,10 @@ export default {
     .play-icon
       width 80px
   .title
-    border-radius 3px
+    margin-top 10px
     padding 10px
+    width 100%
+    text-align center
     background idle-background
     &:hover
       background primary-color
@@ -201,6 +222,8 @@ export default {
     font-size .85em
     color #999
     margin-top 5px
+    width 100%
+    text-align left
     a
       color #999
       text-decoration underline

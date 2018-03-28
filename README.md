@@ -27,6 +27,9 @@ npm run build --report
 # run selenium tests (working)
 npm run selenium-test
 ```
+# npm start
+Note this is differnt than the stuff ran on heroku which is inside dist/package.json
+
 
 For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
@@ -51,9 +54,6 @@ http://www.seleniumhq.org/download/
 `develop` branch gets pushed to staging
 
 We have an active Slack community that you can reach out to for more information or just to chat with anyone. Check out the [<img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png" alt="Slack Channel" width="20px"/> SED app development](https://softwaredaily.slack.com/app_redirect?channel=sed_app_development) slack channel. Also see the [Open Source Guide](https://softwareengineeringdaily.github.io/).
-
-## Flow
-Flow status is in progress.
 
 ## Pushing to Production
 Remember to `npm run build` and then ** commit all new files** and then `npm run deploy2`
