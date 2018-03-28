@@ -58,6 +58,21 @@ class="alert alert-danger">
         @click='submit'>Submit Post</button>
       </span>
     </span>
+
+    <img
+    class='markdown-icon'
+    v-if="!shouldShowMarkDownHelp"
+    src="@/assets/icons/Aa.png"
+    @click='toggleMarkdownHelp'
+    alt='Markdown Info'>
+
+    <img
+    class='markdown-icon'
+    v-else
+    src="@/assets/icons/x.png"
+    @click='toggleMarkdownHelp'
+    alt='Markdown Info'>
+
     <transition name="fade">
       <span class='preview-hint' v-if="shouldShowPreview">
         See preview below
@@ -67,6 +82,15 @@ class="alert alert-danger">
 </div>
 
 <br>
+<div class="row" v-if="shouldShowMarkDownHelp">
+  <div class="col-md-8 markdown-info">
+    <h2> Markdown Info </h2>
+    <ul>
+      <li> New lines are honored. </li>
+      <li> URSL are auto detected and become clickable. They need http(s). </li>
+    </ul>
+  </div>
+</div>
 <br>
 <transition name="fade">
   <div class="row"  v-if="shouldShowPreview">
@@ -97,6 +121,7 @@ export default {
       content: '',
       errorMsg: null,
       isSubmitting: false,
+      shouldShowMarkDownHelp: false,
       loading: true
     }
   },
@@ -118,6 +143,10 @@ export default {
       'forumThreadCreate',
       'fetchForumThreads'
     ]),
+
+    toggleMarkdownHelp () {
+      this.shouldShowMarkDownHelp = !this.shouldShowMarkDownHelp
+    },
 
     update: debounce(function (e) {
       this.content = e.target.value
@@ -168,7 +197,7 @@ export default {
 
 .preview-hint
   padding-top 10px
-  padding-left 20px
+  padding-left 5px
   color #8c8c8c
   font-family Roboto-Italic
 
@@ -179,9 +208,17 @@ export default {
   border none
   border-bottom 1px solid #ccc
 
+.markdown-icon
+  max-width 15px
+  margin 5px 20px
+  cursor pointer
+.markdown-info
+  background #F9F9F9
+  padding 20px
 .fade-enter-active, .fade-leave-active {
   transition: opacity .8s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
