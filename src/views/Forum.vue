@@ -69,11 +69,11 @@ export default {
 @import '../css/variables'
 
 .create-post
+  padding 10px 20px
   border 2px solid primary-color
   border-radius 5px
   background-color white
   color primary-color
-  padding 10px
   cursor pointer
   display flex
   align-items center
