@@ -58,4 +58,5 @@ export default {
 .no-comments
   padding-top 20px
   color #ccc
+
 </style>

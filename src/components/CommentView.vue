@@ -8,7 +8,7 @@
         :score="comment.score"></voting-arrows>
       </div>
 
-      <div class="col-md-11">
+      <div class="col-md-11 content-area">
         <span v-if='!comment.deleted' class='comment-content'>
           {{comment.content}}
         </span>
@@ -18,11 +18,24 @@
       </div>
     </div>
 
-    <div class='row'>
+    <div class='row misc-detail'>
       <div class='col-md-8 offset-md-1'>
         <profile-label :userData="user(comment)">
         </profile-label>
+
+        <div class="bullet-point">&#9679;</div>
+
         <span class='comment-date'> {{date(comment)}} </span>
+
+
+        <div class="bullet-point">&#9679;</div>
+
+        <span v-if="!isReplying && isLoggedIn">
+          <span class='link' @click="isReplying=!isReplying">Reply</span>
+        </span>
+        <span v-else class='link' @click="isReplying=!isReplying">Cancel</span>
+
+        <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
 
         <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
           Delete
@@ -30,7 +43,7 @@
 
       </div>
     </div>
-    <div class='row' v-if="allowsReplies">
+    <div class='row' v-if="allowsReplies && isReplying">
       <comment-reply v-if="isLoggedIn"
       :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
@@ -60,6 +73,11 @@ export default {
     rootEntityType: {
       type: String,
       required: false
+    }
+  },
+  data () {
+    return {
+      isReplying: false
     }
   },
   computed: {
@@ -117,7 +135,7 @@ export default {
 
     date (comment) {
       if (comment.dateCreated) {
-        return moment(comment.dateCreated).format('LL')
+        return moment(comment.dateCreated).startOf('hour').fromNow()
       } else {
         return 'Now'
       }
@@ -128,15 +146,29 @@ export default {
 
 <style scoped lang="stylus">
 
+.content-area
+  margin-top 20px
+  margin-bottom 30px
+.misc-detail
+  color #9B9B9B
+.link
+  color primary-color
+  cursor pointer
+  padding 5px 8px
 
 .comment-date
   padding-left 10px
-  color #ccc
-
 
 .delete
   color red
   &:hover
     cursor pointer
+
+.bullet-point
+  display inline-flex
+  font-size 0.65em
+  min-height 20px
+  margin-left 5px
+  margin-right 5px
 
 </style>
