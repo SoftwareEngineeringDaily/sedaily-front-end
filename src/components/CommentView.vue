@@ -1,27 +1,37 @@
 <template>
-  <div class='comment'>
-    <span class='content'>
-      <div>
+  <div class='container'>
+    <div class="row">
+      <div class="col-md-1">
         <voting-arrows
-          :upvoteHandler="upvoteHandler"
-          :upvoted="comment.upvoted"
-          :score="comment.score">
-        </voting-arrows>
+        :upvoteHandler="upvoteHandler"
+        :upvoted="comment.upvoted"
+        :score="comment.score"></voting-arrows>
+      </div>
+
+      <div class="col-md-11">
+        <span v-if='!comment.deleted' class='comment-content'>
+          {{comment.content}}
+        </span>
+        <span v-else>
+          <i>Comment has been deleted</i>
+        </span>
+      </div>
+    </div>
+
+    <div class='row'>
+      <div class='col-md-8 offset-md-1'>
         <profile-label :userData="user(comment)">
-          <span class='comment-date'> {{date(comment)}} </span>
         </profile-label>
+        <span class='comment-date'> {{date(comment)}} </span>
+
+        <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
+          Delete
+        </span>
+
       </div>
-      <div v-if='!comment.deleted' class='comment-content'>
-        {{comment.content}}
-      </div>
-      <div v-else>
-        <i>Comment has been deleted</i>
-      </div>
-      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
-        Delete
-      </div>
-    </span>
-    <hr />
+
+    </div>
+
   </div>
 </template>
 
@@ -38,6 +48,9 @@ export default {
     comment: {
       type: Object,
       required: true
+    },
+    hideReply: {
+
     }
   },
   computed: {
@@ -104,34 +117,16 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.comment-content
-  padding 10px
-  padding-left 60px
 
-.arrow
-  color #888
-  &:hover
-    cursor pointer
-    color #3F58AF
-
-  &.active
-    color #3F58AF !important
-    &:hover
-      cursor pointer
-      color #888
 
 .comment-date
   padding-left 10px
   color #ccc
 
-.comment
-  display flex
 
 .delete
   color red
   &:hover
     cursor pointer
 
-.content
-  margin-left 20px
 </style>
