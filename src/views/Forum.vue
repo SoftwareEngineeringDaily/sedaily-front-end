@@ -3,7 +3,7 @@
     <div
       class="row"
       v-if="isLoggedIn">
-      <div class="col-sm-10 offset-sm-2">
+      <div class="col-sm-10 ">
         <button
           @click="$router.push('/new-thread')"
           class="create-post">
