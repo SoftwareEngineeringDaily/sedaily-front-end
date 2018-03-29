@@ -4,14 +4,20 @@
       There are no comments.
     </div>
     <div v-for="comment in comments" :key="comment._id">
-      <comment-view
-      :rootEntityType='rootEntityType'
-      :comment='comment'
-      :allowsReplies="true" ></comment-view>
-      <div class='replies'>
-        <div v-for="replyComment in comment.replies" :key="replyComment._id">
-          <comment-view :comment='replyComment'></comment-view>
-          <br />
+      <div class='row'>
+        <div class='col-md-12'>
+          <comment-view
+          :rootEntityType='rootEntityType'
+          :comment='comment'
+          :allowsReplies="true" ></comment-view>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='replies offset-md-1'>
+          <div v-for="replyComment in comment.replies" :key="replyComment._id">
+            <comment-view :comment='replyComment'></comment-view>
+            <br />
+          </div>
         </div>
       </div>
       <br />
@@ -52,9 +58,7 @@ export default {
 
 <style scoped lang="stylus">
 .replies
-  margin-top 20px
-  margin-left 50px
-  border-left 1px solid #ccc
+  margin-top 50px
 .no-comments
   padding-top 20px
   color #ccc

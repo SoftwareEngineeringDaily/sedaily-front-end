@@ -3,7 +3,7 @@
     <router-link :to="'/profile/' + userData._id">
       <img :src='avatarUrl' class='avatar'/>
     </router-link>
-    <span v-if="showName">{{displayName}}</span>
+    <span v-if="showName" class="name">{{displayName}}</span>
     <slot></slot>
   </span>
 </template>
@@ -45,8 +45,11 @@
 
 <style scoped lang="stylus">
   .avatar
-    min-width 30px
-    max-width 30px
-    min-height 30px
+    margin-top -6px
+    min-width 25px
+    max-width 25px
+    min-height 25px
     border-radius 50%
+  .name
+    margin-left 12px
 </style>

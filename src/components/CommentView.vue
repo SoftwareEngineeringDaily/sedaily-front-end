@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class=''>
     <div class="row">
       <div class="col-md-1">
         <voting-arrows
@@ -8,7 +8,7 @@
         :score="comment.score"></voting-arrows>
       </div>
 
-      <div class="col-md-11 content-area">
+      <div class="col-md-9 content-area">
         <span v-if='!comment.deleted' class='comment-content'>
           {{comment.content}}
         </span>
@@ -160,9 +160,11 @@ export default {
   padding-left 10px
 
 .delete
-  color red
+  padding-left 10px
   &:hover
+    color #8E0505
     cursor pointer
+
 
 .bullet-point
   display inline-flex
