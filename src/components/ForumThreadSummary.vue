@@ -75,10 +75,16 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import '../css/variables'
+
 .forum-summary-container
+  font-family Roboto-Light
   .forum-summary-title a
     font-weight 300
     font-size 1.0rem
+  .forum-summary-title a:hover
+    text-decoration none
+    color primary-color
 
 .forum-thread-misc
   font-size 0.8rem

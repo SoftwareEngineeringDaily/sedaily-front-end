@@ -140,11 +140,13 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import '../css/variables'
 
 .content-area
   margin-top 20px
   margin-bottom 30px
   word-break break-all
+  color #777
 .misc-detail
   color #9B9B9B
 .link
