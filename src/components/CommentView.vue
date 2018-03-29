@@ -29,31 +29,41 @@
         </span>
 
       </div>
+    </div>
+    <div class='row' v-if="allowsReplies">
+      <comment-reply v-if="isLoggedIn"
+      :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
     </div>
-
   </div>
 </template>
 
 <script>
 import moment from 'moment'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
+import CommentReply from 'components/CommentReply.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel },
+  components: { VotingArrows, ProfileLabel, CommentReply },
   props: {
     comment: {
       type: Object,
       required: true
     },
-    hideReply: {
-
+    allowsReplies: {
+      type: Boolean,
+      default: false
+    },
+    rootEntityType: {
+      type: String,
+      required: false
     }
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       isRootLevelComment () {
         return !this.comment.parentComment

@@ -4,13 +4,13 @@
       There are no comments.
     </div>
     <div v-for="comment in comments" :key="comment._id">
-      <comment-view :comment='comment'  ></comment-view>
-      <!-- Replies -->
-      <comment-reply v-if="isLoggedIn"
-      :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
+      <comment-view
+      :rootEntityType='rootEntityType'
+      :comment='comment'
+      :allowsReplies="true" ></comment-view>
       <div class='replies'>
         <div v-for="replyComment in comment.replies" :key="replyComment._id">
-          <comment-view :comment='replyComment' ></comment-view>
+          <comment-view :comment='replyComment'></comment-view>
           <br />
         </div>
       </div>
@@ -21,8 +21,6 @@
 
 <script>
 import CommentView from 'components/CommentView.vue'
-import CommentReply from 'components/CommentReply.vue'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'comments-list',
@@ -40,9 +38,8 @@ export default {
     console.log('rootEntityType--list', this.rootEntityType)
   },
 
-  components: { CommentView, CommentReply },
+  components: { CommentView },
   computed: {
-    ...mapGetters(['isLoggedIn']),
     emptyComments () {
       if (!this.comments || this.comments.length === 0) {
         return true
