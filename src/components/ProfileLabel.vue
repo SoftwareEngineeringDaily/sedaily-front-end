@@ -45,11 +45,12 @@
 
 <style scoped lang="stylus">
   .avatar
-    margin-top -6px
+    margin-top 1px
     min-width 25px
     max-width 25px
     min-height 25px
     border-radius 50%
+    margin-right 5px
   .name
     margin-left 12px
 </style>

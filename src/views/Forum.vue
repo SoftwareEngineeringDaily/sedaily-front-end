@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='forum'>
     <div
       class="row"
       v-if="isLoggedIn">
@@ -87,5 +87,13 @@ export default {
   font-size 0.9em
 
 .forum-threads
-  margin-top 30px
+  margin-top 40px
+
+
+
+@media (min-width: 768px)
+  .forum
+    margin-left 30px
+
+
 </style>
