@@ -58,7 +58,7 @@ export default {
 
 <style scoped lang="stylus">
 .replies
-  margin-top 50px
+  margin-top 35px
 .no-comments
   padding-top 20px
   color #ccc

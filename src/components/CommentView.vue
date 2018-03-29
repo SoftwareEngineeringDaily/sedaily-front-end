@@ -1,20 +1,15 @@
 <template>
   <div class=''>
     <div class="row">
-      <div class="col-md-1">
+      <div class="col-sm-1">
         <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="comment.upvoted"
         :score="comment.score"></voting-arrows>
       </div>
 
-      <div class="col-md-9 content-area">
-        <span v-if='!comment.deleted' class='comment-content'>
+      <div  v-if='!comment.deleted' class="col-md-7 content-area">
           {{comment.content}}
-        </span>
-        <span v-else>
-          <i>Comment has been deleted</i>
-        </span>
       </div>
     </div>
 
@@ -149,10 +144,12 @@ export default {
 .content-area
   margin-top 20px
   margin-bottom 30px
+  word-break break-all
 .misc-detail
   color #9B9B9B
 .link
   color primary-color
+  font-family Roboto-Medium
   cursor pointer
   padding 5px 8px
 
@@ -160,6 +157,7 @@ export default {
   padding-left 10px
 
 .delete
+  font-family Roboto-Medium
   padding-left 10px
   &:hover
     color #8E0505
