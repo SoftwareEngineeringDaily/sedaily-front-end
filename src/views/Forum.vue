@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class='forum'>
     <div
       class="row"
       v-if="isLoggedIn">
-      <div class="col-sm-10 offset-sm-2">
+      <div class="col-sm-10 ">
         <button
           @click="$router.push('/new-thread')"
           class="create-post">
@@ -87,5 +87,13 @@ export default {
   font-size 0.9em
 
 .forum-threads
-  margin-top 30px
+  margin-top 40px
+
+
+
+@media (min-width: 768px)
+  .forum
+    margin-left 30px
+
+
 </style>

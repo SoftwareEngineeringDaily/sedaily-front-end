@@ -1,7 +1,7 @@
 <template>
   <div v-if="me" >
     <div v-if="me.name">
-      <div v-if="expanded" class='reply-container'>
+      <div class='reply-container'>
         <div v-if="justSubmitted">
           Thanks for submitting!
           <spinner :show="true"></spinner>
@@ -14,12 +14,7 @@
           <button class='button-submit-small' @click='submitComment'>
             Reply
           </button>
-          <span class='link' @click="expanded=!expanded">Cancel</span>
         </div>
-
-      </div>
-      <div v-else class='collapsed-area'>
-        <span class='link' @click="expanded=!expanded">Reply</span>
       </div>
     </div>
   </div>
@@ -53,7 +48,6 @@ export default {
     return {
       commentContent: '',
       justSubmitted: false,
-      expanded: false,
       username: null,
       loading: true
     }
@@ -104,11 +98,6 @@ export default {
 .collapsed-area
   margin-left 20px
   margin-top 10px
-
-.link
-  color primary-color
-  cursor pointer
-  padding 5px 8px
 
 .reply-box
   width 100%

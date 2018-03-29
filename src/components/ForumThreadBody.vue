@@ -29,6 +29,9 @@ export default {
   },
   computed: {
     compiledMarkdown () {
+      marked.setOptions({
+        breaks: true
+      })
       return marked(this.content)
     }
   }

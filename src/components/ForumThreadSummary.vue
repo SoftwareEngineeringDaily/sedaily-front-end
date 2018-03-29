@@ -1,12 +1,12 @@
 <template>
   <div class='forum-summary-container row'>
-    <span class="col-sm-1 profile-avatar">
+    <span class="profile-avatar">
       <profile-label
         :userData="forumThread.author"
         :showName="false" />
     </span>
 
-    <span class="col-sm-1">
+    <span class="">
       <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="forumThread.upvoted"
@@ -14,16 +14,21 @@
       </voting-arrows>
     </span>
 
-    <span class="col-sm-8">
-      <div class='forum-summary-title'>
+    <span class="content-holder">
+      <span class='forum-summary-title'>
         <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
-      </div>
+      </span>
       <div class='forum-thread-misc'>
         Posted by <span>{{forumThread.author.name}}</span>
         <div class="bullet-point">&#9679;</div>
         <span class='misc-detail'>{{creationDate}}</span>
         <div class="bullet-point">&#9679;</div>
-        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+
+        <span class='comments-count misc-detail'>
+          <router-link :to="'/forum/' + forumThread._id" class="comments-count-link">
+            {{forumThread.commentsCount}} comments
+          </router-link>
+        </span>
       </div>
     </span>
 </div>
@@ -70,17 +75,26 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import '../css/variables'
+
 .forum-summary-container
+  font-family Roboto-Light
   .forum-summary-title a
     font-weight 300
-    font-size 1.5rem
-    color #591f94
+    font-size 1.0rem
+  .forum-summary-title a:hover
+    text-decoration none
+    color primary-color
 
+.content-holder
+  max-width 70%
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
   margin-bottom 1rem
 
+.comments-count-link
+  color #a9a9a9
 .bullet-point
   display inline-flex
   font-size 0.65em
@@ -88,6 +102,7 @@ export default {
   margin-left 5px
   margin-right 5px
 .profile-avatar
-  padding-left 50px
+  padding-left 20px
   padding-top 12px
+
 </style>
