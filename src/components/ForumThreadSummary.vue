@@ -23,7 +23,12 @@
         <div class="bullet-point">&#9679;</div>
         <span class='misc-detail'>{{creationDate}}</span>
         <div class="bullet-point">&#9679;</div>
-        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+
+        <span class='comments-count misc-detail'>
+          <router-link :to="'/forum/' + forumThread._id" class="comments-count-link">
+            {{forumThread.commentsCount}} comments
+          </router-link>
+        </span>
       </div>
     </span>
 </div>
@@ -73,14 +78,15 @@ export default {
 .forum-summary-container
   .forum-summary-title a
     font-weight 300
-    font-size 1.5rem
-    color #591f94
+    font-size 1.0rem
 
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
   margin-bottom 1rem
 
+.comments-count-link
+  color #a9a9a9
 .bullet-point
   display inline-flex
   font-size 0.65em
