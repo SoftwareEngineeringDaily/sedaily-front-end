@@ -45,7 +45,7 @@
 
 <style scoped lang="stylus">
   .avatar
-    margin-top 1px
+    margin-top -1px
     min-width 25px
     max-width 25px
     min-height 25px

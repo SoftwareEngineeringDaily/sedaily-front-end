@@ -6,7 +6,7 @@
         :showName="false" />
     </span>
 
-    <span class="">
+    <span>
       <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="forumThread.upvoted"

@@ -12,14 +12,12 @@
           :allowsReplies="true" ></comment-view>
         </div>
       </div>
-      <div class='row'>
-        <div class='replies offset-md-1'>
+        <div class='replies'>
           <div v-for="replyComment in comment.replies" :key="replyComment._id">
             <comment-view :comment='replyComment'></comment-view>
             <br />
           </div>
         </div>
-      </div>
       <br />
     </div>
   </div>
@@ -58,7 +56,8 @@ export default {
 
 <style scoped lang="stylus">
 .replies
-  margin-top 35px
+  margin-top 45px
+  margin-left 45px
 .no-comments
   padding-top 20px
   color #ccc
