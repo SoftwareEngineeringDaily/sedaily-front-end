@@ -92,6 +92,7 @@ export default {
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
+  margin-top 4px
   margin-bottom 1rem
 
 .comments-count-link
@@ -106,12 +107,13 @@ export default {
   padding-left 20px
   padding-top 12px
 
+.votes-container
+  padding-top 3px
 
 @media (min-width: 576px)
   .votes-container
     padding 0px 20px
     padding-left 15px
-    padding-top 5px
 
 
 </style>
