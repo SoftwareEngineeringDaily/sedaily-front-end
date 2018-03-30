@@ -6,7 +6,7 @@
         :showName="false" />
     </span>
 
-    <span>
+    <span class='votes-container'>
       <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="forumThread.upvoted"
@@ -88,7 +88,7 @@ export default {
     color primary-color
 
 .content-holder
-  max-width 70%
+  max-width 63%
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
@@ -105,5 +105,13 @@ export default {
 .profile-avatar
   padding-left 20px
   padding-top 12px
+
+
+@media (min-width: 576px)
+  .votes-container
+    padding 0px 20px
+    padding-left 15px
+    padding-top 5px
+
 
 </style>
