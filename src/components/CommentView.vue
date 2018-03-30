@@ -1,27 +1,26 @@
 <template>
-  <div class=''>
+  <div class='comment-holder'>
     <div class="row">
-      <div class="col-sm-1">
+      <span class="arrows">
         <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="comment.upvoted"
         :score="comment.score"></voting-arrows>
-      </div>
+      </span>
 
-      <div  v-if='!comment.deleted' class="col-md-7 content-area">
+      <span class="col-md-7 content-area">
           {{comment.content}}
-      </div>
+      </span>
     </div>
 
     <div class='row misc-detail'>
-      <div class='col-md-8 offset-md-1'>
+      <div class='col-md-8'>
         <profile-label :userData="user(comment)">
         </profile-label>
 
         <div class="bullet-point">&#9679;</div>
 
         <span class='comment-date'> {{date(comment)}} </span>
-
 
         <div class="bullet-point">&#9679;</div>
 
@@ -142,15 +141,19 @@ export default {
 <style scoped lang="stylus">
 @import '../css/variables'
 
+.comment-holder
+  margin-bottom -30px
 .content-area
   margin-top 20px
-  margin-bottom 30px
+  margin-bottom 20px
   word-break break-all
   color #777
+  max-width 65%
 .misc-detail
   color #9B9B9B
   font-size 14px
   font-family Roboto
+  margin-left 30px
 .link
   color primary-color
   font-family Roboto-Medium
