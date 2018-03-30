@@ -12,7 +12,6 @@ module.exports = {
   entry: {
     main: [
       'babel-polyfill',
-      'jquery',
       './src/index.js'
     ]
   },
