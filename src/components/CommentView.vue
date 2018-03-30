@@ -14,7 +14,7 @@
     </div>
 
     <div class='row misc-detail'>
-      <div class='col-md-8'>
+      <div class=''>
         <profile-label :userData="user(comment)">
         </profile-label>
 
@@ -152,7 +152,7 @@ export default {
 .misc-detail
   color #9B9B9B
   font-size 14px
-  margin-left 30px
+  margin-left 45px
 .link
   color primary-color
   font-family Roboto-Medium
