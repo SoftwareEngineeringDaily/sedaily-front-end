@@ -50,7 +50,6 @@
     max-width 25px
     min-height 25px
     border-radius 50%
-    margin-right 5px
   .name
     margin-left 12px
 </style>

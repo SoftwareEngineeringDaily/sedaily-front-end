@@ -92,8 +92,8 @@ export default {
 
 <style scoped lang="stylus">
 .reply-container
-  margin-left 50px
-  margin-top 10px
+  margin-left 40px
+  margin-top 15px
 
 .collapsed-area
   margin-left 20px
