@@ -22,10 +22,10 @@
 
         <span class='comment-date'> {{date(comment)}} </span>
 
-        <div class="bullet-point">&#9679;</div>
+        <div v-if="allowsReplies" class="bullet-point">&#9679;</div>
 
         <span v-if="!isReplying && isLoggedIn">
-          <span class='link' @click="isReplying=!isReplying">Reply</span>
+          <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
         </span>
         <span v-else class='link' @click="isReplying=!isReplying">Cancel</span>
 
