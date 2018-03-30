@@ -1,7 +1,7 @@
 <template>
   <div class='comment-holder'>
-    <div class="row">
-      <span class="arrows">
+    <div class="row ">
+      <span class="arrows voting-container">
         <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="comment.upvoted"
@@ -14,7 +14,7 @@
     </div>
 
     <div class='row misc-detail'>
-      <div class='col-md-8'>
+      <div class=''>
         <profile-label :userData="user(comment)">
         </profile-label>
 
@@ -22,10 +22,10 @@
 
         <span class='comment-date'> {{date(comment)}} </span>
 
-        <div class="bullet-point">&#9679;</div>
+        <div v-if="allowsReplies" class="bullet-point">&#9679;</div>
 
         <span v-if="!isReplying && isLoggedIn">
-          <span class='link' @click="isReplying=!isReplying">Reply</span>
+          <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
         </span>
         <span v-else class='link' @click="isReplying=!isReplying">Cancel</span>
 
@@ -140,7 +140,8 @@ export default {
 
 <style scoped lang="stylus">
 @import '../css/variables'
-
+.voting-container
+  margin-top 20px
 .comment-holder
   margin-bottom -30px
 .content-area
@@ -152,8 +153,7 @@ export default {
 .misc-detail
   color #9B9B9B
   font-size 14px
-  font-family Roboto
-  margin-left 30px
+  margin-left 45px
 .link
   color primary-color
   font-family Roboto-Medium
