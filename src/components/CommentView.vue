@@ -149,6 +149,8 @@ export default {
   color #777
 .misc-detail
   color #9B9B9B
+  font-size 14px
+  font-family Roboto
 .link
   color primary-color
   font-family Roboto-Medium
