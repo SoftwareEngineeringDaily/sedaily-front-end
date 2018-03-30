@@ -80,6 +80,7 @@ export default {
 .forum-summary-container
   font-family Roboto-Light
   .forum-summary-title a
+    color #000
     font-weight 300
     font-size 1.0rem
   .forum-summary-title a:hover
