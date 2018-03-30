@@ -1,7 +1,7 @@
 
 <template>
   <div class="row">
-    <div class="col-sm-8 md">
+    <div class="col-sm-9">
       <div class='forum-thread-title'>
         {{title}}
       </div>

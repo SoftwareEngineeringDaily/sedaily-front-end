@@ -8,7 +8,7 @@
         :score="comment.score"></voting-arrows>
       </span>
 
-      <span class="col-md-7 content-area">
+      <span class="col-md-8 content-area">
           {{comment.content}}
       </span>
     </div>
