@@ -1,5 +1,5 @@
 <template>
-  <div v-if="me" >
+  <div v-if="me" class="col-md-8">
     <div v-if="me.name">
       <div class='reply-container'>
         <div v-if="justSubmitted">
