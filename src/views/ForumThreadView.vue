@@ -13,7 +13,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
           <comment-compose v-if="isLoggedIn" :rootEntityType='"forumthread"'></comment-compose>
         </div>
       </div>
