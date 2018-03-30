@@ -12,7 +12,8 @@
         </button>
       </div>
     </div>
-    <div class="row">
+    <spinner v-if="loading" :show="loading"></spinner>
+    <div class="row" v-else>
       <div class="forum-threads col-sm-12">
         <forum-thread-summary
           v-for="forumThread in forumThreads"
@@ -25,12 +26,14 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+import Spinner from '@/components/Spinner.vue'
 import ForumThreadSummary from '@/components/ForumThreadSummary'
 
 export default {
   name: 'forum',
   components: {
-    ForumThreadSummary
+    ForumThreadSummary,
+    Spinner
   },
   data () {
     return {
