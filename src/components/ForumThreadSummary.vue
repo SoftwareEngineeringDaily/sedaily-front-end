@@ -92,7 +92,7 @@ export default {
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
-  margin-top 4px
+  margin-top 3px
   margin-bottom 1rem
 
 .comments-count-link

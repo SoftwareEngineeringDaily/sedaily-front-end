@@ -1,7 +1,7 @@
 <template>
   <div class='comment-holder'>
-    <div class="row">
-      <span class="arrows">
+    <div class="row ">
+      <span class="arrows voting-container">
         <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="comment.upvoted"
@@ -140,7 +140,8 @@ export default {
 
 <style scoped lang="stylus">
 @import '../css/variables'
-
+.voting-container
+  margin-top 20px
 .comment-holder
   margin-bottom -30px
 .content-area
