@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="emptyComments" class='no-comments'>
+    <div v-if="loading" class="spinner-holder">
+      <spinner />
+    </div>
+    <div v-else-if="emptyComments" class='no-comments'>
       There are no comments.
     </div>
-    <div v-for="comment in comments" :key="comment._id">
+    <div v-else v-for="comment in comments" :key="comment._id">
       <div class='row'>
         <div class='col-md-12'>
           <comment-view
@@ -25,6 +28,7 @@
 
 <script>
 import CommentView from 'components/CommentView.vue'
+import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: 'comments-list',
@@ -36,13 +40,18 @@ export default {
     rootEntityType: {
       type: String,
       required: false
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   beforeMount () {
     console.log('rootEntityType--list', this.rootEntityType)
   },
 
-  components: { CommentView },
+  components: { CommentView, Spinner },
   computed: {
     emptyComments () {
       if (!this.comments || this.comments.length === 0) {

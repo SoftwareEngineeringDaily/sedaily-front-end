@@ -1,9 +1,13 @@
 <template>
   <div>
+    <div class="spinner-holder">
+      <spinner :show="isLoading"></spinner>
+    </div>
     <div v-if="forumThread">
       <forum-thread-body
-      :title="forumThread.title"
-      :content="forumThread.content"></forum-thread-body>
+        :title="forumThread.title"
+        :content="forumThread.content" />
+
       <div class='forum-thread-misc'>
         Posted by <span>{{forumThread.author.name}}</span>
         <div class="bullet-point">&#9679;</div>
@@ -14,17 +18,23 @@
 
       <div class="row">
         <div class="col-md-9">
-          <comment-compose v-if="isLoggedIn" :rootEntityType='"forumthread"'></comment-compose>
+          <comment-compose
+            v-if="isLoggedIn"
+            :rootEntityType='"forumthread"' />
         </div>
       </div>
-      <br />
-      <br />
+
+      <br>
+      <br>
+
       <div class="row">
         <div class="col-md-12">
-          <comments-list :comments='comments' :rootEntityType='"forumthread"'></comments-list>
+          <comments-list
+            :comments='comments'
+            :rootEntityType='"forumthread"'
+            :loading="isLoadingComments" />
         </div>
-
-            </div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,13 +50,18 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'forum-thread-view',
-  components: { Spinner, CommentsList, CommentCompose, ForumThreadBody },
+  components: {
+    Spinner,
+    CommentsList,
+    CommentCompose,
+    ForumThreadBody
+  },
   data () {
     return {
-      loading: true
+      isLoading: false,
+      isLoadingComments: false
     }
   },
-
   computed: {
     ...mapGetters(['isLoggedIn']),
     creationDate () {
@@ -54,9 +69,6 @@ export default {
         return moment(this.forumThread.dateCreated)
           .startOf('hour').fromNow()
       }
-    },
-    forumThread () {
-      return this.$store.state.forumThreads[this.$route.params.id]
     },
     comments () {
       const parentCommentIds = this.entityComments[this.$route.params.id] || []
@@ -72,6 +84,9 @@ export default {
       threadId (state) {
         return state.route.params.id
       },
+      forumThread (state) {
+        return state.forumThreads[state.route.params.id]
+      },
       commentsMap (state) {
         return state.comments
       },
@@ -80,19 +95,33 @@ export default {
       }
     })
   },
-
   methods: {
-    ...mapActions(['fetchForumThread', 'commentsFetch'])
+    ...mapActions([
+      'fetchForumThread',
+      'commentsFetch'
+    ]),
+    refreshThread () {
+      this.isLoading = true
+
+      this.fetchForumThread({
+        id: this.entityId
+      })
+      .finally(() => {
+        this.isLoading = false
+      })
+
+      this.isLoadingComments = true
+      // Fetch comments
+      this.commentsFetch({
+        entityId: this.entityId
+      })
+      .finally(() => {
+        this.isLoadingComments = false
+      })
+    }
   },
   beforeMount () {
-    this.fetchForumThread({
-      id: this.entityId
-    })
-
-    // Fetch comments
-    this.commentsFetch({
-      entityId: this.entityId
-    })
+    this.refreshThread()
   }
 }
 </script>
