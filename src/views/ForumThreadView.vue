@@ -106,18 +106,18 @@ export default {
       this.fetchForumThread({
         id: this.entityId
       })
-      .finally(() => {
-        this.isLoading = false
-      })
+        .finally(() => {
+          this.isLoading = false
+        })
 
       this.isLoadingComments = true
       // Fetch comments
       this.commentsFetch({
         entityId: this.entityId
       })
-      .finally(() => {
-        this.isLoadingComments = false
-      })
+        .finally(() => {
+          this.isLoadingComments = false
+        })
     }
   },
   beforeMount () {
