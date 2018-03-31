@@ -14,6 +14,7 @@
           v-validate="'required'"
           v-model='title'
           :disabled="isSubmitting"
+          data-vv-delay="100"
           data-vv-validate-on="input"
           placeholder='The title of your post'
           class='forum-title-box'
@@ -22,10 +23,11 @@
       </div>
     </div>
 
-    <div
-      v-show="errors.has('title')"
-      class="alert alert-danger">
-      {{ errors.first('title') }}
+    <div class="row">
+      <div class="col-sm-8 alert alert-danger"
+        v-show="errors.has('title')">
+        {{ errors.first('title') }}
+      </div>
     </div>
 
     <div class="row">
@@ -33,7 +35,6 @@
         <textarea
           v-validate="'required'"
           :disabled="isSubmitting"
-          :value="content"
           data-vv-validate-on="input"
           placeholder='Your content here..'
           class='forum-content-box'
@@ -43,10 +44,11 @@
       </div>
     </div>
 
-    <div
-      v-show="errors.has('content')"
-      class="alert alert-danger">
-      {{ errors.first('content') }}
+    <div class="row">
+      <div class="col-sm-8 alert alert-danger"
+        v-show="errors.has('content')">
+        {{ errors.first('content') }}
+      </div>
     </div>
 
     <div class="row">
@@ -100,8 +102,8 @@
       <div class="row"  v-if="shouldShowPreview">
         <div class="col-sm-12">
           <forum-thread-body
-          :title="title"
-          :content="content"></forum-thread-body>
+            :title="title"
+            :content="content" />
         </div>
       </div>
     </transition>
