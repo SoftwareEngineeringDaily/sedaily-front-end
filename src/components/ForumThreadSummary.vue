@@ -117,7 +117,7 @@ export default {
 
 @media (min-width: 576px)
   .votes-container
-    padding 0px 20px
+    padding 0px 10px
     padding-left 15px
 
 
