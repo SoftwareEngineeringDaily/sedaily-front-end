@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="loading" class="spinner-holder">
-      <spinner />
+      <spinner :show="loading" />
     </div>
     <div v-else-if="emptyComments" class='no-comments'>
       There are no comments.
