@@ -43,13 +43,17 @@ export default {
     ...mapActions([
       'updatePlayerState',
       'playEpisode',
-      'playEpisodeEvent'
+      'playEpisodeEvent',
+      'completedEpisodeEvent'
     ]),
     onFinished () {
       const nextEpisode = this.getNextEpisode(this.activePlayerPost)
       if (nextEpisode) {
         this.playEpisode(nextEpisode)
       }
+      this.completedEpisodeEvent({
+        episodeName: this.activePlayerPost.title.rendered
+      })
     }
   },
   watch: {
