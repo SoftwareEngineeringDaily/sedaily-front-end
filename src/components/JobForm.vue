@@ -51,7 +51,7 @@
                 type="checkbox"
                 name="remoteWorkingConsidered"
                 v-model="jobFormData.remoteWorkingConsidered"
-              >Remote Ok?
+              > Remote Ok?
             </label>
           </div>
           <div
@@ -85,37 +85,46 @@
             <div class="form-check form-check-inline">
               <label class="form-check-label">
                 <input
+                  v-validate.employmentType="'required'"
                   class="form-check-input"
                   type="radio"
                   name="employmentType"
                   value="Permanent"
                   v-model="jobFormData.employmentType"
-                >Permanent
+                > Permanent
               </label>
             </div>
             <div class="form-check form-check-inline">
               <label class="form-check-label">
                 <input
+                  v-validate.employmentType="'required'"
                   class="form-check-input"
                   type="radio"
                   name="employmentType"
                   value="Contract"
                   v-model="jobFormData.employmentType"
-                >Contract
+                > Contract
               </label>
             </div>
           </div>
         </div>
         <div class="form-group row">
-                          <textarea
-                            class="form-control"
-                            rows="10"
-                            cols="120"
-                            placeholder="Job Description"
-                            name="description"
-                            v-model="jobFormData.description"
-                            v-validate="'required'"
-                          ></textarea>
+          <div
+            class="col-sm-10 offset-sm-2 alert alert-danger"
+            v-show="errors.has('employmentType')">
+            {{ errors.first('employmentType') }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <textarea
+            class="form-control"
+            rows="10"
+            cols="120"
+            placeholder="Job Description"
+            name="description"
+            v-model="jobFormData.description"
+            v-validate="'required'"
+          ></textarea>
           <div
             class="row alert alert-danger"
             v-show="errors.has('description')">
@@ -168,7 +177,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Spinner from '@/components/Spinner.vue'
 export default {
@@ -238,13 +246,13 @@ export default {
             tags
           })
         } else {
-          alert('Invalid fields on form :(')
+          this.$toasted.error('Invalid fields on form :(')
         }
       })
     },
     del () {
       return this.deleteCallback()
-      // alert('TODO: implement delete')
+      // this.$toasted.error('TODO: implement delete')
     }
   },
   computed: {

@@ -1,48 +1,81 @@
 <template>
-  <div class='comment'>
-    <span class='content'>
-      <div>
+  <div class='comment-holder'>
+    <div class="row">
+      <span class="arrows">
         <voting-arrows
-          :upvoteHandler="upvoteHandler"
-          :upvoted="comment.upvoted"
-          :score="comment.score">
-        </voting-arrows>
+        :upvoteHandler="upvoteHandler"
+        :upvoted="comment.upvoted"
+        :score="comment.score"></voting-arrows>
+      </span>
+
+      <span class="col-md-8 content-area">
+          {{comment.content}}
+      </span>
+    </div>
+
+    <div class='row misc-detail'>
+      <div class='col-md-8'>
         <profile-label :userData="user(comment)">
-          <span class='comment-date'> {{date(comment)}} </span>
         </profile-label>
+
+        <div class="bullet-point">&#9679;</div>
+
+        <span class='comment-date'> {{date(comment)}} </span>
+
+        <div class="bullet-point">&#9679;</div>
+
+        <span v-if="!isReplying && isLoggedIn">
+          <span class='link' @click="isReplying=!isReplying">Reply</span>
+        </span>
+        <span v-else class='link' @click="isReplying=!isReplying">Cancel</span>
+
+        <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
+
+        <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
+          Delete
+        </span>
+
       </div>
-      <div v-if='!comment.deleted' class='comment-content'>
-        {{comment.content}}
-      </div>
-      <div v-else>
-        <i>Comment has been deleted</i>
-      </div>
-      <div class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
-        Delete
-      </div>
-    </span>
-    <hr />
+    </div>
+    <div class='row' v-if="allowsReplies && isReplying">
+      <comment-reply v-if="isLoggedIn"
+      :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
+
+    </div>
   </div>
 </template>
 
 <script>
-/* @flow */
-
 import moment from 'moment'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
+import CommentReply from 'components/CommentReply.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel },
+  components: { VotingArrows, ProfileLabel, CommentReply },
   props: {
     comment: {
       type: Object,
       required: true
+    },
+    allowsReplies: {
+      type: Boolean,
+      default: false
+    },
+    rootEntityType: {
+      type: String,
+      required: false
+    }
+  },
+  data () {
+    return {
+      isReplying: false
     }
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       isRootLevelComment () {
         return !this.comment.parentComment
@@ -64,10 +97,11 @@ export default {
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
     upvoteHandler () {
+      console.log('entity::', this.comment.rootEntity, this.comment)
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,
-        postId: this.comment.post
+        entityId: this.comment.rootEntity
       })
     },
     remove () {
@@ -76,15 +110,15 @@ export default {
       })
         .then(() => {
           this.commentsFetch({
-            postId: this.comment.post
+            entityId: this.comment.rootEntity
           })
         })
         .catch((error) => {
           console.log(error)
-          alert('Error deleting :(')
+          this.$toasted.error('Error deleting :(')
         })
     },
-    user (comment: {content: string, dateCreated: string, author: {name: string} }) {
+    user (comment) {
       if (comment.author) {
         return comment.author
       } else {
@@ -93,9 +127,9 @@ export default {
       }
     },
 
-    date (comment: {content: string, dateCreated: string, author: {name: string} }) {
+    date (comment) {
       if (comment.dateCreated) {
-        return moment(comment.dateCreated).format('LL')
+        return moment(comment.dateCreated).startOf('hour').fromNow()
       } else {
         return 'Now'
       }
@@ -105,34 +139,43 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.comment-content
-  padding 10px
-  padding-left 60px
+@import '../css/variables'
 
-.arrow
-  color #888
-  &:hover
-    cursor pointer
-    color #3F58AF
-
-  &.active
-    color #3F58AF !important
-    &:hover
-      cursor pointer
-      color #888
+.comment-holder
+  margin-bottom -30px
+.content-area
+  margin-top 20px
+  margin-bottom 20px
+  word-break break-all
+  color #777
+  max-width 65%
+.misc-detail
+  color #9B9B9B
+  font-size 14px
+  font-family Roboto
+  margin-left 30px
+.link
+  color primary-color
+  font-family Roboto-Medium
+  cursor pointer
+  padding 5px 8px
 
 .comment-date
   padding-left 10px
-  color #ccc
-
-.comment
-  display flex
 
 .delete
-  color red
+  font-family Roboto-Medium
+  padding-left 10px
   &:hover
+    color #8E0505
     cursor pointer
 
-.content
-  margin-left 20px
+
+.bullet-point
+  display inline-flex
+  font-size 0.65em
+  min-height 20px
+  margin-left 5px
+  margin-right 5px
+
 </style>

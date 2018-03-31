@@ -2,6 +2,7 @@ import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import Router from 'vue-router'
+import Toasted from 'vue-toasted'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 
 describe('RelatedLinkCompose.vue', (done) => {
@@ -9,6 +10,7 @@ describe('RelatedLinkCompose.vue', (done) => {
 
   localVue.use(Vuex)
   localVue.use(Router)
+  localVue.use(Toasted)
   localVue.use(VeeValidate, {
     events: 'blur'
   })

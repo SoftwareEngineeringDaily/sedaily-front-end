@@ -9,8 +9,6 @@
 </template>
 
 <script>
-// @flow
-
 import AudioPlayer from 'components/AudioPlayer.vue'
 import { PlayerState } from './../utils/playerState'
 import { mapActions, mapState, mapGetters } from 'vuex'
@@ -55,27 +53,26 @@ export default {
     }
   },
   watch: {
-    isPlaying (newValue: boolean) {
+    isPlaying (newValue) {
       if (newValue) {
         this.updatePlayerState(PlayerState.PLAYING)
       }
     },
-    isPaused (newValue: boolean) {
+    isPaused (newValue) {
       if (newValue) {
         this.updatePlayerState(PlayerState.PAUSED)
       }
     },
-    playEvent (newValue: Object) {
+    playEvent (newValue) {
       if (newValue) {
         this.playEpisodeEvent({
-          username: 'andrew',
           minutesPlayed: newValue.minutesPlayed,
           minutesRemaining: newValue.minutesRemaining,
           episodeName: this.activePlayerPost.title.rendered
         })
       }
     },
-    playerState (newValue: PlayerState) {
+    playerState (newValue) {
       if (newValue === PlayerState.PLAYING && !this.isPlaying) {
         this.isPlaying = true
         this.isPaused = false

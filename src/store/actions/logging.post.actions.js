@@ -1,21 +1,20 @@
+import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
 export default {
   enableLogging: ({ commit, getters, state }) => {
-    const token = getters.getToken
-    if (!token) {
-      alert('Login to enable logging')
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('Login to enable logging')
       return
     }
     commit('enableLogging')
   },
 
   disableLogging: ({ commit, getters, state }) => {
-    const token = getters.getToken
-    if (!token) {
-      alert('Login to disable logging')
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('Login to disable logging')
       return
     }
     commit('disableLogging')

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import moment from 'moment'
 import { apiConfig } from '../../../config/apiConfig'
@@ -10,15 +11,8 @@ export default {
   // too large is provided (in the url).
   fetchListData: ({ commit, dispatch, state, getters }, { type, category, page = 1, createdAtBefore, createdAfter, tags, search }) => {
     if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
-    const token = getters.getToken
-    commit('setActiveType', { type })
-    const options = {}
 
-    if (token) {
-      options.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
+    commit('setActiveType', { type })
 
     let url = `${BASE_URL}/posts?page=${page}&type=${type}`
     if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
@@ -31,7 +25,7 @@ export default {
       url += `&tags=${tagString}`
     }
 
-    return axios.get(url, options)
+    return axios.get(url)
       .then((response) => {
         commit('setList', { type, posts: response.data })
         commit('setPosts', { posts: response.data })
@@ -40,21 +34,16 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
       })
   },
 
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
-    const token = getters.getToken
     commit('setActiveType', { type })
     let url = `${BASE_URL}/posts/recommendations?page=${page}`
     if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
     if (category) url += `&categories=${category}`
-    return axios.get(url, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
+    return axios.get(url)
       .then((response) => {
         commit('setList', { type, posts: response.data })
         commit('setPosts', { posts: response.data })
@@ -63,24 +52,13 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error)
-      // alert(error.message)
-      // alert(error.response.data.message)
+      // Vue.toasted.error(error.message)
+      // Vue.toasted.error(error.response.data.message)
       })
   },
 
   fetchArticle: ({ commit, state, getters }, { id }) => {
-    console.log('fetch article', id)
-
-    const options = {}
-
-    const token = getters.getToken
-    if (token) {
-      options.headers = {
-        'Authorization': 'Bearer ' + token
-      }
-    }
-
-    return axios.get(`${BASE_URL}/posts/${id}`, options)
+    return axios.get(`${BASE_URL}/posts/${id}`)
       .then((response) => {
         var post = response.data
         commit('setPosts', { posts: [post] })
@@ -89,37 +67,27 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        alert(error.response.data.message)
+        Vue.toasted.error(error.response.data.message)
       })
   },
 
   upvote: ({ commit, getters, state }, { id }) => {
-    const token = getters.getToken
-    if (!token) {
-      alert('You must login to vote')
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('upVote', { articleId: id })
     const article = state.posts[id]
-    return axios.post(`${BASE_URL}/posts/${article._id}/upvote`, {}, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
+    return axios.post(`${BASE_URL}/posts/${article._id}/upvote`)
   },
 
   downvote: ({ commit, getters, state }, { id }) => {
-    const token = getters.getToken
-    if (!token) {
-      alert('You must login to vote')
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('You must login to vote')
       return
     }
     commit('downVote', { articleId: id })
     const article = state.posts[id]
-    return axios.post(`${BASE_URL}/posts/${article._id}/downvote`, {}, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
+    return axios.post(`${BASE_URL}/posts/${article._id}/downvote`)
   }
 }
