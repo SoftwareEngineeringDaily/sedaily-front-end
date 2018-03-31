@@ -9,7 +9,11 @@
 
     <span
       v-if="showName"
-      class="name">{{displayName}}</span>
+      class="name">
+      <router-link :to="'/profile/' + userData._id">
+        {{displayName}}
+      </router-link>
+    </span>
 
     <slot></slot>
   </span>
@@ -56,6 +60,7 @@ export default {
 
 <style scoped lang="stylus">
   .avatar
+    display inline-block
     margin-top -1px
     min-width 25px
     max-width 25px

@@ -10,14 +10,14 @@
       <div class='row'>
         <div class='col-md-12'>
           <comment-view
-          :rootEntityType='rootEntityType'
-          :comment='comment'
-          :allowsReplies="true" ></comment-view>
+            :rootEntityType='rootEntityType'
+            :comment='comment'
+            :allowsReplies="true" />
         </div>
       </div>
         <div class='replies'>
           <div v-for="replyComment in comment.replies" :key="replyComment._id">
-            <comment-view :comment='replyComment'></comment-view>
+            <comment-view :comment='replyComment' />
             <br />
           </div>
         </div>
