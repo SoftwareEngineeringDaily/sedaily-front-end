@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
+import { eventApiEnv } from '../../../config/apiConfig'
 import { EventType } from './../../utils/eventType'
 const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
@@ -11,7 +12,8 @@ function eventRequestWrapper (username, eventType, eventData) {
     deviceType: 'Browser',
     eventTime: new Date().getTime(),
     eventType: eventType,
-    eventData
+    eventData,
+    eventApiEnv
   })
     .then((response) => {
       return response
