@@ -39,11 +39,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .forum-thread-title
-    font-size 2.6rem
-    font-weight 200
+.forum-thread-title
+  font-size 2.6rem
+  font-weight 200
 
-  .forum-thread-content
-    font-size 1.1rem
-    font-weight 200
+.forum-thread-content
+  font-size 1.1rem
+  font-weight 200
+  >>> a
+    text-decoration underline
 </style>
