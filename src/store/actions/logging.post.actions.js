@@ -6,7 +6,6 @@ import { EventType } from './../../utils/eventType'
 const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
 function eventRequestWrapper (username, eventType, eventData) {
-  console.log('Logging event:', username, eventType, eventData)
   return axios.post(`${EVENTS_API_BASE_URL}`, {
     clientId: username,
     deviceType: 'Browser',
