@@ -40,7 +40,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 @import '../css/variables'
 
 div.forum-thread-content {
@@ -48,10 +47,10 @@ div.forum-thread-content {
     color: primary-color;
   }
 }
+
 .forum-thread-title
   font-size 2.6rem
   font-weight 200
-
 
 .forum-thread-content
   font-size 1.1rem
