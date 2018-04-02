@@ -21,10 +21,8 @@
         <spinner :show="processing"></spinner>
       </div>
       <div v-else>
-
-      <h3>
-         Checkout the latest episodes:  <router-link to="/" name="home" class="link">here</router-link>.
-
+        <h3>
+         Checkout the latest episodes: <router-link class="link" :to="{ name: 'NewListView', params: {}}">here</router-link>.
        </h3>
        <br />
       <div><h2> {{error}} </h2> </div>

@@ -35,8 +35,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'NewListView',
-      component: NewListView
+      component: Forum
     },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
