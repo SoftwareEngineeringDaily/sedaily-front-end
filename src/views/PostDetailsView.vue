@@ -2,7 +2,6 @@
   <div
     v-if="post"
     class="post-view">
-
     <div class="post-header">
       <post-header
         :post="post"
