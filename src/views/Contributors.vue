@@ -1,9 +1,9 @@
 <template>
   <div class='container'>
     <h1> Contributors </h1>
-    <p> Here are some of the people that are helping create SoftwareDaily. </a>
+    <p> Here are some of the people that are helping create SoftwareDaily. </p>
 
-      <div v-for="contributor in alphabeticallyOrderedContributors">
+      <div v-for="contributor in alphabeticallyOrderedContributors" :key="contributor.github">
         <div>
           <h3> {{contributor.name}} </h3>
           <p>
@@ -154,6 +154,7 @@ export default {
 
   computed: {
     alphabeticallyOrderedContributors () {
+      /* eslint-disable-next-line */
       return this.contributors.sort((a, b) => {
         return 0.5 - Math.random()
       })

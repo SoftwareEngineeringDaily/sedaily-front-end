@@ -2,106 +2,112 @@
   <div>
     <div class="row">
       <div
-      v-if="errorMsg"
-      class="col-12 alert alert-danger">
-      {{ errorMsg }}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-8">
-      <input
-      placeholder='The title of your post'
-      class='forum-title-box'
-      :disabled="isSubmitting"
-      name="title"
-      v-validate="'required'"
-      type='text'
-      v-model='title' />
-    </div>
-  </div>
-
-  <div
-    v-show="errors.has('title')"
-    class="alert alert-danger">
-    {{ errors.first('title') }}
-  </div>
-
-<div class="row">
-  <div class="col-sm-8">
-    <textarea placeholder='Your content here..'
-    class='forum-content-box'
-    :disabled="isSubmitting"
-    type='text'
-    name="content"
-    v-validate="'required'"
-    :value="content"
-    @input="update" />
-  </div>
-</div>
-
-<div
-v-show="errors.has('content')"
-class="alert alert-danger">
-{{ errors.first('content') }}
-</div>
-
-<div class="row">
-  <div class='col-sm-12'>
-    <span>
-      <div v-if="isSubmitting">
-        <spinner :show="true"></spinner>
+        v-if="errorMsg"
+        class="col-12 alert alert-danger">
+        {{ errorMsg }}
       </div>
-      <span v-else>
-        <button class='button-submit'
-        :disabled="isSubmitting"
-        @click='submit'>Submit Post</button>
-      </span>
-    </span>
+    </div>
 
-    <img
-    class='markdown-icon'
-    v-if="!shouldShowMarkDownHelp"
-    src="@/assets/icons/Aa.png"
-    @click='toggleMarkdownHelp'
-    alt='Markdown Info'>
+    <div class="row">
+      <div class="col-sm-8">
+        <input
+          v-validate="'required'"
+          v-model='title'
+          :disabled="isSubmitting"
+          data-vv-delay="100"
+          data-vv-validate-on="input"
+          placeholder='The title of your post'
+          class='forum-title-box'
+          name="title"
+          type='text' />
+      </div>
+    </div>
 
-    <img
-    class='markdown-icon'
-    v-else
-    src="@/assets/icons/x.png"
-    @click='toggleMarkdownHelp'
-    alt='Markdown Info'>
+    <div class="row">
+      <div class="col-sm-8 alert alert-danger"
+        v-show="errors.has('title')">
+        {{ errors.first('title') }}
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col-sm-8">
+        <textarea
+          v-validate="'required'"
+          :disabled="isSubmitting"
+          data-vv-validate-on="input"
+          placeholder='Your content here..'
+          class='forum-content-box'
+          type='text'
+          name="content"
+          @input="update" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 alert alert-danger"
+        v-show="errors.has('content')">
+        {{ errors.first('content') }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class='col-sm-12'>
+        <span>
+          <div v-if="isSubmitting">
+            <spinner :show="true"></spinner>
+          </div>
+          <span v-else>
+            <button
+              :disabled="isSubmitting"
+              class='button-submit'
+              @click='submit'>Submit Post</button>
+          </span>
+        </span>
+
+        <img
+          class='markdown-icon'
+          v-if="!shouldShowMarkDownHelp"
+          src="@/assets/icons/Aa.png"
+          @click='toggleMarkdownHelp'
+          alt='Markdown Info'>
+
+        <img
+          class='markdown-icon'
+          v-else
+          src="@/assets/icons/x.png"
+          @click='toggleMarkdownHelp'
+          alt='Markdown Info'>
+
+        <transition name="fade">
+          <span class='preview-hint' v-if="shouldShowPreview">
+            See preview below
+          </span>
+        </transition>
+      </div>
+    </div>
+
+    <br>
+    <div class="row" v-if="shouldShowMarkDownHelp">
+      <div class="col-md-8 markdown-info">
+        <h2> Markdown Info </h2>
+        <ul>
+          <li> New lines are honored. </li>
+          <li> URSL are auto detected and become clickable. They need http(s). </li>
+        </ul>
+      </div>
+    </div>
+    <br>
     <transition name="fade">
-      <span class='preview-hint' v-if="shouldShowPreview">
-        See preview below
-      </span>
+      <div class="row"  v-if="shouldShowPreview">
+        <div class="col-sm-12">
+          <forum-thread-body
+            :title="title"
+            :content="content" />
+        </div>
+      </div>
     </transition>
   </div>
-</div>
-
-<br>
-<div class="row" v-if="shouldShowMarkDownHelp">
-  <div class="col-md-8 markdown-info">
-    <h2> Markdown Info </h2>
-    <ul>
-      <li> New lines are honored. </li>
-      <li> URSL are auto detected and become clickable. They need http(s). </li>
-    </ul>
-  </div>
-</div>
-<br>
-<transition name="fade">
-  <div class="row"  v-if="shouldShowPreview">
-    <div class="col-sm-12">
-      <forum-thread-body
-      :title="title"
-      :content="content"></forum-thread-body>
-    </div>
-  </div>
-</transition>
-</div>
 </template>
 
 <script>
@@ -113,7 +119,8 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'forum-thread-compose',
   components: {
-    Spinner, ForumThreadBody
+    Spinner,
+    ForumThreadBody
   },
   data () {
     return {

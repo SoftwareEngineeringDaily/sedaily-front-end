@@ -7,7 +7,7 @@
         <button
           @click="$router.push('/new-thread')"
           class="create-post">
-          <i class="material-icons create-post-icon">border_color</i>
+          <img src="@/assets/icons/compose-thread.svg" alt="">
           <span class="create-post-text">Create New Post</span>
         </button>
       </div>

@@ -19,7 +19,12 @@
         <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
       </span>
       <div class='forum-thread-misc'>
-        Posted by <span>{{forumThread.author.name}}</span>
+        Posted by
+        <span>
+          <router-link :to="'/profile/' + forumThread.author._id">
+            {{forumThread.author.name}}
+          </router-link>
+        </span>
         <div class="bullet-point">&#9679;</div>
         <span class='misc-detail'>{{creationDate}}</span>
         <div class="bullet-point">&#9679;</div>
@@ -112,7 +117,7 @@ export default {
 
 @media (min-width: 576px)
   .votes-container
-    padding 0px 20px
+    padding 0px 10px
     padding-left 15px
 
 

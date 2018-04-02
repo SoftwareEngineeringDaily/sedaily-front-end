@@ -1,12 +1,23 @@
 <template>
 <div class='voting'>
   <div class="score">
-    <div v-if="upvoteHandler" class='arrow' :class="{ active: upvoted }"
-         @click='upvoteHandler'>▲</div>
-    <div v-if="downvoteHandler" class="arrow" :class="{ active: downvoted }"
-         @click='downvoteHandler'>▼</div>
-
+    <div
+      v-if="upvoteHandler"
+      :class="{ active: upvoted }"
+      class='arrow'
+      @click='upvoteHandler'>
+      <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
+      <img v-else src="@/assets/icons/upvote-thin.svg" />
+    </div>
     <div class='score-text'>{{ score || 0}}</div>
+    <div
+      v-if="downvoteHandler"
+      :class="{ active: downvoted }"
+      class="arrow"
+      @click='downvoteHandler'>
+      <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
+      <img v-else src="@/assets/icons/downvote-thin.svg" />
+    </div>
   </div>
 </div>
 </template>
@@ -51,11 +62,13 @@ export default {
     color #3F58AF
     font-size 1.1em
     font-weight 700
-    width 1.1em
+    width 1.5em
+
+.active
+    color #3F58AF !important
 
 .arrow
   color very-light-grey
-  font-fize 30px
   &:hover
     cursor pointer
     color #3F58AF
