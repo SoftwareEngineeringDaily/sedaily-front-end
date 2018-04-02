@@ -36,16 +36,25 @@ export default {
     }
   }
 }
+/* The /deep/ below is needed because of v-html not having CSS applied to it:*/
 </script>
 
 <style lang="stylus" scoped>
+
+@import '../css/variables'
+
+div.forum-thread-content {
+  /deep/ a {
+    color: primary-color;
+  }
+}
 .forum-thread-title
   font-size 2.6rem
   font-weight 200
 
+
 .forum-thread-content
   font-size 1.1rem
   font-weight 200
-  >>> a
-    text-decoration underline
+
 </style>
