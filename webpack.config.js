@@ -128,11 +128,14 @@ const productionConfig = merge([
       })
     ]
   },
-  parts.copy({ from: PATHS.static, to: path.join(PATHS.build, 'static') }),
+  parts.copy({
+    from: PATHS.static,
+    to: path.join(PATHS.build, 'static')
+  }),
   parts.styleLoaders({ sourceMap: true, extract: true }),
   parts.cssExtractor(),
   parts.cssOptimizer(),
-  parts.clean(PATHS.build)
+  parts.clean(PATHS.build, { exclude: ['package.json', 'server.js'] })
 ])
 
 module.exports = env => {

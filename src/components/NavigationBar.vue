@@ -144,7 +144,8 @@ export default {
       background-color primary-color
 
 .feed-nav-link
-  margin-left 5px
+  margin-left 15px
+  margin-right 15px
 
 .header
   z-index 999

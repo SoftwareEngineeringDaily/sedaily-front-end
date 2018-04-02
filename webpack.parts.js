@@ -159,8 +159,8 @@ exports.copy = ({ from, to } = {}) => ({
   ]
 })
 
-exports.clean = (path) => ({
-  plugins: [new CleanWebpackPlugin([path])]
+exports.clean = (path, { exclude } = {}) => ({
+  plugins: [new CleanWebpackPlugin([path], { exclude })]
 })
 
 exports.devServer = ({ host, port, open = true, hot = true, quiet = false } = {}) => ({
