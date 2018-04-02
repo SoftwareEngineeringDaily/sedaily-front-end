@@ -39,7 +39,7 @@ const router = new Router({
     },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
-    { path: '/new/:page(\\d+)?', component: NewListView },
+    { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
