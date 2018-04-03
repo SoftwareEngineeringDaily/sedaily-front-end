@@ -8,8 +8,7 @@
         :score="comment.score"></voting-arrows>
       </span>
 
-      <span class="col-md-8 content-area">
-          {{comment.content}}
+      <span class="col-md-8 content-area" v-html="compiledMarkdown">
       </span>
     </div>
 
@@ -46,6 +45,7 @@
 </template>
 
 <script>
+import marked from 'marked'
 import moment from 'moment'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
@@ -79,6 +79,13 @@ export default {
     ...mapState({
       isRootLevelComment () {
         return !this.comment.parentComment
+      },
+
+      compiledMarkdown () {
+        marked.setOptions({
+          breaks: true
+        })
+        return marked(this.comment.content)
       },
 
       placeholderAvatar (state) {
@@ -140,6 +147,13 @@ export default {
 
 <style scoped lang="stylus">
 @import '../css/variables'
+
+.content-area {
+  /deep/ a {
+    color: primary-color;
+  }
+}
+
 .voting-container
   margin-top 20px
 .comment-holder
