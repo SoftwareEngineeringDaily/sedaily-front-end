@@ -161,7 +161,7 @@ export default {
 .content-area
   margin-top 20px
   margin-bottom 20px
-  word-break break-all
+  word-break break-word
   color #777
   max-width 65%
 .misc-detail

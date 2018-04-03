@@ -54,6 +54,7 @@ div.forum-thread-content {
 
 .forum-thread-content
   font-size 1.1rem
+  word-break break-word
   font-weight 200
 
 </style>
