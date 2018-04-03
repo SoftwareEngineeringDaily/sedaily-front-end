@@ -8,8 +8,7 @@
         :score="comment.score"></voting-arrows>
       </span>
 
-      <span class="col-md-8 content-area">
-          {{comment.content}}
+      <span class="col-md-8 content-area" v-html="compiledMarkdown">
       </span>
     </div>
 
@@ -22,12 +21,12 @@
 
         <span class='comment-date'> {{date(comment)}} </span>
 
-        <div v-if="allowsReplies" class="bullet-point">&#9679;</div>
+        <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
 
         <span v-if="!isReplying && isLoggedIn">
           <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
         </span>
-        <span v-else class='link' @click="isReplying=!isReplying">Cancel</span>
+        <span v-if="isReplying && isLoggedIn" class='link' @click="isReplying=!isReplying">Cancel</span>
 
         <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
 
@@ -46,6 +45,7 @@
 </template>
 
 <script>
+import marked from 'marked'
 import moment from 'moment'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
@@ -79,6 +79,13 @@ export default {
     ...mapState({
       isRootLevelComment () {
         return !this.comment.parentComment
+      },
+
+      compiledMarkdown () {
+        marked.setOptions({
+          breaks: true
+        })
+        return marked(this.comment.content)
       },
 
       placeholderAvatar (state) {
@@ -140,6 +147,13 @@ export default {
 
 <style scoped lang="stylus">
 @import '../css/variables'
+
+.content-area {
+  /deep/ a {
+    color: primary-color;
+  }
+}
+
 .voting-container
   margin-top 20px
 .comment-holder
@@ -147,7 +161,7 @@ export default {
 .content-area
   margin-top 20px
   margin-bottom 20px
-  word-break break-all
+  word-break break-word
   color #777
   max-width 65%
 .misc-detail
