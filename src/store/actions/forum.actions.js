@@ -11,6 +11,15 @@ export default {
     return axios.post(requestUrl, options)
   },
 
+  forumThreadDelete: ({ commit, getters, state }, { id }) => {
+    console.log('ID', id)
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('Login to delete your post.')
+      return
+    }
+    return axios.delete(`${BASE_URL}/forum/${id}`)
+  },
+
   forumThreadLike: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to vote')
