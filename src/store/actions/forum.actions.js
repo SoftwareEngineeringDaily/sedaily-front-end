@@ -12,7 +12,6 @@ export default {
   },
 
   forumThreadDelete: ({ commit, getters, state }, { id }) => {
-    console.log('ID', id)
     if (!getters.isLoggedIn) {
       Vue.toasted.error('Login to delete your post.')
       return

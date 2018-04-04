@@ -19,6 +19,12 @@
         <span class='misc-detail'>{{creationDate}}</span>
         <div class="bullet-point">&#9679;</div>
         <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+
+        <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
+        <span class='delete' v-if='this.isMyThread' @click='remove'>
+          Delete
+        </span>
+
       </div>
 
       <div class="row">
@@ -75,6 +81,16 @@ export default {
           .startOf('hour').fromNow()
       }
     },
+    isMyThread () {
+      if (this.forumThread) {
+        if (this.me.isAdmin) {
+          return true
+        }
+        return this.me._id === this.forumThread.author._id
+      } else {
+        return false
+      }
+    },
     comments () {
       const parentCommentIds = this.entityComments[this.$route.params.id] || []
       return parseIdsIntoComments({
@@ -83,6 +99,9 @@ export default {
       })
     },
     ...mapState({
+      me (state) {
+        return state.me
+      },
       entityId (state) {
         return state.route.params.id
       },
@@ -103,8 +122,16 @@ export default {
   methods: {
     ...mapActions([
       'fetchForumThread',
-      'commentsFetch'
+      'commentsFetch',
+      'forumThreadDelete'
     ]),
+    remove () {
+      this.forumThreadDelete( {
+        id: this.threadId
+      }).then(() => {
+        this.$router.replace('/forum')
+      })
+    },
     refreshThread () {
       this.isLoading = true
 
