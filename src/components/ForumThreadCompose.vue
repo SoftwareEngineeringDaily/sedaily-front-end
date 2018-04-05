@@ -118,18 +118,45 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'forum-thread-compose',
+  props: {
+    editing: {
+        type: Boolean,
+        default: false
+    },
+    submitCallback: {
+      type: Function,
+      required: true
+    },
+    initialTitle: {
+      type: String,
+      default: ''
+    },
+    initialContent: {
+      type: String,
+      default: ''
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    isSubmitting: {
+      type: Boolean,
+      default: false
+    },
+    initialErrorMsg: {
+      type: String
+    }
+  },
   components: {
     Spinner,
     ForumThreadBody
   },
   data () {
     return {
-      title: '',
-      content: '',
-      errorMsg: null,
-      isSubmitting: false,
+      title: this.initialTitle,
+      content: this.initialContent,
+      errorMsg: this.initialErrorMsg,
       shouldShowMarkDownHelp: false,
-      loading: true
     }
   },
 
@@ -146,10 +173,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'forumThreadCreate',
-      'fetchForumThreads'
-    ]),
 
     toggleMarkdownHelp () {
       this.shouldShowMarkDownHelp = !this.shouldShowMarkDownHelp
@@ -162,22 +185,10 @@ export default {
       this.errorMsg = null
       return this.$validator.validateAll().then((result) => {
         if (result) {
-          this.isSubmitting = true
-          this.forumThreadCreate({
+          this.submitCallback({
             title: this.title,
             content: this.content
           })
-            .then((response) => {
-              this.content = ''
-              this.title = ''
-              this.isSubmitting = false
-              this.$router.replace('/forum')
-            })
-            .catch((error) => {
-              this.errorMsg = `Sorry were errors submitting :(: ${error.response.data.message}`
-              this.isSubmitting = false
-              this.$toasted.error(error.response.data.message)
-            })
         } else {
           this.errorMsg = 'Sorry there are invalid fields on the form :('
         }

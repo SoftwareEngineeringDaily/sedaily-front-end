@@ -2,6 +2,11 @@
   <div>
     <div class='forum-thread-title'>New Forum Post</div>
     <br />
+    <forum-thread-compose
+      :submitCallback="submitCallback"
+      :loading="loading"
+      :isSubmitting="isSubmitting"
+    >
     <forum-thread-compose />
   </div>
 </template>
@@ -11,7 +16,24 @@ import ForumThreadCompose from '@/components/ForumThreadCompose.vue'
 
 export default {
   name: 'new-forum-thread-view',
-  components: { ForumThreadCompose }
+  components: { ForumThreadCompose },
+  data () {
+    return {
+      loading: true,
+      isSubmitting: false
+    }
+  },
+  methods: {
+    ...mapActions([
+      'forumThreadCreate'
+    ]),
+    submitCallback ({title, content}) {
+      this.forumThreadCreate({
+        title,
+        content
+      })
+    }
+  }
 }
 </script>
 
