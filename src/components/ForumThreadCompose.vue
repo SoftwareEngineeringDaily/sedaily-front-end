@@ -144,7 +144,8 @@ export default {
       default: false
     },
     initialErrorMsg: {
-      type: String
+      type: String,
+      default: null
     }
   },
   components: {

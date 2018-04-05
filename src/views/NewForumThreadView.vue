@@ -7,12 +7,13 @@
       :loading="loading"
       :isSubmitting="isSubmitting"
     >
-    <forum-thread-compose />
+    </forum-thread-compose>
   </div>
 </template>
 
 <script>
 import ForumThreadCompose from '@/components/ForumThreadCompose.vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'new-forum-thread-view',
@@ -32,6 +33,14 @@ export default {
         title,
         content
       })
+      .then((response) => {
+        this.isSubmitting = false
+        this.$router.replace('/forum')
+      })
+      .catch((error) => {
+          this.isSubmitting = false
+          this.$toasted.error(error.response.data.message)
+        })
     }
   }
 }
