@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import Router from 'vue-router'
+import Meta from 'vue-meta'
 import router from './router'
 import store from './store'
 import * as filters from './filters'
@@ -30,6 +31,7 @@ Object.keys(filters).forEach(key => {
 Vue.use(Router)
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
+Vue.use(Meta)
 Vue.config.productionTip = false
 
 Vue.use(Toasted, {

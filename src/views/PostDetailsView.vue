@@ -123,7 +123,13 @@ export default {
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
-
+    postSummary () {
+      const el = document.createElement('template')
+      el.innerHTML = this.post.content.rendered.trim()
+      // use first span text as "summary"
+      const summary = el.content.querySelector('span')
+      return summary ? summary.innerText : ''
+    },
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
     },
@@ -148,7 +154,7 @@ export default {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     },
 
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'getMetaTag']),
     ...mapState({
       activePlayerPost (state) {
         return state.activePlayerPost
@@ -241,6 +247,20 @@ export default {
       this.downvote({
         id: this.postId
       })
+    }
+  },
+  metaInfo() {
+    // wait for post before updating meta
+    if (!this.post) {
+      return {}
+    }
+    return {
+      meta: [
+        this.getMetaTag('og:title', this.post.title.rendered),
+        this.getMetaTag('og:url', location.href),
+        this.getMetaTag('og:description', this.postSummary),
+        this.getMetaTag('og:image', this.post.featuredImage),
+      ]
     }
   }
 }

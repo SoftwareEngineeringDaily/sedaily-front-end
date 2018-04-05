@@ -21,7 +21,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix",
     "deploy": "git subtree push --prefix dist heroku master",
-    "staging-deploy2": "git push staging `git subtree split --prefix dist develop`:master --force",
+    "staging-deploy2": "git push staging `git subtree split --prefix dist twitter-cards`:master --force",
     "deploy2": "git push heroku `git subtree split --prefix dist master`:master --force"
   },
   "dependencies": {
@@ -40,6 +40,7 @@
     "vue-analytics": "^5.9.1",
     "vue-aplayer": "^1.4.0",
     "vue-infinite-scroll": "^2.0.2",
+    "vue-meta": "^1.5.0",
     "vue-router": "^3.0.1",
     "vue-slider-component": "^2.6.1",
     "vue-social-sharing": "^2.3.3",
