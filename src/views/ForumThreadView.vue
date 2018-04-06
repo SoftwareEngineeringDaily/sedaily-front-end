@@ -89,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn','metaTag']),
     creationDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateCreated)
@@ -112,6 +112,13 @@ export default {
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
       })
+    },
+    forumThreadContentSummary() {
+      const maxLength = 400;
+      if (this.forumThread.content.length > maxLength) {
+        return this.forumThread.content.substr(0, maxLength-3) + '...'
+      }
+      return this.forumThread.content
     },
     ...mapState({
       me (state) {
@@ -178,6 +185,19 @@ export default {
   },
   beforeMount () {
     this.refreshThread()
+  },
+  metaInfo() {
+    // wait for forumThread before updating meta
+    if (!this.forumThread) {
+      return {}
+    }
+    return {
+      meta: [
+        this.metaTag('og:title', this.forumThread.title),
+        this.metaTag('og:url', location.href),
+        this.metaTag('og:description', this.forumThreadContentSummary)
+      ]
+    }
   }
 }
 </script>
