@@ -27,7 +27,7 @@ export default {
       return state.posts[0]
     }
   },
-  getMetaTag: (state) => (vmid, contentValue = undefined) => {
+  metaTag: (state) => (vmid, contentValue = undefined) => {
     // use default if contentValue not specified
     const content = contentValue ? contentValue: state.defaultMetaContent[vmid]
     // open graph (og), uses 'property' key instead of 'name'

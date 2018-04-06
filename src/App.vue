@@ -62,20 +62,20 @@ export default {
     showBeta () {
       return this.$route.path === '/'
     },
-    ...mapGetters(['isLoggedIn', 'getMetaTag'])
+    ...mapGetters(['isLoggedIn', 'metaTag'])
   },
   // as parent component, these meta tags will appear with defaults
   // in <head></head> unless overwritten with same id in child component
   metaInfo() {
     return {
       meta: [
-        this.getMetaTag('twitter:card'),
-        this.getMetaTag('twitter:site'),
-        this.getMetaTag('twitter:creator'),
-        this.getMetaTag('og:url'),
-        this.getMetaTag('og:title'),
-        this.getMetaTag('og:description'),
-        this.getMetaTag('og:image'),
+        this.metaTag('twitter:card'),
+        this.metaTag('twitter:site'),
+        this.metaTag('twitter:creator'),
+        this.metaTag('og:url'),
+        this.metaTag('og:title'),
+        this.metaTag('og:description'),
+        this.metaTag('og:image'),
       ]
     }
   },

@@ -165,7 +165,7 @@ export default {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     },
 
-    ...mapGetters(['isLoggedIn', 'getMetaTag']),
+    ...mapGetters(['isLoggedIn', 'metaTag']),
     ...mapState({
       activePlayerPost (state) {
         return state.activePlayerPost
@@ -267,11 +267,11 @@ export default {
     }
     return {
       meta: [
-        this.getMetaTag('og:title', this.post.title.rendered),
-        this.getMetaTag('og:url', location.href),
-        this.getMetaTag('og:description', this.postSummary),
+        this.metaTag('og:title', this.post.title.rendered),
+        this.metaTag('og:url', location.href),
+        this.metaTag('og:description', this.postSummary),
         // links must use https
-        this.getMetaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]
     }
   }
