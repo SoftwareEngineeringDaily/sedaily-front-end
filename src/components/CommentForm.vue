@@ -32,6 +32,10 @@ export default {
     content: {
       type: String
     },
+    isSubmitting: {
+      type: Boolean,
+      required: true
+    },
     submitCallback: {
       type: Function,
       required: true
@@ -47,7 +51,12 @@ export default {
   },
   data () {
     return {
-      commentContent: ''
+      commentContent: this.content
+    }
+  },
+  watch: {
+    content: function() {
+      this.commentContent = this.content
     }
   },
 

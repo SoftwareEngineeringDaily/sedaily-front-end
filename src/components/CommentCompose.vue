@@ -3,6 +3,8 @@
   <comment-form
     :rootEntityType="rootEntityType"
     :isSubmitting="isSubmitting"
+    :content="commentContent"
+    :submitCallback="submitCallback"
   >
   </comment-form>
 </template>
@@ -20,7 +22,8 @@ export default  {
   },
   data () {
     return {
-      isSubmitting: false
+      isSubmitting: false,
+      commentContent: ''
     }
   },
   components: {
@@ -35,15 +38,18 @@ export default  {
   },
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitCallback () {
+    submitCallback ({content}) {
       this.isSubmitting = true
+          // First update then change back to empty to clear:
+      this.commentContent = content
       this.commentsCreate({
         entityId: this.entityId,
         rootEntityType: this.rootEntityType,
-        content: this.commentContent
+        content
       })
         .then((response) => {
           this.isSubmitting = false
+          this.commentContent = ''
           // Fetch comments
           this.commentsFetch({
             entityId: this.entityId
