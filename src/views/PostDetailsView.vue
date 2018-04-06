@@ -124,11 +124,22 @@ export default {
       return this.$store.state.posts[this.$route.params.id]
     },
     postSummary () {
+      const maxLength = 400;
       const el = document.createElement('template')
       el.innerHTML = this.post.content.rendered.trim()
-      // use first span text as "summary"
-      const summary = el.content.querySelector('span')
-      return summary ? summary.innerText : ''
+      // spans contain text to extract "summary"
+      const paras = el.content.querySelectorAll('span')
+      let summary = '';
+      for (let para of paras) {
+        summary += para.innerText + ' ';
+        if (summary.length >= maxLength) {
+          break;
+        }
+      }
+      if (summary.length > maxLength) {
+        return summary.substr(0, maxLength-3) + '...'
+      }
+      return summary;
     },
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
@@ -259,7 +270,8 @@ export default {
         this.getMetaTag('og:title', this.post.title.rendered),
         this.getMetaTag('og:url', location.href),
         this.getMetaTag('og:description', this.postSummary),
-        this.getMetaTag('og:image', this.post.featuredImage),
+        // links must use https
+        this.getMetaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]
     }
   }

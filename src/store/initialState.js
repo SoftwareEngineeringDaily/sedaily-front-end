@@ -30,12 +30,12 @@ export default {
   forumThreadIdsList: [],
   forumThreads: {},
   defaultMetaContent: {
-    'twitter:card': 'summary',
+    'twitter:card': 'summary_large_image',
     'twitter:site': '@software_daily',
     'twitter:creator': '@the_prion',
     'og:url': location.origin,
     'og:title': 'Software Engineering Daily',
-    'og:description': 'Software Engineering Daily',
+    'og:description': 'Software Engineering Daily episodes, forum, job board and more...',
     'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
   }
 }
