@@ -1,28 +1,18 @@
 <template>
   <div v-if="me" class="col-md-8">
-    <div v-if="me.name">
-      <div class='reply-container'>
-        <div v-if="justSubmitted">
-          Thanks for submitting!
-          <spinner :show="true"></spinner>
-        </div>
-        <div v-else>
-          <textarea placeholder='Your message here...'
-          class='reply-box'
-          type='text'
-          v-model='commentContent' />
-          <button class='button-submit-small' @click='submitComment'>
-            Reply
-          </button>
-        </div>
-      </div>
-    </div>
+    <comment-form
+      :rootEntityType="rootEntityType"
+      :isSubmitting="isSubmitting"
+      :content="commentContent"
+      :submitCallback="submitCallback"
+      :submitButtonText="'Reply'"
+    >
+    </comment-form>
   </div>
 </template>
 
 <script>
-import UpdateProfile from 'components/UpdateProfile.vue'
-import Spinner from 'components/Spinner'
+import CommentForm from '@/components/CommentForm.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -38,8 +28,7 @@ export default {
     }
   },
   components: {
-    UpdateProfile,
-    Spinner
+    CommentForm
   },
   beforeMount () {
     console.log('rootEntityType--reply', this.rootEntityType)
@@ -47,7 +36,7 @@ export default {
   data () {
     return {
       commentContent: '',
-      justSubmitted: false,
+      isSubmitting: false,
       username: null,
       loading: true
     }
@@ -67,18 +56,19 @@ export default {
 
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitComment () {
-      this.justSubmitted = true
+    submitCallback ({ content }) {
+      this.isSubmitting = true
+      // First update then change back to empty to clear: this.commentContent = content
+      this.commentContent = content
       this.commentsCreate({
         entityId: this.entityId,
         rootEntityType: this.rootEntityType,
         parentCommentId: this.parentComment._id,
-        content: this.commentContent
+        content
       })
         .then((response) => {
+          this.isSubmitting = false
           this.commentContent = ''
-          // NOTE: this won't work too well once we are paginating comments:
-          this.justSubmitted = false
           this.commentsFetch({
             entityId: this.entityId
           })
