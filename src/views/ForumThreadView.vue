@@ -3,54 +3,64 @@
     <div class="spinner-holder">
       <spinner :show="isLoading"></spinner>
     </div>
-    <div v-if="forumThread">
-      <forum-thread-body
-        :title="forumThread.title"
-        :content="forumThread.content" />
 
-      <div class='forum-thread-misc'>
-        Posted by
-        <span>
-          <router-link :to="'/profile/' + forumThread.author._id">
-            {{forumThread.author.name}}
-          </router-link>
-        </span>
-        <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{creationDate}}</span>
-        <div class="bullet-point">&#9679;</div>
-        <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+    <div v-if="isDeleting">
+      Are you sure you want to delete your thread?
+      <button @click="confirmDelete"> Confirm Delete </button>
+      <button @click="cancelDelete"> Cancel </button>
+    </div>
+    <div v-if="!isDeleting">
+      <div v-if="forumThread">
+        <forum-thread-body
+          :title="forumThread.title"
+          :content="forumThread.content" />
 
-        <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-        <span class='delete simple-link' v-if='this.isMyThread' @click='remove'>
-          Delete
-        </span>
+        <div class='forum-thread-misc'>
+          Posted by
+          <span>
+            <router-link :to="'/profile/' + forumThread.author._id">
+              {{forumThread.author.name}}
+            </router-link>
+          </span>
+          <div class="bullet-point">&#9679;</div>
+          <span class='misc-detail'>{{creationDate}}</span>
+          <div class="bullet-point">&#9679;</div>
+          <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
 
-        <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-        <span class='edit simple-link' v-if='this.isMyThread' @click='edit'>
-          Edit
-        </span>
-      </div>
+          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
+          <span class='delete simple-link' v-if='this.isMyThread' @click='remove'>
+            Delete
+          </span>
 
-      <div class="row">
-        <div class="col-md-9">
-          <comment-compose
-            v-if="isLoggedIn"
-            :rootEntityType='"forumthread"' />
+          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
+          <span class='edit simple-link' v-if='this.isMyThread' @click='edit'>
+            Edit
+          </span>
         </div>
-      </div>
 
-      <br>
-      <br>
+        <div class="row">
+          <div class="col-md-9">
+            <comment-compose
+              v-if="isLoggedIn"
+              :rootEntityType='"forumthread"' />
+          </div>
+        </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <comments-list
-            :comments='comments'
-            :rootEntityType='"forumthread"'
-            :loading="isLoadingComments" />
+        <br>
+        <br>
+
+        <div class="row">
+          <div class="col-md-12">
+            <comments-list
+              :comments='comments'
+              :rootEntityType='"forumthread"'
+              :loading="isLoadingComments" />
+          </div>
         </div>
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -74,7 +84,8 @@ export default {
   data () {
     return {
       isLoading: false,
-      isLoadingComments: false
+      isLoadingComments: false,
+      isDeleting: false
     }
   },
   computed: {
@@ -130,6 +141,12 @@ export default {
       'forumThreadDelete'
     ]),
     remove () {
+      this.isDeleting =  true
+    },
+    cancelDelete () {
+      this.isDeleting = false
+    },
+    confirmDelete () {
       this.forumThreadDelete( {
         id: this.threadId
       }).then(() => {
