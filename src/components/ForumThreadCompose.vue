@@ -39,6 +39,7 @@
           placeholder='Your content here..'
           class='forum-content-box'
           type='text'
+          v-model='content'
           name="content"
           @input="update" />
       </div>
@@ -153,6 +154,7 @@ export default {
     ForumThreadBody
   },
   data () {
+    console.log('content', this.initialContent)
     return {
       title: this.initialTitle,
       content: this.initialContent,
@@ -160,7 +162,6 @@ export default {
       shouldShowMarkDownHelp: false,
     }
   },
-
   computed: {
     // local computed methods +
     ...mapState({

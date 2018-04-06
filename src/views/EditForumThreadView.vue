@@ -2,15 +2,18 @@
   <div>
     <div class='forum-thread-title'>Edit Forum Post</div>
     <br />
-    <forum-thread-compose
+    <div v-if="content != null">
+
+      <forum-thread-compose
       :editing ="true"
       :submitCallback="submitCallback"
       :initialTitle="title"
       :initialContent="content"
       :loading="loading"
       :isSubmitting="isSubmitting"
-    >
+      >
     </forum-thread-compose>
+  </div>
   </div>
 </template>
 
@@ -25,8 +28,8 @@ export default {
     return {
       loading: true,
       isSubmitting: false,
-      title: '',
-      content: ''
+      title: null,
+      content: null
     }
   },
   created () {
@@ -38,8 +41,8 @@ export default {
     })
     .then(({ forumThread }) => {
       console.log('thread', forumThread)
-      this.title = forumThread.title
       this.content = forumThread.content
+      this.title = forumThread.title
     })
     .finally(() => {
       this.loading = false
