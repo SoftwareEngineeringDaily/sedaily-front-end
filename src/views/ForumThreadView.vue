@@ -219,13 +219,13 @@ export default {
   cursor pointer
 
 .last-edited
-  padding: 5px 10px;
-  background: #ffffed;
-  border: 1px solid #efeccd;
-  width: 70%;
-  border-radius: 14px;
-  font-family: Roboto-Italic;
-  margin-bottom: 20px;
+  padding 5px 10px
+  background #ffffed
+  border 1px solid #efeccd
+  width 70%
+  border-radius 14px
+  font-family Roboto-Italic
+  margin-bottom 20px
 
 .forum-thread-misc
   font-size 0.8rem
