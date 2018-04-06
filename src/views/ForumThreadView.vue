@@ -21,12 +21,12 @@
         <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
 
         <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-        <span class='delete' v-if='this.isMyThread' @click='remove'>
+        <span class='delete simple-link' v-if='this.isMyThread' @click='remove'>
           Delete
         </span>
 
         <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-        <span class='edit' v-if='this.isMyThread' @click='edit'>
+        <span class='edit simple-link' v-if='this.isMyThread' @click='edit'>
           Edit
         </span>
       </div>
@@ -167,7 +167,8 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../css/variables'
-
+.simple-link
+  cursor pointer
 
 .forum-thread-misc
   font-size 0.8rem
