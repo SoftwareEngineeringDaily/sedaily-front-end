@@ -11,6 +11,11 @@ export default {
     return axios.post(requestUrl, options)
   },
 
+  forumThreadEdit ({ commit, getters }, { content, title, id }) {
+    const url = `${BASE_URL}/forum/${id}`
+    return axios.put(url, {content, title})
+  },
+
   forumThreadDelete: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('Login to delete your post.')

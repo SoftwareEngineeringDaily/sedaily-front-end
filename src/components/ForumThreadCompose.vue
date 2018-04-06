@@ -62,7 +62,7 @@
             <button
               :disabled="isSubmitting"
               class='button-submit'
-              @click='submit'>Submit Post</button>
+              @click='submit'>{{submitButtonText}}</button>
           </span>
         </span>
 
@@ -128,6 +128,10 @@ export default {
       type: Function,
       required: true
     },
+    submitButtonText: {
+      type: String,
+      default: 'Create Thread'
+    },
     initialTitle: {
       type: String,
       default: ''
@@ -175,7 +179,6 @@ export default {
     }
   },
   methods: {
-
     toggleMarkdownHelp () {
       this.shouldShowMarkDownHelp = !this.shouldShowMarkDownHelp
     },

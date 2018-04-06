@@ -5,7 +5,8 @@
     <div v-if="content != null">
 
       <forum-thread-compose
-      :editing ="true"
+      :editing="true"
+      :submitButtonText="'Edit Thread'"
       :submitCallback="submitCallback"
       :initialTitle="title"
       :initialContent="content"
@@ -55,10 +56,22 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchForumThread'
+      'fetchForumThread',
+      'forumThreadEdit'
     ]),
-    submitCallback () {
+    submitCallback ({content, title}) {
       console.log('submit cb')
+      this.forumThreadEdit({
+        content,
+        title,
+        id: this.threadId
+      }).then(() => {
+        this.isSubmitting = false
+        this.$router.replace(`/forum/${this.threadId}`)
+      }).catch((error) => {
+          this.isSubmitting = false
+          this.$toasted.error(error.response.data.message)
+      })
     }
   }
 }
