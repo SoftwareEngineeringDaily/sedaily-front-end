@@ -25,10 +25,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'comment-form',
   props: {
-    rootEntityType: {
-      type: String,
-      required: false
-    },
     content: {
       type: String
     },

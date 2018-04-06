@@ -1,7 +1,6 @@
 
 <template>
   <comment-form
-    :rootEntityType="rootEntityType"
     :isSubmitting="isSubmitting"
     :content="commentContent"
     :submitCallback="submitCallback"
