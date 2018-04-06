@@ -1,13 +1,15 @@
 <template>
   <div v-if="me" class="col-md-8">
-    <comment-form
+    <div class='reply-container'>
+      <comment-form
       :rootEntityType="rootEntityType"
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
       :submitButtonText="'Reply'"
-    >
-    </comment-form>
+      >
+      </comment-form>
+    </div>
   </div>
 </template>
 
