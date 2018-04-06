@@ -99,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'metaTag']),
     ...mapState({
       jobId (state) {
         return state.route.params.id
@@ -113,8 +113,29 @@ export default {
       date () {
         return moment(this.job.postedDate).format('MMMM Do, YYYY')
       }
-    })
+    }),
+    jobDescriptionSummary() {
+      const maxLength = 400;
+      if (this.job.description.length > maxLength) {
+        return this.job.description.substr(0, maxLength-3) + '...'
+      }
+      return this.job.description
+    }
+  },
+  metaInfo() {
+    // wait for job before updating meta
+    if (!this.job) {
+      return {}
+    }
+    return {
+      meta: [
+        this.metaTag('og:title', this.job.title),
+        this.metaTag('og:url', location.href),
+        this.metaTag('og:description', this.jobDescriptionSummary)
+      ]
+    }
   }
+
 }
 </script>
 

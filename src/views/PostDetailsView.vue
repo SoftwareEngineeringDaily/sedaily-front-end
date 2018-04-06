@@ -123,7 +123,24 @@ export default {
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
-
+    postSummary () {
+      const maxLength = 400;
+      const el = document.createElement('template')
+      el.innerHTML = this.post.content.rendered.trim()
+      // spans contain text to extract "summary"
+      const paras = el.content.querySelectorAll('span')
+      let summary = '';
+      for (let para of paras) {
+        summary += para.innerText + ' ';
+        if (summary.length >= maxLength) {
+          break;
+        }
+      }
+      if (summary.length > maxLength) {
+        return summary.substr(0, maxLength-3) + '...'
+      }
+      return summary;
+    },
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
     },
@@ -148,7 +165,7 @@ export default {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     },
 
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'metaTag']),
     ...mapState({
       activePlayerPost (state) {
         return state.activePlayerPost
@@ -241,6 +258,21 @@ export default {
       this.downvote({
         id: this.postId
       })
+    }
+  },
+  metaInfo() {
+    // wait for post before updating meta
+    if (!this.post) {
+      return {}
+    }
+    return {
+      meta: [
+        this.metaTag('og:title', this.post.title.rendered),
+        this.metaTag('og:url', location.href),
+        this.metaTag('og:description', this.postSummary),
+        // links must use https
+        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+      ]
     }
   }
 }

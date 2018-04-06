@@ -18,7 +18,7 @@
             class="link">contributor</router-link>.
         </div>
       </div>
-      
+
       <div class="row">
         <transition
           name="fade"
@@ -62,8 +62,23 @@ export default {
     showBeta () {
       return this.$route.path === '/'
     },
-    ...mapGetters(['isLoggedIn'])
-  }
+    ...mapGetters(['isLoggedIn', 'metaTag'])
+  },
+  // as parent component, these meta tags will appear with defaults
+  // in <head></head> unless overwritten with same id in child component
+  metaInfo() {
+    return {
+      meta: [
+        this.metaTag('twitter:card'),
+        this.metaTag('twitter:site'),
+        this.metaTag('twitter:creator'),
+        this.metaTag('og:url'),
+        this.metaTag('og:title'),
+        this.metaTag('og:description'),
+        this.metaTag('og:image'),
+      ]
+    }
+  },
 }
 </script>
 
