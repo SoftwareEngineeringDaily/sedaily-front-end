@@ -25,6 +25,10 @@
           Delete
         </span>
 
+        <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
+        <span class='edit' v-if='this.isMyThread' @click='edit'>
+          Edit
+        </span>
       </div>
 
       <div class="row">
@@ -131,6 +135,9 @@ export default {
       }).then(() => {
         this.$router.replace('/forum')
       })
+    },
+    edit () {
+        this.$router.replace(`/forum/edit-thread/${this.threadId}`)
     },
     refreshThread () {
       this.isLoading = true

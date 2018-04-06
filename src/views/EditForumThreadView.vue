@@ -29,29 +29,31 @@ export default {
       content: ''
     }
   },
-  beforeMount () {
+  created () {
+    console.log('Editing thread', this.threadId)
+
     this.isLoading = true
     this.fetchForumThread({
-      id: this.entityId
+      id: this.threadId
     })
-    .then((thread) => {
-      console.log('thread', thread)
-      this.title = thread.title
-      this.content = thread.content
+    .then(({ forumThread }) => {
+      console.log('thread', forumThread)
+      this.title = forumThread.title
+      this.content = forumThread.content
     })
     .finally(() => {
       this.loading = false
     })
   },
   computed: {
-    entityId (state) {
-      return state.route.params.id
-    },
     threadId (state) {
-      return state.route.params.id
+      return state.$route.params.id
     }
   },
   methods: {
+    ...mapActions([
+      'fetchForumThread'
+    ]),
     submitCallback () {
       console.log('submit cb')
     }
