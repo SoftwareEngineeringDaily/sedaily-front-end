@@ -15,6 +15,9 @@
           :title="forumThread.title"
           :content="forumThread.content" />
 
+        <div v-if='lastEdited' class='last-edited'>
+          Last Edited: {{lastEdited}}
+        </div>
         <div class='forum-thread-misc'>
           Posted by
           <span>
@@ -113,6 +116,14 @@ export default {
         commentsMap: this.commentsMap
       })
     },
+    lastEdited () {
+      if (this.forumThread && this.forumThread.dateLastEdited) {
+        return moment(this.forumThread.dateLastEdited)
+          .startOf('hour').fromNow()
+      } else {
+        return false
+      }
+    },
     forumThreadContentSummary() {
       const maxLength = 400;
       if (this.forumThread.content.length > maxLength) {
@@ -206,6 +217,15 @@ export default {
 @import '../css/variables'
 .simple-link
   cursor pointer
+
+.last-edited
+  padding 5px 10px
+  background #ffffed
+  border 1px solid #efeccd
+  width 70%
+  border-radius 14px
+  font-family Roboto-Italic
+  margin-bottom 20px
 
 .forum-thread-misc
   font-size 0.8rem

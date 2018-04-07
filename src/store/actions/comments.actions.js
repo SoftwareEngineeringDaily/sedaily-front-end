@@ -34,6 +34,14 @@ export default {
       })
   },
 
+  editComment: ({ commit, getters, state }, { content, id }) => {
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('Login to edit your comment')
+      return
+    }
+    return axios.put(`${BASE_URL}/comments/${id}`, {content})
+  },
+
   removeComment: ({ commit, getters, state }, { id }) => {
     console.log('ID', id)
     if (!getters.isLoggedIn) {
