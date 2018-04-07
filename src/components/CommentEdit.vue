@@ -1,6 +1,5 @@
 <template>
   <comment-form
-      :rootEntityType="rootEntityType"
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
@@ -14,7 +13,7 @@ import CommentForm from '@/components/CommentForm.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'comment-edit'
+  name: 'comment-edit',
   props: {
     id: {
       type: String,
@@ -22,6 +21,10 @@ export default {
     },
     originalContent: {
       type: String,
+      required: true
+    },
+    doneCallback: {
+      type: Function,
       required: true
     }
   },
@@ -59,7 +62,7 @@ export default {
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.editComment({
-        id: this.id
+        id: this.id,
         content
       })
         .then((response) => {
@@ -68,6 +71,7 @@ export default {
           this.commentsFetch({
             entityId: this.entityId
           })
+          this.doneCallback()
         })
         .catch((error) => {
           this.$toasted.error(error.response.data.message)

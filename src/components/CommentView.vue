@@ -1,47 +1,66 @@
 <template>
-  <div class='comment-holder'>
-    <div class="row ">
-      <span class="arrows voting-container">
-        <voting-arrows
-        :upvoteHandler="upvoteHandler"
-        :upvoted="comment.upvoted"
-        :score="comment.score"></voting-arrows>
-      </span>
-
-      <span class="col-md-8 content-area" v-html="compiledMarkdown">
-      </span>
+  <span>
+    <div v-if="editing" class='comment-holder'>
+      Editing:
+      <comment-edit
+        :id="commentId"
+        :originalContent="commentContent"
+        :doneCallback="doneEditingCallback"
+      >
+      </comment-edit>
+      <br />
+      <button @click="editing=false">Cancel</button>
     </div>
-
-    <div class='row misc-detail'>
-      <div class=''>
-        <profile-label :userData="user(comment)">
-        </profile-label>
-
-        <div class="bullet-point">&#9679;</div>
-
-        <span class='comment-date'> {{date(comment)}} </span>
-
-        <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
-
-        <span v-if="!isReplying && isLoggedIn">
-          <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
+    <div v-if="!editing" class='comment-holder'>
+      <div class="row ">
+        <span class="arrows voting-container">
+          <voting-arrows
+          :upvoteHandler="upvoteHandler"
+          :upvoted="comment.upvoted"
+          :score="comment.score"></voting-arrows>
         </span>
-        <span v-if="isReplying && isLoggedIn" class='link' @click="isReplying=!isReplying">Cancel</span>
 
-        <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
-
-        <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
-          Delete
+        <span class="col-md-8 content-area" v-html="compiledMarkdown">
         </span>
+      </div>
+
+      <div class='row misc-detail'>
+        <div class=''>
+          <profile-label :userData="user(comment)">
+          </profile-label>
+
+          <div class="bullet-point">&#9679;</div>
+
+          <span class='comment-date'> {{date(comment)}} </span>
+
+          <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
+
+          <span v-if="!isReplying && isLoggedIn">
+            <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
+          </span>
+          <span v-if="isReplying && isLoggedIn" class='link' @click="isReplying=!isReplying">Cancel</span>
+
+          <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
+
+          <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='remove'>
+            Delete
+          </span>
+
+
+          <div class="bullet-point" v-if='this.isMyComment && !comment.deleted'>&#9679;</div>
+
+          <span class='delete' v-if='this.isMyComment && !comment.deleted' @click='editing=true'>
+            Edit
+          </span>
+        </div>
+      </div>
+      <div class='row' v-if="allowsReplies && isReplying">
+        <comment-reply v-if="isLoggedIn"
+        :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
     </div>
-    <div class='row' v-if="allowsReplies && isReplying">
-      <comment-reply v-if="isLoggedIn"
-      :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
-
-    </div>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -51,10 +70,11 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
 import CommentReply from 'components/CommentReply.vue'
+import CommentEdit from '@/components/CommentEdit.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel, CommentReply },
+  components: { VotingArrows, ProfileLabel, CommentReply, CommentEdit },
   props: {
     comment: {
       type: Object,
@@ -71,7 +91,8 @@ export default {
   },
   data () {
     return {
-      isReplying: false
+      isReplying: false,
+      editing: false
     }
   },
   computed: {
@@ -99,10 +120,19 @@ export default {
       isMyComment (state) {
         return this.me._id === this.comment.author._id
       }
-    })
+    }),
+    commentId () {
+      return this.comment._id
+    },
+    commentContent () {
+      return this.comment.content
+    }
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    doneEditingCallback () {
+      this.editing = false
+    },
     upvoteHandler () {
       console.log('entity::', this.comment.rootEntity, this.comment)
       this.likeComment({
