@@ -1,15 +1,13 @@
 <template>
   <span>
     <div v-if="editing" class='comment-holder'>
-      Editing:
+      Editing Comment:
       <comment-edit
         :id="commentId"
         :originalContent="commentContent"
         :doneCallback="doneEditingCallback"
       >
       </comment-edit>
-      <br />
-      <button @click="editing=false">Cancel</button>
     </div>
     <div v-if="!editing" class='comment-holder'>
       <div class="row ">
@@ -144,6 +142,7 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+
     doneEditingCallback () {
       this.editing = false
     },
