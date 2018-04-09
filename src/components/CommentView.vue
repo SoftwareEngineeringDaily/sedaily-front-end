@@ -218,7 +218,12 @@ export default {
   color #000
   max-width 65%
 .comment-holder .deleted
-  color #cecece
+  color #bf687e
+  background #f7f7f7
+  padding-top 16px
+  border-radius 20px
+  padding-left 20px
+  max-width 280px
 .misc-detail
   color #9B9B9B
   font-size 14px
@@ -246,5 +251,12 @@ export default {
   min-height 20px
   margin-left 5px
   margin-right 5px
+
+
+@media (max-width 600px)
+
+  .comment-holder .deleted
+      font-size 12px
+      max-width 265px
 
 </style>
