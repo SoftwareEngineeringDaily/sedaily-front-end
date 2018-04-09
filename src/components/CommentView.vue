@@ -22,7 +22,7 @@
         </span>
       </div>
 
-      <last-edited-info :lastEditedTimestamp="lastEdited" />
+      <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited" />
 
       <div class='row misc-detail'>
         <div class=''>
@@ -122,6 +122,10 @@ export default {
         return state.placeholderAvatar
       },
 
+      wasDeleted () {
+        return this.comment.deleted
+      },
+
       lastEdited () {
         return this.comment.dateLastEdited
       },
@@ -205,10 +209,10 @@ export default {
 .comment-holder
   margin-bottom -30px
 .content-area
-  margin-top 20px
-  margin-bottom 20px
+  margin-top 42px
+  margin-bottom 12px
   word-break break-word
-  color #777
+  color #000
   max-width 65%
 .misc-detail
   color #9B9B9B
