@@ -18,7 +18,10 @@
           :score="comment.score"></voting-arrows>
         </span>
 
-        <span class="col-md-8 content-area" v-html="compiledMarkdown">
+        <span v-if="wasDeleted" class="col-md-8 content-area deleted"
+         v-html="compiledMarkdown">
+        </span>
+        <span v-if="!wasDeleted" class="col-md-8 content-area" v-html="compiledMarkdown">
         </span>
       </div>
 
@@ -214,6 +217,8 @@ export default {
   word-break break-word
   color #000
   max-width 65%
+.comment-holder .deleted
+  color #cecece
 .misc-detail
   color #9B9B9B
   font-size 14px
