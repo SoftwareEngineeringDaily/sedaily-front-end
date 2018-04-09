@@ -13,16 +13,15 @@
     "prod": "npm run build && node dist/server.js",
     "start": "node dist/server.js",
     "build": "node build/build.js",
-    "build-staging": "cross-env API_ENV=staging npm run build",
+    "staging-build": "cross-env API_ENV=staging npm run build",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "selenium-test": "cross-env BABEL_ENV=test mocha test/selenium --timeout 900000",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix",
-    "deploy": "git subtree push --prefix dist heroku master",
-    "staging-deploy2": "git push staging `git subtree split --prefix dist develop`:master --force",
-    "deploy2": "git push heroku `git subtree split --prefix dist master`:master --force"
+    "staging-deploy": "git push staging `git subtree split --prefix dist develop`:master --force",
+    "deploy": "git push heroku `git subtree split --prefix dist master`:master --force"
   },
   "dependencies": {
     "aplayer": "^1.10.0",
