@@ -7,7 +7,7 @@ const EVENTS_API_BASE_URL = apiConfig.EVENTS_API_BASE_URL
 
 function eventRequestWrapper (username, eventType, eventData) {
   return axios.post(`${EVENTS_API_BASE_URL}`, {
-    clientId: username,
+    clientId: username || 'anonymous',
     deviceType: 'Browser',
     eventTime: new Date().getTime(),
     eventType: eventType,
