@@ -24,6 +24,8 @@
         </span>
       </div>
 
+      <last-edited-info :lastEditedTimestamp="lastEdited" />
+
       <div class='row misc-detail'>
         <div class=''>
           <profile-label :userData="user(comment)">
@@ -54,6 +56,7 @@
           </span>
         </div>
       </div>
+
       <div class='row' v-if="allowsReplies && isReplying">
         <comment-reply v-if="isLoggedIn"
         :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
@@ -71,10 +74,17 @@ import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
 import CommentReply from 'components/CommentReply.vue'
 import CommentEdit from '@/components/CommentEdit.vue'
+import LastEditedInfo from '@/components/LastEditedInfo.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel, CommentReply, CommentEdit },
+  components: {
+    VotingArrows,
+    ProfileLabel,
+    CommentReply,
+    LastEditedInfo,
+    CommentEdit
+  },
   props: {
     comment: {
       type: Object,
@@ -111,6 +121,10 @@ export default {
 
       placeholderAvatar (state) {
         return state.placeholderAvatar
+      },
+
+      lastEdited () {
+        return this.comment.dateLastEdited
       },
 
       me (state) {

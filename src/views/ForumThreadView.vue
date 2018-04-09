@@ -15,9 +15,7 @@
           :title="forumThread.title"
           :content="forumThread.content" />
 
-        <div v-if='lastEdited' class='last-edited'>
-          Last Edited: {{lastEdited}}
-        </div>
+        <last-edited-info :lastEditedTimestamp="lastEdited" />
         <div class='forum-thread-misc'>
           Posted by
           <span>
@@ -73,6 +71,7 @@ import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
+import LastEditedInfo from '@/components/LastEditedInfo.vue'
 import { parseIdsIntoComments } from '@/utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
@@ -82,6 +81,7 @@ export default {
     Spinner,
     CommentsList,
     CommentCompose,
+    LastEditedInfo,
     ForumThreadBody
   },
   data () {
@@ -109,20 +109,15 @@ export default {
         return false
       }
     },
+    lastEdited () {
+      return this.forumThread.dateLastEdited
+    },
     comments () {
       const parentCommentIds = this.entityComments[this.$route.params.id] || []
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
       })
-    },
-    lastEdited () {
-      if (this.forumThread && this.forumThread.dateLastEdited) {
-        return moment(this.forumThread.dateLastEdited)
-          .startOf('hour').fromNow()
-      } else {
-        return false
-      }
     },
     forumThreadContentSummary() {
       const maxLength = 400;
@@ -217,15 +212,6 @@ export default {
 @import '../css/variables'
 .simple-link
   cursor pointer
-
-.last-edited
-  padding 5px 10px
-  background #ffffed
-  border 1px solid #efeccd
-  width 70%
-  border-radius 14px
-  font-family Roboto-Italic
-  margin-bottom 20px
 
 .forum-thread-misc
   font-size 0.8rem
