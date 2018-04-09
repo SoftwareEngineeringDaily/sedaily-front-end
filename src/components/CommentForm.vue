@@ -14,7 +14,7 @@
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
 
-      <button v-if="showCancel" class='btn btn-danger'
+      <button v-if="showCancel" class='btn btn-link'
         :disabled="isSubmitting"
         @click='cancelPressed'>Cancel</button>
 
