@@ -57,6 +57,7 @@
 
       <div class='row' v-if="allowsReplies && isReplying">
         <comment-reply v-if="isLoggedIn"
+        :doneCallback="doneReplyingCallback"
         :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
@@ -142,7 +143,9 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
-
+    doneReplyingCallback () {
+      this.isReplying = false
+    },
     doneEditingCallback () {
       this.editing = false
     },

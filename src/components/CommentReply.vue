@@ -5,6 +5,8 @@
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
+      :cancelPressed="doneCallback"
+      :showCancel="true"
       :submitButtonText="'Reply'"
       >
       </comment-form>
@@ -21,6 +23,10 @@ export default {
   props: {
     parentComment: {
       type: Object,
+      required: true
+    },
+    doneCallback: {
+      type: Function,
       required: true
     },
     rootEntityType: {
@@ -73,6 +79,7 @@ export default {
           this.commentsFetch({
             entityId: this.entityId
           })
+          this.doneCallback()
         })
         .catch((error) => {
           this.$toasted.error(error.response.data.message)
