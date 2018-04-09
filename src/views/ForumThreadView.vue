@@ -6,8 +6,10 @@
 
     <div v-if="isDeleting">
       Are you sure you want to delete your thread?
-      <button @click="confirmDelete"> Confirm Delete </button>
-      <button @click="cancelDelete"> Cancel </button>
+      <br />
+      <br />
+      <button @click="confirmDelete" class='btn btn-warning'> Confirm Delete </button>
+      <button @click="cancelDelete" class='btn btn-link'> Cancel </button>
     </div>
     <div v-if="!isDeleting">
       <div v-if="forumThread">
