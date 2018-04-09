@@ -1,15 +1,13 @@
 <template>
   <span>
     <div v-if="editing" class='comment-holder'>
-      Editing:
+      Editing Comment:
       <comment-edit
         :id="commentId"
         :originalContent="commentContent"
         :doneCallback="doneEditingCallback"
       >
       </comment-edit>
-      <br />
-      <button @click="editing=false">Cancel</button>
     </div>
     <div v-if="!editing" class='comment-holder'>
       <div class="row ">
@@ -23,6 +21,8 @@
         <span class="col-md-8 content-area" v-html="compiledMarkdown">
         </span>
       </div>
+
+      <last-edited-info :lastEditedTimestamp="lastEdited" />
 
       <div class='row misc-detail'>
         <div class=''>
@@ -54,8 +54,10 @@
           </span>
         </div>
       </div>
+
       <div class='row' v-if="allowsReplies && isReplying">
         <comment-reply v-if="isLoggedIn"
+        :doneCallback="doneReplyingCallback"
         :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
@@ -71,10 +73,17 @@ import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
 import CommentReply from 'components/CommentReply.vue'
 import CommentEdit from '@/components/CommentEdit.vue'
+import LastEditedInfo from '@/components/LastEditedInfo.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel, CommentReply, CommentEdit },
+  components: {
+    VotingArrows,
+    ProfileLabel,
+    CommentReply,
+    LastEditedInfo,
+    CommentEdit
+  },
   props: {
     comment: {
       type: Object,
@@ -113,6 +122,10 @@ export default {
         return state.placeholderAvatar
       },
 
+      lastEdited () {
+        return this.comment.dateLastEdited
+      },
+
       me (state) {
         return state.me
       },
@@ -130,6 +143,9 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    doneReplyingCallback () {
+      this.isReplying = false
+    },
     doneEditingCallback () {
       this.editing = false
     },

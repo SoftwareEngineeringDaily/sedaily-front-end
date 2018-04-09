@@ -278,6 +278,20 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+  .post-transcript
+    .row
+      .row
+        display none
+</style>
+
+<style lang="stylus">
+  .post-transcript
+    .row
+      .row
+        display none
+</style>
+
 <style scoped lang="stylus">
 @import './../css/variables'
 

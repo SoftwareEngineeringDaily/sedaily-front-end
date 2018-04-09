@@ -13,6 +13,12 @@
       <button class='button-submit'
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
+
+      <button v-if="showCancel" class='btn btn-link'
+        :disabled="isSubmitting"
+        @click='cancelPressed'>Cancel</button>
+
+
     </div>
   </div>
 </template>
@@ -27,6 +33,13 @@ export default {
   props: {
     content: {
       type: String
+    },
+    showCancel: {
+      type: Boolean,
+      default: false
+    },
+    cancelPressed: {
+      type: Function
     },
     isSubmitting: {
       type: Boolean,
