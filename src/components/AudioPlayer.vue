@@ -1,5 +1,8 @@
 <template>
-<div>
+<div v-show="active">
+  <div class="close-button">
+    <span class="fa fa-times" title="close" @click="close"/>
+  </div>
   <div class="audio-player-container" v-if="music">
     <div class="image" :style="imageStyle">
       <div class="player-controls">
@@ -68,6 +71,7 @@ export default {
       isPaused: false,
       isMuted: false,
       doubleSpeed: false,
+      active: false,
       progress: 0,
       progressOptions: {
         min: 0,
@@ -130,6 +134,10 @@ export default {
     onEnded () {
       this.$emit('finished')
     },
+    close () {
+      this.$refs.player.pause()
+      this.active = !this.active
+    },
     onPause () {
       this.isPaused = true
       this.isPlaying = false
@@ -154,6 +162,7 @@ export default {
       this.$refs.player.pause()
     },
     play () {
+      this.active = true
       this.$refs.player.play()
     },
     mute () {
@@ -221,4 +230,9 @@ export default {
   margin-top 5px
   .vue-slider-component
     padding 0
+.close-button
+  color #999
+  cursor pointer
+  margin 0 10px
+  float right
 </style>
