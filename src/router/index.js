@@ -28,6 +28,7 @@ import Forum from '@/views/Forum'
 import ForumThreadView from '@/views/ForumThreadView'
 import NewForumThreadView from '@/views/NewForumThreadView'
 import EditForumThreadView from '@/views/EditForumThreadView'
+import NotiicationSettingsView from '@/views/NotiicationSettingsView'
 
 import authorize from './authHook'
 
@@ -50,6 +51,7 @@ const router = new Router({
     { path: '/edit-profile', beforeEnter: authorize, component: EditProfile },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
+    { path: '/notification-settings', beforeEnter: authorize, component: NotiicationSettingsView },
     { path: '/profile', component: ProfileView },
     { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
     { path: '/jobs', component: JobsBoardView },
