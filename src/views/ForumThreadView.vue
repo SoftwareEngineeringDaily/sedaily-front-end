@@ -68,7 +68,7 @@
 
 <script>
 import moment from 'moment'
-import Spinner from 'components/Spinner.vue'
+import Spinner from 'components/Spinner'
 import CommentsList from 'components/comment/CommentsList'
 import CommentCompose from 'components/comment/CommentCompose'
 import ForumThreadBody from 'components/forum/ForumThreadBody'

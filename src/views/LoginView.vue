@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Spinner from 'components/Spinner.vue'
+import Spinner from 'components/Spinner'
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
 import { mapGetters } from 'vuex'
 

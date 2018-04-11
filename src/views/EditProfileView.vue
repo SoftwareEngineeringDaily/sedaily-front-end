@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import UpdateProfile from 'components/profile/UpdateProfile.vue'
+import UpdateProfile from 'components/profile/UpdateProfile'
 import { mapState } from 'vuex'
 
 export default {

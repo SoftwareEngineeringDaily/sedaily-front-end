@@ -1,7 +1,7 @@
 import { shallow, createLocalVue } from '@vue/test-utils'
-import CategoryList from 'components/CategoryList.vue'
+import CategoryList from 'components/CategoryList'
 
-describe('CategoryList.vue', (done) => {
+describe('CategoryList', (done) => {
   const localVue = createLocalVue()
 
   it('should render all categories plus All', () => {

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import FeedItem from 'components/FeedItem.vue'
+import FeedItem from 'components/FeedItem'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',

@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import ProfileLabel from 'components/profile/ProfileLabel'
 
-describe('ProfileLabel.vue', () => {
+describe('ProfileLabel', () => {
   localVue.use(Vuex)
   localVue.use(Router)
 

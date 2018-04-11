@@ -2,7 +2,7 @@ import { shallow } from '@vue/test-utils'
 import localVue from './../helpers'
 import FeedItem from 'components/FeedItem'
 
-describe('FeedItem.vue', () => {
+describe('FeedItem', () => {
   const feedItem = {
     url: 'http://foo.com',
     image: 'bar',

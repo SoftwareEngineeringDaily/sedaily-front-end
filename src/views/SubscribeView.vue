@@ -87,7 +87,7 @@
 import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
-import Spinner from '../components/Spinner.vue'
+import Spinner from '../components/Spinner'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {

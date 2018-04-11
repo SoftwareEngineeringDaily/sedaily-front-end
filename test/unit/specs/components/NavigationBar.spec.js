@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import NavigationBar from 'components/NavigationBar'
 
-describe('NavigationBar.vue', (done) => {
+describe('NavigationBar', (done) => {
   const localVue = createLocalVue()
 
   localVue.use(Vuex)

@@ -78,11 +78,11 @@
 </template>
 
 <script>
-import Spinner from 'components/Spinner.vue'
-import CommentsList from 'components/comment/CommentsList.vue'
-import CommentCompose from 'components/comment/CommentCompose.vue'
-import RelatedLinkList from 'components/relatedLinks/RelatedLinkList.vue'
-import RelatedLinkCompose from 'components/relatedLinks/RelatedLinkCompose.vue'
+import Spinner from 'components/Spinner'
+import CommentsList from 'components/comment/CommentsList'
+import CommentCompose from 'components/comment/CommentCompose'
+import RelatedLinkList from 'components/relatedLinks/RelatedLinkList'
+import RelatedLinkCompose from 'components/relatedLinks/RelatedLinkCompose'
 import PostSidebar from 'components/post/PostSidebar'
 import PostHeader from 'components/post/PostHeader'
 import PostSelectionIcons from 'components/post/PostSelectionIcons'

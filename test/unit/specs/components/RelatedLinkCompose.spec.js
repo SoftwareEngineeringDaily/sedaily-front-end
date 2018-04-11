@@ -5,7 +5,7 @@ import Router from 'vue-router'
 import Toasted from 'vue-toasted'
 import RelatedLinkCompose from 'components/relatedLinks/RelatedLinkCompose'
 
-describe('RelatedLinkCompose.vue', (done) => {
+describe('RelatedLinkCompose', (done) => {
   const localVue = createLocalVue()
 
   localVue.use(Vuex)

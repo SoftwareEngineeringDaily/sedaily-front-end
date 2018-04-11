@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import ProfileDetails from 'components/profile/ProfileDetails'
 
-describe('ProfileDetails.vue', () => {
+describe('ProfileDetails', () => {
   localVue.use(Vuex)
   localVue.use(Router)
 

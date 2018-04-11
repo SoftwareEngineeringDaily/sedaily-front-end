@@ -1,10 +1,10 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import LoginView from '@/views/LoginView.vue'
+import LoginView from '@/views/LoginView'
 import initialState from '@/store/initialState'
 import VeeValidate from 'vee-validate'
 
-describe('LoginView.vue', () => {
+describe('LoginView', () => {
   const localVue = createLocalVue()
 
   localVue.use(Vuex)
