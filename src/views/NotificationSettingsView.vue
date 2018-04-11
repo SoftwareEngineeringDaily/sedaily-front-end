@@ -40,8 +40,9 @@
   </div>
 </template>
 <script>
-import Spinner from '@/components/Spinner'
+import Spinner from 'components/Spinner'
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'notiication-settings',
   data () {

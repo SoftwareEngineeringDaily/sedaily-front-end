@@ -1,34 +1,34 @@
 import Router from 'vue-router'
-import TopListView from '@/views/TopListView'
-import NewListView from '@/views/NewListView'
-import PostDetailsView from '@/views/PostDetailsView'
-import LoginView from '@/views/LoginView'
-import SubscribeView from '@/views/SubscribeView'
-import RegisterView from '@/views/RegisterView'
-import RecomendationListView from '@/views/RecomendationListView'
-import EditProfile from '@/views/EditProfileView'
-import FeedView from '@/views/FeedView'
-import ProfileView from '@/views/ProfileView'
-import PublicProfileView from '@/views/PublicProfileView'
-import ForgotPassword from '@/views/ForgotPassword'
-import RegainAccount from '@/views/RegainAccount'
-import PremiumChoices from '@/views/PremiumChoices'
-import JobsBoardView from '@/views/JobsBoardView'
-import JobView from '@/views/JobView'
-import AddJobView from '@/views/AddJobView'
-import EditJobView from '@/views/EditJobView'
+import TopListView from 'views/TopListView'
+import NewListView from 'views/NewListView'
+import PostDetailsView from 'views/PostDetailsView'
+import LoginView from 'views/LoginView'
+import SubscribeView from 'views/SubscribeView'
+import RegisterView from 'views/RegisterView'
+import RecomendationListView from 'views/RecomendationListView'
+import EditProfile from 'views/EditProfileView'
+import FeedView from 'views/FeedView'
+import ProfileView from 'views/ProfileView'
+import PublicProfileView from 'views/PublicProfileView'
+import ForgotPassword from 'views/ForgotPassword'
+import RegainAccount from 'views/RegainAccount'
+import PremiumChoices from 'views/PremiumChoices'
+import JobsBoardView from 'views/JobsBoardView'
+import JobView from 'views/JobView'
+import AddJobView from 'views/AddJobView'
+import EditJobView from 'views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
-import CompanyLandingPage from '@/views/CompanyLandingPage'
-import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
-import AdminDashboard from '@/views/AdminDashboard'
-import CompanyCompose from '@/views/CompanyCompose'
-import CompanyEdit from '@/views/CompanyEdit'
-import Contributors from '@/views/Contributors'
-import Forum from '@/views/Forum'
-import ForumThreadView from '@/views/ForumThreadView'
-import NewForumThreadView from '@/views/NewForumThreadView'
-import EditForumThreadView from '@/views/EditForumThreadView'
-import NotiicationSettingsView from '@/views/NotiicationSettingsView'
+import CompanyLandingPage from 'views/CompanyLandingPage'
+import UpdateCompanyProfile from 'views/UpdateCompanyProfile'
+import AdminDashboard from 'views/AdminDashboard'
+import CompanyCompose from 'views/CompanyCompose'
+import CompanyEdit from 'views/CompanyEdit'
+import Contributors from 'views/Contributors'
+import Forum from 'views/Forum'
+import ForumThreadView from 'views/ForumThreadView'
+import NewForumThreadView from 'views/NewForumThreadView'
+import EditForumThreadView from 'views/EditForumThreadView'
+import NotificationSettingsView from 'views/NotificationSettingsView'
 
 import authorize from './authHook'
 
@@ -51,7 +51,12 @@ const router = new Router({
     { path: '/edit-profile', beforeEnter: authorize, component: EditProfile },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
-    { path: '/notification-settings', name: 'NotificationSettings', beforeEnter: authorize, component: NotiicationSettingsView },
+    {
+      path: '/notification-settings',
+      name: 'NotificationSettings',
+      beforeEnter: authorize,
+      component: NotificationSettingsView
+    },
     { path: '/profile', component: ProfileView },
     { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
     { path: '/jobs', component: JobsBoardView },
