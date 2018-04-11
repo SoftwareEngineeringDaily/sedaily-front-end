@@ -73,8 +73,9 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
+import Spinner from 'components/Spinner'
 import { mapActions } from 'vuex'
+
 export default {
   name: 'job-apply-modal',
   props: {

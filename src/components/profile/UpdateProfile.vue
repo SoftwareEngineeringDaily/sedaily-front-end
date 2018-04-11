@@ -95,7 +95,7 @@
 
 <script>
 // Maybe this can be a simple updater of profiles etc:
-import Spinner from 'components/Spinner.vue'
+import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 // TODO: remove usename update for now?
 export default {

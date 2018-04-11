@@ -20,8 +20,8 @@
 
 <script>
 
-import CompanyHeader from '@/components/CompanyHeader.vue'
-import JobSummary from '@/components/JobSummary.vue'
+import CompanyHeader from 'components/company/CompanyHeader'
+import JobSummary from 'components/jobs/JobSummary'
 import { mapState, mapActions } from 'vuex'
 export default {
   name: 'CompanyLandingPage',

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import RelatedLink from '@/components/RelatedLink.vue'
+import RelatedLink from 'components/relatedLinks/RelatedLink'
 
 export default {
   name: 'related-link-list',

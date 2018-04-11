@@ -73,8 +73,8 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import Spinner from '@/components/Spinner.vue'
-import JobSummary from '@/components/JobSummary.vue'
+import Spinner from 'components/Spinner'
+import JobSummary from 'components/jobs/JobSummary'
 export default {
   name: 'jobs-board-view',
 

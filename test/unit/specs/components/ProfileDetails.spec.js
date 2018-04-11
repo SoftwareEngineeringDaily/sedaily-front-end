@@ -2,7 +2,7 @@ import { shallow } from '@vue/test-utils'
 import localVue from './../helpers'
 import Vuex from 'vuex'
 import Router from 'vue-router'
-import ProfileDetails from '@/components/ProfileDetails.vue'
+import ProfileDetails from 'components/ProfileDetails.vue'
 
 describe('ProfileDetails.vue', () => {
   localVue.use(Vuex)

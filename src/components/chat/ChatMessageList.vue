@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ChatMessage from './ChatMessage'
+import ChatMessage from 'components/chat/ChatMessage'
 
 export default {
   name: 'chat-message-list',
@@ -34,11 +34,11 @@ export default {
 }
 </script>
 
-<style scoped>
-.chat-history {
-  height: 325px;
-  padding: 8px 24px;
-  overflow-y: scroll;
-}
+<style scoped lang="stylus">
+.chat-history
+  height 325px
+  padding 8px 24px
+  overflow-y scroll
+
 </style>
 

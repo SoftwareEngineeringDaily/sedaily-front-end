@@ -42,9 +42,9 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import StickyPlayer from './components/StickyPlayer.vue'
-import ChatBox from './components/ChatBox.vue'
-import NavigationBar from './components/NavigationBar.vue'
+import StickyPlayer from 'components/player/StickyPlayer'
+import ChatBox from 'components/chat/ChatBox'
+import NavigationBar from 'components/NavigationBar'
 
 export default {
   name: 'app',

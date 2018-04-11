@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import CompanyForm from '@/components/CompanyForm.vue'
+import CompanyForm from 'components/company/CompanyForm'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'company-compose',

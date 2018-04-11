@@ -41,8 +41,8 @@
 
 <script>
 import moment from 'moment'
-import VotingArrows from 'components/VotingArrows.vue'
-import ProfileLabel from 'components/ProfileLabel.vue'
+import VotingArrows from 'components/VotingArrows'
+import ProfileLabel from 'components/profile/ProfileLabel'
 import { mapActions } from 'vuex'
 
 export default {
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import '../css/variables'
+@import '../../css/variables'
 
 .forum-summary-container
   font-family Roboto-Light

@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import './../css/variables'
+@import './../../css/variables'
 
 .job-summary
   margin-bottom 30px

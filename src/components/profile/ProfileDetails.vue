@@ -64,7 +64,7 @@
 </script>
 
 <style scoped lang="stylus">
-  @import './../css/variables'
+  @import './../../css/variables'
   .profile-details
     padding-top 5px
 

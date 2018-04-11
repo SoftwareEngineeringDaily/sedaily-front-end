@@ -113,7 +113,7 @@
 
 <script>
 import Spinner from 'components/Spinner'
-import ForumThreadBody from '@/components/ForumThreadBody.vue'
+import ForumThreadBody from 'components/forum/ForumThreadBody'
 import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 
@@ -205,7 +205,7 @@ export default {
 
 
 <style scoped lang="stylus">
-@import './../css/variables'
+@import './../../css/variables'
 
 .forum-content-box
   width 100%

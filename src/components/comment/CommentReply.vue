@@ -1,33 +1,37 @@
 <template>
-  <comment-form
+  <div v-if="me" class="col-md-8">
+    <div class='reply-container'>
+      <comment-form
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
       :showCancel="true"
-      :submitButtonText="'Edit'"
+      :submitButtonText="'Reply'"
       >
-    </comment-form>
+      </comment-form>
+    </div>
+  </div>
 </template>
 
 <script>
-import CommentForm from '@/components/CommentForm.vue'
+import CommentForm from 'components/comment/CommentForm'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'comment-edit',
+  name: 'comment-reply',
   props: {
-    id: {
-      type: String,
-      required: true
-    },
-    originalContent: {
-      type: String,
+    parentComment: {
+      type: Object,
       required: true
     },
     doneCallback: {
       type: Function,
       required: true
+    },
+    rootEntityType: {
+      type: String,
+      required: false
     }
   },
   components: {
@@ -38,7 +42,7 @@ export default {
   },
   data () {
     return {
-      commentContent: this.originalContent,
+      commentContent: '',
       isSubmitting: false,
       username: null,
       loading: true
@@ -58,13 +62,15 @@ export default {
   },
 
   methods: {
-    ...mapActions(['editComment', 'commentsFetch']),
+    ...mapActions(['commentsCreate', 'commentsFetch']),
     submitCallback ({ content }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
-      this.editComment({
-        id: this.id,
+      this.commentsCreate({
+        entityId: this.entityId,
+        rootEntityType: this.rootEntityType,
+        parentCommentId: this.parentComment._id,
         content
       })
         .then((response) => {

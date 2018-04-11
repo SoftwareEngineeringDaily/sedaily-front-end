@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ChatMessageList from './ChatMessageList'
-import ChatAddForm from './ChatAddForm'
+import ChatMessageList from 'components/chat/ChatMessageList'
+import ChatAddForm from 'components/chat/ChatAddForm'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {

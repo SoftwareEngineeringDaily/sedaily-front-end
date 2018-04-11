@@ -69,11 +69,11 @@
 import marked from 'marked'
 import moment from 'moment'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import VotingArrows from 'components/VotingArrows.vue'
-import ProfileLabel from 'components/ProfileLabel.vue'
-import CommentReply from 'components/CommentReply.vue'
-import CommentEdit from '@/components/CommentEdit.vue'
-import LastEditedInfo from '@/components/LastEditedInfo.vue'
+import VotingArrows from 'components/VotingArrows'
+import ProfileLabel from 'components/profile/ProfileLabel'
+import CommentReply from 'components/comment/CommentReply'
+import CommentEdit from 'components/comment/CommentEdit'
+import LastEditedInfo from 'components/comment/LastEditedInfo'
 
 export default {
   name: 'comment-view',
@@ -192,7 +192,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import '../css/variables'
+@import '../../css/variables'
 
 .content-area {
   /deep/ a {

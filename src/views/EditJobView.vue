@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import JobForm from '@/components/JobForm.vue'
+import JobForm from 'components/jobs/JobForm'
 import { mapGetters, mapActions, mapState } from 'vuex'
 // TODO: disable if userId is not the same as postingUser
 export default {

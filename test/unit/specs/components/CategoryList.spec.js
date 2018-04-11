@@ -1,5 +1,5 @@
 import { shallow, createLocalVue } from '@vue/test-utils'
-import CategoryList from '@/components/CategoryList.vue'
+import CategoryList from 'components/CategoryList.vue'
 
 describe('CategoryList.vue', (done) => {
   const localVue = createLocalVue()

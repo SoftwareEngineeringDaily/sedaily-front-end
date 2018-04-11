@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import UpdateProfile from 'components/UpdateProfile.vue'
+import UpdateProfile from 'components/profile/UpdateProfile'
 import Spinner from 'components/Spinner'
 import { mapState } from 'vuex'
 
@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import './../css/variables'
+@import './../../css/variables'
 
 .comment-box
   width 100%

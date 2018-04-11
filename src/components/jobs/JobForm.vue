@@ -178,7 +178,8 @@
   </div>
 </template>
 <script>
-import Spinner from '@/components/Spinner.vue'
+import Spinner from 'components/Spinner'
+
 export default {
   name: 'job-form',
   props: {

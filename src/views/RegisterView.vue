@@ -112,7 +112,7 @@
 <script>
 import { wantedToSubscribe } from '../utils/subscription.utils.js'
 import { mapActions, mapGetters } from 'vuex'
-import Spinner from '@/components/Spinner.vue'
+import Spinner from 'components/Spinner.vue'
 
 export default {
   name: 'top-list',

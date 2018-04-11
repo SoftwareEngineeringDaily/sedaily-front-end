@@ -15,8 +15,8 @@
 </template>
 <script type="text/javascript">
 import { mapActions, mapState } from 'vuex'
-import ProfileDetails from '@/components/ProfileDetails.vue'
-import Spinner from '@/components/Spinner.vue'
+import ProfileDetails from 'components/profile/ProfileDetails.vue'
+import Spinner from 'components/Spinner.vue'
 
 export default {
   name: 'profile-view',

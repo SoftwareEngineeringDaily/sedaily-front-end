@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ForumThreadCompose from '@/components/ForumThreadCompose.vue'
+import ForumThreadCompose from 'components/forum/ForumThreadCompose'
 import { mapActions } from 'vuex'
 
 export default {

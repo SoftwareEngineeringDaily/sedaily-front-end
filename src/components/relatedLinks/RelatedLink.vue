@@ -21,7 +21,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import VotingArrows from '@/components/VotingArrows.vue'
+import VotingArrows from 'components/VotingArrows'
 export default {
   name: 'related-link',
   components: { VotingArrows },

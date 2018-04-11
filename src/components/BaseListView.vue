@@ -52,10 +52,10 @@
 
 <script>
 import moment from 'moment'
-import Spinner from 'components/Spinner.vue'
-import PostSummary from 'components/PostSummary.vue'
-import CategoryList from 'components/CategoryList.vue'
-import Blank from 'components/Blank.vue'
+import Spinner from 'components/Spinner'
+import PostSummary from 'components/post/PostSummary'
+import CategoryList from 'components/CategoryList'
+import Blank from 'components/Blank'
 
 export default {
   name: 'top-list',

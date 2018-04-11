@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import JobSummary from '@/components/JobSummary.vue'
+import JobSummary from 'components/jobs/JobSummary'
 import { mapActions } from 'vuex'
 export default {
   name: 'company-form',

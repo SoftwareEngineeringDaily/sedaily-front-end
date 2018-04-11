@@ -55,8 +55,8 @@
 
 <script>
 import moment from 'moment'
-import Spinner from '@/components/Spinner.vue'
-import JobApplyModal from '@/components/JobApplyModal.vue'
+import Spinner from 'components/Spinner'
+import JobApplyModal from 'components/jobs/JobApplyModal'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   name: 'job-view',

@@ -38,7 +38,7 @@
 
 </template>
 <script>
-import Spinner from '@/components/Spinner.vue'
+import Spinner from 'components/Spinner.vue'
 
 export default {
   name: 'forgot-password',

@@ -26,8 +26,8 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import Spinner from '@/components/Spinner.vue'
-import ForumThreadSummary from '@/components/ForumThreadSummary'
+import Spinner from 'components/Spinner'
+import ForumThreadSummary from 'components/forum/ForumThreadSummary'
 
 export default {
   name: 'forum',

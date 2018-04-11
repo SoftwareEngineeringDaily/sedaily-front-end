@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import VotingArrows from '@/components/VotingArrows'
+import VotingArrows from 'components/VotingArrows'
 
 export default {
   components: {

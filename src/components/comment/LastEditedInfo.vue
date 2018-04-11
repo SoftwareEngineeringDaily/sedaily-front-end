@@ -8,6 +8,7 @@
 
 <script>
 import moment from 'moment'
+
 export default {
   name: 'last-edited-info',
   props: {

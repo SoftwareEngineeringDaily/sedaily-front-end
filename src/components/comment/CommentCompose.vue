@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CommentForm from '@/components/CommentForm.vue'
+import CommentForm from 'components/comment/CommentForm'
 import { mapState, mapActions } from 'vuex'
 export default  {
   name: 'comment-compose',

@@ -67,7 +67,7 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
-import { PlayerState } from './../utils/playerState'
+import { PlayerState } from '@/utils/playerState'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -154,7 +154,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import './../css/variables'
+@import './../../css/variables'
 
 .news-post
   display inline-flex

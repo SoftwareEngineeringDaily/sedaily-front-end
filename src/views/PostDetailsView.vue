@@ -78,17 +78,17 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
-import CommentsList from '@/components/CommentsList.vue'
-import CommentCompose from '@/components/CommentCompose.vue'
-import RelatedLinkList from '@/components/RelatedLinkList.vue'
-import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
-import PostSidebar from '@/components/post/PostSidebar'
-import PostHeader from '@/components/post/PostHeader'
-import PostSelectionIcons from '@/components/post/PostSelectionIcons'
-import PostMeta from '@/components/post/PostMeta'
+import Spinner from 'components/Spinner.vue'
+import CommentsList from 'components/comment/CommentsList.vue'
+import CommentCompose from 'components/comment/CommentCompose.vue'
+import RelatedLinkList from 'components/relatedLinks/RelatedLinkList.vue'
+import RelatedLinkCompose from 'components/relatedLinks/RelatedLinkCompose.vue'
+import PostSidebar from 'components/post/PostSidebar'
+import PostHeader from 'components/post/PostHeader'
+import PostSelectionIcons from 'components/post/PostSelectionIcons'
+import PostMeta from 'components/post/PostMeta'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import { PlayerState } from './../utils/playerState'
+import { PlayerState } from '@/utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
 
 export default {

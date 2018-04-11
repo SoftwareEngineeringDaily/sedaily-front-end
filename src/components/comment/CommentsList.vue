@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import CommentView from 'components/CommentView.vue'
-import Spinner from '@/components/Spinner.vue'
+import CommentView from 'components/comment/CommentView'
+import Spinner from 'components/Spinner'
 
 export default {
   name: 'comments-list',

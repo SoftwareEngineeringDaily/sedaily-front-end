@@ -14,8 +14,7 @@
     <div v-if="!isDeleting">
       <div v-if="forumThread">
         <forum-thread-body
-          :title="forumThread.title"
-          :content="forumThread.content" />
+          :thread="forumThread" />
 
         <last-edited-info :lastEditedTimestamp="lastEdited" />
         <div class='forum-thread-misc'>
@@ -69,11 +68,11 @@
 
 <script>
 import moment from 'moment'
-import Spinner from '@/components/Spinner.vue'
-import CommentsList from '@/components/CommentsList.vue'
-import CommentCompose from '@/components/CommentCompose.vue'
-import ForumThreadBody from '@/components/ForumThreadBody.vue'
-import LastEditedInfo from '@/components/LastEditedInfo.vue'
+import Spinner from 'components/Spinner.vue'
+import CommentsList from 'components/comment/CommentsList'
+import CommentCompose from 'components/comment/CommentCompose'
+import ForumThreadBody from 'components/forum/ForumThreadBody'
+import LastEditedInfo from 'components/comment/LastEditedInfo'
 import { parseIdsIntoComments } from '@/utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
 

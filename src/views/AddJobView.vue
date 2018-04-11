@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import JobForm from '@/components/JobForm.vue'
+import JobForm from 'components/jobs/JobForm'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'add-job-view',
