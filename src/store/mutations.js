@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import find from 'lodash/find'
-import { repliesToIds } from '@/utils/comment.utils'
+import { repliesToIds } from 'utils/comment.utils'
 
 export default {
 

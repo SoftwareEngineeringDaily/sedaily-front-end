@@ -1,4 +1,4 @@
-import * as utils from '@/utils/subscription.utils'
+import * as utils from 'utils/subscription.utils'
 
 describe('subscription.utils', () => {
   it('should retrieve planType from storage', () => {

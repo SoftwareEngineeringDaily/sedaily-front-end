@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { apiConfig } from '../../../config/apiConfig'
-import { getS3SingedUploadUrlAndUpload } from '../../utils/uploadImage.utils'
+import { apiConfig } from 'config/apiConfig'
+import { getS3SingedUploadUrlAndUpload } from 'utils/uploadImage.utils'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {

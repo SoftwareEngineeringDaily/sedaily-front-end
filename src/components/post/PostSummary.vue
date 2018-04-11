@@ -34,7 +34,6 @@
       </div>
 
       <div class="title">
-        <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
         <template v-if="post.url">
           <a
             :href="post.url"
@@ -67,7 +66,7 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
-import { PlayerState } from '@/utils/playerState'
+import { PlayerState } from 'utils/playerState'
 import { mapActions, mapState } from 'vuex'
 
 export default {

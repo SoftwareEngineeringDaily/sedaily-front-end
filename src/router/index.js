@@ -17,7 +17,6 @@ import JobsBoardView from 'views/JobsBoardView'
 import JobView from 'views/JobView'
 import AddJobView from 'views/AddJobView'
 import EditJobView from 'views/EditJobView'
-import { apiConfig } from '../../config/apiConfig'
 import CompanyLandingPage from 'views/CompanyLandingPage'
 import UpdateCompanyProfile from 'views/UpdateCompanyProfile'
 import AdminDashboard from 'views/AdminDashboard'
@@ -29,6 +28,8 @@ import ForumThreadView from 'views/ForumThreadView'
 import NewForumThreadView from 'views/NewForumThreadView'
 import EditForumThreadView from 'views/EditForumThreadView'
 import NotificationSettingsView from 'views/NotificationSettingsView'
+
+import { apiConfig } from 'config/apiConfig'
 
 import authorize from './authHook'
 

@@ -5,7 +5,7 @@
         <img
           :class="{ active: showPostContent }"
           class="icon"
-          src="@/assets/icons/post.png"
+          src="../../assets/icons/post.png"
           alt="Post Content">
       </span>
 
@@ -13,7 +13,7 @@
         <img
           :class="{ active: showRelatedLinks }"
           class="icon"
-          src="@/assets/icons/relatedlinks.png"
+          src="../../assets/icons/relatedlinks.png"
           alt="Related Links">
       </span>
 
@@ -21,7 +21,7 @@
         <img
           :class="{ active: showComments }"
           class="icon"
-          src="@/assets/icons/comments.png"
+          src="../../assets/icons/comments.png"
           alt="Comments">
       </span>
     </div>

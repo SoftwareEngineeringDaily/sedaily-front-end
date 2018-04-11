@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { apiConfig } from '../../../config/apiConfig'
+import { apiConfig } from 'config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {

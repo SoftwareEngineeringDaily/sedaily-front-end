@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import store from '../store'
-import router from '../router'
+import store from 'store'
+import router from 'router'
 
 export default {
   install (Vue, options) {

@@ -69,7 +69,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { PlayerState } from '@/utils/playerState'
+import { PlayerState } from 'utils/playerState'
 import moment from 'moment'
 
 export default {

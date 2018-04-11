@@ -2,7 +2,7 @@ import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 import App from '@/App'
-import initialState from '@/store/initialState'
+import initialState from 'store/initialState'
 
 describe('App', (done) => {
   const localVue = createLocalVue()

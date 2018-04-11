@@ -1,6 +1,6 @@
 import { Socket } from 'phoenix'
-import { chat } from '../../config/index'
-import store from '../store'
+import { chat } from 'config/index'
+import store from 'store'
 
 export const socket = new Socket(chat.websocketURL)
 

@@ -6,8 +6,8 @@
       :class="{ active: upvoted }"
       class='arrow'
       @click='upvoteHandler'>
-      <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
-      <img v-else src="@/assets/icons/upvote-thin.svg" />
+      <img v-if="upvoted" src="../assets/icons/upvote.svg" />
+      <img v-else src="../assets/icons/upvote-thin.svg" />
     </div>
     <div class='score-text'>{{ score || 0}}</div>
     <div
@@ -15,8 +15,8 @@
       :class="{ active: downvoted }"
       class="arrow"
       @click='downvoteHandler'>
-      <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
-      <img v-else src="@/assets/icons/downvote-thin.svg" />
+      <img v-if="downvoted" src="../assets/icons/downvote.svg" />
+      <img v-else src="../assets/icons/downvote-thin.svg" />
     </div>
   </div>
 </div>

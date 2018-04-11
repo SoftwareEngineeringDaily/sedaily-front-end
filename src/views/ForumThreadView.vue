@@ -73,7 +73,7 @@ import CommentsList from 'components/comment/CommentsList'
 import CommentCompose from 'components/comment/CommentCompose'
 import ForumThreadBody from 'components/forum/ForumThreadBody'
 import LastEditedInfo from 'components/comment/LastEditedInfo'
-import { parseIdsIntoComments } from '@/utils/comment.utils.js'
+import { parseIdsIntoComments } from 'utils/comment.utils.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {

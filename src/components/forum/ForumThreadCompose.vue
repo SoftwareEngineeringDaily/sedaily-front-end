@@ -69,14 +69,14 @@
         <img
           class='markdown-icon'
           v-if="!shouldShowMarkDownHelp"
-          src="@/assets/icons/Aa.png"
+          src="../../assets/icons/Aa.png"
           @click='toggleMarkdownHelp'
           alt='Markdown Info'>
 
         <img
           class='markdown-icon'
           v-else
-          src="@/assets/icons/x.png"
+          src="../../assets/icons/x.png"
           @click='toggleMarkdownHelp'
           alt='Markdown Info'>
 

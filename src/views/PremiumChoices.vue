@@ -131,7 +131,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
-import { selectSubscriptionPlan } from '../utils/subscription.utils.js'
+import { selectSubscriptionPlan } from 'utils/subscription.utils.js'
 export default {
   methods: {
     signUpForSubscriptionYearly () {

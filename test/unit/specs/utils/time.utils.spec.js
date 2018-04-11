@@ -1,4 +1,4 @@
-import { secondToTime } from '@/utils/time.utils'
+import { secondToTime } from 'utils/time.utils'
 
 describe('time.utils', () => {
   it('should handle NaN', () => {

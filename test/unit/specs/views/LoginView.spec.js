@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import LoginView from '@/views/LoginView'
-import initialState from '@/store/initialState'
+import LoginView from 'views/LoginView'
+import initialState from 'store/initialState'
 import VeeValidate from 'vee-validate'
 
 describe('LoginView', () => {

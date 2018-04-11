@@ -40,7 +40,7 @@
 
 <script>
 import vueSlider from 'vue-slider-component'
-import { secondToTime } from '@/utils/time.utils'
+import { secondToTime } from 'utils/time.utils'
 
 export default {
   props: {

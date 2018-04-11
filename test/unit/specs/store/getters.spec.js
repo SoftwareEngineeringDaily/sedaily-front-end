@@ -1,4 +1,4 @@
-import getters from '@/store/getters'
+import getters from 'store/getters'
 import Vuex from 'vuex'
 
 describe('store.getters', () => {
