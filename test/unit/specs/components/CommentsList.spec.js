@@ -3,9 +3,9 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import router from '@/router'
 import initialState from '@/store/initialState'
-import CommentsList from 'components/CommentsList.vue'
-import CommentView from 'components/CommentView.vue'
-import CommentReply from 'components/CommentReply.vue'
+import CommentsList from 'components/comment/CommentsList.vue'
+import CommentView from 'components/comment/CommentView.vue'
+import CommentReply from 'components/comment/CommentReply.vue'
 
 describe('CommentsList.vue', (done) => {
   const localVue = createLocalVue()

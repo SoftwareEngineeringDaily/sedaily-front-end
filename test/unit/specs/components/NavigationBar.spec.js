@@ -1,7 +1,7 @@
 import { mount, shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Router from 'vue-router'
-import NavigationBar from 'components/NavigationBar.vue'
+import NavigationBar from 'components/NavigationBar'
 
 describe('NavigationBar.vue', (done) => {
   const localVue = createLocalVue()

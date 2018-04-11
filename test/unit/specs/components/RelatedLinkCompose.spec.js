@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import Router from 'vue-router'
 import Toasted from 'vue-toasted'
-import RelatedLinkCompose from 'components/RelatedLinkCompose.vue'
+import RelatedLinkCompose from 'components/relatedLinks/RelatedLinkCompose'
 
 describe('RelatedLinkCompose.vue', (done) => {
   const localVue = createLocalVue()

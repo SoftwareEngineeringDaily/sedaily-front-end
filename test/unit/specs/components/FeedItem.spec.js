@@ -1,6 +1,6 @@
 import { shallow } from '@vue/test-utils'
 import localVue from './../helpers'
-import FeedItem from 'components/FeedItem.vue'
+import FeedItem from 'components/FeedItem'
 
 describe('FeedItem.vue', () => {
   const feedItem = {

@@ -2,7 +2,7 @@ import { shallow } from '@vue/test-utils'
 import localVue from './../helpers'
 import Vuex from 'vuex'
 import Router from 'vue-router'
-import ProfileLabel from 'components/ProfileLabel.vue'
+import ProfileLabel from 'components/profile/ProfileLabel'
 
 describe('ProfileLabel.vue', () => {
   localVue.use(Vuex)
