@@ -189,19 +189,26 @@ h1
 
 button
   margin 20px
-  padding 5px 0
+  padding 15px 20px
   min-width 200px
-  transition opacity 0.2s
+  border none
+  border-radius 3px
+  background primary-color
+  color #FFF
+  text-align center
+  text-transform uppercase
+  letter-spacing 4px
+  transition all .5s ease
+  font-size 16px
+  cursor pointer
 
 button:hover
-  opacity 0.5
+  box-shadow 0 20px 5px -10px rgba(#000, 0.3)
+  transform translateY(10px)
 
 .monthly-button
-  border 1px solid black
-
-.yearly-button
-  background primary-color
-  color white
+  background #dcdcdd
+  color #000
 
 .why-subscribe-title
   margin 0 auto
