@@ -4,6 +4,11 @@
         <router-link :to="'/edit-profile'">
           Edit Profile
         </router-link>
+        |
+         <router-link class="link" :to="{ name: 'NotificationSettings', params: {}}">
+           Edit Notification Settings
+         </router-link>
+
       </h6>
       <div class="col col-sm-auto">
         <img class="profile-img" :src="avatarUrl" />
