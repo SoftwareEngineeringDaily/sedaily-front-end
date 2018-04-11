@@ -102,9 +102,11 @@ export default {
     },
     isMyThread () {
       if (this.forumThread) {
+        /*
         if (this.me.isAdmin) {
           return true
         }
+        */
         return this.me._id === this.forumThread.author._id
       } else {
         return false
