@@ -18,11 +18,14 @@
           :score="comment.score"></voting-arrows>
         </span>
 
-        <span class="col-md-8 content-area" v-html="compiledMarkdown">
+        <span v-if="wasDeleted" class="col-md-8 content-area deleted"
+         v-html="compiledMarkdown">
+        </span>
+        <span v-if="!wasDeleted" class="col-md-8 content-area" v-html="compiledMarkdown">
         </span>
       </div>
 
-      <last-edited-info :lastEditedTimestamp="lastEdited" />
+      <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited" />
 
       <div class='row misc-detail'>
         <div class=''>
@@ -122,6 +125,10 @@ export default {
         return state.placeholderAvatar
       },
 
+      wasDeleted () {
+        return this.comment.deleted
+      },
+
       lastEdited () {
         return this.comment.dateLastEdited
       },
@@ -205,11 +212,18 @@ export default {
 .comment-holder
   margin-bottom -30px
 .content-area
-  margin-top 20px
-  margin-bottom 20px
+  margin-top 42px
+  margin-bottom 12px
   word-break break-word
-  color #777
+  color #000
   max-width 65%
+.comment-holder .deleted
+  color #bf687e
+  background #f7f7f7
+  padding-top 16px
+  border-radius 20px
+  padding-left 20px
+  max-width 280px
 .misc-detail
   color #9B9B9B
   font-size 14px
@@ -237,5 +251,12 @@ export default {
   min-height 20px
   margin-left 5px
   margin-right 5px
+
+
+@media (max-width 600px)
+
+  .comment-holder .deleted
+      font-size 12px
+      max-width 265px
 
 </style>
