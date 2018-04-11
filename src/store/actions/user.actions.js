@@ -27,7 +27,7 @@ export default {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
-  updateEmailNotiicationSettings: ({ commit, state, getters }, { emailNotificationSettings }) => {
+  updateEmailNotiicationSettings: ({ dispatch }, { emailNotificationSettings }) => {
     return axios.put(`${BASE_URL}/users/update-email-notiication-settings`, emailNotificationSettings)
       .then((response) => {
         return dispatch('fetchMyProfileData')
