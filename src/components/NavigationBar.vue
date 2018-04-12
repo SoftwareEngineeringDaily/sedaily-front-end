@@ -199,7 +199,11 @@ export default {
     border-radius 20px
     padding-top 4px
     text-decoration none
+    transition background-color .15s ease
     margin-right 1em
+    &:hover
+      color #fff
+      background-color #a591ff
   .register-nav-link
     margin-right 1em
 

@@ -3,6 +3,8 @@
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
+      :cancelPressed="doneCallback"
+      :showCancel="true"
       :submitButtonText="'Edit'"
       >
     </comment-form>

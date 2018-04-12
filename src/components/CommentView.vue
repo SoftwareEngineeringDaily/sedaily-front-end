@@ -1,15 +1,13 @@
 <template>
   <span>
     <div v-if="editing" class='comment-holder'>
-      Editing:
+      Editing Comment:
       <comment-edit
         :id="commentId"
         :originalContent="commentContent"
         :doneCallback="doneEditingCallback"
       >
       </comment-edit>
-      <br />
-      <button @click="editing=false">Cancel</button>
     </div>
     <div v-if="!editing" class='comment-holder'>
       <div class="row ">
@@ -20,9 +18,14 @@
           :score="comment.score"></voting-arrows>
         </span>
 
-        <span class="col-md-8 content-area" v-html="compiledMarkdown">
+        <span v-if="wasDeleted" class="col-md-8 content-area deleted"
+         v-html="compiledMarkdown">
+        </span>
+        <span v-if="!wasDeleted" class="col-md-8 content-area" v-html="compiledMarkdown">
         </span>
       </div>
+
+      <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited" />
 
       <div class='row misc-detail'>
         <div class=''>
@@ -54,8 +57,10 @@
           </span>
         </div>
       </div>
+
       <div class='row' v-if="allowsReplies && isReplying">
         <comment-reply v-if="isLoggedIn"
+        :doneCallback="doneReplyingCallback"
         :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
@@ -71,10 +76,17 @@ import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
 import CommentReply from 'components/CommentReply.vue'
 import CommentEdit from '@/components/CommentEdit.vue'
+import LastEditedInfo from '@/components/LastEditedInfo.vue'
 
 export default {
   name: 'comment-view',
-  components: { VotingArrows, ProfileLabel, CommentReply, CommentEdit },
+  components: {
+    VotingArrows,
+    ProfileLabel,
+    CommentReply,
+    LastEditedInfo,
+    CommentEdit
+  },
   props: {
     comment: {
       type: Object,
@@ -113,6 +125,14 @@ export default {
         return state.placeholderAvatar
       },
 
+      wasDeleted () {
+        return this.comment.deleted
+      },
+
+      lastEdited () {
+        return this.comment.dateLastEdited
+      },
+
       me (state) {
         return state.me
       },
@@ -130,6 +150,9 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    doneReplyingCallback () {
+      this.isReplying = false
+    },
     doneEditingCallback () {
       this.editing = false
     },
@@ -189,11 +212,18 @@ export default {
 .comment-holder
   margin-bottom -30px
 .content-area
-  margin-top 20px
-  margin-bottom 20px
+  margin-top 42px
+  margin-bottom 12px
   word-break break-word
-  color #777
+  color #000
   max-width 65%
+.comment-holder .deleted
+  color #bf687e
+  background #f7f7f7
+  padding-top 16px
+  border-radius 20px
+  padding-left 20px
+  max-width 280px
 .misc-detail
   color #9B9B9B
   font-size 14px
@@ -221,5 +251,12 @@ export default {
   min-height 20px
   margin-left 5px
   margin-right 5px
+
+
+@media (max-width 600px)
+
+  .comment-holder .deleted
+      font-size 12px
+      max-width 265px
 
 </style>

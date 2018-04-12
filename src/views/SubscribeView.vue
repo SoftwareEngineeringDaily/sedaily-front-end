@@ -65,7 +65,7 @@
       :options='stripeOptions'
       @change='complete = $event.complete'
       />
-      <div><h2> {{error}} </h2> </div>
+      <div class="error-message"><p> {{error}} </p> </div>
       <div v-if="processing">
         Submitting...
         <spinner :show="processing"></spinner>
@@ -108,7 +108,12 @@ export default {
       justCancelled: false,
       error: null,
       stripeOptions: {
-        hidePostalCode: false
+        hidePostalCode: false,
+        style: {
+          base: {
+            fontFamily: 'inherit',
+          }
+        }
         // see https://stripe.com/docs/stripe.js#element-options for details
       }
     }
@@ -255,23 +260,49 @@ export default {
   border-radius 3px
 
 .pay-button
-  background #ceffa8
   padding 9px 14px
   margin 17px 0px
-  border 2px solid #33ff00
-  box-shadow 1px 1px 2px #888888
+  border none
+  border-radius 3px
+  border 1px solid #69D1C5
+  background #69D1C5
+  color #fff
+  text-transform uppercase
+  letter-spacing 2px
+  transition all .5s ease
+  cursor pointer
+
+.pay-button:hover
+    box-shadow 0 20px 5px -10px rgba(#000, 0.3)
+    transform translateY(1px)
 
 .pay-button:disabled
   background #e8e8e8
   padding 9px 14px
   margin 17px 0px
   border 1px solid #b9b9b9
+  color #000
   opacity 0.3
+  cursor not-allowed
+
+.pay-button:disabled:hover
+  box-shadow 0 00px 0px 00px rgba(#000, 0.3)
+  transform translateY(0px)
 
 .stripe-card
   width 300px
-  border 1px solid grey
+  background-color #e8e8e8
+  padding 15px 9px
+  border none
+  border-radius 3px
 
 .stripe-card.complete
   border-color primary-color
+
+.error-message {
+  width: 400px
+  padding 15px 0px
+  margin 0px 0px -30px
+  color: red
+}
 </style>
