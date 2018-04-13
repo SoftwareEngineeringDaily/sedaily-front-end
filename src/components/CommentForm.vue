@@ -8,9 +8,9 @@
       type='text'
       v-model='commentContent' />
 
-    <at :members="members">
-      <div contenteditable></div>
-    </at>
+    <at-ta :members="members" >
+      <textarea></textarea>
+    </at-ta>
 
     <input ref="autocomplete" v-model="autocomplete"/>
 
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import At from 'vue-at'
+import AtTa from 'vue-at/dist/vue-at-textarea' // for textarea
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -66,12 +66,13 @@ export default {
     }
   },
   components: {
-    At,
+    AtTa,
     Spinner
   },
   data () {
     return {
       autocomplete: '@',
+      cool: "",
       members: ['Roxie Miles', 'grace.carroll', '小浩'],
       mentionsMatches: [],
       commentContent: this.content
