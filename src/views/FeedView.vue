@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <h1> Feed </h1>
+    <h1>Feed</h1>
     <div class="feed-list">
       <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     </div>
@@ -34,7 +34,7 @@ export default {
       'me',
       'feed'
     ])
-      },
+  },
   methods: {
     ...mapActions([
       'fetchMyFeed'

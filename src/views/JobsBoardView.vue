@@ -64,8 +64,7 @@
         </div>
       </div>
       <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-        <job-summary v-for="job in displayedJobs" :key="job._id" :job="job">
-        </job-summary>
+        <job-summary v-for="job in displayedJobs" :key="job._id" :job="job" />
       </div>
     </div>
   </div>

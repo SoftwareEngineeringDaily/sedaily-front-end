@@ -3,7 +3,7 @@
     <div class='row'>
       <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
 
-        <div v-if="showExisintAvatarUrl">
+        <div v-if="showExisingAvatarUrl">
           <img :src="avatarUrl" />
         </div>
 
@@ -135,7 +135,7 @@ export default {
 
     showExisingAvatarUrl () {
       return this.avatarUrl && !this.image
-      }
+    }
   },
   methods: {
     ...mapActions([

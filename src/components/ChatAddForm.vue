@@ -1,8 +1,14 @@
 <template>
   <form @submit.prevent>
-				<fieldset>
-					<input @keyup.enter="addMessage" v-bind:disabled="!isChatOnline" type="text" v-model="body" placeholder="Type your message…" autofocus>
-				</fieldset>
+    <fieldset>
+      <input
+        @keyup.enter="addMessage"
+        v-bind:disabled="!isChatOnline"
+        type="text"
+        v-model="body"
+        placeholder="Type your message…"
+        autofocus />
+    </fieldset>
 	</form>
 </template>
 
@@ -16,7 +22,7 @@ export default {
   ],
   data () {
     return {
-    body: ''
+      body: ''
     }
   },
   computed: {

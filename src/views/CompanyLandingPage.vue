@@ -10,8 +10,7 @@
     :headerImage="imageUrl" />
 
     <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3">
-      <job-summary v-for="job in jobs" :key="job._id" :job="job">
-      </job-summary>
+      <job-summary v-for="job in jobs" :key="job._id" :job="job" />
     </div>
 
   </div>

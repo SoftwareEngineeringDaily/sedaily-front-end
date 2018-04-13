@@ -8,8 +8,8 @@
       Are you sure you want to delete your thread?
       <br />
       <br />
-      <button @click="confirmDelete" class='btn btn-warning'> Confirm Delete </button>
-      <button @click="cancelDelete" class='btn btn-link'> Cancel </button>
+      <button @click="confirmDelete" class="btn btn-warning"> Confirm Delete </button>
+      <button @click="cancelDelete" class="btn btn-link"> Cancel </button>
     </div>
     <div v-if="!isDeleting">
       <div v-if="forumThread">
@@ -18,7 +18,7 @@
           :content="forumThread.content" />
 
         <last-edited-info :lastEditedTimestamp="lastEdited" />
-        <div class='forum-thread-misc'>
+        <div class="forum-thread-misc">
           Posted by
           <span>
             <router-link :to="'/profile/' + forumThread.author._id">
@@ -26,17 +26,17 @@
             </router-link>
           </span>
           <div class="bullet-point">&#9679;</div>
-          <span class='misc-detail'>{{creationDate}}</span>
+          <span class="misc-detail">{{creationDate}}</span>
           <div class="bullet-point">&#9679;</div>
-          <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+          <span class="comments-count misc-detail"> {{forumThread.commentsCount}} comments</span>
 
-          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-          <span class='delete simple-link' v-if='this.isMyThread' @click='remove'>
+          <div class="bullet-point" v-if="this.isMyThread">&#9679;</div>
+          <span class="delete simple-link" v-if="this.isMyThread" @click="remove">
             Delete
           </span>
 
-          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-          <span class='edit simple-link' v-if='this.isMyThread' @click='edit'>
+          <div class="bullet-point" v-if="this.isMyThread">&#9679;</div>
+          <span class="edit simple-link" v-if="this.isMyThread" @click="edit">
             Edit
           </span>
         </div>
@@ -45,18 +45,18 @@
           <div class="col-md-9">
             <comment-compose
               v-if="isLoggedIn"
-              :rootEntityType='"forumthread"' />
+              :rootEntityType="'forumthread'" />
           </div>
         </div>
 
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="row">
           <div class="col-md-12">
             <comments-list
-              :comments='comments'
-              :rootEntityType='"forumthread"'
+              :comments="comments"
+              :rootEntityType="'forumthread'"
               :loading="isLoadingComments" />
           </div>
         </div>
@@ -128,11 +128,11 @@ export default {
       return this.forumThread && this.me
         ? this.me._id === this.forumThread.author._id
         : false
-        /*
+      /*
         if (this.me.isAdmin) {
           return true
         }
-        */
+      */
     },
     lastEdited () {
       return this.forumThread.dateLastEdited
@@ -150,7 +150,7 @@ export default {
       return this.forumThread.content.length > maxLength
         ? this.forumThread.content.substr(0, maxLength-3) + '...'
         : this.forumThread.content
-      }
+    }
   },
   methods: {
     ...mapActions([
@@ -172,7 +172,7 @@ export default {
       })
     },
     edit () {
-        this.$router.replace(`/forum/edit-thread/${this.threadId}`)
+      this.$router.replace(`/forum/edit-thread/${this.threadId}`)
     },
     refreshThread () {
       this.isLoading = true
