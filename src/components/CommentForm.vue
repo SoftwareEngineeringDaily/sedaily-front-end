@@ -8,7 +8,7 @@
     >
     <textarea placeholder='Your comment here...'
     class='comment-box'
-    ref='inp'
+    ref='contentTextarea'
     :disabled="isSubmitting"
     type='text'
     v-model='commentContent' />
@@ -136,8 +136,8 @@ export default {
 
     append() {
       let self = this;
-      console.log('model', this.commentContent)
-      console.log('raw value', this.$refs.inp.value)
+      console.log('model:', this.commentContent)
+      console.log('textarea raw value:', this.$refs.contentTextarea.value)
       // this.$refs.inp.map( (m, k) => {
         // m.value = self.allItems[k].name
       // })
