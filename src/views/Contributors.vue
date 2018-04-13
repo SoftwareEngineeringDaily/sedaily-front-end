@@ -2,17 +2,16 @@
   <div class='container'>
     <h1> Contributors </h1>
     <p> Here are some of the people that are helping create SoftwareDaily. </p>
-
-      <div v-for="contributor in alphabeticallyOrderedContributors" :key="contributor.github">
-        <div>
-          <h3> {{contributor.name}} </h3>
-          <p>
-          Github: <a v-bind:href="contributorGithub(contributor)" target="_blank" class="link">@{{contributor.github}}</a>
-          </p>
-        </div>
+    <div class="row">
+      <div v-for="contributor in alphabeticallyOrderedContributors" :key="contributor.github" class="col-4 col-md-3 col-lg-2 text-center p-3">
+        <a :href="contributorGithub(contributor)" target="_blank" class="link">
+          <img :src="`${contributorGithub(contributor)}.png?size=100`" class="avatar"/>
+          <p>{{`@${contributor.github}`}}</p>
+        </a>
+        <h5>{{contributor.name}}</h5>
       </div>
-
-    <p> Sorry if anyone has been left out, please ping me. - Jason@softwaredaily.com </p>
+    </div>
+    <p> Sorry if anyone has been left out, please ping me. - <a href="mailto:Jason@softwaredaily.com" target="_blank">Jason@softwaredaily.com</a> </p>
   </div>
 </template>
 
@@ -43,11 +42,6 @@ export default {
           'name': 'Josh Morel',
           'github': 'joshmorel'
         },
-        {
-          'name': 'Shreyans Sheth',
-          'github': 'bholagabbar'
-        },
-
         {
           'name': 'Shreyans Sheth',
           'github': 'bholagabbar'
@@ -147,20 +141,20 @@ export default {
         {
           'name': 'Gabriel Simmer',
           'github': 'gmemstr'
+        },
+        {
+          'name': 'Emily Carey',
+          'github': 'EmilyRosina'
         }
       ]
     }
   },
-
   computed: {
     alphabeticallyOrderedContributors () {
-      /* eslint-disable-next-line */
-      return this.contributors.sort((a, b) => {
-        return 0.5 - Math.random()
-      })
+      // eslint-disable-next-line
+      return this.contributors.sort((a, b) => { return 0.5 - Math.random() })
     }
   },
-
   methods: {
     contributorGithub (contributor) {
       return `https://github.com/${contributor.github}`
@@ -168,3 +162,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+</style>
