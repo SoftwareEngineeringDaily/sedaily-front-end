@@ -1,15 +1,17 @@
 
 <template>
   <div v-if="me">
-    <textarea placeholder='Your comment here...'
+
+    <at-ta :members="members"
+      @select="handleSelectUser"
+    >
+
+      <textarea placeholder='Your comment here...'
       class='comment-box'
       ref='content'
       :disabled="isSubmitting"
       type='text'
       v-model='commentContent' />
-
-    <at-ta :members="members" >
-      <textarea></textarea>
     </at-ta>
 
     <input ref="autocomplete" v-model="autocomplete"/>
@@ -72,7 +74,6 @@ export default {
   data () {
     return {
       autocomplete: '@',
-      cool: "",
       members: ['Roxie Miles', 'grace.carroll', '小浩'],
       mentionsMatches: [],
       commentContent: this.content
@@ -83,6 +84,7 @@ export default {
   },
   watch: {
     commentContent: function() {
+      console.log('commentContent', this.commentContent)
       // If @ is preceded by space  then:
       /*
       if (this.commentContent.indexOf('@') > 0) {
@@ -116,6 +118,9 @@ export default {
   },
   methods: {
     ...mapActions(['searchUsers']),
+    handleSelectUser (user) {
+      console.log('user?', user)
+    },
     submitComment () {
       console.log('this.entityId', this.entityId)
       this.submitCallback({
