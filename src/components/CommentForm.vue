@@ -73,7 +73,9 @@ export default {
   },
   data () {
     return {
+      // Options for auto-complete mentions
       options: {
+        noMatchTemplate: '',
         allowSpaces: true,
         values: [
         ]
