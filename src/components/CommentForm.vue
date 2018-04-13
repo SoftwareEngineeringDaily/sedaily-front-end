@@ -15,8 +15,6 @@
   </vue-tribute>
 
     <button @click="append" class="btn btn-success">Append New Item</button>
-    <button @click="clearList" class="btn btn-warning">Clear list</button>
-
 
     <div v-for="user in mentionsMatches" :key="user._id">
       <h3> {{user.name}} </h3>
@@ -75,7 +73,6 @@ export default {
   },
   data () {
     return {
-      autocomplete: '@',
       options: {
         allowSpaces: true,
         values: [
@@ -91,24 +88,7 @@ export default {
   watch: {
     commentContent: function() {
       console.log('commentContent', this.commentContent)
-      // If @ is preceded by space  then:
-      /*
-      if (this.commentContent.indexOf('@') > 0) {
-        this.autocomplete = '@'
-        this.mentionsMatches = []
-        this.$refs.autocomplete.focus()
-
-      }*/
     },
-    autocomplete: debounce(function() {
-      const name = this.autocomplete.substr(1)
-      this.searchUsers({name}).then((users) => {
-        console.log('autocomplete', this.autocomplete)
-        console.log('results', users)
-        this.mentionsMatches = users;
-      })
-
-    }, 80),
     content: function() {
       this.commentContent = this.content
     }
@@ -135,27 +115,20 @@ export default {
       this.searchUsers({name: searchQuery})
         .then((users) => {
           console.log('users found', users)
-          this.resetUserList(users)
+          this.setUserList(users)
         })
     },
 
-    resetUserList (userList) {
+    setUserList (userList) {
        this.options.values.splice(0, this.options.values.length + 1)
        userList.forEach((user) => {
          this.options.values.push(
-           { key: user.name, value: user.name }
+           { key: user.name, value: user.name, user }
          )
        })
        console.log('clear list', this.options.values)
     },
 
-    clearList () {
-       this.options.values.splice(0, this.options.values.length + 1)
-       this.options.values.push(
-         { key: 'Collin Henderson 2', value: 'syropian2' }
-       )
-       console.log('clear list', this.options.values)
-    },
     append() {
       let kv = Math.random()
       .toString(36)
