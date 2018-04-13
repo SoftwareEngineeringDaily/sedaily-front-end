@@ -3,9 +3,13 @@
   <div v-if="me">
     <textarea placeholder='Your comment here...'
       class='comment-box'
+      ref='content'
       :disabled="isSubmitting"
       type='text'
       v-model='commentContent' />
+
+    <input ref="autocomplete" v-model="autocomplete"/>
+
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
     </div>
@@ -17,8 +21,6 @@
       <button v-if="showCancel" class='btn btn-link'
         :disabled="isSubmitting"
         @click='cancelPressed'>Cancel</button>
-
-
     </div>
   </div>
 </template>
@@ -60,10 +62,21 @@ export default {
   },
   data () {
     return {
+      autocomplete: '@',
       commentContent: this.content
     }
   },
+  mounted() {
+    // this.$refs.content.focus()
+  },
   watch: {
+    commentContent: function() {
+      // If @ is preceded by space  then:
+      if (this.commentContent.indexOf('@') > 0) {
+        this.$refs.autocomplete.focus()
+
+      }
+    },
     content: function() {
       this.commentContent = this.content
     }
