@@ -17,7 +17,7 @@ export default {
     return Boolean(getters.getToken)
   },
   alreadySubscribed (state, getters) {
-    return getters.isLoggedIn && state.me.signedUpForNewsletter
+    return getters.isLoggedIn && state.me && state.me.signedUpForNewsletter || false
   },
 
   // getters with params
