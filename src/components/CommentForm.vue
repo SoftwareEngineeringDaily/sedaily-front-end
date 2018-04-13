@@ -27,8 +27,9 @@
 
 <script>
 import UpdateProfile from 'components/UpdateProfile.vue'
+import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'comment-form',
@@ -77,6 +78,14 @@ export default {
 
       }
     },
+    autocomplete: debounce(function() {
+      const name = this.autocomplete.substr(1)
+      this.searchUsers({name}).then((results) => {
+        console.log('autocomplete', this.autocomplete)
+        console.log('results', results)
+      })
+
+    }, 100),
     content: function() {
       this.commentContent = this.content
     }
@@ -91,6 +100,7 @@ export default {
     })
   },
   methods: {
+    ...mapActions(['searchUsers']),
     submitComment () {
       console.log('this.entityId', this.entityId)
       this.submitCallback({

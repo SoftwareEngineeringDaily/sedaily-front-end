@@ -23,6 +23,10 @@ export default {
       })
   },
 
+  searchUsers: ({ commit, state, getters }, { name }) => {
+    return axios.get(`${BASE_URL}/users/search?name=${name}`)
+  },
+
   fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },
