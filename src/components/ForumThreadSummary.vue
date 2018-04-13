@@ -26,7 +26,7 @@
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{creationDate}}</span>
+        <span class='misc-detail'><span class="date">{{creationDate}}</span></span>
         <div class="bullet-point">&#9679;</div>
 
         <span class='comments-count misc-detail'>
@@ -90,9 +90,9 @@ export default {
     font-size 1.0rem
   .forum-summary-title a:hover
     text-decoration none
-    color #a591ff
+    color #5D4AB2
   .forum-summary-title a:visited
-    color #a591ff
+    color #5D4AB2
 
 .content-holder
   max-width 63%
@@ -127,9 +127,13 @@ export default {
 .profile-avatar
   padding-left 20px
   padding-top 12px
+.misc-detail .date
+  font-style italic
 
 .votes-container
   padding-top 3px
+.votes-container
+  color primary-color
 
 @media (min-width: 576px)
   .votes-container
