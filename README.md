@@ -27,11 +27,9 @@ npm run build --report
 # run selenium tests (working)
 npm run selenium-test
 ```
-# npm start
-Note this is differnt than the stuff ran on heroku which is inside dist/package.json
-
-
-For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## npm start
+Note this is different than the stuff ran on heroku which is inside dist/package.json
+<br/>For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## Available API environments
 In order to speed up configuration, you can use the API and event stream API's in other environments:
@@ -46,19 +44,29 @@ npm run dev:api-prod
 ## Install selenium web driver:
 
 Download & Install Selenium Standalone Server (v3.6.0)
-http://www.seleniumhq.org/projects/webdriver/
-http://www.seleniumhq.org/download/
+> http://www.seleniumhq.org/projects/webdriver/
+<br/>http://www.seleniumhq.org/download/
 
 ## Contributing
-`master` branch is deployed to production
-`develop` branch gets pushed to staging
+- `master` branch is deployed to production
+- `develop` branch gets pushed to staging
 
-We have an active Slack community that you can reach out to for more information or just to chat with anyone. Check out the [<img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png" alt="Slack Channel" width="20px"/> SED app development](https://softwaredaily.slack.com/app_redirect?channel=sed_app_development) slack channel. Also see the [Open Source Guide](https://softwareengineeringdaily.github.io/).
+We have an active Slack community that you can reach out to for more information or just to chat with anyone.
+<br/>Check out the [<img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png" alt="Slack Channel" width="20px"/> SED app development](https://softwaredaily.slack.com/app_redirect?channel=sed_app_development) slack channel.
+<br/>Also see the [Open Source Guide](https://softwareengineeringdaily.github.io/).
 
 ## Pushing to Production
-Remember to `npm run build` and then ** commit all new files** and then `npm run deploy2`
-Works if done from master branch.
-To delete commit:
+Remember to...
+1. `git checkout master`
+2. `npm run build`
+3. ** commit all new files**
+4. `npm run deploy2`
 
+---
+
+## Notes
+#### To delete commit:
+```
 git fetch origin
 git reset --hard origin/master
+```
