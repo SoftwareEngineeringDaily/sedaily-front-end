@@ -78,11 +78,12 @@ export default {
     return {
       // Options for auto-complete mentions
       options: {
+        /*
         menuItemTemplate: function (item) {
           // console.log('tempalte select', item.original.user)
           const img = item.original.user.avatarUrl ? item.original.user.avatarUrl : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
           return `<span><img width="30px" src='${img}'/> ${item.original.value} </span>`
-        },
+        },*/
         noMatchTemplate: '',
         allowSpaces: true,
         values: [
@@ -120,6 +121,10 @@ export default {
     },
     tributeReplaced ({detail}) {
       const {user} = detail.item.original
+
+      // todo: TRY: catch
+      // V-model gets out of sync when new element is inserted so updating it:
+      this.commentContent = this.$refs.contentTextarea.value
       this.handleSelectUser(user)
     },
     tributeNoMatch: debounce(function (searchQuery)  {
