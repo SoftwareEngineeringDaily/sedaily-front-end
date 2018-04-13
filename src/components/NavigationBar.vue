@@ -168,12 +168,26 @@ export default {
     letter-spacing .075em
     margin-right 0.75em
     &:hover
-      color primary-color
+      color #666
       text-decoration none
     &.router-link-active
-      text-decoration underline
+      text-decoration none
+      border-bottom 1.5px solid rgba(primary-color,1.0)
+      line-height 25px
     &:nth-child(6)
       margin-right 0
+  .dropdown-menu a
+    border-bottom none
+    &:hover
+      color primary-color
+    &.router-link-active
+      font-weight bold
+      background-color primary-color
+      border-color white
+      padding-top 2px
+      color #fff
+    &:active
+      color #fff
   .github
     color #fff
     font-size .9em
@@ -183,8 +197,8 @@ export default {
     text-transform uppercase
     font-size 32px
     color #000
-    padding-top 5px
-    line-height 32px
+    padding-top 10px
+    line-height 25px
     letter-spacing normal
     font-weight bold
     &:hover
@@ -192,18 +206,27 @@ export default {
       color #000
     &.router-link-active
       text-decoration none
+      border-bottom none
   .call-to-action
+    text-decoration none
+    box-shadow 0 0px 0px rgba(#000, 0.3)
+    line-height 25px
     color white
     background-color primary-color
     margin-top 8px
     border-radius 20px
     padding-top 4px
     text-decoration none
-    transition background-color .15s ease
+    transition all .5s ease
     margin-right 1em
+    &.router-link-active
+      background #dcdcdd
+      color #000
+      border-bottom 0px solid rgba(0,0,0,0.5)
     &:hover
       color #fff
       background-color #a591ff
+      box-shadow 0 5px 15px rgba(#000, 0.3)
   .register-nav-link
     margin-right 1em
 
