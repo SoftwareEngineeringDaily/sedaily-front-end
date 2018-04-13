@@ -58,6 +58,7 @@ import moment from 'moment'
 import Spinner from '@/components/Spinner.vue'
 import JobApplyModal from '@/components/JobApplyModal.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
+
 export default {
   name: 'job-view',
   data () {
@@ -78,14 +79,40 @@ export default {
     Spinner,
     JobApplyModal
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+    ...mapState([
+      'me'
+    ]),
+
+    jobId () {
+      return this.$route.params.id
+    },
+    date () {
+      return moment(this.job.postedDate).format('MMMM Do, YYYY')
+    },
+    ownJobPosting () {
+      return this.me._id === this.job.postedUser
+    },
+    jobDescriptionSummary() {
+      const maxLength = 400;
+      return this.job.description.length > maxLength
+        ? this.job.description.substr(0, maxLength-3) + '...'
+        :this.job.description
+    }
+  },
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['fetchJob']),
+    ...mapActions([
+      'fetchJob'
+    ]),
     fetchData () {
       this.loading = true
-      this
-        .fetchJob({ jobId: this.jobId })
+      this.fetchJob({ jobId: this.jobId })
         .then((response) => {
           this.job = response.data
           this.error = null
@@ -98,36 +125,11 @@ export default {
         })
     }
   },
-  computed: {
-    ...mapGetters(['isLoggedIn', 'metaTag']),
-    ...mapState({
-      jobId (state) {
-        return state.route.params.id
-      },
-      me (state) {
-        return state.me
-      },
-      ownJobPosting () {
-        return this.me._id === this.job.postedUser
-      },
-      date () {
-        return moment(this.job.postedDate).format('MMMM Do, YYYY')
-      }
-    }),
-    jobDescriptionSummary() {
-      const maxLength = 400;
-      if (this.job.description.length > maxLength) {
-        return this.job.description.substr(0, maxLength-3) + '...'
-      }
-      return this.job.description
-    }
-  },
-  metaInfo() {
+  metaInfo () {
     // wait for job before updating meta
-    if (!this.job) {
-      return {}
-    }
-    return {
+    return !this.job
+    ? {}
+    : {
       meta: [
         this.metaTag('og:title', this.job.title),
         this.metaTag('og:url', location.href),

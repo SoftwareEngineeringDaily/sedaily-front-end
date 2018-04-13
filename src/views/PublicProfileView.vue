@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import ProfileDetails from '@/components/ProfileDetails.vue'
 import Spinner from '@/components/Spinner.vue'
 
@@ -39,9 +39,15 @@ export default {
     // re-fetch if route changes
     '$route': 'fetchData'
   },
-
+  computed: {
+    userId () {
+      return this.$route.params.id
+    }
+  },
   methods: {
-    ...mapActions(['fetchPublicProfileData']),
+    ...mapActions([
+      'fetchPublicProfileData'
+    ]),
     async fetchData () {
       this.loading = true
       try {
@@ -55,14 +61,6 @@ export default {
         this.loading = false
       }
     }
-  },
-
-  computed: {
-    ...mapState({
-      userId (state) {
-        return state.route.params.id
-      }
-    })
   }
 }
 </script>

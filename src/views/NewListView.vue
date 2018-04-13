@@ -1,5 +1,5 @@
 <script>
-import BaseListView from '../components/BaseListView.vue'
+import BaseListView from '@/components/BaseListView.vue'
 
 export default {
   extends: BaseListView,

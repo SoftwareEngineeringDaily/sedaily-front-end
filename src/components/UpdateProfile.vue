@@ -113,7 +113,6 @@ export default {
   components: {
     Spinner
   },
-
   data () {
     return {
       msg: '',
@@ -129,24 +128,20 @@ export default {
   },
 
   computed: {
-    // local computed methods +
     ...mapState({
-      id (state) {
-        return state.me._id
-      },
+      id: (state) => state.me._id,
+      avatarUrl: (state) => state.me.avatarUrl
+    }),
 
-      avatarUrl (state) {
-        return state.me.avatarUrl
-      },
-
-      showExisintAvatarUrl (state) {
-        return state.me.avatarUrl && !this.image
+    showExisingAvatarUrl () {
+      return this.avatarUrl && !this.image
       }
-
-    })
   },
   methods: {
-    ...mapActions(['updateProfile', 'uploadAvatarImage']),
+    ...mapActions([
+      'updateProfile',
+      'uploadAvatarImage'
+    ]),
 
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
@@ -158,59 +153,39 @@ export default {
       this.file = file
       this.createImage(file)
     },
-
     createImage (file) {
       var image = new Image()
       var reader = new FileReader()
       var vm = this
-
       reader.onload = (e) => {
         vm.image = e.target.result
       }
       console.log(image)
       reader.readAsDataURL(file)
     },
-
     removeImage (e) {
       this.file = null
       this.image = ''
     },
-
     submit () {
       this.msg = ''
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, email, bio, website, name, id } = this
-
+          const profile = { username, email, bio, website, name, id }
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({ imageFile: this.file })
               .then((imageSuccess) => {
-                return this.updateProfile({
-                  username,
-                  id,
-                  name,
-                  bio,
-                  isAvatarSet: true,
-                  website,
-                  email
-                })
+                return this.updateProfile(Object.assign({}, profile, { isAvatarSet: true }))
               })
               .catch((error) => {
                 console.log('Error uploading', error)
                 this.$toasted.error('Error uploading')
               })
           } else {
-            updatePromise = this.updateProfile({
-              username,
-              id,
-              name,
-              bio,
-              isAvatarSet: this.avatarUrl == null,
-              website,
-              email
-            })
+            updatePromise = this.updateProfile(Object.assign({}, profile, { isAvatarSet: this.showExisingAvatarUrl }))
           }
 
           updatePromise
@@ -223,7 +198,7 @@ export default {
               }
             })
             .catch((error) => {
-              console.log('Error Updaating', error)
+              console.log('Error Updating', error)
               this.$toasted.error('There was a problem updating your profile')
             })
         } else {

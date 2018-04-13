@@ -15,11 +15,9 @@ export default {
   name: 'edit-profile',
   components: { UpdateProfile },
   computed: {
-    ...mapState({
-      me (state) {
-        return state.me
-      }
-    })
+    ...mapState([
+      'me'
+    ])
   }
 }
 </script>

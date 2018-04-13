@@ -13,7 +13,7 @@
         Create a company
       </router-link>
 
-      <div 
+      <div
         v-for="company in companies"
         :key="company._id">
 
@@ -45,24 +45,23 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'admin-dashboard',
   beforeMount () {
     this.companiesFetch()
   },
-
   computed: {
-    ...mapState({
-      companies (state) {
-        return state.companies
-      },
-      me (state) {
-        return state.me
-      }
-    })
+    ...mapState([
+      'companies',
+      'me'
+    ])
   },
   methods: {
-    ...mapActions(['companiesFetch']),
+    ...mapActions([
+      'companiesFetch'
+    ]),
+
     editCompany (company) {
       return `/admin/edit-company/${company._id}`
     },

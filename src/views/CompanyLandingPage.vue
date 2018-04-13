@@ -22,20 +22,24 @@
 
 import CompanyHeader from '@/components/CompanyHeader.vue'
 import JobSummary from '@/components/JobSummary.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'CompanyLandingPage',
-
   components: {
     CompanyHeader,
     JobSummary
   },
-
-  computed: {
-    ...mapState({
-    })
+  data () {
+    return {
+      error: null,
+      description: '',
+      companyName: '',
+      imageUrl: '',
+      externalUrl: '',
+      jobs: []
+    }
   },
-
   beforeMount () {
     const localUrl = this.$route.params.company
     console.log(localUrl)
@@ -64,20 +68,11 @@ export default {
         this.error = 'An error occured.'
       })
   },
-
-  data () {
-    return {
-      error: null,
-      description: '',
-      companyName: '',
-      imageUrl: '',
-      externalUrl: '',
-      jobs: []
-    }
-  },
-
   methods: {
-    ...mapActions(['companiesFetchByLocalUrl', 'jobsSearch'])
+    ...mapActions([
+      'companiesFetchByLocalUrl',
+      'jobsSearch'
+    ])
   }
 }
 </script>

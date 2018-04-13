@@ -94,6 +94,7 @@
 <script>
 import JobSummary from '@/components/JobSummary.vue'
 import { mapActions } from 'vuex'
+
 export default {
   name: 'company-form',
   components: {
@@ -141,7 +142,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['jobsSearch', 'companiesUploadImage']),
+    ...mapActions([
+      'jobsSearch',
+      'companiesUploadImage'
+    ]),
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
@@ -152,24 +156,20 @@ export default {
       this.file = file
       this.createImage(file)
     },
-
     createImage (file) {
       var image = new Image()
       var reader = new FileReader()
       var vm = this
-
       reader.onload = (e) => {
         vm.companyFormData.imageUrl = e.target.result
       }
       console.log(image)
       reader.readAsDataURL(file)
     },
-
     removeImage (e) {
       this.file = null
       // this.companyFormData.imageUrl = null
     },
-
     companyNameBlur () {
       const companyName = this.companyFormData.companyName
       console.log(companyName)

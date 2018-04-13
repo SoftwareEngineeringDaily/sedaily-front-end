@@ -74,7 +74,7 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import LastEditedInfo from '@/components/LastEditedInfo.vue'
-import { parseIdsIntoComments } from '@/utils/comment.utils.js'
+import { parseIdsIntoComments } from '@/utils/comment.utils'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -93,8 +93,31 @@ export default {
       isDeleting: false
     }
   },
+  beforeMount () {
+    this.refreshThread()
+  },
   computed: {
-    ...mapGetters(['isLoggedIn','metaTag']),
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+    ...mapState({
+      me: 'me',
+      entityComments: 'entityComments',
+      forumThreads: 'forumThreads',
+      commentsMap: 'comments'
+    }),
+
+    forumThread () {
+      return this.forumThreads[this.threadId]
+    },
+    // FIXME: do both aliases need to be used for route.params.id?
+    entityId () {
+      return this.$route.params.id
+    },
+    threadId () {
+      return this.$route.params.id
+    },
     creationDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateCreated)
@@ -102,22 +125,21 @@ export default {
       }
     },
     isMyThread () {
-      if (this.forumThread) {
+      return this.forumThread && this.me
+        ? this.me._id === this.forumThread.author._id
+        : false
         /*
         if (this.me.isAdmin) {
           return true
         }
         */
-        return this.me && this.me._id === this.forumThread.author._id
-      } else {
-        return false
-      }
     },
     lastEdited () {
       return this.forumThread.dateLastEdited
     },
     comments () {
-      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      const parentCommentIds = this.entityComments[this.entityId] || []
+      console.log('comments--- parentCommentIds:', parentCommentIds)
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -125,31 +147,10 @@ export default {
     },
     forumThreadContentSummary() {
       const maxLength = 400;
-      if (this.forumThread.content.length > maxLength) {
-        return this.forumThread.content.substr(0, maxLength-3) + '...'
+      return this.forumThread.content.length > maxLength
+        ? this.forumThread.content.substr(0, maxLength-3) + '...'
+        : this.forumThread.content
       }
-      return this.forumThread.content
-    },
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      entityId (state) {
-        return state.route.params.id
-      },
-      threadId (state) {
-        return state.route.params.id
-      },
-      forumThread (state) {
-        return state.forumThreads[state.route.params.id]
-      },
-      commentsMap (state) {
-        return state.comments
-      },
-      entityComments (state) {
-        return state.entityComments
-      }
-    })
   },
   methods: {
     ...mapActions([
@@ -175,26 +176,13 @@ export default {
     },
     refreshThread () {
       this.isLoading = true
-
-      this.fetchForumThread({
-        id: this.entityId
-      })
-        .finally(() => {
-          this.isLoading = false
-        })
+      this.fetchForumThread({ id: this.entityId })
+        .finally(() => { this.isLoading = false })
 
       this.isLoadingComments = true
-      // Fetch comments
-      this.commentsFetch({
-        entityId: this.entityId
-      })
-        .finally(() => {
-          this.isLoadingComments = false
-        })
+      this.commentsFetch({ entityId: this.entityId })
+        .finally(() => { this.isLoadingComments = false })
     }
-  },
-  beforeMount () {
-    this.refreshThread()
   },
   metaInfo() {
     // wait for forumThread before updating meta

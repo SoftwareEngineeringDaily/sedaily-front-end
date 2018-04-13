@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 export function parseIdsIntoComments ({ entityParentCommentIds, commentsMap }) {
   const parentComments = entityParentCommentIds.map(id => {
     // Important that we clone our object so we dont modify replies in original:

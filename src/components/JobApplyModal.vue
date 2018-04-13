@@ -75,6 +75,7 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import { mapActions } from 'vuex'
+
 export default {
   name: 'job-apply-modal',
   props: {
@@ -104,7 +105,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['applyToJob']),
+    ...mapActions([
+      'applyToJob'
+    ]),
+
     onFileChange (e) {
       const files = e.target.files || e.dataTransfer.files
       if (!files.length) {

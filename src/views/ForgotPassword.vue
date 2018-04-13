@@ -35,8 +35,8 @@
   <spinner :show="loading"></spinner>
 </div>
 
-
 </template>
+
 <script>
 import Spinner from '@/components/Spinner.vue'
 

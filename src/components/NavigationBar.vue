@@ -91,25 +91,16 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'navigation-bar',
-
   computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      alreadySubscribed (state) {
-        if (!this.isLoggedIn) return false
-        if (state.me && state.me.subscription && state.me.subscription.active) {
-          return true
-        } else {
-          return false
-        }
-      }
-    })
+    ...mapGetters([
+      'isLoggedIn',
+      'alreadySubscribed'
+    ])
   },
-
   methods: {
     logoutHandler () {
       this.$auth.logout()

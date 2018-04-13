@@ -38,7 +38,7 @@
     props: {
       userData: {
         type: Object,
-        default: function () {
+        default: () => {
           return {
             _id: '',
             username: '',
@@ -55,17 +55,19 @@
       }
     },
     computed: {
-      ...mapState({
-        displayName () {
-          return this.userData.name || this.userData.username
-        },
-        displayBio () {
-          return this.userData.bio || `${this.displayName} is still writing their biography`
-        },
-        avatarUrl (state) {
-          return this.userData.avatarUrl || state.placeholderAvatar
-        }
-      })
+      ...mapState([
+        'placeholderAvatar'
+      ]),
+
+      displayName () {
+        return this.userData.name || this.userData.username
+      },
+      displayBio () {
+        return this.userData.bio || `${this.displayName} is still writing their biography`
+      },
+      avatarUrl () {
+        return this.userData.avatarUrl || this.placeholderAvatar
+      }
     }
   }
 </script>

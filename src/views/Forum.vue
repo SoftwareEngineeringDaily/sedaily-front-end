@@ -40,9 +40,8 @@ export default {
       loading: true
     }
   },
-
   beforeMount () {
-    return this.fetchForumThreads()
+    this.fetchForumThreads()
       .then(() => {
         this.loading = false
       })
@@ -50,19 +49,18 @@ export default {
         console.log('error fetching threads', error)
       })
   },
-
-  methods: {
-    ...mapActions(['fetchForumThreads'])
-  },
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
     ...mapState({
-      forumThreads (state) {
-        if (!state.forumThreadIdsList) return []
-        const threads = state.forumThreadIdsList.map((id) => state.forumThreads[id])
-        return threads
-      }
+      forumThreads: state => state.forumThreadIdsList.map(id => state.forumThreads[id]) || []
     })
+  },
+  methods: {
+    ...mapActions([
+      'fetchForumThreads'
+    ])
   }
 }
 

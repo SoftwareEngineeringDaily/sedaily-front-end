@@ -80,17 +80,12 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      activePlayerPost (state) {
-        return state.activePlayerPost
-      }
-    }),
+    ...mapState([
+      'activePlayerPost'
+    ]),
+
     postContent () {
-      if (this.post.cleanedContent) {
-        return this.post.cleanedContent
-      } else {
-        return this.post.content.rendered
-      }
+      return this.post.cleanedContent || this.post.content.rendered
     },
     publicationDate () {
       if (this.post) {

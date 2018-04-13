@@ -27,7 +27,7 @@ export default {
   props: {
     userData: {
       type: Object,
-      default: function () {
+      default: () => {
         return {
           _id: '',
           username: '',
@@ -43,14 +43,16 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      displayName () {
-        return this.userData.name || this.userData.username
-      },
-      avatarUrl (state) {
-        return this.userData.avatarUrl || state.placeholderAvatar
-      }
-    }),
+    ...mapState([
+      'placeholderAvatar'
+    ]),
+
+    displayName () {
+      return this.userData.name || this.userData.username
+    },
+    avatarUrl () {
+      return this.userData.avatarUrl || this.placeholderAvatar
+    },
     imageStyle () {
       return `background: url('${this.avatarUrl}') center center / cover no-repeat`
     }

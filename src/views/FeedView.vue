@@ -11,19 +11,17 @@
 <script>
 import FeedItem from '@/components/FeedItem.vue'
 import { mapActions, mapState } from 'vuex'
+
 export default {
   name: 'feed-view',
-
   components: {
     FeedItem
   },
-
   data () {
     return {
       loading: true
     }
   },
-
   beforeMount () {
     return this
       .fetchMyFeed({ userId: this.me._id })
@@ -31,19 +29,16 @@ export default {
         this.loading = false
       })
   },
-  methods: {
-    ...mapActions(['fetchMyFeed'])
-  },
-
   computed: {
-    ...mapState({
-      me (state) {
-        return state.me
+    ...mapState([
+      'me',
+      'feed'
+    ])
       },
-      feed (state) {
-        return state.feed
-      }
-    })
+  methods: {
+    ...mapActions([
+      'fetchMyFeed'
+    ])
   }
 }
 </script>

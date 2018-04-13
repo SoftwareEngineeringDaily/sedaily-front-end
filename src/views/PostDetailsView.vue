@@ -18,9 +18,9 @@
         :show-comments="showComments"
         :show-related-links="showRelatedLinks"
         :show-post-content="showPostContent"
-        @selectPostContent="selectPostContent"
-        @selectRelatedLinks="selectRelatedLinks"
-        @selectComments="selectComments" />
+        @selectPostContent="select('postContent')"
+        @selectRelatedLinks="select('relatedLinks')"
+        @selectComments="select('comments')" />
     </div>
 
     <div
@@ -42,7 +42,7 @@
 
       <div class="row">
         <div class="col-md-8">
-          <h3 class="section-title"> Comments </h3>
+          <h3 class="section-title">Comments</h3>
           <comments-list :comments="comments" />
         </div>
 
@@ -65,7 +65,7 @@
       class="comments">
       <comment-compose v-if="isLoggedIn" />
       <br>
-      <h3 class="section-title"> Comments </h3>
+      <h3 class="section-title">Comments</h3>
       <comments-list :comments="comments" />
     </div>
 
@@ -106,22 +106,42 @@ export default {
   },
   data () {
     return {
-      showPostContent: true,
-      showRelatedLinks: false,
-      showComments: false,
+      show: {
+        postContent: true,
+        relatedLinks: false,
+        comments: false
+      },
       loading: true
     }
   },
+  beforeMount () {
+    this.fetchArticle({ id: this.postId })
+      .then(() => { this.loading = false })
+    this.commentsFetch({ entityId: this.postId })
+    this.relatedLinksFetch({ postId: this.postId })
+  },
   computed: {
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+    ...mapState({
+      activePlayerPost: 'activePlayerPost',
+      playerState: 'playerState',
+      posts: 'posts',
+      postRelatedLinks: 'postRelatedLinks',
+      entityComments: 'entityComments',
+      commentsMap: state => state.comments
+    }),
+
     postContent () {
-      if (this.post.cleanedContent) {
-        return this.post.cleanedContent
-      } else {
-        return this.post.content.rendered
-      }
+      return this.post.cleanedContent || this.post.content.rendered
+    },
+    postId () {
+      return this.$route.params.id
     },
     post () {
-      return this.$store.state.posts[this.$route.params.id]
+      return this.posts[this.postId]
     },
     postSummary () {
       const maxLength = 400;
@@ -132,91 +152,43 @@ export default {
       let summary = '';
       for (let para of paras) {
         summary += para.innerText + ' ';
-        if (summary.length >= maxLength) {
-          break;
-        }
+        if (summary.length >= maxLength) break
       }
       if (summary.length > maxLength) {
         return summary.substr(0, maxLength-3) + '...'
       }
-      return summary;
+      return summary
     },
     relatedLinks () {
-      return this.postRelatedLinks[this.$route.params.id] || []
+      return this.postRelatedLinks[this.postId] || []
     },
-
     comments () {
-      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      const parentCommentIds = this.entityComments[this.postId] || []
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
       })
     },
-
     isActiveEpisode () {
       return this.activePlayerPost && this.activePlayerPost._id === this.post._id
     },
-
     canPause () {
       return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
     },
-
     canPlay () {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
-    },
-
-    ...mapGetters(['isLoggedIn', 'metaTag']),
-    ...mapState({
-      activePlayerPost (state) {
-        return state.activePlayerPost
-      },
-
-      playerState (state) {
-        return state.playerState
-      },
-
-      postId (state) {
-        return state.route.params.id
-      },
-
-      posts (state) {
-        return state.posts
-      },
-
-      postRelatedLinks (state) {
-        return state.postRelatedLinks
-      },
-
-      commentsMap (state) {
-        return state.comments
-      },
-
-      entityComments (state) {
-        return state.entityComments
-      }
-    })
+    }
   },
-
-  beforeMount () {
-    this.fetchArticle({
-      id: this.postId
-    }).then(() => {
-      this.loading = false
-    })
-    // Fetch comments
-    this.commentsFetch({
-      entityId: this.postId
-    })
-
-    // Fetch relatedLinks
-    this.relatedLinksFetch({
-      postId: this.postId
-    })
-  },
-
   methods: {
-    ...mapActions(['upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch', 'playEpisode', 'updatePlayerState']),
+    ...mapActions([
+      'upvote',
+      'relatedLinksFetch',
+      'downvote',
+      'fetchArticle',
+      'commentsFetch',
+      'playEpisode',
+      'updatePlayerState'
+    ]),
     play () {
       if (this.isActiveEpisode) {
         this.updatePlayerState(PlayerState.PLAYING)
@@ -229,61 +201,35 @@ export default {
         this.updatePlayerState(PlayerState.PAUSED)
       }
     },
-    selectPostContent () {
-      this.showRelatedLinks = false
-      this.showComments = false
-      this.showPostContent = false
-      this.showPostContent = true
-    },
-
-    selectComments () {
-      this.showRelatedLinks = false
-      this.showComments = false
-      this.showPostContent = false
-      this.showComments = true
-    },
-
-    selectRelatedLinks () {
-      this.showRelatedLinks = false
-      this.showComments = false
-      this.showPostContent = false
-      this.showRelatedLinks = true
+    select (property) {
+      Object.keys(this.show)
+        .filter(key => key !== property)
+        .forEach(key => this.show[key] = false)
+      this.show[property] = true
     },
     upvoteHandler () {
-      this.upvote({
-        id: this.postId
-      })
+      this.upvote({ id: this.postId })
     },
     downvoteHandler () {
-      this.downvote({
-        id: this.postId
-      })
+      this.downvote({ id: this.postId })
     }
   },
   metaInfo() {
     // wait for post before updating meta
-    if (!this.post) {
-      return {}
-    }
-    return {
-      meta: [
-        this.metaTag('og:title', this.post.title.rendered),
-        this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.postSummary),
-        // links must use https
-        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
-      ]
-    }
+    return !this.post
+      ? {}
+      : {
+          meta: [
+            this.metaTag('og:title', this.post.title.rendered),
+            this.metaTag('og:url', location.href),
+            this.metaTag('og:description', this.postSummary),
+            // links must use https
+            this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+          ]
+        }
   }
 }
 </script>
-
-<style lang="stylus">
-  .post-transcript
-    .row
-      .row
-        display none
-</style>
 
 <style lang="stylus">
   .post-transcript

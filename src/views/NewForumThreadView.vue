@@ -28,6 +28,7 @@ export default {
     ...mapActions([
       'forumThreadCreate'
     ]),
+
     submitCallback ({title, content}) {
       this.forumThreadCreate({
         title,

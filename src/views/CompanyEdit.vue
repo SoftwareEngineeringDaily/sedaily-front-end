@@ -19,6 +19,7 @@
 <script>
 import CompanyForm from '@/components/CompanyForm.vue'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'company-compose',
   data () {
@@ -27,6 +28,9 @@ export default {
       companyData: null,
       error: null
     }
+  },
+  created () {
+    if (!this.isLoggedIn) this.error = 'Unauthorized'
   },
   beforeMount () {
     // Should probably be fetching by id:
@@ -40,16 +44,21 @@ export default {
         this.$toasted.error('Error fecthing company')
       })
   },
-  created () {
-    if (!this.isLoggedIn) {
-      this.error = 'Unauthorized'
-    }
-  },
   components: {
     CompanyForm
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
+  },
   methods: {
-    ...mapActions(['companiesEdit', 'companiesFetchById', 'deleteCompany']),
+    ...mapActions([
+      'companiesEdit',
+      'companiesFetchById',
+      'deleteCompany'
+    ]),
+
     deleteCoompanyCallback () {
       this.deleteCompany(this.companyData._id)
         .then(() => {
@@ -76,9 +85,6 @@ export default {
           this.loading = false
         })
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

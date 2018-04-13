@@ -129,19 +129,29 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
 import { selectSubscriptionPlan } from '../utils/subscription.utils.js'
+
 export default {
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+
+    appUrl () {
+      return {
+        ios: 'https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8',
+        android: 'https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily'
+      }
+    }
+  },
   methods: {
     signUpForSubscriptionYearly () {
       this.signUpForSubscription('yearly')
     },
-
     signUpForSubscriptionMonthly () {
       this.signUpForSubscription('monthly')
     },
-
     signUpForSubscription (planType) {
       // if logged in
       if (this.isLoggedIn) {
@@ -159,10 +169,6 @@ export default {
       //  We need to take the user to logged in route
     }
 
-  },
-
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

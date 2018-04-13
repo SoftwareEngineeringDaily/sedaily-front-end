@@ -16,6 +16,7 @@
 <script>
 import JobForm from '@/components/JobForm.vue'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'add-job-view',
   data () {
@@ -24,16 +25,22 @@ export default {
       error: null
     }
   },
-  created () {
-    if (!this.isLoggedIn) {
-      this.error = 'Unauthorized'
-    }
-  },
   components: {
     JobForm
   },
+  created () {
+    if (!this.isLoggedIn) this.error = 'Unauthorized'
+  },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
+  },
   methods: {
-    ...mapActions(['createJob']),
+    ...mapActions([
+      'createJob'
+    ]),
+
     submitCreateJob ({
       title,
       description,
@@ -66,9 +73,6 @@ export default {
           this.loading = false
         })
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

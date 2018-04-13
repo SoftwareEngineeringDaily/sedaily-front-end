@@ -14,9 +14,11 @@ export default {
   props: [
     'user'
   ],
-  data: () => ({
+  data () {
+    return {
     body: ''
-  }),
+    }
+  },
   computed: {
     ...mapGetters([
       'isChatOnline'
@@ -26,7 +28,8 @@ export default {
     ...mapActions([
       'sendChatMessage'
     ]),
-    addMessage: function (e) {
+
+    addMessage () {
       const { username, name } = this.user
       const message = {
         username,
@@ -37,7 +40,6 @@ export default {
       this.body = ''
       this.sendChatMessage(message)
     }
-
   }
 }
 </script>

@@ -30,13 +30,14 @@ export default  {
   },
   computed: {
     ...mapState({
-      entityId (state) {
-        return state.route.params.id // TODO: pass into component
-      }
+      entityId: state => state.route.params.id // TODO: pass into component
     })
   },
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
+    ...mapActions([
+      'commentsCreate',
+      'commentsFetch'
+    ]),
     submitCallback ({content}) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
