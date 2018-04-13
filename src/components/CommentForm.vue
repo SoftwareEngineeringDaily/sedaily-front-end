@@ -8,13 +8,13 @@
     >
     <textarea placeholder='Your comment here...'
     class='comment-box'
-    ref='content'
+    ref='inp'
     :disabled="isSubmitting"
     type='text'
     v-model='commentContent' />
   </vue-tribute>
 
-    <button @click="append" class="btn btn-success">Append New Item</button>
+  <button @click="append" class="btn btn-success">Append New Item</button>
 
     <div v-for="user in mentionsMatches" :key="user._id">
       <h3> {{user.name}} </h3>
@@ -112,15 +112,18 @@ export default {
     tributeReplaced (e) {
       console.log('tributeReplaced', e)
     },
-    tributeNoMatch (searchQuery) {
+    tributeNoMatch: debounce(function (searchQuery)  {
       console.log("tributeNoMatch", searchQuery)
       this.searchUsers({name: searchQuery})
         .then((users) => {
           console.log('users found', users)
           this.setUserList(users)
         })
-    },
+    }, 100),
 
+    // TODO: loop over and match. Start with longer matches
+    // Search for [space]@_${value} so when we replace while we replace
+    // with . What if mention is first character.
     setUserList (userList) {
        this.options.values.splice(0, this.options.values.length + 1)
        userList.forEach((user) => {
@@ -132,6 +135,13 @@ export default {
     },
 
     append() {
+      let self = this;
+      console.log('model', this.commentContent)
+      console.log('raw value', this.$refs.inp.value)
+      // this.$refs.inp.map( (m, k) => {
+        // m.value = self.allItems[k].name
+      // })
+
       let kv = Math.random()
       .toString(36)
       .slice(2)
