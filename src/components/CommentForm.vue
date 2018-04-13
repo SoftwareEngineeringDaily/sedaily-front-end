@@ -14,11 +14,12 @@
     v-model='commentContent' />
   </vue-tribute>
 
+  <div v-for="user in mentionedUsers" :key="user._id">
+    <profile-label :userData="user">
+    </profile-label>
+  </div>
   <button @click="append" class="btn btn-success">Append New Item</button>
 
-    <div v-for="user in mentionsMatches" :key="user._id">
-      <h3> {{user.name}} </h3>
-    </div>
 
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
@@ -37,6 +38,7 @@
 
 <script>
 import VueTribute from '@/components/VueTribute.js'
+import ProfileLabel from '@/components/ProfileLabel'
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -69,6 +71,7 @@ export default {
   },
   components: {
     VueTribute,
+    ProfileLabel,
     Spinner
   },
   data () {
@@ -76,7 +79,7 @@ export default {
       // Options for auto-complete mentions
       options: {
         menuItemTemplate: function (item) {
-          console.log('tempalte select', item.original.user)
+          // console.log('tempalte select', item.original.user)
           const img = item.original.user.avatarUrl ? item.original.user.avatarUrl : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
           return `<span><img width="30px" src='${img}'/> ${item.original.value} </span>`
         },
@@ -85,7 +88,7 @@ export default {
         values: [
         ]
       },
-      mentionsMatches: [],
+      mentionedUsers: [],
       commentContent: this.content
     }
   },
@@ -113,9 +116,11 @@ export default {
     ...mapActions(['searchUsers']),
     handleSelectUser (user) {
       console.log('user?', user)
+      this.mentionedUsers.push(user)
     },
-    tributeReplaced (e) {
-      console.log('tributeReplaced', e)
+    tributeReplaced ({detail}) {
+      const {user} = detail.item.original
+      this.handleSelectUser(user)
     },
     tributeNoMatch: debounce(function (searchQuery)  {
       console.log("tributeNoMatch", searchQuery)
