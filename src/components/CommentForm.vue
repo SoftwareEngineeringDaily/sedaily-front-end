@@ -9,6 +9,9 @@
       v-model='commentContent' />
 
     <input ref="autocomplete" v-model="autocomplete"/>
+    <div v-for="user in mentionsMatches" :key="user._id">
+      <h3> {{user.name}} </h3>
+    </div>
 
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
@@ -64,6 +67,7 @@ export default {
   data () {
     return {
       autocomplete: '@',
+      mentionsMatches: [],
       commentContent: this.content
     }
   },
@@ -80,9 +84,10 @@ export default {
     },
     autocomplete: debounce(function() {
       const name = this.autocomplete.substr(1)
-      this.searchUsers({name}).then((results) => {
+      this.searchUsers({name}).then((users) => {
         console.log('autocomplete', this.autocomplete)
-        console.log('results', results)
+        console.log('results', users)
+        this.mentionsMatches = users;
       })
 
     }, 80),
