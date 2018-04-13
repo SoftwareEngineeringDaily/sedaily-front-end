@@ -79,10 +79,6 @@ export default {
       options: {
         allowSpaces: true,
         values: [
-          { key: 'Collin Henderson', value: 'syropian' },
-          { key: 'Sarah Drasner', value: 'sarah_edo' },
-          { key: 'Evan You', value: 'youyuxi' },
-          { key: 'Adam Wathan', value: 'adamwathan' }
         ]
       },
       mentionsMatches: [],
@@ -134,9 +130,25 @@ export default {
     tributeReplaced (e) {
       console.log('tributeReplaced', e)
     },
-    tributeNoMatch (e) {
-      console.log("tributeNoMatch", e)
+    tributeNoMatch (searchQuery) {
+      console.log("tributeNoMatch", searchQuery)
+      this.searchUsers({name: searchQuery})
+        .then((users) => {
+          console.log('users found', users)
+          this.resetUserList(users)
+        })
     },
+
+    resetUserList (userList) {
+       this.options.values.splice(0, this.options.values.length + 1)
+       userList.forEach((user) => {
+         this.options.values.push(
+           { key: user.name, value: user.name }
+         )
+       })
+       console.log('clear list', this.options.values)
+    },
+
     clearList () {
        this.options.values.splice(0, this.options.values.length + 1)
        this.options.values.push(
