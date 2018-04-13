@@ -10,24 +10,26 @@
          </router-link>
 
       </h6>
-      <div class="col col-sm-auto">
-        <div class="crop-image">
-          <img class="profile-img" :src="avatarUrl" />
+      <div class="wrapper">
+        <div class="col col-sm-auto">
+          <div class="crop-image">
+            <img class="profile-img" :src="avatarUrl" />
+          </div>
         </div>
-      </div>
-      <div class="user-details col-sm-6 col-md-4">
-        <h4 class="display-name">
-          {{displayName}}
-        </h4>
-        <p class="display-bio">
-          <small class="text-muted">{{displayBio}}</small>
-        </p>
-        <p class="display-website" v-if="userData.website">
-          <a :href="userData.website | externalUrl" target="_blank"
-             rel="external nofollow"
-          > {{ userData.website | host }} </a>
-        </p>
-      <hr/>
+        <div class="user-details col-sm-6 col-md-4">
+          <h4 class="display-name">
+            {{displayName}}
+          </h4>
+          <p class="display-bio">
+            <small class="text-muted">{{displayBio}}</small>
+          </p>
+          <p class="display-website" v-if="userData.website">
+            <a :href="userData.website | externalUrl" target="_blank"
+               rel="external nofollow"
+            > {{ userData.website | host }} </a>
+          </p>
+        <hr/>
+        </div>
       </div>
   </div>
 </template>
@@ -74,13 +76,15 @@
 <style scoped lang="stylus">
   @import './../css/variables'
 
+  .wrapper
+    margin-left auto
+    margin-right auto
+    width 960px
+
   .user-details
-    position fixed
-    padding 0
-    margin 0
-    top 30%
-    left 50%
-    transform: translate(-50%, -50%)
+    margin-top -40px
+    margin-left auto
+    margin-right auto
     text-align center
     .display-name
       padding-top 50px
@@ -93,10 +97,8 @@
       font-weight bold
 
   .crop-image
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%)
+    margin-left auto
+    margin-right auto
     background-position 50%
     background-repeat no-repeat
     border-radius 50%
@@ -115,12 +117,7 @@
     width auto
 
   .edit-link
-    position fixed
-    padding 0
-    margin 0
-    top 39%
-    left 50%
-    transform: translate(-50%, -50%)
+    padding 10px
     text-align center
     a
       color accent-color
