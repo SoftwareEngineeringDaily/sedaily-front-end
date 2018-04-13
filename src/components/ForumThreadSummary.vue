@@ -20,7 +20,7 @@
       </span>
       <div class='forum-thread-misc'>
         Posted by
-        <span>
+        <span class="author">
           <router-link :to="'/profile/' + forumThread.author._id">
             {{forumThread.author.name}}
           </router-link>
@@ -31,7 +31,7 @@
 
         <span class='comments-count misc-detail'>
           <router-link :to="'/forum/' + forumThread._id" class="comments-count-link">
-            {{forumThread.commentsCount}} comments
+            <span class="fa fa-comments" aria-hidden="true"></span> {{forumThread.commentsCount}} comments
           </router-link>
         </span>
       </div>
@@ -83,25 +83,41 @@ export default {
 @import '../css/variables'
 
 .forum-summary-container
-  font-family Roboto-Light
+  font-family Roboto
   .forum-summary-title a
-    color #000
-    font-weight 300
+    color primary-color
+    font-weight bold
     font-size 1.0rem
   .forum-summary-title a:hover
     text-decoration none
-    color primary-color
+    color #a591ff
+  .forum-summary-title a:visited
+    color #a591ff
 
 .content-holder
   max-width 63%
+.content-holder a:hover
+  transition color .15s ease
+  text-decoration none
+  color #000
+  opacity .7
+
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
   margin-top 3px
   margin-bottom 1rem
+.forum-thread-misc a
+  opacity .5
 
+.author
+  font-weight bold
+  color #a9a9a9a
 .comments-count-link
-  color #a9a9a9
+  font-weight bold
+  color #666
+.comments-count-link a:hover
+  color primary-color
 .bullet-point
   display inline-flex
   font-size 0.65em
