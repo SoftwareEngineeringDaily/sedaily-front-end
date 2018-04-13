@@ -85,7 +85,7 @@ export default {
         console.log('results', results)
       })
 
-    }, 100),
+    }, 80),
     content: function() {
       this.commentContent = this.content
     }

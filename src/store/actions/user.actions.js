@@ -25,6 +25,9 @@ export default {
 
   searchUsers: ({ commit, state, getters }, { name }) => {
     return axios.get(`${BASE_URL}/users/search?name=${name}`)
+      .then(({data}) => {
+        return data
+      })
   },
 
   fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
