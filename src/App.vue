@@ -68,6 +68,7 @@ export default {
   // in <head></head> unless overwritten with same id in child component
   metaInfo() {
     return {
+      title: 'Software Daily',
       meta: [
         this.metaTag('twitter:card'),
         this.metaTag('twitter:site'),

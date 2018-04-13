@@ -81,6 +81,11 @@ export default {
   display flex
   align-items center
   justify-content center
+  transition all .5s ease
+
+.create-post:hover
+  box-shadow 0 20px 5px -10px rgba(#000, 0.3)
+  transform translateY(1px)
 
 .create-post-text
   align-self center
