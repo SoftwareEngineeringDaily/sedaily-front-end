@@ -2,17 +2,44 @@
 <template>
   <div v-if="me">
 
-    <at-ta v-model="atList" :members="members"
-      @select="handleSelectUser"
-    >
+    <div class="container">
+      <h1>vue-tribute Demo</h1>
+      <h3>Simple text input</h3>
+      <vue-tribute :options="options"
+      >
+        <input type="text" placeholder="@...">
+      </vue-tribute>
+      <br />
+      <h3>Textarea</h3>
+      <vue-tribute :options="options"
 
-      <textarea placeholder='Your comment here...'
-      class='comment-box'
-      ref='content'
-      :disabled="isSubmitting"
-      type='text'
-      v-model='commentContent' />
-    </at-ta>
+        @tribute-replaced="tributeReplaced"
+        v-on:tribute-replaced="tributeReplaced"
+        @tribute-no-match="tributeNoMatch"
+        v-on:tribute-no-match="tributeNoMatch()"
+      >
+        <textarea placeholder="@..."></textarea>
+      </vue-tribute>
+      <br />
+      <h3>contenteditable element</h3>
+      <vue-tribute :options="options">
+        <div class="content-editable" contenteditable="true" placeholder="@..."></div>
+      </vue-tribute>
+      <br />
+      <button @click="append" class="btn">Append New Item</button>
+    </div>
+
+
+
+
+    <textarea placeholder='Your comment here...'
+    class='comment-box'
+    ref='content'
+    :disabled="isSubmitting"
+    type='text'
+    v-model='commentContent' />
+
+
 
     <input ref="autocomplete" v-model="autocomplete"/>
 
@@ -36,7 +63,7 @@
 </template>
 
 <script>
-import AtTa from 'vue-at/dist/vue-at-textarea' // for textarea
+import VueTribute from '@/components/VueTribute.js'
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -68,14 +95,20 @@ export default {
     }
   },
   components: {
-    AtTa,
+    VueTribute,
     Spinner
   },
   data () {
     return {
       autocomplete: '@',
-      atList: [],
-      members: ['Roxie Miles', 'grace.carroll', '小浩'],
+      options: {
+        values: [
+          { key: 'Collin Henderson', value: 'syropian' },
+          { key: 'Sarah Drasner', value: 'sarah_edo' },
+          { key: 'Evan You', value: 'youyuxi' },
+          { key: 'Adam Wathan', value: 'adamwathan' }
+        ]
+      },
       mentionsMatches: [],
       commentContent: this.content
     }
@@ -122,6 +155,21 @@ export default {
     ...mapActions(['searchUsers']),
     handleSelectUser (user) {
       console.log('user?', user)
+    },
+    tributeReplaced (e) {
+      console.log('tributeReplaced', e)
+    },
+    tributeNoMatch (e) {
+      console.log("tributeNoMatch", e)
+    },
+    append() {
+      let kv = Math.random()
+      .toString(36)
+      .slice(2)
+      this.options.values.push({
+        key: kv,
+        value: kv
+      })
     },
     submitComment () {
       console.log('this.entityId', this.entityId)
