@@ -2,46 +2,21 @@
 <template>
   <div v-if="me">
 
-    <div class="container">
-      <h1>vue-tribute Demo</h1>
-      <h3>Simple text input</h3>
-      <vue-tribute :options="options"
-      >
-        <input type="text" placeholder="@...">
-      </vue-tribute>
-      <br />
-      <h3>Textarea</h3>
-      <vue-tribute :options="options"
-
-        @tribute-replaced="tributeReplaced"
-        v-on:tribute-replaced="tributeReplaced"
-        @tribute-no-match="tributeNoMatch"
-        v-on:tribute-no-match="tributeNoMatch()"
-      >
-        <textarea placeholder="@..."></textarea>
-      </vue-tribute>
-      <br />
-      <h3>contenteditable element</h3>
-      <vue-tribute :options="options">
-        <div class="content-editable" contenteditable="true" placeholder="@..."></div>
-      </vue-tribute>
-      <br />
-      <button @click="append" class="btn">Append New Item</button>
-    </div>
-
-
-
-
+    <vue-tribute :options="options"
+    @tribute-replaced="tributeReplaced"
+    @tribute-no-match="tributeNoMatch"
+    >
     <textarea placeholder='Your comment here...'
     class='comment-box'
     ref='content'
     :disabled="isSubmitting"
     type='text'
     v-model='commentContent' />
+  </vue-tribute>
 
+    <button @click="append" class="btn btn-success">Append New Item</button>
+    <button @click="clearList" class="btn btn-warning">Clear list</button>
 
-
-    <input ref="autocomplete" v-model="autocomplete"/>
 
     <div v-for="user in mentionsMatches" :key="user._id">
       <h3> {{user.name}} </h3>
@@ -63,7 +38,7 @@
 </template>
 
 <script>
-import VueTribute from '@/components/VueTribute.js'
+import VueTribute from 'vue-tribute'
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -119,7 +94,6 @@ export default {
   watch: {
     commentContent: function() {
       console.log('commentContent', this.commentContent)
-      console.log('atList', this.atList)
       // If @ is preceded by space  then:
       /*
       if (this.commentContent.indexOf('@') > 0) {
@@ -161,6 +135,13 @@ export default {
     },
     tributeNoMatch (e) {
       console.log("tributeNoMatch", e)
+    },
+    clearList () {
+       this.options.values.splice(0, this.options.values.length + 1)
+       this.options.values.push(
+         { key: 'Collin Henderson 2', value: 'syropian2' }
+       )
+       console.log('clear list', this.options.values)
     },
     append() {
       let kv = Math.random()
