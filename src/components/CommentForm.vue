@@ -78,6 +78,8 @@ export default {
     commentContent: function() {
       // If @ is preceded by space  then:
       if (this.commentContent.indexOf('@') > 0) {
+        this.autocomplete = '@'
+        this.mentionsMatches = []
         this.$refs.autocomplete.focus()
 
       }
