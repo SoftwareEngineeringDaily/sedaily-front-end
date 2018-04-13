@@ -2,7 +2,7 @@
 <template>
   <div v-if="me">
 
-    <at-ta :members="members"
+    <at-ta v-model="atList" :members="members"
       @select="handleSelectUser"
     >
 
@@ -74,6 +74,7 @@ export default {
   data () {
     return {
       autocomplete: '@',
+      atList: [],
       members: ['Roxie Miles', 'grace.carroll', '小浩'],
       mentionsMatches: [],
       commentContent: this.content
@@ -85,6 +86,7 @@ export default {
   watch: {
     commentContent: function() {
       console.log('commentContent', this.commentContent)
+      console.log('atList', this.atList)
       // If @ is preceded by space  then:
       /*
       if (this.commentContent.indexOf('@') > 0) {
