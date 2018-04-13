@@ -8,7 +8,12 @@
       type='text'
       v-model='commentContent' />
 
+    <at :members="members">
+      <div contenteditable></div>
+    </at>
+
     <input ref="autocomplete" v-model="autocomplete"/>
+
     <div v-for="user in mentionsMatches" :key="user._id">
       <h3> {{user.name}} </h3>
     </div>
@@ -29,7 +34,7 @@
 </template>
 
 <script>
-import UpdateProfile from 'components/UpdateProfile.vue'
+import At from 'vue-at'
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -61,12 +66,13 @@ export default {
     }
   },
   components: {
-    UpdateProfile,
+    At,
     Spinner
   },
   data () {
     return {
       autocomplete: '@',
+      members: ['Roxie Miles', 'grace.carroll', '小浩'],
       mentionsMatches: [],
       commentContent: this.content
     }
@@ -77,12 +83,13 @@ export default {
   watch: {
     commentContent: function() {
       // If @ is preceded by space  then:
+      /*
       if (this.commentContent.indexOf('@') > 0) {
         this.autocomplete = '@'
         this.mentionsMatches = []
         this.$refs.autocomplete.focus()
 
-      }
+      }*/
     },
     autocomplete: debounce(function() {
       const name = this.autocomplete.substr(1)
