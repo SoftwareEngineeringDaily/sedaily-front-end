@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import VueTribute from 'vue-tribute'
+import VueTribute from '@/components/VueTribute.js'
 import { debounce } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -77,6 +77,7 @@ export default {
     return {
       autocomplete: '@',
       options: {
+        allowSpaces: true,
         values: [
           { key: 'Collin Henderson', value: 'syropian' },
           { key: 'Sarah Drasner', value: 'sarah_edo' },
