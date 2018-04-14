@@ -17,18 +17,14 @@
 </template>
 
 <script>
-
 export default {
   name: 'UpdateCompanyProfile',
-
   components: {
   },
-
   data () {
     return {
     }
   },
-
   methods: {
   }
 }

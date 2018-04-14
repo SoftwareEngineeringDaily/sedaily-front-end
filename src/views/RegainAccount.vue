@@ -24,13 +24,12 @@
 
 <script>
 import Spinner from '@/components/Spinner.vue'
+
 export default {
   name: 'regain-account',
-
   components: {
     Spinner
   },
-
   data () {
     return {
       password: '',
@@ -38,7 +37,6 @@ export default {
       loading: false
     }
   },
-
   methods: {
     regainAccount () {
       this.$validator.validateAll().then((result) => {

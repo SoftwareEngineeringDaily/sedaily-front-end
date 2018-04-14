@@ -22,6 +22,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import VotingArrows from '@/components/VotingArrows.vue'
+
 export default {
   name: 'related-link',
   components: { VotingArrows },
@@ -32,15 +33,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    ...mapActions([
+      'upvoteRelatedLink',
+      'downvoteRelatedLink',
+      'removeRelatedLink',
+      'relatedLinksFetch'
+    ]),
+
     remove () {
-      this.removeRelatedLink({
-        id: this.relatedLink._id
-      })
+      this.removeRelatedLink({ id: this.relatedLink._id })
         .then(() => {
-          this.relatedLinksFetch({
-            postId: this.relatedLink.post
-          })
+          this.relatedLinksFetch({ postId: this.relatedLink.post })
         })
         .catch((error) => {
           console.log(error)
@@ -61,14 +64,12 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      me (state) {
-        return state.me
-      }
-    }),
+    ...mapState([
+      'me'
+    ]),
+
     myLink () {
-      if (!this.me._id) return false
-      return this.me._id === this.relatedLink.author
+      return this.me._id ? this.me._id === this.relatedLink.author : false
     }
   }
 }

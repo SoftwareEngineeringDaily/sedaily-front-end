@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <h1> Reset Your Password </h1>
 
@@ -9,14 +8,13 @@
         <div class="form-group">
           <label for="emailInput">Email address</label>
           <input type="email"
-          v-model='email'
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
+            v-model='email'
+            class="form-control" id="emailInput"
+            aria-describedby="emailHelp"
+            placeholder="youremail@email.com">
         </div>
 
-        <div v-show="errors.has('email')"
-        class="alert alert-danger">
+        <div v-show="errors.has('email')" class="alert alert-danger">
           {{ errors.first('email') }}
         </div>
       </div>
@@ -32,11 +30,11 @@
       </div>
     </form>
 
-  <spinner :show="loading"></spinner>
-</div>
-
+    <spinner :show="loading"></spinner>
+  </div>
 
 </template>
+
 <script>
 import Spinner from '@/components/Spinner.vue'
 

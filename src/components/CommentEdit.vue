@@ -44,21 +44,21 @@ export default {
       loading: true
     }
   },
-
   computed: {
-    // local computed methods +
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      entityId (state) {
-        return state.route.params.id // TODO: pass into component
-      }
-    })
-  },
+    ...mapState([
+      'me'
+    ]),
 
+    entityId () {
+      return this.$route.params.id // TODO: pass into component
+    }
+  },
   methods: {
-    ...mapActions(['editComment', 'commentsFetch']),
+    ...mapActions([
+      'editComment',
+      'commentsFetch'
+    ]),
+
     submitCallback ({ content }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content

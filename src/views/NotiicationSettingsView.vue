@@ -53,41 +53,33 @@ export default {
     }
   },
   beforeMount () {
-    // TOOD: fix this, not usually needed.
-    this.fetchMyProfileData().then(() => {
-      this.subscribedFromThreads = !this.unsubscribedFromThreads
-      this.subscribedFromCommentReplies = !this.unsubscribedFromCommentReplies
-    })
+    // FIXME: not usually needed
+    this.fetchMyProfileData()
+      .then(() => {
+        this.subscribedFromThreads = !this.unsubscribedFromThreads
+        this.subscribedFromCommentReplies = !this.unsubscribedFromCommentReplies
+      })
   },
   methods: {
-    ...mapActions(['updateEmailNotiicationSettings', 'fetchMyProfileData']),
+    ...mapActions([
+      'updateEmailNotiicationSettings',
+      'fetchMyProfileData'
+    ]),
     save () {
       this.updateEmailNotiicationSettings({ emailNotificationSettings: {
         unsubscribedFromThreads: !this.subscribedFromThreads,
         unsubscribedFromCommentReplies: !this.subscribedFromCommentReplies
-      }}).then( () => {
-        this.msg = 'Succesfully updated your emailsettings.'
-      })
+      }})
+        .then(() => {
+          this.msg = 'Succesfully updated your emailsettings.'
+        })
 
     }
   },
   computed: {
     ...mapState({
-
-      unsubscribedFromThreads (state) {
-        console.log('-------**state', state.me.emailNotiicationSettings)
-        if (!state.me.emailNotiicationSettings) {
-          return false
-        }
-        return state.me.emailNotiicationSettings.unsubscribedFromThreads
-      },
-      unsubscribedFromCommentReplies (state) {
-        if (!state.me.emailNotiicationSettings) {
-          return false
-        }
-        return state.me.emailNotiicationSettings.unsubscribedFromCommentReplies
-
-      }
+      unsubscribedFromThreads: state => state.me.emailNotiicationSettings.unsubscribedFromThreads || false,
+      unsubscribedFromCommentReplies: state => state.me.emailNotiicationSettings.unsubscribedFromCommentReplies || false
     })
   }
 }

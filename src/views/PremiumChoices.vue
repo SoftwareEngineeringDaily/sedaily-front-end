@@ -3,145 +3,133 @@
 
     <!--
     <div class="row">
+      <div class="col-md-12 text-center subscribe-logo">
+        <img width="60%" src="https://s3-us-west-2.amazonaws.com/sd-profile-pictures/SED_Logo_Vector.svg"/>
+      </div>
+    </div>
+    -->
 
-    <div class="col-md-12 text-center subscribe-logo">
-    <img width="60%" src="https://s3-us-west-2.amazonaws.com/sd-profile-pictures/SED_Logo_Vector.svg"/>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1>Subscribe</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h3 class="subtitle">Get ad-free episodes and premium content</h3>
+      </div>
+    </div>
+
+    <div class="row text-center">
+      <div class="col-md-offset-2 col-md-6 text-center">
+        <h4 class="plan-name"> Monthly </h4>
+        <h4 class="price"> <span class="dollars"> $10 </span>  / mo </h4>
+        <span class="billed-terms"> billed monthly </span>
+        <button @click="signUpForSubscriptionMonthly" class="monthly-button"> Get Started </button>
+      </div>
+      <div class="col-md-5 text-center yearly-plan">
+        <h4 class="plan-name">Yearly</h4>
+        <h4 class="price"> <span class="dollars"> $100 </span> / yr  </h4>
+        <span class="billed-terms"> billed yearly </span>
+        <button @click="signUpForSubscriptionYearly" class="yearly-button"> Get Started </button>
+      </div>
+    </div>
+
+    <div class="row why-subscribe">
+      <div class="col-md-12 text-center why-subscribe-title">
+        <h3>Why Subscribe?</h3>
+      </div>
+      <div class="col-md-12 why-subscribe-inner">
+        <p>
+          For 2.5 years, our business model has been to sell advertisements in exchange for exposure on the podcast.
+          We love our sponsors, and believe in the products that we promote. But we want to give listeners the ability
+          to opt out of advertisements.
+        </p>
+        <p>
+          When you subscribe to Software Engineering Daily, you are supporting us and enabling us to think bigger
+          about what Software Engineering Daily could become.
+        </p>
+        <p>
+          We are investing heavily in both content and new products. We would like to invest more, and hope you will
+          help us.
+        </p>
+      </div>
+    </div>
+
+    <div class='row faq'>
+      <h3> Frequently Asked Questions </h3>
+
+      <div class='question'>
+        <h4 class="question-title">How do I listen to ad free episodes?</h4>
+        <p class="question-answer">
+          Download the Software Engineering Daily app for <a :href="appUrl.ios" target="_blank"> iOS </a>
+          or <a :href="appUrl.android" target="_blank">Android</a>, or go to softwaredaily.com and login.
+        </p>
+      </div>
+
+      <div class='question'>
+        <h4 class="question-title">What premium content are you offering?</h4>
+        <p class="question-answer">
+          Audio episodes that are only available to subscribers. The first premium episode is planned for January 2018.
+          We will have other value-add features of a premium subscription over time.
+        </p>
+      </div>
+
+      <div class='question'>
+        <h4 class="question-title">Why didn't you do Patreon?</h4>
+        <p class="question-answer">
+          We did set up a Patreon account, but never promoted it. We didn't configure any premium offerings, and it was
+          mixed messaging to have advertising and ask for donations.
+        </p>
+      </div>
+
+      <div class='question'>
+        <h4 class="question-title">How does payment work for a subscription?</h4>
+        <p class="question-answer">You’ll need a credit card to sign up for a subscription. Payments are handled through stripe.</p>
+      </div>
+
+      <div class='question'>
+        <h4 class="question-title">How do I cancel my subscription?</h4>
+        <p class="question-answer">You can cancel your subscription at any time. Visit your subscription settings to cancel.</p>
+      </div>
+
+      <div class='question'>
+        <h4 class="question-title">Have more questions?</h4>
+        <p class="question-answer">
+          Feel free to contact us at <a href="mailto:jeff@softwaredaily.com" target="_blank">jeff@softwaredaily.com</a>
+          if you have any more questions.
+        </p>
+      </div>
+    </div>
+
   </div>
-</div> -->
-
-<div class="row">
-  <div class="col-md-12 text-center">
-    <h1>Subscribe</h1>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12 text-center">
-    <h3 class="subtitle">Get ad-free episodes and premium content</h3>
-  </div>
-</div>
-
-
-<div class="row text-center">
-  <div class="col-md-offset-2 col-md-6 text-center">
-    <h4 class="plan-name"> Monthly </h4>
-    <h4 class="price"> <span class="dollars"> $10 </span>  / mo </h4>
-    <span class="billed-terms"> billed monthly </span>
-    <button @click="signUpForSubscriptionMonthly" class="monthly-button"> Get Started </button>
-  </div>
-
-  <div class="col-md-5 text-center yearly-plan">
-    <h4 class="plan-name">Yearly</h4>
-    <h4 class="price"> <span class="dollars"> $100 </span> / yr  </h4>
-    <span class="billed-terms"> billed yearly </span>
-    <button @click="signUpForSubscriptionYearly" class="yearly-button"> Get Started </button>
-  </div>
-
-</div>
-
-
-<div class="row why-subscribe">
-  <div class="col-md-12 text-center why-subscribe-title">
-
-    <h3>Why Subscribe?</h3>
-  </div>
-  <div class="col-md-12 why-subscribe-inner">
-    <br />
-    <p>
-      For 2.5 years, our business model has been to sell advertisements in exchange for exposure on the podcast. We love our sponsors, and believe in the products that we promote. But we want to give listeners the ability to opt out of advertisements.
-    </p>
-    <p>
-      When you subscribe to Software Engineering Daily, you are supporting us and enabling us to think bigger about what Software Engineering Daily could become.
-    </p>
-    <p>
-
-      We are investing heavily in both content and new products. We would like to invest more, and hope you will help us.
-    </p>
-  </div>
-</div>
-<div class='row faq'>
-  <h3> Frequently Asked Questions </h3>
-  <br />
-  <div class='question'>
-    <h4 class="question-title">
-      How do I listen to ad free episodes?
-    </h4>
-    <p class="question-answer">
-      Download the Software Engineering Daily app for <a href="https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8" target="_blank"> iOS </a> or <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily" target="_blank">Android</a>, or go to softwaredaily.com and login.
-    </p>
-  </div>
-
-  <div class='question'>
-    <h4 class="question-title">
-      What premium content are you offering?
-    </h4>
-    <p class="question-answer">
-      Audio episodes that are only available to subscribers. The first premium episode is planned for January 2018. We will have other value-add features of a premium subscription over time.
-    </p>
-  </div>
-
-
-  <div class='question'>
-    <h4 class="question-title">
-      Why didn't you do Patreon?
-    </h4>
-    <p class="question-answer">
-      We did set up a Patreon account, but never promoted it. We didn't configure any premium offerings, and it was mixed messaging to have advertising and ask for donations.
-    </p>
-  </div>
-
-
-  <div class='question'>
-    <h4 class="question-title">
-      How does payment work for a subscription?
-    </h4>
-    <p class="question-answer">
-      You’ll need a credit card to sign up for a subscription. Payments are handled through stripe.
-    </p>
-  </div>
-
-
-  <div class='question'>
-    <h4 class="question-title">
-      How do I cancel my subscription?
-    </h4>
-    <p class="question-answer">
-      You can cancel your subscription at any time. Visit your subscription settings to cancel.
-    </p>
-  </div>
-
-
-  <div class='question'>
-    <h4 class="question-title">
-      Have more questions?
-    </h4>
-    <p class="question-answer">
-      Feel free to contact us at jeff@softwaredaily.com if you have any more questions.
-    </p>
-  </div>
-
-
-</div>
-
-</div>
-
-
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex'
 import { selectSubscriptionPlan } from '../utils/subscription.utils.js'
+
 export default {
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+
+    appUrl () {
+      return {
+        ios: 'https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8',
+        android: 'https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily'
+      }
+    }
+  },
   methods: {
     signUpForSubscriptionYearly () {
       this.signUpForSubscription('yearly')
     },
-
     signUpForSubscriptionMonthly () {
       this.signUpForSubscription('monthly')
     },
-
     signUpForSubscription (planType) {
       // if logged in
       if (this.isLoggedIn) {
@@ -159,10 +147,6 @@ export default {
       //  We need to take the user to logged in route
     }
 
-  },
-
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

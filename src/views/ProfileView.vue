@@ -13,8 +13,9 @@
     </template>
   </div>
 </template>
-<script type="text/javascript">
-import { mapActions, mapState } from 'vuex'
+
+<script>
+import { mapState } from 'vuex'
 import ProfileDetails from '@/components/ProfileDetails.vue'
 import Spinner from '@/components/Spinner.vue'
 
@@ -31,11 +32,9 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      me (state) {
-        return state.me
-      }
-    })
+    ...mapState([
+      'me'
+    ])
   }
 }
 </script>

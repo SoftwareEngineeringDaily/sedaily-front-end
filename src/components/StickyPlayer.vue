@@ -28,37 +28,35 @@ export default {
       'activePlayerPost',
       'playerState'
     ]),
+    ...mapGetters([
+      'getNextEpisode'
+    ]),
+
     music () {
       return {
         title: this.activePlayerPost.title.rendered || ' ',
         url: this.activePlayerPost.mp3 || ' ',
         pic: this.activePlayerPost.featuredImage || ' '
       }
-    },
-    ...mapGetters(['getNextEpisode'])
+    }
   },
   methods: {
     ...mapActions([
       'updatePlayerState',
       'playEpisode'
     ]),
+
     onFinished () {
       const nextEpisode = this.getNextEpisode(this.activePlayerPost)
-      if (nextEpisode) {
-        this.playEpisode(nextEpisode)
-      }
+      if (nextEpisode) this.playEpisode(nextEpisode)
     }
   },
   watch: {
     isPlaying (newValue) {
-      if (newValue) {
-        this.updatePlayerState(PlayerState.PLAYING)
-      }
+      if (newValue) this.updatePlayerState(PlayerState.PLAYING)
     },
     isPaused (newValue) {
-      if (newValue) {
-        this.updatePlayerState(PlayerState.PAUSED)
-      }
+      if (newValue) this.updatePlayerState(PlayerState.PAUSED)
     },
     playerState (newValue) {
       if (newValue === PlayerState.PLAYING && !this.isPlaying) {

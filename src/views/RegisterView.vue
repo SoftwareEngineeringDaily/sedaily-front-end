@@ -116,11 +116,9 @@ import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: 'top-list',
-
   components: {
     Spinner
   },
-
   data () {
     return {
       username: '',
@@ -133,37 +131,34 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
+  },
   methods: {
-    ...mapActions(['register']),
+    ...mapActions([
+      'register',
+      'registerEvent'
+    ]),
+
     registerHandler () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, email, bio, website, name, password, newsletter } = this
-          this.$store.dispatch('register', {
-            username,
-            password,
-            name,
-            bio,
-            website,
-            email,
-            newsletter
-          })
+          const profile = { username, email, bio, website, name, password, newsletter }
+          this.register(profile)
             .then((response) => {
               this.loading = false
 
               if (response.data.token) {
-                this.$store.dispatch('registerEvent', {
-                  username
-                })
+                this.registerEvent({ username })
                   .then((eventResponse) => {
                     // Ignore response for now
                   })
-                if (wantedToSubscribe()) {
-                  this.$router.replace('/subscribe')
-                } else {
-                  this.$router.replace('/')
-                }
+                if (wantedToSubscribe()) this.$router.replace('/subscribe')
+                else this.$router.replace('/')
               } else {
                 this.$toasted.error('Invalid registration')
               }
@@ -176,9 +171,6 @@ export default {
     logout () {
       this.$auth.logout()
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

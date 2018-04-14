@@ -48,21 +48,21 @@ export default {
       loading: true
     }
   },
-
   computed: {
-    // local computed methods +
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      entityId (state) {
-        return state.route.params.id // TODO: pass into component
-      }
-    })
-  },
+    ...mapState([
+      'me'
+    ]),
 
+    entityId () {
+      return this.$route.params.id // TODO: pass into component
+    }
+  },
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
+    ...mapActions([
+      'commentsCreate',
+      'commentsFetch'
+    ]),
+
     submitCallback ({ content }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
@@ -76,15 +76,14 @@ export default {
         .then((response) => {
           this.isSubmitting = false
           this.commentContent = ''
-          this.commentsFetch({
-            entityId: this.entityId
-          })
+          this.commentsFetch({ entityId: this.entityId })
           this.doneCallback()
         })
         .catch((error) => {
           this.$toasted.error(error.response.data.message)
         })
-    } }
+    }
+  }
 }
 </script>
 

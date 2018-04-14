@@ -87,7 +87,7 @@
 import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
-import Spinner from '../components/Spinner.vue'
+import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '../utils/subscription.utils.js'
 
 export default {
@@ -96,6 +96,10 @@ export default {
       type: String,
       required: true
     }
+  },
+  components: {
+    Card,
+    Spinner
   },
   data () {
     return {
@@ -118,27 +122,45 @@ export default {
       }
     }
   },
-
   beforeMount () {
     if (!this.isLoggedIn) {
       // If user is not logged in we should show
       this.$router.replace('/premium')
     } else {
       if (!this.alreadySubscribed) {
-        if (wantedToSubscribe()) {
-          this.planType = preSelectedSubscriptionPlan()
-        }
-      } else {
-      // Already subbed
-        unselectSubscriptionPlan()
+        if (wantedToSubscribe()) this.planType = preSelectedSubscriptionPlan()
+        else unselectSubscriptionPlan() // Already subbed
       }
     }
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn',
+      'alreadySubscribed'
+    ]),
+    ...mapState([
+      'me'
+    ]),
 
-  components: { Card, Spinner },
-
+    subscribedToPlan () {
+      if (this.justCancelled) return 'cancelled'
+      if (this.justSubscribed) return this.planType
+      return this.me.subscription.active ? this.me.subscription.planFrequency : ''
+    },
+    dateSubscriptionStarted () {
+      if (this.justSubscribed) return 'Today'
+      else {
+        return this.me.subscription.active
+          ? moment(this.me.subscription.dateCreated).format('MMMM Do, YYYY')
+          : 'Loading...'
+      }
+    }
+  },
   methods: {
-    ...mapActions(['createSubscription', 'cancelSubscription']),
+    ...mapActions([
+      'createSubscription',
+      'cancelSubscription'
+    ]),
     pay () {
       this.error = null
       this.justCancelled = false
@@ -148,12 +170,13 @@ export default {
       // See https://stripe.com/docs/api#tokens for the token object.
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
-      createToken().then(data => {
-        // console.log(data.token)
-        const stripeToken = data.token.id
-        const { planType } = this
-        return this.createSubscription({ stripeToken, planType })
-      })
+      createToken()
+        .then(data => {
+          // console.log(data.token)
+          const stripeToken = data.token.id
+          const { planType } = this
+          return this.createSubscription({ stripeToken, planType })
+        })
         .then((result) => {
         // Successfully created subscription:
           this.processing = false
@@ -176,7 +199,6 @@ export default {
           unselectSubscriptionPlan()
         })
     },
-
     cancelSubscriptionClicked () {
       this.error = null
       this.processing = true
@@ -196,44 +218,6 @@ export default {
           this.error = 'There seems to have been a problem canceling your subscription. Please contact jeff@softwaredaily.com'
         })
     }
-  },
-
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      alreadySubscribed (state) {
-        if (this.justSubscribed) return true
-        if (state.me && state.me.subscription && state.me.subscription.active) {
-          return true
-        } else {
-          return false
-        }
-      },
-
-      subscribedToPlan (state) {
-        if (this.justCancelled) return 'cancelled'
-        if (this.justSubscribed) return this.planType
-        if (state.me && state.me.subscription && state.me.subscription.active) {
-          return state.me.subscription.planFrequency
-        } else {
-          return ''
-        }
-      },
-
-      dateSubscriptionStarted (state) {
-        if (this.justSubscribed) return 'Today'
-        if (state.me && state.me.subscription && state.me.subscription.active) {
-          const startDate = state.me.subscription.dateCreated
-          return moment(startDate).format('MMMM Do, YYYY')
-        } else {
-          return 'Loading...'
-        }
-      },
-
-      me (state) {
-        return state.me
-      }
-    })
   }
 }
 </script>

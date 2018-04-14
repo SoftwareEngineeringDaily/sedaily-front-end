@@ -55,14 +55,20 @@ export default {
   },
 
   computed: {
-    ...mapState(['activePlayerPost']),
+    ...mapState([
+      'activePlayerPost'
+    ]),
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+
     isPlayerActive () {
       return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
     },
     showBeta () {
       return this.$route.path === '/'
     },
-    ...mapGetters(['isLoggedIn', 'metaTag'])
   },
   // as parent component, these meta tags will appear with defaults
   // in <head></head> unless overwritten with same id in child component

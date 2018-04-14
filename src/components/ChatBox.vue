@@ -23,32 +23,29 @@ export default {
     ChatMessageList,
     ChatAddForm
   },
+  async beforeMount () {
+    await this.connectToChatChannel()
+  },
   methods: {
     ...mapActions([
       'connectToChatChannel'
     ]),
-    toggleChatBox: function (e) {
+
+    toggleChatBox () {
       this.$store.commit('toggleChatWindow')
     }
   },
-  async beforeMount () {
-    await this.connectToChatChannel()
-  },
   computed: {
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      messages: state => state.chat.messages
-    }),
+    ...mapState([
+      'me',
+      'chat',
+      'messages'
+    ]),
     ...mapGetters([
       'isChatBoxDisplayed',
       'isChatOnline',
       'isPlayerActive'
-    ]),
-    chat: function chat () {
-      return this.$store.state.chat
-    }
+    ])
   }
 }
 </script>

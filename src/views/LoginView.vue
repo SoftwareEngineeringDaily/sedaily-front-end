@@ -56,11 +56,9 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'login',
-
   components: {
     Spinner
   },
-
   data () {
     return {
       username: '',
@@ -68,26 +66,24 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
+  },
   methods: {
     login () {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
           const { username, password } = this
-          this.$auth.login({
-            username,
-            password
-          })
+          this.$auth.login({ username, password })
             .then((response) => {
               if (response.data.token) {
-                if (wantedToSubscribe()) {
-                  this.$router.replace('/subscribe')
-                } else {
-                  this.$router.replace('/')
-                }
-              } else {
-                this.$toasted.error('Invalid login')
-              }
+                if (wantedToSubscribe()) this.$router.replace('/subscribe')
+                else this.$router.replace('/')
+              } else this.$toasted.error('Invalid login')
+
             })
             .finally(() => { this.loading = false })
         } else {
@@ -99,9 +95,6 @@ export default {
     logout () {
       this.$auth.logout()
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

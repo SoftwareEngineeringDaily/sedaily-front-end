@@ -70,12 +70,9 @@ export default {
   },
 
   computed: {
-    // local computed methods +
-    ...mapState({
-      me (state) {
-        return state.me
-      }
-    })
+    ...mapState([
+      'me'
+    ])
   },
   methods: {
     submitComment () {

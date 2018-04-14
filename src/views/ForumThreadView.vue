@@ -8,8 +8,8 @@
       Are you sure you want to delete your thread?
       <br />
       <br />
-      <button @click="confirmDelete" class='btn btn-warning'> Confirm Delete </button>
-      <button @click="cancelDelete" class='btn btn-link'> Cancel </button>
+      <button @click="confirmDelete" class="btn btn-warning"> Confirm Delete </button>
+      <button @click="cancelDelete" class="btn btn-link"> Cancel </button>
     </div>
     <div v-if="!isDeleting">
       <div v-if="forumThread">
@@ -18,7 +18,7 @@
           :content="forumThread.content" />
 
         <last-edited-info :lastEditedTimestamp="lastEdited" />
-        <div class='forum-thread-misc'>
+        <div class="forum-thread-misc">
           Posted by
           <span>
             <router-link :to="'/profile/' + forumThread.author._id">
@@ -26,17 +26,17 @@
             </router-link>
           </span>
           <div class="bullet-point">&#9679;</div>
-          <span class='misc-detail'>{{creationDate}}</span>
+          <span class="misc-detail">{{creationDate}}</span>
           <div class="bullet-point">&#9679;</div>
-          <span class='comments-count misc-detail'> {{forumThread.commentsCount}} comments</span>
+          <span class="comments-count misc-detail"> {{forumThread.commentsCount}} comments</span>
 
-          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-          <span class='delete simple-link' v-if='this.isMyThread' @click='remove'>
+          <div class="bullet-point" v-if="this.isMyThread">&#9679;</div>
+          <span class="delete simple-link" v-if="this.isMyThread" @click="remove">
             Delete
           </span>
 
-          <div class="bullet-point" v-if='this.isMyThread'>&#9679;</div>
-          <span class='edit simple-link' v-if='this.isMyThread' @click='edit'>
+          <div class="bullet-point" v-if="this.isMyThread">&#9679;</div>
+          <span class="edit simple-link" v-if="this.isMyThread" @click="edit">
             Edit
           </span>
         </div>
@@ -45,18 +45,18 @@
           <div class="col-md-9">
             <comment-compose
               v-if="isLoggedIn"
-              :rootEntityType='"forumthread"' />
+              :rootEntityType="'forumthread'" />
           </div>
         </div>
 
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="row">
           <div class="col-md-12">
             <comments-list
-              :comments='comments'
-              :rootEntityType='"forumthread"'
+              :comments="comments"
+              :rootEntityType="'forumthread'"
               :loading="isLoadingComments" />
           </div>
         </div>
@@ -74,7 +74,7 @@ import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import LastEditedInfo from '@/components/LastEditedInfo.vue'
-import { parseIdsIntoComments } from '@/utils/comment.utils.js'
+import { parseIdsIntoComments } from '@/utils/comment.utils'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -93,8 +93,31 @@ export default {
       isDeleting: false
     }
   },
+  beforeMount () {
+    this.refreshThread()
+  },
   computed: {
-    ...mapGetters(['isLoggedIn','metaTag']),
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+    ...mapState({
+      me: 'me',
+      entityComments: 'entityComments',
+      forumThreads: 'forumThreads',
+      commentsMap: 'comments'
+    }),
+
+    forumThread () {
+      return this.forumThreads[this.threadId]
+    },
+    // FIXME: do both aliases need to be used for route.params.id?
+    entityId () {
+      return this.$route.params.id
+    },
+    threadId () {
+      return this.$route.params.id
+    },
     creationDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateCreated)
@@ -102,22 +125,21 @@ export default {
       }
     },
     isMyThread () {
-      if (this.forumThread) {
-        /*
+      return this.forumThread && this.me
+        ? this.me._id === this.forumThread.author._id
+        : false
+      /*
         if (this.me.isAdmin) {
           return true
         }
-        */
-        return this.me && this.me._id === this.forumThread.author._id
-      } else {
-        return false
-      }
+      */
     },
     lastEdited () {
       return this.forumThread.dateLastEdited
     },
     comments () {
-      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      const parentCommentIds = this.entityComments[this.entityId] || []
+      console.log('comments--- parentCommentIds:', parentCommentIds)
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -125,31 +147,10 @@ export default {
     },
     forumThreadContentSummary() {
       const maxLength = 400;
-      if (this.forumThread.content.length > maxLength) {
-        return this.forumThread.content.substr(0, maxLength-3) + '...'
-      }
-      return this.forumThread.content
-    },
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      entityId (state) {
-        return state.route.params.id
-      },
-      threadId (state) {
-        return state.route.params.id
-      },
-      forumThread (state) {
-        return state.forumThreads[state.route.params.id]
-      },
-      commentsMap (state) {
-        return state.comments
-      },
-      entityComments (state) {
-        return state.entityComments
-      }
-    })
+      return this.forumThread.content.length > maxLength
+        ? this.forumThread.content.substr(0, maxLength-3) + '...'
+        : this.forumThread.content
+    }
   },
   methods: {
     ...mapActions([
@@ -171,30 +172,17 @@ export default {
       })
     },
     edit () {
-        this.$router.replace(`/forum/edit-thread/${this.threadId}`)
+      this.$router.replace(`/forum/edit-thread/${this.threadId}`)
     },
     refreshThread () {
       this.isLoading = true
-
-      this.fetchForumThread({
-        id: this.entityId
-      })
-        .finally(() => {
-          this.isLoading = false
-        })
+      this.fetchForumThread({ id: this.entityId })
+        .finally(() => { this.isLoading = false })
 
       this.isLoadingComments = true
-      // Fetch comments
-      this.commentsFetch({
-        entityId: this.entityId
-      })
-        .finally(() => {
-          this.isLoadingComments = false
-        })
+      this.commentsFetch({ entityId: this.entityId })
+        .finally(() => { this.isLoadingComments = false })
     }
-  },
-  beforeMount () {
-    this.refreshThread()
   },
   metaInfo() {
     // wait for forumThread before updating meta

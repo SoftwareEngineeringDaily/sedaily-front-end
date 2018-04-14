@@ -1,8 +1,14 @@
 <template>
   <form @submit.prevent>
-				<fieldset>
-					<input @keyup.enter="addMessage" v-bind:disabled="!isChatOnline" type="text" v-model="body" placeholder="Type your message…" autofocus>
-				</fieldset>
+    <fieldset>
+      <input
+        @keyup.enter="addMessage"
+        v-bind:disabled="!isChatOnline"
+        type="text"
+        v-model="body"
+        placeholder="Type your message…"
+        autofocus />
+    </fieldset>
 	</form>
 </template>
 
@@ -14,9 +20,11 @@ export default {
   props: [
     'user'
   ],
-  data: () => ({
-    body: ''
-  }),
+  data () {
+    return {
+      body: ''
+    }
+  },
   computed: {
     ...mapGetters([
       'isChatOnline'
@@ -26,7 +34,8 @@ export default {
     ...mapActions([
       'sendChatMessage'
     ]),
-    addMessage: function (e) {
+
+    addMessage () {
       const { username, name } = this.user
       const message = {
         username,
@@ -37,7 +46,6 @@ export default {
       this.body = ''
       this.sendChatMessage(message)
     }
-
   }
 }
 </script>

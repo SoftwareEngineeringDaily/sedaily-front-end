@@ -47,20 +47,34 @@ export default {
   components: {
     JobForm
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+    ...mapState([
+      'me'
+    ]),
+
+    jobId () {
+      return this.$route.params.id
+    }
+  },
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
-    ...mapActions(['updateJob', 'fetchJob', 'deleteJob']),
+    ...mapActions([
+      'updateJob',
+      'fetchJob',
+      'deleteJob'
+    ]),
     fetchData () {
       this.loading = true
-      this
-        .fetchJob({ jobId: this.jobId })
+      this.fetchJob({ jobId: this.jobId })
         .then(response => {
           if (response.data.postedUser !== this.me._id) {
             this.error = 'Unauthorized'
             return
           }
-
           this.job = response.data
           this.error = null
         })
@@ -118,17 +132,6 @@ export default {
           this.loading = false
         })
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-      jobId (state) {
-        return state.route.params.id
-      }
-    })
   }
 }
 </script>

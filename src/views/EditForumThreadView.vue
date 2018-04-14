@@ -37,9 +37,7 @@ export default {
     console.log('Editing thread', this.threadId)
 
     this.isLoading = true
-    this.fetchForumThread({
-      id: this.threadId
-    })
+    this.fetchForumThread({ id: this.threadId })
     .then(({ forumThread }) => {
       console.log('thread', forumThread)
       this.content = forumThread.content
@@ -50,8 +48,8 @@ export default {
     })
   },
   computed: {
-    threadId (state) {
-      return state.$route.params.id
+    threadId () {
+      return this.$route.params.id
     }
   },
   methods: {

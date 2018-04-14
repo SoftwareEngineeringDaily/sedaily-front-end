@@ -17,6 +17,7 @@
 <script>
 import CompanyForm from '@/components/CompanyForm.vue'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'company-compose',
   data () {
@@ -26,15 +27,21 @@ export default {
     }
   },
   created () {
-    if (!this.isLoggedIn) {
-      this.error = 'Unauthorized'
-    }
+    if (!this.isLoggedIn) this.error = 'Unauthorized'
   },
   components: {
     CompanyForm
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
+  },
   methods: {
-    ...mapActions(['companiesCreate']),
+    ...mapActions([
+      'companiesCreate'
+    ]),
+
     submitCreateCompany (company) {
       this.loading = true
       this.companiesCreate(company)
@@ -51,9 +58,6 @@ export default {
           this.loading = false
         })
     }
-  },
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

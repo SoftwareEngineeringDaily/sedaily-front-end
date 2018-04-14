@@ -80,7 +80,11 @@ export default {
   },
   components: { VotingArrows },
   computed: {
-    ...mapState(['activePlayerPost', 'playerState']),
+    ...mapState([
+      'activePlayerPost',
+      'playerState'
+    ]),
+
     postUrlTitle () {
       try {
         const originalTitle = this.post.title.rendered
@@ -97,35 +101,33 @@ export default {
         return ''
       }
     },
-
     featuredImage () {
       return this.post.featuredImage
         ? this.post.featuredImage
         : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
-
     date () {
       return moment(this.post.date).format('MMMM Do, YYYY')
     },
-
     imageStyle () {
       return `background: url('${this.featuredImage}') center center / cover no-repeat`
     },
-
     isActiveEpisode () {
       return this.activePlayerPost && this.activePlayerPost._id === this.post._id
     },
-
     canPause () {
       return this.isActiveEpisode && this.playerState === PlayerState.PLAYING
     },
-
     canPlay () {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     }
   },
   methods: {
-    ...mapActions(['playEpisode', 'updatePlayerState']),
+    ...mapActions([
+      'playEpisode',
+      'updatePlayerState'
+    ]),
+
     play () {
       if (this.isActiveEpisode) {
         this.updatePlayerState(PlayerState.PLAYING)

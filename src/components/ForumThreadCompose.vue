@@ -115,7 +115,7 @@
 import Spinner from 'components/Spinner'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import { debounce } from 'lodash'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'forum-thread-compose',
@@ -167,12 +167,9 @@ export default {
     }
   },
   computed: {
-    // local computed methods +
-    ...mapState({
-      me (state) {
-        return state.me
-      }
-    }),
+    ...mapState([
+      'me'
+    ]),
 
     shouldShowPreview () {
       return this.title.length > 0 || this.content.length > 0
@@ -182,7 +179,6 @@ export default {
     toggleMarkdownHelp () {
       this.shouldShowMarkDownHelp = !this.shouldShowMarkDownHelp
     },
-
     update: debounce(function (e) {
       this.content = e.target.value
     }, 200),

@@ -80,13 +80,6 @@ import LastEditedInfo from '@/components/LastEditedInfo.vue'
 
 export default {
   name: 'comment-view',
-  components: {
-    VotingArrows,
-    ProfileLabel,
-    CommentReply,
-    LastEditedInfo,
-    CommentEdit
-  },
   props: {
     comment: {
       type: Object,
@@ -101,6 +94,13 @@ export default {
       required: false
     }
   },
+  components: {
+    VotingArrows,
+    ProfileLabel,
+    CommentReply,
+    LastEditedInfo,
+    CommentEdit
+  },
   data () {
     return {
       isReplying: false,
@@ -108,39 +108,30 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      isRootLevelComment () {
-        return !this.comment.parentComment
-      },
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+    ...mapState([
+      'me',
+      'placeholderAvatar'
+    ]),
 
-      compiledMarkdown () {
-        marked.setOptions({
-          breaks: true
-        })
-        return marked(this.comment.content)
-      },
-
-      placeholderAvatar (state) {
-        return state.placeholderAvatar
-      },
-
-      wasDeleted () {
-        return this.comment.deleted
-      },
-
-      lastEdited () {
-        return this.comment.dateLastEdited
-      },
-
-      me (state) {
-        return state.me
-      },
-
-      isMyComment (state) {
-        return this.me._id === this.comment.author._id
-      }
-    }),
+    compiledMarkdown () {
+      marked.setOptions({ breaks: true })
+      return marked(this.comment.content)
+    },
+    isMyComment () {
+      return this.me ? this.me._id === this.comment.author._id : false
+    },
+    isRootLevelComment () {
+      return !this.comment.parentComment
+    },
+    wasDeleted () {
+      return this.comment.deleted
+    },
+    lastEdited () {
+      return this.comment.dateLastEdited
+    },
     commentId () {
       return this.comment._id
     },
@@ -149,7 +140,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    ...mapActions([
+      'likeComment',
+      'removeComment',
+      'commentsFetch'
+    ]),
+
     doneReplyingCallback () {
       this.isReplying = false
     },
@@ -165,13 +161,9 @@ export default {
       })
     },
     remove () {
-      this.removeComment({
-        id: this.comment._id
-      })
+      this.removeComment({ id: this.comment._id })
         .then(() => {
-          this.commentsFetch({
-            entityId: this.comment.rootEntity
-          })
+          this.commentsFetch({ entityId: this.comment.rootEntity })
         })
         .catch((error) => {
           console.log(error)
@@ -179,20 +171,10 @@ export default {
         })
     },
     user (comment) {
-      if (comment.author) {
-        return comment.author
-      } else {
-        // Means we just made this comment
-        return this.me
-      }
+      return comment.author || this.me // this.me means we just made this comment
     },
-
     date (comment) {
-      if (comment.dateCreated) {
-        return moment(comment.dateCreated).startOf('hour').fromNow()
-      } else {
-        return 'Now'
-      }
+      return comment.dateCreated ? moment(comment.dateCreated).startOf('hour').fromNow() : 'Now'
     }
   }
 }

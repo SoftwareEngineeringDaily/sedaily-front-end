@@ -64,8 +64,7 @@
         </div>
       </div>
       <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
-        <job-summary v-for="job in displayedJobs" :key="job._id" :job="job">
-        </job-summary>
+        <job-summary v-for="job in displayedJobs" :key="job._id" :job="job" />
       </div>
     </div>
   </div>
@@ -75,14 +74,13 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
 import JobSummary from '@/components/JobSummary.vue'
+
 export default {
   name: 'jobs-board-view',
-
   components: {
     Spinner,
     JobSummary
   },
-
   data () {
     return {
       loading: false,
@@ -107,8 +105,19 @@ export default {
         this.loading = false
       })
   },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+    ...mapState([
+      'jobs'
+    ])
+  },
   methods: {
-    ...mapActions(['fetchJobsList']),
+    ...mapActions([
+      'fetchJobsList'
+    ]),
+
     // TODO: determine best approach to search
     search () {
       if (!this.keywordSearch && !this.locationSearch) {
@@ -131,18 +140,10 @@ export default {
       this.filtered = false
       this.displayedJobs = this.jobs
     }
-  },
-
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      jobs (state) {
-        return state.jobs
-      }
-    })
   }
 }
 </script>
+
 <style scoped lang="stylus">
 @import './../css/variables'
 
