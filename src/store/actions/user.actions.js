@@ -40,14 +40,19 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
+  updateProfile: ({ commit, dispatch }, { id, username, bio, github, linkedin, twitter, about, isAvatarSet, website, name, email, publicEmail }) => {
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,
+      about,
       website,
       name,
       isAvatarSet,
-      email
+      email,
+      publicEmail,
+      github,
+      linkedin,
+      twitter
     })
       .then((response) => {
         return dispatch('fetchMyProfileData')
