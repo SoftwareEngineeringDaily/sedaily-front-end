@@ -58,6 +58,16 @@
         </div>
 
         <div class="form-group">
+          <label for="aboutInput">About</label>
+          <textarea rows="5" type="text" v-model='about'
+          id="aboutText"
+          class="form-control"
+          aria-describedby="aboutHelp"
+          placeholder="A summary of your professional skills or experience as a software engineer.">
+          </textarea>
+        </div>
+
+        <div class="form-group">
           <label for="emailInput">Email address</label>
           <input type="email"
           v-model='email'
@@ -72,12 +82,49 @@
         </div>
 
         <div class="form-group">
+          <label for ="publicEmailInput">Public Email</label>
+          <input type="email"
+          v-model="publicEmail"
+          v-validate="{ required: false, email: true}"
+          class="form-control" id="publicEmailInput"
+          aria-describedby="publicEmailHelp"
+          placeholder="youremail@email.com">
+        </div>
+
+        <div class="form-group">
           <label for="websiteInput">Website</label>
           <input type="text" v-model='website'
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
           placeholder="yourWebsite.com">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">GitHub</label>
+          <input type="text" v-model='github'
+          id="githubInput"
+          class="form-control"
+          aria-describedby="githubHelp"
+          placeholder="http://github.com/username">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">LinkedIn</label>
+          <input type="text" v-model='linkedin'
+          id="linkedinInput"
+          class="form-control"
+          aria-describedby="linkedinHelp"
+          placeholder="http://linkedin.com/in/username">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">Twitter</label>
+          <input type="text" v-model='twitter'
+          id="twitterInput"
+          class="form-control"
+          aria-describedby="twitterHelp"
+          placeholder="http://twitter.com/username">
         </div>
 
         <button
@@ -122,7 +169,12 @@ export default {
       username: this.initialUsername,
       name: this.me ? this.me.name : '',
       email: this.me ? this.me.email : '',
+      publicEmail: this.me ? this.me.publicEmail : '',
+      linkedin: this.me ? this.me.linkedin : '',
+      twitter: this.me ? this.me.twitter : '',
+      github: this.me ? this.me.github : '',
       bio: this.me ? this.me.bio : '',
+      about: this.me ? this.me.about : '',
       website: this.me ? this.me.website : '',
       loading: false
     }
@@ -181,7 +233,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, id } = this
+          const { username, email, publicEmail, linkedin, twitter, github, about, bio, website, name, id } = this
 
           let updatePromise = null
           if (this.file) {
@@ -192,9 +244,14 @@ export default {
                   id,
                   name,
                   bio,
+                  linkedin,
+                  twitter,
+                  github,
+                  about,
                   isAvatarSet: true,
                   website,
-                  email
+                  email,
+                  publicEmail
                 })
               })
               .catch((error) => {
@@ -207,9 +264,14 @@ export default {
               id,
               name,
               bio,
+              linkedin,
+              twitter,
+              github,
+              about,
               isAvatarSet: this.avatarUrl == null,
               website,
-              email
+              email,
+              publicEmail
             })
           }
 
