@@ -23,12 +23,38 @@
           <p class="display-bio">
             <small class="text-muted">{{displayBio}}</small>
           </p>
+          <div class="social-icons">
+            <p v-if="userData.publicEmail" class="display-email">
+              <span class="text-muted"> <a :href="'mailto:' + userData.publicEmail"
+                 rel="external nofollow"
+              ><i class="fa fa-envelope-o" aria-hidden="true"></i></a></span>
+            </p>
+            <p v-if="userData.github" class="display-github">
+              <span class="text-muted"> <a :href="userData.github | externalUrl" target="_blank"
+                 rel="external nofollow"
+              ><i class="fa fa-github" aria-hidden="true"></i></a></span>
+            </p>
+            <p v-if="userData.linkedin" class="display-linkedin">
+              <span class="text-muted"> <a :href="userData.linkedin | externalUrl" target="_blank"
+                 rel="external nofollow"
+              ><i class="fa fa-linkedin" aria-hidden="true"></i></a></span>
+            </p>
+            <p v-if="userData.twitter" class="display-twitter">
+              <span class="text-muted"> <a :href="userData.twitter | externalUrl" target="_blank"
+                 rel="external nofollow"
+              ><i class="fa fa-twitter" aria-hidden="true"></i></a></span>
+            </p>
+          </div>
+          <br/>
           <p class="display-website" v-if="userData.website">
             <a :href="userData.website | externalUrl" target="_blank"
                rel="external nofollow"
-            > {{ userData.website | host }} </a>
+            > {{ userData.website | host }} <i class="fa fa-external-link" aria-hidden="true"></i></a>
           </p>
         <hr/>
+        <p class="display-about">
+          <small class ="text-muted">{{displayAbout}}</small>
+        </p>
         </div>
       </div>
   </div>
@@ -47,8 +73,13 @@
             username: '',
             avatarUrl: '',
             bio: '',
+            twitter: '',
+            linkedin: '',
+            github: '',
             name: '',
-            website: ''
+            website: '',
+            about: '',
+            publicEmail: ''
           }
         }
       },
@@ -64,6 +95,9 @@
         },
         displayBio () {
           return this.userData.bio || `${this.displayName} is still writing their biography`
+        },
+        displayAbout () {
+          return this.userData.about || `${this.displayName} is still writing their about section`
         },
         avatarUrl (state) {
           return this.userData.avatarUrl || state.placeholderAvatar
@@ -95,6 +129,10 @@
         font-weight bold
     .display-bio .text-muted
       font-weight bold
+
+  .social-icons p
+    display inline
+    padding 20px
 
   .crop-image
     margin-left auto
