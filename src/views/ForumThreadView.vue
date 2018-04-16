@@ -108,7 +108,7 @@ export default {
           return true
         }
         */
-        return this.me && this.me._id === this.forumThread.author._id
+        return this.me._id === this.forumThread.author._id
       } else {
         return false
       }
