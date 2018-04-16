@@ -18,7 +18,6 @@
     <profile-label :userData="user">
     </profile-label>
   </div>
-  <button @click="append" class="btn btn-success">Append New Item</button>
 
 
     <div v-if="isSubmitting">
@@ -148,22 +147,6 @@ export default {
        console.log('clear list', this.options.values)
     },
 
-    append() {
-      let self = this;
-      console.log('model:', this.commentContent)
-      console.log('textarea raw value:', this.$refs.contentTextarea.value)
-      // this.$refs.inp.map( (m, k) => {
-        // m.value = self.allItems[k].name
-      // })
-
-      let kv = Math.random()
-      .toString(36)
-      .slice(2)
-      this.options.values.push({
-        key: kv,
-        value: kv
-      })
-    },
     submitComment () {
       console.log('this.entityId', this.entityId)
       this.submitCallback({
