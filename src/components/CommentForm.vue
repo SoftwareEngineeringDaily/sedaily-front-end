@@ -132,7 +132,7 @@ export default {
           console.log('users found', users)
           this.setUserList(users)
         })
-    }, 70),
+    }, 10),
 
     // TODO: loop over and match. Start with longer matches
     // Search for [space]@_${value} so when we replace while we replace
