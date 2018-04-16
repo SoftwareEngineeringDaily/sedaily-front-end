@@ -48,15 +48,16 @@ export default {
   display inline-block
   cursor pointer
   color light-grey
-  padding 10px
-  border-radius 3px
+  padding 5px 10px
+  border-radius 25px
   &:hover
     color white
     background primary-color
 
 .category-active
   border 1px solid primary-color
-  color primary-color
+  color white
+  background primary-color
   &:hover
-    border-radius 3px
+    border-radius 25px
 </style>
