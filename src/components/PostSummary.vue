@@ -168,9 +168,10 @@ export default {
   .image-holder
     flex 20%
     .image
-      border-radius 96px
-      height 96px
-      width 96px
+      border-radius 76px
+      height 76px
+      width 76px
+      margin 7px
   .title
     flex 70%
     a
