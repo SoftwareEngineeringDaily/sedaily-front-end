@@ -37,13 +37,14 @@ export default  {
   },
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitCallback ({content}) {
+    submitCallback ({content, mentions}) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.commentsCreate({
         entityId: this.entityId,
         rootEntityType: this.rootEntityType,
+        mentions,
         content
       })
         .then((response) => {

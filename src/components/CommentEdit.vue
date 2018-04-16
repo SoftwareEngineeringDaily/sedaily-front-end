@@ -59,12 +59,13 @@ export default {
 
   methods: {
     ...mapActions(['editComment', 'commentsFetch']),
-    submitCallback ({ content }) {
+    submitCallback ({ content, mentions }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.editComment({
         id: this.id,
+        mentions,
         content
       })
         .then((response) => {
