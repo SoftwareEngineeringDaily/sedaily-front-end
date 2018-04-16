@@ -29,6 +29,20 @@
         Get emails when people reply to my comments
       </label>
     </div>
+
+    <br />
+    <div class='row'>
+      <label class="col-md-8 form-check-label">
+        <input
+        class="form-check-input"
+        type="checkbox"
+        name="subscribedFromMentions"
+        v-model="subscribedFromMentions"
+        >
+        Get emails when people mention you in comments
+      </label>
+    </div>
+
     <br />
     <div class='row'>
       <button @click='save' class='btn btn-success'> Save </button>
@@ -48,6 +62,7 @@ export default {
     return {
       loading: true,
       subscribedFromThreads: true,
+      subscribedFromMentions: true,
       subscribedFromCommentReplies: true,
       msg: ''
     }
@@ -57,6 +72,7 @@ export default {
     this.fetchMyProfileData().then(() => {
       this.subscribedFromThreads = !this.unsubscribedFromThreads
       this.subscribedFromCommentReplies = !this.unsubscribedFromCommentReplies
+      this.subscribedFromMentions = !this.unsubscribedFromMentions
     })
   },
   methods: {
@@ -64,6 +80,7 @@ export default {
     save () {
       this.updateEmailNotiicationSettings({ emailNotificationSettings: {
         unsubscribedFromThreads: !this.subscribedFromThreads,
+        unsubscribedFromMentions: !this.subscribedFromMentions,
         unsubscribedFromCommentReplies: !this.subscribedFromCommentReplies
       }}).then( () => {
         this.msg = 'Succesfully updated your emailsettings.'
@@ -75,12 +92,19 @@ export default {
     ...mapState({
 
       unsubscribedFromThreads (state) {
-        console.log('-------**state', state.me.emailNotiicationSettings)
         if (!state.me.emailNotiicationSettings) {
           return false
         }
         return state.me.emailNotiicationSettings.unsubscribedFromThreads
       },
+
+      unsubscribedFromMentions (state) {
+        if (!state.me.emailNotiicationSettings) {
+          return false
+        }
+        return state.me.emailNotiicationSettings.unsubscribedFromMentions
+      },
+
       unsubscribedFromCommentReplies (state) {
         if (!state.me.emailNotiicationSettings) {
           return false
