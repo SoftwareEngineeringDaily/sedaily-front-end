@@ -38,7 +38,7 @@
 <script>
 import VueTribute from '@/components/VueTribute.js'
 import ProfileLabel from '@/components/ProfileLabel'
-import { debounce, map } from 'lodash'
+import { debounce, each, map } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
@@ -134,15 +134,26 @@ export default {
         })
     }, 10),
 
+    alreadyContainsMention (user) {
+      let contains = false
+      each(this.options.values, (mention) => {
+        if (user._id == mention.user._id) {
+          contains = true
+        }
+      })
+      return contains
+    },
     // TODO: loop over and match. Start with longer matches
     // Search for [space]@_${value} so when we replace while we replace
     // with . What if mention is first character.
     setUserList (userList) {
        this.options.values.splice(0, 10)
        userList.forEach((user) => {
-         this.options.values.push(
-           { key: user.name, value: user.name, user }
-         )
+         if (!this.alreadyContainsMention(user)) {
+           this.options.values.push(
+             { key: user.name, value: user.name, user }
+           )
+         }
        })
        console.log('clear list', this.options.values)
     },
