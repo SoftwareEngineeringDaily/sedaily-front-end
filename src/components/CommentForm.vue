@@ -132,13 +132,13 @@ export default {
           console.log('users found', users)
           this.setUserList(users)
         })
-    }, 100),
+    }, 10),
 
     // TODO: loop over and match. Start with longer matches
     // Search for [space]@_${value} so when we replace while we replace
     // with . What if mention is first character.
     setUserList (userList) {
-       this.options.values.splice(0, this.options.values.length + 1)
+       this.options.values.splice(0, 10)
        userList.forEach((user) => {
          this.options.values.push(
            { key: user.name, value: user.name, user }
