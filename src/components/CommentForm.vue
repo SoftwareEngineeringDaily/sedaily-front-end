@@ -38,7 +38,7 @@
 <script>
 import VueTribute from '@/components/VueTribute.js'
 import ProfileLabel from '@/components/ProfileLabel'
-import { debounce } from 'lodash'
+import { debounce, map } from 'lodash'
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
 
@@ -148,9 +148,12 @@ export default {
     },
 
     submitComment () {
-      console.log('this.entityId', this.entityId)
+      const mentions = map(this.mentionedUsers, (user) => {
+        return user._id
+      })
       this.submitCallback({
-        content: this.commentContent
+        content: this.commentContent,
+        mentions: mentions
       })
     }
   }
