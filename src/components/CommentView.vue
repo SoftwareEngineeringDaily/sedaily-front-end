@@ -118,7 +118,8 @@ export default {
         marked.setOptions({
           breaks: true
         })
-        return marked(this.comment.content)
+        const htmlMarkdown = marked(this.comment.content)
+        return this.linkifyMentions(htmlMarkdown)
       },
 
       placeholderAvatar (state) {
@@ -150,6 +151,20 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    linkifyMentions (html) {
+      const { mentions } = this.comment
+      if (!mentions) return html
+      let newHtml = html
+      // TODO: sort mentions by longest user.name:
+      for (var ii = 0; ii < mentions.length; ii++) {
+        const user = mentions[ii];
+        const textToReplace = '@' + user.name
+        const newText = `<a href='/profile/${user._id}' target='_blank'>
+        ${textToReplace}</a>`
+        newHtml = newHtml.split(textToReplace).join(newText)
+      }
+      return newHtml
+    },
     doneReplyingCallback () {
       this.isReplying = false
     },
