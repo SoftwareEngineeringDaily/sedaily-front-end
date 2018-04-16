@@ -134,6 +134,7 @@ export default {
         })
     }, 10),
 
+    // Remove dupes for now since we have a weird hack:
     alreadyContainsMention (user) {
       let contains = false
       each(this.options.values, (mention) => {
