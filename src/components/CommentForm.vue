@@ -151,6 +151,7 @@ export default {
       const mentions = map(this.mentionedUsers, (user) => {
         return user._id
       })
+      this.mentionedUsers = [] // resetting mentioned users
       this.submitCallback({
         content: this.commentContent,
         mentions: mentions
