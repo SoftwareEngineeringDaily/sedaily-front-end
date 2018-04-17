@@ -4,6 +4,7 @@
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
+      :existingMentions="originalMentions"
       :showCancel="true"
       :submitButtonText="'Edit'"
       >
@@ -23,6 +24,10 @@ export default {
     },
     originalContent: {
       type: String,
+      required: true
+    },
+    originalMentions: {
+      type: Array,
       required: true
     },
     doneCallback: {

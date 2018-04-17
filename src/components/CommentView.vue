@@ -5,6 +5,7 @@
       <comment-edit
         :id="commentId"
         :originalContent="commentContent"
+        :originalMentions="commentMentions"
         :doneCallback="doneEditingCallback"
       >
       </comment-edit>
@@ -150,6 +151,10 @@ export default {
     }),
     commentId () {
       return this.comment._id
+    },
+    commentMentions () {
+      if (!this.comment.mentions) return []
+      else return this.comment.mentions
     },
     commentContent () {
       return this.comment.content
