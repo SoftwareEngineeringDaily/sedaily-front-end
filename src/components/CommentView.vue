@@ -160,10 +160,14 @@ export default {
     linkifyMentions (html) {
       const { mentions } = this.comment
       if (!mentions) return html
+      console.log('mentions', mentions)
+      const sortedMentions = mentions.slice(0).sort((a, b) => {
+        return a.name.length >= b.name.length
+      })
+      console.log('sortedMentions', sortedMentions)
       let newHtml = html
-      // TODO: sort mentions by longest user.name:
-      for (var ii = 0; ii < mentions.length; ii++) {
-        const user = mentions[ii];
+      for (var ii = 0; ii < sortedMentions.length; ii++) {
+        const user = sortedMentions[ii];
         const textToReplace = '@' + user.name
         const newText = `<a href='/profile/${user._id}' target='_blank'>
         ${textToReplace}</a>`
