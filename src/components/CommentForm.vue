@@ -14,6 +14,9 @@
     v-model='commentContent' />
   </vue-tribute>
 
+  <div v-if="hasMentions">
+    <h3> Mentions </h3>
+  </div>
   <div v-for="user in mentionedUsers" :key="user._id">
     <profile-label :userData="user">
     </profile-label>
@@ -96,7 +99,15 @@ export default {
   },
   watch: {
     commentContent: function() {
-      console.log('commentContent', this.commentContent)
+      // Check mentions
+      const currentMentions = []
+      each(this.mentionedUsers, (user) => {
+        const mentionText = '@' + user.name
+        if( this.commentContent.indexOf(mentionText) >= 0 ) {
+          currentMentions.push(user)
+        }
+      })
+      this.mentionedUsers = currentMentions
     },
     content: function() {
       this.commentContent = this.content
@@ -109,7 +120,10 @@ export default {
       me (state) {
         return state.me
       }
-    })
+    }),
+    hasMentions () {
+      return this.mentionedUsers.length > 0
+    }
   },
   methods: {
     ...mapActions(['searchUsers']),
