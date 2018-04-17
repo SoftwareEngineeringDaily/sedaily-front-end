@@ -66,6 +66,10 @@ export default {
       type: Function,
       required: true
     },
+    existingMentions: {
+      type: Array,
+      default: () => { return []}
+    },
     submitButtonText: {
       type: String,
       default: 'Add Comment'
@@ -90,7 +94,7 @@ export default {
         values: [
         ]
       },
-      mentionedUsers: [],
+      mentionedUsers: this.existingMentions,
       commentContent: this.content
     }
   },

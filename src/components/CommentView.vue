@@ -65,6 +65,7 @@
       </div>
       <div v-if="!allowsReplies && isReplying" class='row'>
         <comment-reply v-if="isLoggedIn"
+        :replyingTo='comment.author'
         :doneCallback="doneReplyingCallback"
         :isReply='true' :parentCommentId='comment.parentComment' :rootEntityType='rootEntityType'></comment-reply>
 

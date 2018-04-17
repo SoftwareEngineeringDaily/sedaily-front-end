@@ -6,6 +6,7 @@
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
+      :existingMentions="existingMentions"
       :showCancel="true"
       :submitButtonText="'Reply'"
       >
@@ -21,6 +22,10 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-reply',
   props: {
+    replyingTo: {
+      type: Object,
+      required: false
+    },
     parentCommentId: {
       type: String,
       required: true
@@ -41,8 +46,11 @@ export default {
     console.log('rootEntityType--reply', this.rootEntityType)
   },
   data () {
+    const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
+    const existingMentions = this.replyingTo? [this.replyingTo]:[]
     return {
-      commentContent: '',
+      commentContent,
+      existingMentions,
       isSubmitting: false,
       username: null,
       loading: true
