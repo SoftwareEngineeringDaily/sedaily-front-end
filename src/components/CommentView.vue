@@ -160,11 +160,12 @@ export default {
     linkifyMentions (html) {
       const { mentions } = this.comment
       if (!mentions) return html
-      console.log('mentions', mentions)
+      // We sort mentions by longest name first so that we don't have partial
+      // matches from shorter mentions that would mess up the mention links.
       const sortedMentions = mentions.slice(0).sort((a, b) => {
         return a.name.length >= b.name.length
       })
-      console.log('sortedMentions', sortedMentions)
+
       let newHtml = html
       for (var ii = 0; ii < sortedMentions.length; ii++) {
         const user = sortedMentions[ii];
