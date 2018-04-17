@@ -39,7 +39,7 @@
           <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
 
           <span v-if="!isReplying && isLoggedIn">
-            <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
+            <span class='link' @click="isReplying=!isReplying">Reply</span>
           </span>
           <span v-if="isReplying && isLoggedIn" class='link' @click="isReplying=!isReplying">Cancel</span>
 
@@ -61,7 +61,12 @@
       <div class='row' v-if="allowsReplies && isReplying">
         <comment-reply v-if="isLoggedIn"
         :doneCallback="doneReplyingCallback"
-        :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
+        :isReply='true' :parentCommentId='comment._id' :rootEntityType='rootEntityType'></comment-reply>
+      </div>
+      <div v-if="!allowsReplies && isReplying" class='row'>
+        <comment-reply v-if="isLoggedIn"
+        :doneCallback="doneReplyingCallback"
+        :isReply='true' :parentCommentId='comment.parentComment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
     </div>

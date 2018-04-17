@@ -21,8 +21,8 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-reply',
   props: {
-    parentComment: {
-      type: Object,
+    parentCommentId: {
+      type: String,
       required: true
     },
     doneCallback: {
@@ -71,7 +71,7 @@ export default {
         entityId: this.entityId,
         mentions,
         rootEntityType: this.rootEntityType,
-        parentCommentId: this.parentComment._id,
+        parentCommentId: this.parentCommentId,
         content
       })
         .then((response) => {
