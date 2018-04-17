@@ -36,7 +36,7 @@
 
           <span class='comment-date'> {{date(comment)}} </span>
 
-          <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
+          <div v-if="isLoggedIn" class="bullet-point">&#9679;</div>
 
           <span v-if="!isReplying && isLoggedIn">
             <span class='link' @click="isReplying=!isReplying">Reply</span>
@@ -58,12 +58,12 @@
         </div>
       </div>
 
-      <div class='row' v-if="allowsReplies && isReplying">
+      <div class='row' v-if="isParentComment && isReplying">
         <comment-reply v-if="isLoggedIn"
         :doneCallback="doneReplyingCallback"
         :isReply='true' :parentCommentId='comment._id' :rootEntityType='rootEntityType'></comment-reply>
       </div>
-      <div v-if="!allowsReplies && isReplying" class='row'>
+      <div v-if="!isParentComment && isReplying" class='row'>
         <comment-reply v-if="isLoggedIn"
         :replyingTo='comment.author'
         :doneCallback="doneReplyingCallback"
@@ -98,7 +98,7 @@ export default {
       type: Object,
       required: true
     },
-    allowsReplies: {
+    isParentComment: {
       type: Boolean,
       default: false
     },
