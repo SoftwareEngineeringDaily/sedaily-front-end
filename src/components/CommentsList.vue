@@ -12,7 +12,7 @@
           <comment-view
             :rootEntityType='rootEntityType'
             :comment='comment'
-            :allowsReplies="true" />
+            :isParentComment="true" />
         </div>
       </div>
         <div class='replies'>

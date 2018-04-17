@@ -5,6 +5,7 @@
       <comment-edit
         :id="commentId"
         :originalContent="commentContent"
+        :originalMentions="commentMentions"
         :doneCallback="doneEditingCallback"
       >
       </comment-edit>
@@ -36,10 +37,10 @@
 
           <span class='comment-date'> {{date(comment)}} </span>
 
-          <div v-if="allowsReplies && isLoggedIn" class="bullet-point">&#9679;</div>
+          <div v-if="isLoggedIn" class="bullet-point">&#9679;</div>
 
           <span v-if="!isReplying && isLoggedIn">
-            <span v-if="allowsReplies" class='link' @click="isReplying=!isReplying">Reply</span>
+            <span class='link' @click="isReplying=!isReplying">Reply</span>
           </span>
           <span v-if="isReplying && isLoggedIn" class='link' @click="isReplying=!isReplying">Cancel</span>
 
@@ -58,10 +59,16 @@
         </div>
       </div>
 
-      <div class='row' v-if="allowsReplies && isReplying">
+      <div class='row' v-if="isParentComment && isReplying">
         <comment-reply v-if="isLoggedIn"
         :doneCallback="doneReplyingCallback"
-        :isReply='true' :parentComment='comment' :rootEntityType='rootEntityType'></comment-reply>
+        :isReply='true' :parentCommentId='comment._id' :rootEntityType='rootEntityType'></comment-reply>
+      </div>
+      <div v-if="!isParentComment && isReplying" class='row'>
+        <comment-reply v-if="isLoggedIn"
+        :replyingTo='comment.author'
+        :doneCallback="doneReplyingCallback"
+        :isReply='true' :parentCommentId='comment.parentComment' :rootEntityType='rootEntityType'></comment-reply>
 
       </div>
     </div>
@@ -92,7 +99,7 @@ export default {
       type: Object,
       required: true
     },
-    allowsReplies: {
+    isParentComment: {
       type: Boolean,
       default: false
     },
@@ -145,6 +152,10 @@ export default {
     commentId () {
       return this.comment._id
     },
+    commentMentions () {
+      if (!this.comment.mentions) return []
+      else return this.comment.mentions
+    },
     commentContent () {
       return this.comment.content
     }
@@ -154,10 +165,15 @@ export default {
     linkifyMentions (html) {
       const { mentions } = this.comment
       if (!mentions) return html
+      // We sort mentions by longest name first so that we don't have partial
+      // matches from shorter mentions that would mess up the mention links.
+      const sortedMentions = mentions.slice(0).sort((a, b) => {
+        return a.name.length >= b.name.length
+      })
+
       let newHtml = html
-      // TODO: sort mentions by longest user.name:
-      for (var ii = 0; ii < mentions.length; ii++) {
-        const user = mentions[ii];
+      for (var ii = 0; ii < sortedMentions.length; ii++) {
+        const user = sortedMentions[ii];
         const textToReplace = '@' + user.name
         const newText = `<a href='/profile/${user._id}' target='_blank'>
         ${textToReplace}</a>`
