@@ -88,6 +88,8 @@ export default {
     color #000
     font-weight light
     font-size 1.0rem
+    &:visited
+      color #a9a9a9
   .forum-summary-title a:hover
     text-decoration none
     color primary-color
