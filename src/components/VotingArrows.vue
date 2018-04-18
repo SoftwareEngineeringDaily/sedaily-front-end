@@ -55,26 +55,26 @@ export default {
 @import './../css/variables'
 
 .score-text
-  font-weight 400
+  font-weight bold
 
 .score
     text-align center
-    color #3F58AF
+    color #999
     font-size 1.1em
     font-weight 700
     width 1.5em
 
 .active
-    color #3F58AF !important
+    color #999 !important
 
 .arrow
   color very-light-grey
   &:hover
     cursor pointer
-    color #3F58AF
+    color #999
 
   &.active
-    color #3F58AF !important
+    color #999 !important
     &:hover
       cursor pointer
       color #888
