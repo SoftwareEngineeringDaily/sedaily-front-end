@@ -138,7 +138,12 @@ export default {
     },
     initialContent: {
       type: String,
-      default: ''
+      default: `Some content
+  ## And more
+        stufff
+        here
+        http://google.com
+      `
     },
     loading: {
       type: Boolean,
