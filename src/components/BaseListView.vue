@@ -1,41 +1,49 @@
 <template>
   <div class="news-view">
-    <div
-    class="row">
-    <div
-    class="col-md-12 text-center">
-    <h3> Check out the apps: </h3>
+    <div class="row">
+    <div class="col-md-12 text-center">
+      <h3> Check out the apps: </h3>
       <a
-      href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
-      target="_blank">
-      <img
-      src="@/assets/iosstore.png"
-      class="icon">
-    </a>
+        href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
+        target="_blank">
+        <img
+        src="@/assets/iosstore.png"
+        class="icon">
+      </a>
 
-    <a
-    href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en"
-    target="_blank">
-    <img
-      src="@/assets/androidstore.png"
-      class="icon">
-  </a>
-  </div>
-  </div>
-
-    <div class='search-bar' v-if="showFilteringElements">
-      <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en"
+        target="_blank">
+        <img
+          src="@/assets/androidstore.png"
+          class="icon">
+      </a>
     </div>
-    <div v-else>
-      <br />
-      <br />
-    </div>
+  </div>
 
-    <category-list
-      :categories="categories"
-      :active-category="activeCategory"
-      @setSelectedCategory="setSelectedCategory"
-      v-if="showFilteringElements" />
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class='search-bar' v-if="showFilteringElements">
+        <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+      </div>
+      <div v-else>
+        <br />
+        <br />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <category-list
+        :categories="categories"
+        :active-category="activeCategory"
+        @setSelectedCategory="setSelectedCategory"
+        v-if="showFilteringElements" />
+    </div>
+  </div>
+
+
 
     <instructions :displayedPosts="displayedPosts"> </instructions>
     <transition :name="transition">

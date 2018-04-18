@@ -210,6 +210,9 @@ button:hover
   background #dcdcdd
   color #000
 
+*:focus
+  outline: 0
+
 .why-subscribe-title
   margin 0 auto
   margin-top 50px

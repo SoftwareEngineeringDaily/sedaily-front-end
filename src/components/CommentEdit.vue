@@ -4,6 +4,7 @@
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
+      :existingMentions="originalMentions"
       :showCancel="true"
       :submitButtonText="'Edit'"
       >
@@ -23,6 +24,10 @@ export default {
     },
     originalContent: {
       type: String,
+      required: true
+    },
+    originalMentions: {
+      type: Array,
       required: true
     },
     doneCallback: {
@@ -59,12 +64,13 @@ export default {
 
   methods: {
     ...mapActions(['editComment', 'commentsFetch']),
-    submitCallback ({ content }) {
+    submitCallback ({ content, mentions }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.editComment({
         id: this.id,
+        mentions,
         content
       })
         .then((response) => {

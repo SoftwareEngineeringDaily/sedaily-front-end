@@ -6,6 +6,7 @@
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
+      :existingMentions="existingMentions"
       :showCancel="true"
       :submitButtonText="'Reply'"
       >
@@ -21,8 +22,12 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'comment-reply',
   props: {
-    parentComment: {
+    replyingTo: {
       type: Object,
+      required: false
+    },
+    parentCommentId: {
+      type: String,
       required: true
     },
     doneCallback: {
@@ -41,8 +46,11 @@ export default {
     console.log('rootEntityType--reply', this.rootEntityType)
   },
   data () {
+    const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
+    const existingMentions = this.replyingTo? [this.replyingTo]:[]
     return {
-      commentContent: '',
+      commentContent,
+      existingMentions,
       isSubmitting: false,
       username: null,
       loading: true
@@ -63,14 +71,15 @@ export default {
 
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
-    submitCallback ({ content }) {
+    submitCallback ({ content, mentions }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.commentsCreate({
         entityId: this.entityId,
+        mentions,
         rootEntityType: this.rootEntityType,
-        parentCommentId: this.parentComment._id,
+        parentCommentId: this.parentCommentId,
         content
       })
         .then((response) => {
