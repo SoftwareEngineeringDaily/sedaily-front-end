@@ -132,8 +132,16 @@ export default {
   methods: {
     ...mapActions(['searchUsers']),
     handleSelectUser (user) {
-      console.log('user?', user)
-      this.mentionedUsers.push(user)
+      // Check if contains user already to avoid duplicates.
+      let containsUserAlready = false
+      each(this.mentionedUsers, function(existingUser) {
+        if (existingUser._id.toString() === user._id.toString() ){
+          containsUserAlready = true
+        }
+      });
+      if (!containsUserAlready) {
+        this.mentionedUsers.push(user)
+      }
     },
     tributeReplaced ({detail}) {
       const {user} = detail.item.original
@@ -144,7 +152,6 @@ export default {
       this.handleSelectUser(user)
     },
     tributeNoMatch: debounce(function (searchQuery)  {
-      console.log("tributeNoMatch", searchQuery)
       this.searchUsers({name: searchQuery})
         .then((users) => {
           console.log('users found', users)
