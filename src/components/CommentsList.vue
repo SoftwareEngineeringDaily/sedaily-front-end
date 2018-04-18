@@ -17,7 +17,9 @@
       </div>
         <div class='replies'>
           <div v-for="replyComment in comment.replies" :key="replyComment._id">
-            <comment-view :comment='replyComment' />
+            <comment-view
+              :rootEntityType='rootEntityType'
+              :comment='replyComment' />
             <br />
           </div>
         </div>
