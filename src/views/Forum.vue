@@ -95,12 +95,16 @@ export default {
   justify-content center
   transition all .5s ease
 
+#Forum-List-Copy-39 path
+  transition all .5s ease
+  fill= #795FFF
+
 .create-post:hover
   box-shadow 0 20px 5px -10px rgba(#000, 0.3)
   transform translateY(1px)
   background-color primary-color
   color white
-  #Forum-List-Copy-39
+  #Forum-List-Copy-39 path
     fill white
 
 .create-post-text
