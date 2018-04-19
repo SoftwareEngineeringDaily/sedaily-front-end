@@ -76,7 +76,6 @@
           placeholder="yourWebsite.com">
         </div>
 
-        <!-- buggy backend
         <div class="form-group">
           <center>
             <input type="checkbox" v-model='newsletter'
@@ -86,7 +85,6 @@
             <label for="allowNewsletter" class="newsletter-text"> Register for newsletter?</label>
           </center>
         </div>
-        -->
 
         <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
       </form>
