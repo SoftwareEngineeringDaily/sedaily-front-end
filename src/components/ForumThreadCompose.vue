@@ -138,7 +138,7 @@ export default {
     },
     initialContent: {
       type: String,
-      default: ''
+      default: ``
     },
     loading: {
       type: Boolean,
