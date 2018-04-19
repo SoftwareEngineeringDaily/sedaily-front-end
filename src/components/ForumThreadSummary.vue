@@ -26,7 +26,7 @@
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{creationDate}}</span>
+        <span class='misc-detail'>{{lastAcitivityDate}}</span>
         <div class="bullet-point">&#9679;</div>
 
         <span class='comments-count misc-detail'>
@@ -69,9 +69,9 @@ export default {
     }
   },
   computed: {
-    creationDate () {
+    lastAcitivityDate () {
       if (this.forumThread) {
-        return moment(this.forumThread.dateCreated)
+        return moment(this.forumThread.dateLastAcitiy)
           .startOf('hour').fromNow()
       }
     }
@@ -83,11 +83,13 @@ export default {
 @import '../css/variables'
 
 .forum-summary-container
-  font-family Roboto-Light
+  font-family inherit
   .forum-summary-title a
     color #000
     font-weight 300
     font-size 1.0rem
+    &:visited
+      color #a9a9a9
   .forum-summary-title a:hover
     text-decoration none
     color primary-color
@@ -100,8 +102,13 @@ export default {
   margin-top 3px
   margin-bottom 1rem
 
-.comments-count-link
+.forum-thread-misc a
+  text-decoration none
+
+.misc-detail a
   color #a9a9a9
+  &:hover
+    color idle-foreground
 .bullet-point
   display inline-flex
   font-size 0.65em

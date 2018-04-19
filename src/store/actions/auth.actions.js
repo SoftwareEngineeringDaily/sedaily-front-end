@@ -22,15 +22,14 @@ export default {
   },
 
   register: ({ commit, state, dispatch }, { password, username, bio, website, name, email, newsletter }) => {
-    console.log('newsletter?', newsletter)
     return axios.post(`${BASE_URL}/auth/register`, {
       username,
       bio,
       password,
       website,
       name,
-      email
-      // newsletter
+      email,
+      newsletter
     })
       .then((response) => {
         commit('setToken', response.data.token)
