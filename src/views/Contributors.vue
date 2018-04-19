@@ -147,6 +147,10 @@ export default {
         {
           'name': 'Emily Carey',
           'github': 'EmilyRosina'
+        },
+        {
+          'name': 'Tyler Furby',
+          'github': 'tyler-furby'
         }
       ]
     }
