@@ -83,10 +83,10 @@ export default {
 @import '../css/variables'
 
 .forum-summary-container
-  font-family Roboto
+  font-family inherit
   .forum-summary-title a
     color #000
-    font-weight light
+    font-weight 300
     font-size 1.0rem
     &:visited
       color #a9a9a9
