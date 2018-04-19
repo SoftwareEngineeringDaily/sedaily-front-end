@@ -222,7 +222,7 @@ export default {
   padding-top 10px
   padding-left 5px
   color #8c8c8c
-  font-family Roboto-Italic
+  font-style italic
 
 .forum-title-box
   width 100%
