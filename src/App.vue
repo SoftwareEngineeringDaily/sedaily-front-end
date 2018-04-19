@@ -112,8 +112,6 @@ export default {
   border none
   border-radius 3px
   text-align center
-  text-transform uppercase
-  letter-spacing 4px
   transition all .15s ease
   cursor pointer
 .button-submit:hover
