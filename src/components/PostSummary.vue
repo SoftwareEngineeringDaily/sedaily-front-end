@@ -23,7 +23,7 @@
           <span class="host"> ({{ post.url | host }})</span>
         </template>
         <template v-else>
-          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
+          <router-link :to="'/post/' +  post._id + '/' + postUrlTitle">{{ post.title.rendered | decodeString }}</router-link>
         </template>
       </div>
     </div>
