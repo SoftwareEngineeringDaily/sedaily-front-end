@@ -22,6 +22,7 @@
           </svg>
           <span class="create-post-text">Create New Post</span>
         </button>
+         <router-link class="link create-project-link" :to="{ name: 'NewProjectThread', params: {}}">Post a Project</router-link>
       </div>
     </div>
     <spinner v-if="loading" :show="loading"></spinner>
@@ -90,7 +91,7 @@ export default {
   background-color white
   color primary-color
   cursor pointer
-  display flex
+  display inline-flex
   align-items center
   justify-content center
   transition all .5s ease
@@ -98,6 +99,12 @@ export default {
 #Forum-List-Copy-39 path
   transition all .5s ease
   fill= #795FFF
+
+.create-project-link
+  margin-left 20px
+  position absolute
+  margin-top 16px
+
 
 .create-post:hover
   box-shadow 0 20px 5px -10px rgba(#000, 0.3)

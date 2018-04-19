@@ -27,6 +27,7 @@ import Contributors from '@/views/Contributors'
 import Forum from '@/views/Forum'
 import ForumThreadView from '@/views/ForumThreadView'
 import NewForumThreadView from '@/views/NewForumThreadView'
+import NewProjectForumThreadView from '@/views/NewProjectForumThreadView'
 import EditForumThreadView from '@/views/EditForumThreadView'
 import NotiicationSettingsView from '@/views/NotiicationSettingsView'
 
@@ -61,7 +62,8 @@ const router = new Router({
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
     { path: '/forum', component: Forum },
-    { path: '/new-thread', beforeEnter: authorize, component: NewForumThreadView },
+    { path: '/new-thread', beforeEnter: authorize, name: 'NewThread', component: NewForumThreadView },
+    { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
     { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },
     { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },
     { path: '/admin', beforeEnter: authorize, component: AdminDashboard },
