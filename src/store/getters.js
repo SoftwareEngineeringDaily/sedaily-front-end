@@ -17,7 +17,7 @@ export default {
     return Boolean(chat.online)
   },
   isPlayerActive ({ activePlayerPost }) {
-    return activePlayerPost && activePlayerPost._id
+    return activePlayerPost.hasOwnProperty('_id')
   },
   getToken (state) {
     return state.token
