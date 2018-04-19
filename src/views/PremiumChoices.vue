@@ -17,7 +17,7 @@
 
 <div class="row">
   <div class="col-md-12 text-center">
-    <h3 class="subtitle">Get ad-free episodes and premium content</h3>
+    <h3 class="subtitle">Get ad-free episodes</h3>
   </div>
 </div>
 
@@ -73,10 +73,10 @@
 
   <div class='question'>
     <h4 class="question-title">
-      What premium content are you offering?
+      I thought there was premium content. Why don’t I see any?
     </h4>
     <p class="question-answer">
-      Audio episodes that are only available to subscribers. The first premium episode is planned for January 2018. We will have other value-add features of a premium subscription over time.
+      We were initially planning to produce premium content, but we cancelled that plan for now. If you have any questions about it, or you paid for a premium subscription because you thought you would get premium content, please contact jeff@softwaredaily.com
     </p>
   </div>
 
