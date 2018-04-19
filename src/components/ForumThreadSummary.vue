@@ -26,7 +26,7 @@
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{creationDate}}</span>
+        <span class='misc-detail'>{{lastAcitivityDate}}</span>
         <div class="bullet-point">&#9679;</div>
 
         <span class='comments-count misc-detail'>
@@ -69,9 +69,9 @@ export default {
     }
   },
   computed: {
-    creationDate () {
+    lastAcitivityDate () {
       if (this.forumThread) {
-        return moment(this.forumThread.dateCreated)
+        return moment(this.forumThread.dateLastAcitiy)
           .startOf('hour').fromNow()
       }
     }
