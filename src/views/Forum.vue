@@ -107,8 +107,6 @@ export default {
 
 
 .create-post:hover
-  box-shadow 0 20px 5px -10px rgba(#000, 0.3)
-  transform translateY(1px)
   background-color primary-color
   color white
   #Forum-List-Copy-39 path
