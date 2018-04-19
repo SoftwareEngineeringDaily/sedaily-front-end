@@ -55,7 +55,7 @@ export default {
   },
 
   beforeMount () {
-    return this.fetchForumThreads()
+    return this.fetchForumThreads({})
       .then(() => {
         this.loading = false
       })
