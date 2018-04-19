@@ -1,6 +1,6 @@
 <template>
   <forum-new-thread-wrapper
-  :initialContent="``"
+  :initialContent="`## Test`"
   >
   </forum-new-thread-wrapper>
 
