@@ -109,7 +109,15 @@ export default {
   background primary-color
   color white
   padding 10px 20px
+  border none
+  border-radius 3px
+  text-align center
+  text-transform uppercase
+  letter-spacing 4px
+  transition all .15s ease
   cursor pointer
+.button-submit:hover
+  background #a591ff
 
 .button-submit-small
   background primary-color
