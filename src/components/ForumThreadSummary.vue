@@ -103,6 +103,8 @@ export default {
 .forum-thread-misc a
   text-decoration none
 
+.content-holder
+  max-width 83%
 .misc-detail a
   color #a9a9a9
   &:hover
