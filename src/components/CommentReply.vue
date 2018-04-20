@@ -30,6 +30,10 @@ export default {
       type: String,
       required: true
     },
+    entityId: {
+      type: String,
+      required: true
+    },
     doneCallback: {
       type: Function,
       required: true
@@ -62,9 +66,6 @@ export default {
     ...mapState({
       me (state) {
         return state.me
-      },
-      entityId (state) {
-        return state.route.params.id // TODO: pass into component
       }
     })
   },
