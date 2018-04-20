@@ -35,6 +35,7 @@
         <hr>
         <div class="col-md-12">
           <comment-compose
+          v-if="forumThreadId"
           :entityId="forumThreadId"
           :rootEntityType='"forumthread"' />
         </div>
