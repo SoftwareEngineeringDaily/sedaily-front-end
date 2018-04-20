@@ -71,7 +71,10 @@
       />
       <br>
       <h3 class="section-title"> Comments </h3>
-      <comments-list :comments="comments" />
+      <comments-list :comments="comments"
+      :comments='comments'
+      :rootEntityType='"forumthread"'
+      :loading="isLoadingComments" />
     </div>
 
     <div class="side-bar">
@@ -114,6 +117,7 @@ export default {
       showPostContent: true,
       showRelatedLinks: false,
       showComments: false,
+      isLoadingComments: false,
       loading: true
     }
   },
@@ -217,12 +221,15 @@ export default {
       this.loading = false
 
       console.log('post', post)
+      this.isLoadingComments = true
       // Fetch comments
       this.commentsFetch({
         entityId: post.thread._id
+      }).then(() => {
+        this.isLoadingComments = false
+      })).catch(() => {
+        this.isLoadingComments = false
       })
-
-
     })
     // Fetch relatedLinks
     this.relatedLinksFetch({
