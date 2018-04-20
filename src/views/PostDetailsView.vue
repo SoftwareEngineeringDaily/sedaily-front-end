@@ -34,7 +34,9 @@
         v-if="isLoggedIn">
         <hr>
         <div class="col-md-12">
-          <comment-compose />
+          <comment-compose
+          :entityId="forumThreadId"
+          :rootEntityType='"forumthread"' />
         </div>
       </div>
 
@@ -63,7 +65,10 @@
     <div
       v-if="showComments"
       class="comments">
-      <comment-compose v-if="isLoggedIn" />
+      <comment-compose v-if="forumThreadId"
+        :entityId="forumThreadId"
+        :rootEntityType='"forumthread"' />
+      />
       <br>
       <h3 class="section-title"> Comments </h3>
       <comments-list :comments="comments" />
@@ -113,6 +118,13 @@ export default {
     }
   },
   computed: {
+    forumThreadId () {
+      if (!this.isLoggedIn) return false
+      if (!(this.post && this.post.thread)) return false
+      console.log('this.post.thread', this.post.thread)
+      return this.post.thread._id
+    },
+
     postContent () {
       if (this.post.cleanedContent) {
         return this.post.cleanedContent
@@ -146,7 +158,8 @@ export default {
     },
 
     comments () {
-      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      if (!(this.post && this.post.thread)) return []
+      const parentCommentIds = this.entityComments[this.post.thread._id] || []
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -200,14 +213,17 @@ export default {
   beforeMount () {
     this.fetchArticle({
       id: this.postId
-    }).then(() => {
+    }).then(({ post }) => {
       this.loading = false
-    })
-    // Fetch comments
-    this.commentsFetch({
-      entityId: this.postId
-    })
 
+      console.log('post', post)
+      // Fetch comments
+      this.commentsFetch({
+        entityId: post.thread._id
+      })
+
+
+    })
     // Fetch relatedLinks
     this.relatedLinksFetch({
       postId: this.postId

@@ -46,6 +46,7 @@
           <div class="col-md-9">
             <comment-compose
               v-if="isLoggedIn"
+              :entityId="forumThreadId"
               :rootEntityType='"forumthread"' />
           </div>
         </div>
@@ -113,6 +114,9 @@ export default {
       } else {
         return false
       }
+    },
+    forumThreadId () {
+      return this.$route.params.id
     },
     lastEdited () {
       return this.forumThread.dateLastEdited
