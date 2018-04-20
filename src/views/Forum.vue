@@ -25,19 +25,27 @@
          <router-link class="link create-project-link" :to="{ name: 'NewProjectThread', params: {}}">Post a Project</router-link>
       </div>
     </div>
-    <spinner v-if="loading" :show="loading"></spinner>
-    <div class="row" v-else>
-      <div class="forum-threads col-sm-12">
-        <forum-thread-summary
-          v-for="forumThread in forumThreads"
-          :key="forumThread._id"
-          :forumThread="forumThread"/>
-      </div>
+    <div class="row">
+      <transition :name="transition">
+          <div class="row" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+            <div class="forum-threads col-sm-12">
+              <forum-thread-summary
+              v-for="forumThread in displayedPosts"
+              :key="forumThread._id"
+              :forumThread="forumThread"/>
+            </div>
+
+            <div class="spinner-holder">
+              <spinner :show="loading"></spinner>
+            </div>
+          </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
 import ForumThreadSummary from '@/components/ForumThreadSummary'
@@ -50,22 +58,56 @@ export default {
   },
   data () {
     return {
-      loading: true
+      loading: false,
+      endOfPosts: false,
+      displayedPosts: [],
+      transition: 'slide-up',
+
     }
   },
 
   beforeMount () {
-    return this.fetchForumThreads({})
-      .then(() => {
-        this.loading = false
-      })
-      .catch((error) => {
-        console.log('error fetching threads', error)
-      })
+    // this.loadMore(true)
   },
 
   methods: {
-    ...mapActions(['fetchForumThreads'])
+    ...mapActions(['fetchForumThreads']),
+    loadMore (newSearch = false) {
+      console.log('Fetching load more')
+      if (this.endOfPosts) {
+        return
+      }
+      this.loading = true
+      const params = {
+        lastActivityBefore: undefined
+      }
+
+      if (this.displayedPosts.length > 0) {
+        const lastPost = this.displayedPosts[this.displayedPosts.length - 1]
+        params.lastActivityBefore = moment(lastPost.dateLastAcitiy).toISOString()
+      }
+
+      this.$store.dispatch('fetchForumThreads', params)
+        .then((result) => {
+          console.log('result', result)
+          if (newSearch) {
+            this.displayedPosts = []
+          }
+
+          if (result && result.length > 0) {
+            this.displayedPosts = this.displayedPosts.concat(result)
+            console.log('displayedPosts', this.displayedPosts)
+          } else {
+            this.endOfPosts = true
+          }
+          this.loading = false
+        })
+        .catch(_ => {
+        // TODO: log events
+          this.endOfPosts = true
+          this.loading = false
+        })
+    }
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
