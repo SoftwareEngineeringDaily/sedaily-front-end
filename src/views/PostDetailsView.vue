@@ -71,10 +71,11 @@
       />
       <br>
       <h3 class="section-title"> Comments </h3>
-      <comments-list :comments="comments"
-      :comments='comments'
-      :rootEntityType='"forumthread"'
-      :loading="isLoadingComments" />
+      <comments-list
+        :comments='comments'
+        :rootEntityType='"forumthread"'
+        :loading="isLoadingComments"
+      />
     </div>
 
     <div class="side-bar">
@@ -227,7 +228,7 @@ export default {
         entityId: post.thread._id
       }).then(() => {
         this.isLoadingComments = false
-      })).catch(() => {
+      }).catch(() => {
         this.isLoadingComments = false
       })
     })
