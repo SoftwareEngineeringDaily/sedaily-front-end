@@ -15,6 +15,7 @@
       <div v-if="forumThread">
         <forum-thread-body
           :title="forumThread.title"
+          :podcastEpisode="forumThread.podcastEpisode"
           :content="forumThread.content" />
 
         <last-edited-info :lastEditedTimestamp="lastEdited" />

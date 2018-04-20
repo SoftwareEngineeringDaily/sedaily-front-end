@@ -2,7 +2,10 @@
   <div class="row">
     <div class="col-sm-9">
       <div class='forum-thread-title'>
+        <span v-if="!podcastEpisode">
         {{title}}
+      </span>
+      <router-link v-else :to="podcastEpisodeUrl"> {{title}} </router-link>
       </div>
       <hr />
       <div class='forum-thread-content'>
@@ -14,6 +17,7 @@
 
 <script>
 import marked from 'marked'
+import { postPrettyUrl } from './../utils/Post.utils'
 export default {
   name: 'form-thread-body',
   props: {
@@ -21,12 +25,19 @@ export default {
       type: String,
       required: true
     },
+    podcastEpisode: {
+      type: Object
+    },
     content: {
       type: String,
       required: true
     }
   },
   computed: {
+    podcastEpisodeUrl () {
+      return postPrettyUrl(this.podcastEpisode)
+    },
+
     compiledMarkdown () {
       marked.setOptions({
         breaks: true
