@@ -1,7 +1,13 @@
 <template>
   <div class='forum-summary-container row'>
     <span class="profile-avatar">
-      <profile-label
+      <div v-if="podcastEpisode">
+        <img
+        class='podcast-icon'
+        src="@/assets/icons/podcast.png"
+        />
+      </div>
+      <profile-label v-else
         :userData="forumThread.author"
         :showName="false" />
     </span>
@@ -69,6 +75,13 @@ export default {
     }
   },
   computed: {
+    podcastEpisode () {
+      if (this.forumThread && this.forumThread.podcastEpisode) {
+        return this.forumThread.podcastEpisode
+      } else {
+        return false
+      }
+    },
     lastAcitivityDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateLastAcitiy)
@@ -119,6 +132,13 @@ export default {
 
 .votes-container
   padding-top 3px
+
+.podcast-icon
+  max-width 30px
+.podcast-icon:hover
+  opacity 0.5
+
+
 
 @media (min-width: 576px)
   .votes-container
