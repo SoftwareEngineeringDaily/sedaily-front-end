@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import moment from 'moment'
 import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
@@ -38,8 +39,11 @@ export default {
     })
   },
 
-  fetchForumThreads ({ getters, commit }) {
-    const requestUrl = `${BASE_URL}/forum`
+  fetchForumThreads ({ getters, commit }, {lastActivityBefore}) {
+    if (!lastActivityBefore) lastActivityBefore = moment().toISOString()
+    let requestUrl = `${BASE_URL}/forum?`
+    if (lastActivityBefore) requestUrl += `&lastActivityBefore=${lastActivityBefore}`
+    console.log('requestUrl', requestUrl)
     return axios.get(requestUrl)
       .then((response) => {
         const forumThreads = response.data
