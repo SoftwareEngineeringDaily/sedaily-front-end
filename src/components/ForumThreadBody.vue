@@ -8,6 +8,12 @@
       <router-link v-else :to="podcastEpisodeUrl"> {{title}} </router-link>
       </div>
       <hr />
+      <div class='forum-podcast-card' v-if="podcastEpisode">
+            <post-summary :post="podcastEpisode">
+            </post-summary>
+            <br/>
+            <br/>
+      </div>
       <div class='forum-thread-content'>
         <div v-html="compiledMarkdown" />
       </div>
@@ -17,9 +23,13 @@
 
 <script>
 import marked from 'marked'
+import PostSummary from '@/components/PostSummary.vue'
 import { postPrettyUrl } from './../utils/Post.utils'
 export default {
   name: 'form-thread-body',
+  components: {
+    PostSummary
+  },
   props: {
     title: {
       type: String,
@@ -57,6 +67,8 @@ div.forum-thread-content {
     color: primary-color;
   }
 }
+.forum-podcast-card .news-post
+  width 100%
 
 .forum-thread-title
   font-size 2.6rem
