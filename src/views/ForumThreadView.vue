@@ -15,6 +15,7 @@
       <div v-if="forumThread">
         <forum-thread-body
           :title="forumThread.title"
+          :podcastEpisode="forumThread.podcastEpisode"
           :content="forumThread.content" />
 
         <last-edited-info :lastEditedTimestamp="lastEdited" />
@@ -45,6 +46,7 @@
           <div class="col-md-9">
             <comment-compose
               v-if="isLoggedIn"
+              :entityId="forumThreadId"
               :rootEntityType='"forumthread"' />
           </div>
         </div>
@@ -112,6 +114,9 @@ export default {
       } else {
         return false
       }
+    },
+    forumThreadId () {
+      return this.$route.params.id
     },
     lastEdited () {
       return this.forumThread.dateLastEdited

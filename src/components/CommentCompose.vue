@@ -17,6 +17,10 @@ export default  {
     rootEntityType: {
       type: String,
       required: false
+    },
+    entityId: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -30,9 +34,6 @@ export default  {
   },
   computed: {
     ...mapState({
-      entityId (state) {
-        return state.route.params.id // TODO: pass into component
-      }
     })
   },
   methods: {

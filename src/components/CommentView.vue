@@ -61,15 +61,18 @@
 
       <div class='row' v-if="isParentComment && isReplying">
         <comment-reply v-if="isLoggedIn"
+        :entityId='comment.rootEntity'
         :doneCallback="doneReplyingCallback"
-        :isReply='true' :parentCommentId='comment._id' :rootEntityType='rootEntityType'></comment-reply>
+        :isReply='true' :parentCommentId='comment._id' :rootEntityType='rootEntityType'>
+      </comment-reply>
       </div>
       <div v-if="!isParentComment && isReplying" class='row'>
         <comment-reply v-if="isLoggedIn"
         :replyingTo='comment.author'
+        :entityId='comment.rootEntity'
         :doneCallback="doneReplyingCallback"
-        :isReply='true' :parentCommentId='comment.parentComment' :rootEntityType='rootEntityType'></comment-reply>
-
+        :isReply='true' :parentCommentId='comment.parentComment' :rootEntityType='rootEntityType'>
+      </comment-reply>
       </div>
     </div>
   </span>
