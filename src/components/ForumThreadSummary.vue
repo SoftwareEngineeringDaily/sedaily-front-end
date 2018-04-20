@@ -94,8 +94,6 @@ export default {
     text-decoration none
     color primary-color
 
-.content-holder
-  max-width 63%
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
@@ -126,6 +124,9 @@ export default {
   .votes-container
     padding 0px 10px
     padding-left 15px
+@media (max-width: 576px)
+  .content-holder
+    max-width 63%
 
 
 </style>
