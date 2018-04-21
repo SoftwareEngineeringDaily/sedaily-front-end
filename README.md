@@ -37,7 +37,7 @@ For detailed explanation on Vue.js webpack configuration, checkout the [guide](h
 In order to speed up configuration, you can use the API and event stream API's in other environments:
 ```
 # serve with hot reload at localhost:8080, using API running on staging
-npm run dev:api-test
+npm run dev:api-staging
 
 # serve with hot reload at localhost:8080, using API running on production
 npm run dev:api-prod

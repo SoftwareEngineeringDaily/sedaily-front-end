@@ -17,7 +17,7 @@
 
 <div class="row">
   <div class="col-md-12 text-center">
-    <h3 class="subtitle">Get ad-free episodes and premium content</h3>
+    <h3 class="subtitle">Get ad-free episodes</h3>
   </div>
 </div>
 
@@ -73,10 +73,10 @@
 
   <div class='question'>
     <h4 class="question-title">
-      What premium content are you offering?
+      I thought there was premium content. Why don’t I see any?
     </h4>
     <p class="question-answer">
-      Audio episodes that are only available to subscribers. The first premium episode is planned for January 2018. We will have other value-add features of a premium subscription over time.
+      We were initially planning to produce premium content, but we cancelled that plan for now. If you have any questions about it, or you paid for a premium subscription because you thought you would get premium content, please contact jeff@softwaredaily.com
     </p>
   </div>
 
@@ -189,19 +189,29 @@ h1
 
 button
   margin 20px
-  padding 5px 0
+  padding 15px 20px
   min-width 200px
-  transition opacity 0.2s
+  border none
+  border-radius 3px
+  background primary-color
+  color #FFF
+  text-align center
+  text-transform uppercase
+  letter-spacing 4px
+  transition all .5s ease
+  font-size 16px
+  cursor pointer
 
 button:hover
-  opacity 0.5
+  box-shadow 0 20px 5px -10px rgba(#000, 0.3)
+  transform translateY(10px)
 
 .monthly-button
-  border 1px solid black
+  background #dcdcdd
+  color #000
 
-.yearly-button
-  background primary-color
-  color white
+*:focus
+  outline: 0
 
 .why-subscribe-title
   margin 0 auto

@@ -2,7 +2,6 @@
   <div
     v-if="post"
     class="post-view">
-
     <div class="post-header">
       <post-header
         :post="post"
@@ -35,7 +34,10 @@
         v-if="isLoggedIn">
         <hr>
         <div class="col-md-12">
-          <comment-compose />
+          <comment-compose
+          v-if="forumThreadId"
+          :entityId="forumThreadId"
+          :rootEntityType='"forumthread"' />
         </div>
       </div>
 
@@ -64,10 +66,17 @@
     <div
       v-if="showComments"
       class="comments">
-      <comment-compose v-if="isLoggedIn" />
+      <comment-compose v-if="forumThreadId"
+        :entityId="forumThreadId"
+        :rootEntityType='"forumthread"' />
+      />
       <br>
       <h3 class="section-title"> Comments </h3>
-      <comments-list :comments="comments" />
+      <comments-list
+        :comments='comments'
+        :rootEntityType='"forumthread"'
+        :loading="isLoadingComments"
+      />
     </div>
 
     <div class="side-bar">
@@ -110,10 +119,18 @@ export default {
       showPostContent: true,
       showRelatedLinks: false,
       showComments: false,
+      isLoadingComments: false,
       loading: true
     }
   },
   computed: {
+    forumThreadId () {
+      if (!this.isLoggedIn) return false
+      if (!(this.post && this.post.thread)) return false
+      console.log('this.post.thread', this.post.thread)
+      return this.post.thread._id
+    },
+
     postContent () {
       if (this.post.cleanedContent) {
         return this.post.cleanedContent
@@ -124,13 +141,31 @@ export default {
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
-
+    postSummary () {
+      const maxLength = 400;
+      const el = document.createElement('template')
+      el.innerHTML = this.post.content.rendered.trim()
+      // spans contain text to extract "summary"
+      const paras = el.content.querySelectorAll('span')
+      let summary = '';
+      for (let para of paras) {
+        summary += para.innerText + ' ';
+        if (summary.length >= maxLength) {
+          break;
+        }
+      }
+      if (summary.length > maxLength) {
+        return summary.substr(0, maxLength-3) + '...'
+      }
+      return summary;
+    },
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
     },
 
     comments () {
-      const parentCommentIds = this.entityComments[this.$route.params.id] || []
+      if (!(this.post && this.post.thread)) return []
+      const parentCommentIds = this.entityComments[this.post.thread._id] || []
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -149,7 +184,7 @@ export default {
       return !this.isActiveEpisode || this.playerState !== PlayerState.PLAYING
     },
 
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'metaTag']),
     ...mapState({
       activePlayerPost (state) {
         return state.activePlayerPost
@@ -184,14 +219,20 @@ export default {
   beforeMount () {
     this.fetchArticle({
       id: this.postId
-    }).then(() => {
+    }).then(({ post }) => {
       this.loading = false
-    })
-    // Fetch comments
-    this.commentsFetch({
-      entityId: this.postId
-    })
 
+      console.log('post', post)
+      this.isLoadingComments = true
+      // Fetch comments
+      this.commentsFetch({
+        entityId: post.thread._id
+      }).then(() => {
+        this.isLoadingComments = false
+      }).catch(() => {
+        this.isLoadingComments = false
+      })
+    })
     // Fetch relatedLinks
     this.relatedLinksFetch({
       postId: this.postId
@@ -243,9 +284,31 @@ export default {
         id: this.postId
       })
     }
+  },
+  metaInfo() {
+    // wait for post before updating meta
+    if (!this.post) {
+      return {}
+    }
+    return {
+      meta: [
+        this.metaTag('og:title', this.post.title.rendered),
+        this.metaTag('og:url', location.href),
+        this.metaTag('og:description', this.postSummary),
+        // links must use https
+        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+      ]
+    }
   }
 }
 </script>
+
+<style lang="stylus">
+  .post-transcript
+    .row
+      .row
+        display none
+</style>
 
 <style scoped lang="stylus">
 @import './../css/variables'

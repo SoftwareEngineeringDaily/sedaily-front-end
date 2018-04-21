@@ -5,6 +5,6 @@
  "author": "Keith Holliday",
  "private": true,
  "scripts": {
-   "postinstall": "npm install express && npm install connect-history-api-fallback"
+   "postinstall": "npm install express && npm install connect-history-api-fallback && npm install prerender-node --save"
  }
 }

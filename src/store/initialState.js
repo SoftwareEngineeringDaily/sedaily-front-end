@@ -2,7 +2,7 @@ import { PlayerState } from './../utils/playerState'
 
 export default {
   playerState: PlayerState.STOPPED,
-  activePlayerPost: { title: {}},
+  activePlayerPost: {title: {}},
   activeType: null,
   posts: {},
   entityComments: {}, // arrays of ids, only root comments
@@ -28,5 +28,14 @@ export default {
   loggingEnabled: true,
   jobs: [],
   forumThreadIdsList: [],
-  forumThreads: {}
+  forumThreads: {},
+  defaultMetaContent: {
+    'twitter:card': 'summary_large_image',
+    'twitter:site': '@software_daily',
+    'twitter:creator': '@the_prion',
+    'og:url': location.origin,
+    'og:title': 'Software Engineering Daily',
+    'og:description': 'Software Engineering Daily episodes, forum, job board and more...',
+    'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
+  }
 }

@@ -1,18 +1,14 @@
 <template>
-  <div v-if="me" class="col-md-8">
-    <div class='reply-container'>
-      <comment-form
+  <comment-form
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
-      :existingMentions="existingMentions"
+      :existingMentions="originalMentions"
       :showCancel="true"
-      :submitButtonText="'Reply'"
+      :submitButtonText="'Edit'"
       >
-      </comment-form>
-    </div>
-  </div>
+    </comment-form>
 </template>
 
 <script>
@@ -20,27 +16,23 @@ import CommentForm from '@/components/CommentForm.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'comment-reply',
+  name: 'comment-edit',
   props: {
-    replyingTo: {
-      type: Object,
-      required: false
-    },
-    parentCommentId: {
+    id: {
       type: String,
       required: true
     },
-    entityId: {
+    originalContent: {
       type: String,
+      required: true
+    },
+    originalMentions: {
+      type: Array,
       required: true
     },
     doneCallback: {
       type: Function,
       required: true
-    },
-    rootEntityType: {
-      type: String,
-      required: false
     }
   },
   components: {
@@ -50,11 +42,8 @@ export default {
     console.log('rootEntityType--reply', this.rootEntityType)
   },
   data () {
-    const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
-    const existingMentions = this.replyingTo? [this.replyingTo]:[]
     return {
-      commentContent,
-      existingMentions,
+      commentContent: this.originalContent,
       isSubmitting: false,
       username: null,
       loading: true
@@ -66,21 +55,22 @@ export default {
     ...mapState({
       me (state) {
         return state.me
+      },
+      entityId (state) {
+        return state.route.params.id // TODO: pass into component
       }
     })
   },
 
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
+    ...mapActions(['editComment', 'commentsFetch']),
     submitCallback ({ content, mentions }) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
-      this.commentsCreate({
-        entityId: this.entityId,
+      this.editComment({
+        id: this.id,
         mentions,
-        rootEntityType: this.rootEntityType,
-        parentCommentId: this.parentCommentId,
         content
       })
         .then((response) => {

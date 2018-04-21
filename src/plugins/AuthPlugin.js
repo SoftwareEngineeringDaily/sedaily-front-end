@@ -41,7 +41,7 @@ export default {
 
   logout () {
     this.clearToken()
-    store.commit('setMe', null)
+    store.commit('setMe', {})
   },
 
   setAuthHeader (config, token) {
