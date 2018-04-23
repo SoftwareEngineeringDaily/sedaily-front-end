@@ -8,27 +8,27 @@
         />
       </div>
       <profile-label v-else
-        :userData="forumThread.author"
+        :userData="forumThreadLocal.author"
         :showName="false" />
     </span>
 
     <span class='votes-container'>
       <voting-arrows
         :upvoteHandler="upvoteHandler"
-        :upvoted="forumThread.upvoted"
-        :score="forumThread.score">
+        :upvoted="forumThreadLocal.upvoted"
+        :score="forumThreadLocal.score">
       </voting-arrows>
     </span>
 
     <span class="content-holder">
       <span class='forum-summary-title'>
-        <router-link :to="'/forum/' + forumThread._id"> {{forumThread.title}} </router-link>
+        <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title}} </router-link>
       </span>
       <div class='forum-thread-misc'>
         Posted by
         <span>
-          <router-link :to="'/profile/' + forumThread.author._id">
-            {{forumThread.author.name}}
+          <router-link :to="'/profile/' + forumThreadLocal.author._id">
+            {{forumThreadLocal.author.name}}
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
@@ -36,8 +36,8 @@
         <div class="bullet-point">&#9679;</div>
 
         <span class='comments-count misc-detail'>
-          <router-link :to="'/forum/' + forumThread._id" class="comments-count-link">
-            {{forumThread.commentsCount}} comments
+          <router-link :to="'/forum/' + forumThreadLocal._id" class="comments-count-link">
+            {{forumThreadLocal.commentsCount}} comments
           </router-link>
         </span>
       </div>
@@ -64,13 +64,18 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      forumThreadLocal: this.forumThread
+    }
   },
   methods: {
     ...mapActions(['forumThreadLike']),
     upvoteHandler () {
       this.forumThreadLike({
         id: this.forumThread._id
+      }).then(({ data }) => {
+        const forumThread = data.entity
+        this.forumThreadLocal = forumThread
       })
     }
   },
