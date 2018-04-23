@@ -1,0 +1,14 @@
+{
+  "user": {
+    "username": "theUser",
+    "email": "user@mail.com",
+    "password": "fakePassword",
+    "name": "The User",
+    "bio": "User's short bio",
+    "website": "http://user.com",
+    "_id": "5aad272132d14d2325829557",
+    "createdAt": "2018-03-17T14:33:05.117Z",
+    "isAdmin": false,
+    "verified": false
+  }
+}
