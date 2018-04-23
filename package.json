@@ -17,7 +17,7 @@
     "build:dev": "cross-env API_ENV=development node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "cy:e2e": "cypress run",
-    "test:e2e": "start-server-and-test start http://localhost:5000 cy:e2e",
+    "test:e2e": "start-server-and-test start http-get://localhost:5000 cy:e2e",
     "test": "npm run unit && npm run e2e",
     "selenium-test": "cross-env BABEL_ENV=test mocha test/selenium --timeout 900000",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
