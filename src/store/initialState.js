@@ -1,4 +1,4 @@
-import { PlayerState } from './../utils/playerState'
+import { PlayerState } from '@/utils/playerState'
 
 export default {
   playerState: PlayerState.STOPPED,

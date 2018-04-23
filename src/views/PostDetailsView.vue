@@ -98,7 +98,7 @@ import PostHeader from '@/components/post/PostHeader'
 import PostSelectionIcons from '@/components/post/PostSelectionIcons'
 import PostMeta from '@/components/post/PostMeta'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import { PlayerState } from './../utils/playerState'
+import { PlayerState } from '@/utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
 
 export default {

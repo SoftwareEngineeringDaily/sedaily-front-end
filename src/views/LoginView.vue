@@ -51,7 +51,7 @@
 
 <script>
 import Spinner from '@/components/Spinner.vue'
-import { wantedToSubscribe } from '../utils/subscription.utils.js'
+import { wantedToSubscribe } from '@/utils/subscription.utils.js'
 import { mapGetters } from 'vuex'
 
 export default {
