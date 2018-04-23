@@ -7,4 +7,6 @@ cache:
 git:
   depth: 3
 script:
-  - docker run --rm -v `pwd`:/tmp andrewlloyd/angular-cli bash -c "ls /tmp"
+  - docker-compose -f devops/docker-compose.yml up -d
+  - npm run build:dev
+  - npm run test:e2e
