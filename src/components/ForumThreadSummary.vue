@@ -1,7 +1,13 @@
 <template>
   <div class='forum-summary-container row'>
     <span class="profile-avatar">
-      <profile-label
+      <div v-if="podcastEpisode">
+        <img
+        class='podcast-icon'
+        src="@/assets/icons/podcast.png"
+        />
+      </div>
+      <profile-label v-else
         :userData="forumThread.author"
         :showName="false" />
     </span>
@@ -69,6 +75,13 @@ export default {
     }
   },
   computed: {
+    podcastEpisode () {
+      if (this.forumThread && this.forumThread.podcastEpisode) {
+        return this.forumThread.podcastEpisode
+      } else {
+        return false
+      }
+    },
     lastAcitivityDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateLastAcitiy)
@@ -94,8 +107,6 @@ export default {
     text-decoration none
     color primary-color
 
-.content-holder
-  max-width 63%
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
@@ -105,6 +116,8 @@ export default {
 .forum-thread-misc a
   text-decoration none
 
+.content-holder
+  max-width 83%
 .misc-detail a
   color #a9a9a9
   &:hover
@@ -122,10 +135,20 @@ export default {
 .votes-container
   padding-top 3px
 
+.podcast-icon
+  max-width 30px
+.podcast-icon:hover
+  opacity 0.5
+
+
+
 @media (min-width: 576px)
   .votes-container
     padding 0px 10px
     padding-left 15px
+@media (max-width: 576px)
+  .content-holder
+    max-width 63%
 
 
 </style>

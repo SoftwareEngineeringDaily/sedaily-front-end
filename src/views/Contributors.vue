@@ -1,18 +1,19 @@
 <template>
   <div class='container'>
-    <h1> Contributors </h1>
-    <p> Here are some of the people that are helping create SoftwareDaily. </p>
-
-      <div v-for="contributor in alphabeticallyOrderedContributors" :key="contributor.github">
-        <div>
-          <h3> {{contributor.name}} </h3>
-          <p>
-          Github: <a v-bind:href="contributorGithub(contributor)" target="_blank" class="link">@{{contributor.github}}</a>
-          </p>
-        </div>
+    <h1>Contributors</h1>
+    <h6 class="text-muted mb-5">Here are some of the people that are helping create SoftwareDaily.</h6>
+    <div class="row">
+      <div v-for="contributor in alphabeticallyOrderedContributors" :key="contributor.github" class="col-6 col-sm-4 col-md-3 col-lg-2 text-center p-3 mb-3">
+        <h6 class="name m-0">{{contributor.name}}</h6>
+        <a :href="contributorGithub(contributor)" target="_blank" class="link">
+          <p class="mb-2">{{`@${contributor.github}`}}</p>
+          <img :src="`${contributorGithub(contributor)}.png?size=100`" class="avatar"/>
+        </a>
       </div>
-
-    <p> Sorry if anyone has been left out, please ping me. - Jason@softwaredaily.com </p>
+    </div>
+    <p class="text-center m-5">Sorry if anyone has been left out, please ping me.<br/>
+      <a href="mailto:Jason@softwaredaily.com" target="_blank">Jason@softwaredaily.com</a>
+    </p>
   </div>
 </template>
 
@@ -43,11 +44,6 @@ export default {
           'name': 'Josh Morel',
           'github': 'joshmorel'
         },
-        {
-          'name': 'Shreyans Sheth',
-          'github': 'bholagabbar'
-        },
-
         {
           'name': 'Shreyans Sheth',
           'github': 'bholagabbar'
@@ -147,20 +143,24 @@ export default {
         {
           'name': 'Gabriel Simmer',
           'github': 'gmemstr'
+        },
+        {
+          'name': 'Emily Carey',
+          'github': 'EmilyRosina'
+        },
+        {
+          'name': 'Tyler Furby',
+          'github': 'tyler-furby'
         }
       ]
     }
   },
-
   computed: {
     alphabeticallyOrderedContributors () {
-      /* eslint-disable-next-line */
-      return this.contributors.sort((a, b) => {
-        return 0.5 - Math.random()
-      })
+      // eslint-disable-next-line
+      return this.contributors.sort((a, b) => { return 0.5 - Math.random() })
     }
   },
-
   methods: {
     contributorGithub (contributor) {
       return `https://github.com/${contributor.github}`
@@ -168,3 +168,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .name {
+    color: #1a008f;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+</style>
