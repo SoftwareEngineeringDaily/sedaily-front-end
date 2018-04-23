@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - "6.11.1"
+  - "8.9.0"
 cache:
   directories:
   - node_modules
 git:
   depth: 3
 script:
-  - docker ps -a
+  - docker run --rm -v `pwd`:/tmp andrewlloyd/angular-cli bash -c "ls /tmp"
