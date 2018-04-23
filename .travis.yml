@@ -7,4 +7,4 @@ cache:
 git:
   depth: 3
 script:
-  - docker ps
+  - docker ps -a
