@@ -135,7 +135,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-/* @import './../css/variables' */
+@import './../css/variables'
 
 .news-post
   display inline-flex
