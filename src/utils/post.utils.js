@@ -16,6 +16,6 @@ function postPrettyUrlTitle(post) {
   }
 }
 
-export  function postPrettyUrl(post) {
+export function postPrettyUrl(post) {
   return '/post/' +  post._id + '/' + postPrettyUrlTitle(post);
 }
