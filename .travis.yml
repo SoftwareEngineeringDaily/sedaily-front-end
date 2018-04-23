@@ -9,4 +9,7 @@ git:
 script:
   - docker-compose -f devops/docker-compose.yml up -d
   - npm run build:dev
-  - npm run test:e2e
+  - npm start &
+  - sleep 5
+  - curl http://localhost:5000
+  #- npm run test:e2e
