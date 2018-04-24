@@ -14,7 +14,7 @@ describe('The Login Page', function () {
       response: [],
     })
     // not able to visit login directly with vue-router, need hash first
-    cy.visit('/#/login')
+    cy.visit('/login')
     cy.fixture('user')
     .then((userJSON) => {
       cy.get('input[name=username]').type(userJSON.user.username)

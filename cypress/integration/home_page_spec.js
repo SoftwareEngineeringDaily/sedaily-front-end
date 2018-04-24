@@ -11,19 +11,4 @@ describe('The Home Page - Unauthenticated', function () {
     cy.get('a[href="/login"]').should('contain', 'Login')
     cy.get('a[href="/register"]').should('contain', 'Register')
   })
-  it('Displays new posts', function () {
-    // stubbing server and response
-    cy.fixture('posts').as('postsJSON')
-    cy.server()
-    cy.route({
-      method: 'GET',
-      url: '/api/posts*',
-      response: '@postsJSON',
-    })
-    cy.visit('/')
-    cy.get('div.news-content > div.title').first()
-    .then((el) => {
-      expect(el.text()).to.eq(this.postsJSON[0].title.rendered)
-    })
-  })
 })

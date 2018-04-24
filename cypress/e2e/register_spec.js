@@ -1,7 +1,7 @@
 describe('End-to-End: The Register Page', function () {
   it('Successfully registers the user', function () {
     cy.fixture('registration').as('registrationJSON')
-    cy.visit('/#/register')
+    cy.visit('/register')
     .then(() => {
       cy.get('input[name=username]').type(this.registrationJSON.user.username)
       cy.get('input[name=password]').type(this.registrationJSON.user.password)
