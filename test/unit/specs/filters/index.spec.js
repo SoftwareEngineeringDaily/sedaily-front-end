@@ -1,4 +1,4 @@
-import * as filters from '@/filters'
+import filters from '@/filters'
 
 describe('filters.pluralize', () => {
   it('should pluralize multiple minutes', () => {

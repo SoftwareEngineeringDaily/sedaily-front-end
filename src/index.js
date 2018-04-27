@@ -6,7 +6,7 @@ import Router from 'vue-router'
 import Meta from 'vue-meta'
 import router from './router'
 import store from './store'
-import * as filters from './filters'
+import filters from './filters'
 
 import { sync } from 'vuex-router-sync'
 import AuthPlugin from './plugins/AuthPlugin'
