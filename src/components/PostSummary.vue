@@ -60,7 +60,7 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
-import { postPrettyUrl } from '@/utils/Post.utils'
+import { postPrettyUrl } from '@/utils/post.utils'
 import { PlayerState } from '@/utils/playerState'
 import { mapActions, mapState } from 'vuex'
 
