@@ -12,12 +12,20 @@ module.exports = {
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
-    'plugin:vue/essential'
+    'plugin:vue/essential',
+    'plugin:import/errors'
   ],
   // required to lint *.vue files
   plugins: [
     'vue'
   ],
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: './build/webpack.base.conf.js'
+      }
+    }
+  },
   // add your custom rules here
   rules: {
     // allow paren-less arrow functions
