@@ -206,11 +206,15 @@ export default {
     if (!this.forumThread) {
       return {}
     }
+    const title = `${this.forumThread.title} - Software Daily`
+    const description = this.forumThreadContentSummary;
     return {
+      title,
       meta: [
-        this.metaTag('og:title', this.forumThread.title),
+        this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.forumThreadContentSummary)
+        this.metaTag('description', description),
+        this.metaTag('og:description', description)
       ]
     }
   }

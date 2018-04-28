@@ -127,11 +127,15 @@ export default {
     if (!this.job) {
       return {}
     }
+    const title = `${title.job.title} - Software Daily`
+    const description = this.jobDescriptionSummary
     return {
+      title,
       meta: [
-        this.metaTag('og:title', this.job.title),
+        this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.jobDescriptionSummary)
+        this.metaTag('description', description),
+        this.metaTag('og:description', description)
       ]
     }
   }

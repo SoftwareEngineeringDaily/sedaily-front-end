@@ -290,11 +290,15 @@ export default {
     if (!this.post) {
       return {}
     }
+    const title = `${this.post.title.rendered} - Software Daily`
+    const description = this.postSummary;
     return {
+      title,
       meta: [
-        this.metaTag('og:title', this.post.title.rendered),
+        this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.postSummary),
+        this.metaTag('og:description', description),
+        this.metaTag('description', description),
         // links must use https
         this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]
