@@ -26,7 +26,7 @@
 <script>
 import marked from 'marked'
 import PostSummary from '@/components/PostSummary.vue'
-import { postPrettyUrl } from './../utils/Post.utils'
+import { postPrettyUrl } from './../utils/post.utils'
 export default {
   name: 'form-thread-body',
   components: {
