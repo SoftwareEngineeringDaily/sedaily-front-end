@@ -128,12 +128,13 @@ export default {
         commentsMap: this.commentsMap
       })
     },
-    forumThreadContentSummary() {
+    metaDescription() {
       const maxLength = 400;
-      if (this.forumThread.content.length > maxLength) {
-        return this.forumThread.content.substr(0, maxLength-3) + '...'
+      const { forumThread: { content: description }} = this
+      if (description.length > maxLength) {
+        return description.substr(0, maxLength-3) + '...'
       }
-      return this.forumThread.content
+      return description
     },
     ...mapState({
       me (state) {
@@ -206,15 +207,15 @@ export default {
     if (!this.forumThread) {
       return {}
     }
-    const title = `${this.forumThread.title} - Software Daily`
-    const description = this.forumThreadContentSummary;
+    const title = `${this.forumThread.title} | Software Daily`
+    const { metaDescription} = this
     return {
       title,
       meta: [
         this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('description', description),
-        this.metaTag('og:description', description)
+        this.metaTag('description', metaDescription),
+        this.metaTag('og:description', metaDescription)
       ]
     }
   }
