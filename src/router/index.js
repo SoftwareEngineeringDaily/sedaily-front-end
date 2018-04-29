@@ -27,6 +27,9 @@ import Contributors from '@/views/Contributors'
 import Forum from '@/views/Forum'
 import ForumThreadView from '@/views/ForumThreadView'
 import NewForumThreadView from '@/views/NewForumThreadView'
+import NewProjectForumThreadView from '@/views/NewProjectForumThreadView'
+import EditForumThreadView from '@/views/EditForumThreadView'
+import NotiicationSettingsView from '@/views/NotiicationSettingsView'
 
 import authorize from './authHook'
 
@@ -35,12 +38,11 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'NewListView',
-      component: NewListView
+      component: Forum
     },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
-    { path: '/new/:page(\\d+)?', component: NewListView },
+    { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
@@ -50,6 +52,7 @@ const router = new Router({
     { path: '/edit-profile', beforeEnter: authorize, component: EditProfile },
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
+    { path: '/notification-settings', name: 'NotificationSettings', beforeEnter: authorize, component: NotiicationSettingsView },
     { path: '/profile', component: ProfileView },
     { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
     { path: '/jobs', component: JobsBoardView },
@@ -59,7 +62,9 @@ const router = new Router({
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
     { path: '/forum', component: Forum },
-    { path: '/new-thread', beforeEnter: authorize, component: NewForumThreadView },
+    { path: '/new-thread', beforeEnter: authorize, name: 'NewThread', component: NewForumThreadView },
+    { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
+    { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },
     { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },
     { path: '/admin', beforeEnter: authorize, component: AdminDashboard },
     { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },

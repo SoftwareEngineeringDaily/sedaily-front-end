@@ -24,9 +24,6 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run unit tests
-npm run unit
-
 # run integration tests (Work in Progress!)
 
 ## interactive
@@ -34,13 +31,7 @@ npm run dev
 # in another terminal
 npm run cy:open
 
-## browser integration tests
-npm run test:integration
-
 ## end-to-end with backend api
-# in software-engineering-daily-api
-npm run start:e2e
-# in this repo
 npm run test:e2e
 
 ```
@@ -54,7 +45,7 @@ For detailed explanation on Vue.js webpack configuration, checkout the [guide](h
 In order to speed up configuration, you can use the API and event stream API's in other environments:
 ```
 # serve with hot reload at localhost:8080, using API running on staging
-npm run dev:api-test
+npm run dev:api-staging
 
 # serve with hot reload at localhost:8080, using API running on production
 npm run dev:api-prod

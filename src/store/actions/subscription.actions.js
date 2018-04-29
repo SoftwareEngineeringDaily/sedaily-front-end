@@ -3,19 +3,21 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  createSubscription: ({ commit, state, getters }, { stripeToken, planType }) => {
+  createSubscription: async ({ commit, state, getters, dispatch }, { stripeToken, planType }) => {
     if (!getters.isLoggedIn) {
       throw new Error('You are not signed in.')
     }
 
-    return axios.post(`${BASE_URL}/subscription`, { stripeToken, planType })
+    await axios.post(`${BASE_URL}/subscription`, { stripeToken, planType })
+    return dispatch('fetchMyProfileData')
   },
 
-  cancelSubscription: ({ commit, getters }) => {
+  cancelSubscription: async ({ commit, getters, dispatch }) => {
     if (!getters.isLoggedIn) {
       throw new Error('Your are not signed in.')
     }
 
-    return axios.delete(`${BASE_URL}/subscription`)
+    await axios.delete(`${BASE_URL}/subscription`)
+    return dispatch('fetchMyProfileData')
   }
 }

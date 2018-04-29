@@ -18,31 +18,7 @@
             class="link">contributor</router-link>.
         </div>
       </div>
-      <div
-        v-if="showBeta"
-        class="row">
-        <div
-          v-if="showBeta"
-          class="col-md-12 text-center">
-          <h3> Check out the apps: </h3>
 
-          <a
-            href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
-            target="_blank">
-            <img
-              src="@/assets/iosstore.png"
-              class="icon">
-          </a>
-
-          <a
-            href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en"
-            target="_blank">
-            <img
-              src="@/assets/androidstore.png"
-              class="icon">
-          </a>
-        </div>
-      </div>
       <div class="row">
         <transition
           name="fade"
@@ -86,8 +62,24 @@ export default {
     showBeta () {
       return this.$route.path === '/'
     },
-    ...mapGetters(['isLoggedIn'])
-  }
+    ...mapGetters(['isLoggedIn', 'metaTag'])
+  },
+  // as parent component, these meta tags will appear with defaults
+  // in <head></head> unless overwritten with same id in child component
+  metaInfo() {
+    return {
+      title: 'Software Daily',
+      meta: [
+        this.metaTag('twitter:card'),
+        this.metaTag('twitter:site'),
+        this.metaTag('twitter:creator'),
+        this.metaTag('og:url'),
+        this.metaTag('og:title'),
+        this.metaTag('og:description'),
+        this.metaTag('og:image'),
+      ]
+    }
+  },
 }
 </script>
 
@@ -117,7 +109,13 @@ export default {
   background primary-color
   color white
   padding 10px 20px
+  border none
+  border-radius 3px
+  text-align center
+  transition all .15s ease
   cursor pointer
+.button-submit:hover
+  background #a591ff
 
 .button-submit-small
   background primary-color

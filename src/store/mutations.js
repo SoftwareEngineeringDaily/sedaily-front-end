@@ -84,7 +84,6 @@ export default {
       }
     })
     const ids = list.map((thread) => thread._id)
-    console.log('ids', ids)
     Vue.set(state, 'forumThreadIdsList', ids)
   },
 

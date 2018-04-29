@@ -1,16 +1,36 @@
 <template>
   <div class="news-post">
-    <voting-arrows
-      :upvoted="post.upvoted"
-      :downvoted="post.downvoted"
-      :upvote-handler="upvoteHandler"
-      :downvote-handler="downvoteHandler"
-      :score="post.score" />
-    <div class="news-content">
-      <div
-        :style="imageStyle"
-        class="image">
+    <div class="post-summary">
+      <div class="voting-arrows"  v-if="!hideVoting">
+        <voting-arrows
+          :upvoted="post.upvoted"
+          :downvoted="post.downvoted"
+          :upvote-handler="upvoteHandler"
+          :downvote-handler="downvoteHandler"
+          :score="post.score" />
+      </div>
+      <div class="image-holder">
         <div
+          :style="imageStyle"
+          class="image">
+        </div>
+      </div>
+      <div class="title">
+        <template v-if="post.url">
+          <a
+            :href="post.url"
+            target="_blank">{{ post.title.rendered | decodeString }}</a>
+          <span class="host"> ({{ post.url | host }})</span>
+        </template>
+        <template v-else>
+          <router-link :to="postPrettyUrl">{{ post.title.rendered | decodeString }}</router-link>
+        </template>
+      </div>
+    </div>
+
+    <div class="news-content">
+      <div class="player">
+        <span
           v-if="post.mp3"
           class="player-controls">
           <span
@@ -23,43 +43,16 @@
             class="fa fa-2x fa-pause player-control"
             title="pause"
             @click="pause" />
-        </div>
-        <div
+        </span>
+        <span
           v-else
           class="player-controls">
           <span
             class="fa fa-2x fa-file-text-o text-only"
             title="Text-only" />
-        </div>
-      </div>
-
-      <div class="title">
-        <!-- <img class="play-icon" src="../assets/play.png" alt="play">-->
-        <template v-if="post.url">
-          <a
-            :href="post.url"
-            target="_blank">{{ post.title.rendered | decodeString }}</a>
-          <span class="host"> ({{ post.url | host }})</span>
-        </template>
-        <template v-else>
-          <router-link :to="'/post/' + post._id">{{ post.title.rendered | decodeString }}</router-link>
-        </template>
-      </div>
-
-      <div class="meta">
-        <!-- <span v-if="post.type !== 'job'" class="by">
-          by <router-link :to="'/user/' + post.by">{{ post.by }}</router-link>
-        </span> -->
-        <span class="time">
-          <!-- {{ post.time | timeAgo }} ago -->
-          {{ date }}
         </span>
-        <!-- <span v-if="post.type !== 'job'" class="comments-link">
-        | <router-link :to="'/post/' + post._id">{{ post.descendants }} comments</router-link>
-      </span> -->
       </div>
-
-      <!-- <span class="label" v-if="post.type !== 'story'">{{ post.type }}</span> -->
+      <div class="time">{{ date }}</div>
     </div>
   </div>
 </template>
@@ -67,12 +60,17 @@
 <script>
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
+import { postPrettyUrl } from './../utils/post.utils'
 import { PlayerState } from './../utils/playerState'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'PostSummary',
   props: {
+    hideVoting: {
+      type: Boolean,
+      deault: false
+    },
     post: {
       type: Object,
       required: true
@@ -81,21 +79,8 @@ export default {
   components: { VotingArrows },
   computed: {
     ...mapState(['activePlayerPost', 'playerState']),
-    postUrlTitle () {
-      try {
-        const originalTitle = this.post.title.rendered
-        if (originalTitle) {
-          let title = originalTitle.replace(/[^\w\s]/gi, '')
-          // Ghetto way to replace strings, should use regex:
-          title = title.split(' ').join('-')
-          return title
-        } else {
-          return ''
-        }
-      } catch (e) {
-        console.log('e', e)
-        return ''
-      }
+    postPrettyUrl () {
+      return postPrettyUrl(this.post)
     },
 
     featuredImage () {
@@ -139,6 +124,9 @@ export default {
       }
     },
     upvoteHandler () {
+      // TODO: Fix this action, it will error if it's being called
+      // and there is no episode stored for this id in the store, which
+      // can happen if rendered from forum:
       console.log(this.post)
       this.$store.dispatch('upvote', {
         id: this.post._id
@@ -158,83 +146,65 @@ export default {
 
 .news-post
   display inline-flex
-  flex-direction row
+  flex-direction column
   background-color #fff
   border-bottom 2px solid #eee
   border-left 2px solid #eee
-  position relative
-  line-height 20px
-  height 220px
+  padding 15px
   width 50%
 
-  .news-content
-    display inline-flex
-    flex-direction column
-    justify-content center
-    align-items center
-    width 80%
-    max-width 100%
+.post-summary
+  display flex
+  flex-direction row
+  justify-content center
+  align-items center
+  .voting-arrows
+    flex 10%
+  .image-holder
+    flex 20%
+    .image
+      border-radius 76px
+      height 76px
+      width 76px
+      margin 7px
+  .title
+    flex 70%
+    a
+      font-size 1.1em
+      color primary-color
+      &:hover
+        text-decoration underline
+        font-weight bold
 
-  .image
-    display flex
-    align-content  center
-    align-items center
-    justify-content center
-    box-shadow 0 0 3px 3px #ccc
-    height 96px
-    width 192px
+.news-content
+  margin-top 10px
+  display flex
+  flex-direction row
+  justify-content center
+  align-items center
+  color #999
+  background idle-background
+  &:hover
+    color white
+    background primary-color
+
+  .player
+    flex 10%
+    padding 10px
     .player-controls
-      color white
-      margin 0 10px
       .player-control
-        text-shadow 2px 2px #999
         width 25px
         margin 0 10px
         cursor pointer
         &.text-only
           cursor default
 
-  .play-button
-    width 80px
-    height 80px
-    position absolute
-    top 30px
-    left 70px
-    cursor pointer
-
-    .play-icon
-      width 80px
-  .title
-    margin-top 10px
-    padding 10px
-    width 100%
-    text-align center
-    background idle-background
-    &:hover
-      background primary-color
       a
         color white
     a
       color idle-foreground
-
-
-  .meta, .host
-    font-size .85em
-    color #999
-    margin-top 5px
-    width 100%
-    text-align left
-    a
-      color #999
-      text-decoration underline
-      &:hover
-        color #3F58AF
-
-.voting
-  display inline-flex
-  flex-direction column
-  justify-content center
-  align-items center
+  .time
+    flex 90%
 
 @media (max-width 576px)
   .news-post

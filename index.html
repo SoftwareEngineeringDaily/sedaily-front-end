@@ -8,7 +8,37 @@
     <!--for prerender.io https://prerender.io/documentation-->
     <meta name="fragment" content="!">
 
+    <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+
+
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel="stylesheet">
+    <style>
+
+
+    .tribute-container li {
+      background: white;
+      padding: 10px 20px;
+      list-style: none;
+      border-bottom: 1px solid grey;
+    }
+    ul.tribute-container {
+    }
+    .tribute-container li.highlight {
+      background: cyan;
+      padding: 10 20px;
+    }
+
+    .tribute-container li:hover {
+      background: grey;
+      padding: 10 20px;
+    }
+
+    .tribute-container li.no-match {
+      display: none;
+    }
+
+
+    </style>
   </head>
   <body>
     <div id="app"></div>

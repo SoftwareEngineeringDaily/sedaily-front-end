@@ -4,9 +4,9 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  commentsCreate ({ commit, getters }, { content, entityId, rootEntityType, parentCommentId }) {
-    const options = { content, entityType: rootEntityType }
-    console.log('type?', options.entityType)
+  commentsCreate ({ commit, getters }, { content, entityId, rootEntityType, parentCommentId, mentions }) {
+    const options = { content, entityType: rootEntityType, mentions }
+    console.log('comment options', options)
     if (parentCommentId) options.parentCommentId = parentCommentId
 
     const url = `${BASE_URL}/comments/forEntity/${entityId}`
@@ -32,6 +32,14 @@ export default {
         commit('setComment', { entity: comment })
         return response
       })
+  },
+
+  editComment: ({ commit, getters, state }, { content, mentions, id }) => {
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('Login to edit your comment')
+      return
+    }
+    return axios.put(`${BASE_URL}/comments/${id}`, {content, mentions})
   },
 
   removeComment: ({ commit, getters, state }, { id }) => {

@@ -13,8 +13,7 @@ describe('The Register Page', function () {
       url: '/api/posts*',
       response: [],
     })
-    // not able to visit login directly with vue-router, need hash first
-    cy.visit('/#/register')
+    cy.visit('/register')
     .then(() => {
       cy.get('input[name=username]').type(this.registrationJSON.user.username)
       cy.get('input[name=password]').type(this.registrationJSON.user.password)
