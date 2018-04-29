@@ -34,8 +34,9 @@ export default {
     'twitter:site': '@software_daily',
     'twitter:creator': '@the_prion',
     'og:url': location.origin,
-    'og:title': 'Software Engineering Daily',
-    'og:description': 'Software Engineering Daily episodes, forum, job board and more...',
+    'og:title': 'Software Daily',
+    'og:description': 'Software Daily podcast episodes, forum, job board and more...',
+    'description': 'Software Daily podcast episodes, forum, job board and more...',
     'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
   }
 }
