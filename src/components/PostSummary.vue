@@ -1,7 +1,7 @@
 <template>
   <div class="news-post">
     <div class="post-summary">
-      <div class="voting-arrows">
+      <div class="voting-arrows"  v-if="!hideVoting">
         <voting-arrows
           :upvoted="post.upvoted"
           :downvoted="post.downvoted"
@@ -62,11 +62,16 @@ import moment from 'moment'
 import VotingArrows from 'components/VotingArrows'
 import { postPrettyUrl } from '@/utils/post.utils'
 import { PlayerState } from '@/utils/playerState'
+
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'PostSummary',
   props: {
+    hideVoting: {
+      type: Boolean,
+      deault: false
+    },
     post: {
       type: Object,
       required: true
@@ -120,6 +125,9 @@ export default {
       }
     },
     upvoteHandler () {
+      // TODO: Fix this action, it will error if it's being called
+      // and there is no episode stored for this id in the store, which
+      // can happen if rendered from forum:
       console.log(this.post)
       this.$store.dispatch('upvote', {
         id: this.post._id

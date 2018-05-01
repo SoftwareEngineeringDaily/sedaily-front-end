@@ -9,7 +9,9 @@
       </div>
       <hr />
       <div class='forum-podcast-card' v-if="podcastEpisode">
-            <post-summary :post="podcastEpisode">
+            <post-summary
+              :hideVoting="true"
+              :post="podcastEpisode">
             </post-summary>
             <br/>
             <br/>
