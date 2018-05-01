@@ -80,6 +80,12 @@ export default {
           })
             .then((response) => {
               if (response.data.token) {
+                this.$store.dispatch('loginEvent', {
+                  username
+                })
+                  .then((eventResponse) => {
+                    // Ignore response for now
+                  })
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')
                 } else {

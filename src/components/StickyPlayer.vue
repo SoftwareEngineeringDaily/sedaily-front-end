@@ -3,7 +3,8 @@
     <a-player :music="music"
       @finished="onFinished"
       :playing.sync="isPlaying"
-      :paused.sync="isPaused" />
+      :paused.sync="isPaused"
+      :playEvent.sync="playEvent" />
   </div>
 </template>
 
@@ -20,7 +21,8 @@ export default {
   data () {
     return {
       isPaused: false,
-      isPlaying: false
+      isPlaying: false,
+      playEvent: {}
     }
   },
   computed: {
@@ -40,13 +42,18 @@ export default {
   methods: {
     ...mapActions([
       'updatePlayerState',
-      'playEpisode'
+      'playEpisode',
+      'playEpisodeEvent',
+      'completedEpisodeEvent'
     ]),
     onFinished () {
       const nextEpisode = this.getNextEpisode(this.activePlayerPost)
       if (nextEpisode) {
         this.playEpisode(nextEpisode)
       }
+      this.completedEpisodeEvent({
+        episodeName: this.activePlayerPost.title.rendered
+      })
     }
   },
   watch: {
@@ -58,6 +65,15 @@ export default {
     isPaused (newValue) {
       if (newValue) {
         this.updatePlayerState(PlayerState.PAUSED)
+      }
+    },
+    playEvent (newValue) {
+      if (newValue) {
+        this.playEpisodeEvent({
+          minutesPlayed: newValue.minutesPlayed,
+          minutesRemaining: newValue.minutesRemaining,
+          episodeName: this.activePlayerPost.title.rendered
+        })
       }
     },
     playerState (newValue) {
