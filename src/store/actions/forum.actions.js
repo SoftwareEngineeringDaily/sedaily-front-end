@@ -9,15 +9,6 @@ export default {
     const options = { content, title }
 
     const requestUrl = `${BASE_URL}/forum/`
-
-
-    this.$ga.event({
-      eventCategory: 'forum',
-      eventAction: 'create forum thread',
-      eventLabel: 'label',
-      eventValue: {content, title}
-    });
-
     return axios.post(requestUrl, options)
   },
 

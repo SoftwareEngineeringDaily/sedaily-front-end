@@ -36,6 +36,14 @@ export default {
       'forumThreadCreate'
     ]),
     submitCallback ({title, content}) {
+
+      this.$ga.event({
+        eventCategory: 'forum',
+        eventAction: 'create forum thread',
+        eventLabel: 'label',
+        eventValue: {content, title}
+      });
+
       this.forumThreadCreate({
         title,
         content
