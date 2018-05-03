@@ -41,7 +41,7 @@ export default {
         eventCategory: 'forum',
         eventAction: 'create forum thread',
         eventLabel: 'label',
-        eventValue: {content, title}
+        eventValue: 120 
       });
 
       this.forumThreadCreate({
