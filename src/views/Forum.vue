@@ -67,7 +67,13 @@ export default {
   },
 
   beforeMount () {
-    // this.loadMore(true)
+    this.$ga.event({
+      eventCategory: 'forum',
+      eventAction: 'load Forum',
+      eventLabel: 'label',
+      eventValue: 123
+    });
+    console.log('load forum');
   },
 
   methods: {
