@@ -45,6 +45,18 @@ export default {
   forumThreadDelete: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('Login to delete your post.')
+      commit('analytics', {
+        meta : {
+          analytics: [
+            ['event', {
+              eventCategory: 'forum',
+              eventAction: 'error, logged out- delete thread',
+              eventLabel: id,
+              eventValue: 1
+            }]
+          ]
+        }
+      })
       return
     }
 
@@ -67,6 +79,18 @@ export default {
   forumThreadLike: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to vote')
+      commit('analytics', {
+        meta : {
+          analytics: [
+            ['event', {
+              eventCategory: 'forum',
+              eventAction: 'error, logged out- like thread',
+              eventLabel: id,
+              eventValue: 1
+            }]
+          ]
+        }
+      })
       return
     }
 
