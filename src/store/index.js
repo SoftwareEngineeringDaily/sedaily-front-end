@@ -13,7 +13,7 @@ const store = new Vuex.Store({
   actions,
   mutations,
   getters,
-   plugins: [
+  plugins: [
     analyticsMiddleware
   ]
 })

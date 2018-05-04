@@ -9,6 +9,18 @@ export default {
     const options = { content, title }
 
     const requestUrl = `${BASE_URL}/forum/`
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'create thread',
+            eventLabel: title.substr(0,100),
+            eventValue: 1
+          }]
+        ]
+      }
+    })
     return axios.post(requestUrl, options)
   },
 
