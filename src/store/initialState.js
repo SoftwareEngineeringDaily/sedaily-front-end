@@ -37,5 +37,6 @@ export default {
     'og:title': 'Software Engineering Daily',
     'og:description': 'Software Engineering Daily episodes, forum, job board and more...',
     'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
-  }
+  },
+  analytics: ''
 }
