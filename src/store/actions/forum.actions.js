@@ -6,9 +6,6 @@ const BASE_URL = apiConfig.BASE_URL
 
 export default {
   forumThreadCreate ({ commit, getters }, { content, title }) {
-    const options = { content, title }
-
-    const requestUrl = `${BASE_URL}/forum/`
     commit('analytics', {
       meta : {
         analytics: [
@@ -21,10 +18,26 @@ export default {
         ]
       }
     })
+
+    const options = { content, title }
+    const requestUrl = `${BASE_URL}/forum/`
     return axios.post(requestUrl, options)
   },
 
   forumThreadEdit ({ commit, getters }, { content, title, id }) {
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'edit thread',
+            eventLabel: title.substr(0,100),
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     const url = `${BASE_URL}/forum/${id}`
     return axios.put(url, {content, title})
   },
@@ -34,6 +47,20 @@ export default {
       Vue.toasted.error('Login to delete your post.')
       return
     }
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'delete thread',
+            eventLabel: id,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.delete(`${BASE_URL}/forum/${id}`)
   },
 
@@ -42,6 +69,20 @@ export default {
       Vue.toasted.error('You must login to vote')
       return
     }
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'like thread',
+            eventLabel: id,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     // commit('likeComment', { commentId: id, entityId, parentCommentId })
     return axios.post(`${BASE_URL}/forum/${id}/upvote`, {}).then((response) => {
       const forumThread = response.data.entity
