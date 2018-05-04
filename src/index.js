@@ -53,8 +53,8 @@ Vue.use(VeeValidate, {
 })
 
 Vue.use(VueAnalytics, {
-  // id: 'UA-111896817-1', // PROD
-  id: 'UA-118659350-1', // STAGING
+  id: 'UA-111896817-1', // PROD
+  // id: 'UA-118659350-1', // STAGING
   checkDuplicatedScript: true,
   router
 })
