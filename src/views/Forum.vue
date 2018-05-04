@@ -69,17 +69,14 @@ export default {
   beforeMount () {
     this.$ga.event({
       eventCategory: 'forum',
-      eventAction: 'load Forum',
-      eventLabel: 'label',
-      eventValue: 123
-    });
-    console.log('load forum');
+      eventAction: 'load forum',
+      eventLabel: 'viewing /'
+    })
   },
 
   methods: {
     ...mapActions(['fetchForumThreads']),
     loadMore (newSearch = false) {
-      console.log('Fetching load more')
       if (this.endOfPosts) {
         return
       }
@@ -95,14 +92,12 @@ export default {
 
       this.$store.dispatch('fetchForumThreads', params)
         .then((result) => {
-          console.log('result', result)
           if (newSearch) {
             this.displayedPosts = []
           }
 
           if (result && result.length > 0) {
             this.displayedPosts = this.displayedPosts.concat(result)
-            console.log('displayedPosts', this.displayedPosts)
           } else {
             this.endOfPosts = true
           }
@@ -112,6 +107,11 @@ export default {
         // TODO: log events
           this.endOfPosts = true
           this.loading = false
+        })
+        this.$ga.event({
+          eventCategory: 'forum',
+          eventAction: 'forum load more',
+          eventLabel: `posts count: ${this.displayedPosts.length}`
         })
     }
   },
