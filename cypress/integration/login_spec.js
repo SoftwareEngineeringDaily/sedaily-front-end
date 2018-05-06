@@ -1,23 +1,21 @@
-describe('The Login Page', function () {
-  it('Successfully logs user in', function () {
-    cy.fixture('token').as('tokenJSON')
-    cy.server()
-    cy.route({
-      method: 'POST',
-      url: '/api/auth/login',
-      response: '@tokenJSON',
-    })
-    // for redirect to home stub GET posts request
-    cy.route({
-      method: 'GET',
-      url: '/api/posts*',
-      response: [],
-    })
-    cy.visit('/login')
-    cy.fixture('user')
-    .then((userJSON) => {
-      cy.get('input[name=username]').type(userJSON.user.username)
-      cy.get('input[name=password]').type(userJSON.user.password)
+const uuidv4 = require('uuid/v4')
+
+describe('End-to-End: The Login Page', function () {
+  const existingUser = {}
+  before(function () {
+    // create existing user
+    const randomName = uuidv4()
+    existingUser.username = randomName
+    existingUser.name = randomName
+    existingUser.email = `${randomName}@mail.com`
+    existingUser.password = 'fakePassword'
+    cy.request('POST', 'http://localhost:4040/api/auth/register', existingUser)
+  })
+  it('Successfully logs user in and out', function () {
+    cy.visit('/#/login')
+    .then(() => {
+      cy.get('input[name=username]').type(existingUser.username)
+      cy.get('input[name=password]').type(existingUser.password)
       cy.get('button[name=submit-button]').click()
     })
     cy.location().should((loc) => {
@@ -26,7 +24,40 @@ describe('The Login Page', function () {
     cy.get('a[href="/profile"]').should('contain', 'Profile')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
-      expect(win.localStorage['token']).to.eq(this.tokenJSON.token)
+      expect(win.localStorage.token).to.have.length.above(1)
     })
+    cy.contains('Logout').click()
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/')
+    })
+    cy.get('a[href="/login"]').should('exist')
+    cy.window().then((win) => {
+      expect(win.localStorage).to.have.any.keys('token')
+      expect(win.localStorage.token).to.have.lengthOf(0)
+    })
+  })
+  it('Displays error when registering non-existing user', function () {
+    cy.visit('/#/login')
+    .then(() => {
+      cy.get('input[name=username]').type(uuidv4())
+      cy.get('input[name=password]').type('whatever')
+      cy.get('button[name=submit-button]').click()
+    })
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/login')
+    })
+    cy.get('.toasted.error').should('contain', 'User not found')
+  })
+  it('Displays error when password not correct', function () {
+    cy.visit('/#/login')
+    .then(() => {
+      cy.get('input[name=username]').type(existingUser.username)
+      cy.get('input[name=password]').type('wrong')
+      cy.get('button[name=submit-button]').click()
+    })
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq('/login')
+    })
+    cy.get('.toasted.error').should('contain', 'Password is incorrect')
   })
 })
