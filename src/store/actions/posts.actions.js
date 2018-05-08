@@ -25,6 +25,19 @@ export default {
       url += `&tags=${tagString}`
     }
 
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchListData',
+            eventLabel: `url: ${url}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.get(url)
       .then((response) => {
         commit('setList', { type, posts: response.data })
@@ -43,6 +56,20 @@ export default {
     let url = `${BASE_URL}/posts/recommendations?page=${page}`
     if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
     if (category) url += `&categories=${category}`
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchRecommendations',
+            eventLabel: `url: ${url}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.get(url)
       .then((response) => {
         commit('setList', { type, posts: response.data })
@@ -57,7 +84,21 @@ export default {
       })
   },
 
+  // aka fetchPost
   fetchArticle: ({ commit, state, getters }, { id }) => {
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchArticle',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.get(`${BASE_URL}/posts/${id}`)
       .then((response) => {
         var post = response.data
@@ -78,6 +119,20 @@ export default {
     }
     commit('upVote', { articleId: id })
     const article = state.posts[id]
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'upvote',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.post(`${BASE_URL}/posts/${article._id}/upvote`)
   },
 
@@ -88,6 +143,20 @@ export default {
     }
     commit('downVote', { articleId: id })
     const article = state.posts[id]
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'downvote',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.post(`${BASE_URL}/posts/${article._id}/downvote`)
   }
 }
