@@ -4,7 +4,6 @@ import { repliesToIds } from '@/utils/comment.utils'
 
 export default {
   analytics: (state, {}) => {
-    console.log('analytics')
     state.analytics = ''
   },
 

@@ -12,7 +12,7 @@ export default {
           ['event', {
             eventCategory: 'forum',
             eventAction: 'create thread',
-            eventLabel: title.substr(0,100),
+            eventLabel: title ? title.substr(0,100) : '',
             eventValue: 1
           }]
         ]
@@ -31,7 +31,7 @@ export default {
           ['event', {
             eventCategory: 'forum',
             eventAction: 'edit thread',
-            eventLabel: title.substr(0,100),
+            eventLabel: title? title.substr(0,100) : '',
             eventValue: 1
           }]
         ]
@@ -120,7 +120,21 @@ export default {
     if (!lastActivityBefore) lastActivityBefore = moment().toISOString()
     let requestUrl = `${BASE_URL}/forum?`
     if (lastActivityBefore) requestUrl += `&lastActivityBefore=${lastActivityBefore}`
-    console.log('requestUrl', requestUrl)
+
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'fetchForumThreads',
+            eventLabel: `lastActivityBefore: ${lastActivityBefore}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.get(requestUrl)
       .then((response) => {
         const forumThreads = response.data
@@ -130,6 +144,20 @@ export default {
   },
 
   fetchForumThread: ({ commit, state, getters }, { id }) => {
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'forum',
+            eventAction: 'fetchForumThread',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.get(`${BASE_URL}/forum/${id}`)
       .then((response) => {
         const forumThread = response.data
