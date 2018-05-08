@@ -98,7 +98,7 @@ export default {
             ['event', {
               eventCategory: 'errors',
               eventAction: `applyToJob`,
-              eventLabel: `${companyName} - jobId: ${jobId}`,
+              eventLabel: ` jobId: ${jobId}`,
               eventValue: 1
             }]
           ]
@@ -123,7 +123,7 @@ export default {
           ['event', {
             eventCategory: 'jobs',
             eventAction: `applyToJob`,
-            eventLabel: `${companyName} - jobId: ${jobId}`,
+            eventLabel: `jobId: ${jobId}`,
             eventValue: 1
           }]
         ]
