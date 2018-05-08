@@ -76,6 +76,7 @@ export default {
             }]
           ]
         }
+      })
 
     return axios.put(`${BASE_URL}/jobs/${jobId}`, {
       companyName,
