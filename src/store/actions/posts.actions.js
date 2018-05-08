@@ -115,6 +115,19 @@ export default {
   upvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to vote')
+
+      commit('analytics', {
+        meta : {
+          analytics: [
+            ['event', {
+              eventCategory: 'errors',
+              eventAction: 'upvote -- not logged in',
+              eventLabel: id,
+              eventValue: 1
+            }]
+          ]
+        }
+      })
       return
     }
     commit('upVote', { articleId: id })
@@ -139,6 +152,19 @@ export default {
   downvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to vote')
+
+      commit('analytics', {
+        meta : {
+          analytics: [
+            ['event', {
+              eventCategory: 'errors',
+              eventAction: 'downvote -- not logged in',
+              eventLabel: id,
+              eventValue: 1
+            }]
+          ]
+        }
+      })
       return
     }
     commit('downVote', { articleId: id })
