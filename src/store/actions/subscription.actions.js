@@ -35,7 +35,6 @@ export default {
       }
     })
 
-
     return dispatch('fetchMyProfileData')
   },
 
