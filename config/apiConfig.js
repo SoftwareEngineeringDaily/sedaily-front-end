@@ -15,5 +15,6 @@ function getApiConfig() {
 }
 
 module.exports = {
-	apiConfig: getApiConfig()
+	apiConfig: getApiConfig(),
+	eventApiEnv: (process.env.EVENT_API_ENV == 'production') ? process.env.EVENT_API_ENV : 'test'
 }
