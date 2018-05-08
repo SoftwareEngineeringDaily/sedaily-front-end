@@ -49,7 +49,7 @@ export default {
         meta : {
           analytics: [
             ['event', {
-              eventCategory: 'forum',
+              eventCategory: 'errors',
               eventAction: 'error, logged out- delete thread',
               eventLabel: id,
               eventValue: 1
@@ -83,7 +83,7 @@ export default {
         meta : {
           analytics: [
             ['event', {
-              eventCategory: 'forum',
+              eventCategory: 'errors',
               eventAction: 'error, logged out- like thread',
               eventLabel: id,
               eventValue: 1

@@ -36,7 +36,7 @@ export default {
           meta : {
             analytics: [
               ['event', {
-                eventCategory: 'error',
+                eventCategory: 'errors',
                 eventAction: 'error login in',
                 eventLabel: `${username}`,
                 eventValue: 1
@@ -89,7 +89,7 @@ export default {
           meta : {
             analytics: [
               ['event', {
-                eventCategory: 'error',
+                eventCategory: 'errors',
                 eventAction: 'register error',
                 eventLabel: `${email}`,
                 eventValue: 1
