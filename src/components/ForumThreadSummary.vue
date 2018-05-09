@@ -96,7 +96,7 @@ export default {
     lastAcitivityDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateLastAcitiy)
-          .startOf('hour').fromNow()
+          .startOf('second').fromNow()
       }
     }
   }
