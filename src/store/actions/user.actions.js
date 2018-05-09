@@ -34,7 +34,21 @@ export default {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },
 
-  updateEmailNotiicationSettings: ({ dispatch }, { emailNotificationSettings }) => {
+  updateEmailNotiicationSettings: ({ commit, dispatch }, { emailNotificationSettings }) => {
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'email-notifications',
+            eventAction: 'updateEmailNoticationSettings',
+            eventLabel: JSON.stringify(emailNotificationSettings),
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.put(`${BASE_URL}/users/update-email-notiication-settings`, emailNotificationSettings)
       .then((response) => {
         return dispatch('fetchMyProfileData')
@@ -48,6 +62,20 @@ export default {
   },
 
   updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'user',
+            eventAction: 'updateProfile',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,
