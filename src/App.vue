@@ -75,6 +75,7 @@ export default {
         this.metaTag('twitter:creator'),
         this.metaTag('og:url'),
         this.metaTag('og:title'),
+        this.metaTag('description'),
         this.metaTag('og:description'),
         this.metaTag('og:image'),
       ]
