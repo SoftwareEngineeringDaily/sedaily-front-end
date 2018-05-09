@@ -131,13 +131,16 @@ export default {
       return this.post.thread._id
     },
 
-    postContent () {
-      if (this.post.cleanedContent) {
-        return this.post.cleanedContent
-      } else {
-        return this.post.content.rendered
-      }
-    },
+   postContent () {
+     if (this.post.cleanedContent) {
+       return this.post.cleanedContent.split('<h2>Sponsors</h2>')[0]
+     }
+     else if (this.post.cleanedContent && this.post.content.rendered) {
+       return this.post.content.rendered.split('<h2>Sponsors</h2>')[0]
+     } else {
+       return ""
+     }
+   },
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
