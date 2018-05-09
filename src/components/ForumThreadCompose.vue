@@ -158,7 +158,6 @@ export default {
     ForumThreadBody
   },
   data () {
-    console.log('content', this.initialContent)
     return {
       title: this.initialTitle,
       content: this.initialContent,
@@ -181,6 +180,12 @@ export default {
   methods: {
     toggleMarkdownHelp () {
       this.shouldShowMarkDownHelp = !this.shouldShowMarkDownHelp
+
+      this.$ga.event({
+        eventCategory: 'forum',
+        eventAction: 'Toggle markdown help',
+        eventLabel: `shouldShowMarkDownHelp ${this.shouldShowMarkDownHelp}`
+      })
     },
 
     update: debounce(function (e) {
