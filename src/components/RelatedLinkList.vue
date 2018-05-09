@@ -2,9 +2,11 @@
   <div>
     <h4 class='section-title'> Related Links </h4>
     <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
-      <related-link :relatedLink="relatedLink"> </related-link>
+      <div @click="logLink(relatedLink.url)">
+        <related-link :relatedLink="relatedLink"></related-link>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -23,6 +25,11 @@ export default {
     return {
       loading: true,
       username: null
+    }
+  },
+  methods: {
+    logLink (url) {
+      console.log(url)
     }
   }
 }
