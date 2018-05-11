@@ -131,33 +131,36 @@ export default {
       return this.post.thread._id
     },
 
-    postContent () {
-      if (this.post.cleanedContent) {
-        return this.post.cleanedContent
-      } else {
-        return this.post.content.rendered
-      }
-    },
+   postContent () {
+     if (this.post.cleanedContent) {
+       return this.post.cleanedContent.split('<h2>Sponsors</h2>')[0]
+     }
+     else if (this.post.cleanedContent && this.post.content.rendered) {
+       return this.post.content.rendered.split('<h2>Sponsors</h2>')[0]
+     } else {
+       return ""
+     }
+   },
     post () {
       return this.$store.state.posts[this.$route.params.id]
     },
-    postSummary () {
+    metaDescription () {
       const maxLength = 400;
       const el = document.createElement('template')
       el.innerHTML = this.post.content.rendered.trim()
       // spans contain text to extract "summary"
       const paras = el.content.querySelectorAll('span')
-      let summary = '';
+      let description = '';
       for (let para of paras) {
-        summary += para.innerText + ' ';
-        if (summary.length >= maxLength) {
+        description += para.innerText + ' ';
+        if (description.length >= maxLength) {
           break;
         }
       }
-      if (summary.length > maxLength) {
-        return summary.substr(0, maxLength-3) + '...'
+      if (description.length > maxLength) {
+        return description.substr(0, maxLength-3) + '...'
       }
-      return summary;
+      return description;
     },
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
@@ -290,11 +293,15 @@ export default {
     if (!this.post) {
       return {}
     }
+    const title = `${this.post.title.rendered} | Software Daily`
+    const { metaDescription } = this
     return {
+      title,
       meta: [
-        this.metaTag('og:title', this.post.title.rendered),
+        this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.postSummary),
+        this.metaTag('og:description', metaDescription),
+        this.metaTag('description', metaDescription),
         // links must use https
         this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]

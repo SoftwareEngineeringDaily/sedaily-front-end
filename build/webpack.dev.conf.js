@@ -17,7 +17,8 @@ module.exports = merge(baseWebpackConfig, {
     contentBase: path.join(__dirname, 'dist'),
     open: true,
     compress: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    overlay: true
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -114,12 +114,13 @@ export default {
         return moment(this.job.postedDate).format('MMMM Do, YYYY')
       }
     }),
-    jobDescriptionSummary() {
+    metaDescription() {
       const maxLength = 400;
-      if (this.job.description.length > maxLength) {
-        return this.job.description.substr(0, maxLength-3) + '...'
+      const { job: { description } } = this
+      if (description.length > maxLength) {
+        return description.substr(0, maxLength-3) + '...'
       }
-      return this.job.description
+      return description
     }
   },
   metaInfo() {
@@ -127,11 +128,15 @@ export default {
     if (!this.job) {
       return {}
     }
+    const title = `${this.job.title} | Software Daily`
+    const { metaDescription } = this
     return {
+      title,
       meta: [
-        this.metaTag('og:title', this.job.title),
+        this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        this.metaTag('og:description', this.jobDescriptionSummary)
+        this.metaTag('description', metaDescription),
+        this.metaTag('og:description', metaDescription)
       ]
     }
   }

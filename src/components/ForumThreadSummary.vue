@@ -77,6 +77,12 @@ export default {
         const forumThread = data.entity
         this.forumThreadLocal = forumThread
       })
+
+      this.$ga.event({
+        eventCategory: 'forum',
+        eventAction: 'upvote thread from - summary view',
+        eventLabel: `upvoted: ${this.forumThread._id}`
+      })
     }
   },
   computed: {
@@ -90,7 +96,7 @@ export default {
     lastAcitivityDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateLastAcitiy)
-          .startOf('hour').fromNow()
+          .startOf('second').fromNow()
       }
     }
   }

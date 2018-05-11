@@ -223,7 +223,7 @@ export default {
 
     date (comment) {
       if (comment.dateCreated) {
-        return moment(comment.dateCreated).startOf('hour').fromNow()
+        return moment(comment.dateCreated).startOf('second').fromNow()
       } else {
         return 'Now'
       }
