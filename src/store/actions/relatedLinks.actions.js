@@ -8,6 +8,20 @@ export default {
     const options = { url, title }
 
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'related-links',
+            eventAction: 'relatedLinksCreate',
+            eventLabel: `url: ${url}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.post(requestUrl, options)
   },
 
@@ -20,6 +34,20 @@ export default {
       Vue.toasted.error('Error with that link')
       return
     }
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'related-links',
+            eventAction: 'removeRelatedLink',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.delete(`${BASE_URL}/related-links/${id}`)
   },
 
@@ -29,6 +57,20 @@ export default {
       return
     }
     commit('upvoteRelatedLink', { id, postId })
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'related-links',
+            eventAction: 'upvoteRelatedLink',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.post(`${BASE_URL}/related-links/${id}/upvote`, {})
   },
 
@@ -38,6 +80,20 @@ export default {
       return
     }
     commit('downvoteRelatedLink', { id, postId })
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'related-links',
+            eventAction: 'downvoteRelatedLink',
+            eventLabel: `id: ${id}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
     return axios.post(`${BASE_URL}/related-links/${id}/downvote`)
   },
 

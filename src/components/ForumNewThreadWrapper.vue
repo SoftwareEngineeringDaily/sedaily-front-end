@@ -24,6 +24,14 @@ export default {
       required: true
     }
   },
+
+  beforeMount () {
+    this.$ga.event({
+      eventCategory: 'forum',
+      eventAction: 'new thread form loaded',
+      eventLabel: 'viewing /new-thread'
+    })
+  },
   components: { ForumThreadCompose },
   data () {
     return {

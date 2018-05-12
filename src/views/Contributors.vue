@@ -57,6 +57,10 @@ export default {
           'github': 'erikawho'
         },
         {
+          'name': 'AbdulBasit Kabir',
+          'github': 'abdulbasitkay'
+        },
+        {
           'name': 'Jeffrey Meyerson',
           'github': 'crablar'
         },

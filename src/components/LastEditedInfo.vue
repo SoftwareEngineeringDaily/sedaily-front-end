@@ -19,7 +19,7 @@ export default {
     lastEdited () {
       if (!this.lastEditedTimestamp) return false
       return moment(this.lastEditedTimestamp)
-      .startOf('hour').fromNow()
+      .startOf('second').fromNow()
     }
   }
 }

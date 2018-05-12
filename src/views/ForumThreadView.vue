@@ -100,7 +100,7 @@ export default {
     creationDate () {
       if (this.forumThread) {
         return moment(this.forumThread.dateCreated)
-          .startOf('hour').fromNow()
+          .startOf('second').fromNow()
       }
     },
     isMyThread () {

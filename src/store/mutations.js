@@ -3,6 +3,9 @@ import find from 'lodash/find'
 import { repliesToIds } from '@/utils/comment.utils'
 
 export default {
+  analytics: (state, {}) => {
+    state.analytics = ''
+  },
 
   setActivePostInPlayer: (state, { post }) => {
     state.activePlayerPost = post

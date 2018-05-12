@@ -38,5 +38,6 @@ export default {
     'og:description': 'Software Daily podcast episodes, forum, job board and more...',
     'description': 'Software Daily podcast episodes, forum, job board and more...',
     'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
-  }
+  },
+  analytics: ''
 }
