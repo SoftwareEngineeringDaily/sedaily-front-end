@@ -20,6 +20,8 @@ describe('End-to-End: The Login Page', function () {
       expect(loc.pathname).to.eq('/')
     })
     cy.get('a[href="/profile"]').should('contain', 'Profile')
+    cy.get('a[href="/login"]').should('not.exist')
+    cy.get('a[href="/register"]').should('not.exist')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
       expect(win.localStorage.token).to.have.length.above(1)
@@ -29,6 +31,7 @@ describe('End-to-End: The Login Page', function () {
       expect(loc.pathname).to.eq('/')
     })
     cy.get('a[href="/login"]').should('exist')
+    cy.get('a[href="/register"]').should('exist')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
       expect(win.localStorage.token).to.have.lengthOf(0)

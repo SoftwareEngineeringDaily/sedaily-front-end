@@ -33,6 +33,8 @@ describe('End-to-End: The Register Page', function () {
       expect(loc.pathname).to.eq('/')
     })
     cy.get('a[href="/profile"]').should('contain', 'Profile')
+    cy.get('a[href="/login"]').should('not.exist')
+    cy.get('a[href="/register"]').should('not.exist')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
     })
