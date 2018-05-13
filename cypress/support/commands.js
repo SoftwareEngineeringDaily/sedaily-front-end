@@ -46,3 +46,15 @@ Cypress.Commands.add('register', () => {
   .request('POST', endpoint, user)
   .then((resp) => ({ user, resp }))
 })
+
+Cypress.Commands.add('login', () => {
+  return cy.register().then(({ user }) => {
+    cy.visit('/#/login').then(() => {
+      cy.get('input[name=username]').type(user.username)
+      cy.get('input[name=password]').type(user.password)
+      cy.location().then(() => {
+        return { user }
+      })
+    })
+  })
+})
