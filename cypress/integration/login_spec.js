@@ -1,15 +1,13 @@
 const uuidv4 = require('uuid/v4')
 
 describe('End-to-End: The Login Page', function () {
-  const existingUser = {}
+  let existingUser
   before(function () {
     // create existing user
-    const randomName = uuidv4()
-    existingUser.username = randomName
-    existingUser.name = randomName
-    existingUser.email = `${randomName}@mail.com`
-    existingUser.password = 'fakePassword'
-    cy.request('POST', 'http://localhost:4040/api/auth/register', existingUser)
+    cy.register()
+    .then(({ user }) => {
+      existingUser = user
+    })
   })
   it('Successfully logs user in and out', function () {
     cy.visit('/#/login')

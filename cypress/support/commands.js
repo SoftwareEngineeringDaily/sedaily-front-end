@@ -1,3 +1,6 @@
+const uuidv4 = require('uuid/v4')
+const BASE_API_URL = 'http://localhost:4040/api'
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +26,23 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('register', () => {
+  /* usage:
+  cy.register()
+   .then(({ user, resp }) => {
+      //do something with user and/or resp
+   })
+  */
+  const endpoint = `${BASE_API_URL}/auth/register`
+  const randomName = uuidv4()
+  const user = {
+    username: randomName,
+    name: randomName,
+    email: `${randomName}@mail.com`,
+    password: 'fakePassword',
+  }
+  return cy
+  .request('POST', endpoint, user)
+  .then((resp) => ({ user, resp }))
+})
