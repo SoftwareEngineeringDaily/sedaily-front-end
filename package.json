@@ -7,7 +7,7 @@
   "scripts": {
     "launch": "npm run build && npm start",
     "dev": "webpack-dev-server --env development",
-    "dev:test": "webpack-dev-server --env test &",
+    "dev:test": "webpack-dev-server --env test",
     "dev:api-test": "node -e 'console.log(\"This command was renamed to dev:api-staging\")'",
     "dev:api-staging": "cross-env API_ENV=staging npm run dev",
     "dev:api-prod": "cross-env API_ENV=production npm run dev",
