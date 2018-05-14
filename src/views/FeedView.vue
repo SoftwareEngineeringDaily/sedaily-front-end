@@ -1,21 +1,20 @@
-
 <template>
   <div>
     <h1> Feed </h1>
     <div class="feed-list">
-      <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
+      <feed-item-wrapper v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     </div>
   </div>
 </template>
 
 <script>
-import FeedItem from '@/components/FeedItem.vue'
+import FeedItemWrapper from '@/components/FeedItemWrapper.vue'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',
 
   components: {
-    FeedItem
+    FeedItemWrapper
   },
 
   data () {
