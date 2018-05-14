@@ -5,7 +5,10 @@
     :key="feedItem._id"
     :forumThread="feedItem"/>
     <div v-else>
-      Feed Item
+      <feed-item
+      :feedItem="feedItem.relatedLink"
+      />
+
     </div>
 
   </div>
@@ -23,7 +26,8 @@
       }
     },
     components: {
-      ForumThreadSummary
+      ForumThreadSummary,
+      FeedItem
     },
     computed: {
       isThread () {
