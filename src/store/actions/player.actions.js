@@ -1,3 +1,7 @@
+import axios from 'axios'
+import { apiConfig } from '../../../config/apiConfig'
+const BASE_URL = apiConfig.BASE_URL
+
 export default {
   playEpisode ({ commit }, post) {
     commit('analytics', {
@@ -13,7 +17,10 @@ export default {
       }
     })
     commit('setActivePostInPlayer', { post })
+    const requestUrl = `${BASE_URL}/posts/${post._id}/listened`
+    return axios.post(requestUrl, {})
   },
+
   updatePlayerState ({ commit }, playerState) {
     commit('analytics', {
       meta : {
