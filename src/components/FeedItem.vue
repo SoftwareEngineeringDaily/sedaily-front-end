@@ -18,7 +18,11 @@
       <span class='item-title'>
         <router-link :to="'/link/' + feedItem._id"> {{feedItem.title}} </router-link>
       </span>
+
       <div class='item-misc'>
+        <div class='episode-info'>
+          Episode: {{ feedItem.post.title.rendered | decodeString }}
+        </div>
         Added by
         <span>
           <router-link :to="'/profile/' + feedItem.author._id">
@@ -142,6 +146,8 @@ export default {
 
 .votes-container
   padding-top 3px
+.episode-info
+  margin 8px 0
 
 @media (min-width: 576px)
   .votes-container
