@@ -1,8 +1,7 @@
 <template>
   <div class='item-container row'>
     <span class="profile-avatar">
-      <div>
-        <img class="feed-image" :src="imageSrc" />
+      <div class='feed-image' :style="imageStyle">
       </div>
     </span>
 
@@ -89,12 +88,12 @@ export default {
     }
   },
   computed: {
-    imageSrc () {
+     imageStyle () {
       const image = this.feedItem.image !== undefined
         ? this.feedItem.image
         : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
-
-      return image
+      return `background: url('${image}') center center / cover no-repeat; background-size: 100% 100%;
+`
     }
   }
 }
@@ -104,7 +103,7 @@ export default {
 @import './../css/variables'
 
 .feed-image
-  max-width 30px
+  width 30px
 
 
 .item-container
