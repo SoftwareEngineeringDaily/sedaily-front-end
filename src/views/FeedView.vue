@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1> Feed </h1>
+    <br />
+    <br />
     <div class="feed-list">
       <feed-item-wrapper v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     </div>

@@ -5,7 +5,7 @@
         :upvoted="feedItem.upvoted"
         :score="feedItem.score">
       </voting-arrows>
-    <div class="feed-image" :style="imageStyle" />
+    <img class="feed-image" :src="imageSrc" />
     <div class="feed-item-title">
       <a :href="feedItem.url | externalUrl" target="_blank"
             rel="external nofollow" class="link">
@@ -13,7 +13,6 @@
        </a>
     </div>
     <div class="feed-item-description simple-text">{{feedItem.description}}</div>
-    <div class="feed-item-votes simple-text">Votes: {{feedItem.score}}</div>
   </div>
 </template>
 
@@ -35,7 +34,6 @@ export default {
   methods: {
     ...mapActions(['upvoteRelatedLink']),
     upvoteHandler () {
-      console.log('upvoteHandler')
       this.upvoteRelatedLink({
         id: this.feedItem._id,
         postId: this.feedItem.post._id
@@ -47,12 +45,12 @@ export default {
     }
   },
   computed: {
-    imageStyle () {
+    imageSrc () {
       const image = this.feedItem.image !== undefined
         ? this.feedItem.image
         : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png'
 
-      return `background: url('${image}') center center / cover no-repeat`
+      return image
     }
   }
 }
@@ -62,7 +60,7 @@ export default {
 @import './../css/variables'
 
 .feed-image
-  height 200px
+  max-width 80px
 
 .feed-item
   margin 10px 30px
