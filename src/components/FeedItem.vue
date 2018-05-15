@@ -16,7 +16,10 @@
 
     <span class="content-holder">
       <span class='item-title'>
-        <router-link :to="'/link/' + feedItem._id"> {{feedItem.title}} </router-link>
+
+        <a :href="feedItem.url | externalUrl" target="_blank">
+          Related link: {{feedItem.title}}
+        </a>
       </span>
 
       <div class='item-misc'>
