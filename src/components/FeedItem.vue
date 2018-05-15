@@ -30,7 +30,7 @@
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{lastAcitivityDate}}</span>
+        <span class='misc-detail'>{{hostname}}</span>
 
       </div>
     </span>
@@ -38,31 +38,10 @@
 </template>
 
 <script>
-/*
 
-<template>
-  <div class="feed-item">
-    <span class='votes-container'>
-      <voting-arrows
-        :upvoteHandler="upvoteHandler"
-        :upvoted="feedItem.upvoted"
-        :score="feedItem.score">
-      </voting-arrows>
-    </div>
-    <img class="feed-image" :src="imageSrc" />
-    <div class="feed-item-title">
-      <a :href="feedItem.url | externalUrl" target="_blank"
-            rel="external nofollow" class="link">
-         <span class='title'>{{feedItem.title || feedItem.url}}</span>
-       </a>
-    </div>
-    <div class="feed-item-description simple-text">{{feedItem.description}}</div>
-  </div>
-</template>
-
- */
 import VotingArrows from '@/components/VotingArrows.vue'
 import { mapActions } from 'vuex'
+import { extractHostname } from '@/utils/link.utils'
 
 export default {
   name: 'FeedItem',
@@ -89,6 +68,14 @@ export default {
     }
   },
   computed: {
+    hostname () {
+      try {
+        return  extractHostname(this.feedItem.url)
+      } catch (e) {
+        console.log('error extracting host', e)
+        return '--'
+      }
+    },
     imageSrc () {
       const placeholder = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png';
       const image = this.feedItem.image !== undefined
