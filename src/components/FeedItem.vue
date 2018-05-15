@@ -66,11 +66,19 @@ export default {
   margin 10px 30px
   border 1px solid very-light-grey
 
-.feed-item-title
-  padding 10px
-  font-size 2.1em
-  .link
+
+.feed-item-title a
+    color #000
+    font-weight 300
+    font-size 1.0rem
+    &:visited
+      color #a9a9a9
+  .feed-item-title a:hover
+    text-decoration none
     color primary-color
+
+
+
 .simple-text
   padding 10px
 

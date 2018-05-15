@@ -151,8 +151,6 @@ export default {
 .podcast-icon:hover
   opacity 0.5
 
-
-
 @media (min-width: 576px)
   .votes-container
     padding 0px 10px
