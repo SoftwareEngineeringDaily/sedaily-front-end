@@ -5,6 +5,16 @@
     <div class="feed-list">
       <feed-item-wrapper v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
     </div>
+    <div class="forum-more">
+      <br />
+      <br />
+      <h4>
+        <router-link
+        to="/forum"
+        exact
+        >Check out the Forum</router-link>
+      </h4>
+    </div>
   </div>
 </template>
 
@@ -58,4 +68,6 @@ h1
   display flex
   flex-direction column
   justify-content space-around
+.forum-more
+  padding-left 60px
 </style>
