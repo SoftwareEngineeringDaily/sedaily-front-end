@@ -1,5 +1,10 @@
 <template>
   <div class="feed-item">
+      <voting-arrows
+        :upvoteHandler="upvoteHandler"
+        :upvoted="feedItem.upvoted"
+        :score="feedItem.score">
+      </voting-arrows>
     <div class="feed-image" :style="imageStyle" />
     <div class="feed-item-title">
       <a :href="feedItem.url | externalUrl" target="_blank"
@@ -13,12 +18,21 @@
 </template>
 
 <script>
+import VotingArrows from '@/components/VotingArrows.vue'
 export default {
   name: 'FeedItem',
+  components: {
+    VotingArrows
+  },
   props: {
     feedItem: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    upvoteHandler () {
+      console.log('upvoteHandler')
     }
   },
   computed: {
