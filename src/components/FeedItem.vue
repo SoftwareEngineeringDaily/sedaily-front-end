@@ -19,6 +19,8 @@
 
 <script>
 import VotingArrows from '@/components/VotingArrows.vue'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'FeedItem',
   components: {
@@ -31,8 +33,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['upvoteRelatedLink']),
     upvoteHandler () {
       console.log('upvoteHandler')
+      this.upvoteRelatedLink({
+        id: this.feedItem._id,
+        postId: this.feedItem.post._id
+      }).then(({data}) => {
+        const relatedLink = data.entity;
+        this.feedItem.score = relatedLink.score;
+        this.feedItem.upvoted = relatedLink.upvoted;
+      })
     }
   },
   computed: {
