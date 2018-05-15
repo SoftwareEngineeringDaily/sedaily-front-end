@@ -17,10 +17,8 @@ export default {
       }
     })
     commit('setActivePostInPlayer', { post })
-
-    const options = { post }
-    const requestUrl = `${BASE_URL}/listened/`
-    return axios.post(requestUrl, options)
+    const requestUrl = `${BASE_URL}/posts/${post._id}/listened`
+    return axios.post(requestUrl, {})
   },
 
   updatePlayerState ({ commit }, playerState) {
