@@ -1,4 +1,6 @@
 <template>
+  <div class="date-listened">
+    <span><slot></slot><br><br></span>
   <div class="news-post">
     <div class="post-summary">
       <div class="voting-arrows"  v-if="!hideVoting">
@@ -55,6 +57,7 @@
       <div class="time">{{ date }}</div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

@@ -49,12 +49,22 @@
         </div>
 
         <div class="form-group">
-          <label for="bioInput">Bio</label>
+          <label for="bioInput">Headline</label>
           <input type="text" v-model='bio'
           id="bioInput"
           class="form-control"
           aria-describedby="bioHelp"
           placeholder="A short bio">
+        </div>
+
+        <div class="form-group">
+          <label for="aboutInput">About</label>
+          <textarea rows="5" type="text" v-model='about'
+          id="aboutText"
+          class="form-control"
+          aria-describedby="aboutHelp"
+          placeholder="A summary of your professional skills or experience as a software engineer.">
+          </textarea>
         </div>
 
         <div class="form-group">
@@ -72,12 +82,49 @@
         </div>
 
         <div class="form-group">
+          <label for ="publicEmailInput">Public Email</label>
+          <input type="email"
+          v-model="publicEmail"
+          v-validate="{ required: false, email: true}"
+          class="form-control" id="publicEmailInput"
+          aria-describedby="publicEmailHelp"
+          placeholder="youremail@email.com">
+        </div>
+
+        <div class="form-group">
           <label for="websiteInput">Website</label>
           <input type="text" v-model='website'
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
           placeholder="yourWebsite.com">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">GitHub</label>
+          <input type="text" v-model='github'
+          id="githubInput"
+          class="form-control"
+          aria-describedby="githubHelp"
+          placeholder="http://github.com/username">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">LinkedIn</label>
+          <input type="text" v-model='linkedin'
+          id="linkedinInput"
+          class="form-control"
+          aria-describedby="linkedinHelp"
+          placeholder="http://linkedin.com/in/username">
+        </div>
+
+        <div class="form-group">
+          <label for="websiteInput">Twitter</label>
+          <input type="text" v-model='twitter'
+          id="twitterInput"
+          class="form-control"
+          aria-describedby="twitterHelp"
+          placeholder="http://twitter.com/username">
         </div>
 
         <button
@@ -113,7 +160,6 @@ export default {
   components: {
     Spinner
   },
-
   data () {
     return {
       msg: '',
@@ -122,32 +168,32 @@ export default {
       username: this.initialUsername,
       name: this.me ? this.me.name : '',
       email: this.me ? this.me.email : '',
+      publicEmail: this.me ? this.me.publicEmail : '',
+      linkedin: this.me ? this.me.linkedin : '',
+      twitter: this.me ? this.me.twitter : '',
+      github: this.me ? this.me.github : '',
       bio: this.me ? this.me.bio : '',
+      about: this.me ? this.me.about : '',
       website: this.me ? this.me.website : '',
       loading: false
     }
   },
-
   computed: {
     // local computed methods +
     ...mapState({
       id (state) {
         return state.me._id
       },
-
       avatarUrl (state) {
         return state.me.avatarUrl
       },
-
       showExisintAvatarUrl (state) {
         return state.me.avatarUrl && !this.image
       }
-
     })
   },
   methods: {
     ...mapActions(['updateProfile', 'uploadAvatarImage']),
-
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
@@ -158,30 +204,26 @@ export default {
       this.file = file
       this.createImage(file)
     },
-
     createImage (file) {
       var image = new Image()
       var reader = new FileReader()
       var vm = this
-
       reader.onload = (e) => {
         vm.image = e.target.result
       }
       console.log(image)
       reader.readAsDataURL(file)
     },
-
     removeImage (e) {
       this.file = null
       this.image = ''
     },
-
     submit () {
       this.msg = ''
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, id } = this
+          const { username, email, publicEmail, linkedin, twitter, github, about, bio, website, name, id } = this
 
           let updatePromise = null
           if (this.file) {
@@ -192,9 +234,14 @@ export default {
                   id,
                   name,
                   bio,
+                  linkedin,
+                  twitter,
+                  github,
+                  about,
                   isAvatarSet: true,
                   website,
-                  email
+                  email,
+                  publicEmail
                 })
               })
               .catch((error) => {
@@ -207,12 +254,16 @@ export default {
               id,
               name,
               bio,
+              linkedin,
+              twitter,
+              github,
+              about,
               isAvatarSet: this.avatarUrl == null,
               website,
-              email
+              email,
+              publicEmail
             })
           }
-
           updatePromise
             .then((response) => {
               this.loading = false

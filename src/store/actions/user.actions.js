@@ -61,28 +61,19 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
-
-    commit('analytics', {
-      meta : {
-        analytics: [
-          ['event', {
-            eventCategory: 'user',
-            eventAction: 'updateProfile',
-            eventLabel: `id: ${id}`,
-            eventValue: 1
-          }]
-        ]
-      }
-    })
-
+  updateProfile: ({ commit, dispatch }, { id, username, bio, github, linkedin, twitter, about, isAvatarSet, website, name, email, publicEmail }) => {
     return axios.put(`${BASE_URL}/users/${id}`, {
       username,
       bio,
+      about,
       website,
       name,
       isAvatarSet,
-      email
+      email,
+      publicEmail,
+      github,
+      linkedin,
+      twitter
     })
       .then((response) => {
         return dispatch('fetchMyProfileData')
