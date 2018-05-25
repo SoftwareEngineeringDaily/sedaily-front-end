@@ -61,7 +61,7 @@
       <div class="recent-activity">
         <h3>Recent Activity</h3>
         <div class="activity-card">
-          <post-summary v-for="post in listenedPodcasts" :key="post" :post="post.postId"  v-on:play-podcast="playPodcast"><span class= "text">{{ post.createdAt | moment }}</span></post-summary>
+          <post-summary v-for="(podcast, i) in listenedPodcasts" :key="i" :post="podcast.postId"><span class= "text">{{ podcast.createdAt | moment }}</span></post-summary>
         </div>
       </div>
 
@@ -70,76 +70,33 @@
 
 <script>
   import moment from 'moment'
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import PostSummary from 'components/PostSummary.vue'
+  import VotingArrows from 'components/VotingArrows'
   import Spinner from 'components/Spinner.vue'
   export default {
     name: 'profile-details',
 
     components: {
       PostSummary,
-      Spinner
+      Spinner,
+      VotingArrows
     },
 
     data: function () {
       return {
-        listenedPodcasts: [],
-        playingPost: { title: 'starting title' },
-        type: 'new',
-        showFilteringElements: true,
-        endPoint: 'fetchListData',
-        loading: false,
-        endOfPosts: false,
-        transition: 'slide-up',
-        displayedPosts: [],
-        categories: [
-          {
-            name: 'Business and Philosophy',
-            id: '1068'
-          },
-          {
-            name: 'Blockchain',
-            id: '1082'
-          },
-          {
-            name: 'Cloud Engineering',
-            id: '1079'
-          },
-          {
-            name: 'Data',
-            id: '1081'
-          },
-          {
-            name: 'JavaScript',
-            id: '1084'
-          },
-          {
-            name: 'Machine Learning',
-            id: '1080'
-          },
-          {
-            name: 'Open Source',
-            id: '1078'
-          },
-          {
-            name: 'Security',
-            id: '1083'
-          },
-          {
-            name: 'Hackers',
-            id: '1085'
-          },
-          {
-            name: 'Greatest Hits',
-            id: '1069'
-          }
-        ],
-        activeCategory: { name: 'All', id: null },
-        searchTerm: null
+        listenedPodcasts: []
       }
     },
-    created: function() {
-      this.listenedPodcast()
+    created () {
+      this.fetchData()
+    },
+    beforeMount () {
+      this.fetchData()
+    },
+    watch: {
+      // re-fetch if route changes
+      '$route': 'fetchData'
     },
     props: {
       userData: {
@@ -172,6 +129,22 @@
         return moment(date).format('MMMM Do, YYYY');
       }
     },
+    methods: {
+      ...mapActions(['fetchListenedPodcasts']),
+      async fetchData () {
+        this.loading = true
+        try {
+          const response = await this.fetchListenedPodcasts({ userId: this.userId })
+          this.listenedPodcasts = response.data
+        }
+        catch (error) {
+          this.error = error.response.data.message
+        }
+        finally {
+          this.loading = false
+        }
+      },
+    },
     computed: {
       ...mapState({
         displayName () {
@@ -181,26 +154,17 @@
           return this.userData.bio || `${this.displayName} is still writing their headline`
         },
         displayAbout () {
+          console.log(this.listenedPodcasts)
           return this.userData.about || `${this.displayName} is still writing their about section`
         },
         avatarUrl (state) {
           return this.userData.avatarUrl || state.placeholderAvatar
-        }
+        },
+        userId (state) {
+          return this.userData._id
+        },
       })
-    },
-    methods: {
-      listenedPodcast () {
-        var self = this;
-        this.$http.get('http://localhost:4040/api/listened').then(function(response){
-          if(response.status == "200"){
-            console.log(response);
-            self.listenedPodcasts = response.data
-          } else {
-            console.log("bad request")
-          }
-        })
-      }
-  }
+    }
 }
 </script>
 
@@ -268,22 +232,23 @@
     text-transform: uppercase;
     font-size: 12px
     opacity: 0.5
+    position: absolute;
+    margin-top: -50px
+    margin-left: -16px
   }
 
   .activity-card
     flex-direction: column;
+    padding-top: 50px
 
   .news-post
-    display list-item !important
-    flex-direction row !important
-    margin-bottom: 100px !important
+    margin-bottom: 50px !important
     width 100% !important
-    border-top 200px solid #999 !important
-    border-right 200px solid #999 !important
-    border 200px solid #999 !important
+    border 2px solid #eee !important
 
   .post-summary
-    border 20px solid #999 !important
+    padding: 0px
+    padding-top: -50px !important
 
   .profile-img
     display inline

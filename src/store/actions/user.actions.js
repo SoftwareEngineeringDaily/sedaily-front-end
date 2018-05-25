@@ -30,6 +30,11 @@ export default {
       })
   },
 
+  fetchListenedPodcasts: ({ commit, state, getters }, { userId }) => {
+    console.log("Called fetch podcasts")
+    return axios.get(`${BASE_URL}/listened/user/${userId}`)
+  },
+
   fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
     return axios.get(`${BASE_URL}/users/${userId}`)
   },

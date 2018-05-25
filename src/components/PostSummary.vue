@@ -1,7 +1,7 @@
 <template>
-  <div class="date-listened">
-    <span><slot></slot><br><br></span>
   <div class="news-post">
+    <div class="date-listened">
+      <span><slot></slot><br><br></span>
     <div class="post-summary">
       <div class="voting-arrows"  v-if="!hideVoting">
         <voting-arrows
