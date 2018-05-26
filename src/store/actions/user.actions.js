@@ -31,7 +31,6 @@ export default {
   },
 
   fetchListenedPodcasts: ({ commit, state, getters }, { userId }) => {
-    console.log("Called fetch podcasts")
     return axios.get(`${BASE_URL}/listened/user/${userId}`)
   },
 
