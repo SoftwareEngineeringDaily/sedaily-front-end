@@ -15,7 +15,6 @@ import VeeValidate from 'vee-validate'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 import Toasted from 'vue-toasted'
-import vueResource from 'vue-resource'
 
 import 'bootstrap'
 import './css/vendor.scss'
@@ -51,17 +50,6 @@ Vue.use(AuthPlugin)
 
 Vue.use(VeeValidate, {
   events: 'blur'
-})
-
-Vue.use(vueResource)
-Vue.http.interceptors.push((request, next) => {
-  const token = Vue.auth.getToken()
-
-  if (token) {
-    request.headers.set('Content-Type', 'application/json')
-    request.headers.set('Authorization', `Bearer ${token}`)
-  }
-  next()
 })
 
 Vue.use(VueAnalytics, {
