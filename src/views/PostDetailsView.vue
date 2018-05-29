@@ -135,7 +135,7 @@ export default {
      if (this.post.cleanedContent) {
        return this.post.cleanedContent.split('<h2>Sponsors</h2>')[0]
      }
-     else if (this.post.cleanedContent && this.post.content.rendered) {
+     else if (this.post.content.rendered) {
        return this.post.content.rendered.split('<h2>Sponsors</h2>')[0]
      } else {
        return ""
