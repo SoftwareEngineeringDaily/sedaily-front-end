@@ -18,8 +18,8 @@ export default {
 
     axios.interceptors.response.use(response => response, err => {
       if (err.response && err.response.status & err.response.status === 401) {
-        this.logout()
-        router.replace('login')
+        // this.logout()
+        // router.replace('login')
       }
 
       return Promise.reject(err)
