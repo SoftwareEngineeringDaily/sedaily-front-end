@@ -18,7 +18,11 @@ export default {
     })
     commit('setActivePostInPlayer', { post })
     const requestUrl = `${BASE_URL}/posts/${post._id}/listened`
-    return axios.post(requestUrl, {})
+    try {
+      return axios.post(requestUrl, {})
+    } catch (e) {
+
+    }
   },
 
   updatePlayerState ({ commit }, playerState) {
