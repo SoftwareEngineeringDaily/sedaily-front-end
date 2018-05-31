@@ -61,7 +61,7 @@
       <div class="recent-activity">
         <h3>Recent Activity</h3>
         <div class="activity-card">
-          <post-summary v-for="(podcast, i) in listenedPodcasts" :key="i" :post="podcast.postId"><span class= "text">{{ podcast.createdAt | moment }}</span></post-summary>
+          <post-summary v-for="(post, i) in posts" :key="i" :post="post.postId" ><span class= "text">{{ post.createdAt | moment }}</span></post-summary>
         </div>
       </div>
 
@@ -85,19 +85,15 @@
 
     data: function () {
       return {
-        listenedPodcasts: []
+        posts: []
       }
     },
-    created () {
+
+    mounted () {
       this.fetchData()
+      console.log(this.post)
     },
-    beforeMount () {
-      this.fetchData()
-    },
-    watch: {
-      // re-fetch if route changes
-      '$route': 'fetchData'
-    },
+
     props: {
       userData: {
         type: Object,
@@ -118,24 +114,27 @@
           }
         }
       },
+
       ownProfile: {
         type: Boolean,
         default: false
-      }
+      },
     },
+
     filters: {
       moment: function (date) {
         console.log(date)
         return moment(date).format('MMMM Do, YYYY');
       }
     },
+
     methods: {
-      ...mapActions(['fetchListenedPodcasts']),
+      ...mapActions(['fetchListenedPodcasts', 'upvoteRelatedLink']),
       async fetchData () {
         this.loading = true
         try {
           const response = await this.fetchListenedPodcasts({ userId: this.userId })
-          this.listenedPodcasts = response.data
+          this.posts = response.data
         }
         catch (error) {
           this.error = error.response.data.message
@@ -143,8 +142,9 @@
         finally {
           this.loading = false
         }
-      },
+      }
     },
+
     computed: {
       ...mapState({
         displayName () {
@@ -163,6 +163,9 @@
         userId (state) {
           return this.userData._id
         },
+        active() {
+          return active = true
+        }
       })
     }
 }
@@ -222,10 +225,6 @@
     width 1800px
     margin 50px
 
-  .date-listened
-    padding-top 20px
-    width 2100px
-
   .text{
     font-family 'Roboto'
     font-weight: bold;
@@ -247,7 +246,6 @@
     border 2px solid #eee !important
 
   .post-summary
-    padding: 0px
     padding-top: -50px !important
 
   .profile-img
