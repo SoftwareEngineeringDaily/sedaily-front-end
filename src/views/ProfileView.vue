@@ -7,7 +7,7 @@
       <div class="bg-danger"> Error: {{ error }}</div>
     </template>
     <template v-else>
-      <profile-details
+      <profile-details v-if="me"
         :userData="me"
         :ownProfile="true" />
     </template>
@@ -33,6 +33,9 @@ export default {
   computed: {
     ...mapState({
       me (state) {
+        if (state.me == null || state.me._id == null) {
+          return false
+        }
         return state.me
       }
     })
