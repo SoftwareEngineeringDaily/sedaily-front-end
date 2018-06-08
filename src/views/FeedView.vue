@@ -1,21 +1,31 @@
-
 <template>
   <div>
-    <h1> Feed </h1>
+    <br />
+    <br />
     <div class="feed-list">
-      <feed-item v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
+      <feed-item-wrapper v-for="feedItem in feed" :key="feedItem._id" :feedItem="feedItem" />
+    </div>
+    <div class="forum-more">
+      <br />
+      <br />
+      <h4>
+        <router-link
+        to="/forum"
+        exact
+        >Check out the Forum</router-link>
+      </h4>
     </div>
   </div>
 </template>
 
 <script>
-import FeedItem from '@/components/FeedItem.vue'
+import FeedItemWrapper from '@/components/FeedItemWrapper.vue'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',
 
   components: {
-    FeedItem
+    FeedItemWrapper
   },
 
   data () {
@@ -58,4 +68,6 @@ h1
   display flex
   flex-direction column
   justify-content space-around
+.forum-more
+  padding-left 60px
 </style>
