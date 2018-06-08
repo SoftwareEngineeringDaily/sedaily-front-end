@@ -41,8 +41,10 @@
 
 
         <span class="details-about-post">
-          {{ post.score || 0 }} points
-          {{ post.date | timeAgo }} ago
+
+          <div class="download-area" v-if="post.mp3">
+            <a v-bind:href="post.mp3" class="powerpress_link_d" title="Download" rel="nofollow" download="">Download</a>
+          </div>
           <social-sharing
             :url="post.url"
             :title="post.title.rendered"
