@@ -52,9 +52,9 @@ Cypress.Commands.add('login', () => {
     cy.visit('/#/login').then(() => {
       cy.get('input[name=username]').type(user.username)
       cy.get('input[name=password]').type(user.password)
-      cy.location().then(() => {
-        return { user }
-      })
+      cy.get('button[name=submit-button]').click()
+    }).then(() => {
+      return { user }
     })
   })
 })
