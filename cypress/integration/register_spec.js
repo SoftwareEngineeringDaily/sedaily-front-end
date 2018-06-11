@@ -49,9 +49,6 @@ describe('End-to-End: The Register Page', function () {
       cy.get('#allowNewsletter').click()
       cy.get('button[name=submit-button]').click()
     })
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq('/login')
-    })
     cy.get('.toasted.error').should('contain', 'User already exists')
   })
 })
