@@ -9,6 +9,9 @@ services:
     container_name: sedaily-rest-api
     ports:
       - "4040:4040"
+    links:
+      - mongo
+      - redis
   mongo:
     image: softwaredaily/sedaily-mongo:develop
     container_name: sedaily-mongo
