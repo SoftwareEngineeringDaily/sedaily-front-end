@@ -13,8 +13,10 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
 import './commands'
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// stub all event calls with {}
+beforeEach(function () {
+  cy.server()
+  cy.route('POST', '**/event', {})
+})
