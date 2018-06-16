@@ -10,49 +10,42 @@ const BASE_API_URL = 'http://localhost:4040/api'
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('register', () => {
   /* usage:
   cy.register()
-   .then(({ user, resp }) => {
-      //do something with user and/or resp
+   .then(({ user, token }) => {
+      //do something with user and/or token
    })
   */
   const endpoint = `${BASE_API_URL}/auth/register`
   const randomName = uuidv4()
-  const user = {
+  const userData = {
     username: randomName,
     name: randomName,
     email: `${randomName}@mail.com`,
     password: 'fakePassword',
   }
   return cy
-  .request('POST', endpoint, user)
-  .then((resp) => ({ user, resp }))
+  .request('POST', endpoint, userData)
+  .then((resp) => {
+    const { user, token } = resp.body
+    // want real (not salted) password for use in login spec etc
+    user.password = userData.password
+    return { user, token }
+  })
 })
 
+/* usage:
+cy.login()
+ .then(({ user }) => {
+    //do something with user
+ })
+*/
 Cypress.Commands.add('login', () => {
-  return cy.register().then(({ user }) => {
-    cy.visit('/#/login').then(() => {
-      cy.get('input[name=username]').type(user.username)
-      cy.get('input[name=password]').type(user.password)
-      cy.get('button[name=submit-button]').click()
+  return cy.register().then(({ user, token }) => {
+    cy.window().then((win) => {
+      win.localStorage.token = token
     }).then(() => {
       return { user }
     })
