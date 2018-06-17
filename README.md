@@ -7,6 +7,8 @@
 ## Getting Started
 See the companion project [API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api) required to run the web front end locally.
 
+By far the easiest way to get started is to use the Docker containers including the backend and seeded Mongo database. This does require an OS-specific install of [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/#prerequisites). If you run into any challenges do not hesitate to ask for help in the Slack channel!
+
 ``` bash
 # cloning the project
 git clone https://github.com/SoftwareEngineeringDaily/sedaily-front-end.git
@@ -15,34 +17,32 @@ cd sedaily-front-end/
 # install dependencies
 npm install
 
+# run backend (pulls images and runs containers with docker-compose)
+npm run backend:start
+
 # serve with hot reload at localhost:8080, using API and event service API running locally
 npm run dev
 
 # build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run integration tests (Work in Progress!)
-
-## interactive
-npm run dev
-# in another terminal
-npm run cy:open
-
-## end-to-end with backend api
-npm run test:e2e
-
+# run the built server from dist/server.js
+npm run start
 ```
-# npm start
-Note this is differnt than the stuff ran on heroku which is inside dist/package.json
 
+## Testing
+Currently we have end-to-end testing using [Cypress](). These tests should mimic the user's flow when interacting with the web app.
 
-For detailed explanation on Vue.js webpack configuration, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Unit-style tests could be implemented later using [cypress-vue-unit-test](https://github.com/bahmutov/cypress-vue-unit-test)
+
+You can run all e2e tests in one command with `npm run test:e2e`.
+
+For developing and troubleshooting tests, using the Cypress interactive test-runner can be helpful. Both the Docker backend and a webpack dev server must be running. This can be done using `npm run backend:start && npm run dev`. In another terminal, run `npm run cy:open` to open Cypress.
+
+For further guidance on the what and how of Cypress testing please visit the Slack channel.
 
 ## Available API environments
-In order to speed up configuration, you can use the API and event stream API's in other environments:
+In order to speed up configuration for exploration or cosmetic changes, you can use the API and event stream API's in other environments. Any major development should be done against the local API so testing can be run/updated.
 ```
 # serve with hot reload at localhost:8080, using API running on staging
 npm run dev:api-staging
@@ -64,3 +64,4 @@ To delete commit:
 
 git fetch origin
 git reset --hard origin/master
+
