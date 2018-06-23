@@ -27,10 +27,34 @@ describe('The Posts Pages', function () {
       })
     })
   })
-  it.skip('Successfully filters by category', function () {
-    cy.
+  it('Successfully filters by category', function () {
+    // this should likely not change, but if need be can be changed here
+    const JAVASCRIPT_CATEGORY = 1084
     cy.visit('/#/new')
-    cy.get('')
+    cy.getPosts(`type=new&limit=10&categories=${JAVASCRIPT_CATEGORY}`).then((posts) => {
+      cy.contains('JavaScript').first().click()
+      cy.contains('JavaScript').first().should('have.class', 'category-active')
+      cy.get('.news-post').each(($el, index) => {
+        cy.decodeHTML(posts[index].title.rendered).then((title) => {
+          cy
+          .wrap($el)
+          .get('.title')
+          .contains(title)
+        })
+      })
+    })
+    cy.getPosts('type=new&limit=10').then((posts) => {
+      cy.contains('All').first().click()
+      cy.contains('All').first().should('have.class', 'category-active')
+      cy.get('.news-post').each(($el, index) => {
+        cy.decodeHTML(posts[index].title.rendered).then((title) => {
+          cy
+          .wrap($el)
+          .get('.title')
+          .contains(title)
+        })
+      })
+    })
   })
   it('Successfully plays episode', function () {
     cy.visit('/#/new')
@@ -74,7 +98,7 @@ describe('The Posts Pages', function () {
   //TODO: Add tests after back-end issue fixed along with fixing front-end issue
   //Back-end issue: type=top will return those downvoted (-1 score) before those with no votes
   //Front-end issue: see https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/317
-  it.skip('Successfully displays top episode posts in descending order', function () {})
+  it('Successfully displays top episode posts in descending order', function () {})
   it.skip('Succesfully views post details', function () {
     cy.visit('/#/new')
   })
