@@ -10,7 +10,7 @@ describe('The Jobs Page', function () {
   }
   const invalidJobTitle = 'Invalid Job Title'
   const invalidJobDescription = 'Invalid Job Description'
-  it('Successfully posts a valid job', function () {
+  it('Successfully posts, edits & deletes valid job', function () {
     cy.login().then(() => {
       cy.visit('/')
       cy.contains('Jobs').click()
@@ -27,7 +27,23 @@ describe('The Jobs Page', function () {
       cy.get('textarea[name="description"]').type(jobPosting.description)
       cy.get('input[name="applicationEmailAddress"]').type(jobPosting.applicationEmailAddress)
       cy.get('.button-submit').click()
-      cy.contains(jobPosting.title).should('exist')
+      cy.contains('Successfully Posted').should('exist')
+      cy.get('.toasted > a').click()
+      // view/edit
+      cy.contains(jobPosting.title).click()
+      cy.contains('Edit Job Posting').click()
+      cy.get('textarea[name="description"]').type(' - V2')
+      cy.get('.button-submit').click()
+      cy.contains(`${jobPosting.description} - V2`)
+      cy.contains('Successfully Edited').should('exist')
+      cy.get('.toasted > a').click()
+      // delete
+      cy.contains(jobPosting.title).click()
+      cy.contains('Edit Job Posting').click()
+      cy.contains('Delete').click()
+      cy.contains(jobPosting.title).should('not.exist')
+      cy.contains('Successfully Deleted').should('exist')
+      cy.get('.toasted > a').click()
     })
   })
   it('Successfully prevents posting invalid job', function () {
