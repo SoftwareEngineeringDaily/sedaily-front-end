@@ -52,8 +52,8 @@ Cypress.Commands.add('login', () => {
   })
 })
 
-Cypress.Commands.add('getPostsByType', (type = 'new', limit = 10) => {
-  const endpoint = `${BASE_API_URL}/posts?type=${type}&limit=${limit}`
+Cypress.Commands.add('getPosts', (query) => {
+  const endpoint = `${BASE_API_URL}/posts?${query}`
   return cy
   .request('GET', endpoint)
   .then((resp) => (resp.body))

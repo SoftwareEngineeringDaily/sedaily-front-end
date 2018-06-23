@@ -1,35 +1,36 @@
 describe('The Posts Pages', function () {
-  let postsJSON
-  beforeEach(function () {
-    cy.getPostsByType(undefined, 20).then((posts) => {
-      postsJSON = posts
+  it('Successfully displays new episode posts in descending order', function () {
+    cy.getPosts('type=new&limit=20').then((posts) => {
+      // hash to visit directly
+      cy.visit('/#/new')
+      //first ten
+      cy.get('.news-post').should('have.length', 10)
+      cy.get('.news-post').each(($el, index) => {
+        cy.decodeHTML(posts[index].title.rendered).then((title) => {
+          cy
+          .wrap($el)
+          .get('.title')
+          .contains(title)
+          // scroll so eventually next 10 load
+          cy.wrap($el).scrollIntoView()
+        })
+      })
+      //first twenty
+      cy.get('.news-post').should('have.length', 20)
+      cy.get('.news-post').each(($el, index) => {
+        cy.decodeHTML(posts[index].title.rendered).then((title) => {
+          cy
+          .wrap($el)
+          .get('.title')
+          .contains(title)
+        })
+      })
     })
   })
-  it('Successfully displays new episode posts in descending order', function () {
-    // hash to visit directly
+  it.skip('Successfully filters by category', function () {
+    cy.
     cy.visit('/#/new')
-    //first ten
-    cy.get('.news-post').should('have.length', 10)
-    cy.get('.news-post').each(($el, index) => {
-      cy.decodeHTML(postsJSON[index].title.rendered).then((title) => {
-        cy
-        .wrap($el)
-        .get('.title')
-        .contains(title)
-        // scroll so eventually next 10 load
-        cy.wrap($el).scrollIntoView()
-      })
-    })
-    //first twenty
-    cy.get('.news-post').should('have.length', 20)
-    cy.get('.news-post').each(($el, index) => {
-      cy.decodeHTML(postsJSON[index].title.rendered).then((title) => {
-        cy
-        .wrap($el)
-        .get('.title')
-        .contains(title)
-      })
-    })
+    cy.get('')
   })
   it('Successfully plays episode', function () {
     cy.visit('/#/new')
