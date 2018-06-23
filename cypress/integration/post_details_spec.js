@@ -94,4 +94,21 @@ describe('The Post Detail Page', function () {
       cy.contains(linkTitle).should('not.exist')
     })
   })
+  it('Successfully plays episode', function () {
+    cy.visit('/#/new')
+    // some posts may be "text only" - want one that can play
+    cy.get('.player-control')
+    .first()
+    .parents('.news-post')
+    .first()
+    .find('.title')
+    .click()
+    cy.get('.post-header-details').find('.player-control').click()
+    cy.get('.player-holder').find('.music-time').contains(/^00:00/)
+    /* TODO: consider adding tests that audio is actually playing, however it may not be worth it as:
+      1) This was challenging with Cypress to get working
+      2) The test would be flaky anyways at it requires an external resource
+      3) Behaviour should be stable and routine testing may not be necessary
+    */
+  })
 })
