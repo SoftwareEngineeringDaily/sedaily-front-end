@@ -1,0 +1,71 @@
+describe('The Posts Pages', function () {
+  let postsJSON
+  beforeEach(function () {
+    cy.getPostsByType(undefined, 20).then((posts) => {
+      postsJSON = posts
+    })
+  })
+  it('Successfully displays new episode posts in descending order', function () {
+    // hash to visit directly
+    cy.visit('/#/new')
+    //first ten
+    cy.get('.news-post').should('have.length', 10)
+    cy.get('.news-post').each(($el, index) => {
+      cy.decodeHTML(postsJSON[index].title.rendered).then((title) => {
+        cy
+        .wrap($el)
+        .get('.title')
+        .contains(title)
+        // scroll so eventually next 10 load
+        cy.wrap($el).scrollIntoView()
+      })
+    })
+    //first twenty
+    cy.get('.news-post').should('have.length', 20)
+    cy.get('.news-post').each(($el, index) => {
+      cy.decodeHTML(postsJSON[index].title.rendered).then((title) => {
+        cy
+        .wrap($el)
+        .get('.title')
+        .contains(title)
+      })
+    })
+  })
+  it('Successfully upvotes and downvotes episodes', function () {
+    cy.visit('/#/new')
+    cy
+    .get('.news-post')
+    .first()
+    .upvoteToggle()
+    cy.get('.toasted.error').should('contain', 'You must login to vote')
+    cy.login().then(() => {
+      cy.visit('/#/new')
+      cy
+      .get('.news-post')
+      .first()
+      .upvoteToggle()
+      .parent()
+      .expectActiveVote('up')
+      cy
+      .get('.news-post')
+      .first()
+      .downvoteToggle()
+      .parent()
+      .expectActiveVote('down')
+      cy
+      .get('.news-post')
+      .first()
+      .downvoteToggle()
+      .parent()
+      .expectActiveVote('none')
+    })
+  })
+  //TODO: Add tests after back-end issue fixed along with fixing front-end issue
+  //Back-end issue: type=top will return those downvoted (-1 score) before those with no votes
+  //Front-end issue: see https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/317
+  it.skip('Successfully displays top episode posts in descending order', function () {})
+  it.skip('Succesfully views post details', function () {
+    cy.visit('/#/new')
+    cy.get('.title').first().click()
+  })
+})

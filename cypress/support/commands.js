@@ -51,3 +51,67 @@ Cypress.Commands.add('login', () => {
     })
   })
 })
+
+Cypress.Commands.add('getPostsByType', (type = 'new', limit = 10) => {
+  const endpoint = `${BASE_API_URL}/posts?type=${type}&limit=${limit}`
+  return cy
+  .request('GET', endpoint)
+  .then((resp) => (resp.body))
+})
+
+Cypress.Commands.add('decodeHTML', (html) => {
+  cy.document().then((doc) => {
+    const txt = doc.createElement('textarea')
+    txt.innerHTML = html
+    return txt.value
+  })
+})
+
+Cypress.Commands.add('upvoteToggle', {
+  prevSubject: true,
+}, (subject) => {
+  cy.wrap(subject)
+  .within(() => {
+    cy.get('.arrow')
+    .first() //first within element is up arrow
+    .click()
+  })
+})
+
+Cypress.Commands.add('downvoteToggle', {
+  prevSubject: true,
+}, (subject) => {
+  cy.wrap(subject)
+  .within(() => {
+    cy.get('.arrow')
+    .last() //last within element is down arrow
+    .click()
+  })
+})
+
+Cypress.Commands.add('expectActiveVote', {
+  prevSubject: true,
+}, (subject, active) => {
+  cy.wrap(subject)
+  .within(() => {
+    cy.get('.arrow').each(($el, index) => {
+      switch (active) {
+        case 'up':
+          index === 0 ? //first index is up
+            cy.wrap($el).should('have.class', 'active') :
+            cy.wrap($el).should('not.have.class', 'active')
+          break
+        case 'down':
+          index === 0 ?
+            cy.wrap($el).should('not.have.class', 'active') :
+            cy.wrap($el).should('have.class', 'active')
+          break
+        case 'none':
+          cy.wrap($el).should('not.have.class', 'active')
+          break
+        default:
+          throw new Error('expectActiveVote first argument must be \'up\', \'down\' or \'none\'')
+      }
+    })
+  })
+})
