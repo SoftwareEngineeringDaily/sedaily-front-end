@@ -99,7 +99,4 @@ describe('The Posts Pages', function () {
   //Back-end issue: type=top will return those downvoted (-1 score) before those with no votes
   //Front-end issue: see https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/317
   it('Successfully displays top episode posts in descending order', function () {})
-  it.skip('Succesfully views post details', function () {
-    cy.visit('/#/new')
-  })
 })
