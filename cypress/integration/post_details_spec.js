@@ -63,4 +63,35 @@ describe('The Post Detail Page', function () {
       cy.contains(comment).should('not.exist')
     })
   })
+  it('Successfully adds related link', function () {
+    const linkUrl = `https://google.com/${uuidv4()}`
+    const linkTitle = `See also - ${uuidv4()}`
+    cy.login().then(() => {
+      cy.visit('/#/new')
+      cy.get('.title').first().click()
+      // test invalid input - bad url
+      cy.get('.related-link-box').type('notUrl')
+      cy.get('.related-title-box').type(linkTitle)
+      cy.contains('Add New Link').click()
+      cy.contains('The url field is not a valid URL').should('exist')
+      cy.get('.related-links-list').should('not.contain', linkTitle)
+      // test invalid input - no title
+      cy.get('.related-link-box').clear()
+      cy.get('.related-link-box').type(linkUrl)
+      cy.get('.related-title-box').clear()
+      cy.contains('Add New Link').click()
+      cy.contains('The title field is required').should('exist')
+      cy.get(`a[href="${linkUrl}"]`).should('not.exist')
+      // test valid input
+      cy.get('.related-link-box').clear()
+      cy.get('.related-link-box').type(linkUrl)
+      cy.get('.related-title-box').clear()
+      cy.get('.related-title-box').type(linkTitle)
+      cy.contains('Add New Link').click()
+      cy.contains(linkTitle).should('have.attr', 'href', linkUrl)
+      // delete
+      cy.contains('Delete Link').click()
+      cy.contains(linkTitle).should('not.exist')
+    })
+  })
 })
