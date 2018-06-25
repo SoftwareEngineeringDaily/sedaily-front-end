@@ -28,6 +28,9 @@ npm run build
 
 # run the built server from dist/server.js
 npm run start
+
+# build for production and view the bundle analyzer report
+npm run build --report
 ```
 
 ## Testing

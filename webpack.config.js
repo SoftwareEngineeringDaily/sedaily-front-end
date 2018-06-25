@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const parts = require('./webpack.parts')
 
@@ -140,6 +141,9 @@ const productionConfig = merge([
 
 module.exports = env => {
   if (env === 'production') {
+    if (process.env.npm_config_report) {
+      productionConfig.plugins.push(new BundleAnalyzerPlugin())
+    }
     return merge(commonConfig, productionConfig, { mode: env })
   }
 
