@@ -37,20 +37,22 @@
         </div>
       </span>
 
+      <!--
       <router-link
         to="/forum"
         class="feed-nav-link"
         exact
       >Forum</router-link>
+    -->
+
+      <router-link to="/feed"
+        name="feed-nav-link"
+        class="feed-nav-link"
+        exact
+          >Feed</router-link>
 
       <router-link to="/jobs">Jobs</router-link>
 
-      <!-- We are disabling the feed for now
-      <router-link to="/feed"
-        name="feed-nav-link"
-        exact
-        >Feed</router-link>
-      -->
 
       <span class="pull-right">
         <router-link

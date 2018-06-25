@@ -36,7 +36,7 @@ import authorize from './authHook'
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', component: FeedView },
+    { path: '/', component: Forum },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },
