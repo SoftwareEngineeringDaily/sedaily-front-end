@@ -26,6 +26,9 @@ npm run dev
 # build for production with minification
 npm run build
 
+# build for staging with minification
+npm run staging-build
+
 # run the built server from dist/server.js
 npm run start
 
@@ -34,15 +37,11 @@ npm run build --report
 ```
 
 ## Testing
-Currently we have end-to-end testing using [Cypress](). These tests should mimic the user's flow when interacting with the web app.
+Currently we have end-to-end testing using [Cypress](). These tests should mimic the user's flow when interacting with the web app. For guidance on how to achieve this review existing tests in `cypress/integration`, the [Cypress guide](https://docs.cypress.io/guides), the [Cypress "kitchen sink" example](https://github.com/cypress-io/cypress-example-kitchensink), and the [Cypress example recipes repo](https://github.com/cypress-io/cypress-example-recipes). Generally you want to add tests for anything you would have concerns around regressions being introduced as new features and bug-fixes are introduced. For further guidance on the what and how of Cypress testing please visit the project Slack channel and ask.
 
-Unit-style tests could be implemented later using [cypress-vue-unit-test](https://github.com/bahmutov/cypress-vue-unit-test)
+End-to-end tests take a long time to run (currently 1.3 minutes) in comparison to to unit tests. While developing your feature you can use the Cypress interactive test-runner to only run a single spec. To do so use `npm run backend:start && npm run dev` then in another terminal run `npm run cy:open`. Implementation of a comprehensive set of faster unit-style tests should be considered later using [cypress-vue-unit-test](https://github.com/bahmutov/cypress-vue-unit-test). If done, fewer end-to-end tests would be necessary.
 
-You can run all e2e tests in one command with `npm run test:e2e`.
-
-For developing and troubleshooting tests, using the Cypress interactive test-runner can be helpful. Both the Docker backend and a webpack dev server must be running. This can be done using `npm run backend:start && npm run dev`. In another terminal, run `npm run cy:open` to open Cypress.
-
-For further guidance on the what and how of Cypress testing please visit the Slack channel.
+You can run all e2e tests in one command with `npm run test:e2e`. This should only be done prior to committing. It will also be done automatically when merging in Travis CI as a final check.
 
 ## Available API environments
 In order to speed up configuration for exploration or cosmetic changes, you can use the API and event stream API's in other environments. Any major development should be done against the local API so testing can be run/updated.
@@ -61,7 +60,7 @@ npm run dev:api-prod
 We have an active Slack community that you can reach out to for more information or just to chat with anyone. Check out the [<img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png" alt="Slack Channel" width="20px"/> SED app development](https://softwaredaily.slack.com/app_redirect?channel=sed_app_development) slack channel. Also see the [Open Source Guide](https://softwareengineeringdaily.github.io/).
 
 ## Pushing to Production
-Remember to `npm run build` and then ** commit all new files** and then `npm run deploy2`
+Remember to `npm run build` and then **commit all new files** and then `npm run deploy2`
 Works if done from master branch.
 To delete commit:
 
