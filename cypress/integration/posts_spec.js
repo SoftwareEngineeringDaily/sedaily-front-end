@@ -1,4 +1,4 @@
-describe('The Posts Pages', function () {
+describe('The Posts Page', function () {
   it('Successfully displays new episode posts in descending order', function () {
     cy.getPosts('type=new&limit=20').then((posts) => {
       // hash to visit directly

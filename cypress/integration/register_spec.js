@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4')
 
-describe('End-to-End: The Register Page', function () {
+describe('The Register Page', function () {
   let existingUser
   before(function () {
     // create existing user
