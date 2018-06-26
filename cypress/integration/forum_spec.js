@@ -15,14 +15,11 @@ describe('The Forum Page', function () {
     })
   })
   it('Successfully creates forum post', function () {
-    cy.visit('/')
-    .then(() => {
-      cy.contains('Forum').click()
-      cy.contains('Create New Post').click()
-      cy.get('input[name=title]').type(forumThreadPost.title)
-      cy.get('textarea[name=content]').type(forumThreadPost.content)
-      cy.contains('Create Thread').click()
-    })
+    cy.visit('/#/forum')
+    cy.contains('Create New Post').click()
+    cy.get('input[name=title]').type(forumThreadPost.title)
+    cy.get('textarea[name=content]').type(forumThreadPost.content)
+    cy.contains('Create Thread').click()
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/forum')
     })
@@ -52,7 +49,7 @@ describe('The Forum Page', function () {
   })
   it('Successfully views forum when logged out', function () {
     cy.contains('Logout').click()
-    cy.contains('Forum').click()
+    cy.visit('/#/forum')
     cy.contains('Create New Post').should('not.exist')
     cy.get('.forum-summary-title>a').contains(forumThreadPost.title).click()
     cy.contains(forumThreadPost.content).should('exist')
