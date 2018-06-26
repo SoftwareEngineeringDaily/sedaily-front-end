@@ -52,6 +52,12 @@ Cypress.Commands.add('login', () => {
   })
 })
 
+Cypress.Commands.add('logout', () => {
+  cy.window().then((win) => {
+    win.localStorage.token = ''
+  })
+})
+
 Cypress.Commands.add('getPosts', (query) => {
   const endpoint = `${BASE_API_URL}/posts?${query}`
   return cy

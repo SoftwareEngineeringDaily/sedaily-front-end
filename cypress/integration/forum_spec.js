@@ -48,7 +48,7 @@ describe('The Forum Page', function () {
     .should('exist')
   })
   it('Successfully views forum when logged out', function () {
-    cy.contains('Logout').click()
+    cy.logout()
     cy.visit('/#/forum')
     cy.contains('Create New Post').should('not.exist')
     cy.get('.forum-summary-title>a').contains(forumThreadPost.title).click()

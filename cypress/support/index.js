@@ -20,3 +20,8 @@ beforeEach(function () {
   cy.server()
   cy.route('POST', '**/event', {})
 })
+
+// after each block logout
+after(function () {
+  cy.logout()
+})
