@@ -11,7 +11,7 @@
     "dev:api-staging": "cross-env API_ENV=staging npm run dev",
     "dev:api-prod": "cross-env API_ENV=production npm run dev",
     "prod": "npm run build && node dist/server.js",
-    "start": "node dist/server.js",
+    "start": "node server.js",
     "build": "node build/build.js",
     "staging-build": "cross-env API_ENV=staging npm run build",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
