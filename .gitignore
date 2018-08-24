@@ -10,3 +10,6 @@ selenium-debug.log
 *.swo
 .vscode/
 .idea/
+
+# Build output
+dist/
