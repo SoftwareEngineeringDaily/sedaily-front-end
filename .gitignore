@@ -13,3 +13,6 @@ selenium-debug.log
 
 # Build output
 dist/
+
+# We only use package-lock.json. Having yarn.lock fails the Heroku build
+yarn.lock
