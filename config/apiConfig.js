@@ -1,5 +1,5 @@
 function getApiConfig() {
-	let apiConfig;
+	var apiConfig;
 	switch (process.env.API_ENV) {
 		case 'development':
 			apiConfig = require('./apiConfig/dev.api.config')

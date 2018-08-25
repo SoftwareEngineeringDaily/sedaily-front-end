@@ -12,7 +12,7 @@ app.use(require('connect-history-api-fallback')({
   verbose: true
 }))
 
-app.use(serveStatic(__dirname))
+app.use(serveStatic(__dirname + "/dist"))
 
 const port = process.env.PORT || 5000
 app.listen(port)

@@ -22,7 +22,7 @@
 
     <span class="content-holder">
       <span class='forum-summary-title'>
-        <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title}} </router-link>
+        <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title | decodeString }} </router-link>
       </span>
       <div class='forum-thread-misc'>
         Posted by
