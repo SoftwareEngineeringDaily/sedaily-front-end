@@ -3,9 +3,9 @@
     <div class="col-sm-9">
       <div class='forum-thread-title'>
         <span v-if="!podcastEpisode">
-        {{title}}
+        {{title | decodeString }}
       </span>
-      <router-link v-else :to="podcastEpisodeUrl"> {{title}} </router-link>
+      <router-link v-else :to="podcastEpisodeUrl"> {{title | decodeString }}</router-link>
       </div>
       <hr />
       <div class='forum-podcast-card' v-if="podcastEpisode">
