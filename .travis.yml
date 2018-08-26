@@ -6,7 +6,13 @@ cache:
   - node_modules
 git:
   depth: 3
+install:
+  - npm ci
 script:
   - docker-compose -f devops/docker-compose.yml up -d
   - npm run build:dev
   - npm run test:e2e
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
