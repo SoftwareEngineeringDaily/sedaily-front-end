@@ -10,3 +10,13 @@ selenium-debug.log
 *.swo
 .vscode/
 .idea/
+
+# Cypress end-to-end tests
+cypress/videos
+cypress/screenshots
+
+# Build output
+dist/
+
+# We only use package-lock.json. Having yarn.lock fails the Heroku build
+yarn.lock
