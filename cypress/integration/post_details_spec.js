@@ -38,7 +38,7 @@ describe('The Post Detail Page', function () {
       .expectActiveVote('none')
     })
   })
-  it('Successfully comments on post', function () {
+  xit('Successfully comments on post', function () {
     const comment = `My opinion - ${uuidv4()}`
     const reply = `Also - ${uuidv4()}`
     cy.login().then(() => {
@@ -61,7 +61,7 @@ describe('The Post Detail Page', function () {
       cy.contains(comment).should('not.exist')
     })
   })
-  it('Successfully adds related link', function () {
+  xit('Successfully adds related link', function () {
     const linkUrl = `https://google.com/${uuidv4()}`
     const linkTitle = `See also - ${uuidv4()}`
     cy.login().then(() => {
@@ -92,7 +92,7 @@ describe('The Post Detail Page', function () {
       cy.contains(linkTitle).should('not.exist')
     })
   })
-  it('Successfully plays episode', function () {
+  xit('Successfully plays episode', function () {
     cy.visit('/new')
     // some posts may be "text only" - want one that can play
     cy.get('.player-control')
