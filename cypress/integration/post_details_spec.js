@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4')
 describe('The Post Detail Page', function () {
   it('Successfully displays post details', function () {
     cy.visit('/new')
-    cy.get('.title > a').first().click({force: true}).then((title) => {
+    cy.get('.title > a').first().click({ force: true }).then(() => {
       cy.location().should((loc) => {
         expect(loc.pathname).to.match(/post/)
       })
@@ -11,14 +11,14 @@ describe('The Post Detail Page', function () {
   })
   it('Successfully upvotes/downvotes post', function () {
     cy.visit('/new')
-    cy.get('.title > a').first().click({force: true})
+    cy.get('.title > a').first().click({ force: true })
     cy.get('.post-header')
     .first()
     .upvoteToggle()
     cy.get('.toasted.error').should('contain', 'You must login to vote')
     cy.login().then(() => {
       cy.visit('/new')
-      cy.get('.title > a').first().click({force: true})
+      cy.get('.title > a').first().click({ force: true })
       cy.get('.post-header')
       .first()
       .upvoteToggle()
@@ -43,7 +43,7 @@ describe('The Post Detail Page', function () {
     const reply = `Also - ${uuidv4()}`
     cy.login().then(() => {
       cy.visit('/new')
-      cy.get('.title > a').first().click({force: true})
+      cy.get('.title > a').first().click({ force: true })
       cy.get('.comment-box').first().type(comment)
       cy.contains('Add Comment').click()
       cy.contains(comment).should('exist')
