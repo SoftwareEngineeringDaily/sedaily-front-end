@@ -9,7 +9,7 @@ describe('The Post Detail Page', function () {
       })
     })
   })
-  it('Successfully upvotes/downvotes post', function () {
+  xit('Successfully upvotes/downvotes post', function () {
     cy.visit('/new')
     cy.get('.title > a').first().click({ force: true })
     cy.get('.post-header')
