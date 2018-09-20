@@ -11,6 +11,10 @@ selenium-debug.log
 .vscode/
 .idea/
 
+# Cypress end-to-end tests
+cypress/videos
+cypress/screenshots
+
 # Build output
 dist/
 
