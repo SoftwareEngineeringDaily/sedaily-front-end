@@ -19,7 +19,7 @@
     "launch": "npm run build && npm start",
     "lint": "eslint --ext .js,.vue src test/unit/specs cypress",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs cypress --fix",
-    "postinstall": "npm run build",
+    "postinstall": "cross-env-shell \" if [[ $DEPLOY -eq true ]]; then npm run build; fi \"",
     "staging-build": "cross-env API_ENV=staging npm run build",
     "start": "node server.js",
     "test:e2e": "npm run backend:reload && start-server-and-test dev http-get://localhost:8080 cy:e2e && npm run backend:rm"
