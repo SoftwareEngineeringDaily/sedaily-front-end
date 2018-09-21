@@ -14,7 +14,7 @@ describe('The Forum Page', function () {
       existingUser = user
     })
   })
-  it('Successfully creates forum post', function () {
+  xit('Successfully creates forum post', function () {
     cy.visit('/#/forum')
     cy.contains('Create New Post').click()
     cy.get('input[name=title]').type(forumThreadPost.title)
@@ -26,7 +26,7 @@ describe('The Forum Page', function () {
     cy.contains(forumThreadPost.title).should('exist')
     cy.contains(existingUser.name).should('exist')
   })
-  it('Successfully replies to forum post', function () {
+  xit('Successfully replies to forum post', function () {
     cy.contains('Forum').click()
     // vue-router may inject anchor after content (title) is rendered
     // can't just use cy.contains() in this case
@@ -36,7 +36,7 @@ describe('The Forum Page', function () {
     cy.contains(forumPostReply).should('exist')
     cy.get('textarea.comment-box').should('have.value', '')
   })
-  it('Successfully deletes reply', function () {
+  xit('Successfully deletes reply', function () {
     cy.get('.comment-holder')
     .first()
     .contains('Delete')
@@ -47,7 +47,7 @@ describe('The Forum Page', function () {
     .contains('Deleted')
     .should('exist')
   })
-  it('Successfully views forum when logged out', function () {
+  xit('Successfully views forum when logged out', function () {
     cy.logout()
     cy.visit('/#/forum')
     cy.contains('Create New Post').should('not.exist')
