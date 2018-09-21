@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span v-if="userData">
     <router-link :to="'/profile/' + userData._id">
       <div
         :style="imageStyle"

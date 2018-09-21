@@ -24,7 +24,7 @@
       <span class='forum-summary-title'>
         <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title | decodeString }} </router-link>
       </span>
-      <div class='forum-thread-misc'>
+      <div class='forum-thread-misc' v-if="forumThreadLocal.author">
         Posted by
         <span>
           <router-link :to="'/profile/' + forumThreadLocal.author._id">
