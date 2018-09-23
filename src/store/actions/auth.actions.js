@@ -141,5 +141,11 @@ export default {
         resetUID,
         secretKey
       })
+  },
+  verifyRecaptcha: ({ commit, state }, { recaptchaResponse }) => {
+    return axios.post(`${BASE_URL}/auth/recaptcha`,
+      {
+        recaptchaResponse
+      })
   }
 }

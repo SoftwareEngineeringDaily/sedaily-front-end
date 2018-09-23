@@ -61,7 +61,12 @@
           <span v-else>
             <form v-on:submit.prevent="checkIfRecaptchaVerified">
               <vue-recaptcha @verify="markRecaptchaAsVerified" sitekey="6LdFYXEUAAAAACdpxlLQNTNeowenA_04MhDxcNlM"></vue-recaptcha>
-              <div><strong>{{ loginForm.pleaseTickRecaptchaMessage }}</strong></div>
+              <div class="row">
+                <div class="col-sm-8 alert alert-danger"
+                  v-show="(this.threadForm.recaptchaVerified === false)">
+                  The recaptcha field is required.
+                </div>
+              </div>
             <button
               :disabled="isSubmitting"
               class='button-submit'
@@ -98,7 +103,7 @@
         <h2> Markdown Info </h2>
         <ul>
           <li> New lines are honored. </li>
-          <li> URSL are auto detected and become clickable. They need http(s). </li>
+          <li> URLS are auto detected and become clickable. They need http(s). </li>
         </ul>
       </div>
     </div>
@@ -168,9 +173,8 @@ export default {
       content: this.initialContent,
       errorMsg: this.initialErrorMsg,
       shouldShowMarkDownHelp: false,
-      loginForm: {
-        recaptchaVerified: false,
-        pleaseTickRecaptchaMessage: ''
+      threadForm: {
+        recaptchaVerified: null
       },
     }
   },
@@ -203,26 +207,35 @@ export default {
     submit () {
       this.errorMsg = null
       return this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.submitCallback({
-            title: this.title,
-            content: this.content
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (result && this.threadForm.recaptchaVerified === true) {
+          this.$store.dispatch('verifyRecaptcha', {
+            recaptchaResponse
           })
+            .then((response) => {
+              this.submitCallback({
+                title: this.title,
+                content: this.content
+              })
+            })
+            .catch(() => {
+              this.$toasted.error('There was an error with your recaptcha submission.')
+            })
         } else {
+          if (this.threadForm.recaptchaVerified === null) {
+            this.threadForm.recaptchaVerified = false;
+          }
           this.errorMsg = 'Sorry there are invalid fields on the form :('
         }
       })
     },
     markRecaptchaAsVerified(response) {
-      this.loginForm.pleaseTickRecaptchaMessage = '';
-      this.loginForm.recaptchaVerified = true;
+      this.threadForm.recaptchaVerified = true;
     },
     checkIfRecaptchaVerified() {
-      if (!this.loginForm.recaptchaVerified) {
-        this.loginForm.pleaseTickRecaptchaMessage = 'Please tick recaptcha.';
-          return true; // prevent form from submitting
-        }
-      alert('form would be posted!');
+      if (!this.threadForm.recaptchaVerified) {
+        return true;
+      }
     }
   }
 }
