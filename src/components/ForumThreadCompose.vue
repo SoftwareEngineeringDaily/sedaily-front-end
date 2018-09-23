@@ -59,10 +59,14 @@
             <spinner :show="true"></spinner>
           </div>
           <span v-else>
+            <form v-on:submit.prevent="checkIfRecaptchaVerified">
+              <vue-recaptcha @verify="markRecaptchaAsVerified" sitekey="6LdFYXEUAAAAACdpxlLQNTNeowenA_04MhDxcNlM"></vue-recaptcha>
+              <div><strong>{{ loginForm.pleaseTickRecaptchaMessage }}</strong></div>
             <button
               :disabled="isSubmitting"
               class='button-submit'
               @click='submit'>{{submitButtonText}}</button>
+            </form>
           </span>
         </span>
 
@@ -116,7 +120,7 @@ import Spinner from 'components/Spinner'
 import ForumThreadBody from '@/components/ForumThreadBody.vue'
 import { debounce } from 'lodash'
 import { mapState, mapActions } from 'vuex'
-
+import VueRecaptcha from 'vue-recaptcha';
 export default {
   name: 'forum-thread-compose',
   props: {
@@ -155,7 +159,8 @@ export default {
   },
   components: {
     Spinner,
-    ForumThreadBody
+    ForumThreadBody,
+    VueRecaptcha
   },
   data () {
     return {
@@ -163,6 +168,10 @@ export default {
       content: this.initialContent,
       errorMsg: this.initialErrorMsg,
       shouldShowMarkDownHelp: false,
+      loginForm: {
+        recaptchaVerified: false,
+        pleaseTickRecaptchaMessage: ''
+      },
     }
   },
   computed: {
@@ -203,6 +212,17 @@ export default {
           this.errorMsg = 'Sorry there are invalid fields on the form :('
         }
       })
+    },
+    markRecaptchaAsVerified(response) {
+      this.loginForm.pleaseTickRecaptchaMessage = '';
+      this.loginForm.recaptchaVerified = true;
+    },
+    checkIfRecaptchaVerified() {
+      if (!this.loginForm.recaptchaVerified) {
+        this.loginForm.pleaseTickRecaptchaMessage = 'Please tick recaptcha.';
+          return true; // prevent form from submitting
+        }
+      alert('form would be posted!');
     }
   }
 }
