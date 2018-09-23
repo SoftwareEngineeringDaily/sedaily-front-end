@@ -20,12 +20,6 @@
 
       </div>
       <div class="row">
-        <div
-          class="col-md-12 beta-msg text-center">
-            <b>Notice: </b><span>We have temporarily disabled posting threads while we implement Captcha. Thank you for your patience and we apologize for the inconvenience.</span>
-          </div>
-      </div>
-      <div class="row">
         <transition
           name="fade"
           mode="out-in">
