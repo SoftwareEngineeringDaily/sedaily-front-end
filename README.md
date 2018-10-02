@@ -50,9 +50,6 @@ In order to speed up configuration for exploration or cosmetic changes, you can 
 ```
 # serve with hot reload at localhost:8080, using API running on staging
 npm run dev:api-staging
-
-# serve with hot reload at localhost:8080, using API running on production
-npm run dev:api-prod
 ```
 
 ## Contributing
@@ -60,12 +57,3 @@ npm run dev:api-prod
 `develop` branch gets pushed to staging
 
 We have an active Slack community that you can reach out to for more information or just to chat with anyone. Check out the [<img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png" alt="Slack Channel" width="20px"/> SED app development](https://softwaredaily.slack.com/app_redirect?channel=sed_app_development) slack channel. Also see the [Open Source Guide](https://softwareengineeringdaily.github.io/).
-
-## Pushing to Production
-Remember to `npm run build` and then **commit all new files** and then `npm run deploy2`
-Works if done from master branch.
-To delete commit:
-
-git fetch origin
-git reset --hard origin/master
-
