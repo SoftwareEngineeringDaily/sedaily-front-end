@@ -170,6 +170,7 @@ export default {
 .dropdown-menu-active
   .btn-secondary
     background-color white
+    box-shadow 0 0 0 0.2rem rgba(108, 117, 125, 0.5)
     &.dropdown-toggle
       border-color white
       color white
