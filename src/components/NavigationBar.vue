@@ -194,12 +194,8 @@ export default {
 @keyframes dropdown
   0%
     display none
-    opacity 0
-  50%
-    opacity 100
   100%
     display block
-    opacity 100
 
 .feed-nav-link
   margin-left 15px
