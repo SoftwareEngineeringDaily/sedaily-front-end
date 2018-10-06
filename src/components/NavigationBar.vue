@@ -8,33 +8,42 @@
         Software Daily
       </router-link>
 
-      <span class="dropdown">
+      <span
+        class="dropdown"
+        v-bind:class="{'dropdown-menu-active': showDropdown}"
+        @mouseenter="mouseOverDropdown"
+        @mouseleave="mouseLeaveDropdown">
         <button
           id="podcastMenuButton"
+          @click="onClickPodcastButton"
           class="btn btn-secondary dropdown-toggle"
           type="button"
-          data-toggle="dropdown"
+          data-toggle="dropdown-disabled"
           aria-haspopup="true"
           aria-expanded="false">
           Podcast
         </button>
-        <div
-          class="dropdown-menu"
-          aria-labelledby="podcastMenuButton">
-          <router-link
-            to="/new"
-            class="dropdown-item"
-            exact>New</router-link>
-          <router-link
-            to="/top"
-            class="dropdown-item"
-            exact>Top</router-link>
-          <router-link to="/recommendations"
-            class="dropdown-item"
-            name="feed-nav-link"
-            exact
-            >Recommended</router-link>
-        </div>
+        <transition name="dropdown">
+          <div
+            class="dropdown-menu"
+            v-if="showDropdown"
+            @click="onClickDropdownMenu"
+            aria-labelledby="podcastMenuButton">
+            <router-link
+              to="/new"
+              class="dropdown-item"
+              exact>New</router-link>
+            <router-link
+              to="/top"
+              class="dropdown-item"
+              exact>Top</router-link>
+            <router-link to="/recommendations"
+              class="dropdown-item"
+              name="feed-nav-link"
+              exact
+              >Recommended</router-link>
+          </div>
+        </transition>
       </span>
 
       <!--
@@ -92,6 +101,11 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'navigation-bar',
 
+  data: () => ({
+    showDropdown: false,
+    clickedDropdown: false
+  }),
+
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
@@ -110,6 +124,20 @@ export default {
     logoutHandler () {
       this.$auth.logout()
       this.$router.replace('/')
+    },
+    mouseOverDropdown () {
+      if (!this.showDropdown) this.showDropdown = true;
+    },
+    mouseLeaveDropdown () {
+      if (this.showDropdown && !this.clickedDropdown) this.showDropdown = false;
+    },
+    onClickPodcastButton () {
+      this.clickedDropdown = !this.clickedDropdown;
+      this.clickedDropdown ? this.showDropdown = true : this.showDropdown = false;
+    },
+    onClickDropdownMenu () {
+      this.clickedDropdown = false;
+      this.showDropdown = false;
     }
   }
 }
@@ -138,6 +166,40 @@ export default {
       border-color white
       color white
       background-color primary-color
+
+.dropdown-menu-active
+  .btn-secondary
+    background-color white
+    &.dropdown-toggle
+      border-color white
+      color white
+      background-color primary-color
+
+.dropdown-menu
+  display block
+  transform translate3d(0px, 15px, 0px)
+  .dropdown-menu
+    opacity 0
+    position absolute
+    top 0px
+    left 0px
+    will-change transform
+
+.dropdown-enter-active
+  animation dropdown-in 0.2s
+
+.dropdown-leave-active
+  animation dropdown-in 0.1s reverse
+
+@keyframes dropdown
+  0%
+    display none
+    opacity 0
+  50%
+    opacity 100
+  100%
+    display block
+    opacity 100
 
 .feed-nav-link
   margin-left 15px
