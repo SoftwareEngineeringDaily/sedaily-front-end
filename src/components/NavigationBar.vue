@@ -15,12 +15,13 @@
         @mouseleave="mouseLeaveDropdown">
         <button
           id="podcastMenuButton"
+          v-bind:aria-expanded="showDropdown ? 'true' : 'false'"
           @click="onClickPodcastButton"
           class="btn btn-secondary dropdown-toggle"
           type="button"
           data-toggle="dropdown-disabled"
           aria-haspopup="true"
-          aria-expanded="false">
+          >
           Podcast
         </button>
         <transition name="dropdown">
