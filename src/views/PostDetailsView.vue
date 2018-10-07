@@ -79,11 +79,11 @@
       />
     </div>
 
-    <div class="side-bar">
+    <!-- <div class="side-bar">
       <post-sidebar
         :comments="comments.length"
         :related-links="relatedLinks.length" />
-    </div>
+    </div> -->
   </div>
 </template>
 
