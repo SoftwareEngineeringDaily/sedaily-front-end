@@ -78,12 +78,6 @@
         :loading="isLoadingComments"
       />
     </div>
-    <!-- Issue #511 - Remove right sidebar...from eposides page -->
-    <!-- <div class="side-bar">
-      <post-sidebar
-        :comments="comments.length"
-        :related-links="relatedLinks.length" />
-    </div> -->
   </div>
 </template>
 
