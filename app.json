@@ -3,6 +3,12 @@
   "scripts": {
   },
   "env": {
+    "API_ENV": {
+      "required": true
+    },
+    "DEPLOY": {
+      "required": true
+    }
   },
   "formation": {
   },
