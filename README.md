@@ -1,8 +1,16 @@
 [![logo](https://i.imgur.com/3OtP3p8.png)](https://softwareengineeringdaily.com/)
 
-# SEDaily Website
+# Description
 
 > Web front end for the [Software Engineering Daily](https://www.softwaredaily.com) application, a Vue.js project
+
+# Installation
+
+# Usage
+
+# Contributing
+
+# License
 
 ## Getting Started
 See the companion project [API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api) required to run the web front end locally.
