@@ -78,12 +78,6 @@
         :loading="isLoadingComments"
       />
     </div>
-
-    <div class="side-bar">
-      <post-sidebar
-        :comments="comments.length"
-        :related-links="relatedLinks.length" />
-    </div>
   </div>
 </template>
 
