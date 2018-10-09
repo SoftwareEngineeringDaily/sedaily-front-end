@@ -54,7 +54,9 @@ export default {
       marked.setOptions({
         breaks: true
       })
-      return marked(this.content)
+      const linkRegEx = /\<a href=/gi;
+      const replaceLink = '<a target="_blank" href=';
+      return marked(this.content).replace(linkRegEx, replaceLink);
     }
   }
 }
