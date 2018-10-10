@@ -47,13 +47,11 @@
         </transition>
       </span>
 
-      <!--
-      <router-link
-        to="/forum"
-        class="feed-nav-link"
+      <router-link to="/forum"
+        name="forum-nav-link"
+        class="forum-nav-link"
         exact
       >Forum</router-link>
-    -->
 
       <router-link to="/feed"
         name="feed-nav-link"
@@ -199,8 +197,11 @@ export default {
   100%
     display block
 
-.feed-nav-link
+.forum-nav-link
+  margin-right 15px
   margin-left 15px
+
+.feed-nav-link
   margin-right 15px
 
 .header
