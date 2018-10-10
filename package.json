@@ -14,7 +14,6 @@
     "cy:e2e": "cypress run",
     "cy:open": "cypress open",
     "dev": "webpack-dev-server --config build/webpack.dev.conf.js",
-    "dev:api-prod": "cross-env API_ENV=production npm run dev",
     "dev:api-staging": "cross-env API_ENV=staging npm run dev",
     "launch": "npm run build && npm start",
     "lint": "eslint --ext .js,.vue src test/unit/specs cypress",
