@@ -1,21 +1,16 @@
 [![logo](https://i.imgur.com/3OtP3p8.png)](https://softwareengineeringdaily.com/)
 
-# Description
+# Software Engineering Daily Web Front End
 
-> Web front end for the [Software Engineering Daily](https://www.softwaredaily.com) application, a Vue.js project
-
-# Installation
-
-# Usage
-
-# Contributing
-
-# License
+The web client for the Software Daily platform, a Vue.js project. See the Open Source Guide [project overview](https://softwareengineeringdaily.github.io/High_Level/project_description/) for more.
 
 ## Getting Started
-See the companion project [API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api) required to run the web front end locally.
 
-By far the easiest way to get started is to use the Docker containers including the backend and seeded Mongo database. This does require an OS-specific install of [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/#prerequisites). If you run into any challenges do not hesitate to ask for help in the Slack channel!
+The [Software Daily](https://www.softwaredaily.com) web front end connects to the Software Daily [REST API](https://github.com/SoftwareEngineeringDaily/software-engineering-daily-api). Here's what you'll need to get started.
+
+### Prerequisites
+
+If you want to get up and running quickly to start development the easiest way is to use the Docker. This requires an OS-specific install of [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/#prerequisites). If you run into any challenges do not hesitate to ask for help in the Slack channel!
 
 ``` bash
 # cloning the project
@@ -25,23 +20,11 @@ cd sedaily-front-end/
 # install dependencies
 npm install
 
-# run backend (pulls images and runs containers with docker-compose)
+# run REST API, MongoDB, and Redis in Docker containers (pulls images and runs containers with docker-compose)
 npm run backend:start
 
 # serve with hot reload at localhost:8080, using API and event service API running locally
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for staging with minification
-npm run staging-build
-
-# run the built server from dist/server.js
-npm run start
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
 ## Testing
