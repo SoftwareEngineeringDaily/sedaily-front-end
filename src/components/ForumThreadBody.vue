@@ -54,9 +54,15 @@ export default {
       marked.setOptions({
         breaks: true
       })
-      const linkRegEx = /\<a href=/gi;
-      const replaceLink = '<a target="_blank" href=';
-      return marked(this.content).replace(linkRegEx, replaceLink);
+      const htmlMarkdown = marked(this.content);
+      return this.updateLinkToOpenTab(htmlMarkdown);
+    }
+  },
+  methods: {
+    updateLinkToOpenTab (html) {
+      const regExLink = /\<a href=/gi;
+      const updatedLink = '<a target="_blank" href=';
+      return html.replace(regExLink, updatedLink);
     }
   }
 }
