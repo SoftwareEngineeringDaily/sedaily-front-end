@@ -168,9 +168,12 @@ export default {
   .votes-container
     padding 0px 10px
     padding-left 8px
+  .forum-summary-container
+    max-width 66vw
 @media (max-width: 576px)
   .content-holder
     max-width 63%
-
+  .forum-summary-container
+    max-width 100vw
 
 </style>
