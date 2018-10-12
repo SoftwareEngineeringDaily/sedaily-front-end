@@ -1,28 +1,30 @@
 <template>
-  <div class='forum-summary-container row'>
-    <span class="profile-avatar">
-      <div v-if="podcastEpisode">
-        <img
-        class='podcast-icon'
-        src="@/assets/icons/podcast.png"
-        />
-      </div>
-      <profile-label v-else
-        :userData="forumThreadLocal.author"
-        :showName="false" />
-    </span>
+  <div class='forum-summary-container card mb-2'>
+    <div class="card-header">
+      <span class="profile-avatar">
+        <div v-if="podcastEpisode">
+          <img
+          class='podcast-icon'
+          src="@/assets/icons/podcast.png"
+          />
+        </div>
+        <profile-label v-else
+          :userData="forumThreadLocal.author"
+          :showName="false" />
+      </span>
+        <span class='forum-summary-title'>
+          <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title | decodeString }} </router-link>
+        </span>
+    </div>
 
-    <span class='votes-container'>
-      <voting-arrows
-        :upvoteHandler="upvoteHandler"
-        :upvoted="forumThreadLocal.upvoted"
-        :score="forumThreadLocal.score">
-      </voting-arrows>
-    </span>
 
-    <span class="content-holder">
-      <span class='forum-summary-title'>
-        <router-link :to="'/forum/' + forumThreadLocal._id"> {{forumThreadLocal.title | decodeString }} </router-link>
+    <span class="content-holder card-body">
+      <span class='votes-container'>
+        <voting-arrows
+          :upvoteHandler="upvoteHandler"
+          :upvoted="forumThreadLocal.upvoted"
+          :score="forumThreadLocal.score">
+        </voting-arrows>
       </span>
       <div class='forum-thread-misc' v-if="forumThreadLocal.author">
         Posted by
@@ -117,18 +119,28 @@ export default {
   .forum-summary-title a:hover
     text-decoration none
     color primary-color
+  .card-header
+    display flex
+    align-items center
 
 .forum-thread-misc
   font-size 0.8rem
   color darkgrey
   margin-top 3px
-  margin-bottom 1rem
+  margin-bottom 0.2rem
 
 .forum-thread-misc a
   text-decoration none
 
 .content-holder
   max-width 83%
+  display flex
+  align-items flex-end
+
+.card-body
+  padding-top 0.25rem
+  padding-bottom 0.25rem
+
 .misc-detail a
   color #a9a9a9
   &:hover
@@ -141,7 +153,8 @@ export default {
   margin-right 5px
 .profile-avatar
   padding-left 20px
-  padding-top 12px
+  padding-right 20px
+  display flex
 
 .votes-container
   padding-top 3px
@@ -154,7 +167,7 @@ export default {
 @media (min-width: 576px)
   .votes-container
     padding 0px 10px
-    padding-left 15px
+    padding-left 8px
 @media (max-width: 576px)
   .content-holder
     max-width 63%

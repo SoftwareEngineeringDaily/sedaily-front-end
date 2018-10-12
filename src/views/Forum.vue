@@ -1,7 +1,7 @@
 <template>
   <div class='forum'>
     <div
-      class="row"
+      class=""
       v-if="isLoggedIn">
       <div class="col-sm-10 ">
         <button
@@ -25,9 +25,9 @@
          <router-link class="link create-project-link" :to="{ name: 'NewProjectThread', params: {}}">Post a Project</router-link>
       </div>
     </div>
-    <div class="row">
+    <div class="">
       <transition :name="transition">
-          <div class="row" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+          <div class="" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
             <div class="forum-threads col-sm-12">
               <forum-thread-summary
               v-for="forumThread in displayedPosts"
@@ -174,7 +174,7 @@ export default {
 
 @media (min-width: 768px)
   .forum
-    margin-left 30px
+    padding-left 30px
 
 
 </style>
