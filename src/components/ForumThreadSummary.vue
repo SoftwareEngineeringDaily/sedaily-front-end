@@ -135,7 +135,7 @@ export default {
 .content-holder
   max-width 83%
   display flex
-  align-items flex-end
+  align-items center
 
 .card-body
   padding-top 0.25rem

@@ -1,25 +1,26 @@
 <template>
-  <div class='item-container row'>
-    <span class="profile-avatar">
-      <div>
-        <img class="feed-image" :src="imageSrc" />
-      </div>
-    </span>
+  <div class='item-container card mb-2'>
+    <div class="card-header">
+      <span class="profile-avatar">
+        <div>
+          <img class="feed-image" :src="imageSrc" />
+        </div>
+      </span>
 
-    <span class='votes-container'>
-      <voting-arrows
-        :upvoteHandler="upvoteHandler"
-        :upvoted="feedItem.upvoted"
-        :score="feedItem.score">
-      </voting-arrows>
-    </span>
-
-    <span class="content-holder">
       <span class='item-title'>
-
         <a :href="feedItem.url | externalUrl" target="_blank">
           Related link: {{feedItem.title}}
         </a>
+      </span>
+    </div>
+
+    <span class="content-holder card-body">
+      <span class='votes-container'>
+        <voting-arrows
+          :upvoteHandler="upvoteHandler"
+          :upvoted="feedItem.upvoted"
+          :score="feedItem.score">
+        </voting-arrows>
       </span>
 
       <div class='item-misc'>
@@ -111,18 +112,29 @@ export default {
   .item-title a:hover
     text-decoration none
     color primary-color
+  .card-header
+    display flex
+    align-items center
 
 .item-misc
   font-size 0.8rem
   color darkgrey
   margin-top 3px
-  margin-bottom 1rem
+  margin-bottom 0.2rem
 
 .item-misc a
   text-decoration none
 
 .content-holder
   max-width 83%
+  display flex
+  align-items center
+
+.card-body
+  padding-top 0.25rem
+  padding-bottom 0.25rem
+
+
 .misc-detail a
   color #a9a9a9
   &:hover
@@ -135,7 +147,7 @@ export default {
   margin-right 5px
 .profile-avatar
   padding-left 20px
-  padding-top 12px
+  padding-right 20px
 
 .votes-container
   padding-top 3px
@@ -145,7 +157,7 @@ export default {
 @media (min-width: 576px)
   .votes-container
     padding 0px 10px
-    padding-left 15px
+    padding-left 8px
 @media (max-width: 576px)
   .content-holder
     max-width 63%
