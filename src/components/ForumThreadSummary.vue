@@ -18,14 +18,19 @@
     </div>
 
 
-    <span class="content-holder card-body">
+    <div class="content-holder card-body">
       <span class='votes-container'>
         <voting-arrows
           :upvoteHandler="upvoteHandler"
           :upvoted="forumThreadLocal.upvoted"
           :score="forumThreadLocal.score">
         </voting-arrows>
+        <span>
+          Placeholder
+        </span>
       </span>
+    </div>
+    <div class="card-footer">
       <div class='forum-thread-misc' v-if="forumThreadLocal.author">
         Posted by
         <span>
@@ -43,7 +48,7 @@
           </router-link>
         </span>
       </div>
-    </span>
+    </div>
 </div>
 </template>
 

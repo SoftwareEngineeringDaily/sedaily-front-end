@@ -147,6 +147,7 @@ export default {
         return state.route.params.id
       },
       forumThread (state) {
+        console.log('forumthread', state.forumThreads[state.route.params.id]);
         return state.forumThreads[state.route.params.id]
       },
       commentsMap (state) {

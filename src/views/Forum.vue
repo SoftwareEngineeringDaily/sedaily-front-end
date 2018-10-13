@@ -121,6 +121,7 @@ export default {
       forumThreads (state) {
         if (!state.forumThreadIdsList) return []
         const threads = state.forumThreadIdsList.map((id) => state.forumThreads[id])
+        console.log('threads', threads)
         return threads
       }
     })
