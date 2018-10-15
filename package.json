@@ -11,6 +11,7 @@
     "backend:rm": "docker-compose -f devops/docker-compose.yml down",
     "build": "node build/build.js",
     "build:dev": "cross-env API_ENV=development npm run build",
+    "build:staging": "cross-env API_ENV=staging npm run build",
     "cy:e2e": "cypress run",
     "cy:open": "cypress open",
     "dev": "webpack-dev-server --config build/webpack.dev.conf.js",
@@ -19,7 +20,6 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs cypress",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs cypress --fix",
     "postinstall": "npm run build",
-    "staging-build": "cross-env API_ENV=staging npm run build",
     "start": "node server.js",
     "test:e2e": "npm run backend:reload && start-server-and-test dev http-get://localhost:8080 cy:e2e && npm run backend:rm"
   },
