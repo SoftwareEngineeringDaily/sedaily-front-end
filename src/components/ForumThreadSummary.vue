@@ -25,10 +25,8 @@
           :upvoted="forumThreadLocal.upvoted"
           :score="forumThreadLocal.score">
         </voting-arrows>
-        <span>
-          Placeholder
-        </span>
       </span>
+      <span class="" v-html="forumThreadContent"></span>
     </div>
     <div class="card-footer">
       <div class='forum-thread-misc' v-if="forumThreadLocal.author">
@@ -96,6 +94,15 @@ export default {
     podcastEpisode () {
       if (this.forumThread && this.forumThread.podcastEpisode) {
         return this.forumThread.podcastEpisode
+      } else {
+        return false
+      }
+    },
+    forumThreadContent () {
+      if (this.forumThread && this.forumThread.podcastEpisode) {
+        return this.forumThread.podcastEpisode.excerpt.rendered
+      } else if (this.forumThread) {
+        return this.forumThread.content
       } else {
         return false
       }
