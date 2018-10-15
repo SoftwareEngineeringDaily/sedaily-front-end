@@ -54,7 +54,15 @@ export default {
       marked.setOptions({
         breaks: true
       })
-      return marked(this.content)
+      const htmlMarkdown = marked(this.content);
+      return this.updateLinkToOpenTab(htmlMarkdown);
+    }
+  },
+  methods: {
+    updateLinkToOpenTab (html) {
+      const regExLink = /\<a href=/gi;
+      const updatedLink = '<a target="_blank" href=';
+      return html.replace(regExLink, updatedLink);
     }
   }
 }
