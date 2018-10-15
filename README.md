@@ -10,7 +10,7 @@ The [Software Daily](https://www.softwaredaily.com) web front end connects to th
 
 ### Prerequisites
 
-If you want to get up and running quickly to start development the easiest way is to use the Docker. This requires an OS-specific install of [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/#prerequisites). If you run into any challenges do not hesitate to ask for help in the Slack channel!
+If you want to get up and running quickly to start development the easiest way is to use the Docker. This requires an OS-specific install of [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/#prerequisites). During the CI process for the the API, the MongoDB image data is seeded from the staging instance. We do not include any users from the staging MongoDB instance. As a result, any forum posts created in the staging environment will not have authors when running locally. This could potentially cause problems when using the data on the front end. If you run into any challenges do not hesitate to ask for help in the Slack channel! 
 
 ``` bash
 # cloning the project
