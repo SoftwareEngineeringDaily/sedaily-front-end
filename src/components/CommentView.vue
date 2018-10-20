@@ -128,8 +128,9 @@ export default {
         marked.setOptions({
           breaks: true
         })
-        const htmlMarkdown = marked(this.comment.content)
-        return this.linkifyMentions(htmlMarkdown)
+        const htmlMarkdown = marked(this.comment.content);
+        const updatedHtmlMarkdown = this.updateLinkToOpenTab(htmlMarkdown);
+        return this.linkifyMentions(updatedHtmlMarkdown);
       },
 
       placeholderAvatar (state) {
@@ -165,6 +166,11 @@ export default {
   },
   methods: {
     ...mapActions(['likeComment', 'removeComment', 'commentsFetch']),
+    updateLinkToOpenTab (html) {
+      const regExLink = /\<a href=/gi;
+      const updatedLink = '<a target="_blank" href=';
+      return html.replace(regExLink, updatedLink);
+    },
     linkifyMentions (html) {
       const { mentions } = this.comment
       if (!mentions) return html
