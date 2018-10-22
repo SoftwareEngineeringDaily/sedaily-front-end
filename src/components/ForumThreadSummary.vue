@@ -1,5 +1,13 @@
 <template>
   <div class='forum-summary-container card mb-2'>
+          <img v-if="podcastEpisode"
+          class='card-img-top'
+          v-bind:src="forumThreadLocal.podcastEpisode.featuredImage"
+          />
+          <!-- <div v-if="podcastEpisode"
+          class='card-img-top'
+          v-bind:style="{ backgroundImage: `url('${forumThreadLocal.podcastEpisode.featuredImage}')` }"
+          /> -->
     <div class="card-header">
       <span class="profile-avatar">
         <div v-if="podcastEpisode">
@@ -51,6 +59,7 @@
 </template>
 
 <script>
+import marked from 'marked'
 import moment from 'moment'
 import VotingArrows from 'components/VotingArrows.vue'
 import ProfileLabel from 'components/ProfileLabel.vue'
@@ -88,6 +97,16 @@ export default {
         eventAction: 'upvote thread from - summary view',
         eventLabel: `upvoted: ${this.forumThread._id}`
       })
+    },
+    cleanForumContent (content) {
+      marked.setOptions({
+        breaks: true
+      })
+      // remove wordpress html syntax
+      const regex = /(Play in new window \| Download)(.+?)(?=<\/p\>)/gi;
+      const removeWordpressSyntax = regex.exec(content);
+      const cleanContent = removeWordpressSyntax ? removeWordpressSyntax[2] : content;
+      return marked(cleanContent);
     }
   },
   computed: {
@@ -100,9 +119,13 @@ export default {
     },
     forumThreadContent () {
       if (this.forumThread && this.forumThread.podcastEpisode) {
-        return this.forumThread.podcastEpisode.excerpt.rendered
+        return this.cleanForumContent(
+          this.forumThread.podcastEpisode.excerpt.rendered
+        )
       } else if (this.forumThread) {
-        return this.forumThread.content
+        return this.cleanForumContent(
+          this.forumThread.content
+        )
       } else {
         return false
       }
@@ -145,9 +168,17 @@ export default {
   text-decoration none
 
 .content-holder
-  max-width 83%
+  max-width 100%
   display flex
   align-items center
+  overflow scroll
+
+.card-img-top
+  max-height 50vh
+  min-height 30vh
+  background-size cover
+  background-repeat no-repeat
+  background-position center
 
 .card-body
   padding-top 0.25rem
@@ -181,10 +212,10 @@ export default {
     padding 0px 10px
     padding-left 8px
   .forum-summary-container
-    max-width 66vw
+    max-width 50vw
 @media (max-width: 576px)
   .content-holder
-    max-width 63%
+    max-width 100%
   .forum-summary-container
     max-width 100vw
 
