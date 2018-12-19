@@ -69,7 +69,6 @@
       <comment-compose v-if="forumThreadId"
         :entityId="forumThreadId"
         :rootEntityType='"forumthread"' />
-      />
       <br>
       <h3 class="section-title"> Comments </h3>
       <comments-list
