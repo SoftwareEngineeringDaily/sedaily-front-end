@@ -12,7 +12,7 @@
       </a>
 
       <a
-        href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily&hl=en"
+        href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"
         target="_blank">
         <img
           src="@/assets/androidstore.png"
