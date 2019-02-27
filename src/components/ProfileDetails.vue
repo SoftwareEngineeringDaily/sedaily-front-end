@@ -8,7 +8,11 @@
          <router-link class="link" :to="{ name: 'NotificationSettings', params: {}}">
            Edit Notification Settings
          </router-link>
-
+         |
+         <a
+           href="/"
+           name="logouts-nav-link"
+           @click.prevent="logoutHandler">Logout</a>
       </h6>
       <div class="wrapper">
         <div class="col col-sm-auto">
@@ -69,6 +73,12 @@
           return this.userData.avatarUrl || state.placeholderAvatar
         }
       })
+    },
+    methods: {
+      logoutHandler () {
+        this.$auth.logout()
+        this.$router.replace('/')
+      },
     }
   }
 </script>

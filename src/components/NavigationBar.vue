@@ -8,7 +8,7 @@
         Software Daily
       </router-link>
 
-      <span
+      <!--<span
         class="dropdown"
         v-bind:class="{'dropdown-menu-active': showDropdown}"
         @mouseenter="mouseOverDropdown"
@@ -46,7 +46,6 @@
           </div>
         </transition>
       </span>
-
       <router-link to="/forum"
         name="forum-nav-link"
         class="forum-nav-link"
@@ -59,8 +58,7 @@
         exact
           >Feed</router-link>
 
-      <router-link to="/jobs">Jobs</router-link>
-
+      <router-link to="/jobs">Jobs</router-link>-->
 
       <span class="pull-right">
         <router-link
@@ -74,12 +72,8 @@
           class="call-to-action">Subscribe</router-link>
 
         <span v-if="isLoggedIn">
-          <a
-            href="/"
-            name="logouts-nav-link"
-            @click.prevent="logoutHandler">Logout</a>
           <router-link
-            to="/profile">Profile</router-link>
+            to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
         </span>
         <span v-else>
           <router-link
@@ -99,12 +93,25 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'navigation-bar',
+  props: {
+    userData: {
+      type: Object,
+      default: function () {
+        return {
+          avatarUrl: '',
+        }
+      }
+    },
+    ownProfile: {
+      type: Boolean,
+      default: false
+    }
+  },
 
   data: () => ({
     showDropdown: false,
     clickedDropdown: false
   }),
-
   computed: {
     ...mapGetters(['isLoggedIn']),
     ...mapState({
@@ -115,15 +122,14 @@ export default {
         } else {
           return false
         }
+      },
+      avatarUrl (state) {
+        return this.userData.avatarUrl || state.placeholderAvatar
       }
     })
   },
 
   methods: {
-    logoutHandler () {
-      this.$auth.logout()
-      this.$router.replace('/')
-    },
     mouseOverDropdown () {
       if (!this.showDropdown) this.showDropdown = true;
     },
@@ -211,12 +217,17 @@ export default {
   right 0
   position fixed
   background-color white
-  border 2px solid #eee
+  border-bottom 2px solid #eee
+  .profile-img
+    max-height 50px
   .inner
     max-width 1200px
     box-sizing border-box
     margin 0px auto
     padding 15px 5px
+    display flex
+    align-items center
+    justify-content space-between
   a
     font-size 14px
     line-height 16px
