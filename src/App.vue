@@ -93,7 +93,7 @@ export default {
 
 .main-app
   max-width 1200px
-  margin-top 3rem
+  margin-top 8rem
 
 .call-to-action
   background accent-color

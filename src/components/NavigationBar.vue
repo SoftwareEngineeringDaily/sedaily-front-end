@@ -209,6 +209,9 @@ export default {
   top 0
   left 0
   right 0
+  position fixed
+  background-color white
+  border 2px solid #eee
   .inner
     max-width 1200px
     box-sizing border-box
