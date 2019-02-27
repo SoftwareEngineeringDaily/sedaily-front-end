@@ -148,10 +148,11 @@ export default {
   display inline-flex
   flex-direction column
   background-color #fff
-  border-bottom 2px solid #eee
-  border-left 2px solid #eee
+  border-radius 5px
+  border 2px solid #eee
   padding 15px
-  width 50%
+  margin 15px 0
+  width 100%
 
 .post-summary
   display flex
