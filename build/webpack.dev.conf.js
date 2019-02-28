@@ -14,7 +14,6 @@ module.exports = merge(baseWebpackConfig, {
   },
   devServer: {
     hot: true,
-    host: '217.182.74.142',
     contentBase: path.join(__dirname, 'dist'),
     open: true,
     compress: true,

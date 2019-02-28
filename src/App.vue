@@ -194,6 +194,20 @@ a
 .fade-enter, .fade-leave-active
   opacity 0
 
+@media (max-width 600px)
+  .header .inner
+    flex-direction column
+
+@media (max-width 700px)
+  .header .inner
+    flex-wrap wrap
+    justify-content center
+    .site-name
+      font-size 28px!important
+    .search-bar
+      margin 15px
+      margin-left 0
+
 @media (max-width 860px)
   .header .inner
     padding 15px 30px

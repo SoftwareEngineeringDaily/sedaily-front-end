@@ -2,86 +2,35 @@
   <header class="header">
     <nav class="inner">
       <router-link
-        to="/"
-        class="site-name"
-        exact>
+      to="/"
+      class="site-name"
+      exact>
+        <img class="logo-img" src="../assets/sedaily-logo.png" />
         Software Daily
       </router-link>
-
-      <!--<span
-        class="dropdown"
-        v-bind:class="{'dropdown-menu-active': showDropdown}"
-        @mouseenter="mouseOverDropdown"
-        @mouseleave="mouseLeaveDropdown">
-        <button
-          id="podcastMenuButton"
-          v-bind:aria-expanded="showDropdown ? 'true' : 'false'"
-          @click="onClickPodcastButton"
-          class="btn btn-secondary dropdown-toggle"
-          type="button"
-          data-toggle="dropdown-disabled"
-          aria-haspopup="true"
-          >
-          Podcast
-        </button>
-        <transition name="dropdown">
-          <div
-            class="dropdown-menu"
-            v-if="showDropdown"
-            @click="onClickDropdownMenu"
-            aria-labelledby="podcastMenuButton">
-            <router-link
-              to="/new"
-              class="dropdown-item"
-              exact>New</router-link>
-            <router-link
-              to="/top"
-              class="dropdown-item"
-              exact>Top</router-link>
-            <router-link to="/recommendations"
-              class="dropdown-item"
-              name="feed-nav-link"
-              exact
-              >Recommended</router-link>
-          </div>
-        </transition>
-      </span>
-      <router-link to="/forum"
-        name="forum-nav-link"
-        class="forum-nav-link"
-        exact
-      >Forum</router-link>
-
-      <router-link to="/feed"
-        name="feed-nav-link"
-        class="feed-nav-link"
-        exact
-          >Feed</router-link>
-
-      <router-link to="/jobs">Jobs</router-link>-->
-
+      <SearchBar />
       <span class="pull-right">
         <router-link
-          v-if="alreadySubscribed"
-          to="/subscribe"
-          class="subscribed">Subscribed</router-link>
+        v-if="alreadySubscribed"
+        to="/subscribe"
+        class="subscribed">Subscribed</router-link>
 
         <router-link
-          v-else
-          to="/premium"
-          class="call-to-action">Subscribe</router-link>
+        v-else
+        to="/premium"
+        class="call-to-action-secondary">Subscribe</router-link>
 
-        <span v-if="isLoggedIn">
+        <span class="active-without-border" v-if="isLoggedIn">
           <router-link
-            to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+          to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
         </span>
         <span v-else>
           <router-link
-            to="/login">Login</router-link>
+          to="/login">Login</router-link>
 
           <router-link
-            to="/register"
-            class="register-nav-link">Register</router-link>
+          to="/register"
+          class="register-nav-link">Register</router-link>
         </span>
       </span>
     </nav>
@@ -90,9 +39,13 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import SearchBar from './SearchBar.vue'
 
 export default {
   name: 'navigation-bar',
+  components: {
+    SearchBar
+  },
   props: {
     userData: {
       type: Object,
@@ -105,12 +58,18 @@ export default {
     ownProfile: {
       type: Boolean,
       default: false
+    },
+  },
+  watch: {
+    searchTerm () {
+      this.makeSearch()
     }
   },
-
   data: () => ({
     showDropdown: false,
-    clickedDropdown: false
+    clickedDropdown: false,
+    searchTerm: null,
+    showFilteringElements: true,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -218,9 +177,13 @@ export default {
   position fixed
   background-color white
   border-bottom 2px solid #eee
+  .logo-img
+    max-height 40px
+    margin-right 15px
   .profile-img
     max-height 50px
   .inner
+    text-transform uppercase
     max-width 1200px
     box-sizing border-box
     margin 0px auto
@@ -228,10 +191,14 @@ export default {
     display flex
     align-items center
     justify-content space-between
+  .active-without-border
+    a.router-link-active
+      text-decoration none
+      border none
+      line-height 25px
   a
     font-size 14px
     line-height 16px
-    padding-top 8px
     transition color .15s ease
     color black
     display inline-block
@@ -245,7 +212,7 @@ export default {
       text-decoration none
       border-bottom 1.5px solid rgba(primary-color,1.0)
       line-height 25px
-    &:nth-child(6)
+    &:nth-child(2)
       margin-right 0
   .dropdown-menu a
     border-bottom none
@@ -268,10 +235,11 @@ export default {
     text-transform uppercase
     font-size 32px
     color #000
-    padding-top 10px
     line-height 25px
     letter-spacing normal
     font-weight bold
+    display flex
+    align-items center
     &:hover
       text-decoration none
       color #000
@@ -284,7 +252,6 @@ export default {
     line-height 25px
     color white
     background-color primary-color
-    margin-top 8px
     border-radius 20px
     padding-top 4px
     text-decoration none
@@ -298,7 +265,12 @@ export default {
       color #fff
       background-color #a591ff
       box-shadow 0 5px 15px rgba(#000, 0.3)
+  .call-to-action-secondary
+    color primary-color
   .register-nav-link
     margin-right 1em
-
+  @media (max-width 690px)
+    .header
+      .input
+        flex-wrap wrap
 </style>

@@ -19,6 +19,10 @@ export default {
     state.activeType = type
   },
 
+  setSearchTerm: (state, { searchTerm }) => {
+    state.searchTerm = searchTerm
+  },
+
   setMe: (state, me) => {
     state.me = me
   },

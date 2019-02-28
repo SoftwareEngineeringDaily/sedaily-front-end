@@ -23,27 +23,16 @@
 
   <div class="row">
     <div class="col-sm-12 col-md-6">
-      <div class='search-bar' v-if="showFilteringElements">
-        <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
-      </div>
-      <div v-else>
-        <br />
-        <br />
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12 col-md-6">
       <category-list
         :categories="categories"
         :active-category="activeCategory"
         @setSelectedCategory="setSelectedCategory"
         v-if="showFilteringElements" />
     </div>
+    <p>
+      {{searchDataNew}}
+    </p>
   </div>
-
-
 
     <instructions :displayedPosts="displayedPosts"> </instructions>
     <transition :name="transition">
@@ -127,30 +116,30 @@ export default {
           id: '1069'
         }
       ],
+      searchTerm: null,
       activeCategory: { name: 'All', id: null },
-      searchTerm: null
     }
   },
-
+  watch: {
+     searchTerm() {
+       this.resetPosts()
+     }
+  },
+  computed: {
+    searchDataNew() {
+      this.setSearchData()
+      return null
+    }
+  },
   created () {
     this.$store.commit('setActiveType', { type: this.type })
   },
-
-  watch: {
-    searchTerm () {
-      this.makeSearch()
-    }
-  },
-
   methods: {
+    setSearchData() {
+      this.searchTerm = this.$store.state.searchTerm
+    },
     setSelectedCategory (category) {
       this.activeCategory = category
-      this.resetPosts()
-    },
-    makeSearch () {
-      if (this.searchTerm === ' ') {
-        this.searchTerm = null
-      }
       this.resetPosts()
     },
     loadMore (newSearch = false) {
@@ -164,7 +153,6 @@ export default {
         search: undefined,
         createdAtBefore: undefined
       }
-
       if (this.searchTerm) {
         params.search = this.searchTerm
       }
@@ -262,18 +250,6 @@ export default {
 @media (max-width 600px)
   .news-list
     margin 10px 0
-.search-bar
-  input
-    width 100%
-    margin 20px 0
-    padding 10px
-    font-size 2rem
-    font-weight 100
-    color #C4C4C4
-    padding-left 20px
-    border none
-    border-bottom 1px solid #ccc
-
 /* Filters */
 .filters
   position relative

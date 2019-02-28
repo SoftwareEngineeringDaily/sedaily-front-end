@@ -4,6 +4,7 @@ export default {
   playerState: PlayerState.STOPPED,
   activePlayerPost: {title: {}},
   activeType: null,
+  searchTerm: null,
   posts: {},
   entityComments: {}, // arrays of ids, only root comments
   comments: {}, // Map of all comments, key is comment._id
