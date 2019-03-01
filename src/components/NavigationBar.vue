@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" id="header">
     <nav class="inner">
       <router-link
       to="/"
@@ -24,6 +24,40 @@
           <router-link
           to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
         </span>
+        <span v-else class='register'>
+          <router-link
+          to="/login">Login</router-link>
+
+          <router-link
+          to="/register"
+          class="register-nav-link">Register</router-link>
+        </span>
+      </span>
+    </nav>
+    <nav class="inner-mobile">
+      <router-link
+      to="/"
+      class="site-name"
+      exact>
+        <img class="logo-img" src="../assets/sedaily-logo.png" />
+        Software Daily
+      </router-link>
+      <span class="pull-right">
+        <span v-on:click="onSearchActive"><img class="search-img" src="../assets/icons/search.svg"/></span>
+        <router-link
+        v-if="alreadySubscribed"
+        to="/subscribe"
+        class="subscribed">Subscribed</router-link>
+
+        <router-link
+        v-else
+        to="/premium"
+        class="call-to-action-secondary">Subscribe</router-link>
+
+        <span class="active-without-border" v-if="isLoggedIn">
+          <router-link
+          to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+        </span>
         <span v-else>
           <router-link
           to="/login">Login</router-link>
@@ -33,6 +67,7 @@
           class="register-nav-link">Register</router-link>
         </span>
       </span>
+      <SearchBar v-if="searchActive" />
     </nav>
   </header>
 </template>
@@ -70,6 +105,7 @@ export default {
     clickedDropdown: false,
     searchTerm: null,
     showFilteringElements: true,
+    searchActive: false,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -102,9 +138,50 @@ export default {
     onClickDropdownMenu () {
       this.clickedDropdown = false;
       this.showDropdown = false;
+    },
+    onSearchActive () {
+      !this.searchActive ? this.searchActive = true : this.searchActive = false;
     }
   }
 }
+$(function(){
+  var lastScrollTop = 0, delta = 5, last = 'up', foo = 99999999, state = 'fixed', lastpos;
+  $(window).scroll(function(event){
+     var st = $(this).scrollTop();
+
+     // if(Math.abs(lastScrollTop - st) <= delta) return;
+
+     if (st > lastScrollTop){
+         // scrolling down
+         if(last == 'up') {
+            if (state == 'fixed') {
+                lastpos = (document.documentElement.scrollTop - 1);
+                $("#header").css({'position': 'absolute', 'top': lastpos});
+                state = 'absolute';
+            }
+            last = 'down';
+         }
+     } else {
+         // scrolling up
+         let posnow = document.documentElement.scrollTop
+         if ((posnow - lastpos) > 50 || (posnow - lastpos) < 0) {
+             if (last == 'down') {
+                 foo = posnow - 51;
+                 $("#header").css({'position': 'absolute', 'top': foo});
+
+             } else {
+                if (foo > st) {
+                    $("#header").css({'position': 'fixed', 'top': '0'});
+                    state = 'fixed'
+                }
+             }
+        }
+        last = 'up';
+     }
+     lastScrollTop = st;
+
+  });
+});
 </script>
 
 <style scoped lang="stylus">
@@ -177,11 +254,18 @@ export default {
   position fixed
   background-color white
   border-bottom 2px solid #eee
+  .register
+    display flex
+    align-items center
+    margin-right 15px
   .logo-img
     max-height 40px
     margin-right 15px
   .profile-img
     max-height 50px
+  .search-img
+    max-height 35px
+    width 35px
   .inner
     text-transform uppercase
     max-width 1200px
@@ -191,6 +275,20 @@ export default {
     display flex
     align-items center
     justify-content space-between
+  .inner-mobile
+    text-transform uppercase
+    max-width 1200px
+    box-sizing border-box
+    margin 0px auto
+    padding 15px 5px
+    display flex
+    align-items center
+    justify-content space-between
+    .pull-right
+      display flex
+      align-items center
+      justify-content space-between
+      width 100%
   .active-without-border
     a.router-link-active
       text-decoration none
@@ -269,8 +367,18 @@ export default {
     color primary-color
   .register-nav-link
     margin-right 1em
-  @media (max-width 690px)
-    .header
-      .input
-        flex-wrap wrap
+@media (max-width 659px)
+  .inner
+    display none!important
+  .inner-mobile
+    .search-bar
+      justify-content center
+      margin 15px auto!important
+      margin 15px
+      margin-left 0
+      width 90%
+@media (min-width 660px)
+  .inner-mobile
+    display none!important
+
 </style>

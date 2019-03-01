@@ -194,23 +194,43 @@ a
 .fade-enter, .fade-leave-active
   opacity 0
 
-@media (max-width 600px)
-  .header .inner
+@media (max-width 660px)
+  .header .inner-mobile
     flex-direction column
+    .site-name
+      margin auto
+    .search-bar
+      justify-content center
+      margin 15px auto!important
+      margin 15px
+      margin-left 0
+      width 90%
+    .pull-right
+      display flex
+      align-items center
+      justify-content space-between
+      max-width 300px
+      width 100%
+      margin-top 15px
+@media (max-width 800px)
+  .main-app
+    margin-top 12rem
 
 @media (max-width 700px)
   .header .inner
-    flex-wrap wrap
-    justify-content center
     .site-name
       font-size 28px!important
-    .search-bar
-      margin 15px
-      margin-left 0
 
 @media (max-width 860px)
   .header .inner
     padding 15px 30px
+    .pull-right
+      display flex
+      align-items center
+  .header .inner-mobile
+    padding 15px 30px
+  .header .profile-img
+    max-height 35px!important
 
 @media (max-width 600px)
   body
@@ -218,6 +238,8 @@ a
   .header
     min-height 80px
     .inner
+      padding 15px
+    .inner-mobile
       padding 15px
     a
       margin-right 1em

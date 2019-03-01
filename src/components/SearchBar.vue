@@ -1,6 +1,6 @@
 <template>
   <div class='search-bar' v-if="showFilteringElements">
-    <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+    <input id="search" class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
   </div>
   <div v-else>
     <br />
@@ -37,6 +37,17 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+input#search
+ background-image url(../assets/icons/search.svg)
+ background-repeat: no-repeat
+ background-position left
+ background-position-x 5px
+ background-size 25px
+ text-indent 30px
+
+input#search focus
+ background-image none
+
 .search-bar
   flex 1
   display flex
