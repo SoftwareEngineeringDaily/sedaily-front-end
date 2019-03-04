@@ -3,7 +3,7 @@
     <navigation-bar />
 
     <div class="container-fluid main-app">
-      <div
+      <!-- <div
         v-if="showBeta"
         class="row">
         <div
@@ -18,7 +18,7 @@
             class="link">contributor</router-link>.
         </div>
 
-      </div>
+      </div> -->
       <div class="row">
         <transition
           name="fade"
@@ -88,12 +88,11 @@ export default {
 @import './css/variables'
 
 #app
-  margin-left 0.3rem
-  margin-right 0.3rem
+  background-color #EEEEEE
 
 .main-app
   max-width 1200px
-  margin-top 8rem
+  margin-top 4rem
 
 .call-to-action
   background accent-color
@@ -107,11 +106,12 @@ export default {
   color white
 
 .button-submit
+  padding: 11px
   background primary-color
+  white-space: nowrap
   color white
-  padding 10px 20px
   border none
-  border-radius 3px
+  border-radius 30px
   text-align center
   transition all .15s ease
   cursor pointer

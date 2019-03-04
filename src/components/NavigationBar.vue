@@ -217,7 +217,6 @@ export default {
   right 0
   position fixed
   background-color white
-  border-bottom 2px solid #eee
   .profile-img
     max-height 50px
   .inner

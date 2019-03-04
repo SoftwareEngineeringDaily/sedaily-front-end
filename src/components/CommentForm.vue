@@ -2,7 +2,9 @@
 <template>
   <div v-if="me">
 
-    <vue-tribute :options="options"
+    <vue-tribute
+    class="comment-box__container" 
+    :options="options"
     @tribute-replaced="tributeReplaced"
     @tribute-no-match="tributeNoMatch"
     >
@@ -202,9 +204,25 @@ export default {
 @import './../css/variables'
 
 .comment-box
+  margin 0 10px
   width 100%
-  padding 20px 10px
-  margin-bottom 12px
-  border-radius 4px
+  padding-left 12px
+  border-radius 30px
   border-color #c5c5c5
+  resize none
+  height inherit
+  outline none
+
+.comment-box__container 
+  display flex
+  width 100%
+  ::-moz-placeholder  /* Mozilla Firefox 19+ */
+    line-height:40px;
+
+  ::-webkit-input-placeholder /* Webkit */
+    line-height:40px;
+
+  ::-ms-input-placeholder /* IE */
+    line-height:40px;
+
 </style>
