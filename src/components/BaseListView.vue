@@ -26,7 +26,7 @@
           >
             <img src="@/assets/iosstore.png" class="icon">
           </a>
-          
+
           <a
             href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"
             target="_blank"
@@ -306,7 +306,7 @@ export default {
 }
 
 .categories-container
-  padding-top 2rem 
+  padding-top 2rem
   display flex
   flex-direction column
 
@@ -320,7 +320,7 @@ export default {
   transform: translate(-30px, 0);
 }
 
-.post-summary__container 
+.post-summary__container
   width 50%
   padding 2rem
   margin-left 2rem
@@ -343,20 +343,6 @@ export default {
 @media (max-width: 600px) {
   .news-list {
     margin: 10px 0;
-  }
-}
-
-.search-bar {
-  input {
-    width: 100%;
-    margin: 20px 0;
-    padding: 10px;
-    font-size: 2rem;
-    font-weight: 100;
-    color: #C4C4C4;
-    padding-left: 20px;
-    border: none;
-    border-bottom: 1px solid #ccc;
   }
 }
 
