@@ -1,13 +1,11 @@
 <template>
   <header class="header" id="header">
     <nav class="inner">
-      <router-link
-      to="/"
-      class="site-name"
-      exact>
+      <a href='/'
+      class="site-name">
         <img class="logo-img" src="../assets/sedaily-logo.png" />
         Software Daily
-      </router-link>
+      </a>
       <SearchBar />
       <span class="pull-right">
         <router-link
@@ -35,13 +33,12 @@
       </span>
     </nav>
     <nav class="inner-mobile">
-      <router-link
-      to="/"
-      class="site-name"
-      exact>
+      <a
+      href="/"
+      class="site-name">
         <img class="logo-img" src="../assets/sedaily-logo.png" />
         Software Daily
-      </router-link>
+      </a>
       <span class="pull-right">
         <span v-on:click="onSearchActive"><img class="search-img" src="../assets/icons/search.svg"/></span>
         <router-link
@@ -275,6 +272,9 @@ $(function(){
     display flex
     align-items center
     justify-content space-between
+    .pull-right
+      display flex
+      align-items center
   .inner-mobile
     text-transform uppercase
     max-width 1200px
