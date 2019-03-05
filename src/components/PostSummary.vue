@@ -50,6 +50,7 @@
       <p v-else>Hide</p>
     </div>
     <comments-list
+      class="comments-list"
       v-if='showComments === post.thread._id'
       :comments='comments'
       :rootEntityType='"forumthread"'
@@ -337,6 +338,11 @@ export default {
 .comment
   width 93%
   height inherit
+
+.comments-list
+  width 100%
+  padding: 0px 20px
+  background-color #F6F5F5
 
 .profile-pic
   width 35px
