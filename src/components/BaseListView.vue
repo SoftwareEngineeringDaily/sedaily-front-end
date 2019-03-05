@@ -1,16 +1,5 @@
 <template>
   <div class="news-view">
-    <!-- <div class="row">
-    <div class="col-sm-12 col-md-6">
-      <div class='search-bar' v-if="showFilteringElements">
-        <input class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
-      </div>
-      <div v-else>
-        <br />
-        <br />
-      </div>
-    </div>
-    </div>-->
       <div class="categories-container">
         <h4>Topics</h4>
         <category-list
@@ -19,6 +8,9 @@
           @setSelectedCategory="setSelectedCategory"
           v-if="showFilteringElements"
         />
+        <p>
+          {{searchDataNew}}
+        </p>
         <div class="app-download">
           <a
             href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
