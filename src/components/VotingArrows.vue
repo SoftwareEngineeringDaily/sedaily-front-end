@@ -6,8 +6,9 @@
       :class="{ active: upvoted }"
       class='arrow'
       @click='upvoteHandler'>
-      <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
-      <img v-else src="@/assets/icons/upvote-thin.svg" />
+      <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
+      <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
+      <p>Upvote</p>
     </div>
     <div class='score-text'>{{ score + 1 || 1}}</div>
     <div
@@ -55,20 +56,23 @@ export default {
 @import './../css/variables'
 
 .score-text
-  font-weight 400
+  padding-left 10px
 
 .score
-    text-align center
+    margin-top: 10px 
+    padding-left: 10px
+    display flex
+    align-items center
     color #3F58AF
-    font-size 1.1em
-    font-weight 700
     width 1.5em
 
 .active
     color #3F58AF !important
 
 .arrow
-  color very-light-grey
+  color: #9B9B9B;
+  p
+    margin 0
   &:hover
     cursor pointer
     color #3F58AF
@@ -85,6 +89,4 @@ export default {
 // The default is global for weak css priority, override with scoped on parent.
 .voting
   display inline-block
-  height 100%
-  margin 0 1rem
 </style>

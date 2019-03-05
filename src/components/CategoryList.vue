@@ -39,6 +39,9 @@ export default {
 
 .categories
   margin-bottom 10px
+  display flex
+  flex-direction column
+  align-items flex-start 
   @media (max-width 600px)
     overflow auto
     white-space nowrap
@@ -47,7 +50,7 @@ export default {
   text-align center
   display inline-block
   cursor pointer
-  color light-grey
+  color grey
   padding 5px 10px
   border-radius 25px
   &:hover

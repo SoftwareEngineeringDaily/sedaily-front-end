@@ -1,72 +1,89 @@
 <template>
-  <span v-if="userData">
+  <span class="user-info" v-if="userData">
     <router-link :to="'/profile/' + userData._id">
-      <div
-        :style="imageStyle"
-        class="avatar" >
-      </div>
+      <div :style="imageStyle" class="avatar"></div>
     </router-link>
 
-    <span
-      v-if="showName"
-      class="name">
-      <router-link :to="'/profile/' + userData._id">
-        {{displayName}}
-      </router-link>
-    </span>
-
+    <div class="profile-container">
+      <span v-if="showName" class="name">
+        <router-link :to="'/profile/' + userData._id">{{displayName}}</router-link>
+      </span>
+      <span>
+        <p>{{dateComment}}</p>
+      </span>
+    </div>
     <slot></slot>
   </span>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
-  name: 'profile-label',
+  name: "profile-label",
   props: {
     userData: {
       type: Object,
-      default: function () {
+      default: function() {
         return {
-          _id: '',
-          username: '',
-          avatarUrl: '',
-          name: ''
-        }
+          _id: "",
+          username: "",
+          avatarUrl: "",
+          name: ""
+        };
       }
     },
     showName: {
       type: Boolean,
       required: false,
       default: true
+    },
+    dateComment: {
+      type: Number
     }
   },
   computed: {
     ...mapState({
-      displayName () {
-        return this.userData.name || this.userData.username
+      displayName() {
+        return this.userData.name || this.userData.username;
       },
-      avatarUrl (state) {
-        return this.userData.avatarUrl || state.placeholderAvatar
+      avatarUrl(state) {
+        return this.userData.avatarUrl || state.placeholderAvatar;
       }
     }),
-    imageStyle () {
-      return `background: url('${this.avatarUrl}') center center / cover no-repeat`
+    imageStyle() {
+      return `background: url('${
+        this.avatarUrl
+      }') center center / cover no-repeat`;
     }
   }
-}
+};
 </script>
 
 <style scoped lang="stylus">
-  .avatar
-    display inline-block
-    margin-top -1px
-    min-width 25px
-    max-width 25px
-    min-height 25px
-    border-radius 50%
+.avatar {
+  margin: 10px;
+  display: inline-block;
+  min-width: 25px;
+  max-width: 25px;
+  min-height: 25px;
+  border-radius: 50%;
+}
 
-  .name
-    margin-left 12px
+.profile-container {
+  width: 100%;
+}
+
+.user-info
+  display flex
+  align-items center
+  justify-content flex-start
+  p 
+    margin 0
+  span
+    margin 0
+
+.name {
+  margin-left: 12px;
+}
 </style>
