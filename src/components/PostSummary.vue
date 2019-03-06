@@ -28,16 +28,15 @@
           :upvote-handler="upvoteHandler"
           :downvote-handler="downvoteHandler"
           :score="post.score" /> -->
-          <p>
+          <!-- <p>
             {{ content }}
-          </p>
+          </p> -->
     </div>
 
     <div class="comment-section">
       <div class="profile-pic" alt=""></div>
       <comment-compose
             class="comment"
-            @click='commentsFetch({entityId: post.thread._id})'
             v-if="forumThreadId"
             :entityId="forumThreadId"
             :rootEntityType='"forumthread"' />
@@ -45,13 +44,14 @@
     <div
     v-if="post.thread.commentsCount > 0" 
     class='seeMoreBtn'
-    @click='seeAllComnets(post.thread._id)'>
-      <p v-if='showComments === null'>See all comments ({{post.thread.commentsCount}}) ({{commentsStoreList}})</p>
-      <p v-else>Hide</p>
+    @click='commentsViewToggle(post.thread._id)'>
+      <p v-if='commentsStateView === false'>See all comments ({{commentsStoreList}})</p>
+      <p v-else>Hide comments ({{commentsStoreList}})</p>
     </div>
     <comments-list
       class="comments-list"
-      v-if='showComments === post.thread._id'
+      :id="post.thread._id"
+      v-if='commentsStateView === post.thread._id'
       :comments='comments'
       :rootEntityType='"forumthread"'
       :loading="isLoadingComments"
@@ -93,7 +93,7 @@ import VotingArrows from 'components/VotingArrows'
 import { postPrettyUrl } from './../utils/post.utils'
 import { PlayerState } from './../utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'PostSummary',
@@ -110,31 +110,28 @@ export default {
    data () {
     return {
       isLoadingComments: false,
-      showComments: null
+      showComments: false
     }
   },
   components: { VotingArrows, CommentCompose, CommentsList },
   computed: {
-    ...mapState(['activePlayerPost', 'playerState']),
+    ...mapState(['activePlayerPost', 'playerState', 'commentsView', 'entityComments']),
     ...mapGetters(['isLoggedIn']),
     forumThreadId () {
       if (!this.isLoggedIn) return false
       if (!(this.post && this.post.thread)) return false
       return this.post.thread._id
     },
-    //  postComment () {
-      
-    //   // const commentsList = this.$store.state.posts[this.post._id]
-    //   return console.log(this.$store.state.posts)
-    // },
+    commentsStateView() {
+      return this.commentsView
+    },
 
     commentsStoreList(id) {
-      const storePosts = this.$store.state.posts
+      const storePosts = this.entityComments
       let commentsCountValue = null
       for (let key in storePosts) {
-        if (key === id.post._id) {
-          console.log('STORE',key, storePosts[key].thread.commentsCount)
-          commentsCountValue = storePosts[key].thread.commentsCount
+        if (key === id.post.thread._id) {
+          commentsCountValue = storePosts[key].length
         }
       }
       return commentsCountValue
@@ -162,13 +159,13 @@ export default {
       return moment(this.post.date).format('MMMM Do, YYYY')
     },
 
-    content () {
-      const el = document.createElement('html');
-      el.innerHTML = this.post.content.rendered;
-      // console.log(el.getElementsByTagName('span'))
+    // content () {
+    //   const el = document.createElement('html');
+    //   el.innerHTML = this.post.content.rendered;
+    //   // console.log(el.getElementsByTagName('span'))
 
-      return 1
-    },
+    //   return 1
+    // },
 
     imageStyle () {
       return this.featuredImage
@@ -208,6 +205,8 @@ export default {
       })
   },
   methods: {
+    ...mapState(['commentsView']),
+    ...mapMutations(['commentsToggle']),
     ...mapActions(['playEpisode', 'updatePlayerState', 'commentsFetch']),
     play () {
       if (this.isActiveEpisode) {
@@ -216,14 +215,19 @@ export default {
         this.playEpisode(this.post)
       }
     },
-    seeAllComnets (id) {
-      this.showComments === null ? this.showComments = id : this.showComments = null
-    },
     pause () {
       if (this.isActiveEpisode) {
         this.updatePlayerState(PlayerState.PAUSED)
       }
     },
+    commentsViewToggle(post) {
+      if (this.commentsView === false ) {
+        return this.commentsToggle({id: post}) 
+      } else {
+        return this.commentsToggle({id: false}) 
+      }
+    },
+      // this.commentsView === '' ? this.commentsToggle({id: idThread}) : this.commentsToggle({id: ''})
     upvoteHandler () {
       // TODO: Fix this action, it will error if it's being called
       // and there is no episode stored for this id in the store, which

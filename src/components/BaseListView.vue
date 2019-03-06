@@ -315,7 +315,7 @@ export default {
 .post-summary__container
   width 50%
   padding 2rem
-  margin-left 2rem
+  margin-left 7rem
 
 .post-move, .post-enter-active, .post-leave-active {
   transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);

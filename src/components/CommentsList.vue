@@ -8,7 +8,7 @@
     </div>
     <div v-else v-for="comment in comments" :key="comment._id">
       <div class='row'>
-        <div class='col-md-12'>
+        <div class='col-md-12' :id='comment._id'>
           <comment-view
             :rootEntityType='rootEntityType'
             :comment='comment'
@@ -47,7 +47,7 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
   },
   beforeMount () {
     console.log('rootEntityType--list', this.rootEntityType)
@@ -60,7 +60,7 @@ export default {
         return true
       }
       return false
-    }
+    },
   }
 }
 </script>

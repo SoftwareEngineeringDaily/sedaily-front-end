@@ -16,6 +16,7 @@ export default {
   isChatOnline ({ chat }) {
     return Boolean(chat.online)
   },
+
   isPlayerActive ({ activePlayerPost }) {
     return activePlayerPost.hasOwnProperty('_id')
   },

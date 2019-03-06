@@ -45,7 +45,7 @@ import VueTribute from '@/components/VueTribute.js'
 import ProfileLabel from '@/components/ProfileLabel'
 import { debounce, each, map } from 'lodash'
 import Spinner from 'components/Spinner'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'comment-form',

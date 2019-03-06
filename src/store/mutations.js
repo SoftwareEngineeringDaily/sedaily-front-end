@@ -27,6 +27,10 @@ export default {
     state.me = me
   },
 
+  commentsToggle: (state, { id }) => {
+    state.commentsView = id
+  },
+
   setList: (state, { type, posts }) => {
     // This is currently doing an append to the list but
     // it should probably do a simple set like the function name
@@ -48,8 +52,9 @@ export default {
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
-
+  
   setComments: (state, { comments, entityId }) => {
+    comments.reverse()
     comments.forEach(comment => {
       if (comment) {
         Vue.set(state.comments, comment._id, comment)
