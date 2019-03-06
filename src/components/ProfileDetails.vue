@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-content-left">
+    <div class="row profile justify-content-left">
       <h6 v-if="ownProfile" class="col-12 edit-link">
         <router-link :to="'/edit-profile'">
           Edit Profile
@@ -85,7 +85,8 @@
 
 <style scoped lang="stylus">
   @import './../css/variables'
-
+  .profile
+    padding-top 2rem
   .wrapper
     margin-left auto
     margin-right auto

@@ -86,7 +86,8 @@ export default {
 
 <style lang="stylus">
 @import './css/variables'
-
+.container-fluid
+  padding 0
 #app
   background-color #EEEEEE
 
@@ -212,9 +213,9 @@ a
       max-width 300px
       width 100%
       margin-top 15px
-@media (max-width 800px)
+@media (max-width 660px)
   .main-app
-    margin-top 12rem
+    margin-top 7rem
 
 @media (max-width 700px)
   .header .inner

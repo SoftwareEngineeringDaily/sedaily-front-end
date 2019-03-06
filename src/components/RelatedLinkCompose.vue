@@ -1,46 +1,49 @@
 <template>
   <div>
-    <textarea
-      placeholder='Add a related link...'
-      class='related-link-box'
-      :disabled="isSubmitting"
-      name="url"
-      v-validate="'required|url'"
-      type='text'
-      v-model='url' />
-
-    <div
-      v-show="errors.has('url')"
-      class="alert alert-danger">
-      {{ errors.first('url') }}</div>
-
-    <input
-      placeholder='Add a short title...'
-      class='related-title-box'
-      :disabled="isSubmitting"
-      name="title"
-      v-validate="'required'"
-      type='text'
-      v-model='title' />
-
-    <div
-      v-show="errors.has('title')"
-      class="alert alert-danger">
-      {{ errors.first('title') }}</div>
-
-    <span v-if="isSubmitting">
-      <spinner :show="true" />
-    </span>
-
-    <div v-else>
-      <button
-        class='button-submit'
+    <button v-if="!showModal" class='button-related' id="show-modal" @click="showModal = true">+ Add New Link</button>
+    <button v-else class='button-related' id="show-modal" @click="showModal = false">+ Add New Link</button>
+    <div v-if="showModal" @close="showModal = false">
+      <textarea
+        placeholder='Add a related link...'
+        class='related-link-box'
         :disabled="isSubmitting"
-        @click.prevent='submit'>Add New Link</button>
+        name="url"
+        v-validate="'required|url'"
+        type='text'
+        v-model='url' />
+
+      <div
+        v-show="errors.has('url')"
+        class="alert alert-danger">
+        {{ errors.first('url') }}</div>
+
+      <input
+        placeholder='Add a short title...'
+        class='related-title-box'
+        :disabled="isSubmitting"
+        name="title"
+        v-validate="'required'"
+        type='text'
+        v-model='title' />
+
+      <div
+        v-show="errors.has('title')"
+        class="alert alert-danger">
+        {{ errors.first('title') }}</div>
+
+      <span v-if="isSubmitting">
+        <spinner :show="true" />
+      </span>
+
+      <div v-else>
+        <button
+          class='button-submit'
+          :disabled="isSubmitting"
+          @click.prevent='submit'>Submit</button>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
 import Spinner from 'components/Spinner'
 import { mapState, mapActions } from 'vuex'
@@ -53,6 +56,7 @@ export default {
   data () {
     return {
       url: '',
+      showModal: false,
       title: '',
       isSubmitting: false,
       loading: true
@@ -107,17 +111,29 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+.button-submit
+  float right
 .related-link-box
   width 100%
   padding 10px
   margin-bottom 12px
   border-radius 4px
-  border-color #c5c5c5
-
+  border-color #c4c4c4
+.button-related
+  background none
+  border none
+  font-size 1rem
+  font-weight 600
+  color primary-color
+  margin 15px 0
+  outline none
+  cursor pointer
 .related-title-box
   width 100%
   padding 10px
   margin-bottom 12px
-  border none
-  border-bottom 1px solid #ccc
+  border 1px solid
+  border-radius 4px
+  border-color #c4c4c4
 </style>
