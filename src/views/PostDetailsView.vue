@@ -1,36 +1,43 @@
 <template>
-  <div
-    v-if="post"
-    class="post-view">
-    <div class="post-header">
-      <post-header
-        :post="post"
-        :downvote-handler="downvoteHandler"
-        :upvote-handler="upvoteHandler" />
-    </div>
-
-    <div class="post-meta">
-      <post-meta :post="post" />
-    </div>
-
-    <div class="post-selection-icons">
-      <post-selection-icons
-        :show-comments="showComments"
-        :show-related-links="showRelatedLinks"
-        :show-post-content="showPostContent"
-        @selectPostContent="selectPostContent"
-        @selectRelatedLinks="selectRelatedLinks"
-        @selectComments="selectComments" />
-    </div>
-
+  <div class="row">
     <div
-      v-if="showPostContent"
-      class="post-content">
-      <div
+    v-if="post"
+    class="post-view col-md-9">
+      <div class="post-header">
+        <post-header
+        :post="post"
+        />
+      </div>
+        <div class="post-meta">
+          <post-meta :post="post" />
+        </div>
+
+        <!--<div class="post-selection-icons">
+          <post-selection-icons
+          :show-comments="showComments"
+          :show-related-links="showRelatedLinks"
+          :show-post-content="showPostContent"
+          @selectPostContent="selectPostContent"
+          @selectRelatedLinks="selectRelatedLinks"
+          @selectComments="selectComments" />
+        </div>-->
+
+        <div
+        v-if="showPostContent"
+        class="post-content">
+        <div
         class="post-transcript"
         v-html="postContent" />
 
-      <div
+        <div class="voting-arrows-container">
+          <voting-arrows
+          :upvoted="post.upvoted"
+          :downvoted="post.downvoted"
+          :upvote-handler="upvoteHandler"
+          :downvote-handler="downvoteHandler"
+          :score="post.score" />
+        </div>
+        <div
         v-if="isLoggedIn">
         <hr>
         <div class="col-md-12">
@@ -42,40 +49,36 @@
       </div>
 
       <hr>
-
       <div class="row">
         <div class="col-md-8">
           <h3 class="section-title"> Comments </h3>
           <comments-list :comments="comments" />
         </div>
-
-        <div class="col-md-4">
-          <related-link-list :related-links="relatedLinks" />
-          <related-link-compose v-if="isLoggedIn" />
-        </div>
       </div>
     </div>
 
-    <div
-      v-if="showRelatedLinks"
-      class="related-links">
-      <related-link-list :related-links="relatedLinks" />
-      <related-link-compose v-if="isLoggedIn" />
-    </div>
+
 
     <div
-      v-if="showComments"
-      class="comments">
-      <comment-compose v-if="forumThreadId"
-        :entityId="forumThreadId"
-        :rootEntityType='"forumthread"' />
-      <br>
-      <h3 class="section-title"> Comments </h3>
-      <comments-list
-        :comments='comments'
-        :rootEntityType='"forumthread"'
-        :loading="isLoadingComments"
-      />
+    v-if="showComments"
+    class="comments">
+    <comment-compose v-if="forumThreadId"
+    :entityId="forumThreadId"
+    :rootEntityType='"forumthread"' />
+    <br>
+    <h3 class="section-title"> Comments </h3>
+    <comments-list
+    :comments='comments'
+    :rootEntityType='"forumthread"'
+    :loading="isLoadingComments"
+    />
+    </div>
+    </div>
+    <div class="view-top col-md-3">
+      <div class="related-links">
+        <related-link-list :related-links="relatedLinks" />
+        <related-link-compose v-if="isLoggedIn" />
+      </div>
     </div>
   </div>
 </template>
@@ -85,6 +88,7 @@ import Spinner from '@/components/Spinner.vue'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
+import VotingArrows from '@/components/VotingArrows.vue'
 import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
 import PostSidebar from '@/components/post/PostSidebar'
 import PostHeader from '@/components/post/PostHeader'
@@ -105,7 +109,8 @@ export default {
     PostSidebar,
     PostMeta,
     PostHeader,
-    PostSelectionIcons
+    PostSelectionIcons,
+    VotingArrows
   },
   data () {
     return {
@@ -305,6 +310,15 @@ export default {
 
 <style lang="stylus">
   .post-transcript
+    p
+    text-align justify
+    font-size 14px
+    line-height 24px
+    letter-spacing .5px
+    margin 30px 20px
+    .size-large
+      width 100%
+      height 100%
     .row
       .row
         display none
@@ -312,16 +326,22 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.voting-arrows-container
+  width 10%
+  align-self flex-end
+.post-view
+  background-color white
+  padding-bottom 100px
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
 
 .comment-children
   list-style-type none
   padding 0
   margin 0
-
-.post-view
-  display grid
-  grid-row-gap 10px
-  grid-column-gap 10px
+.view-top
+  padding 3rem 2rem
+  background-color white
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
 
 .post-header
   grid-row 1

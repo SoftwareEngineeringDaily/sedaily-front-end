@@ -1,9 +1,12 @@
 
 <template>
-  <div v-if="me">
-
+  <div v-if="me" class="comment-container">
+    <span class="active-without-border" v-if="isLoggedIn">
+      <router-link class="profile-img-link"
+      to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+    </span>
     <vue-tribute
-    class="comment-box__container" 
+    class="comment-box__container"
     :options="options"
     @tribute-replaced="tributeReplaced"
     @tribute-no-match="tributeNoMatch"
@@ -45,11 +48,18 @@ import VueTribute from '@/components/VueTribute.js'
 import ProfileLabel from '@/components/ProfileLabel'
 import { debounce, each, map } from 'lodash'
 import Spinner from 'components/Spinner'
-import { mapState, mapActions } from 'vuex'
-
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'comment-form',
   props: {
+    userData: {
+      type: Object,
+      default: function () {
+        return {
+          avatarUrl: '',
+        }
+      }
+    },
     content: {
       type: String
     },
@@ -122,9 +132,21 @@ export default {
 
   computed: {
     // local computed methods +
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       me (state) {
         return state.me
+      },
+      alreadySubscribed (state) {
+        if (!this.isLoggedIn) return false
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return true
+        } else {
+          return false
+        }
+      },
+      avatarUrl (state) {
+        return this.userData.avatarUrl || state.placeholderAvatar
       }
     }),
     hasMentions () {
@@ -202,7 +224,13 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
-
+.comment-container
+  display flex
+  align-items center
+  .profile-img
+    width 35px
+    height 35px
+    border-radius 50px
 .comment-box
   margin 0 10px
   width 100%
@@ -213,7 +241,7 @@ export default {
   height inherit
   outline none
 
-.comment-box__container 
+.comment-box__container
   display flex
   width 100%
   ::-moz-placeholder  /* Mozilla Firefox 19+ */

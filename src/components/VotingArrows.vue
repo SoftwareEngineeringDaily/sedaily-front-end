@@ -59,7 +59,7 @@ export default {
   padding-left 10px
 
 .score
-    margin-top: 10px 
+    margin-top: 10px
     padding-left: 10px
     display flex
     align-items center
@@ -71,6 +71,8 @@ export default {
 
 .arrow
   color: #9B9B9B;
+  img
+    margin-left 5px
   p
     margin 0
   &:hover

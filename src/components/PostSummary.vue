@@ -34,7 +34,6 @@
     </div>
 
     <div class="comment-section">
-      <div class="profile-pic" alt=""></div>
       <comment-compose
             class="comment"
             @click='commentsFetch({entityId: post.thread._id})'
@@ -43,7 +42,7 @@
             :rootEntityType='"forumthread"' />
     </div>
     <div
-    v-if="post.thread.commentsCount > 0" 
+    v-if="post.thread.commentsCount > 0"
     class='seeMoreBtn'
     @click='seeAllComnets(post.thread._id)'>
       <p v-if='showComments === null'>See all comments ({{post.thread.commentsCount}}) ({{commentsStoreList}})</p>
@@ -123,7 +122,7 @@ export default {
       return this.post.thread._id
     },
     //  postComment () {
-      
+
     //   // const commentsList = this.$store.state.posts[this.post._id]
     //   return console.log(this.$store.state.posts)
     // },
@@ -196,7 +195,7 @@ export default {
   },
 
    beforeMount () {
-     
+
       this.isLoadingComments = true
       // Fetch comments
       this.commentsFetch({
@@ -302,8 +301,8 @@ export default {
     flex 90%
 
 .post-info
-  margin 2% 0 
-  height 100% 
+  margin 2% 0
+  height 100%
   display flex
   align-items center
   align-self flex-start
@@ -330,7 +329,7 @@ export default {
   justify-content center
   align-items center
   &:hover
-    cursor pointer 
+    cursor pointer
     background-color #F6F5F5
   p
     margin 0
@@ -359,11 +358,11 @@ export default {
     width 200px
     height 150px
     position relative
-  p 
+  p
     font-family: 'Roboto', sans-serif;
     width 50%
   img
-    max-height:100%; 
+    max-height:100%;
     max-width:100%;
     position: absolute;
     margin: auto;
