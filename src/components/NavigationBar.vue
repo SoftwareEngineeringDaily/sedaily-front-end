@@ -259,7 +259,8 @@ $(function(){
     max-height 40px
     margin-right 15px
   .profile-img
-    max-height 50px
+    max-height 45px
+    border-radius 50%
   .search-img
     max-height 35px
     width 35px

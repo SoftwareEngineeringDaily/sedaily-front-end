@@ -97,7 +97,6 @@ export default {
       // Options for auto-complete mentions
       options: {
         menuItemTemplate: function (item) {
-          // console.log('tempalte select', item.original.user)
           const img = item.original.user.avatarUrl ? item.original.user.avatarUrl : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
           return `<span><img width="30px" src='${img}'/> ${item.original.value} </span>`
         },
@@ -146,7 +145,7 @@ export default {
         }
       },
       avatarUrl (state) {
-        return this.userData.avatarUrl || state.placeholderAvatar
+        return this.me.avatarUrl || state.placeholderAvatar
       }
     }),
     hasMentions () {
@@ -178,7 +177,6 @@ export default {
     tributeNoMatch: debounce(function (searchQuery)  {
       this.searchUsers({name: searchQuery})
         .then((users) => {
-          console.log('users found', users)
           this.setUserList(users)
         })
     }, 10),
@@ -205,7 +203,6 @@ export default {
            )
          }
        })
-       console.log('clear list', this.options.values)
     },
 
     submitComment () {
