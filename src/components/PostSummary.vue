@@ -17,7 +17,7 @@
         <p class="time">{{ date }}</p>
       </div>
       <div class="description">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nam inventore ipsa vel accusamus, modi obcaecati recusandae esse sunt laboriosam.</p>
+        <p>{{metaDescription}}</p>
         <div class="description__image">
           <img :src="imageStyle" :alt="imageStyle">
         </div>
@@ -132,6 +132,25 @@ export default {
         }
       }
       return commentsCountValue
+    },
+
+    metaDescription () {
+      const maxLength = 300;
+      const el = document.createElement('template')
+      el.innerHTML = this.post.content.rendered.trim()
+      // spans contain text to extract "summary"
+      const paras = el.content.querySelectorAll('span')
+      let description = '';
+      for (let para of paras) {
+        description += para.innerText + ' ';
+        if (description.length >= maxLength) {
+          break;
+        }
+      }
+      if (description.length > maxLength) {
+        return description.substr(0, maxLength-3) + '...'
+      }
+      return description;
     },
 
     comments () {
