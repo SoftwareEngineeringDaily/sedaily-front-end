@@ -107,7 +107,8 @@ export default {
   color white
 
 .button-submit
-  padding: 11px
+  padding: 7px
+  font-size 12px
   background primary-color
   white-space: nowrap
   color white

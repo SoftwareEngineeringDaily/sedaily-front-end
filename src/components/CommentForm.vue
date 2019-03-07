@@ -11,7 +11,7 @@
     @tribute-replaced="tributeReplaced"
     @tribute-no-match="tributeNoMatch"
     >
-    <textarea placeholder='Your comment here...'
+    <input placeholder='Your comment here...'
     class='comment-box'
     ref='contentTextarea'
     :disabled="isSubmitting"
@@ -227,6 +227,7 @@ export default {
 .comment-container
   display flex
   align-items center
+  width: 100%;
   .profile-img
     width 35px
     height 35px
@@ -234,12 +235,14 @@ export default {
 .comment-box
   margin 0 10px
   width 100%
-  padding-left 12px
+  padding 5px
+  padding-left 10px 
   border-radius 30px
   border-color #c5c5c5
   resize none
   height inherit
   outline none
+  border: 1px solid #ccc;
 
 .comment-box__container
   display flex

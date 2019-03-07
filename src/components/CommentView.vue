@@ -38,6 +38,7 @@
           
           <span class="arrows voting-container">
             <voting-arrows
+              class="upvote-comment"
               :upvoteHandler="upvoteHandler"
               :upvoted="comment.upvoted"
               :score="comment.score"
@@ -306,6 +307,10 @@ export default {
     color: #8E0505;
     cursor: pointer;
   }
+}
+
+.upvote-comment {
+  padding-left 10px
 }
 
 .bullet-point {

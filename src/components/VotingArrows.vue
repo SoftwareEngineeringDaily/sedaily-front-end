@@ -11,14 +11,14 @@
       <p>Upvote</p>
     </div>
     <div class='score-text'>{{ score + 1 || 1}}</div>
-    <div
+    <!-- <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"
       class="arrow"
       @click='downvoteHandler'>
       <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
       <img v-else src="@/assets/icons/downvote-thin.svg" />
-    </div>
+    </div> -->
   </div>
 </div>
 </template>
@@ -60,14 +60,14 @@ export default {
 
 .score
     margin-top: 10px
-    padding-left: 10px
     display flex
     align-items center
-    color #3F58AF
+    color #856aff
     width 1.5em
 
 .active
-    color #3F58AF !important
+    color #856aff !important
+    font-weight 700
 
 .arrow
   color: #9B9B9B;
@@ -77,10 +77,10 @@ export default {
     margin 0
   &:hover
     cursor pointer
-    color #3F58AF
+    color #856aff
 
   &.active
-    color #3F58AF !important
+    color #856aff !important
     &:hover
       cursor pointer
       color #888

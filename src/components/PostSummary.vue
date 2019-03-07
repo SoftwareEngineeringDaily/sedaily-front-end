@@ -22,15 +22,13 @@
           <img :src="imageStyle" :alt="imageStyle">
         </div>
       </div>
-        <!-- <voting-arrows
+        <voting-arrows
+          class="upvote-post"
           :upvoted="post.upvoted"
           :downvoted="post.downvoted"
           :upvote-handler="upvoteHandler"
           :downvote-handler="downvoteHandler"
-          :score="post.score" /> -->
-          <!-- <p>
-            {{ content }}
-          </p> -->
+          :score="post.score" />
     </div>
 
     <div class="comment-section">
@@ -342,6 +340,9 @@ export default {
   width 93%
   height inherit
 
+.upvote-post
+  padding-bottom 10px
+
 .comments-list
   width 100%
   padding: 0px 20px
@@ -357,6 +358,7 @@ export default {
   margin 3% 0
   display flex
   justify-content space-between
+  align-items: start;
 
   .description__image
     width 200px
@@ -369,7 +371,6 @@ export default {
     max-height:100%;
     max-width:100%;
     position: absolute;
-    margin: auto;
     top: 0;
     left: 0;
     right: 0;
