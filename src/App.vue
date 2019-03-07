@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <navigation-bar />
+    <navigation-bar
+      :userData="me"
+    />
 
     <div class="container-fluid main-app">
       <!-- <div
@@ -55,6 +57,11 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
     ...mapState(['activePlayerPost']),
     isPlayerActive () {
       return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
