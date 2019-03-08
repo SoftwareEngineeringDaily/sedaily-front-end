@@ -31,7 +31,6 @@ export default {
 <style lang="stylus" scoped>
 .primary-post-header
   display flex
-  padding-top 2rem
 
 .header-title
   width 100%

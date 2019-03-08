@@ -16,6 +16,14 @@ export default {
       return response
     })
   },
+  getPostTopics: ({ commit, state, getters }, { postId }) => {
+    const post_id = postId
+    // return axios.get(`${BASE_URL}/topics?post_id=${post_id}`)
+    // .then((response) => {
+    //   commit('setPostTopics', response.data)
+    //   return response
+    // })
+  },
   getAllTopics: ({ commit, state, getters }) => {
     const userId = state.me._id
     return axios.get(`${BASE_URL}/topics`)
