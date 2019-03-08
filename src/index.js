@@ -71,7 +71,6 @@ new Vue({
   created () {
     if (store.getters.isLoggedIn) {
       store.dispatch('fetchMyProfileData')
-      store.dispatch('getTopics')
     }
     new SmartBanner({
       daysHidden: -1,

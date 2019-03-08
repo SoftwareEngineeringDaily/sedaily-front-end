@@ -28,10 +28,12 @@ export default {
     state.me = me
   },
 
-  setTopics: (state, topics) => {
-    state.topics = topics
+  setAllTopics: (state, topics) => {
+    state.topics.all = topics
   },
-
+  setUserTopics: (state, topics) => {
+    state.topics.user = topics
+  },
 
   commentsToggle: (state, { id }) => {
     state.commentsView = id

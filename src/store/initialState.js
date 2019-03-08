@@ -26,7 +26,10 @@ export default {
     online: false,
     messages: []
   },
-  topics: null,
+  topics: {
+    all: null,
+    user: null
+  },
   token: localStorage.getItem('token'),
   loggingEnabled: true,
   jobs: [],
