@@ -19,6 +19,7 @@ export default {
     state.activeType = type
   },
 
+
   setSearchTerm: (state, { searchTerm }) => {
     state.searchTerm = searchTerm
   },
@@ -26,6 +27,11 @@ export default {
   setMe: (state, me) => {
     state.me = me
   },
+
+  setTopics: (state, topics) => {
+    state.topics = topics
+  },
+
 
   commentsToggle: (state, { id }) => {
     state.commentsView = id
@@ -52,7 +58,7 @@ export default {
   setCompanies: (state, { companies }) => {
     Vue.set(state, 'companies', companies)
   },
-  
+
   setComments: (state, { comments, entityId }) => {
     comments.reverse()
     comments.forEach(comment => {

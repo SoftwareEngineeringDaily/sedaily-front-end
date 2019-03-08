@@ -1,6 +1,7 @@
 <template>
   <div class="primary-post-header">
-    <div class="header-title" v-bind:style="{ 'background-image': 'url(' + imageStyle + ')' }">
+    <!--<div class="header-title" v-bind:style="{ 'background-image': 'url(' + imageStyle + ')' }">-->
+    <div class="header-title">
       <h1>{{ post.title.rendered }}</h1>
     </div>
   </div>

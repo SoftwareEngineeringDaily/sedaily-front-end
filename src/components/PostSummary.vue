@@ -135,7 +135,7 @@ export default {
     },
 
     metaDescription () {
-      const maxLength = 300;
+      const maxLength = 200;
       const el = document.createElement('template')
       el.innerHTML = this.post.content.rendered.trim()
       // spans contain text to extract "summary"
@@ -238,9 +238,9 @@ export default {
     },
     commentsViewToggle(post) {
       if (this.commentsView === false ) {
-        return this.commentsToggle({id: post}) 
+        return this.commentsToggle({id: post})
       } else {
-        return this.commentsToggle({id: false}) 
+        return this.commentsToggle({id: false})
       }
     },
       // this.commentsView === '' ? this.commentsToggle({id: idThread}) : this.commentsToggle({id: ''})

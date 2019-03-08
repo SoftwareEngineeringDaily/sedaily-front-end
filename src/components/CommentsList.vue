@@ -61,13 +61,13 @@ export default {
       }
       return false
     },
-    
+
   },
-  mounted () {
-      let id = this.comments.slice(-1)[0]._id
-      let scrollToId = document.getElementById(`${id}`)
-      scrollToId.scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
-    }
+  // mounted () {
+  //     let id = this.comments.slice(-1)[0]._id
+  //     let scrollToId = document.getElementById(`${id}`)
+  //     scrollToId.scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
+  //   }
   }
 </script>
 

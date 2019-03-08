@@ -31,14 +31,14 @@
     <div v-if="isSubmitting">
       <spinner :show="true"></spinner>
     </div>
-    <div v-else>
+    <div class="buttons-comment" v-else>
       <button class='button-submit'
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
 
       <button v-if="showCancel" class='btn btn-link'
         :disabled="isSubmitting"
-        @click='cancelPressed'>Cancel</button>
+        @click='cancelPressed'><i class="fa fa-times"/></button>
     </div>
   </div>
 </template>
@@ -221,6 +221,8 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.buttons-comment
+  display flex
 .comment-container
   display flex
   align-items center
@@ -233,7 +235,7 @@ export default {
   margin 0 10px
   width 100%
   padding 5px
-  padding-left 10px 
+  padding-left 10px
   border-radius 30px
   border-color #c5c5c5
   resize none
