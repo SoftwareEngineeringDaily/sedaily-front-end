@@ -28,7 +28,8 @@ export default {
   },
   topics: {
     all: null,
-    user: null
+    user: null,
+    post: null,
   },
   token: localStorage.getItem('token'),
   loggingEnabled: true,

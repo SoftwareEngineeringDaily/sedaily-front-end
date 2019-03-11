@@ -34,6 +34,9 @@ export default {
   setUserTopics: (state, topics) => {
     state.topics.user = topics
   },
+  setPostTopics: (state, topics) => {
+    state.topics.post = topics
+  },
 
   commentsToggle: (state, { id }) => {
     state.commentsView = id
