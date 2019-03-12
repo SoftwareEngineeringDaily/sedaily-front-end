@@ -7,6 +7,7 @@
       <button class="add-topics-btn" type="button" @click="showModal"><i class="fa fa-pencil"/></button>
     </div>
     <modal
+      id="topic-modal"
       v-show="isModalVisible"
       @close="closeModal">
       <!-- header-->
@@ -24,7 +25,7 @@
             <input id="search" class='search-bar-input' type='text' placeholder='Search...' v-model='searchTopic' debounce="900"/>
           </div>
           <br>
-          <ul class="popular-topics" >
+          <ul v-if="this.$store.state.topics.all.length > 0" class="popular-topics" >
             <li class="popular-topic" v-for="item in filterItems(topics)" :key="item.id">
               <label class="container" :for="item.id">
                 {{ item.name }}
@@ -33,6 +34,7 @@
               </label>
             </li>
           </ul>
+          <span v-else class='no-topic'>Ups! There is no topics added yet..</span>
         </div>
       </div>
       <!-- footer-->
@@ -69,7 +71,6 @@ export default {
       searchTopic: '',
       checkedTopics: [],
       topics:[],
-      itemsExist: false,
     }
   },
   mounted () {
@@ -91,9 +92,11 @@ export default {
         this.checkedTopics.push(item._id)
       })
       this.isModalVisible = true;
+      $("body").addClass("modal-open")
     },
     closeModal() {
       this.isModalVisible = false;
+      $("body").removeClass("modal-open")
     },
     createNewTopic() {
       if(this.newTopic !== ''){
@@ -127,8 +130,7 @@ export default {
       this.checkedTopics.map((id) => {
         selectedTopics.topics.push(id)
       })
-      this.addTopicsToPost({ topics: selectedTopics })
-      this.getTopics()
+      this.addTopicsToPost({ topics: selectedTopics }).then(this.getTopics).then(this.closeModal)
     },
     filterItems: function() {
       const app = this
@@ -147,6 +149,8 @@ export default {
 
 <style lang="stylus" scoped>
   @import './../../css/variables'
+  body.modal-open
+    overflow hidden
   .btn-submit
     background-color primary-color
     color white
@@ -176,6 +180,7 @@ export default {
   h2
     margin 0
     color black
+    font-size 1.5rem
   .post-topics-header
     margin 15px 20px
     display flex
@@ -284,6 +289,18 @@ export default {
     -webkit-transform rotate(45deg)
     -ms-transform rotate(45deg)
     transform rotate(45deg)
+  .no-topic
+    display flex
+    flex-direction column
+    overflow auto
+    overflow-x hidden
+    width 100%
+    height 100%
+    max-height 250px
+    max-width 500px
+    margin auto
+    padding 0
+    padding 5px
   .popular-topics
     display flex
     flex-direction column
