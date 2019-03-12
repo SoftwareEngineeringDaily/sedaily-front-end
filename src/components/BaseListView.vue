@@ -1,7 +1,7 @@
 <template>
   <div class="news-view">
       <div class="categories-container">
-        <div v-if="isLoggedIn && showTopics.length !== 0">
+        <div v-if="isLoggedIn && showTopics.length !== null">
         <h4>Topics</h4>
           <ul>
             <li v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic._id)'>

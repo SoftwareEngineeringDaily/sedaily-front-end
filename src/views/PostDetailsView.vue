@@ -4,6 +4,9 @@
     v-if="post"
     class="post-view col-md-9">
       <div class="post-header">
+        <post-topics
+        :post="post"
+        />
         <post-header
         :post="post"
         />
@@ -94,6 +97,7 @@ import PostSidebar from '@/components/post/PostSidebar'
 import PostHeader from '@/components/post/PostHeader'
 import PostSelectionIcons from '@/components/post/PostSelectionIcons'
 import PostMeta from '@/components/post/PostMeta'
+import PostTopics from '@/components/post/PostTopics'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { PlayerState } from './../utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
@@ -107,6 +111,7 @@ export default {
     RelatedLinkList,
     RelatedLinkCompose,
     PostSidebar,
+    PostTopics,
     PostMeta,
     PostHeader,
     PostSelectionIcons,
@@ -125,7 +130,6 @@ export default {
     forumThreadId () {
       if (!this.isLoggedIn) return false
       if (!(this.post && this.post.thread)) return false
-      console.log('this.post.thread', this.post.thread)
       return this.post.thread._id
     },
 
@@ -223,7 +227,6 @@ export default {
     }).then(({ post }) => {
       this.loading = false
 
-      console.log('post', post)
       this.isLoadingComments = true
       // Fetch comments
       this.commentsFetch({
@@ -346,6 +349,7 @@ export default {
 .post-header
   grid-row 1
   grid-column 1
+  padding-top 2rem
 
 .post-meta
   grid-row 2

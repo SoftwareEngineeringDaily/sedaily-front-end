@@ -4,9 +4,12 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  createTopic: ({ commit, state, getters }, { topic }) => {
-    const createTopics = topic
+  createTopic: ({ commit, state, getters }, { data }) => {
+    const createTopic = data
     return axios.post(`${BASE_URL}/topics`, createTopic)
+    .then((response) => {
+      return response
+    })
   },
   getUserTopics: ({ commit, state, getters }) => {
     const userId = state.me._id
@@ -15,6 +18,14 @@ export default {
       commit('setUserTopics', response.data)
       return response
     })
+  },
+  getPostTopics: ({ commit, state, getters }, { postId }) => {
+    const post_id = postId
+     return axios.get(`${BASE_URL}/topics?postId=${post_id}`)
+     .then((response) => {
+       commit('setPostTopics', response.data)
+       return response
+     })
   },
   getAllTopics: ({ commit, state, getters }) => {
     return axios.get(`${BASE_URL}/topics`)
@@ -27,9 +38,15 @@ export default {
     const assignTopicsToUser = topics
     return axios.post(`${BASE_URL}/topics/addTopicsToUser`, assignTopicsToUser)
   },
+  addTopicsToPost: ({ commit, state, getters }, {topics}) => {
+    return axios.post(`${BASE_URL}/topics/addTopicsToPost`,topics)
+  },
   deleteTopics: ({ commit, state, getters }) => {
-    const userId = state.me._id
-    return axios.del(`${BASE_URL}/api/topics?userId=${userId}`)
+    const user = {
+      isAdmin: state.me.isAdmin,
+      id: state.me._id
+    }
+    return axios.del(`${BASE_URL}/topics`,user)
   },
   showTopic: ({ commit, state, getters }, topic_id) => {
     const topicId = topic_id
