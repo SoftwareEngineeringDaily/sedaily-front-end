@@ -55,7 +55,6 @@ export default {
     ChatBox,
     NavigationBar
   },
-
   computed: {
     ...mapState({
       me (state) {

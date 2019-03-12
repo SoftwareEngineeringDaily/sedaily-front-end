@@ -23,6 +23,9 @@ export default {
   getToken (state) {
     return state.token
   },
+  getUserTopics(state) {
+    return state.topics.user
+  },
   isLoggedIn (state, getters) {
     return Boolean(getters.getToken)
   },

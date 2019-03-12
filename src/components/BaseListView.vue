@@ -1,7 +1,16 @@
 <template>
   <div class="news-view">
       <div class="categories-container">
+        <div v-if="isLoggedIn && showTopics.length !== 0">
         <h4>Topics</h4>
+          <ul>
+            <li v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic._id)'>
+              {{ topic.name }}
+            </li>
+          </ul>
+        </div>
+        <first-topics-select />
+        <h4>Category</h4>
         <category-list
           :categories="categories"
           :active-category="activeCategory"
@@ -56,6 +65,8 @@ import Spinner from "components/Spinner.vue";
 import PostSummary from "components/PostSummary.vue";
 import CategoryList from "components/CategoryList.vue";
 import Blank from "components/Blank.vue";
+import FirstTopicsSelect from 'components/FirstTopicsSelect.vue'
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "top-list",
@@ -64,7 +75,8 @@ export default {
     instructions: Blank,
     Spinner,
     CategoryList,
-    PostSummary
+    PostSummary,
+    FirstTopicsSelect
   },
 
   data() {
@@ -129,21 +141,37 @@ export default {
      }
   },
   computed: {
+    ...mapState(["topics"]),
     searchDataNew() {
       this.setSearchData()
       return null
+    },
+    showTopics() {
+      return this.topics.user
+    },
+    isLoggedIn() {
+      if (this.$store.state.me._id === undefined) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   created () {
     this.$store.commit('setActiveType', { type: this.type })
   },
   methods: {
+    ...mapActions(['showTopic']),
     setSearchData() {
       this.searchTerm = this.$store.state.searchTerm
     },
     setSelectedCategory (category) {
       this.activeCategory = category
       this.resetPosts()
+    },
+    topicHandler(topic_id) {
+      let topicId = topic_id
+      this.showTopic(topicId)
     },
     loadMore (newSearch = false) {
       if (this.endOfPosts) {
