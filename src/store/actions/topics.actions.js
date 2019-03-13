@@ -50,6 +50,9 @@ export default {
   },
   showTopic: ({ commit, state, getters }, topic_id) => {
     const topicId = topic_id
-    return axios.get(`${BASE_URL}/topics/${topicId}`)
+    return axios.get(`${BASE_URL}/topics/${topicId}`).then((response) => {
+      commit('setSearchTopic', response.data)
+      return response
+    })
   },
 }

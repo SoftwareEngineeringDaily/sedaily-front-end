@@ -42,8 +42,8 @@
     v-if="post.thread.commentsCount > 0"
     class='seeMoreBtn'
     @click='commentsViewToggle(post.thread._id)'>
-      <p v-if='commentsStateView === false'>See all comments ({{commentsStoreList}})</p>
-      <p v-else>Hide comments ({{commentsStoreList}})</p>
+      <p v-if='commentsStateView !== post.thread._id'>See all comments ({{commentsStoreList}})</p>
+      <p v-else-if='commentsStateView === post.thread._id'>Hide comments ({{commentsStoreList}})</p>
     </div>
     <comments-list
       class="comments-list"

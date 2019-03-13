@@ -31,6 +31,7 @@ export default {
     user: null,
     post: null,
   },
+  searchTopic: [],
   token: localStorage.getItem('token'),
   loggingEnabled: true,
   jobs: [],

@@ -38,6 +38,9 @@ export default {
     state.topics.post = topics
   },
 
+  setSearchTopic: (state, topic) => {
+    state.searchTopic = topic.posts
+  },
   commentsToggle: (state, { id }) => {
     state.commentsView = id
   },

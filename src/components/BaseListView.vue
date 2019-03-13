@@ -155,7 +155,7 @@ export default {
       } else {
         return true
       }
-    }
+    },
   },
   created () {
     this.$store.commit('setActiveType', { type: this.type })
@@ -171,7 +171,10 @@ export default {
     },
     topicHandler(topic_id) {
       let topicId = topic_id
-      this.showTopic(topicId)
+      this.showTopic(topicId).then(
+        topics => this.displayedPosts = topics.data.posts
+      )
+
     },
     loadMore (newSearch = false) {
       if (this.endOfPosts) {
