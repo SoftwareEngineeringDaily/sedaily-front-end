@@ -34,7 +34,6 @@
     <div class="comment-section">
       <comment-compose
             class="comment"
-            v-if="forumThreadId"
             :entityId="forumThreadId"
             :rootEntityType='"forumthread"' />
     </div>
@@ -42,13 +41,13 @@
     v-if="post.thread.commentsCount > 0"
     class='seeMoreBtn'
     @click='commentsViewToggle(post.thread._id)'>
-      <p v-if='commentsStateView !== post.thread._id'>See all comments ({{commentsStoreList}})</p>
-      <p v-else-if='commentsStateView === post.thread._id'>Hide comments ({{commentsStoreList}})</p>
+      <p v-if='this.commentsView !== post.thread._id'>See all comments ({{commentsStoreList}})</p>
+      <p v-else-if='this.commentsView === post.thread._id'>Hide comments ({{commentsStoreList}})</p>
     </div>
     <comments-list
       class="comments-list"
       :id="post.thread._id"
-      v-if='commentsStateView === post.thread._id'
+      v-if='this.commentsView === post.thread._id'
       :comments='comments'
       :rootEntityType='"forumthread"'
       :loading="isLoadingComments"
@@ -118,9 +117,6 @@ export default {
       if (!this.isLoggedIn) return false
       if (!(this.post && this.post.thread)) return false
       return this.post.thread._id
-    },
-    commentsStateView() {
-      return this.commentsView
     },
 
     commentsStoreList(id) {
@@ -221,7 +217,6 @@ export default {
       })
   },
   methods: {
-    ...mapState(['commentsView']),
     ...mapMutations(['commentsToggle']),
     ...mapActions(['playEpisode', 'updatePlayerState', 'commentsFetch']),
     play () {

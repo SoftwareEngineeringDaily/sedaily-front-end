@@ -41,7 +41,8 @@
       <span slot="footer">
         <button v-if="isAddTopic" type="button" class="btn-modal-secondary" @click="addTopic">Back</button>
         <button v-else type="button" class="btn-modal-secondary" @click="addTopic">Add Topic</button>
-          <button type="button" class="btn-submit" @click="selectTopicsToPost">Submit</button>
+        <button v-if="checkedTopics.length > 0" type="button" class="btn-submit" @click="selectTopicsToPost">Submit</button>
+        <button v-else type="button" class="btn-submit-disactive">Submit</button>
       </span>
     </modal>
   </div>
@@ -153,6 +154,15 @@ export default {
     overflow hidden
   .btn-submit
     background-color primary-color
+    color white
+    margin-right 5px
+    padding 5px
+    border-radius 5px
+    border 1px solid #c4c4c4
+    cursor pointer
+    outline none
+  .btn-submit-disactive
+    background-color #c4c4c4
     color white
     margin-right 5px
     padding 5px

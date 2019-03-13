@@ -164,7 +164,7 @@ $(function(){
          if ((posnow - lastpos) > 50 || (posnow - lastpos) < 0) {
              if (last == 'down') {
                  foo = posnow - 51;
-                 $("#header").css({'position': 'absolute', 'top': foo});
+                 $("#header").css({'position': 'absolute', 'top': '0'});
 
              } else {
                 if (foo > st) {

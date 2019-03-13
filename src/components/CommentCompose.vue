@@ -19,7 +19,6 @@ export default  {
       required: false
     },
     entityId: {
-      type: String,
       required: true
     }
   },
@@ -56,7 +55,7 @@ export default  {
           // Fetch comments
           this.commentsFetch({
             entityId: this.entityId
-          })    
+          })
         })
         .catch((error) => {
           this.isSubmitting = false

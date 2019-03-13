@@ -182,6 +182,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .container
+    margin 45px
   .newsletter-text
     padding-left 15px
 </style>
