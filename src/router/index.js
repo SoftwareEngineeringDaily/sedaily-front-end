@@ -67,7 +67,10 @@ const router = new Router({
     { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },
     { path: '/admin/edit-company/:id', beforeEnter: authorize, component: CompanyEdit },
     { path: '/:company', component: CompanyLandingPage }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {

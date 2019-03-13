@@ -87,6 +87,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .container
+    margin 45px
   .forgot-p
     margin 15px 0
 </style>

@@ -27,18 +27,22 @@
     </profile-label>
   </div>
 
-
-    <div v-if="isSubmitting">
-      <spinner :show="true"></spinner>
-    </div>
-    <div class="buttons-comment" v-else>
-      <button class='button-submit'
+    <div v-if="isLoggedIn">
+      <div v-if="isSubmitting">
+        <spinner :show="true"></spinner>
+      </div>
+      <div class="buttons-comment" v-else>
+        <button class='button-submit'
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
 
-      <button v-if="showCancel" class='btn btn-link'
+        <button v-if="showCancel" class='btn btn-link'
         :disabled="isSubmitting"
         @click='cancelPressed'><i class="fa fa-times"/></button>
+      </div>
+    </div>
+    <div v-else>
+      <router-link to="/login"><button class='button-submit'>{{submitButtonText}}</button></router-link>
     </div>
   </div>
 </template>
@@ -221,12 +225,18 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.button-submit
+  outline none
+  a
+    color white
+    &:hover
+      text-decoration none
 .buttons-comment
   display flex
 .comment-container
   display flex
   align-items center
-  width: 100%;
+  width 100%
   .profile-img
     width 35px
     height 35px

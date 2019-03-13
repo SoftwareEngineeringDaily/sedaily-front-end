@@ -39,7 +39,7 @@ export default {
       default: true
     },
     dateComment: {
-      type: Number
+      type: String
     }
   },
   computed: {
@@ -78,7 +78,7 @@ export default {
   display flex
   align-items center
   justify-content flex-start
-  p 
+  p
     margin 0
   span
     margin 0
