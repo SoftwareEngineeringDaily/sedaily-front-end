@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <template v-if="loading">
       <spinner :show="loading"></spinner>
     </template>

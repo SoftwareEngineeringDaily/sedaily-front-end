@@ -70,6 +70,7 @@
     display flex
     justify-content center
     max-width 600px
+    min-height 500px
     flex-direction column
     left 50%
     top 50%
