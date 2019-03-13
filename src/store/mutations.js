@@ -44,6 +44,9 @@ export default {
   commentsToggle: (state, { id }) => {
     state.commentsView = id
   },
+  setMostPopular: (state, topics) => {
+    state.topics.mostPopular = topics
+  },
 
   setList: (state, { type, posts }) => {
     // This is currently doing an append to the list but

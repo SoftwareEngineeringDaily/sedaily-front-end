@@ -30,6 +30,7 @@ export default {
     all: null,
     user: null,
     post: null,
+    mostPopular: null
   },
   searchTopic: [],
   token: localStorage.getItem('token'),

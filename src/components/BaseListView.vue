@@ -1,10 +1,22 @@
 <template>
   <div class="news-view">
       <div class="categories-container">
-        <div v-if="isLoggedIn && showTopics.length !== null">
+        <div v-if="isLoggedIn && showTopics.length !== null" class="topics-container">
         <h4>Topics</h4>
           <ul>
-            <li v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic._id)'>
+            <li class='topic-item' v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic._id)' :class='getClassForTopic(topic._id)'>
+              {{ topic.name }}
+            </li>
+          </ul>
+        </div>
+        <div class="topics-container">
+        <h4>Most Popular Topics</h4>
+          <ul>
+            <li class='topic-item' 
+              v-for="topic in showMostPopular" 
+              :key="topic._id" 
+              @click='topicHandler(topic._id)' 
+              :class='getClassForTopic(topic._id)'>
               {{ topic.name }}
             </li>
           </ul>
@@ -89,6 +101,7 @@ export default {
       endOfPosts: false,
       transition: "slide-up",
       displayedPosts: [],
+      topicId: '',
       categories: [
         {
           name: "Business and Philosophy",
@@ -149,21 +162,28 @@ export default {
     showTopics() {
       return this.topics.user
     },
+    showMostPopular() {
+      return this.topics.mostPopular
+    },
     isLoggedIn() {
       if (this.$store.state.me._id === undefined) {
         return false
       } else {
         return true
       }
-    },
+    }
   },
   created () {
-    this.$store.commit('setActiveType', { type: this.type })
+    this.$store.commit('setActiveType', { type: this.type });
+    this.$store.dispatch('mostPopular');
   },
   methods: {
     ...mapActions(['showTopic']),
     setSearchData() {
       this.searchTerm = this.$store.state.searchTerm
+    },
+    getClassForTopic (topic_id) {
+      return (this.topicId === topic_id) ? 'topic-active' : ''
     },
     setSelectedCategory (category) {
       this.activeCategory = category
@@ -171,6 +191,7 @@ export default {
     },
     topicHandler(topic_id) {
       let topicId = topic_id
+      this.topicId = topic_id
       this.showTopic(topicId).then(
         topics => this.displayedPosts = topics.data.posts
       )
@@ -327,6 +348,28 @@ export default {
     margin: 0;
   }
 }
+
+//TOPICS
+
+.topics-container
+  ul
+    list-style none
+    padding 0
+    li
+      padding 5px
+      margin 4px
+      color #808080
+      cursor pointer
+      &:hover
+          border-radius 25px
+          background primary-color
+          color white !important
+
+.topic-active
+  border 1px solid primary-color
+  color white !important
+  background primary-color
+  border-radius 25px
 
 .categories-container
   padding-top 2rem

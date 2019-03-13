@@ -55,4 +55,10 @@ export default {
       return response
     })
   },
+  mostPopular: ({ commit, state}) => {
+    return axios.get(`${BASE_URL}/topics/mostPopular`).then((response) => {
+      commit('setMostPopular', response.data)
+      return response
+    })
+  } 
 }
