@@ -37,6 +37,8 @@ const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'NewListView', component: NewListView },
+    { path: '/topics/:topic', name: 'NewListView', component: NewListView },
+    { path: '/topics/:topic/:search', name: 'NewListView', component: NewListView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },

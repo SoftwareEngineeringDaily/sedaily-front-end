@@ -4,7 +4,7 @@
         <div v-if="isLoggedIn && showTopics.length !== null" class="topics-container">
         <h4>Topics</h4>
           <ul>
-            <li class='topic-item' v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic._id)' :class='getClassForTopic(topic._id)'>
+            <li class='topic-item' v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic)' :class='getClassForTopic(topic._id)'>
               {{ topic.name }}
             </li>
           </ul>
@@ -189,12 +189,13 @@ export default {
       this.activeCategory = category
       this.resetPosts()
     },
-    topicHandler(topic_id) {
-      let topicId = topic_id
-      this.topicId = topic_id
+    topicHandler(topic) {
+      let topicId = topic._id, 
+          topicName = topic.name;
       this.showTopic(topicId).then(
         topics => this.displayedPosts = topics.data.posts
       )
+      this.$router.push({ path: `/topics/${topicName}` })
 
     },
     loadMore (newSearch = false) {
@@ -239,7 +240,10 @@ export default {
       this.displayedPosts = [];
       this.endOfPosts = false;
       this.loading = false;
-      this.loadMore(true);
+      if (this.topicId !== '') {
+        this.loadMore(false)
+      }
+      // this.loadMore(true);
     },
     playPodcast(post) {
       console.log("inside play podacst");
@@ -349,8 +353,7 @@ export default {
   }
 }
 
-//TOPICS
-
+//TOPIC
 .topics-container
   ul
     list-style none
@@ -361,15 +364,10 @@ export default {
       color #808080
       cursor pointer
       &:hover
-          border-radius 25px
-          background primary-color
-          color white !important
+          color primary-color !important
 
 .topic-active
-  border 1px solid primary-color
-  color white !important
-  background primary-color
-  border-radius 25px
+  color primary-color !important
 
 .categories-container
   padding-top 2rem

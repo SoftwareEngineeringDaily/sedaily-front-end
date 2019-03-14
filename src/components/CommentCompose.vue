@@ -31,10 +31,6 @@ export default  {
   components: {
     CommentForm
   },
-  computed: {
-    ...mapState({
-    })
-  },
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
     ...mapMutations(['commentsToggle']),
