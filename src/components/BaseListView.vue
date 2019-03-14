@@ -12,10 +12,10 @@
         <div class="topics-container">
         <h4>Most Popular Topics</h4>
           <ul>
-            <li class='topic-item' 
-              v-for="topic in showMostPopular" 
-              :key="topic._id" 
-              @click='topicHandler(topic._id)' 
+            <li class='topic-item'
+              v-for="topic in showMostPopular"
+              :key="topic._id"
+              @click='topicHandler(topic._id)'
               :class='getClassForTopic(topic._id)'>
               {{ topic.name }}
             </li>
@@ -78,7 +78,7 @@ import PostSummary from "components/PostSummary.vue";
 import CategoryList from "components/CategoryList.vue";
 import Blank from "components/Blank.vue";
 import FirstTopicsSelect from 'components/FirstTopicsSelect.vue'
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 
 export default {
   name: "top-list",
@@ -190,7 +190,7 @@ export default {
       this.resetPosts()
     },
     topicHandler(topic) {
-      let topicId = topic._id, 
+      let topicId = topic._id,
           topicName = topic.name;
       this.showTopic(topicId).then(
         topics => this.displayedPosts = topics.data.posts

@@ -11,6 +11,7 @@ export default {
       return response
     })
   },
+
   getUserTopics: ({ commit, state, getters }) => {
     const userId = state.me._id
     return axios.get(`${BASE_URL}/topics?userId=${userId}`)
@@ -19,6 +20,7 @@ export default {
       return response
     })
   },
+
   getPostTopics: ({ commit, state, getters }, { postId }) => {
     const post_id = postId
      return axios.get(`${BASE_URL}/topics?postId=${post_id}`)
@@ -27,6 +29,7 @@ export default {
        return response
      })
   },
+
   getAllTopics: ({ commit, state, getters }) => {
     return axios.get(`${BASE_URL}/topics`)
     .then((response) => {
@@ -34,13 +37,24 @@ export default {
       return response
     })
   },
+
+  getSearchedTopics: ({ commit, state, getters }, search) => {
+    return axios.get(`${BASE_URL}/topics/searchTopics?search=${search}`)
+    .then((response) => {
+      commit('setSearchedAllTopics', response.data)
+      return response
+    })
+  },
+
   addTopicToUser: ({ commit, state, getters }, topics) => {
     const assignTopicsToUser = topics
     return axios.post(`${BASE_URL}/topics/addTopicsToUser`, assignTopicsToUser)
   },
+
   addTopicsToPost: ({ commit, state, getters }, {topics}) => {
     return axios.post(`${BASE_URL}/topics/addTopicsToPost`,topics)
   },
+
   deleteTopics: ({ commit, state, getters }) => {
     const user = {
       isAdmin: state.me.isAdmin,
@@ -48,6 +62,7 @@ export default {
     }
     return axios.del(`${BASE_URL}/topics`,user)
   },
+
   showTopic: ({ commit, state, getters }, topic_id) => {
     const topicId = topic_id
     return axios.get(`${BASE_URL}/topics/${topicId}`).then((response) => {
@@ -55,10 +70,11 @@ export default {
       return response
     })
   },
+
   mostPopular: ({ commit, state}) => {
     return axios.get(`${BASE_URL}/topics/mostPopular`).then((response) => {
       commit('setMostPopular', response.data)
       return response
     })
-  } 
+  }
 }
