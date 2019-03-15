@@ -77,7 +77,6 @@ export default {
         return { posts: response.data, maxPage: 4 }
       })
       .catch((error) => {
-      // @TODO: Add pretty pop up here
         console.log(error)
       // Vue.toasted.error(error.message)
       // Vue.toasted.error(error.response.data.message)
