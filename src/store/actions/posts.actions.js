@@ -51,6 +51,38 @@ export default {
       })
   },
 
+  getTopicsBySearch: ({ commit, dispatch, state, getters }, { topic, search }) => {
+
+    let url = `${BASE_URL}/posts`
+    if (topic) url += `?topic=${topic}`
+    if (topic === undefined && search ) url += `?search=${search}`
+    if (search && topic) url += `&search=${search}`
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchListData',
+            eventLabel: `url: ${url}`,
+            eventValue: 1
+          }]
+        ]
+      }
+    })
+
+    return axios.get(url)
+      .then((response) => {
+        commit('setPosts', { posts: response.data })
+        return { posts: response.data, maxPage: 4 }
+      })
+      .catch((error) => {
+      // @TODO: Add pretty pop up here
+        console.log(error.response)
+        Vue.toasted.error(error.response.data.message)
+      })
+  },
+
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
     commit('setActiveType', { type })
     let url = `${BASE_URL}/posts/recommendations?page=${page}`

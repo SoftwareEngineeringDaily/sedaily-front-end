@@ -154,7 +154,7 @@ body
   overflow-y scroll
   margin 0
   #app
-    margin-bottom 120px
+    padding-bottom 120px
 
 a
   color #34495e
