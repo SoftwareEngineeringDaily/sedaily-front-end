@@ -26,17 +26,12 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
-       <div v-if="showTopics !== null &&
-         (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)">
-          <first-topics-select />
-        </div>
-      <!-- <h4>Category</h4>
-      <category-list
-        :categories="categories"
-        :active-category="activeCategory"
-        @setSelectedCategory="setSelectedCategory"
-        v-if="showFilteringElements"
-      />-->
+      <div
+        v-if="showTopics !== null &&
+         (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)"
+      >
+        <first-topics-select/>
+      </div>
       <div class="app-download">
         <a
           href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
@@ -56,8 +51,15 @@
 
     <instructions :displayedPosts="displayedPosts"></instructions>
     <transition :name="transition">
-      <div class="post-summary__container">
-        <post-summary v-for="post in displayedPosts" :key="post._id" :post="post" search></post-summary>
+      <div
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10"
+      >
+        <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary>
+        <div class="spinner-holder">
+          <spinner :show="loading"></spinner>
+        </div>
       </div>
     </transition>
   </div>
@@ -85,10 +87,7 @@ export default {
 
   data() {
     return {
-      playingPost: { title: "starting title" },
-      type: "new",
       showFilteringElements: true,
-      endPoint: "fetchListData",
       loading: false,
       endOfPosts: false,
       transition: "slide-up",
@@ -99,13 +98,13 @@ export default {
   watch: {
     searchTerm() {
       let term = this.$store.state.searchTerm;
-      if (this.topicId === '') {
-        this.getTopicsBySearch({ search: term }).then(
+      if (this.topicId === "") {
+        this.getTopicsInSearch({ search: term }).then(
           data => (this.displayedPosts = data.posts)
         );
       } else {
-        let id = this.topicId
-        this.getTopicsBySearch({ topic: id, search: term }).then(
+        let id = this.topicId;
+        this.getTopicsInSearch({ topic: id, search: term }).then(
           data => (this.displayedPosts = data.posts)
         );
       }
@@ -134,26 +133,26 @@ export default {
     this.$store.commit("setActiveType", { type: this.type });
     this.$store.dispatch("mostPopular");
   },
-  beforeRouteEnter(to, from, next) {
-    const topicSlug = to.params.topic;
-    if (topicSlug === undefined) {
-      return next(vm => vm.fetchPosts());
-    }
-    next(vm =>
-      vm.$store
-        .dispatch("showTopic", topicSlug)
-        .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
-    );
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   const topicSlug = to.params.topic;
+  //   if (topicSlug === undefined) {
+  //     return next(vm => vm.fetchPosts());
+  //   }
+  //   next(vm =>
+  //     vm.$store
+  //       .dispatch("showTopic", topicSlug)
+  //       .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
+  //   );
+  // },
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
-    this.$store
-      .dispatch("showTopic", topicSlug)
-      .then(topics => {this.displayedPosts = topics.data.posts; console.log(topics)});
+    this.$store.dispatch("showTopic", topicSlug).then(topics => {
+      this.displayedPosts = topics.data.posts;
+    });
     next();
   },
   methods: {
-    ...mapActions(["showTopic", "getTopicsBySearch"]),
+    ...mapActions(["showTopic", "getTopicsInSearch"]),
     getClassForTopic(topic_id) {
       return this.topicId === topic_id ? "topic-active" : "";
     },
@@ -171,56 +170,55 @@ export default {
       this.$router.push({ path: `/topics/${topicSlug}` });
     },
     fetchPosts() {
-      this.topicId = '';
+      this.topicId = "";
       this.$router.push({ path: `/` });
-      this.getTopicsBySearch({}).then(
+      this.getTopicsInSearch({}).then(
         data => (this.displayedPosts = data.posts)
       );
-    }
-    // loadMore(newSearch = false) {
-    //   if (this.endOfPosts) {
-    //     return;
-    //   }
-    //   this.loading = true;
-    //   const params = {
-    //     type: this.type,
-    //     category: this.activeCategory.id,
-    //     search: undefined,
-    //     createdAtBefore: undefined
-    //   };
-    //   if (this.searchTerm) {
-    //     params.search = this.searchTerm;
-    //   }
-    //   if (this.displayedPosts.length > 0) {
-    //     const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
-    //     params.createdAtBefore = moment(lastPost.date).toISOString();
-    //   }
-    //   this.$store
-    //     .dispatch(this.endPoint, params)
-    //     .then(result => {
-    //       if (newSearch) {
-    //         this.displayedPosts = [];
-    //       }
+      this.resetPosts();
+    },
+    loadMore(newSearch = false) {
+      if (this.endOfPosts) {
+        return;
+      }
+      this.loading = true;
+      const params = {
+        topic: this.topicId || undefined,
+        search: undefined,
+        createdAtBefore: undefined
+      };
+      if (this.$store.state.searchTerm) {
+        params.search = this.$store.state.searchTerm;
+      }
+      if (this.displayedPosts.length > 0) {
+        const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
+        params.createdAtBefore = moment(lastPost.date).toISOString();
+      }
+      this.$store
+        .dispatch("getTopicsInSearch", params)
+        .then(result => {
+          if (newSearch) {
+            this.displayedPosts = [];
+          }
 
-    //       if (result && result.posts && result.posts.length > 0) {
-    //         this.displayedPosts = this.displayedPosts.concat(result.posts);
-    //       } else {
-    //         this.endOfPosts = true;
-    //       }
-    //       this.loading = false;
-    //     })
-    //     .catch(_ => {
-    //       // TODO: log events
-    //       this.endOfPosts = true;
-    //       this.loading = false;
-    //     });
-    // },
-    // resetPosts() {
-    //   this.displayedPosts = [];
-    //   this.endOfPosts = false;
-    //   this.loading = false;
-    //   this.loadMore(true);
-    // },
+          if (result && result.posts && result.posts.length > 0) {
+            this.displayedPosts = this.displayedPosts.concat(result.posts);
+          } else {
+            this.endOfPosts = true;
+          }
+          this.loading = false;
+        })
+        .catch(_ => {
+          this.endOfPosts = true;
+          this.loading = false;
+        });
+    },
+    resetPosts() {
+      this.displayedPosts = [];
+      this.endOfPosts = false;
+      this.loading = false;
+      this.loadMore(true);
+    }
   }
 };
 </script>
@@ -304,6 +302,7 @@ export default {
 .news-view {
   padding-top: 10px;
   display: flex;
+  justify-content: space-between;
 }
 
 .news-list-nav, .news-list {

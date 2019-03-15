@@ -191,7 +191,6 @@ export default {
       this.editing = false;
     },
     upvoteHandler() {
-      console.log("entity::", this.comment.rootEntity, this.comment);
       this.likeComment({
         id: this.comment._id,
         parentCommentId: this.comment.parentComment,

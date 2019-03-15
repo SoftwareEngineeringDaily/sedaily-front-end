@@ -266,8 +266,9 @@ export default {
   background-color #fff
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   border-radius 2px
-  margin 15px 0
-  width 100%
+  margin 15px auto     
+  margin-right 32%
+  width 50%
 
 .post-summary
   padding: 25px 25px 0 25px
