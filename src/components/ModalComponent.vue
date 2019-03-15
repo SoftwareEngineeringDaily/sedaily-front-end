@@ -14,7 +14,7 @@
             This is the default tile!
 
           </slot>
-          <button
+          <button v-show='showCloseBtn'
           type="button"
           class="btn-close"
           @click="close"
@@ -43,6 +43,7 @@
 <script>
   export default {
     name: 'modal',
+    props: ['showCloseBtn'],
     methods: {
       close() {
         this.$emit('close');

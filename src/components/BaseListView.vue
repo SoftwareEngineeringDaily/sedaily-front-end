@@ -1,7 +1,7 @@
 <template>
   <div class="news-view">
       <div class="categories-container">
-        <div v-if="isLoggedIn && showTopics.length !== null" class="topics-container">
+        <div v-if="isLoggedIn && showTopics !== null" class="topics-container">
         <h4>Topics</h4>
           <ul>
             <li class='topic-item' v-for="topic in showTopics" :key="topic._id" @click='topicHandler(topic)' :class='getClassForTopic(topic._id)'>
@@ -21,7 +21,10 @@
             </li>
           </ul>
         </div>
-        <first-topics-select />
+        <div v-show="showTopics !== null &&
+         this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0">
+          <first-topics-select />
+        </div>
         <h4>Category</h4>
         <category-list
           :categories="categories"

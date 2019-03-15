@@ -13,7 +13,8 @@
          <modal
            id="topic-modal"
            v-show="isModalVisible"
-           @close="closeModal">
+           @close="closeModal"
+           showCloseBtn="true">
            <!-- header-->
            <h2 slot="header">Edit Topics</h2>
            <!-- body-->
@@ -38,7 +39,7 @@
                        {{ item.name }}
                      </label>
                    </li>
-                   <li v-if="this.$store.state.topics.searchedAllTopics === null">
+                   <li v-show="this.$store.state.topics.searchedAllTopics === null">
                      <label>
                        No scores for this request..
                      </label>
@@ -60,7 +61,7 @@
            </div>
            <!-- footer-->
            <span slot="footer">
-            <button v-if="checkedTopics.length > 4" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
+            <button v-if="checkedTopics.length > 2" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
             <button v-else type="button" class="btn-submit-disactive">Submit</button>
            </span>
          </modal>
@@ -155,7 +156,7 @@
       })
     },
     methods: {
-      ...mapActions(['getUserTopics','createTopic','getSearchedTopics','addTopicToUser']),
+      ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser']),
       logoutHandler () {
         this.$auth.logout()
         this.$router.replace('/')
@@ -199,15 +200,7 @@
         $("body").removeClass("modal-open")
       },
       getTopics() {
-        this.getUserTopics().then(this.updateTopicsChecked)
-      },
-      updateTopicsChecked() {
-        if(this.checkedTopics === "created"){
-          this.checkedTopics = []
-          this.$store.state.topics.user.map((item) => {
-            this.checkedTopics.push(item._id)
-          })
-        }
+        this.getUserTopics()
       },
       selectTopicsToUser() {
         const selectedTopics = []
