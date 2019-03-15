@@ -37,6 +37,9 @@ export default {
   setPostTopics: (state, topics) => {
     state.topics.post = topics
   },
+  setSearchedAllTopics: (state, topics) => {
+    state.topics.searchedAllTopics = topics
+  },
 
   setSearchTopic: (state, topic) => {
     state.searchTopic = topic.posts

@@ -13,18 +13,42 @@
          <modal
            id="topic-modal"
            v-show="isModalVisible"
-           @close="closeModal">
+           @close="closeModal"
+           showCloseBtn="true">
            <!-- header-->
            <h2 slot="header">Edit Topics</h2>
            <!-- body-->
            <div slot="body">
-             <div>
+             <div id="search-container">
                <div class='search-bar'>
-                 <input id="search" class='search-bar-input' type='text' placeholder='Search...' v-model='searchTopic' debounce="900"/>
+                 <input
+                   id="search"
+                   class='search-bar-input'
+                   type='text'
+                   @input="onChange"
+                   placeholder='Search...'
+                   v-model='searchTopic'
+                   debounce="900"
+                   autocomplete="off"
+                 />
+               </div>
+               <div v-show="isOpen" class="autocomplete">
+                 <ul class="popular-topics absolute">
+                   <li class="popular-topic" v-for="(item, i) in filterItems(topics)" :key="i">
+                     <label class="search-label" @click="setResult(item)" :for="item.id">
+                       {{ item.name }}
+                     </label>
+                   </li>
+                   <li v-show="this.$store.state.topics.searchedAllTopics === null">
+                     <label>
+                       No scores for this request..
+                     </label>
+                   </li>
+                 </ul>
                </div>
                <br>
-               <ul v-if="this.$store.state.topics.all.length > 0" class="popular-topics" >
-                 <li class="popular-topic" v-for="item in filterItems(topics)" :key="item.id">
+               <ul v-if="this.$store.state.topics.user.length > 0" class="popular-topics" >
+                 <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
                    <label class="container" :for="item.id">
                      {{ item.name }}
                      <input type="checkbox" :id="item.id" :value="item._id" v-model="checkedTopics">
@@ -37,7 +61,7 @@
            </div>
            <!-- footer-->
            <span slot="footer">
-            <button v-if="checkedTopics.length > 4" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
+            <button v-if="checkedTopics.length > 2" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
             <button v-else type="button" class="btn-submit-disactive">Submit</button>
            </span>
          </modal>
@@ -74,6 +98,8 @@
 <script>
   import modal from '@/components/ModalComponent.vue'
   import { mapState, mapActions } from 'vuex'
+  import lodash from 'lodash'
+
   export default {
     name: 'profile-details',
     props: {
@@ -101,14 +127,20 @@
     data () {
       return {
         isModalVisible: false,
-        items: [],
+        userTopics: [],
         searchTopic: '',
         checkedTopics: [],
         topics:[],
+        isOpen: false,
+        modalTopics: [],
       }
     },
     mounted () {
       this.getTopics()
+      document.addEventListener('click', this.handleClickOutside)
+    },
+    destroyed() {
+      document.removeEventListener('click', this.handleClickOutside);
     },
     computed: {
       ...mapState({
@@ -124,13 +156,37 @@
       })
     },
     methods: {
-      ...mapActions(['getUserTopics','createTopic','getAllTopics','addTopicToUser']),
+      ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser']),
       logoutHandler () {
         this.$auth.logout()
         this.$router.replace('/')
       },
+      setResult(item) {
+        const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
+        if (!topic) { this.modalTopics.push(item) }
+      },
+      debounceSearchRequest: _.debounce(function () {
+        this.getSearchedTopics(this.searchTopic)
+      }, 500),
+      handleClickOutside(evt) {
+        if (this.$el.contains(evt.target)) {
+          this.isOpen = false;
+        }
+      },
+      onChange() {
+        this.isOpen = true;
+        this.getSuggestedTopics()
+      },
+      getSuggestedTopics() {
+        if(this.searchTopic !== '') {
+          this.debounceSearchRequest()
+        }
+      },
       showModal() {
         this.checkedTopics = []
+        this.userTopics.map((item) => {
+          this.modalTopics.push(item)
+        })
         this.$store.state.topics.user.map((item) => {
           this.checkedTopics.push(item._id)
         })
@@ -138,20 +194,13 @@
         $("body").addClass("modal-open")
       },
       closeModal() {
-        this.isModalVisible = false;
+        this.modalTopics = []
+        this.isModalVisible = false
+        this.searchTopic = ''
         $("body").removeClass("modal-open")
       },
       getTopics() {
-        this.getAllTopics()
-        this.getUserTopics().then(this.updateTopicsChecked)
-      },
-      updateTopicsChecked() {
-        if(this.checkedTopics === "created"){
-          this.checkedTopics = []
-          this.$store.state.topics.user.map((item) => {
-            this.checkedTopics.push(item._id)
-          })
-        }
+        this.getUserTopics()
       },
       selectTopicsToUser() {
         const selectedTopics = []
@@ -162,19 +211,14 @@
           userId: this.$store.state.me._id,
           topics: selectedTopics
         }
-        this.addTopicToUser(userTopics)
-        this.getTopics()
-        this.closeModal()
+        this.addTopicToUser(userTopics).then(this.getTopics).then(this.closeModal)
       },
       filterItems: function() {
         const app = this
-        this.items = this.$store.state.topics.user
-        this.topics = this.$store.state.topics.all
+        this.userTopics = this.$store.state.topics.user
+        this.topics = this.$store.state.topics.searchedAllTopics
         if(this.topics !== null){
-          return this.topics.filter(function(item) {
-            let regex = new RegExp('(' + app.searchTopic + ')', 'i');
-            return item.name.match(regex);
-          })
+          return this.topics
         }
       }
     }
@@ -237,6 +281,19 @@
     text-align center
     a
       color accent-color
+  .autocomplete
+    max-width 500px
+    margin auto
+    .absolute
+      background white
+      z-index 1000
+      height auto!important
+      position absolute
+  .search-label
+    width 100%
+    cursor pointer
+    &:hover
+      color primary-color
   body.modal-open
     overflow hidden
   .btn-submit
@@ -386,8 +443,9 @@
     border 1px solid #c4c4c4
     padding 10px
     list-style none
-      .popular-topic
-        justify-content center
+  .popular-topic
+    justify-content center
+    text-align left
   .popular-topics::-webkit-scrollbar
     width 5px
   .popular-topics::-webkit-scrollbar-track

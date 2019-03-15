@@ -26,7 +26,10 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
-      <first-topics-select/>
+       <div v-if="showTopics !== null &&
+         (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)">
+          <first-topics-select />
+        </div>
       <!-- <h4>Category</h4>
       <category-list
         :categories="categories"
