@@ -5,25 +5,17 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  // Pages should probably start at largest page and go down in number
-  // this way links stay around and it's easy to link toa  particular page.
-  // perhaps even including a limit and redirect to max if something
-  // too large is provided (in the url).
-  fetchListData: ({ commit, dispatch, state, getters }, { type, category, page = 1, createdAtBefore, createdAfter, tags, search }) => {
-    if (!createdAtBefore && !createdAfter) createdAtBefore = moment().toISOString()
 
-    commit('setActiveType', { type })
+  getTopicsInSearch: ({ commit, dispatch, state, getters }, { topic, search, createdAtBefore }) => {
 
-    let url = `${BASE_URL}/posts?page=${page}&type=${type}`
-    if (createdAtBefore) url += `&createdAtBefore=${createdAtBefore}`
-    if (createdAfter) url += `&createdAfter=${createdAfter}`
-    if (search) url += `&search=${search}`
-    if (category) url += `&categories=${category}`
+    if (!createdAtBefore) createdAtBefore = moment().toISOString()
 
-    if (tags) {
-      const tagString = tags.join(',')
-      url += `&tags=${tagString}`
-    }
+    let url = `${BASE_URL}/posts`
+    if (topic) url += `?topic=${topic}`
+    if (topic === undefined && search ) url += `?search=${search}`
+    if (search && topic ) url += `&search=${search}`
+    if (search || topic) url += `&createdAtBefore=${createdAtBefore}`
+    if (!search && !topic) url += `?createdAtBefore=${createdAtBefore}`
 
     commit('analytics', {
       meta : {
@@ -40,7 +32,6 @@ export default {
 
     return axios.get(url)
       .then((response) => {
-        commit('setList', { type, posts: response.data })
         commit('setPosts', { posts: response.data })
         return { posts: response.data, maxPage: 4 }
       })

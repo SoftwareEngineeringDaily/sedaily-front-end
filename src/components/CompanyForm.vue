@@ -161,7 +161,6 @@ export default {
       reader.onload = (e) => {
         vm.companyFormData.imageUrl = e.target.result
       }
-      console.log(image)
       reader.readAsDataURL(file)
     },
 
@@ -172,11 +171,10 @@ export default {
 
     companyNameBlur () {
       const companyName = this.companyFormData.companyName
-      console.log(companyName)
+
 
       return this.jobsSearch({ companyName })
         .then((jobs) => {
-          console.log('jobs', jobs)
           this.jobs = jobs
         })
         .catch(() => {
@@ -184,8 +182,6 @@ export default {
         })
     },
     submit () {
-      console.log('Submitting')
-      console.log(this.companyFormData)
       var vm = this
       if (this.file) {
         return this.companiesUploadImage({ imageFile: this.file })

@@ -1,20 +1,11 @@
 <template>
   <div class='link-holder'>
-    <voting-arrows
-      :upvoted="relatedLink.upvoted"
-      :downvoted="relatedLink.downvoted"
-      :upvoteHandler="upvoteHandler"
-      :downvoteHandler="downvoteHandler"
-      :score="relatedLink.score">
-    </voting-arrows>
 
     <a :href="relatedLink.url | externalUrl" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>
-
-    <div v-if='myLink' @click='remove'>
-      <br />
-      <button class='button-delete'> Delete Link </button>
+    <div v-if='myLink'>
+      <button @click='remove' class='button-delete'><i class="fa fa-trash"/></button>
     </div>
   </div>
 </template>
@@ -75,6 +66,18 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+.button-delete
+  background none
+  outline none
+  border none
+  color #c4c4c4
 .link-holder
-  padding-bottom 20px
+  display flex
+  align-items center
+  a
+    font-size 16px
+    font-weight normal
+    color primary-color
+    opacity .7
 </style>

@@ -10,7 +10,7 @@
 
 <script>
 import CommentForm from '@/components/CommentForm.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default  {
   name: 'comment-compose',
   props: {
@@ -19,7 +19,6 @@ export default  {
       required: false
     },
     entityId: {
-      type: String,
       required: true
     }
   },
@@ -32,16 +31,14 @@ export default  {
   components: {
     CommentForm
   },
-  computed: {
-    ...mapState({
-    })
-  },
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
+    ...mapMutations(['commentsToggle']),
     submitCallback ({content, mentions}) {
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
+      this.commentsToggle({id: this.entityId})
       this.commentsCreate({
         entityId: this.entityId,
         rootEntityType: this.rootEntityType,
@@ -61,7 +58,7 @@ export default  {
           this.$toasted.error(error.response.data.message)
         })
 
-    }
+    },
   }
 }
 </script>

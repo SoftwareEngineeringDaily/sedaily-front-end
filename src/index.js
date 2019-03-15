@@ -15,6 +15,8 @@ import VeeValidate from 'vee-validate'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 import Toasted from 'vue-toasted'
+import SmartBanner from 'smart-app-banner'
+import 'smart-app-banner/dist/smart-app-banner.css'
 
 import 'bootstrap'
 import './css/vendor.scss'
@@ -58,6 +60,19 @@ Vue.use(VueAnalytics, {
   checkDuplicatedScript: true,
   router
 })
+Vue.directive('click-outside', {
+  bind () {
+      this.event = event => this.vm.$emit(this.expression, event)
+      this.el.addEventListener('click', this.stopProp)
+      document.body.addEventListener('click', this.event)
+  },
+  unbind() {
+    this.el.removeEventListener('click', this.stopProp)
+    document.body.removeEventListener('click', this.event)
+  },
+
+  stopProp(event) { event.stopPropagation() }
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -70,5 +85,21 @@ new Vue({
     if (store.getters.isLoggedIn) {
       store.dispatch('fetchMyProfileData')
     }
+    new SmartBanner({
+      daysHidden: -1,
+      daysReminder: -1,
+      title: 'Software Engineering Daily',
+      author: 'SED',
+      button: 'VIEW',
+      icon: "https://is5-ssl.mzstatic.com/image/thumb/Purple125/v4/db/6f/98/db6f983f-a6cc-22e9-62d0-47a6e047ac94/AppIcon-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-9.png/230x0w.jpg",
+      store: {
+        ios: 'On the App Store',
+        android: 'In Google Play',
+      },
+      price: {
+        ios: 'FREE',
+        android: 'FREE'
+      },
+    })
   }
 })

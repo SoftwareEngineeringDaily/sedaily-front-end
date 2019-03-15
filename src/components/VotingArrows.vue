@@ -6,18 +6,19 @@
       :class="{ active: upvoted }"
       class='arrow'
       @click='upvoteHandler'>
-      <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
-      <img v-else src="@/assets/icons/upvote-thin.svg" />
+      <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
+      <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
+      <p>Upvote</p>
     </div>
     <div class='score-text'>{{ score + 1 || 1}}</div>
-    <div
+    <!-- <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"
       class="arrow"
       @click='downvoteHandler'>
       <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
       <img v-else src="@/assets/icons/downvote-thin.svg" />
-    </div>
+    </div> -->
   </div>
 </div>
 </template>
@@ -55,26 +56,31 @@ export default {
 @import './../css/variables'
 
 .score-text
-  font-weight 400
+  padding-left 10px
 
 .score
-    text-align center
-    color #3F58AF
-    font-size 1.1em
-    font-weight 700
+    margin-top: 10px
+    display flex
+    align-items center
+    color #856aff
     width 1.5em
 
 .active
-    color #3F58AF !important
+    color #856aff !important
+    font-weight 700
 
 .arrow
-  color very-light-grey
+  color: #9B9B9B;
+  img
+    margin-left 5px
+  p
+    margin 0
   &:hover
     cursor pointer
-    color #3F58AF
+    color #856aff
 
   &.active
-    color #3F58AF !important
+    color #856aff !important
     &:hover
       cursor pointer
       color #888
@@ -85,6 +91,4 @@ export default {
 // The default is global for weak css priority, override with scoped on parent.
 .voting
   display inline-block
-  height 100%
-  margin 0 1rem
 </style>

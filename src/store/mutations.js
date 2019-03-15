@@ -19,8 +19,36 @@ export default {
     state.activeType = type
   },
 
+
+  setSearchTerm: (state, { searchTerm }) => {
+    state.searchTerm = searchTerm
+  },
+
   setMe: (state, me) => {
     state.me = me
+  },
+
+  setAllTopics: (state, topics) => {
+    state.topics.all = topics
+  },
+  setUserTopics: (state, topics) => {
+    state.topics.user = topics
+  },
+  setPostTopics: (state, topics) => {
+    state.topics.post = topics
+  },
+  setSearchedAllTopics: (state, topics) => {
+    state.topics.searchedAllTopics = topics
+  },
+
+  setSearchTopic: (state, topic) => {
+    state.searchTopic = topic.posts
+  },
+  commentsToggle: (state, { id }) => {
+    state.commentsView = id
+  },
+  setMostPopular: (state, topics) => {
+    state.topics.mostPopular = topics
   },
 
   setList: (state, { type, posts }) => {
@@ -46,6 +74,7 @@ export default {
   },
 
   setComments: (state, { comments, entityId }) => {
+    comments.reverse()
     comments.forEach(comment => {
       if (comment) {
         Vue.set(state.comments, comment._id, comment)

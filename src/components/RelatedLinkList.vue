@@ -36,6 +36,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+h4
+  font-weight 400
 .related-links-list
-  margin 20px 0px
+  margin 5px 0px
 </style>

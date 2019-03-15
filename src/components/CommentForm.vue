@@ -1,12 +1,17 @@
 
 <template>
-  <div v-if="me">
-
-    <vue-tribute :options="options"
+  <div v-if="me" class="comment-container">
+    <span class="active-without-border" v-if="isLoggedIn">
+      <router-link class="profile-img-link"
+      to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+    </span>
+    <vue-tribute
+    class="comment-box__container"
+    :options="options"
     @tribute-replaced="tributeReplaced"
     @tribute-no-match="tributeNoMatch"
     >
-    <textarea placeholder='Your comment here...'
+    <input placeholder='Your comment here...'
     class='comment-box'
     ref='contentTextarea'
     :disabled="isSubmitting"
@@ -22,18 +27,22 @@
     </profile-label>
   </div>
 
-
-    <div v-if="isSubmitting">
-      <spinner :show="true"></spinner>
-    </div>
-    <div v-else>
-      <button class='button-submit'
+    <div v-if="isLoggedIn">
+      <div v-if="isSubmitting">
+        <spinner :show="true"></spinner>
+      </div>
+      <div class="buttons-comment" v-else>
+        <button class='button-submit'
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
 
-      <button v-if="showCancel" class='btn btn-link'
+        <button v-if="showCancel" class='btn btn-link'
         :disabled="isSubmitting"
-        @click='cancelPressed'>Cancel</button>
+        @click='cancelPressed'><i class="fa fa-times"/></button>
+      </div>
+    </div>
+    <div v-else>
+      <router-link to="/login"><button class='button-submit'>{{submitButtonText}}</button></router-link>
     </div>
   </div>
 </template>
@@ -43,11 +52,18 @@ import VueTribute from '@/components/VueTribute.js'
 import ProfileLabel from '@/components/ProfileLabel'
 import { debounce, each, map } from 'lodash'
 import Spinner from 'components/Spinner'
-import { mapState, mapActions } from 'vuex'
-
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   name: 'comment-form',
   props: {
+    userData: {
+      type: Object,
+      default: function () {
+        return {
+          avatarUrl: '',
+        }
+      }
+    },
     content: {
       type: String
     },
@@ -85,7 +101,6 @@ export default {
       // Options for auto-complete mentions
       options: {
         menuItemTemplate: function (item) {
-          // console.log('tempalte select', item.original.user)
           const img = item.original.user.avatarUrl ? item.original.user.avatarUrl : 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
           return `<span><img width="30px" src='${img}'/> ${item.original.value} </span>`
         },
@@ -120,9 +135,21 @@ export default {
 
   computed: {
     // local computed methods +
+    ...mapGetters(['isLoggedIn']),
     ...mapState({
       me (state) {
         return state.me
+      },
+      alreadySubscribed (state) {
+        if (!this.isLoggedIn) return false
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return true
+        } else {
+          return false
+        }
+      },
+      avatarUrl (state) {
+        return this.me.avatarUrl || state.placeholderAvatar
       }
     }),
     hasMentions () {
@@ -154,7 +181,6 @@ export default {
     tributeNoMatch: debounce(function (searchQuery)  {
       this.searchUsers({name: searchQuery})
         .then((users) => {
-          console.log('users found', users)
           this.setUserList(users)
         })
     }, 10),
@@ -181,7 +207,6 @@ export default {
            )
          }
        })
-       console.log('clear list', this.options.values)
     },
 
     submitComment () {
@@ -200,11 +225,44 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
-
-.comment-box
+.button-submit
+  outline none
+  a
+    color white
+    &:hover
+      text-decoration none
+.buttons-comment
+  display flex
+.comment-container
+  display flex
+  align-items center
   width 100%
-  padding 20px 10px
-  margin-bottom 12px
-  border-radius 4px
+  .profile-img
+    width 35px
+    height 35px
+    border-radius 50px
+.comment-box
+  margin 0 10px
+  width 100%
+  padding 5px
+  padding-left 10px
+  border-radius 30px
   border-color #c5c5c5
+  resize none
+  height inherit
+  outline none
+  border: 1px solid #ccc;
+
+.comment-box__container
+  display flex
+  width 100%
+  ::-moz-placeholder  /* Mozilla Firefox 19+ */
+    line-height:40px;
+
+  ::-webkit-input-placeholder /* Webkit */
+    line-height:40px;
+
+  ::-ms-input-placeholder /* IE */
+    line-height:40px;
+
 </style>

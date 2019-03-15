@@ -1,11 +1,11 @@
 <template>
 
-  <div>
-    <h1> Reset Your Password </h1>
+  <div class="forgot-password-view container">
 
-    <form class='col-md-9' v-on:submit.prevent='submit'>
+    <form class='col-md-6 offset-md-3' v-on:submit.prevent='submit'>
+      <h1> Reset Your Password </h1>
 
-      <div v-if=showForm>
+      <div v-if="showForm">
         <div class="form-group">
           <label for="emailInput">Email address</label>
           <input type="email"
@@ -21,13 +21,13 @@
         </div>
       </div>
 
-      <p v-if=submitted>
+      <p class="forgot-p" v-if="submitted">
         Check your email for your reset link.
         Give it a few minutes and make sure to check your Spam folder.
       </p>
-      <h3 v-else>We'll send you a special link to allow you to reset your password.</h3>
+      <p class="forgot-p" v-else>We'll send you a special link to allow you to reset your password.</p>
 
-      <div v-if=showForm>
+      <div class="form-group" v-if="showForm">
         <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
       </div>
     </form>
@@ -85,3 +85,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="stylus">
+  .container
+    margin 45px
+  .forgot-p
+    margin 15px 0
+</style>

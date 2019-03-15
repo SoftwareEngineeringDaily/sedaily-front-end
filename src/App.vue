@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <navigation-bar />
+    <navigation-bar
+      :userData="me"
+    />
 
     <div class="container-fluid main-app">
-      <div
+      <!-- <div
         v-if="showBeta"
         class="row">
         <div
@@ -18,7 +20,7 @@
             class="link">contributor</router-link>.
         </div>
 
-      </div>
+      </div> -->
       <div class="row">
         <transition
           name="fade"
@@ -53,8 +55,12 @@ export default {
     ChatBox,
     NavigationBar
   },
-
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
     ...mapState(['activePlayerPost']),
     isPlayerActive () {
       return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
@@ -86,14 +92,14 @@ export default {
 
 <style lang="stylus">
 @import './css/variables'
-
+.container-fluid
+  padding 0
 #app
-  margin-left 0.3rem
-  margin-right 0.3rem
+  background-color #EEEEEE
 
 .main-app
   max-width 1200px
-  margin-top 3rem
+  margin-top 4rem
 
 .call-to-action
   background accent-color
@@ -107,11 +113,14 @@ export default {
   color white
 
 .button-submit
+  padding 7px
+  font-size 12px
   background primary-color
+  white-space nowrap
   color white
-  padding 10px 20px
+  min-width 70px
   border none
-  border-radius 3px
+  border-radius 30px
   text-align center
   transition all .15s ease
   cursor pointer
@@ -145,7 +154,7 @@ body
   overflow-y scroll
   margin 0
   #app
-    margin-bottom 120px
+    padding-bottom 120px
 
 a
   color #34495e
@@ -194,9 +203,43 @@ a
 .fade-enter, .fade-leave-active
   opacity 0
 
+@media (max-width 660px)
+  .header .inner-mobile
+    flex-direction column
+    .site-name
+      margin auto
+    .search-bar
+      justify-content center
+      margin 15px auto!important
+      margin 15px
+      margin-left 0
+      width 90%
+    .pull-right
+      display flex
+      align-items center
+      justify-content space-between
+      max-width 300px
+      width 100%
+      margin-top 15px
+@media (max-width 660px)
+  .main-app
+    margin-top 7rem
+
+@media (max-width 700px)
+  .header .inner
+    .site-name
+      font-size 28px!important
+
 @media (max-width 860px)
   .header .inner
     padding 15px 30px
+    .pull-right
+      display flex
+      align-items center
+  .header .inner-mobile
+    padding 15px 30px
+  .header .profile-img
+    max-height 35px!important
 
 @media (max-width 600px)
   body
@@ -204,6 +247,8 @@ a
   .header
     min-height 80px
     .inner
+      padding 15px
+    .inner-mobile
       padding 15px
     a
       margin-right 1em
