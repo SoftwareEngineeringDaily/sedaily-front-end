@@ -34,7 +34,7 @@
           </ul>
         </div>
         <br>
-        <ul v-if="this.$store.state.topics.all !== null" class="popular-topics" >
+        <ul class="popular-topics" >
           <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
             <label class="container" :for="item.id">
               {{ item.name }}
@@ -42,8 +42,15 @@
               <span class="checkmark"></span>
             </label>
           </li>
+          <li class="popular-topic" v-for="item in showModal" :key="item.id">
+            <label class="container" :for="item.id">
+              {{ item.name }}
+              <input type="checkbox" :id="item.id" :value="item._id" v-model="checkedTopics">
+              <span class="checkmark"></span>
+            </label>
+          </li>
         </ul>
-        <span v-else class='no-topic'>Ups! There is no topics added yet..</span>
+        <!-- <span class='no-topic'>Ups! There is no topics added yet..</span> -->
       </div>
     </div>
     <!-- footer-->
@@ -83,8 +90,13 @@ export default {
   destroyed() {
     document.removeEventListener('click', this.handleClickOutside);
   },
+  computed: {
+    showModal() {
+      return this.$store.state.topics.mostPopular
+    },
+  },
   methods: {
-    ...mapActions(['getAllTopics','getSearchedTopics','addTopicToUser']),
+    ...mapActions(['mostPopular','getSearchedTopics','addTopicToUser']),
     setResult(item) {
       const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
       if (!topic) { this.modalTopics.push(item) }
@@ -106,11 +118,6 @@ export default {
         this.debounceSearchRequest()
       }
     },
-    showModal() {
-      this.allTopics.map((item) => {
-        this.modalTopics.push(item)
-      })
-    },
     closeModal() {
       this.modalTopics = []
       this.isModalVisible = false
@@ -118,7 +125,7 @@ export default {
       $("body").removeClass("modal-open")
     },
     getTopics() {
-      this.getAllTopics().then(this.showModal)
+      this.mostPopular().then(this.showModal)
     },
     selectTopicsToUser() {
       const selectedTopics = []

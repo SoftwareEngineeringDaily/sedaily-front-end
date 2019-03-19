@@ -13,11 +13,13 @@
           </template>
         </div>
       <div class="post-info">
-        <div class="profile-pic" alt=""></div>
+        <div class="profile-pic" alt="" v-if='!post.guestImage'></div>
+        <div class="profile-pic" alt="" v-else :style='guestImage'></div>
         <p class="time">{{ date }}</p>
       </div>
       <div class="description">
-        <p>{{metaDescription}}</p>
+        <span v-if="post.excerpt.rendered !== '' && metaDescription === ''" v-html="post.excerpt.rendered"></span>
+        <p v-else>{{metaDescription}}</p>
         <div class="description__image">
           <img :src="imageStyle" :alt="imageStyle">
         </div>
@@ -117,6 +119,10 @@ export default {
       if (!this.isLoggedIn) return false
       if (!(this.post && this.post.thread)) return false
       return this.post.thread._id
+    },
+
+     guestImage () {
+      return `background: url('${this.post.guestImage}') center center / cover no-repeat`
     },
 
     commentsStoreList(id) {
@@ -379,9 +385,12 @@ export default {
     width 200px
     height 150px
     position relative
-  p
+  p, span
     font-family: 'Roboto', sans-serif;
     width 50%
+  span
+    max-height: 130px;
+    overflow-y: hidden;
   img
     max-height:100%;
     max-width:100%;

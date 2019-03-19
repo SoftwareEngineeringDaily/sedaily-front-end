@@ -95,7 +95,7 @@ export default {
 .container-fluid
   padding 0
 #app
-  background-color #EEEEEE
+  background-color #f6f7fa
 
 .main-app
   max-width 1200px

@@ -1,7 +1,7 @@
 <template>
   <div class="news-view">
     <div class="categories-container">
-      <div v-if="isLoggedIn && showTopics.length !== null" class="topics-container">
+      <div v-if="showUserTopics" class="topics-container">
         <h4>Favourite</h4>
         <ul>
           <li
@@ -30,7 +30,7 @@
         v-if="showTopics !== null &&
          (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)"
       >
-        <first-topics-select/>
+      <first-topics-select/>
       </div>
       <div class="app-download">
         <a
@@ -126,6 +126,17 @@ export default {
         return false;
       } else {
         return true;
+      }
+    },
+    showUserTopics() {
+      console.log('v-if start')
+      if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
+        if (this.$store.state.topics.user.length !== 0) {
+          console.log('v-if', true)
+          return true
+        }
+      } else {
+        return false
       }
     }
   },
