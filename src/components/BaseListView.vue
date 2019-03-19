@@ -144,17 +144,17 @@ export default {
     this.$store.commit("setActiveType", { type: this.type });
     this.$store.dispatch("mostPopular");
   },
-  // beforeRouteEnter(to, from, next) {
-  //   const topicSlug = to.params.topic;
-  //   if (topicSlug === undefined) {
-  //     return next(vm => vm.fetchPosts());
-  //   }
-  //   next(vm =>
-  //     vm.$store
-  //       .dispatch("showTopic", topicSlug)
-  //       .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
-  //   );
-  // },
+  beforeRouteEnter(to, from, next) {
+    const topicSlug = to.params.topic;
+    if (topicSlug === undefined) {
+      return next(vm => vm.fetchPosts());
+    }
+    next(vm =>
+      vm.$store
+        .dispatch("showTopic", topicSlug)
+        .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
+    );
+  },
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
     this.$store.dispatch("showTopic", topicSlug).then(topics => {

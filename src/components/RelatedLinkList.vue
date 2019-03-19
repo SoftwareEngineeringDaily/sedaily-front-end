@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4 class='section-title'> Related Links </h4>
     <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
       <div @click="logLink(relatedLink.url)">
         <related-link :relatedLink="relatedLink"></related-link>

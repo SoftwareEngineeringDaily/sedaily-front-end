@@ -40,16 +40,16 @@
             :rootEntityType='"forumthread"' />
     </div>
     <div
-    v-if="post.thread.commentsCount > 0"
+    v-if="comments.length > 0"
     class='seeMoreBtn'
-    @click='commentsViewToggle(post.thread._id)'>
-      <p v-if='this.commentsView !== post.thread._id'>See all comments ({{commentsStoreList}})</p>
-      <p v-else-if='this.commentsView === post.thread._id'>Hide comments ({{commentsStoreList}})</p>
+    @click='commentsViewToggle(forumThreadId)'>
+      <p v-if='this.commentsView !== forumThreadId'>See all comments ({{commentsStoreList}})</p>
+      <p v-else-if='this.commentsView === forumThreadId'>Hide comments ({{commentsStoreList}})</p>
     </div>
     <comments-list
       class="comments-list"
-      :id="post.thread._id"
-      v-if='this.commentsView === post.thread._id'
+      :id="forumThreadId"
+      v-if='this.commentsView === forumThreadId'
       :comments='comments'
       :rootEntityType='"forumthread"'
       :loading="isLoadingComments"
@@ -116,9 +116,14 @@ export default {
     ...mapState(['activePlayerPost', 'playerState', 'commentsView', 'entityComments']),
     ...mapGetters(['isLoggedIn']),
     forumThreadId () {
-      if (!this.isLoggedIn) return false
       if (!(this.post && this.post.thread)) return false
-      return this.post.thread._id
+
+      if (typeof this.post.thread === 'object' && this.post.thread !== null) {
+        return this.post.thread._id
+      } else  {
+        console.log('thread')
+        return this.post.thread
+      }
     },
 
      guestImage () {
@@ -129,7 +134,7 @@ export default {
       const storePosts = this.entityComments
       let commentsCountValue = null
       for (let key in storePosts) {
-        if (key === id.post.thread._id) {
+        if (key === id.post.thread._id || key === id.post.thread) {
           commentsCountValue = storePosts[key].length
         }
       }
@@ -157,7 +162,7 @@ export default {
 
     comments () {
       if (!(this.post && this.post.thread)) return []
-      const parentCommentIds = this.entityComments[this.post.thread._id] || []
+      const parentCommentIds = this.entityComments[this.post.thread._id || this.post.thread] || []
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -215,7 +220,7 @@ export default {
       this.isLoadingComments = true
       // Fetch comments
       this.commentsFetch({
-        entityId: this.post.thread._id
+        entityId: this.post.thread._id || this.post.thread
       }).then(() => {
         this.isLoadingComments = false
       }).catch(() => {

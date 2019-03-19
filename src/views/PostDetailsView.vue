@@ -79,6 +79,11 @@
     </div>
     <div class="view-top col-md-3">
       <div class="related-links">
+        <h4 class='section-title'> Related Links </h4>
+        <span v-if="post.transcriptURL">
+          <a :href="post.transcriptURL" target="_blank" class="transcript">Transcript</a>
+        </span>
+        <span></span>
         <related-link-list :related-links="relatedLinks" />
         <related-link-compose v-if="isLoggedIn" />
       </div>
@@ -350,6 +355,12 @@ export default {
   grid-row 1
   grid-column 1
   padding-top 2rem
+
+.transcript
+  font-size: 16px;
+  font-weight: normal;
+  color: #856aff;
+  opacity: 0.7;
 
 .post-meta
   grid-row 2
