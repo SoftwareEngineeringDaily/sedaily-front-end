@@ -46,9 +46,11 @@ export default {
     })
   },
 
-  addTopicToUser: ({ commit, state, getters }, topics) => {
+  addTopicToUser: ({ commit, state, getters, dispatch }, topics) => {
     const assignTopicsToUser = topics
-    return axios.post(`${BASE_URL}/topics/addTopicsToUser`, assignTopicsToUser)
+    return axios.post(`${BASE_URL}/topics/addTopicsToUser`, assignTopicsToUser).then( async response =>
+      await dispatch('getUserTopics')
+    )
   },
 
   addTopicsToPost: ({ commit, state, getters }, {topics}) => {

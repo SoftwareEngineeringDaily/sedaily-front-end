@@ -19,14 +19,6 @@
     v-model='commentContent' />
   </vue-tribute>
 
-  <div v-if="hasMentions">
-    <h3> Mentions </h3>
-  </div>
-  <div v-for="user in mentionedUsers" :key="user._id">
-    <profile-label :userData="user">
-    </profile-label>
-  </div>
-
     <div v-if="isLoggedIn">
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
@@ -236,7 +228,7 @@ export default {
 .comment-container
   display flex
   align-items center
-  width 100%
+  width: 125%;
   .profile-img
     width 35px
     height 35px

@@ -47,6 +47,7 @@
     methods: {
       close() {
         this.$emit('close');
+        this.$router.push({ path: '/' });
       },
     },
   };

@@ -13,7 +13,6 @@
       class="autocomplete-results"
     >
       <li
-        v-else
         v-for="(result, i) in results"
         :key="i"
         @click="setResult(result)"
@@ -36,7 +35,7 @@
         default: () => [],
       },
       isAsync: {
-        type: Boolean
+        type: Boolean,
         required: false,
         default: false,
       },
@@ -101,7 +100,7 @@
           this.results = value;
           this.isOpen = true;
           this.isLoading = false;
-        },
+        }
       }
     }
   }

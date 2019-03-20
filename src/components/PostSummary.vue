@@ -245,8 +245,10 @@ export default {
     commentsViewToggle(post) {
       if (this.commentsView === false ) {
         return this.commentsToggle({id: post})
-      } else {
+      } else if (this.commentsView === post){
         return this.commentsToggle({id: false})
+      } else {
+        return this.commentsToggle({id: post})
       }
     },
       // this.commentsView === '' ? this.commentsToggle({id: idThread}) : this.commentsToggle({id: ''})
