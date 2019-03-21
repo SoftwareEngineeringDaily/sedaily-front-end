@@ -167,7 +167,6 @@ export default {
       reader.onload = (e) => {
         vm.image = e.target.result
       }
-      console.log(image)
       reader.readAsDataURL(file)
     },
 
