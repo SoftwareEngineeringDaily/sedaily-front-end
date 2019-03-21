@@ -33,11 +33,8 @@
           class="alert alert-danger">
           {{ errors.first('password') }}</div>
         </div>
-
-        <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
-
-        <div class="col-med-12">
-          <br />
+        <div class="login-buttons col-md-12">
+          <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
           <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
         </div>
       </form>
@@ -114,5 +111,12 @@ export default {
 
 <style lang="stylus">
 .container
-  margin-top 45px
+  margin 45px
+  .login-buttons
+    padding 15px 0
+    display flex
+    align-items center
+    justify-content space-between
+    .button-submit
+      min-width 100px
 </style>

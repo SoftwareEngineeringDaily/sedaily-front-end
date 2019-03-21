@@ -7,8 +7,8 @@
       There are no comments.
     </div>
     <div v-else v-for="comment in comments" :key="comment._id">
-      <div class='row'>
-        <div class='col-md-12'>
+      <div class='row' :id='comment._id'>
+        <div class='col-md-12' >
           <comment-view
             :rootEntityType='rootEntityType'
             :comment='comment'
@@ -47,7 +47,7 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
   },
   beforeMount () {
     console.log('rootEntityType--list', this.rootEntityType)
@@ -60,9 +60,15 @@ export default {
         return true
       }
       return false
-    }
+    },
+
+  },
+  // mounted () {
+  //     let id = this.comments.slice(-1)[0]._id
+  //     let scrollToId = document.getElementById(`${id}`)
+  //     scrollToId.scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
+  //   }
   }
-}
 </script>
 
 <style scoped lang="stylus">

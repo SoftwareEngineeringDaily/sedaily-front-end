@@ -1,7 +1,10 @@
 const uuidv4 = require('uuid/v4')
 
 describe('The Login Page', function () {
-  let existingUser
+  const existingUser = {
+    username: 'test2',
+    password: 'test2'
+  }
   before(function () {
     // create existing user
     cy.register()
@@ -19,7 +22,7 @@ describe('The Login Page', function () {
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/')
     })
-    cy.get('a[href="/profile"]').should('contain', 'Profile')
+    cy.get('a[href="/profile"]').should('exist')
     cy.get('a[href="/login"]').should('not.exist')
     cy.get('a[href="/register"]').should('not.exist')
     cy.window().then((win) => {

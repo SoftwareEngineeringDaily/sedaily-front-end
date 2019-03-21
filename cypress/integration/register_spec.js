@@ -1,8 +1,19 @@
 const uuidv4 = require('uuid/v4')
 
 describe('The Register Page', function () {
-  let existingUser
+  let existingUser = {
+    name: 'test2',
+    email: 'test2@test2.pl',
+    username: 'test2',
+    password: 'test2'
+  };
   before(function () {
+    let existingUser = {
+      name: 'test2',
+      email: 'test2@test2.pl',
+      username: 'test2',
+      password: 'test2'
+    }
     // create existing user
     cy.register()
     .then(({ user }) => {
@@ -32,7 +43,7 @@ describe('The Register Page', function () {
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/')
     })
-    cy.get('a[href="/profile"]').should('contain', 'Profile')
+    cy.get('a[href="/profile"]').should('exist')
     cy.get('a[href="/login"]').should('not.exist')
     cy.get('a[href="/register"]').should('not.exist')
     cy.window().then((win) => {

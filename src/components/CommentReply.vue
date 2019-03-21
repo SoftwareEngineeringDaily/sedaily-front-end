@@ -1,5 +1,5 @@
 <template>
-  <div v-if="me" class="col-md-8">
+  <div v-if="me" class="col-md-10">
     <div class='reply-container'>
       <comment-form
       :isSubmitting="isSubmitting"
@@ -102,6 +102,8 @@ export default {
 .reply-container
   margin-left 40px
   margin-top 15px
+  .button-submit
+    width 20px
 
 .collapsed-area
   margin-left 20px

@@ -37,6 +37,8 @@ const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'NewListView', component: NewListView },
+    { path: '/topics/:topic', name: 'NewListView', component: NewListView },
+    { path: '/topics/:topic/:search', name: 'NewListView', component: NewListView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },
@@ -67,7 +69,10 @@ const router = new Router({
     { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },
     { path: '/admin/edit-company/:id', beforeEnter: authorize, component: CompanyEdit },
     { path: '/:company', component: CompanyLandingPage }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {

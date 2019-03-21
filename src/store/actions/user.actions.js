@@ -11,7 +11,7 @@ export default {
     return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
   },
 
-  fetchMyProfileData: ({ commit, state, getters }) => {
+  fetchMyProfileData: ({ commit, state, getters, dispatch }) => {
     if (!getters.isLoggedIn) {
       return Promise.reject('User not signed in.')
     }
@@ -19,6 +19,7 @@ export default {
     return axios.get(`${BASE_URL}/users/me`)
       .then((response) => {
         commit('setMe', response.data)
+        dispatch('getUserTopics')
         return response
       })
   },
