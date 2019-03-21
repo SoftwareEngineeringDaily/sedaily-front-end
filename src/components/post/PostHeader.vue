@@ -1,58 +1,43 @@
 <template>
   <div class="primary-post-header">
+    <!--<div class="header-title" v-bind:style="{ 'background-image': 'url(' + imageStyle + ')' }">-->
     <div class="header-title">
       <h1>{{ post.title.rendered }}</h1>
-    </div>
-    <div class="voting-arrows-container">
-      <voting-arrows
-        :upvoted="post.upvoted"
-        :downvoted="post.downvoted"
-        :upvote-handler="upvoteHandler"
-        :downvote-handler="downvoteHandler"
-        :score="post.score" />
     </div>
   </div>
 </template>
 
 <script>
-import VotingArrows from '@/components/VotingArrows'
-
 export default {
-  components: {
-    VotingArrows
-  },
   props: {
     post: {
       type: Object,
       required: true
     },
-    downvoteHandler: {
-      type: Function,
-      required: true
+  },
+  computed: {
+    featuredImage () {
+      return this.post.featuredImage
+      ? this.post.featuredImage
+      : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
     },
-    upvoteHandler: {
-      type: Function,
-      required: true
-    }
+    imageStyle () {
+      return this.featuredImage
+    },
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.voting-arrows-container
-  width 10%
-  align-self flex-end
-
 .primary-post-header
   display flex
-  padding-top 2rem
 
 .header-title
-  width 90%
+  width 100%
   h1
-    margin-top 15px
-    font-weight 500
-    font-size 4.5rem
+    margin 15px 20px
+    font-weight 600
+    font-size 2.5rem
 
 @media (max-width 600px)
   .header-title

@@ -14,7 +14,7 @@
       </span>
 
       <div class="meta">
-        <span>
+        <span class="player-controls-span">
           <span
             v-if="post.mp3"
             class="player-controls">
@@ -36,15 +36,14 @@
               class="fa fa-2x fa-file-text-o player-control text-only"
               title="Text-only" />
           </span>
-          <span class="publication-date">Published on {{ publicationDate }}</span>
+          <div class="download-area" v-if="post.mp3">
+            <a v-bind:href="post.mp3" class="powerpress_link_d" title="Download" rel="nofollow" download="">  <i class="fa fa-download" /></a>
+          </div>
+          <!--<span class="publication-date">Published on {{ publicationDate }}</span>-->
         </span>
 
 
         <span class="details-about-post">
-
-          <div class="download-area" v-if="post.mp3">
-            <a v-bind:href="post.mp3" class="powerpress_link_d" title="Download" rel="nofollow" download="">Download</a>
-          </div>
           <social-sharing
             :url="post.url"
             :title="post.title.rendered"
@@ -53,13 +52,13 @@
             inline-template>
             <div class="sharing">
               <network network="facebook">
-                <i class="fa fa-facebook" /> Facebook
+                <i class="fa fa-facebook" />
               </network>
               <network network="linkedin">
-                <i class="fa fa-linkedin" /> LinkedIn
+                <i class="fa fa-linkedin" />
               </network>
               <network network="twitter">
-                <i class="fa fa-twitter" /> Twitter
+                <i class="fa fa-twitter" />
               </network>
             </div>
           </social-sharing>
@@ -132,21 +131,34 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../../css/variables'
-
+i.fa
+  cursor pointer
+  font-size 25px
+  padding 0 15px
+  color #c4c4c4
 .post-view-header
-  background primary-color
-  color white
   margin-top 20px
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
   .player-control
     cursor pointer
+  .player-controls-span
+    display flex
+    align-items center
   .post-header-details
     width 100%
     .meta
       margin 10px 20px
       display flex
       align-items center
+      color primary-color
       justify-content space-between
+      .sharing
+        cursor pointer
+        font-size 22px
+        color #c4c4c4
+        display flex
+        max-width 200px
+        min-width 80px
+        justify-content space-between
       .publication-date
         margin-left 15px
         justify-content center
@@ -158,7 +170,4 @@ export default {
     font-weight 200
   .meta a
     text-decoration underline
-
-i.fa
-  cursor pointer
 </style>

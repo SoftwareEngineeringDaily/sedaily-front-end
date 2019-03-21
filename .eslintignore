@@ -1,3 +1,4 @@
 build/*.js
 config/*.js
 cypress/plugins/index.js
+cypress/integration/*.js

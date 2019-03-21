@@ -38,9 +38,6 @@ export default {
   components: {
     CommentForm
   },
-  beforeMount () {
-    console.log('rootEntityType--reply', this.rootEntityType)
-  },
   data () {
     return {
       commentContent: this.originalContent,

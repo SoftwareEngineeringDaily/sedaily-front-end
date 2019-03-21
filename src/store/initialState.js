@@ -4,6 +4,7 @@ export default {
   playerState: PlayerState.STOPPED,
   activePlayerPost: {title: {}},
   activeType: null,
+  searchTerm: null,
   posts: {},
   entityComments: {}, // arrays of ids, only root comments
   comments: {}, // Map of all comments, key is comment._id
@@ -12,6 +13,7 @@ export default {
   placeholderAvatar: 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png',
   me: {},
   users: {},
+  commentsView: false,
   lists: {
     top: [],
     new: [],
@@ -24,6 +26,14 @@ export default {
     online: false,
     messages: []
   },
+  topics: {
+    all: null,
+    user: null,
+    post: null,
+    mostPopular: null,
+    searchedAllTopics: null
+  },
+  searchTopic: [],
   token: localStorage.getItem('token'),
   loggingEnabled: true,
   jobs: [],

@@ -16,11 +16,15 @@ export default {
   isChatOnline ({ chat }) {
     return Boolean(chat.online)
   },
+
   isPlayerActive ({ activePlayerPost }) {
     return activePlayerPost.hasOwnProperty('_id')
   },
   getToken (state) {
     return state.token
+  },
+  getUserTopics(state) {
+    return state.topics.user
   },
   isLoggedIn (state, getters) {
     return Boolean(getters.getToken)

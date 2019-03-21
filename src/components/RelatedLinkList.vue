@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4 class='section-title'> Related Links </h4>
     <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
       <div @click="logLink(relatedLink.url)">
         <related-link :relatedLink="relatedLink"></related-link>
@@ -36,6 +35,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+h4
+  font-weight 400
 .related-links-list
-  margin 20px 0px
+  margin 5px 0px
 </style>
