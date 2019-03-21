@@ -94,7 +94,6 @@ export default {
             })
             .finally(() => { this.loading = false })
         } else {
-          console.log('Invalid values..')
           this.loading = false
         }
       })
