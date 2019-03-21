@@ -16,7 +16,7 @@
             <div class="profile-img" alt="" v-if='!avatarUrl'></div>
             <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
           </router-link>
-        </span> 
+        </span>
         <span v-else class="register">
           <router-link to="/login">Login</router-link>
 
@@ -103,7 +103,7 @@ export default {
         if (this.userData.avatarUrl !== undefined) {
           return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
         } else {
-          return false
+          return `background: url('https://sd-profile-pictures.s3.amazonaws.com/5c93b17ab60333002a8cb231') center center / cover no-repeat`
         }
       }
     })

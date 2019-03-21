@@ -96,6 +96,7 @@ export default {
   padding 0
 #app
   background-color #f6f7fa
+  min-height calc(100vh - 72px)
 
 .main-app
   max-width 1200px
