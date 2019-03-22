@@ -39,7 +39,8 @@
 
         <span class="active-without-border" v-if="isLoggedIn">
           <router-link to="/profile">
-            <img class="profile-img" :src="avatarUrl">
+            <div class="profile-img" alt="" v-if='!avatarUrl'></div>
+            <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
           </router-link>
         </span>
         <span v-else>

@@ -324,6 +324,7 @@ export default {
 
 .post-content
   img, figure
+    width: 100%
     max-width  90vw
 
 .post-transcript
@@ -394,5 +395,5 @@ export default {
   .post-view-header
     h1
       font-size 1.25em
-  
+
 </style>

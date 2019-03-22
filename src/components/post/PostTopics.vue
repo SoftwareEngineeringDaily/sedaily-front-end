@@ -335,6 +335,7 @@ export default {
     position relative
     padding-left 35px
     margin-bottom 12px
+    margin-top 12px
     cursor pointer
     font-size 16px
     -webkit-user-select none
