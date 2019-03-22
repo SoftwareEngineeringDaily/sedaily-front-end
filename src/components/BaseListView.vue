@@ -39,7 +39,7 @@
         >
           <img src="@/assets/iosstore.png" class="icon">
         </a>
-        
+
         <a
           href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"
           target="_blank"
@@ -55,6 +55,7 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
+        class="post-scroll-container"
       >
         <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary>
         <div class="spinner-holder">
@@ -389,6 +390,10 @@ export default {
   transform: translate(-30px, 0);
 }
 
+.post-scroll-container {
+  flex: 1;
+}
+
 .post-summary__container {
   width: 50%;
   padding: 2rem;
@@ -483,6 +488,34 @@ export default {
 @media (max-width: 600px) {
   .news-list {
     margin: 10px 0;
+  }
+}
+
+@media (max-width: 750px) {
+  .news-view {
+      flex-direction: column;
+    }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
+  .news-post {
+    width: 100% !important ;
+  }
+
+  .topics-container ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .app-download {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 </style>

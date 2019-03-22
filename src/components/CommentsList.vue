@@ -49,10 +49,7 @@ export default {
       default: false
     },
   },
-  beforeMount () {
-    console.log('rootEntityType--list', this.rootEntityType)
-  },
-
+  beforeMount () {},
   components: { CommentView, Spinner },
   computed: {
     emptyComments () {

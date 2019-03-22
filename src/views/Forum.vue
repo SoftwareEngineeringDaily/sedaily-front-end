@@ -169,6 +169,11 @@ export default {
 
 .forum-threads
   margin-top 40px
+  .forum-summary-container
+    .profile-avatar
+      min-width 50px
+    .votes-container
+      min-width 100px
 
 
 

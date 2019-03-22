@@ -228,7 +228,7 @@ export default {
 .comment-container
   display flex
   align-items center
-  width: 125%;
+  width: 100%;
   .profile-img
     width 35px
     height 35px
