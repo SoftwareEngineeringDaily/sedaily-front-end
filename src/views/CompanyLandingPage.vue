@@ -38,10 +38,8 @@ export default {
 
   beforeMount () {
     const localUrl = this.$route.params.company
-    console.log(localUrl)
     this.companiesFetchByLocalUrl(localUrl)
       .then((company) => {
-        console.log(company)
         const {
           companyName,
           imageUrl,
@@ -56,7 +54,6 @@ export default {
         // Fetch the jobs:
         return this.jobsSearch({ companyName })
           .then((jobs) => {
-            console.log('jobs', jobs)
             this.jobs = jobs
           })
       })

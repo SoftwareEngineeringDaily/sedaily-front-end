@@ -144,7 +144,9 @@ export default {
       },
 
       isMyComment(state) {
-        return this.me._id === this.comment.author._id;
+        if (this.comment.author !== null) {
+          return this.me._id === this.comment.author._id;
+        }
       }
     }),
     commentId() {

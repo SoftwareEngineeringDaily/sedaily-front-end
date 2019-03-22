@@ -92,8 +92,6 @@ export default {
 
 <style lang="stylus">
 @import './css/variables'
-.container-fluid
-  padding 0
 #app
   background-color #f6f7fa
   min-height calc(100vh - 72px)
@@ -101,6 +99,7 @@ export default {
 .main-app
   max-width 1200px
   margin-top 4rem
+  padding-top 15px
 
 .call-to-action
   background accent-color

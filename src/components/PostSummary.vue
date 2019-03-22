@@ -279,9 +279,8 @@ export default {
   background-color #fff
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   border-radius 2px
-  margin 15px auto     
-  margin-right 32%
-  width 50%
+  margin 15px auto
+  max-width: 525px;
 
 .post-summary
   padding: 25px 25px 0 25px
@@ -388,6 +387,7 @@ export default {
   justify-content space-between
   align-items: start;
 
+
   .description__image
     width 200px
     height 150px
@@ -406,6 +406,14 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+
+@media (max-width 400px)
+  .description
+    flex-direction column
+    p, span
+      width 100%
+    .description__image
+      margin: 0 auto;
 
 @media (max-width 576px)
   .news-post

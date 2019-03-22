@@ -34,7 +34,6 @@ export default {
           })
         })
         .catch((error) => {
-          console.log(error)
           this.$toasted.error('Error deleting :(')
         })
     },

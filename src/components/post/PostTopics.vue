@@ -48,7 +48,7 @@
             </ul>
           </div>
           <br>
-          <ul v-if="this.$store.state.topics.post.length > 0" class="popular-topics" >
+          <ul v-if="this.$store.state.topics.post" class="popular-topics" >
             <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
               <label class="container" :for="item.id">
                 {{ item.name }}
@@ -57,7 +57,6 @@
               </label>
             </li>
           </ul>
-          <span v-else class='no-topic'>Ups! There is no topics added yet..</span>
         </div>
       </div>
       <!-- footer-->
@@ -336,6 +335,7 @@ export default {
     position relative
     padding-left 35px
     margin-bottom 12px
+    margin-top 12px
     cursor pointer
     font-size 16px
     -webkit-user-select none

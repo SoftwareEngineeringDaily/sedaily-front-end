@@ -117,6 +117,10 @@ export default {
   .forum-summary-title a:hover
     text-decoration none
     color primary-color
+  .profile-avatar
+    min-width 50px
+  .votes-container
+    min-width 100px
 
 .forum-thread-misc
   font-size 0.8rem

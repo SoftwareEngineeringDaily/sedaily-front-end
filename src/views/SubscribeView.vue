@@ -149,7 +149,6 @@ export default {
       // See https://stripe.com/docs/api#errors for the error object.
       // More general https://stripe.com/docs/stripe.js#stripe-create-token.
       createToken().then(data => {
-        // console.log(data.token)
         const stripeToken = data.token.id
         const { planType } = this
         return this.createSubscription({ stripeToken, planType })
