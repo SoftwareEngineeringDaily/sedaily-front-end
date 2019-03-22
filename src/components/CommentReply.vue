@@ -46,9 +46,7 @@ export default {
   components: {
     CommentForm
   },
-  beforeMount () {
-    console.log('rootEntityType--reply', this.rootEntityType)
-  },
+  beforeMount () {},
   data () {
     const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
     const existingMentions = this.replyingTo? [this.replyingTo]:[]

@@ -80,10 +80,13 @@
     <div class="view-top col-md-3">
       <div class="related-links">
         <h4 class='section-title'> Related Links </h4>
-        <span v-if="post.transcriptURL">
+        <span v-if=" post && post.transcriptURL">
           <a :href="post.transcriptURL" target="_blank" class="transcript">Transcript</a>
         </span>
-        <span></span>
+        <span v-else-if="post && post.transcriptUrl">
+          <a :href="post.transcriptUrl" target="_blank" class="transcript">Transcript</a>
+        </span>
+        <span v-else></span>
         <related-link-list :related-links="relatedLinks" />
         <related-link-compose v-if="isLoggedIn" />
       </div>
@@ -317,23 +320,25 @@ export default {
 </script>
 
 <style lang="stylus">
-  .post-transcript
-    p
+@import './../css/variables'
+
+.post-content
+  img, figure
+    max-width  90vw
+
+.post-transcript
+  p
     text-align justify
     font-size 14px
     line-height 24px
     letter-spacing .5px
     margin 30px 20px
-    .size-large
-      width 100%
-      height 100%
+  .size-large
+    width 100%
+    height 100%
+  .row
     .row
-      .row
-        display none
-</style>
-
-<style scoped lang="stylus">
-@import './../css/variables'
+      display none
 .voting-arrows-container
   width 10%
   align-self flex-end
@@ -380,8 +385,14 @@ export default {
   grid-row 1 / span 4
   grid-column 2
 
+.comment-container[data-v-3476be63] {
+    width: 100% !important;
+}
+
+
 @media (max-width 600px)
   .post-view-header
     h1
       font-size 1.25em
+  
 </style>

@@ -485,4 +485,32 @@ export default {
     margin: 10px 0;
   }
 }
+
+@media (max-width: 750px) {
+  .news-view {
+      flex-direction: column;
+    }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px; 
+    margin-left: 0px; 
+  }
+
+  .news-post {
+    width: 100% !important ; 
+  }
+
+  .topics-container ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .app-download {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
 </style>

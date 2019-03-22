@@ -33,7 +33,6 @@ export default {
     // actions companiesFetchById
     this.companiesFetchById(this.$route.params.id)
       .then((company) => {
-        console.log('company fetched', company)
         this.companyData = company
       })
       .catch(() => {

@@ -103,7 +103,7 @@ export default {
         if (this.userData.avatarUrl !== undefined) {
           return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
         } else {
-          return `background: url('https://sd-profile-pictures.s3.amazonaws.com/5c93b17ab60333002a8cb231') center center / cover no-repeat`
+          return `background: url('https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png') center center / cover no-repeat`
         }
       }
     })

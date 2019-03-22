@@ -388,6 +388,7 @@ export default {
   justify-content space-between
   align-items: start;
 
+
   .description__image
     width 200px
     height 150px
@@ -406,6 +407,14 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+
+@media (max-width 400px)
+  .description
+    flex-direction column
+    p
+      width 100%
+    .description__image
+      margin: 0 auto;
 
 @media (max-width 576px)
   .news-post

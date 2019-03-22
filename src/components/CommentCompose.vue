@@ -35,7 +35,6 @@ export default  {
     ...mapActions(['commentsCreate', 'commentsFetch']),
     ...mapMutations(['commentsToggle']),
     submitCallback ({content, mentions}) {
-      console.log('comment-compse', this.entityId)
       this.isSubmitting = true
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
