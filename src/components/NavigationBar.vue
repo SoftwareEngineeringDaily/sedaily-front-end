@@ -39,7 +39,8 @@
 
         <span class="active-without-border" v-if="isLoggedIn">
           <router-link to="/profile">
-            <img class="profile-img" :src="avatarUrl">
+            <div class="profile-img" alt="" v-if='!avatarUrl'></div>
+            <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
           </router-link>
         </span>
         <span v-else>
@@ -103,7 +104,7 @@ export default {
         if (this.userData.avatarUrl !== undefined) {
           return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
         } else {
-          return `background: url('https://sd-profile-pictures.s3.amazonaws.com/5c93b17ab60333002a8cb231') center center / cover no-repeat`
+          return `background: url('https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png') center center / cover no-repeat`
         }
       }
     })
