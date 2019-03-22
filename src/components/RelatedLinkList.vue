@@ -27,9 +27,7 @@ export default {
     }
   },
   methods: {
-    logLink (url) {
-      console.log(url)
-    }
+    logLink (url) {}
   }
 }
 </script>

@@ -26,12 +26,12 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
-      <div
+      <!-- <div
         v-if="showTopics !== null &&
          (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)"
       >
       <first-topics-select/>
-      </div>
+      </div> -->
       <div class="app-download">
         <a
           href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
@@ -129,10 +129,8 @@ export default {
       }
     },
     showUserTopics() {
-      console.log('v-if start')
       if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
         if (this.$store.state.topics.user.length !== 0) {
-          console.log('v-if', true)
           return true
         }
       } else {

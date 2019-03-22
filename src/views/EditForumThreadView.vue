@@ -34,7 +34,6 @@ export default {
     }
   },
   created () {
-    console.log('Editing thread', this.threadId)
 
     this.isLoading = true
     this.fetchForumThread({

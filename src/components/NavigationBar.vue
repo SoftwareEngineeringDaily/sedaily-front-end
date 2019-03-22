@@ -1,100 +1,84 @@
 <template>
   <header class="header" id="header">
     <nav class="inner">
-      <a href='/'
-      class="site-name">
-        <img class="logo-img" src="../assets/sedaily-logo.png" />
+      <a href="/" class="site-name">
+        <img class="logo-img" src="../assets/sedaily-logo.png">
         Software Daily
       </a>
-      <SearchBar />
+      <SearchBar/>
       <span class="pull-right">
-        <router-link
-        v-if="alreadySubscribed"
-        to="/subscribe"
-        class="subscribed">Subscribed</router-link>
+        <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
 
-        <router-link
-        v-else
-        to="/premium"
-        class="call-to-action-secondary">Subscribe</router-link>
+        <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
 
         <span class="active-without-border" v-if="isLoggedIn">
-          <router-link
-          to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+          <router-link to="/profile">
+            <div class="profile-img" alt="" v-if='!avatarUrl'></div>
+            <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
+          </router-link>
         </span>
-        <span v-else class='register'>
-          <router-link
-          to="/login">Login</router-link>
+        <span v-else class="register">
+          <router-link to="/login">Login</router-link>
 
-          <router-link
-          to="/register"
-          class="register-nav-link">Register</router-link>
+          <router-link to="/register" class="register-nav-link">Register</router-link>
         </span>
       </span>
     </nav>
     <nav class="inner-mobile">
-      <a
-      href="/"
-      class="site-name">
-        <img class="logo-img" src="../assets/sedaily-logo.png" />
+      <a href="/" class="site-name">
+        <img class="logo-img" src="../assets/sedaily-logo.png">
         Software Daily
       </a>
       <span class="pull-right">
-        <span v-on:click="onSearchActive"><img class="search-img" src="../assets/icons/search.svg"/></span>
-        <router-link
-        v-if="alreadySubscribed"
-        to="/subscribe"
-        class="subscribed">Subscribed</router-link>
+        <span v-on:click="onSearchActive">
+          <img class="search-img" src="../assets/icons/search.svg">
+        </span>
+        <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
 
-        <router-link
-        v-else
-        to="/premium"
-        class="call-to-action-secondary">Subscribe</router-link>
+        <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
 
         <span class="active-without-border" v-if="isLoggedIn">
-          <router-link
-          to="/profile"><img class="profile-img" :src="avatarUrl" /></router-link>
+          <router-link to="/profile">
+            <img class="profile-img" :src="avatarUrl">
+          </router-link>
         </span>
         <span v-else>
-          <router-link
-          to="/login">Login</router-link>
+          <router-link to="/login">Login</router-link>
 
-          <router-link
-          to="/register"
-          class="register-nav-link">Register</router-link>
+          <router-link to="/register" class="register-nav-link">Register</router-link>
         </span>
       </span>
-      <SearchBar v-if="searchActive" />
+      <SearchBar v-if="searchActive"/>
     </nav>
   </header>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import SearchBar from './SearchBar.vue'
+import { mapGetters, mapState } from "vuex";
+import SearchBar from "./SearchBar.vue";
 
 export default {
-  name: 'navigation-bar',
+  name: "navigation-bar",
   components: {
     SearchBar
   },
   props: {
     userData: {
       type: Object,
-      default: function () {
+      default: function() {
         return {
-          avatarUrl: '',
-        }
+          avatarUrl: ""
+        };
       }
     },
     ownProfile: {
       type: Boolean,
       default: false
-    },
+    }
   },
   watch: {
-    searchTerm () {
-      this.makeSearch()
+    searchTerm() {
+      this.makeSearch();
     }
   },
   data: () => ({
@@ -102,88 +86,98 @@ export default {
     clickedDropdown: false,
     searchTerm: null,
     showFilteringElements: true,
-    searchActive: false,
+    searchActive: false
   }),
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(["isLoggedIn"]),
     ...mapState({
-      alreadySubscribed (state) {
-        if (!this.isLoggedIn) return false
+      alreadySubscribed(state) {
+        if (!this.isLoggedIn) return false;
         if (state.me && state.me.subscription && state.me.subscription.active) {
-          return true
+          return true;
         } else {
-          return false
+          return false;
         }
       },
-      avatarUrl (state) {
-        return this.userData.avatarUrl || state.placeholderAvatar
+      avatarUrl(state) {
+        if (this.userData.avatarUrl !== undefined) {
+          return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
+        } else {
+          return `background: url('https://sd-profile-pictures.s3.amazonaws.com/5c93b17ab60333002a8cb231') center center / cover no-repeat`
+        }
       }
     })
   },
 
   methods: {
-    mouseOverDropdown () {
+    mouseOverDropdown() {
       if (!this.showDropdown) this.showDropdown = true;
     },
-    mouseLeaveDropdown () {
+    mouseLeaveDropdown() {
       if (this.showDropdown && !this.clickedDropdown) this.showDropdown = false;
     },
-    onClickPodcastButton () {
+    onClickPodcastButton() {
       this.clickedDropdown = !this.clickedDropdown;
-      this.clickedDropdown ? this.showDropdown = true : this.showDropdown = false;
+      this.clickedDropdown
+        ? (this.showDropdown = true)
+        : (this.showDropdown = false);
     },
-    onClickDropdownMenu () {
+    onClickDropdownMenu() {
       this.clickedDropdown = false;
       this.showDropdown = false;
     },
-    onSearchActive () {
-      !this.searchActive ? this.searchActive = true : this.searchActive = false;
+    onSearchActive() {
+      !this.searchActive
+        ? (this.searchActive = true)
+        : (this.searchActive = false);
     }
   }
-}
-$(function(){
-  var lastScrollTop = 0, delta = 5, last = 'up', foo = 99999999, state = 'fixed', lastpos;
-  $(window).scroll(function(event){
-     var st = $(this).scrollTop();
+};
+$(function() {
+  var lastScrollTop = 0,
+    delta = 5,
+    last = "up",
+    foo = 99999999,
+    state = "fixed",
+    lastpos;
+  $(window).scroll(function(event) {
+    var st = $(this).scrollTop();
 
-     // if(Math.abs(lastScrollTop - st) <= delta) return;
+    // if(Math.abs(lastScrollTop - st) <= delta) return;
 
-     if (st > lastScrollTop){
-         // scrolling down
-         if(last == 'up') {
-            if (state == 'fixed') {
-                lastpos = (document.documentElement.scrollTop - 1);
-                $("#header").css({'position': 'absolute', 'top': lastpos});
-                state = 'absolute';
-            }
-            last = 'down';
-         }
-     } else {
-         // scrolling up
-         let posnow = document.documentElement.scrollTop
-         if ((posnow - lastpos) > 50 || (posnow - lastpos) < 0) {
-             if (last == 'down') {
-                 foo = posnow - 51;
-                 $("#header").css({'position': 'absolute', 'top': '0'});
-
-             } else {
-                if (foo > st) {
-                    $("#header").css({'position': 'fixed', 'top': '0'});
-                    state = 'fixed'
-                }
-             }
+    if (st > lastScrollTop) {
+      // scrolling down
+      if (last == "up") {
+        if (state == "fixed") {
+          lastpos = document.documentElement.scrollTop - 1;
+          $("#header").css({ position: "absolute", top: lastpos });
+          state = "absolute";
         }
-        last = 'up';
-     }
-     lastScrollTop = st;
-
+        last = "down";
+      }
+    } else {
+      // scrolling up
+      let posnow = document.documentElement.scrollTop;
+      if (posnow - lastpos > 50 || posnow - lastpos < 0) {
+        if (last == "down") {
+          foo = posnow - 51;
+          $("#header").css({ position: "absolute", top: "0" });
+        } else {
+          if (foo > st) {
+            $("#header").css({ position: "fixed", top: "0" });
+            state = "fixed";
+          }
+        }
+      }
+      last = "up";
+    }
+    lastScrollTop = st;
   });
 });
 </script>
 
 <style scoped lang="stylus">
 @import './../css/variables'
-
 .btn-secondary
   font-size 14px
   margin-top 8px
@@ -196,7 +190,6 @@ $(function(){
     background-color primary-color
   &:focus
     box-shadow none
-
 .show
   .btn-secondary
     background-color white
@@ -204,7 +197,6 @@ $(function(){
       border-color white
       color white
       background-color primary-color
-
 .dropdown-menu-active
   .btn-secondary
     background-color white
@@ -213,7 +205,6 @@ $(function(){
       border-color white
       color white
       background-color primary-color
-
 .dropdown-menu
   display block
   transform translate3d(0px, 15px, 0px)
@@ -223,26 +214,20 @@ $(function(){
     top 0px
     left 0px
     will-change transform
-
 .dropdown-enter-active
   animation dropdown-in 0.2s
-
 .dropdown-leave-active
   animation dropdown-in 0.1s reverse
-
 @keyframes dropdown
   0%
     display none
   100%
     display block
-
 .forum-nav-link
   margin-right 15px
   margin-left 15px
-
 .feed-nav-link
   margin-right 15px
-
 .header
   z-index 999
   top 0
@@ -259,8 +244,10 @@ $(function(){
     max-height 40px
     margin-right 15px
   .profile-img
-    max-height 45px
+    width 35px
+    height 35px
     border-radius 50%
+    background-color darken(grey, 10%)
   .search-img
     max-height 35px
     width 35px
@@ -381,5 +368,4 @@ $(function(){
 @media (min-width 660px)
   .inner-mobile
     display none!important
-
 </style>

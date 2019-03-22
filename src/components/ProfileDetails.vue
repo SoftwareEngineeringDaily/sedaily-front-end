@@ -47,7 +47,7 @@
                  </ul>
                </div>
                <br>
-               <ul v-if="this.$store.state.topics.user.length > 0" class="popular-topics" >
+               <ul class="popular-topics" >
                  <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
                    <label class="container" :for="item.id">
                      {{ item.name }}
@@ -56,7 +56,7 @@
                    </label>
                  </li>
                </ul>
-               <span v-else class='no-topic'>Ups! There is no topics added yet..</span>
+               <!-- <span v-else class='no-topic'>Ups! There is no topics added yet..</span> -->
              </div>
            </div>
            <!-- footer-->
