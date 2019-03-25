@@ -20,7 +20,6 @@
             <comment-view
               :rootEntityType='rootEntityType'
               :comment='replyComment' />
-            <br />
           </div>
         </div>
       <br />
@@ -70,8 +69,8 @@ export default {
 
 <style scoped lang="stylus">
 .replies
-  margin-top 45px
-  margin-left 45px
+  // margin-top 45px
+  padding-left 25px
 .no-comments
   padding-top 20px
   color #ccc

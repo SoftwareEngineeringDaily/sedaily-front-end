@@ -18,10 +18,10 @@
         <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
       </div>
 
-      <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/>
+      <!-- <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/> -->
 
       <div class="row misc-detail">
-        <div class>
+        <div class="comment-op">
           <!-- <div class="bullet-point"></div> -->
           <!-- <div v-if="isLoggedIn" class="bullet-point"></div> -->
           <span v-if="!isReplying && isLoggedIn">
@@ -36,8 +36,9 @@
             @click="editing=true"
           >Edit</span>
           
-          <span class="arrows voting-container">
+          <span class="arrows voting-container" >
             <voting-arrows
+              v-if="this.$store.state.me.hasOwnProperty('_id')"
               class="upvote-comment"
               :upvoteHandler="upvoteHandler"
               :upvoted="comment.upvoted"
@@ -255,13 +256,9 @@ export default {
   margin-top: 20px;
 }
 
-.comment-holder {
-  margin-bottom: -30px;
-}
-
 .content-area {
   margin-top: 1%;
-  padding-left: 9%;
+  padding-left: 3.25em;
   word-break: break-word;
   color: #000;
 }
@@ -273,6 +270,10 @@ export default {
   border-radius: 20px;
   padding-left: 20px;
   max-width: 280px;
+}
+
+.comment-holder {
+  padding-bottom: 10px;
 }
 
 .deleted {
