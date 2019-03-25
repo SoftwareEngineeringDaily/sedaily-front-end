@@ -358,8 +358,7 @@ export default {
     padding: 0;
 
     li {
-      padding: 5px;
-      margin: 4px;
+      margin: 10px 0;
       color: #808080;
       cursor: pointer;
 
@@ -369,9 +368,19 @@ export default {
     }
   }
 }
+@media (max-width: 750px) {
+  .topics-container {
+    ul {
+      li {
+        margin-right: 10px;
+      }
+    }
+  }
+}
 
 .topic-active {
-  color: primary-color !important;
+  color: #856aff !important;
+  font-weight: 600;
 }
 
 .categories-container {

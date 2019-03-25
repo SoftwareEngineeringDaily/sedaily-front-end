@@ -28,7 +28,7 @@
         :disabled="isSubmitting"
         @click='submitComment'>{{submitButtonText}}</button>
 
-        <button v-if="showCancel" class='btn btn-link'
+        <button v-if="showCancel" class='btn-cancel btn btn-link'
         :disabled="isSubmitting"
         @click='cancelPressed'><i class="fa fa-times"/></button>
       </div>
@@ -217,6 +217,8 @@ export default {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.btn-cancel
+  padding 0 0 0 10px
 .button-submit
   outline none
   a
@@ -248,13 +250,5 @@ export default {
 .comment-box__container
   display flex
   width 100%
-  ::-moz-placeholder  /* Mozilla Firefox 19+ */
-    line-height:40px;
-
-  ::-webkit-input-placeholder /* Webkit */
-    line-height:40px;
-
-  ::-ms-input-placeholder /* IE */
-    line-height:40px;
 
 </style>

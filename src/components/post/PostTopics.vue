@@ -9,7 +9,8 @@
     <modal
       id="topic-modal"
       v-show="isModalVisible"
-      @close="closeModal">
+      @close="closeModal"
+      showCloseBtn="true">
       <!-- header-->
       <h2 slot="header">{{ post.title.rendered }}</h2>
       <!-- body-->
@@ -48,7 +49,7 @@
             </ul>
           </div>
           <br>
-          <ul v-if="this.$store.state.topics.post" class="popular-topics" >
+          <ul v-if="modalTopics.length > 0" class="popular-topics" >
             <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
               <label class="container" :for="item.id">
                 {{ item.name }}
