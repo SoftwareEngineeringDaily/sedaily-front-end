@@ -118,4 +118,14 @@ export default {
     justify-content space-between
     .button-submit
       min-width 100px
+@media (max-width 500px)
+  .container
+    margin 45px 0
+    .container-input
+      text-align center
+    .login-buttons
+      flex-direction column
+      align-items flex-start
+      button
+        margin-bottom 1rem
 </style>

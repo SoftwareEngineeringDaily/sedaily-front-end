@@ -91,4 +91,7 @@ export default {
     margin 45px
   .forgot-p
     margin 15px 0
+  @media (max-width 500px)
+    .container
+      margin 45px 0
 </style>

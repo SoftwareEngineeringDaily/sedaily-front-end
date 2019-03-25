@@ -77,27 +77,26 @@
         </div>
 
         <div class="form-group">
-          <center>
+          <label class="container-input">
+            Register for newsletter?
             <input type="checkbox" v-model='newsletter'
             id="allowNewsletter"
             class=""
             aria-describedby="newsletterHelp">
-            <label for="allowNewsletter" class="newsletter-text"> Register for newsletter?</label>
-          </center>
+            <span class="checkmark"></span>
+          </label>
         </div>
-
-        <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+        <div class="login-buttons col-md-12" v-if="!isLoggedIn">
+          <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+          <div>
+            Already have an account?
+            <router-link to="/login" name="login-link"> Login</router-link>
+          </div>
+        </div>
       </form>
-
     </div>
 
     <br />
-    <div class='row' v-if="!isLoggedIn">
-      <div class='col-md-6 offset-md-3'>
-        Already have an account?
-        <router-link to="/login" name="login-link">Login</router-link>
-      </div>
-    </div>
     <div v-if="isLoggedIn" class="row">
       <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
       <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
@@ -182,8 +181,70 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  @import './../css/variables'
+  .container-input
+    width auto
+    display flex
+    align-items center
+    position relative
+    padding-left 35px
+    margin-bottom 12px
+    margin-top 12px
+    cursor pointer
+    font-size 16px
+    -webkit-user-select none
+    -moz-user-select none
+    -ms-user-select none
+    input
+      position absolute
+      opacity 0
+      cursor pointer
+      height 0
+      width 0
+    .checkmark
+      position absolute
+      left 0
+      height 20px
+      width 20px
+      background-color #eee
+  .container:hover input ~ .checkmark
+    background-color #eee
+  .container input:checked ~ .checkmark
+    background-color #ccc
+  .checkmark:after
+    content ""
+    position absolute
+    display none
+  .container input:checked ~ .checkmark:after
+    display block
+  .container .checkmark:after
+    left 7px
+    top 3px
+    width 6px
+    height 12px
+    border 2px solid white
+    border-width 0 3px 3px 0
+    -webkit-transform rotate(45deg)
+    -ms-transform rotate(45deg)
+    transform rotate(45deg)
   .container
     margin 45px
-  .newsletter-text
-    padding-left 15px
+    .login-buttons
+      padding 15px 0
+      flex-direction row
+      display flex
+      align-items center
+      justify-content space-between
+      .button-submit
+        min-width 100px
+  @media (max-width 500px)
+    .container
+      margin 45px 0
+      .container-input
+        text-align center
+      .login-buttons
+        flex-direction column
+        align-items flex-start
+        button
+          margin-bottom 1rem
 </style>
