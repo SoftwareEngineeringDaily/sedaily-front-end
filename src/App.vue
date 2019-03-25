@@ -255,6 +255,10 @@ a
     .github
       display none
 
-.beta-msg
-  margin-bottom 20px
+  .beta-msg
+    margin-bottom 20px
+
+  .container-fluid
+    padding-right: 0 
+    padding-left: 0
 </style>

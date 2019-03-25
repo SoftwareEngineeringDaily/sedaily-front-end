@@ -47,7 +47,6 @@
     methods: {
       close() {
         this.$emit('close');
-        this.$router.push({ path: '/' });
       },
     },
   };
@@ -96,6 +95,7 @@
     border-bottom 1px solid #eeeeee
     color: primary-color
     justify-content space-between
+    align-items center
 
   .modal-footer
     border-top 1px solid #eeeeee
@@ -108,6 +108,7 @@
   .btn-close
     border none
     font-size 40px
+    padding-bottom 5px
     cursor pointer
     font-weight 900
     color primary-color

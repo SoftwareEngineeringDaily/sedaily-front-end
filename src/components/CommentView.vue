@@ -35,8 +35,8 @@
             v-if="this.isMyComment && !comment.deleted"
             @click="editing=true"
           >Edit</span>
-          
-          <span class="arrows voting-container" >
+
+          <span class="arrows voting-container">
             <voting-arrows
               v-if="this.$store.state.me.hasOwnProperty('_id')"
               class="upvote-comment"
@@ -248,7 +248,7 @@ export default {
   }
 }
 
-.profile-container 
+.profile-container
   display flex
   flex-direction column
 

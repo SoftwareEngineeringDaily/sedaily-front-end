@@ -187,11 +187,11 @@ export default {
     display flex
     align-items center
     position relative
-    padding-left 35px
+    padding-left 25px
     margin-bottom 12px
     margin-top 12px
     cursor pointer
-    font-size 16px
+    font-size 14px
     -webkit-user-select none
     -moz-user-select none
     -ms-user-select none
@@ -204,8 +204,8 @@ export default {
     .checkmark
       position absolute
       left 0
-      height 20px
-      width 20px
+      height 15px
+      width 15px
       background-color #eee
   .container:hover input ~ .checkmark
     background-color #eee
@@ -218,11 +218,11 @@ export default {
   .container input:checked ~ .checkmark:after
     display block
   .container .checkmark:after
-    left 7px
-    top 3px
-    width 6px
-    height 12px
-    border 2px solid white
+    left 5px
+    top 2px
+    width 5px
+    height 10px
+    border 1px solid white
     border-width 0 3px 3px 0
     -webkit-transform rotate(45deg)
     -ms-transform rotate(45deg)

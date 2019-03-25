@@ -33,14 +33,9 @@
           @click="submitComment"
         >{{submitButtonText}}</button>
 
-        <button
-          v-if="showCancel"
-          class="btn btn-link"
-          :disabled="isSubmitting"
-          @click="cancelPressed"
-        >
-          <i class="fa fa-times"/>
-        </button>
+        <button v-if="showCancel" class='btn-cancel btn btn-link'
+        :disabled="isSubmitting"
+        @click='cancelPressed'><i class="fa fa-times"/></button>
       </div>
     </div>
     <div v-else>
@@ -230,20 +225,45 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import './../css/variables'
+.btn-cancel
+  padding 0 0 0 10px
+.button-submit
+  outline none
+  a
+    color white
+    &:hover
+      text-decoration none
+.buttons-comment
+  display flex
+.comment-container
+  display flex
+  align-items center
+  width: 100%;
+  .profile-img
+    width 35px
+    height 35px
+    border-radius 50px
+.comment-box
+  margin 0 10px
+  width 100%
+  padding 5px
+  padding-left 10px
+  border-radius 30px
+  border-color #c5c5c5
+  resize none
+  height inherit
+  outline none
+  border: 1px solid #ccc;
 
-@import './../css/variables';
+.comment-box__container
+  display flex
+  width 100%
 
-.button-submit {
-  outline: none;
+    &:hover 
+      text-decoration none
+    
 
-  a {
-    color: white;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
 
 .buttons-comment {
   display: flex;

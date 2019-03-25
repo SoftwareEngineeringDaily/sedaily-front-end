@@ -47,7 +47,7 @@
                  </ul>
                </div>
                <br>
-               <ul class="popular-topics" >
+               <ul v-if="modalTopics.length > 0" class="popular-topics" >
                  <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
                    <label class="container" :for="item.id">
                      {{ item.name }}
@@ -61,8 +61,7 @@
            </div>
            <!-- footer-->
            <span slot="footer">
-            <button v-if="checkedTopics.length > 2" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
-            <button v-else type="button" class="btn-submit-disactive">Submit</button>
+            <button type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
            </span>
          </modal>
          |
@@ -300,8 +299,8 @@
     background-color primary-color
     color white
     margin-right 5px
-    padding 5px
-    border-radius 5px
+    padding 10px
+    border-radius 30px
     border 1px solid #c4c4c4
     cursor pointer
     outline none
@@ -309,8 +308,8 @@
     background-color #c4c4c4
     color white
     margin-right 5px
-    padding 5px
-    border-radius 5px
+    padding 10px
+    border-radius 30px
     border 1px solid #c4c4c4
     cursor pointer
     outline none
