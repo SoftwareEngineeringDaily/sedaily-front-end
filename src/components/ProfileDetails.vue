@@ -61,7 +61,7 @@
            </div>
            <!-- footer-->
            <span slot="footer">
-            <button type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
+            <button type="button" class="button-submit" @click="selectTopicsToUser">Submit</button>
            </span>
          </modal>
          |
@@ -295,24 +295,6 @@
       color primary-color
   body.modal-open
     overflow hidden
-  .btn-submit
-    background-color primary-color
-    color white
-    margin-right 5px
-    padding 10px
-    border-radius 30px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
-  .btn-submit-disactive
-    background-color #c4c4c4
-    color white
-    margin-right 5px
-    padding 10px
-    border-radius 30px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
   .btn-modal
     background-color primary-color
     color white

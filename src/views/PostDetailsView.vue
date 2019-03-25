@@ -52,7 +52,7 @@
       </div>
 
       <hr>
-      <div class="row">
+      <div class="row comments">
         <div class="col-md-8">
           <h3 class="section-title"> Comments </h3>
           <comments-list :comments="comments" />
@@ -326,6 +326,8 @@ export default {
   img, figure
     width: 100%
     max-width  90vw
+  .comments
+    margin 0 5px
 
 .post-transcript
   p
@@ -342,6 +344,7 @@ export default {
       display none
 .voting-arrows-container
   width 10%
+  margin 0 20px
   align-self flex-end
 .post-view
   background-color white

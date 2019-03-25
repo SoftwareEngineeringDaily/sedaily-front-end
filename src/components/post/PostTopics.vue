@@ -64,7 +64,7 @@
       <span slot="footer">
         <button v-if="isAddTopic" type="button" class="btn-modal-secondary" @click="addTopic">Back</button>
         <button v-else type="button" class="btn-modal-secondary" @click="addTopic">Add Topic</button>
-        <button v-if="checkedTopics.length > 0" type="button" class="btn-submit" @click="selectTopicsToPost">Submit</button>
+        <button v-if="checkedTopics.length > 0" type="button" class="button-submit" @click="selectTopicsToPost">Submit</button>
         <button v-else type="button" class="btn-submit-disactive">Submit</button>
       </span>
     </modal>
@@ -225,21 +225,18 @@ export default {
       color primary-color
   body.modal-open
     overflow hidden
-  .btn-submit
-    background-color primary-color
-    color white
-    margin-right 5px
-    padding 10px
-    border-radius 30px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
   .btn-submit-disactive
-    background-color #c4c4c4
-    color white
-    margin-right 5px
-    padding 10px
+    padding 7px
+    font-size 12px
+    white-space nowrap
+    color #fff
+    min-width 70px
+    border none
     border-radius 30px
+    text-align center
+    -webkit-transition all 0.15s ease
+    transition all 0.15s ease
+    background-color #c4c4c4
     border 1px solid #c4c4c4
     cursor pointer
     outline none
