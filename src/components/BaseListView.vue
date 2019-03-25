@@ -424,12 +424,6 @@ export default {
   transform: translate(30px, 0);
 }
 
-@media (max-width: 600px) {
-  .news-list {
-    margin: 10px 0;
-  }
-}
-
 /* Filters */
 .filters {
   position: relative;
@@ -494,12 +488,6 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
-  .news-list {
-    margin: 10px 0;
-  }
-}
-
 @media (max-width: 750px) {
   .news-view {
       flex-direction: column;
@@ -518,7 +506,8 @@ export default {
 
   .topics-container ul {
     display: flex;
-    flex-wrap: wrap;
+    overflow: auto;
+    white-space: nowrap;
   }
 
   .app-download {
