@@ -403,5 +403,8 @@ export default {
   .post-view-header
     h1
       font-size 1.25em
-
+.view-top
+  padding 1.5rem 2rem
+.post-view
+  padding-bottom 5px
 </style>

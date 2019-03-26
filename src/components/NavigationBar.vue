@@ -1,10 +1,10 @@
 <template>
   <header class="header" id="header">
     <nav class="inner">
-      <a href="/" class="site-name">
+       <router-link  to="/" class="site-name">
         <img class="logo-img" src="../assets/sedaily-logo.png">
-        Software Daily
-      </a>
+          Software Daily
+       </router-link>
       <SearchBar/>
       <span class="pull-right">
         <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>

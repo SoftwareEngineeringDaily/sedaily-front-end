@@ -265,11 +265,6 @@ export default {
 
 .comment-holder .deleted {
   color: #bf687e;
-  background: #f7f7f7;
-  padding-top: 16px;
-  border-radius: 20px;
-  padding-left: 20px;
-  max-width: 280px;
 }
 
 .comment-holder {
