@@ -279,13 +279,14 @@ export default {
   background-color #fff
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   border-radius 2px
-  margin 15px auto
+  margin 15px 16%
   max-width: 525px;
 
 .post-summary
   padding: 25px 25px 0 25px
   display flex
   flex-direction column
+  max-width: -webkit-fill-available;
   .voting-arrows
     flex 10%
   .image
@@ -397,7 +398,7 @@ export default {
     width 50%
   span
     max-height: 130px;
-    overflow-y: hidden;
+    overflow: hidden;
   img
     max-height:100%;
     max-width:100%;
@@ -413,7 +414,8 @@ export default {
     p, span
       width 100%
     .description__image
-      margin: 0 auto;
+      display: none
+
 
 @media (max-width 576px)
   .news-post

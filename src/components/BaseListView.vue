@@ -501,7 +501,8 @@ export default {
   }
 
   .news-post {
-    width: 100% !important ;
+    width: 100% !important 
+    margin 15px auto !important
   }
 
   .topics-container ul {
