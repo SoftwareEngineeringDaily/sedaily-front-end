@@ -146,7 +146,11 @@ export default {
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
     if (topicSlug === undefined) {
-      return next(vm => vm.fetchPosts());
+      return next(vm => {
+        if(vm.$store.state.searchTerm === null) {
+          vm.fetchPosts()
+        }
+      });
     }
     next(vm =>
       vm.$store
@@ -501,7 +505,7 @@ export default {
   }
 
   .news-post {
-    width: 100% !important 
+    width: 100% !important
     margin 15px auto !important
   }
 

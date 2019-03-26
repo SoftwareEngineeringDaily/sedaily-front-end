@@ -1,10 +1,10 @@
 <template>
   <header class="header" id="header">
     <nav class="inner">
-       <router-link  to="/" class="site-name">
+       <div @click="resetApp" class="site-name site-logo">
         <img class="logo-img" src="../assets/sedaily-logo.png">
           Software Daily
-       </router-link>
+       </div>
       <SearchBar/>
       <span class="pull-right">
         <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
@@ -131,6 +131,10 @@ export default {
       !this.searchActive
         ? (this.searchActive = true)
         : (this.searchActive = false);
+    },
+    resetApp() {
+      this.$store.commit('setSearchTerm', { searchTerm: null })
+      this.$router.push({ path: `/` })
     }
   }
 };
@@ -151,14 +155,14 @@ $(function() {
       if (last == "up") {
         if (state == "fixed") {
           lastpos = document.documentElement.scrollTop - 1;
-          $("#header").css({ position: "absolute", top: lastpos });
+          $("#header").css({ position: "absolute", top: "0" });
           state = "absolute";
         }
         last = "down";
       }
     } else {
       // scrolling up
-      let posnow = document.documentElement.scrollTop;
+      let posnow = document.body.scrollTop || document.documentElement.scrollTop;
       if (posnow - lastpos > 50 || posnow - lastpos < 0) {
         if (last == "down") {
           foo = posnow - 51;
@@ -179,6 +183,9 @@ $(function() {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.site-logo
+  margin-right 0.75em
+  cursor pointer
 .btn-secondary
   font-size 14px
   margin-top 8px
