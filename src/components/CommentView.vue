@@ -8,13 +8,13 @@
         :doneCallback="doneEditingCallback"
       ></comment-edit>
     </div>
-    <div v-if="!editing" class="comment-holder">
+    <div v-if="!editing && !wasDeleted" class="comment-holder">
       <div>
         <div class="profile-container">
           <profile-label :userData="user(comment)" :dateComment="date(comment)"></profile-label>
           <!-- <span class="comment-date">{{}}</span>      -->
         </div>
-        <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span>
+        <!-- <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span> -->
         <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
       </div>
 

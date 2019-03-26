@@ -74,6 +74,7 @@ export default {
   },
 
   setComments: (state, { comments, entityId }) => {
+    const ids = []
     comments.reverse()
     comments.forEach(comment => {
       if (comment) {
@@ -83,7 +84,15 @@ export default {
         comment.replies = repliesToIds({ state, replies: comment.replies })
       }
     })
-    const ids = comments.map((entity) => entity._id)
+
+    comments.map((entity) => 
+      { if (entity.deleted === false) {
+        ids.push(entity._id) } else {
+          return 
+        }
+      })
+
+    console.log(ids)
     //  Only set top level comments:
     Vue.set(state.entityComments, entityId, ids)
   },
