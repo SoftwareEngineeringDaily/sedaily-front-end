@@ -409,4 +409,10 @@ export default {
     background #d0c6ff
   .popular-topics::-webkit-scrollbar-thumb:hover
     background #555
+  @media (max-width 960px)
+    .post-topics-header
+      overflow auto
+      white-space nowrap
+      .post-topics
+        flex-wrap nowrap
 </style>

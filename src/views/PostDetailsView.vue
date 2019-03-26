@@ -320,21 +320,26 @@ export default {
 </script>
 
 <style lang="stylus">
-@import './../css/variables'
-
+.post-content p .size-full
+  max-width 175px!important
+  max-height 175px!important
+.post-content a .size-full
+  max-width 90vw!important
+  max-height none!important
 .post-content
   img, figure
-    width: 100%
+    width 100%
     max-width  90vw
+    height auto
   .comments
     margin 0 5px
 
 .post-transcript
+  h2,h3,h4,table
+    margin 30px 20px
   p
     text-align justify
     font-size 14px
-    line-height 24px
-    letter-spacing .5px
     margin 30px 20px
   .size-large
     width 100%
