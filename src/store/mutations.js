@@ -85,14 +85,13 @@ export default {
       }
     })
 
-    comments.map((entity) => 
+    comments.map((entity) =>
       { if (entity.deleted === false) {
         ids.push(entity._id) } else {
-          return 
+          return
         }
       })
 
-    console.log(ids)
     //  Only set top level comments:
     Vue.set(state.entityComments, entityId, ids)
   },
