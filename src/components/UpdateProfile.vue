@@ -222,8 +222,8 @@ export default {
               // TODO: have it be a componenet that is passed on
               if (this.me) {
                 this.msg = 'Success, your profile was Updated :)'
-                document.location.reload(true)
                 this.$router.replace('/profile')
+                document.location.reload(true)
               }
             })
             .catch((error) => {

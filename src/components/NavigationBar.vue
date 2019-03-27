@@ -42,10 +42,10 @@
       </span>
     </nav>
     <nav class="inner-mobile">
-       <router-link to="/">
-          <img class="logo-img" src="../assets/sedaily-logo.png">
+       <div @click="resetApp" class="site-name site-logo">
+        <img class="logo-img" src="../assets/sedaily-logo.png">
           Software Daily
-      </router-link>
+       </div>
       <span class="pull-right">
         <span v-on:click="onSearchActive">
           <img class="search-img" src="../assets/icons/search.svg">
@@ -55,8 +55,27 @@
         <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
 
         <span class="active-without-border" v-if="isLoggedIn">
-            <div class="profile-img" alt="" v-if='!avatarUrl'></div>
-            <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
+            <div>
+              <b-dropdown  variant="link" size="lg" no-caret>
+                <template slot="button-content">
+                  <div class="profile-img" v-if='!avatarUrl'></div>
+                  <div class="profile-img" v-else :style='avatarUrl'></div>
+                </template>
+                <b-dropdown-item>
+                  <router-link to="/profile">
+                    Profile
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/settings">
+                    Settings
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item @click.prevent="logoutHandler">
+                  Logout
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
         </span>
         <span v-else>
           <router-link to="/login">Login</router-link>
