@@ -175,11 +175,16 @@ export default {
       this.resetPosts();
     },
     topicHandler(topic) {
+      this.displayedPosts = [];
+      this.loading = true;
       let topicId = topic._id,
         topicSlug = topic.slug;
       this.topicId = topicId;
       this.showTopic(topicSlug).then(
-        topics => (this.displayedPosts = topics.data.posts)
+        topics => {
+          this.loading = false;
+          this.displayedPosts = topics.data.posts
+          }
       );
       this.$router.push({ path: `/topics/${topicSlug}` });
     },
@@ -468,9 +473,8 @@ export default {
 }
 
 .spinner-holder {
-  width: 100%;
+  width: 85%;
   text-align: center;
-  margin: 10px;
 }
 
 .auto-complete {

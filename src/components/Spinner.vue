@@ -1,5 +1,5 @@
 <template>
-  <svg class="spinner" :class="{ show: show }" v-show="show" width="44px" height="44px" viewBox="0 0 44 44">
+  <svg class="spinner" :class="{ show: show }" v-show="show" width="66px" height="66px" viewBox="0 0 44 44">
     <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
   </svg>
 </template>
@@ -23,7 +23,7 @@ $duration = 1.4s
 
 .spinner
   z-index 999
-  right 15px
+  margin 0 auto
   bottom 15px
   transition opacity .15s ease
   animation rotator $duration linear infinite

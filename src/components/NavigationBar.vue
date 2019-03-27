@@ -12,10 +12,27 @@
         <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
 
         <span class="active-without-border" v-if="isLoggedIn">
-          <router-link to="/profile">
-            <div class="profile-img" alt="" v-if='!avatarUrl'></div>
-            <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
-          </router-link>
+            <div>
+              <b-dropdown  variant="link" size="lg" no-caret>
+                <template slot="button-content">
+                  <div class="profile-img" v-if='!avatarUrl'></div>
+                  <div class="profile-img" v-else :style='avatarUrl'></div>
+                </template>
+                <b-dropdown-item>
+                  <router-link to="/profile">
+                    Profile
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <router-link to="/settings">
+                    Settings
+                  </router-link>
+                </b-dropdown-item>
+                <b-dropdown-item @click.prevent="logoutHandler">
+                  Logout
+                </b-dropdown-item>
+              </b-dropdown>
+            </div>
         </span>
         <span v-else class="register">
           <router-link to="/login">Login</router-link>
@@ -25,10 +42,10 @@
       </span>
     </nav>
     <nav class="inner-mobile">
-      <a href="/" class="site-name">
-        <img class="logo-img" src="../assets/sedaily-logo.png">
-        Software Daily
-      </a>
+       <router-link to="/">
+          <img class="logo-img" src="../assets/sedaily-logo.png">
+          Software Daily
+      </router-link>
       <span class="pull-right">
         <span v-on:click="onSearchActive">
           <img class="search-img" src="../assets/icons/search.svg">
@@ -38,10 +55,8 @@
         <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
 
         <span class="active-without-border" v-if="isLoggedIn">
-          <router-link to="/profile">
             <div class="profile-img" alt="" v-if='!avatarUrl'></div>
             <div class="profile-img" alt="" v-else :style='avatarUrl'></div>
-          </router-link>
         </span>
         <span v-else>
           <router-link to="/login">Login</router-link>
@@ -55,6 +70,7 @@
 </template>
 
 <script>
+import { Dropdown } from 'bootstrap-vue/es/components/dropdown'
 import { mapGetters, mapState } from "vuex";
 import SearchBar from "./SearchBar.vue";
 
@@ -111,6 +127,10 @@ export default {
   },
 
   methods: {
+    logoutHandler() {
+      this.$auth.logout()
+      this.$router.replace('/')
+    },
     mouseOverDropdown() {
       if (!this.showDropdown) this.showDropdown = true;
     },
@@ -314,12 +334,12 @@ $(function() {
       color primary-color
     &.router-link-active
       font-weight bold
-      background-color primary-color
       border-color white
       padding-top 2px
-      color #fff
+      color primary-color
     &:active
       color #fff
+      background-color primary-color
   .github
     color #fff
     font-size .9em
