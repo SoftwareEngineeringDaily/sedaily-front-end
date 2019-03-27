@@ -27,7 +27,7 @@
           type="password"
           class="form-control"
           id="inputPassword"
-          placeholder="Password">
+          placeholder="Enter password">
 
           <div v-show="errors.has('password')"
           class="alert alert-danger">

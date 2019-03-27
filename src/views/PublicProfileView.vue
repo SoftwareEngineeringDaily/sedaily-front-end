@@ -7,9 +7,10 @@
       <div class="bg-danger"> Error: {{ error }}</div>
     </template>
     <template v-else>
-      <profile-details
-        :userData="user"
-      ></profile-details>
+      <div class="profile-view col-md-12">
+        <profile-details
+        :userData="user" />
+      </div>
     </template>
   </div>
 </template>
@@ -66,3 +67,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .profile-view
+    background-color white
+    min-height 100vh
+</style>
