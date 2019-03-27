@@ -75,4 +75,7 @@ export default {
   padding-top 20px
   color #ccc
 
+.spinner-holder
+  width 100%
+
 </style>

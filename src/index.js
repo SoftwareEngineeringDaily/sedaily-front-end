@@ -16,10 +16,14 @@ import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 import Toasted from 'vue-toasted'
 import SmartBanner from 'smart-app-banner'
+import BootstrapVue from 'bootstrap-vue'
+
 import 'smart-app-banner/dist/smart-app-banner.css'
 
 import 'bootstrap'
 import './css/vendor.scss'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -34,6 +38,7 @@ Vue.use(Router)
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.use(Meta)
+Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 Vue.use(Toasted, {

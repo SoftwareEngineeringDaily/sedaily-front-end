@@ -1,4 +1,5 @@
 <template>
+
   <div class="row">
     <div
     v-if="post"
@@ -95,7 +96,8 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
+// import Spinner from '@/components/Spinner.vue'
+import { Spinner } from 'bootstrap-vue/es/components/spinner'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
