@@ -12,7 +12,7 @@
           v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="Username">
+          placeholder="AlexSmith">
 
           <div v-show="errors.has('username')"
           class="alert alert-danger">
@@ -21,7 +21,7 @@
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="password" v-model='password'
+          <input type="Enter password" v-model='password'
           id="passwordInput"
           name="password"
           v-validate="'required'"
@@ -42,7 +42,7 @@
           class="form-control"
           v-validate="'required'"
           aria-describedby="nameHelp"
-          placeholder="Alex Smith">
+          placeholder="Alex">
 
           <div v-show="errors.has('name')"
           class="alert alert-danger">
@@ -64,7 +64,7 @@
           v-model='email'
           class="form-control" id="emailInput"
           aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
+          placeholder="alex@email.com">
         </div>
 
         <div class="form-group">
@@ -73,7 +73,7 @@
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
-          placeholder="yourWebsite.com">
+          placeholder="alexWebsite.com">
         </div>
 
         <div class="form-group">
