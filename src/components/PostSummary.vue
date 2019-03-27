@@ -413,8 +413,6 @@ export default {
     flex-direction column
     p, span
       width 100%
-    .description__image
-      display: none
 
 
 @media (max-width 576px)
@@ -423,4 +421,12 @@ export default {
 
     .news-content
       margin-top 8%
+
+@media (max-width 600px)
+  .description
+    flex-direction column
+    p, span
+      width 100%
+  .description__image
+    display: none
 </style>
