@@ -298,6 +298,7 @@ $(function() {
     border-bottom none
     text-transform capitalize
     padding 8px 10px
+    width 100%
     &:hover
       color primary-color
     &.router-link-active

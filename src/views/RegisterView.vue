@@ -87,7 +87,10 @@
           </label>
         </div>
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
-          <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+          <div>
+            <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+            <spinner :show="loading"></spinner>
+          </div>
           <div>
             Already have an account?
             <router-link to="/login" name="login-link"> Login</router-link>
@@ -102,7 +105,6 @@
       <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
-    <spinner :show="loading"></spinner>
   </div>
 </template>
 

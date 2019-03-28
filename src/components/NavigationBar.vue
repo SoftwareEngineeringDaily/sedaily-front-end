@@ -37,8 +37,7 @@
             </div>
         </span>
         <span v-else class="register">
-          <router-link to="/login">Login</router-link>
-          <router-link to="/register" class="register-nav-link">Register</router-link>
+          <button @click="signIn" name="submit-button" class="button-submit">SIGN IN</button>
         </span>
       </span>
     </nav>
@@ -103,6 +102,9 @@ export default {
     })
   },
   methods: {
+    signIn() {
+      this.$router.push({ path: `/login` })
+    },
     logoutHandler() {
       this.$auth.logout()
       this.$router.replace('/')
@@ -131,12 +133,14 @@ export default {
     resetApp() {
       this.$store.commit('setSearchTerm', { searchTerm: null })
       this.$router.push({ path: `/` })
+      document.location.reload(true)
     },
     imgOnError() {
         this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
-      },
+      }
   }
-};
+}
+
 $(function() {
   var lastScrollTop = 0,
     delta = 5,
@@ -144,6 +148,9 @@ $(function() {
     foo = 99999999,
     state = "fixed",
     lastpos;
+  document.addEventListener('touchmove', function (event) {
+  if (event.scale !== 1) { event.preventDefault(); }
+  }, false);
   $(window).scroll(function(event) {
     var st = $(this).scrollTop();
     // if(Math.abs(lastScrollTop - st) <= delta) return;
@@ -160,7 +167,7 @@ $(function() {
     } else {
       // scrolling up
       let posnow = document.body.scrollTop || document.documentElement.scrollTop;
-      if (posnow - lastpos > 50 || posnow - lastpos < 0) {
+      if (posnow - lastpos > 50) {
         if (last == "down") {
           foo = posnow - 51;
           $("#header").css({ position: "absolute", top: "0" });
@@ -238,7 +245,7 @@ $(function() {
   top 0
   left 0
   right 0
-  position fixed
+  position absolute
   background-color white
   border-bottom 2px solid #eee
   .register
@@ -307,6 +314,7 @@ $(function() {
   .dropdown-menu a
     border-bottom none
     text-transform capitalize
+    width 100%
     padding 8px 10px
     &:hover
       color primary-color

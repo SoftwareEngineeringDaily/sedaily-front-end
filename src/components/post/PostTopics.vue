@@ -111,14 +111,14 @@ export default {
     ...mapGetters(['isLoggedIn']),
   },
   methods: {
-    ...mapActions(['getPostTopics','createTopic','getSearchedTopics','addTopicsToPost']),
+    ...mapActions(['showTopic','getPostTopics','createTopic','getSearchedTopics','addTopicsToPost']),
     handleClickOutside(evt) {
       if (this.$el.contains(evt.target)) {
         this.isOpen = false;
       }
     },
     goTo(slug){
-      this.$router.push(`/topics/${slug}`)
+      this.$router.push({ path: `/topics/${slug}` });
     },
     setResult(item) {
       const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))

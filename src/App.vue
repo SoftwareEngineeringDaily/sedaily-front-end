@@ -113,7 +113,8 @@ export default {
   color white
 
 .button-submit
-  padding 7px
+  outline none
+  padding 7px 10px
   font-size 12px
   background primary-color
   white-space nowrap
@@ -126,6 +127,9 @@ export default {
   cursor pointer
 .button-submit:hover
   background #a591ff
+  outline none
+.button-submit:focus
+  outline none
 
 .button-submit-small
   background primary-color
@@ -259,6 +263,6 @@ a
     margin-bottom 20px
 
   .container-fluid
-    padding-right: 0 
+    padding-right: 0
     padding-left: 0
 </style>

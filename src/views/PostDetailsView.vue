@@ -1,6 +1,6 @@
 <template>
 
-  <div class="row">
+  <div class="row top-space">
     <div
     v-if="post"
     class="post-view col-md-9">
@@ -322,6 +322,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.top-space
+  padding-top 25px
 .post-content p .size-full
   max-width 175px!important
   max-height 175px!important
