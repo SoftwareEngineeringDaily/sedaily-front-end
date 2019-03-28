@@ -153,9 +153,13 @@ export default {
       });
     }
     next(vm =>
+
       vm.$store
         .dispatch("showTopic", topicSlug)
-        .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
+        .then(topics => {
+          vm.displayedPosts = topics.data.posts;
+          vm.topicId = topics.data.topic[0]._id
+        })
     );
   },
   beforeRouteUpdate(to, from, next) {
@@ -220,7 +224,7 @@ export default {
             this.displayedPosts = [];
           }
 
-          if (result && result.posts && result.posts.length > 0) {
+          if (result && result.posts && result.posts.length > 0 && this.displayedPosts && this.displayedPosts.length === 0) {
             this.displayedPosts = this.displayedPosts.concat(result.posts);
           } else {
             this.endOfPosts = true;

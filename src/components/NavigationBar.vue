@@ -174,7 +174,8 @@ export default {
     },
     resetApp() {
       this.$store.commit('setSearchTerm', { searchTerm: null })
-      this.$router.push({ path: `/` })
+      this.$router.replace('/')
+      document.location.reload(true)
     }
   }
 };
