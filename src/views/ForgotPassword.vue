@@ -29,10 +29,10 @@
 
       <div class="form-group" v-if="showForm">
         <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
+        <spinner :show="loading"></spinner>
       </div>
     </form>
 
-  <spinner :show="loading"></spinner>
 </div>
 
 

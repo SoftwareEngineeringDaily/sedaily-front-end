@@ -35,14 +35,14 @@
             </div>
         </span>
         <span v-else class="register">
-          <router-link to="/login">Login</router-link>
-
-          <router-link to="/register" class="register-nav-link">Register</router-link>
+          <button @click="signIn" name='submit-button' class='button-submit'>SIGN IN</button>
+<!--
+          <router-link to="/register" class="register-nav-link">Register</router-link> -->
         </span>
       </span>
     </nav>
     <nav class="inner-mobile">
-       <div @click="resetApp" class="site-name site-logo">
+       <div class="site-name site-logo">
         <img class="logo-img" src="../assets/sedaily-logo.png">
           Software Daily
        </div>
@@ -77,10 +77,8 @@
               </b-dropdown>
             </div>
         </span>
-        <span v-else>
-          <router-link to="/login">Login</router-link>
-
-          <router-link to="/register" class="register-nav-link">Register</router-link>
+        <span v-else class="register">
+          <button @click="signIn" name='submit-button' class='button-submit'>SIGN IN</button>
         </span>
       </span>
       <SearchBar v-if="searchActive"/>
@@ -146,6 +144,9 @@ export default {
   },
 
   methods: {
+    signIn() {
+      this.$router.push({ path: `/login` })
+    },
     logoutHandler() {
       this.$auth.logout()
       this.$router.replace('/')
@@ -184,6 +185,9 @@ $(function() {
     foo = 99999999,
     state = "fixed",
     lastpos;
+  document.addEventListener('touchmove', function (event) {
+  if (event.scale !== 1) { event.preventDefault(); }
+  }, false);
   $(window).scroll(function(event) {
     var st = $(this).scrollTop();
 
@@ -202,7 +206,7 @@ $(function() {
     } else {
       // scrolling up
       let posnow = document.body.scrollTop || document.documentElement.scrollTop;
-      if (posnow - lastpos > 50 || posnow - lastpos < 0) {
+      if (posnow - lastpos > 50) {
         if (last == "down") {
           foo = posnow - 51;
           $("#header").css({ position: "absolute", top: "0" });
@@ -280,7 +284,7 @@ $(function() {
   top 0
   left 0
   right 0
-  position fixed
+  position absolute
   background-color white
   border-bottom 2px solid #eee
   .register

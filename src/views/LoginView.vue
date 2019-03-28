@@ -34,11 +34,14 @@
           {{ errors.first('password') }}</div>
         </div>
         <div class="login-buttons col-md-12">
+          <span>Don't already have an account? <router-link to="/register" name="register">Register</router-link></span>
+          <router-link to="/forgot-password" name="forgot-password">Forgotten your Password?</router-link>
+        </div>
+        <div class="form-group">
           <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
-          <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+          <spinner :show="loading"></spinner>
         </div>
       </form>
-    <spinner :show="loading"></spinner>
     <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
       <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>

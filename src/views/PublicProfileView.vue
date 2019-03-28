@@ -68,7 +68,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .profile-view
-    background-color white
-    min-height 100vh
 </style>

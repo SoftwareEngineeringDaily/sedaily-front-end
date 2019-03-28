@@ -89,7 +89,7 @@ export default {
     },
     submitButtonText: {
       type: String,
-      default: "Add Comment"
+      default: "Submit"
     }
   },
   components: {
@@ -260,9 +260,9 @@ export default {
   display flex
   width 100%
 
-    &:hover 
+    &:hover
       text-decoration none
-    
+
 
 
 .buttons-comment {

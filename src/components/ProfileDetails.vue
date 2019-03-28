@@ -1,34 +1,38 @@
 <template>
-  <div class="row profile">
-    <div class="col-md-12 wrapper">
-      <div class="col col-sm-auto">
+  <div class="profile">
+    <div class="col-md-6 wrapper">
+      <div class="display-details">
+        <div class="user-details">
+          <div class="row-name">
+            <h3 class="display-name">
+              {{displayName}}
+            </h3>
+            <button
+            v-if="ownProfile"
+            class='button-submit button-submit-reverse'
+            @click='profileEdit'>
+              Edit Profile
+            </button>
+          </div>
+          <p class="display-bio text-muted">
+            {{displayBio}}
+          </p>
+          <p class="display-website" v-if="userData.website">
+            <a :href="userData.website | externalUrl" target="_blank"
+            rel="external nofollow"
+            > {{ userData.website | host }} </a>
+          </p>
+        </div>
         <div class="crop-image">
           <div class="profile-img" :style='avatarUrl'></div>
         </div>
-      </div>
-      <div class="user-details col-sm-6 col-md-4">
-        <h3 class="display-name">
-          {{displayName}}
-        </h3>
-        <p class="display-bio text-muted">
-          {{displayBio}}
-        </p>
-        <p class="display-website" v-if="userData.website">
-          <a :href="userData.website | externalUrl" target="_blank"
-             rel="external nofollow"
-          > {{ userData.website | host }} </a>
-        </p>
       </div>
     </div>
     <!-- <a
       href="/"
       name="logouts-nav-link"
       @click.prevent="logoutHandler">Logout</a> -->
-    <div v-if="ownProfile" class="col-10 edit-link">
-      <hr>
-      <router-link :to="'/edit-profile'">
-        <h5>Edit Profile</h5>
-      </router-link>
+    <div v-if="ownProfile" class="col-md-6 edit-link">
       <hr>
       <h5>My Topics<button class="btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
       <hr>
@@ -152,7 +156,7 @@
         },
         avatarUrl(state) {
           if (this.userData.avatarUrl !== undefined) {
-            return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
+            return `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
           } else {
             return `background: url('https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png') center center / cover no-repeat`
           }
@@ -162,9 +166,12 @@
     methods: {
       ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser']),
       logoutHandler () {
-  this.$auth.logout()
-  this.$router.replace('/')
-},
+        this.$auth.logout()
+        this.$router.replace('/')
+      },
+      profileEdit() {
+        this.$router.replace('/edit-profile')
+      },
       setResult(item) {
         const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
         if (!topic) { this.modalTopics.push(item) }
@@ -234,6 +241,39 @@
 
 <style scoped lang="stylus">
   @import './../css/variables'
+  .display-details
+    display flex
+    justify-content space-between
+  .row-name
+    display flex
+    align-items flex-start
+    max-width 400px
+    .button-submit
+      max-height 30px
+      margin-left 10px
+    .button-submit-reverse
+      background-color inherit
+      border 1px solid primary-color
+      padding 5px 10px
+      color primary-color
+  @media (max-width 450px)
+    .display-details
+      flex-direction column-reverse
+      justify-content center
+    .user-details
+      margin 15px 0
+      text-align center!important
+      .display-name
+        margin 0 auto!important
+    .crop-image
+      margin-left auto!important
+      margin auto
+    .button-submit
+      margin-left auto!important
+      margin 10px auto
+    .row-name
+      flex-direction column-reverse
+      justify-content center
   @media (max-width 750px)
     .user-topics
       overflow auto
@@ -270,32 +310,30 @@
   .wrapper
     margin-left auto
     margin-right auto
-    width 960px
-
+    padding 10px
   .user-details
-    margin-top -40px
-    margin-left auto
-    margin-right auto
-    text-align center
+    text-align left
     .display-name
-      padding-top 50px
       font-weight 600
+      margin 0
     .display-website a
       text-decoration none
       color primary-color
       &:hover
         font-weight bold
     .text-muted
+      padding-top 15px
       font-weight 400
+      max-width 400px
 
   .crop-image
-    margin-left auto
-    margin-right auto
     background-position 50%
     background-repeat no-repeat
     border-radius 50%
+    min-width 100px
     width 100px
     height 100px
+    margin-left 15px
     overflow hidden
     transition all .5s ease
     &:hover
@@ -309,6 +347,7 @@
   .edit-link
     padding 10px
     text-align left
+    margin 0 auto
     a
       color primary-color
   .autocomplete
