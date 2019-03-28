@@ -2,8 +2,8 @@
   <div class="row profile">
     <div class="col-md-12 wrapper">
       <div class="col col-sm-auto">
-        <div class="crop-image">
-          <div class="profile-img" :style='avatarUrl'></div>
+        <div class="crop-image" v-if="isLoggedIn">
+          <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
         </div>
       </div>
       <div class="user-details col-sm-6 col-md-4">
@@ -97,7 +97,7 @@
 
 <script>
   import modal from '@/components/ModalComponent.vue'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapGetters } from "vuex";
   import lodash from 'lodash'
 
   export default {
@@ -133,6 +133,7 @@
         topics:[],
         isOpen: false,
         modalTopics: [],
+        errorImg: ''
       }
     },
     mounted () {
@@ -143,6 +144,7 @@
       document.removeEventListener('click', this.handleClickOutside);
     },
     computed: {
+      ...mapGetters(["isLoggedIn"]),
       ...mapState({
         displayName () {
           return this.userData.name || this.userData.username
@@ -151,20 +153,16 @@
           return this.userData.bio || `${this.displayName} is still writing their biography`
         },
         avatarUrl(state) {
-          if (this.userData.avatarUrl !== undefined) {
-            return  `background: url('${this.userData.avatarUrl}') center center / cover no-repeat`
-          } else {
-            return `background: url('https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png') center center / cover no-repeat`
-          }
+          return state.me.avatarUrl || state.placeholderAvatar;
         }
       })
     },
     methods: {
       ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser']),
       logoutHandler () {
-  this.$auth.logout()
-  this.$router.replace('/')
-},
+        this.$auth.logout()
+        this.$router.replace('/')
+      },
       setResult(item) {
         const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
         if (!topic) { this.modalTopics.push(item) }
@@ -188,6 +186,9 @@
         if(this.searchTopic !== '') {
           this.debounceSearchRequest()
         }
+      },
+      imgOnError() {
+        this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
       },
       showModal() {
         this.checkedTopics = []

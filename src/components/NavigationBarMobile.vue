@@ -1,62 +1,53 @@
 <template>
-  <header class="header" id="header">
-    <nav class="inner">
-       <div @click="resetApp" class="site-name site-logo">
-        <img class="logo-img" src="../assets/sedaily-logo.png">
-          Software Daily
-       </div>
-      <SearchBar/>
-      <span class="pull-right">
-        <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
-        <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
-        <span class="active-without-border" v-if="isLoggedIn">
-            <div>
-              <b-dropdown variant="link" size="lg" no-caret>
-                <template slot="button-content">
-                  <div class="crop-image" v-if="isLoggedIn">
-                    <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
-                  </div>
-                </template>
-                <b-dropdown-item >
-                  <div class="arrow"></div>
-                  <router-link to="/profile">
-                    Profile
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="/settings">
-                    Settings
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item @click.prevent="logoutHandler">
-                    <a>
-                      Logout
-                    </a>
-                </b-dropdown-item>
-              </b-dropdown>
-            </div>
-        </span>
-        <span v-else class="register">
-          <router-link to="/login">Login</router-link>
-          <router-link to="/register" class="register-nav-link">Register</router-link>
-        </span>
+  <nav class="inner-mobile">
+    <div @click="resetApp" class="site-name site-logo">
+      <img class="logo-img" src="../assets/sedaily-logo.png">
+      Software Daily
+    </div>
+    <span class="pull-right">
+      <span v-on:click="onSearchActive">
+        <img class="search-img" src="../assets/icons/search.svg">
       </span>
-    </nav>
-    <NavMobile/>
-  </header>
+      <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
+      <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
+      <span class="active-without-border" v-if="isLoggedIn">
+        <div>
+          <b-dropdown variant="link" size="lg" no-caret>
+            <template slot="button-content">
+              <div class="crop-image" v-if="isLoggedIn">
+                <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
+              </div>
+            </template>
+            <b-dropdown-item>
+              <div class="arrow"></div>
+              <router-link to="/profile">Profile</router-link>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <router-link to="/settings">Settings</router-link>
+            </b-dropdown-item>
+            <b-dropdown-item @click.prevent="logoutHandler">
+                <a>Logout</a>
+            </b-dropdown-item>
+          </b-dropdown>
+        </div>
+      </span>
+      <span v-else class="register">
+        <button @click="signIn" name="submit-button" class="button-submit">SIGN IN</button>
+      </span>
+    </span>
+    <SearchBar v-if="searchActive"/>
+  </nav>
 </template>
 
 <script>
 import { Dropdown } from 'bootstrap-vue/es/components/dropdown'
 import { mapGetters, mapState } from "vuex";
 import SearchBar from "./SearchBar.vue";
-import NavMobile from "./NavigationBarMobile"
 
 export default {
-  name: "navigation-bar",
+  name: "navigation-bar-mobile",
   components: {
-    SearchBar,
-    NavMobile
+    SearchBar
   },
   props: {
     userData: {
@@ -84,7 +75,6 @@ export default {
     showFilteringElements: true,
     searchActive: false,
     errorImg: ''
-
   }),
   computed: {
     ...mapGetters(["isLoggedIn"]),
@@ -98,7 +88,7 @@ export default {
         }
       },
       avatarUrl(state) {
-          return state.me.avatarUrl || state.placeholderAvatar;
+        return state.me.avatarUrl || state.placeholderAvatar;
         }
     })
   },
@@ -134,7 +124,7 @@ export default {
     },
     imgOnError() {
         this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
-      },
+    },
   }
 };
 $(function() {
@@ -202,7 +192,7 @@ $(function() {
       border-color white
       color white
       background-color primary-color
-.dropdown-menu-activez
+.dropdown-menu-active
   .btn-secondary
     background-color white
     box-shadow 0 0 0 0.2rem rgba(108, 117, 125, 0.5)
@@ -212,7 +202,7 @@ $(function() {
       background-color primary-color
 .dropdown-menu
   display block
-  transform translate3d(-91px, 52px, 0px) !important
+  transform translate3d(0px, 15px, 0px)
   .dropdown-menu
     opacity 0
     position absolute
@@ -303,7 +293,7 @@ $(function() {
       border-bottom 1.5px solid rgba(primary-color,1.0)
       line-height 25px
     &:nth-child(2)
-      margin-right 0  
+      margin-right 0
   .dropdown-menu a
     border-bottom none
     text-transform capitalize
@@ -361,29 +351,30 @@ $(function() {
     color primary-color
   .register-nav-link
     margin-right 1em
-  .arrow
+
+.arrow
     &:before
-      content: '';
-      width: 10px;
-      height: 10px;
-      border-top: 0 solid #fff;
-      border-left: 0 solid #fff;
-      border-bottom: 0 solid #fff;
-      border-right: 0 solid #fff;
-      position: absolute;
-      right: 18%;
-      top: -5px;
-      margin-left: -6px;
-      -webkit-transform: rotate(45deg);
-      transform: rotate(45deg);
-      background-color: #fff;
-      -webkit-box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
-      box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
+        content: ''
+        width: 10px
+        height: 10px
+        border-top: 0 solid #fff
+        border-left: 0 solid #fff
+        border-bottom: 0 solid #fff
+        border-right: 0 solid #fff
+        position: absolute
+        right : 35px
+        top: -5px
+        margin-left: -6px
+        -webkit-transform: rotate(45deg)
+        transform: rotate(45deg)
+        background-color: #fff
+        -webkit-box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1)
+        box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1)
 
 .active-without-border >>> .dropdown-menu {
         transform translate3d(-91px, 52px, 0px) !important
 }
-      
+
 @media (max-width 659px)
   .inner
     display none!important

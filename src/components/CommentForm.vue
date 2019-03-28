@@ -3,7 +3,7 @@
   <div v-if="me" class="comment-container">
     <span class="active-without-border" v-if="isLoggedIn">
       <router-link class="profile-img-link" to="/profile">
-        <img class="profile-img" :src="avatarUrl">
+        <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
       </router-link>
     </span>
     <vue-tribute
@@ -114,7 +114,8 @@ export default {
         values: []
       },
       mentionedUsers: this.existingMentions,
-      commentContent: this.content
+      commentContent: this.content,
+      errorImg: ''
     };
   },
   mounted() {
@@ -173,6 +174,9 @@ export default {
       if (!containsUserAlready) {
         this.mentionedUsers.push(user);
       }
+    },
+    imgOnError() {
+      this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
     },
     tributeReplaced({ detail }) {
       const { user } = detail.item.original;
