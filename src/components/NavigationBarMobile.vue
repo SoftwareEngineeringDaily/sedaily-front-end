@@ -93,6 +93,9 @@ export default {
     })
   },
   methods: {
+    signIn() {
+      this.$router.push({ path: `/login` })
+    },
     logoutHandler() {
       this.$auth.logout()
       this.$router.replace('/')

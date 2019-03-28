@@ -93,7 +93,8 @@ export default {
       endOfPosts: false,
       transition: "slide-up",
       displayedPosts: [],
-      topicId: ""
+      topicId: "",
+      routerTopic: false
     };
   },
   watch: {
@@ -148,15 +149,16 @@ export default {
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
+          vm.routerTopic = false
           vm.fetchPosts()
         }
       });
     }
     next(vm =>
-
       vm.$store
         .dispatch("showTopic", topicSlug)
         .then(topics => {
+          vm.routerTopic = true
           vm.displayedPosts = topics.data.posts;
           vm.topicId = topics.data.topic[0]._id
         })
@@ -165,6 +167,8 @@ export default {
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
     this.$store.dispatch("showTopic", topicSlug).then(topics => {
+      this.routerTopic = false
+      this.endOfPosts = false
       this.displayedPosts = topics.data.posts;
     });
     next();
@@ -201,6 +205,12 @@ export default {
       this.resetPosts();
     },
     loadMore(newSearch = false) {
+      if(this.routerTopic === true){
+        if(this.topicId){
+          this.routerTopic = false
+          this.endOfPosts = false
+        }
+      }
       if (this.endOfPosts) {
         return;
       }
@@ -223,8 +233,7 @@ export default {
           if (newSearch) {
             this.displayedPosts = [];
           }
-
-          if (result && result.posts && result.posts.length > 0 && this.displayedPosts && this.displayedPosts.length === 0) {
+          if (result && result.posts && result.posts.length > 0 && this.routerTopic === false) {
             this.displayedPosts = this.displayedPosts.concat(result.posts);
           } else {
             this.endOfPosts = true;
