@@ -350,7 +350,7 @@ export default {
   display flex
   align-items center
   justify-content space-between
-  background-color #F6F5F5
+  background-color rgba(219, 229, 236, 0.2)
 
 .comment-section
   padding 10px 25px
@@ -363,7 +363,6 @@ export default {
   align-items center
   &:hover
     cursor pointer
-    background-color #F6F5F5
   p
     margin 0
 
@@ -377,7 +376,7 @@ export default {
 .comments-list
   width 100%
   padding: 0px 20px
-  background-color #F6F5F5
+  background-color white
 
 .profile-pic
   width 35px

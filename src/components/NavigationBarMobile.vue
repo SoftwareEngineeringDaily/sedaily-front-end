@@ -153,7 +153,7 @@ $(function() {
     } else {
       // scrolling up
       let posnow = document.body.scrollTop || document.documentElement.scrollTop;
-      if (posnow - lastpos > 50 || posnow - lastpos < 0) {
+      if (posnow - lastpos > 50) {
         if (last == "down") {
           foo = posnow - 51;
           $("#header").css({ position: "absolute", top: "0" });
@@ -244,7 +244,7 @@ $(function() {
   .register
     display flex
     align-items center
-    margin-right 15px
+    margin-right 0
   .logo-img
     max-height 40px
     margin-right 15px

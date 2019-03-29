@@ -241,6 +241,7 @@ export default {
 .buttons-comment
   display flex
 .comment-container
+  background-color rgba(219, 229, 236, 0.2)
   display flex
   align-items center
   width: 100%;
@@ -248,8 +249,10 @@ export default {
     width 35px
     height 35px
     border-radius 50px
+    margin-right 10px
 .comment-box
   margin 0 10px
+  margin-left 0
   width 100%
   padding 5px
   padding-left 10px
@@ -263,6 +266,7 @@ export default {
 .comment-box__container
   display flex
   width 100%
+  background-color rgba(219, 229, 236, 0.2)
 
     &:hover
       text-decoration none
@@ -288,6 +292,7 @@ export default {
 .comment-box {
   margin: 0 10px;
   width: 100%;
+  margin-left 0
   padding: 5px;
   padding-left: 10px;
   border-radius: 30px;

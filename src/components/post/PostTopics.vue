@@ -430,5 +430,5 @@ export default {
         flex-wrap nowrap
       .add-topics
         position absolute
-        right 15px
+        right 8px
 </style>
