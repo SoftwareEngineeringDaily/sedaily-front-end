@@ -20,6 +20,9 @@
             <input id="add-topic" class='add-bar-input' type='text' placeholder='Place for your own topic...' v-model='newTopic' debounce="900"/>
             <button type="button" class="btn-modal" @click="createNewTopic">Create Topic</button>
           </div>
+          <div class='add-bar message-error' v-if="createError === 422">
+            <p>This topic is already exist</p>
+          </div>
         </div>
         <div id="search-container" v-else>
           <div class='search-bar'>
@@ -98,6 +101,7 @@ export default {
       searchTopic: '',
       checkedTopics: [],
       topics:[],
+      createError: null,
     }
   },
   mounted () {
@@ -142,6 +146,7 @@ export default {
       } else {
         this.searchTopic = ''
         this.isAddTopic = false
+        this.createError = null
       }
     },
     showModal() {
@@ -167,10 +172,16 @@ export default {
           name: this.newTopic,
           postId: this.post._id,
         }
-        this.createTopic({ data }).then(this.getTopics)
-        this.newTopic = ''
-        this.checkedTopics = "created"
-        this.addTopic()
+        const aaa = null
+        this.createTopic({ data }).catch((error) => {
+          this.createError = error.response.status
+        }).then(this.getTopics).then(() => {
+          if(this.createError !== 422) {
+            this.newTopic = ''
+            this.checkedTopics = "created"
+            this.addTopic()
+          }
+        })
       }
     },
     getTopics() {
@@ -287,6 +298,8 @@ export default {
         color #c4c4c4
         font-size 18px
         margin-left 5px
+  .message-error
+    margin 15px 0
   .add-bar
     justify-content center
     flex 1
