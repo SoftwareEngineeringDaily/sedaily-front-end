@@ -241,8 +241,7 @@ export default {
 <style lang="stylus">
   .fileInput
     padding 3px !important
-  .button-submit
-    margin 25px 0
+    display ruby-text-container
   .edit-profile-img
     display: inline;
     height: 100%;

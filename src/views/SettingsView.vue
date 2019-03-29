@@ -2,7 +2,7 @@
   <div class='container settings-view'>
     <div class='center-settings'>
     <div class='row'>
-    <h3 class=''> Turn off your notifications: </h3>
+    <h3 class=''>Notifications settings: </h3>
     </div>
 
     <br />

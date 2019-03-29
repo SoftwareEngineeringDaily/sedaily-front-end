@@ -70,11 +70,13 @@ export default {
         mentions,
         content
       })
-        .then((response) => {
+        .then(response => {
+          const commentId = response.data.rootEntity
           this.isSubmitting = false
           this.commentContent = ''
+          console.log(commentId)
           this.commentsFetch({
-            entityId: this.entityId
+            entityId: commentId
           })
           this.doneCallback()
         })
