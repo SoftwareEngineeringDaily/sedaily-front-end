@@ -37,7 +37,7 @@
             </div>
         </span>
         <span v-else class="register">
-          <button @click="signIn" name="submit-button" class="button-submit">SIGN IN</button>
+          <button @click="signIn" name="submit-button" class="button-submit btn-sign-in">SIGN IN</button>
         </span>
       </span>
     </nav>
@@ -187,6 +187,11 @@ $(function() {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.btn-sign-in
+  font-size 14px
+  font-weight 400
+  line-height 16px
+  letter-spacing 1.05px
 .site-logo
   margin-right 0.75em
   cursor pointer
@@ -310,7 +315,7 @@ $(function() {
       border-bottom 1.5px solid rgba(primary-color,1.0)
       line-height 25px
     &:nth-child(2)
-      margin-right 0  
+      margin-right 0
   .dropdown-menu a
     border-bottom none
     text-transform capitalize
@@ -391,7 +396,7 @@ $(function() {
 .active-without-border >>> .dropdown-menu {
         transform translate3d(-91px, 52px, 0px) !important
 }
-      
+
 @media (max-width 659px)
   .inner
     display none!important
