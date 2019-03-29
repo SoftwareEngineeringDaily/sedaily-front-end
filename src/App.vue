@@ -101,6 +101,13 @@ export default {
   margin-top 4rem
   padding-top 15px
 
+.login-view,.register-view,.settings-view,.forgot-password-view
+  margin 45px!important
+  h1
+    padding-bottom 15px
+@media (max-width 500px)
+  .login-view,.register-view,.settings-view,.forgot-password-view
+    margin 45px 0!important
 .call-to-action
   background accent-color
   color white
@@ -161,7 +168,7 @@ body
     padding-bottom 120px
 
 a
-  color #34495e
+  color primary-color
   text-decoration none
 
 .player-holder

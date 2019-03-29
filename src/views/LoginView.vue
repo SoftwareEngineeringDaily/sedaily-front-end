@@ -33,13 +33,13 @@
           class="alert alert-danger">
           {{ errors.first('password') }}</div>
         </div>
-        <div class="login-buttons col-md-12">
-          <span>Don't already have an account? <router-link to="/register" name="register">Register</router-link></span>
-          <router-link to="/forgot-password" name="forgot-password">Forgotten your Password?</router-link>
-        </div>
         <div class="form-group">
           <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
           <spinner :show="loading"></spinner>
+        </div>
+        <div class="login-buttons col-md-12">
+          <span>Don't have an account? <router-link to="/register" name="register">Sign Up</router-link></span>
+          <router-link to="/forgot-password" name="forgot-password">Forgotten your Password?</router-link>
         </div>
       </form>
     <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
@@ -111,9 +111,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 .container
-  margin 45px
   .login-buttons
     padding 15px 0
     display flex
@@ -123,7 +122,6 @@ export default {
       min-width 100px
 @media (max-width 500px)
   .container
-    margin 45px 0
     .container-input
       text-align center
     .login-buttons

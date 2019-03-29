@@ -230,7 +230,6 @@ export default {
     -ms-transform rotate(45deg)
     transform rotate(45deg)
   .container
-    margin 45px
     .login-buttons
       padding 15px 0
       flex-direction row
@@ -241,7 +240,6 @@ export default {
         min-width 100px
   @media (max-width 500px)
     .container
-      margin 45px 0
       .container-input
         text-align center
       .login-buttons

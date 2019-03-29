@@ -3,9 +3,6 @@
     <div v-if="loading" class="spinner-holder">
       <spinner :show="loading" />
     </div>
-    <div v-else-if="emptyComments" class='no-comments'>
-      There are no comments.
-    </div>
     <div v-else v-for="comment in comments" :key="comment._id">
       <div class='row' :id='comment._id'>
         <div class='col-md-12' >

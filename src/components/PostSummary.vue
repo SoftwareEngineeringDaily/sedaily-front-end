@@ -121,7 +121,6 @@ export default {
       if (typeof this.post.thread === 'object' && this.post.thread !== null) {
         return this.post.thread._id
       } else  {
-        console.log('thread')
         return this.post.thread
       }
     },
@@ -219,13 +218,17 @@ export default {
 
       this.isLoadingComments = true
       // Fetch comments
-      this.commentsFetch({
-        entityId: this.post.thread._id || this.post.thread
-      }).then(() => {
+      if(this.post.thread) {
+        this.commentsFetch({
+          entityId: this.post.thread._id || this.post.thread
+        }).then(() => {
+          this.isLoadingComments = false
+        }).catch(() => {
+          this.isLoadingComments = false
+        })
+      } else {
         this.isLoadingComments = false
-      }).catch(() => {
-        this.isLoadingComments = false
-      })
+      }
   },
   methods: {
     ...mapMutations(['commentsToggle']),
