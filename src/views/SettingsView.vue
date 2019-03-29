@@ -1,13 +1,13 @@
 <template>
-  <div class='container'>
+  <div class='container settings-view'>
     <div class='row'>
-    <h3 class='col-md-12'> Turn off your notifications: </h3>
+    <h3 class=''> Turn off your notifications: </h3>
     </div>
 
     <br />
     <div class='row'>
 
-      <label class="col-md-8 form-check-label">
+      <label class="container">
         <input
         class="form-check-input"
         type="checkbox"
@@ -15,11 +15,12 @@
         v-model="subscribedFromThreads"
         >
         Get emails when people reply to my threads
+        <span class="checkmark"></span>
       </label>
     </div>
     <br />
     <div class='row'>
-      <label class="col-md-8 form-check-label">
+      <label class="container">
         <input
         class="form-check-input"
         type="checkbox"
@@ -27,12 +28,13 @@
         v-model="subscribedFromCommentReplies"
         >
         Get emails when people reply to my comments
+        <span class="checkmark"></span>
       </label>
     </div>
 
     <br />
     <div class='row'>
-      <label class="col-md-8 form-check-label">
+      <label class="container">
         <input
         class="form-check-input"
         type="checkbox"
@@ -40,12 +42,13 @@
         v-model="subscribedFromMentions"
         >
         Get emails when people mention you in comments
+        <span class="checkmark"></span>
       </label>
     </div>
 
     <br />
     <div class='row'>
-      <button @click='save' class='btn btn-success'> Save </button>
+      <button @click='save' class='button-submit'> Save </button>
     </div>
     <div class='row'>
       {{msg}}
@@ -116,3 +119,40 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+@import './../css/variables'
+.container
+    input
+      position absolute
+      opacity 0
+      cursor pointer
+      height 0
+      width 0
+    .checkmark
+      position absolute
+      left 0
+      height 20px
+      width 20px
+      background-color #eee
+  .container:hover input ~ .checkmark
+    background-color #ccc
+  .container input:checked ~ .checkmark
+    background-color primary-color
+  .checkmark:after
+    content ""
+    position absolute
+    display none
+  .container input:checked ~ .checkmark:after
+    display block
+  .container .checkmark:after
+    left 7px
+    top 3px
+    width 6px
+    height 12px
+    border 2px solid white
+    border-width 0 3px 3px 0
+    -webkit-transform rotate(45deg)
+    -ms-transform rotate(45deg)
+    transform rotate(45deg)
+</style>

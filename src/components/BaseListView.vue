@@ -224,7 +224,7 @@ export default {
             this.displayedPosts = [];
           }
 
-          if (result && result.posts && result.posts.length > 0 && this.displayedPosts && this.displayedPosts.length === 0) {
+          if (result && result.posts && result.posts.length > 0) {
             this.displayedPosts = this.displayedPosts.concat(result.posts);
           } else {
             this.endOfPosts = true;
