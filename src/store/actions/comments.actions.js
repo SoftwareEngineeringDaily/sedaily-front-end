@@ -6,7 +6,6 @@ const BASE_URL = apiConfig.BASE_URL
 export default {
   commentsCreate ({ commit, getters }, { content, entityId, rootEntityType, parentCommentId, mentions }) {
     const options = { content, entityType: rootEntityType, mentions }
-    console.log('comment options', options)
     if (parentCommentId) options.parentCommentId = parentCommentId
 
     const url = `${BASE_URL}/comments/forEntity/${entityId}`
@@ -43,7 +42,6 @@ export default {
   },
 
   removeComment: ({ commit, getters, state }, { id }) => {
-    console.log('ID', id)
     if (!getters.isLoggedIn) {
       Vue.toasted.error('Login to delete your comment')
       return
