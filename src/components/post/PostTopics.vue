@@ -277,7 +277,6 @@ export default {
         margin-right 5px
         padding 5px
         border-radius 5px
-        border 1px solid #c4c4c4
         cursor pointer
     .add-topics
       .add-topics-btn
