@@ -93,7 +93,7 @@ export default {
 <style lang="stylus">
 @import './css/variables'
 #app
-  background-color #f6f7fa
+  background-color rgba(219, 229, 236, 0.2)
   min-height calc(100vh - 72px)
 
 .main-app

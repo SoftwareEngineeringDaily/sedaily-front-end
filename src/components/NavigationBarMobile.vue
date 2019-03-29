@@ -173,6 +173,8 @@ $(function() {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.active-without-border >>> .btn
+  padding 0px!important
 .btn-sign-in
   font-size 14px
   font-weight 400
