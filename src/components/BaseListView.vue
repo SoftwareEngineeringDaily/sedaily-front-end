@@ -93,7 +93,8 @@ export default {
       endOfPosts: false,
       transition: "slide-up",
       displayedPosts: [],
-      topicId: ""
+      topicId: "",
+      routerTopic: false
     };
   },
   watch: {
@@ -146,17 +147,28 @@ export default {
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
     if (topicSlug === undefined) {
-      return next(vm => vm.fetchPosts());
+      return next(vm => {
+        if(vm.$store.state.searchTerm === null) {
+          vm.routerTopic = false
+          vm.fetchPosts()
+        }
+      });
     }
     next(vm =>
       vm.$store
         .dispatch("showTopic", topicSlug)
-        .then(topics => {vm.displayedPosts = topics.data.posts; vm.topicId = topics.data.topic[0]._id})
+        .then(topics => {
+          vm.routerTopic = true
+          vm.displayedPosts = topics.data.posts;
+          vm.topicId = topics.data.topic[0]._id
+        })
     );
   },
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
     this.$store.dispatch("showTopic", topicSlug).then(topics => {
+      this.routerTopic = false
+      this.endOfPosts = false
       this.displayedPosts = topics.data.posts;
     });
     next();
@@ -171,11 +183,16 @@ export default {
       this.resetPosts();
     },
     topicHandler(topic) {
+      this.displayedPosts = [];
+      this.loading = true;
       let topicId = topic._id,
         topicSlug = topic.slug;
       this.topicId = topicId;
       this.showTopic(topicSlug).then(
-        topics => (this.displayedPosts = topics.data.posts)
+        topics => {
+          this.loading = false;
+          this.displayedPosts = topics.data.posts
+          }
       );
       this.$router.push({ path: `/topics/${topicSlug}` });
     },
@@ -188,6 +205,12 @@ export default {
       this.resetPosts();
     },
     loadMore(newSearch = false) {
+      if(this.routerTopic === true){
+        if(this.topicId){
+          this.routerTopic = false
+          this.endOfPosts = false
+        }
+      }
       if (this.endOfPosts) {
         return;
       }
@@ -210,8 +233,7 @@ export default {
           if (newSearch) {
             this.displayedPosts = [];
           }
-
-          if (result && result.posts && result.posts.length > 0) {
+          if (result && result.posts && result.posts.length > 0 && this.routerTopic === false) {
             this.displayedPosts = this.displayedPosts.concat(result.posts);
           } else {
             this.endOfPosts = true;
@@ -358,8 +380,7 @@ export default {
     padding: 0;
 
     li {
-      padding: 5px;
-      margin: 4px;
+      margin: 10px 0;
       color: #808080;
       cursor: pointer;
 
@@ -369,9 +390,19 @@ export default {
     }
   }
 }
+@media (max-width: 750px) {
+  .topics-container {
+    ul {
+      li {
+        margin-right: 10px;
+      }
+    }
+  }
+}
 
 .topic-active {
-  color: primary-color !important;
+  color: #856aff !important;
+  font-weight: 600;
 }
 
 .categories-container {
@@ -415,12 +446,6 @@ export default {
   transform: translate(30px, 0);
 }
 
-@media (max-width: 600px) {
-  .news-list {
-    margin: 10px 0;
-  }
-}
-
 /* Filters */
 .filters {
   position: relative;
@@ -461,9 +486,8 @@ export default {
 }
 
 .spinner-holder {
-  width: 100%;
+  width: 85%;
   text-align: center;
-  margin: 10px;
 }
 
 .auto-complete {
@@ -485,12 +509,6 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
-  .news-list {
-    margin: 10px 0;
-  }
-}
-
 @media (max-width: 750px) {
   .news-view {
       flex-direction: column;
@@ -504,12 +522,14 @@ export default {
   }
 
   .news-post {
-    width: 100% !important ;
+    width: 100% !important
+    margin 15px auto !important
   }
 
   .topics-container ul {
     display: flex;
-    flex-wrap: wrap;
+    overflow: auto;
+    white-space: nowrap;
   }
 
   .app-download {

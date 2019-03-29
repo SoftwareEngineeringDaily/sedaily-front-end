@@ -9,7 +9,8 @@
     <modal
       id="topic-modal"
       v-show="isModalVisible"
-      @close="closeModal">
+      @close="closeModal"
+      showCloseBtn="true">
       <!-- header-->
       <h2 slot="header">{{ post.title.rendered }}</h2>
       <!-- body-->
@@ -18,6 +19,9 @@
           <div class='add-bar'>
             <input id="add-topic" class='add-bar-input' type='text' placeholder='Place for your own topic...' v-model='newTopic' debounce="900"/>
             <button type="button" class="btn-modal" @click="createNewTopic">Create Topic</button>
+          </div>
+          <div class='add-bar message-error' v-if="createError === 422">
+            <p>This topic is already exist</p>
           </div>
         </div>
         <div id="search-container" v-else>
@@ -48,7 +52,7 @@
             </ul>
           </div>
           <br>
-          <ul v-if="this.$store.state.topics.post" class="popular-topics" >
+          <ul v-if="modalTopics.length > 0" class="popular-topics" >
             <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
               <label class="container" :for="item.id">
                 {{ item.name }}
@@ -63,7 +67,7 @@
       <span slot="footer">
         <button v-if="isAddTopic" type="button" class="btn-modal-secondary" @click="addTopic">Back</button>
         <button v-else type="button" class="btn-modal-secondary" @click="addTopic">Add Topic</button>
-        <button v-if="checkedTopics.length > 0" type="button" class="btn-submit" @click="selectTopicsToPost">Submit</button>
+        <button v-if="checkedTopics.length > 0" type="button" class="button-submit" @click="selectTopicsToPost">Submit</button>
         <button v-else type="button" class="btn-submit-disactive">Submit</button>
       </span>
     </modal>
@@ -97,6 +101,7 @@ export default {
       searchTopic: '',
       checkedTopics: [],
       topics:[],
+      createError: null,
     }
   },
   mounted () {
@@ -110,14 +115,14 @@ export default {
     ...mapGetters(['isLoggedIn']),
   },
   methods: {
-    ...mapActions(['getPostTopics','createTopic','getSearchedTopics','addTopicsToPost']),
+    ...mapActions(['showTopic','getPostTopics','createTopic','getSearchedTopics','addTopicsToPost']),
     handleClickOutside(evt) {
       if (this.$el.contains(evt.target)) {
         this.isOpen = false;
       }
     },
     goTo(slug){
-      this.$router.push(`/topics/${slug}`)
+      this.$router.push({ path: `/topics/${slug}` });
     },
     setResult(item) {
       const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
@@ -141,6 +146,7 @@ export default {
       } else {
         this.searchTopic = ''
         this.isAddTopic = false
+        this.createError = null
       }
     },
     showModal() {
@@ -166,10 +172,16 @@ export default {
           name: this.newTopic,
           postId: this.post._id,
         }
-        this.createTopic({ data }).then(this.getTopics)
-        this.newTopic = ''
-        this.checkedTopics = "created"
-        this.addTopic()
+        const aaa = null
+        this.createTopic({ data }).catch((error) => {
+          this.createError = error.response.status
+        }).then(this.getTopics).then(() => {
+          if(this.createError !== 422) {
+            this.newTopic = ''
+            this.checkedTopics = "created"
+            this.addTopic()
+          }
+        })
       }
     },
     getTopics() {
@@ -224,21 +236,18 @@ export default {
       color primary-color
   body.modal-open
     overflow hidden
-  .btn-submit
-    background-color primary-color
-    color white
-    margin-right 5px
-    padding 5px
-    border-radius 5px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
   .btn-submit-disactive
+    padding 7px
+    font-size 12px
+    white-space nowrap
+    color #fff
+    min-width 70px
+    border none
+    border-radius 30px
+    text-align center
+    -webkit-transition all 0.15s ease
+    transition all 0.15s ease
     background-color #c4c4c4
-    color white
-    margin-right 5px
-    padding 5px
-    border-radius 5px
     border 1px solid #c4c4c4
     cursor pointer
     outline none
@@ -279,7 +288,6 @@ export default {
         margin-right 5px
         padding 5px
         border-radius 5px
-        border 1px solid #c4c4c4
         cursor pointer
     .add-topics
       .add-topics-btn
@@ -290,6 +298,8 @@ export default {
         color #c4c4c4
         font-size 18px
         margin-left 5px
+  .message-error
+    margin 15px 0
   .add-bar
     justify-content center
     flex 1
@@ -411,4 +421,14 @@ export default {
     background #d0c6ff
   .popular-topics::-webkit-scrollbar-thumb:hover
     background #555
+  @media (max-width 960px)
+    .post-topics-header
+      overflow auto
+      margin-right 35px
+      white-space nowrap
+      .post-topics
+        flex-wrap nowrap
+      .add-topics
+        position absolute
+        right 8px
 </style>

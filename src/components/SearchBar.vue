@@ -1,6 +1,6 @@
 <template>
   <div class='search-bar' v-if="showFilteringElements">
-    <input id="search" class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+    <input id="search" v-on:keyup.enter='onEnter' class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
   </div>
   <div v-else>
     <br />
@@ -11,19 +11,19 @@
 <script>
 export default {
   name: 'search-bar',
-  data () {
+  data() {
     return {
       searchTerm: null,
       showFilteringElements: true,
     }
   },
   watch: {
-    searchTerm () {
+    searchTerm() {
       this.makeSearch()
     }
   },
   methods: {
-    makeSearch () {
+    makeSearch() {
       if (this.searchTerm === ' ') {
         this.searchTerm = null
         this.$store.commit('setSearchTerm', { searchTerm: this.searchTerm })
@@ -31,6 +31,10 @@ export default {
         this.$store.commit('setSearchTerm', { searchTerm: this.searchTerm })
       }
     },
+    onEnter() {
+      this.makeSearch()
+      this.$router.push({ path: `/` })
+    }
   }
 }
 </script>

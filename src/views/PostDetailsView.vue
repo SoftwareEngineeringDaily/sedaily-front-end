@@ -1,5 +1,6 @@
 <template>
-  <div class="row">
+
+  <div class="row top-space">
     <div
     v-if="post"
     class="post-view col-md-9">
@@ -52,7 +53,7 @@
       </div>
 
       <hr>
-      <div class="row">
+      <div class="row comments">
         <div class="col-md-8">
           <h3 class="section-title"> Comments </h3>
           <comments-list :comments="comments" />
@@ -95,7 +96,8 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
+// import Spinner from '@/components/Spinner.vue'
+import { Spinner } from 'bootstrap-vue/es/components/spinner'
 import CommentsList from '@/components/CommentsList.vue'
 import CommentCompose from '@/components/CommentCompose.vue'
 import RelatedLinkList from '@/components/RelatedLinkList.vue'
@@ -320,19 +322,28 @@ export default {
 </script>
 
 <style lang="stylus">
-@import './../css/variables'
-
+.top-space
+  padding-top 25px
+.post-content p .size-full
+  max-width 175px!important
+  max-height 175px!important
+.post-content a .size-full
+  max-width 90vw!important
+  max-height none!important
 .post-content
   img, figure
-    width: 100%
+    width 100%
     max-width  90vw
+    height auto
+  .comments
+    margin 0 5px
 
 .post-transcript
+  h2,h3,h4,table
+    margin 30px 20px
   p
     text-align justify
     font-size 14px
-    line-height 24px
-    letter-spacing .5px
     margin 30px 20px
   .size-large
     width 100%
@@ -342,6 +353,7 @@ export default {
       display none
 .voting-arrows-container
   width 10%
+  margin 0 20px
   align-self flex-end
 .post-view
   background-color white
@@ -395,5 +407,8 @@ export default {
   .post-view-header
     h1
       font-size 1.25em
-
+.view-top
+  padding 1.5rem 2rem
+.post-view
+  padding-bottom 5px
 </style>

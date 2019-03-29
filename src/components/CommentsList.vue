@@ -3,9 +3,6 @@
     <div v-if="loading" class="spinner-holder">
       <spinner :show="loading" />
     </div>
-    <div v-else-if="emptyComments" class='no-comments'>
-      There are no comments.
-    </div>
     <div v-else v-for="comment in comments" :key="comment._id">
       <div class='row' :id='comment._id'>
         <div class='col-md-12' >
@@ -20,7 +17,6 @@
             <comment-view
               :rootEntityType='rootEntityType'
               :comment='replyComment' />
-            <br />
           </div>
         </div>
       <br />
@@ -70,10 +66,13 @@ export default {
 
 <style scoped lang="stylus">
 .replies
-  margin-top 45px
-  margin-left 45px
+  // margin-top 45px
+  padding-left 25px
 .no-comments
   padding-top 20px
   color #ccc
+
+.spinner-holder
+  width 100%
 
 </style>

@@ -1,103 +1,107 @@
 <template>
-    <div class="row profile justify-content-left">
-      <h6 v-if="ownProfile" class="col-12 edit-link">
-        <router-link :to="'/edit-profile'">
-          Edit Profile
-        </router-link>
-        |
-         <router-link class="link" :to="{ name: 'NotificationSettings', params: {}}">
-           Edit Notification Settings
-         </router-link>
-         |
-         <button class="btn-link" @click="showModal">Edit Topics</button>
-         <modal
-           id="topic-modal"
-           v-show="isModalVisible"
-           @close="closeModal"
-           showCloseBtn="true">
-           <!-- header-->
-           <h2 slot="header">Edit Topics</h2>
-           <!-- body-->
-           <div slot="body">
-             <div id="search-container">
-               <div class='search-bar'>
-                 <input
-                   id="search"
-                   class='search-bar-input'
-                   type='text'
-                   @input="onChange"
-                   placeholder='Search...'
-                   v-model='searchTopic'
-                   debounce="900"
-                   autocomplete="off"
-                 />
-               </div>
-               <div v-show="isOpen" class="autocomplete">
-                 <ul class="popular-topics absolute">
-                   <li class="popular-topic" v-for="(item, i) in filterItems(topics)" :key="i">
-                     <label class="search-label" @click="setResult(item)" :for="item.id">
-                       {{ item.name }}
-                     </label>
-                   </li>
-                   <li v-show="this.$store.state.topics.searchedAllTopics === null">
-                     <label>
-                       No scores for this request..
-                     </label>
-                   </li>
-                 </ul>
-               </div>
-               <br>
-               <ul class="popular-topics" >
-                 <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
-                   <label class="container" :for="item.id">
-                     {{ item.name }}
-                     <input type="checkbox" :id="item.id" :value="item._id" v-model="checkedTopics">
-                     <span class="checkmark"></span>
-                   </label>
-                 </li>
-               </ul>
-               <!-- <span v-else class='no-topic'>Ups! There is no topics added yet..</span> -->
-             </div>
-           </div>
-           <!-- footer-->
-           <span slot="footer">
-            <button v-if="checkedTopics.length > 2" type="button" class="btn-submit" @click="selectTopicsToUser">Submit</button>
-            <button v-else type="button" class="btn-submit-disactive">Submit</button>
-           </span>
-         </modal>
-         |
-         <a
-           href="/"
-           name="logouts-nav-link"
-           @click.prevent="logoutHandler">Logout</a>
-      </h6>
-      <div class="wrapper">
-        <div class="col col-sm-auto">
-          <div class="crop-image">
-            <img class="profile-img" :src="avatarUrl" />
+  <div class="profile">
+    <div class="col-md-6 wrapper">
+      <div class="display-details">
+        <div class="user-details">
+          <div class="row-name">
+            <h3 class="display-name">
+              {{displayName}}
+            </h3>
+            <button
+            v-if="ownProfile"
+            class='button-submit button-submit-reverse'
+            @click='profileEdit'>
+              Edit Profile
+            </button>
           </div>
-        </div>
-        <div class="user-details col-sm-6 col-md-4">
-          <h4 class="display-name">
-            {{displayName}}
-          </h4>
-          <p class="display-bio">
-            <small class="text-muted">{{displayBio}}</small>
+          <p class="display-bio text-muted">
+            {{displayBio}}
           </p>
           <p class="display-website" v-if="userData.website">
             <a :href="userData.website | externalUrl" target="_blank"
-               rel="external nofollow"
+            rel="external nofollow"
             > {{ userData.website | host }} </a>
           </p>
-        <hr/>
+        </div>
+        <div class="crop-image" v-if="isLoggedIn">
+          <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
         </div>
       </div>
+    </div>
+    <!-- <a
+      href="/"
+      name="logouts-nav-link"
+      @click.prevent="logoutHandler">Logout</a> -->
+    <div v-if="ownProfile" class="col-md-6 edit-link">
+      <hr>
+      <h5>My Topics<button class="btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
+      <hr>
+      <modal
+        id="topic-modal"
+        v-show="isModalVisible"
+        @close="closeModal"
+        showCloseBtn="true">
+        <!-- header-->
+        <h2 slot="header">Edit Topics</h2>
+        <!-- body-->
+        <div slot="body">
+          <div id="search-container">
+            <div class='search-bar'>
+              <input
+                id="search"
+                class='search-bar-input'
+                type='text'
+                @input="onChange"
+                placeholder='Search...'
+                v-model='searchTopic'
+                debounce="900"
+                autocomplete="off"
+              />
+            </div>
+            <div v-show="isOpen" class="autocomplete">
+              <ul class="popular-topics absolute">
+                <li class="popular-topic" v-for="(item, i) in filterItems(topics)" :key="i">
+                  <label class="search-label" @click="setResult(item)" :for="item.id">
+                    {{ item.name }}
+                  </label>
+                </li>
+                <li v-show="this.$store.state.topics.searchedAllTopics === null">
+                  <label>
+                    No scores for this request..
+                  </label>
+                </li>
+              </ul>
+            </div>
+            <br>
+            <ul v-if="modalTopics.length > 0" class="popular-topics" >
+              <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
+                <label class="container" :for="item.id">
+                  {{ item.name }}
+                  <input type="checkbox" :id="item.id" :value="item._id" v-model="checkedTopics">
+                  <span class="checkmark"></span>
+                </label>
+              </li>
+            </ul>
+            <!-- <span v-else class='no-topic'>Ups! There is no topics added yet..</span> -->
+          </div>
+        </div>
+        <!-- footer-->
+        <span slot="footer">
+          <button type="button" class="button-submit" @click="selectTopicsToUser">Submit</button>
+        </span>
+      </modal>
+      <div class="user-topics-header">
+        <div class="user-topics">
+          <div class="topics" v-for="item in userTopics" :key="item.id" @click="goTo(item.slug)">{{ item.name }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import modal from '@/components/ModalComponent.vue'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapGetters } from "vuex";
   import lodash from 'lodash'
 
   export default {
@@ -133,6 +137,7 @@
         topics:[],
         isOpen: false,
         modalTopics: [],
+        errorImg: ''
       }
     },
     mounted () {
@@ -143,6 +148,7 @@
       document.removeEventListener('click', this.handleClickOutside);
     },
     computed: {
+      ...mapGetters(["isLoggedIn"]),
       ...mapState({
         displayName () {
           return this.userData.name || this.userData.username
@@ -150,8 +156,8 @@
         displayBio () {
           return this.userData.bio || `${this.displayName} is still writing their biography`
         },
-        avatarUrl (state) {
-          return this.userData.avatarUrl || state.placeholderAvatar
+        avatarUrl(state) {
+          return state.me.avatarUrl || state.placeholderAvatar;
         }
       })
     },
@@ -165,6 +171,9 @@
         const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
         if (!topic) { this.modalTopics.push(item) }
       },
+      profileEdit() {
+        this.$router.replace('/edit-profile')
+      },
       debounceSearchRequest: _.debounce(function () {
         this.getSearchedTopics(this.searchTopic)
       }, 500),
@@ -172,6 +181,9 @@
         if (this.$el.contains(evt.target)) {
           this.isOpen = false;
         }
+      },
+      goTo(slug){
+        this.$router.push(`/topics/${slug}`)
       },
       onChange() {
         this.isOpen = true;
@@ -181,6 +193,9 @@
         if(this.searchTopic !== '') {
           this.debounceSearchRequest()
         }
+      },
+      imgOnError() {
+        this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
       },
       showModal() {
         this.checkedTopics = []
@@ -227,60 +242,112 @@
 
 <style scoped lang="stylus">
   @import './../css/variables'
+  .display-details
+    display flex
+    justify-content space-between
+  .row-name
+    display flex
+    align-items flex-start
+    max-width 400px
+    .button-submit
+      max-height 30px
+      margin-left 10px
+    .button-submit-reverse
+      background-color inherit
+      border 1px solid primary-color
+      padding 5px 10px
+      color primary-color
+  @media (max-width 450px)
+    .display-details
+      flex-direction column-reverse
+      justify-content center
+    .user-details
+      margin 15px 0
+      text-align center!important
+      .display-name
+        margin 0 auto!important
+    .crop-image
+      margin-left auto!important
+      margin auto
+    .button-submit
+      margin-left auto!important
+      margin 10px auto
+    .row-name
+      flex-direction column-reverse
+      justify-content center
+  @media (max-width 750px)
+    .user-topics
+      overflow auto
+      white-space nowrap
+      flex-wrap nowrap!important
+  .user-topics-header
+    margin 20px 0
+    display flex
+    align-items center
+    .user-topics
+      display flex
+      align-items center
+      max-width 100%
+      flex-wrap wrap
+      .topics
+        background-color primary-color
+        color white
+        margin 2px 0
+        margin-right 5px
+        padding 5px
+        border-radius 5px
+        cursor pointer
   .btn-link
-    color accent-color
+    color #ccc
     background none
     border none
     outline none
     cursor pointer
     font-weight 500
+    padding-left 15px
   .profile
     padding-top 2rem
+    justify-content center
   .wrapper
     margin-left auto
     margin-right auto
-    width 960px
-
+    padding 10px
   .user-details
-    margin-top -40px
-    margin-left auto
-    margin-right auto
-    text-align center
+    text-align left
     .display-name
-      padding-top 50px
+      font-weight 600
+      margin 0
     .display-website a
       text-decoration none
       color primary-color
       &:hover
         font-weight bold
-    .display-bio .text-muted
-      font-weight bold
-
+    .text-muted
+      padding-top 15px
+      font-weight 400
+      max-width 400px
   .crop-image
-    margin-left auto
-    margin-right auto
     background-position 50%
     background-repeat no-repeat
     border-radius 50%
+    min-width 100px
     width 100px
     height 100px
+    margin-left 15px
     overflow hidden
     transition all .5s ease
     &:hover
       width 120px
       height 120px
-
   .profile-img
-    display inline
-    margin-left 0 auto
     height 100%
     width auto
-
   .edit-link
     padding 10px
-    text-align center
+    text-align left
+    margin 0 auto
     a
-      color accent-color
+      color primary-color
   .autocomplete
     max-width 500px
     margin auto
@@ -296,24 +363,6 @@
       color primary-color
   body.modal-open
     overflow hidden
-  .btn-submit
-    background-color primary-color
-    color white
-    margin-right 5px
-    padding 5px
-    border-radius 5px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
-  .btn-submit-disactive
-    background-color #c4c4c4
-    color white
-    margin-right 5px
-    padding 5px
-    border-radius 5px
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
   .btn-modal
     background-color primary-color
     color white
