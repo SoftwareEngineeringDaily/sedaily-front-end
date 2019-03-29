@@ -32,7 +32,7 @@
         </div>
       </span>
       <span v-else class="register">
-        <button @click="signIn" name="submit-button" class="button-submit">SIGN IN</button>
+        <button @click="signIn" name="submit-button" class="button-submit btn-sign-in">SIGN IN</button>
       </span>
     </span>
     <SearchBar v-if="searchActive"/>
@@ -173,6 +173,11 @@ $(function() {
 
 <style scoped lang="stylus">
 @import './../css/variables'
+.btn-sign-in
+  font-size 14px
+  font-weight 400
+  line-height 16px
+  letter-spacing 1.05px
 .site-logo
   margin-right 0.75em
   cursor pointer

@@ -93,7 +93,7 @@
           </div>
           <div>
             Already have an account?
-            <router-link to="/login" name="login-link"> Login</router-link>
+            <router-link to="/login" name="login-link">Sign In</router-link>
           </div>
         </div>
       </form>
@@ -102,7 +102,7 @@
     <br />
     <div v-if="isLoggedIn" class="row">
       <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a href="/" @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
   </div>

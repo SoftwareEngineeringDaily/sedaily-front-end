@@ -13,7 +13,7 @@
           </template>
         </div>
       <div class="post-info">
-        <div class="profile-pic" alt="" v-if='!post.guestImage'></div>
+        <div  v-if='!post.guestImage'><img class="profile-pic" src="../assets/sedaily-logo.png"/></div>
         <div class="profile-pic" alt="" v-else :style='guestImage'></div>
         <p class="time">{{ date }}</p>
       </div>
@@ -125,7 +125,7 @@ export default {
       }
     },
 
-     guestImage () {
+    guestImage () {
       return `background: url('${this.post.guestImage}') center center / cover no-repeat`
     },
 

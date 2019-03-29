@@ -412,7 +412,11 @@ export default {
   @media (max-width 960px)
     .post-topics-header
       overflow auto
+      margin-right 35px
       white-space nowrap
       .post-topics
         flex-wrap nowrap
+      .add-topics
+        position absolute
+        right 15px
 </style>

@@ -32,7 +32,7 @@
           <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
           <spinner :show="loading"></spinner>
         </div>
-        <router-link to="/login">Back to login</router-link>
+        <router-link to="/login">Back to sign in</router-link>
       </div>
     </form>
 
