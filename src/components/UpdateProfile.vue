@@ -1,19 +1,23 @@
 <template>
-  <div class="update-profile-view container">
+  <div>
     <div class='row'>
-      <div class='col-md-10 offset-md-1' v-on:submit.prevent='submit'>
-
-        <div v-if="showExisintAvatarUrl">
-          <img :src="avatarUrl" />
+      <form class='col-md-6 offset-md-3' v-on:submit.prevent='submit'>
+        <div class="row">
+        </div>
+        <h1>Edit Profile</h1>
+        <div class="crop-edit-image" v-if="showExisintAvatarUrl">
+          <img class="edit-profile-img" :src="avatarUrl" />
         </div>
 
         <div class="form-group">
           <div v-if="!image">
-            <h2>Select an image</h2>
-            <input type="file" @change="onFileChange">
+            <label for="file">Select an image</label>
+            <input class="form-control fileInput" type="file" @change="onFileChange">
           </div>
           <div v-else>
-            <img :src="image" />
+            <div class="crop-edit-image">
+              <img class="edit-profile-img" :src="image" />
+            </div>
             <button @click="removeImage">Remove image</button>
           </div>
         </div>
@@ -86,10 +90,9 @@
           Update
         </button>
         {{msg}}
-      </div>
+        <spinner :show="loading"></spinner>
+      </form>
     </div>
-
-    <spinner :show="loading"></spinner>
   </div>
 </template>
 
@@ -219,6 +222,8 @@ export default {
               // TODO: have it be a componenet that is passed on
               if (this.me) {
                 this.msg = 'Success, your profile was Updated :)'
+                this.$router.replace('/profile')
+                document.location.reload(true)
               }
             })
             .catch((error) => {
@@ -233,3 +238,21 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .fileInput
+    padding 3px !important
+    display ruby-text-container
+  .edit-profile-img
+    display: inline;
+    height: 100%;
+    width: auto;
+
+  .crop-edit-image
+    background-position 50%
+    background-repeat no-repeat
+    border-radius 50%
+    margin 15px 0
+    width 100px
+    height 100px
+    overflow hidden
+</style>

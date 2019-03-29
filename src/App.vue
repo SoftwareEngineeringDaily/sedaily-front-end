@@ -93,7 +93,7 @@ export default {
 <style lang="stylus">
 @import './css/variables'
 #app
-  background-color #f6f7fa
+  background-color rgba(219, 229, 236, 0.2)
   min-height calc(100vh - 72px)
 
 .main-app
@@ -101,6 +101,13 @@ export default {
   margin-top 4rem
   padding-top 15px
 
+.login-view,.register-view,.settings-view,.forgot-password-view
+  margin 45px!important
+  h1
+    padding-bottom 15px
+@media (max-width 500px)
+  .login-view,.register-view,.settings-view,.forgot-password-view
+    margin 45px 0!important
 .call-to-action
   background accent-color
   color white
@@ -113,7 +120,8 @@ export default {
   color white
 
 .button-submit
-  padding 7px
+  outline none
+  padding 7px 10px
   font-size 12px
   background primary-color
   white-space nowrap
@@ -126,6 +134,9 @@ export default {
   cursor pointer
 .button-submit:hover
   background #a591ff
+  outline none
+.button-submit:focus
+  outline none
 
 .button-submit-small
   background primary-color
@@ -157,7 +168,7 @@ body
     padding-bottom 120px
 
 a
-  color #34495e
+  color primary-color
   text-decoration none
 
 .player-holder
@@ -255,6 +266,10 @@ a
     .github
       display none
 
-.beta-msg
-  margin-bottom 20px
+  .beta-msg
+    margin-bottom 20px
+
+  .container-fluid
+    padding-right: 0
+    padding-left: 0
 </style>

@@ -27,20 +27,23 @@
           type="password"
           class="form-control"
           id="inputPassword"
-          placeholder="Password">
+          placeholder="Enter password">
 
           <div v-show="errors.has('password')"
           class="alert alert-danger">
           {{ errors.first('password') }}</div>
         </div>
+        <div class="form-group">
+          <button name='submit-button' class='button-submit' :disabled='loading'>Sign In</button>
+          <spinner :show="loading"></spinner>
+        </div>
         <div class="login-buttons col-md-12">
-          <button name='submit-button' class='button-submit' :disabled='loading'>Login</button>
-          <router-link to="/forgot-password" name="forgot-password">Forgot Password?</router-link>
+          <span>Don't have an account? <router-link to="/register" name="register">Sign Up</router-link></span>
+          <router-link to="/forgot-password" name="forgot-password">Forgotten your Password?</router-link>
         </div>
       </form>
-    <spinner :show="loading"></spinner>
     <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a href="/" @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
   </div>
   </div>
@@ -108,9 +111,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 .container
-  margin 45px
   .login-buttons
     padding 15px 0
     display flex
@@ -118,4 +120,13 @@ export default {
     justify-content space-between
     .button-submit
       min-width 100px
+@media (max-width 500px)
+  .container
+    .container-input
+      text-align center
+    .login-buttons
+      flex-direction column
+      align-items flex-start
+      button
+        margin-bottom 1rem
 </style>

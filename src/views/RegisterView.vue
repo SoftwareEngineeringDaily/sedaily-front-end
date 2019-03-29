@@ -12,7 +12,7 @@
           v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="Username">
+          placeholder="AlexSmith">
 
           <div v-show="errors.has('username')"
           class="alert alert-danger">
@@ -21,7 +21,7 @@
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="password" v-model='password'
+          <input type="Enter password" v-model='password'
           id="passwordInput"
           name="password"
           v-validate="'required'"
@@ -42,7 +42,7 @@
           class="form-control"
           v-validate="'required'"
           aria-describedby="nameHelp"
-          placeholder="Alex Smith">
+          placeholder="Alex">
 
           <div v-show="errors.has('name')"
           class="alert alert-danger">
@@ -64,7 +64,7 @@
           v-model='email'
           class="form-control" id="emailInput"
           aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
+          placeholder="alex@email.com">
         </div>
 
         <div class="form-group">
@@ -73,37 +73,38 @@
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
-          placeholder="yourWebsite.com">
+          placeholder="alexWebsite.com">
         </div>
 
         <div class="form-group">
-          <center>
+          <label class="container-input">
+            Register for newsletter?
             <input type="checkbox" v-model='newsletter'
             id="allowNewsletter"
             class=""
             aria-describedby="newsletterHelp">
-            <label for="allowNewsletter" class="newsletter-text"> Register for newsletter?</label>
-          </center>
+            <span class="checkmark"></span>
+          </label>
         </div>
-
-        <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+        <div class="login-buttons col-md-12" v-if="!isLoggedIn">
+          <div>
+            <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+            <spinner :show="loading"></spinner>
+          </div>
+          <div>
+            Already have an account?
+            <router-link to="/login" name="login-link">Sign In</router-link>
+          </div>
+        </div>
       </form>
-
     </div>
 
     <br />
-    <div class='row' v-if="!isLoggedIn">
-      <div class='col-md-6 offset-md-3'>
-        Already have an account?
-        <router-link to="/login" name="login-link">Login</router-link>
-      </div>
-    </div>
     <div v-if="isLoggedIn" class="row">
       <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
-      <p>You're already logged in! <a @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
+      <p>You're already logged in! <a href="/" @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
-    <spinner :show="loading"></spinner>
   </div>
 </template>
 
@@ -182,8 +183,68 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  @import './../css/variables'
+  .container-input
+    width auto
+    display flex
+    align-items center
+    position relative
+    padding-left 25px
+    margin-bottom 12px
+    margin-top 12px
+    cursor pointer
+    font-size 14px
+    -webkit-user-select none
+    -moz-user-select none
+    -ms-user-select none
+    input
+      position absolute
+      opacity 0
+      cursor pointer
+      height 0
+      width 0
+    .checkmark
+      position absolute
+      left 0
+      height 15px
+      width 15px
+      background-color #eee
+  .container:hover input ~ .checkmark
+    background-color #eee
+  .container input:checked ~ .checkmark
+    background-color #ccc
+  .checkmark:after
+    content ""
+    position absolute
+    display none
+  .container input:checked ~ .checkmark:after
+    display block
+  .container .checkmark:after
+    left 5px
+    top 2px
+    width 5px
+    height 10px
+    border 1px solid white
+    border-width 0 3px 3px 0
+    -webkit-transform rotate(45deg)
+    -ms-transform rotate(45deg)
+    transform rotate(45deg)
   .container
-    margin 45px
-  .newsletter-text
-    padding-left 15px
+    .login-buttons
+      padding 15px 0
+      flex-direction row
+      display flex
+      align-items center
+      justify-content space-between
+      .button-submit
+        min-width 100px
+  @media (max-width 500px)
+    .container
+      .container-input
+        text-align center
+      .login-buttons
+        flex-direction column
+        align-items flex-start
+        button
+          margin-bottom 1rem
 </style>

@@ -13,7 +13,7 @@
           </template>
         </div>
       <div class="post-info">
-        <div class="profile-pic" alt="" v-if='!post.guestImage'></div>
+        <div  v-if='!post.guestImage'><img class="profile-pic" src="../assets/sedaily-logo.png"/></div>
         <div class="profile-pic" alt="" v-else :style='guestImage'></div>
         <p class="time">{{ date }}</p>
       </div>
@@ -121,12 +121,11 @@ export default {
       if (typeof this.post.thread === 'object' && this.post.thread !== null) {
         return this.post.thread._id
       } else  {
-        console.log('thread')
         return this.post.thread
       }
     },
 
-     guestImage () {
+    guestImage () {
       return `background: url('${this.post.guestImage}') center center / cover no-repeat`
     },
 
@@ -219,13 +218,17 @@ export default {
 
       this.isLoadingComments = true
       // Fetch comments
-      this.commentsFetch({
-        entityId: this.post.thread._id || this.post.thread
-      }).then(() => {
+      if(this.post.thread) {
+        this.commentsFetch({
+          entityId: this.post.thread._id || this.post.thread
+        }).then(() => {
+          this.isLoadingComments = false
+        }).catch(() => {
+          this.isLoadingComments = false
+        })
+      } else {
         this.isLoadingComments = false
-      }).catch(() => {
-        this.isLoadingComments = false
-      })
+      }
   },
   methods: {
     ...mapMutations(['commentsToggle']),
@@ -277,15 +280,16 @@ export default {
   flex-direction column
   align-items flex-start
   background-color #fff
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 10px rgb(238, 238, 238), 0 3px 10px rgb(238, 238, 238);
   border-radius 2px
-  margin 15px auto
+  margin 15px 16%
   max-width: 525px;
 
 .post-summary
   padding: 25px 25px 0 25px
   display flex
   flex-direction column
+  max-width: -webkit-fill-available;
   .voting-arrows
     flex 10%
   .image
@@ -346,7 +350,7 @@ export default {
   display flex
   align-items center
   justify-content space-between
-  background-color #F6F5F5
+  background-color rgba(219, 229, 236, 0.2)
 
 .comment-section
   padding 10px 25px
@@ -359,7 +363,6 @@ export default {
   align-items center
   &:hover
     cursor pointer
-    background-color #F6F5F5
   p
     margin 0
 
@@ -373,7 +376,7 @@ export default {
 .comments-list
   width 100%
   padding: 0px 20px
-  background-color #F6F5F5
+  background-color white
 
 .profile-pic
   width 35px
@@ -397,7 +400,7 @@ export default {
     width 50%
   span
     max-height: 130px;
-    overflow-y: hidden;
+    overflow: hidden;
   img
     max-height:100%;
     max-width:100%;
@@ -412,8 +415,7 @@ export default {
     flex-direction column
     p, span
       width 100%
-    .description__image
-      margin: 0 auto;
+
 
 @media (max-width 576px)
   .news-post
@@ -421,4 +423,12 @@ export default {
 
     .news-content
       margin-top 8%
+
+@media (max-width 900px)
+  .description
+    flex-direction column
+    p, span
+      width 100%
+  .description__image
+      display: none
 </style>

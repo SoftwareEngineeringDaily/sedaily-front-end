@@ -9,7 +9,7 @@
         <router-link :to="'/profile/' + userData._id">{{displayName}}</router-link>
       </span>
       <span>
-        <p>{{dateComment}}</p>
+        <p  class="date">{{dateComment}}</p>
       </span>
     </div>
     <slot></slot>
@@ -72,6 +72,10 @@ export default {
 
 .profile-container {
   width: 100%;
+}
+
+.date {
+  color: #9b9b9b;
 }
 
 .user-info

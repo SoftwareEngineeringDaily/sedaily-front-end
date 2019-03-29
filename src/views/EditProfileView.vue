@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <br />
-    <br />
-    <h2> Edit Your Profile:</h2>
+  <div class="update-profile-view container">
     <update-profile  v-if="me && me.username" :initialUsername="me.username" :me="me"> </update-profile>
   </div>
 </template>
@@ -23,3 +20,8 @@ export default {
   }
 }
 </script>
+<style scoped lang="stylus">
+  @import './../css/variables'
+  .container
+    margin 45px
+</style>

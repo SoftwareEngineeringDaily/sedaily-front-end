@@ -27,12 +27,15 @@
       </p>
       <p class="forgot-p" v-else>We'll send you a special link to allow you to reset your password.</p>
 
-      <div class="form-group" v-if="showForm">
-        <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
+      <div class="form-group login-buttons" v-if="showForm">
+        <div>
+          <button name='submit-button' class='button-submit' :disabled='loading'>Submit </button>
+          <spinner :show="loading"></spinner>
+        </div>
+        <router-link to="/login">Back to sign in</router-link>
       </div>
     </form>
 
-  <spinner :show="loading"></spinner>
 </div>
 
 
@@ -87,8 +90,10 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .container
-    margin 45px
+  .login-buttons
+    display flex
+    align-items center
+    justify-content space-between
   .forgot-p
     margin 15px 0
 </style>

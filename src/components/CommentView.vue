@@ -8,20 +8,20 @@
         :doneCallback="doneEditingCallback"
       ></comment-edit>
     </div>
-    <div v-if="!editing" class="comment-holder">
+    <div v-if="!editing && !wasDeleted" class="comment-holder">
       <div>
         <div class="profile-container">
           <profile-label :userData="user(comment)" :dateComment="date(comment)"></profile-label>
           <!-- <span class="comment-date">{{}}</span>      -->
         </div>
-        <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span>
+        <!-- <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span> -->
         <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
       </div>
 
-      <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/>
+      <!-- <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/> -->
 
       <div class="row misc-detail">
-        <div class>
+        <div class="comment-op">
           <!-- <div class="bullet-point"></div> -->
           <!-- <div v-if="isLoggedIn" class="bullet-point"></div> -->
           <span v-if="!isReplying && isLoggedIn">
@@ -35,9 +35,10 @@
             v-if="this.isMyComment && !comment.deleted"
             @click="editing=true"
           >Edit</span>
-          
+
           <span class="arrows voting-container">
             <voting-arrows
+              v-if="this.$store.state.me.hasOwnProperty('_id')"
               class="upvote-comment"
               :upvoteHandler="upvoteHandler"
               :upvoted="comment.upvoted"
@@ -247,7 +248,7 @@ export default {
   }
 }
 
-.profile-container 
+.profile-container
   display flex
   flex-direction column
 
@@ -255,24 +256,19 @@ export default {
   margin-top: 20px;
 }
 
-.comment-holder {
-  margin-bottom: -30px;
-}
-
 .content-area {
   margin-top: 1%;
-  padding-left: 9%;
+  padding-left: 3.25em;
   word-break: break-word;
   color: #000;
 }
 
 .comment-holder .deleted {
   color: #bf687e;
-  background: #f7f7f7;
-  padding-top: 16px;
-  border-radius: 20px;
-  padding-left: 20px;
-  max-width: 280px;
+}
+
+.comment-holder {
+  padding-bottom: 10px;
 }
 
 .deleted {

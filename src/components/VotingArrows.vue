@@ -10,7 +10,7 @@
       <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
       <p>Upvote</p>
     </div>
-    <div class='score-text'>{{ score + 1 || 1}}</div>
+    <div class='score-text'>{{ score + 1 || 0}}</div>
     <!-- <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"
