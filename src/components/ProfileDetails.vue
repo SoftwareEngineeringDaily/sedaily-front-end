@@ -22,9 +22,11 @@
             rel="external nofollow"
             > {{ userData.website | host }} </a>
           </p>
-        </div>
+        </div> 
         <div class="crop-image" v-if="isLoggedIn">
-          <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
+          <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
+          <img v-else-if="profileImg" class="profile-img" :src="errorImg || profileImg" @error="imgOnError">
+           <img v-else-if="profileImg === undefined" class="profile-img" :src="errorImg" @error="imgOnError">
         </div>
       </div>
     </div>
@@ -137,11 +139,17 @@
         topics:[],
         isOpen: false,
         modalTopics: [],
-        errorImg: ''
+        errorImg: '',
+        profileImg: null
       }
     },
     mounted () {
+      const userId = this.$route.params.id;
       this.getTopics()
+      this.fetchPublicProfileData({userId: userId}).then(
+         res => this.profileImg = res.data.avatarUrl
+      )
+      console.log(this.profileImg)
       document.addEventListener('click', this.handleClickOutside)
     },
     destroyed() {
@@ -162,7 +170,7 @@
       })
     },
     methods: {
-      ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser']),
+      ...mapActions(['getUserTopics','getSearchedTopics','addTopicToUser', 'fetchPublicProfileData']),
       logoutHandler () {
         this.$auth.logout()
         this.$router.replace('/')
