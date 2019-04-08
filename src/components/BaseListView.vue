@@ -398,6 +398,9 @@ export default {
       }
     }
   }
+  .spinner-holder {
+    margin: auto;
+  }
 }
 
 .topic-active {

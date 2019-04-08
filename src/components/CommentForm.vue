@@ -241,7 +241,7 @@ export default {
 .buttons-comment
   display flex
 .comment-container
-  background-color rgba(219, 229, 236, 0.2)
+  background none
   display flex
   align-items center
   width: 100%;
