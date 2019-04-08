@@ -181,8 +181,7 @@ export default {
   upVote: (state, { articleId }) => {
     let incrementValue = 1 
     console.log(articleId)
-    console.log(state.posts)
-    console.log(state.posts.articleIdValue)
+    console.log(state.posts[articleId].score)
     if (state.posts[articleId].downvoted) incrementValue += 1
 
     if (state.posts[articleId].upvoted) {

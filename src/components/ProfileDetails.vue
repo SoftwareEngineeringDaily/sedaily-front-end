@@ -23,12 +23,12 @@
             > {{ userData.website | host }} </a>
           </p>
         </div> 
-        <div class="crop-image" v-if="!isLoggedIn">
+        <div class="crop-image" v-if="!ownProfile">
           <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
           <img v-else-if="profileImg" class="profile-img" :src="errorImg || profileImg" @error="imgOnError">
-           <img v-else-if="profileImg === undefined" class="profile-img" :src="errorImg" @error="imgOnError">
+          <img v-else-if="profileImg === undefined" class="profile-img" :src="errorImg" @error="imgOnError">
         </div>
-        <div class="crop-image" v-if="isLoggedIn">
+        <div class="crop-image" v-if="ownProfile">
           <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
         </div>
       </div>

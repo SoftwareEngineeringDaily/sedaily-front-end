@@ -241,6 +241,7 @@ export default {
 .buttons-comment
   display flex
 .comment-container
+  background none
   display flex
   align-items center
   width: 100%;

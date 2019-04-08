@@ -339,7 +339,7 @@ export default {
     margin 0 5px
 
 .post-transcript
-  h2,h3,h4,table
+  h1,h2,h3,h4,h5,h6,table
     margin 30px 20px
   p
     text-align justify

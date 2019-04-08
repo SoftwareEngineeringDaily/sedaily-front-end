@@ -1,7 +1,9 @@
 <template>
   <div>
     <template v-if="loading">
-      <spinner :show="loading"></spinner>
+      <div class="center">
+        <spinner :show="loading"></spinner>
+      </div>
     </template>
     <template v-else-if="error">
       <div class="bg-danger"> Error: {{ error }}</div>
@@ -42,4 +44,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+.center
+  text-align center
+  margin 5vh 0
 </style>
