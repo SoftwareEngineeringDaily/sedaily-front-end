@@ -11,14 +11,14 @@
       <p>Upvote</p>
     </div>
     <div class='score-text'>{{ score + 1 || 0}}</div>
-    <!-- <div
+    <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"
       class="arrow"
       @click='downvoteHandler'>
-      <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
-      <img v-else src="@/assets/icons/downvote-thin.svg" />
-    </div> -->
+      <!-- <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
+      <img v-else src="@/assets/icons/downvote-thin.svg" /> -->
+    </div>
   </div>
 </div>
 </template>
