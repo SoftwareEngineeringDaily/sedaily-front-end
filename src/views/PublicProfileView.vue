@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container center">
     <template v-if="loading">
       <spinner :show="loading"></spinner>
     </template>
@@ -68,4 +68,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+  .center
+    text-align center
+    margin 5vh 0
 </style>

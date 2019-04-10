@@ -145,10 +145,17 @@ export default {
       const el = document.createElement('template')
       el.innerHTML = this.post.content.rendered.trim()
       // spans contain text to extract "summary"
-      const paras = el.content.querySelectorAll('span')
+      let paras = el.content.querySelectorAll('span')
+      if ( paras.length === 0){
+        paras = el.content.querySelectorAll('p')
+      }
+
       let description = '';
       for (let para of paras) {
-        description += para.innerText + ' ';
+
+        if(para.className !== 'powerpress_links powerpress_links_mp3'){
+          description += para.innerText + ' ';
+        }
         if (description.length >= maxLength) {
           break;
         }

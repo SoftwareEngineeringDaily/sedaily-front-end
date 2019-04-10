@@ -128,6 +128,7 @@ export default {
   },
 
   setPosts: (state, { posts }) => {
+    state.posts = {}
     posts.forEach(post => {
       if (post) {
         Vue.set(state.posts, post._id, post)
@@ -178,8 +179,9 @@ export default {
   },
 
   upVote: (state, { articleId }) => {
-    let incrementValue = 1
-
+    let incrementValue = 1 
+    console.log(articleId)
+    console.log(state.posts[articleId].score)
     if (state.posts[articleId].downvoted) incrementValue += 1
 
     if (state.posts[articleId].upvoted) {
