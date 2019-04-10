@@ -124,14 +124,18 @@ export default {
   watch: {
     commentContent: function() {
       // Check mentions
-      const currentMentions = [];
-      each(this.mentionedUsers, user => {
-        const mentionText = "@" + user.name;
-        if (this.commentContent.indexOf(mentionText) >= 0) {
-          currentMentions.push(user);
-        }
-      });
-      this.mentionedUsers = currentMentions;
+      if(this.isLoggedIn){
+        const currentMentions = [];
+        each(this.mentionedUsers, user => {
+          const mentionText = "@" + user.name;
+          if (this.commentContent.indexOf(mentionText) >= 0) {
+            currentMentions.push(user);
+          }
+        });
+        this.mentionedUsers = currentMentions;
+      } else {
+        this.$toasted.error('You must login in to post a comment')
+      }
     },
     content: function() {
       this.commentContent = this.content;
