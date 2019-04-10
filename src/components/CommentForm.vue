@@ -39,9 +39,7 @@
       </div>
     </div>
     <div v-else>
-      <router-link to="/login">
-        <button class="button-submit">{{submitButtonText}}</button>
-      </router-link>
+      <button @click='errorSubmit' class="button-submit">{{submitButtonText}}</button>
     </div>
   </div>
 </template>
@@ -124,14 +122,18 @@ export default {
   watch: {
     commentContent: function() {
       // Check mentions
-      const currentMentions = [];
-      each(this.mentionedUsers, user => {
-        const mentionText = "@" + user.name;
-        if (this.commentContent.indexOf(mentionText) >= 0) {
-          currentMentions.push(user);
-        }
-      });
-      this.mentionedUsers = currentMentions;
+      if(this.isLoggedIn){
+        const currentMentions = [];
+        each(this.mentionedUsers, user => {
+          const mentionText = "@" + user.name;
+          if (this.commentContent.indexOf(mentionText) >= 0) {
+            currentMentions.push(user);
+          }
+        });
+        this.mentionedUsers = currentMentions;
+      } else {
+        this.$toasted.error('You must login to post a comment')
+      }
     },
     content: function() {
       this.commentContent = this.content;
@@ -163,6 +165,9 @@ export default {
   },
   methods: {
     ...mapActions(["searchUsers"]),
+    errorSubmit() {
+      this.$toasted.error('You must login to post a comment')
+    },
     handleSelectUser(user) {
       // Check if contains user already to avoid duplicates.
       let containsUserAlready = false;
@@ -241,7 +246,7 @@ export default {
 .buttons-comment
   display flex
 .comment-container
-  background-color rgba(219, 229, 236, 0.2)
+  background none
   display flex
   align-items center
   width: 100%;
@@ -266,7 +271,6 @@ export default {
 .comment-box__container
   display flex
   width 100%
-  background-color rgba(219, 229, 236, 0.2)
 
     &:hover
       text-decoration none

@@ -102,12 +102,18 @@ export default {
       let term = this.$store.state.searchTerm;
       if (this.topicId === "") {
         this.getTopicsInSearch({ search: term }).then(
-          data => (this.displayedPosts = data.posts)
+          data => {
+            this.displayedPosts = data.posts
+            this.$store.commit('setPosts', {posts: data.posts})
+            }
         );
       } else {
         let id = this.topicId;
         this.getTopicsInSearch({ topic: id, search: term }).then(
-          data => (this.displayedPosts = data.posts)
+          data => {
+            this.displayedPosts = data.posts
+            this.$store.commit('setPosts', {posts: data.posts})
+            }
         );
       }
     }
@@ -146,6 +152,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
+    console.log(topicSlug)
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
@@ -160,6 +167,7 @@ export default {
         .then(topics => {
           vm.routerTopic = true
           vm.displayedPosts = topics.data.posts;
+          vm.$store.commit('setPosts', {posts: topics.data.posts})
           vm.topicId = topics.data.topic[0]._id
         })
     );
@@ -170,6 +178,7 @@ export default {
       this.routerTopic = false
       this.endOfPosts = false
       this.displayedPosts = topics.data.posts;
+      this.$store.commit('setPosts', {posts: topics.data.posts})
     });
     next();
   },
@@ -192,6 +201,7 @@ export default {
         topics => {
           this.loading = false;
           this.displayedPosts = topics.data.posts
+          this.$store.commit('setPosts', {posts: topics.data.posts})
           }
       );
       this.$router.push({ path: `/topics/${topicSlug}` });
@@ -200,7 +210,10 @@ export default {
       this.topicId = "";
       this.$router.push({ path: `/` });
       this.getTopicsInSearch({}).then(
-        data => (this.displayedPosts = data.posts)
+        data => {
+          this.displayedPosts = data.posts
+          this.$store.commit('setPosts', {posts: data.posts})
+          }
       );
       this.resetPosts();
     },
@@ -397,6 +410,9 @@ export default {
         margin-right: 10px;
       }
     }
+  }
+  .spinner-holder {
+    margin: auto;
   }
 }
 

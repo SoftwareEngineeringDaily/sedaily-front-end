@@ -144,11 +144,18 @@ export default {
     },
 
    postContent () {
+     let content
      if (this.post.cleanedContent) {
-       return this.post.cleanedContent.split('<h2>Sponsors</h2>')[0]
+       content = this.post.cleanedContent
+       if( this.post.sponsorsContent ) {
+         content += '<h2>Sponsors</h2>' + `<div class='sponsors-content'>${this.post.sponsorsContent}</div>`
+       }
+       return content
+       // return this.post.cleanedContent.split('<h2>Sponsors</h2>')[0]
      }
      else if (this.post.content.rendered) {
-       return this.post.content.rendered.split('<h2>Sponsors</h2>')[0]
+       return this.post.content.rendered
+       // return this.post.content.rendered.split('<h2>Sponsors</h2>')[0]
      } else {
        return ""
      }
@@ -322,6 +329,19 @@ export default {
 </script>
 
 <style lang="stylus">
+.sponsors-content
+  p
+    a
+      margin 0 2px
+  h2
+    margin-top 15px
+  .col-12,col-md-6
+    align-items center
+    margin 15px 0
+    display flex
+    justify-content center
+  a
+    margin-left 20px
 .top-space
   padding-top 25px
 .post-content p .size-full
@@ -339,9 +359,11 @@ export default {
     margin 0 5px
 
 .post-transcript
-  h2,h3,h4,table
+  figure
+    width 98%
+  h1,h2,h3,h4,h5,h6,table,figure
     margin 30px 20px
-  p
+  p,.imageCaption
     text-align justify
     font-size 14px
     margin 30px 20px
