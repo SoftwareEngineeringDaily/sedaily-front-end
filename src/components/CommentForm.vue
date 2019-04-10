@@ -39,9 +39,7 @@
       </div>
     </div>
     <div v-else>
-      <router-link to="/login">
-        <button class="button-submit">{{submitButtonText}}</button>
-      </router-link>
+      <button @click='errorSubmit' class="button-submit">{{submitButtonText}}</button>
     </div>
   </div>
 </template>
@@ -134,7 +132,7 @@ export default {
         });
         this.mentionedUsers = currentMentions;
       } else {
-        this.$toasted.error('You must login in to post a comment')
+        this.$toasted.error('You must login to post a comment')
       }
     },
     content: function() {
@@ -167,6 +165,9 @@ export default {
   },
   methods: {
     ...mapActions(["searchUsers"]),
+    errorSubmit() {
+      this.$toasted.error('You must login to post a comment')
+    },
     handleSelectUser(user) {
       // Check if contains user already to avoid duplicates.
       let containsUserAlready = false;
