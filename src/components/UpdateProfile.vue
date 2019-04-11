@@ -201,7 +201,12 @@ export default {
               })
               .catch((error) => {
                 console.log('Error uploading', error)
-                this.$toasted.error('Error uploading')
+                this.$toasted.error('Error uploading', { 
+                    singleton: true,
+                    theme: "bubble", 
+                    position: "bottom-center", 
+                    duration : 700
+                })
               })
           } else {
             updatePromise = this.updateProfile({
@@ -228,7 +233,12 @@ export default {
             })
             .catch((error) => {
               console.log('Error Updaating', error)
-              this.$toasted.error('There was a problem updating your profile')
+              this.$toasted.error('There was a problem updating your profile', { 
+                  singleton: true,
+                  theme: "bubble", 
+                  position: "bottom-center", 
+                  duration : 700
+              })
             })
         } else {
           this.msg = 'Invalid fields on form :('

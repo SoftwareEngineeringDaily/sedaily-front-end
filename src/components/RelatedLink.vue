@@ -34,7 +34,12 @@ export default {
           })
         })
         .catch((error) => {
-          this.$toasted.error('Error deleting :(')
+          this.$toasted.error('Error deleting :(', { 
+              singleton: true,
+              theme: "bubble", 
+              position: "bottom-center", 
+              duration : 700
+          })
         })
     },
     upvoteHandler () {

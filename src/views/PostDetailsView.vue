@@ -243,8 +243,8 @@ export default {
       id: this.postId
     }).then(({ post }) => {
       this.loading = false
-
       this.isLoadingComments = true
+      console.log(post)
       // Fetch comments
       this.commentsFetch({
         entityId: post.thread._id

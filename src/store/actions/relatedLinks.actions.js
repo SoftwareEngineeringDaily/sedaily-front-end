@@ -27,11 +27,21 @@ export default {
 
   removeRelatedLink: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to remove your link')
+      Vue.toasted.error('You must login to remove your link',{ 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
     if (!id) {
-      Vue.toasted.error('Error with that link')
+      Vue.toasted.error('Error with that link', { 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
 
@@ -53,7 +63,12 @@ export default {
 
   upvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote')
+      Vue.toasted.error('You must login to vote', { 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
     commit('upvoteRelatedLink', { id, postId })
@@ -76,7 +91,12 @@ export default {
 
   downvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote')
+      Vue.toasted.error('You must login to vote', { 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
     commit('downvoteRelatedLink', { id, postId })

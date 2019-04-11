@@ -3,14 +3,14 @@
   <div class="score">
     <div
       v-if="upvoteHandler"
-      :class="{ active: upvoted }"
+      :class="[ upvoted === true ? 'active' : '' ]"
       class='arrow'
       @click='upvoteHandler'>
       <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
       <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
       <p>Upvote</p>
     </div>
-    <div class='score-text'>{{ score + 1 || 0}}</div>
+    <div class='score-text'>{{ score || 0}}</div>
     <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"

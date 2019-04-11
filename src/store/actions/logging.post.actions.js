@@ -26,7 +26,12 @@ function eventRequestWrapper (username, eventType, eventData) {
 export default {
   enableLogging: ({ commit, getters, state }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('Login to enable logging')
+      Vue.toasted.error('Login to enable logging', { 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
     commit('enableLogging')
@@ -34,7 +39,12 @@ export default {
 
   disableLogging: ({ commit, getters, state }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('Login to disable logging')
+      Vue.toasted.error('Login to disable logging', { 
+        singleton: true,
+        theme: "bubble", 
+        position: "bottom-center", 
+        duration : 700
+    })
       return
     }
     commit('disableLogging')

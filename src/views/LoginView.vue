@@ -92,7 +92,9 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                this.$toasted.error('Invalid login')
+                this.$toasted.error('Invalid login', { 
+                    theme: "bubble"
+                })
               }
             })
             .finally(() => { this.loading = false })

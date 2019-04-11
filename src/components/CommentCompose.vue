@@ -55,7 +55,12 @@ export default  {
         })
         .catch((error) => {
           this.isSubmitting = false
-          this.$toasted.error(error.response.data.message)
+          this.$toasted.error(error.response.data.message, { 
+              singleton: true,
+              theme: "bubble", 
+              position: "bottom-center", 
+              duration : 700
+          })
         })
 
     },
