@@ -21,17 +21,33 @@
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="Enter password" v-model='password'
+          <input type="password" v-model='password'
           id="passwordInput"
           name="password"
           v-validate="'required'"
           class="form-control"
           aria-describedby="passwordHelp"
-          placeholder="Password">
+          placeholder="Password"
+          ref="password">
 
           <div v-show="errors.has('password')"
           class="alert alert-danger">
           {{ errors.first('password') }}</div>
+        </div>
+
+        <div class="form-group">
+          <label for="passwordConfirmInput">Confirm Password</label>
+          <input type="password" v-model='confirmPassword'
+          id="passwordConfirmInput"
+          name="confirmPassword"
+          v-validate="'required|confirmed:password'"
+          class="form-control"
+          aria-describedby="passwordHelp"
+          placeholder="Confirm password">
+
+          <div v-show="errors.has('confirmPassword')"
+          class="alert alert-danger">
+          {{ errors.first('confirmPassword') }}</div>
         </div>
 
         <div class="form-group">
@@ -124,6 +140,7 @@ export default {
     return {
       username: '',
       password: '',
+      confirmPassword: '',
       name: '',
       email: '',
       bio: '',
@@ -164,7 +181,11 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                this.$toasted.error('Invalid registration')
+                this.$toasted.error('Invalid registration', { 
+                    theme: "bubble", 
+                    position: "bottom-center", 
+                    duration : 700
+                })
               }
             })
         } else {

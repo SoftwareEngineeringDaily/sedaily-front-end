@@ -175,7 +175,7 @@ export default {
 <style lang="stylus" scoped>
 @import './../css/variables'
 
-.audio-player-container
+.audio-player-container 
   display flex
   flex-direction row
   align-items center

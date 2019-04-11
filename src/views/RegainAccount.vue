@@ -62,7 +62,9 @@ export default {
               console.log('error', error)
               this.loading = false
               this.submitted = false
-              this.$toasted.error('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.')
+              this.$toasted.error('There was an error with your submission, please contact us. Make sure the email you are clicking is not older than a few hours.', { 
+                  theme: "bubble"
+              })
             })
         } else {
           console.log('Invalid values..')

@@ -178,7 +178,12 @@ export default {
           this.jobs = jobs
         })
         .catch(() => {
-          this.$toasted.error('There was an error searching jobs for that company name.')
+          this.$toasted.error('There was an error searching jobs for that company name.', { 
+              singleton: true,
+              theme: "bubble", 
+              position: "bottom-center", 
+              duration : 700
+          })
         })
     },
     submit () {
