@@ -42,10 +42,10 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 Vue.use(Toasted, {
-  singleton: true,
   theme: "bubble",
   position: "bottom-center",
-  duration : 700,
+  duration:'2000',
+  singleton: true,
   action: {
     text: 'Close',
     onClick: (e, toastObject) => {

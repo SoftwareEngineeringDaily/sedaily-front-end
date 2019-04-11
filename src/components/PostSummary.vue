@@ -152,6 +152,7 @@ export default {
 
       let description = '';
       for (let para of paras) {
+
         if(para.className !== 'powerpress_links powerpress_links_mp3'){
           description += para.innerText + ' ';
         }
