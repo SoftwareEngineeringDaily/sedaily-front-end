@@ -180,9 +180,8 @@ export default {
 
   upVote: (state, { articleId }) => {
     let incrementValue = 1 
-    console.log(articleId)
-    console.log(state.posts[articleId].score)
-    if (state.posts[articleId].downvoted) incrementValue += 1
+    // if (state.posts[articleId].downvoted) incrementValue += 1
+    console.log(state.posts[articleId])
 
     if (state.posts[articleId].upvoted) {
       state.posts[articleId].score -= incrementValue
@@ -196,12 +195,11 @@ export default {
   downVote: (state, { articleId }) => {
     let incrementValue = 1
 
-    if (state.posts[articleId].upvoted) incrementValue += 1
-
+    // if (state.posts[articeId].upvoted) incrementValue += 1
     if (state.posts[articleId].downvoted) {
-      state.posts[articleId].score += incrementValue
-    } else {
       state.posts[articleId].score -= incrementValue
+    } else if (state.posts[articleId].upvoted) {
+      state.posts[articleId].score += incrementValue
     }
     state.posts[articleId].upvoted = false
     state.posts[articleId].downvoted = !state.posts[articleId].downvoted

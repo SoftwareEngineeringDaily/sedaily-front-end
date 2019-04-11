@@ -57,7 +57,12 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        Vue.toasted.error(error.response.data.message)
+        Vue.toasted.error(error.response.data.message, { 
+              singleton: true,
+              theme: "bubble", 
+              position: "bottom-center", 
+              duration : 700
+          })
         return error
       })
   },
@@ -91,7 +96,12 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        Vue.toasted.error(error.response.data.message)
+        Vue.toasted.error(error.response.data.message, { 
+          singleton: true,
+          theme: "bubble", 
+          position: "bottom-center", 
+          duration : 700
+      })
         return error
       })
   }
