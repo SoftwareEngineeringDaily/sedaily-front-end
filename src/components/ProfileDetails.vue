@@ -338,7 +338,8 @@
       font-weight 400
       max-width 400px
   .crop-image
-    background-position 50%
+    background-position center
+    background-size: cover
     background-repeat no-repeat
     border-radius 50%
     min-width 100px
@@ -351,8 +352,7 @@
       width 120px
       height 120px
   .profile-img
-    height 100%
-    width auto
+    width inherit
   .edit-link
     padding 10px
     text-align left
