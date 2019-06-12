@@ -1,15 +1,28 @@
 language: node_js
 node_js:
   - "8.9.0"
+sudo: required
+services:
+  - docker
 cache:
   directories:
   - node_modules
 git:
   depth: 3
-script:
-  - npm run lint || travis_terminate 1
-  - docker-compose -f devops/docker-compose.yml up -d || travis_terminate 1
-  - npm run build:dev || travis_terminate 1
+stages:
+  - test
+  - name: docker
+    if: (branch = develop AND type = push)
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm run lint || travis_terminate 1
+        - docker-compose -f devops/docker-compose.yml up -d || travis_terminate 1
+        - npm run build:dev || travis_terminate 1
+    - stage: docker
+      script:
+        - ./devops/build-image.sh
 cache:
   directories:
     - ~/.npm
