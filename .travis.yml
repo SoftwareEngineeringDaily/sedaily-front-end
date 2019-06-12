@@ -12,7 +12,7 @@ git:
 stages:
   - test
   - name: docker
-    if: (branch = develop AND type = push)
+    if: branch = develop AND type = push
 jobs:
   include:
     - stage: test
