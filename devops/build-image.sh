@@ -23,3 +23,5 @@ rm $REPO_DIR/ci.Dockerfile
 echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 docker push $DOCKER_IMAGE
+
+echo 'Front end image pushed to Docker hub'
