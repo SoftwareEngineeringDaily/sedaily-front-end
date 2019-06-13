@@ -20,7 +20,7 @@ docker build -f $REPO_DIR/ci.Dockerfile -t $DOCKER_IMAGE $REPO_DIR #--no-cache
 rm $REPO_DIR/ci.Dockerfile
 
 # must be part the organization
-echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 docker push $DOCKER_IMAGE
 
