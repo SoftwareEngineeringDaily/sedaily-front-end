@@ -21,7 +21,7 @@ jobs:
         - npm run build:dev || travis_terminate 1
     - stage: docker
       script:
-        - ./devops/build-image.sh
+        - ./devops/build-image.sh || travis_terminate 1
 cache:
   directories:
     - ~/.npm
