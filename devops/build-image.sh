@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "TEST_VAR: ${TEST_VAR}"
 if [[ -z $1 ]]; then
 	TAG="develop"
 else
