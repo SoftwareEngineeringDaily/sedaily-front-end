@@ -147,12 +147,17 @@
       }
     },
     mounted () {
-      const userId = this.$store.state.me._id;
-      this.getTopics()
-      this.fetchPublicProfileData({userId: userId}).then(
-         res => this.profileImg = res.data.avatarUrl
-      )
-      console.log(this.profileImg)
+
+
+      //userid is undefined when selecting the Update button on /edit-profile
+      setTimeout(() => {
+        const userId = this.$store.state.me._id;
+        this.getTopics()
+        this.fetchPublicProfileData({userId: userId}).then(
+           res => this.profileImg = res.data.avatarUrl
+        )
+      }, 1000)
+
       document.addEventListener('click', this.handleClickOutside)
     },
     destroyed() {
