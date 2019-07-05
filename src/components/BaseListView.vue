@@ -46,6 +46,14 @@
         >
           <img src="@/assets/androidstore.png" class="icon">
         </a>
+        <a
+          href="https://github.com/SoftwareEngineeringDaily"
+          target="_blank"
+          class="github-container"
+        >
+          <img src="@/assets/icons/Github.png" class="github-icon">
+          GitHub
+        </a>
       </div>
     </div>
 
@@ -152,7 +160,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
-    console.log(topicSlug)
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
@@ -296,6 +303,31 @@ export default {
   .disabled {
     color: #ccc;
   }
+}
+
+.github-container {
+    width: 145px;
+    background-color: #000;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 3px;
+    margin-left: 3px;
+    color: #fff;
+    font-size: 1.3rem;
+    align-items: center;
+    display: flex;
+    height: 45px;
+    margin-bottom: 4px;
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.github-icon {
+  max-width: 25%;
+  margin-right: 5px;
 }
 
 .news-list {
@@ -489,6 +521,7 @@ export default {
 .app-download {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .active-tag {
@@ -551,6 +584,7 @@ export default {
   .app-download {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
   }
 }

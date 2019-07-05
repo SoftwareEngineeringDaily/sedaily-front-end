@@ -22,7 +22,7 @@
             rel="external nofollow"
             > {{ userData.website | host }} </a>
           </p>
-        </div> 
+        </div>
         <div class="crop-image" v-if="!ownProfile">
           <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
           <img v-else-if="profileImg" class="profile-img" :src="errorImg || profileImg" @error="imgOnError">
@@ -148,11 +148,13 @@
     },
     mounted () {
       const userId = this.$route.params.id;
-      this.getTopics()
-      this.fetchPublicProfileData({userId: userId}).then(
-         res => this.profileImg = res.data.avatarUrl
-      )
-      console.log(this.profileImg)
+      if(userId) {
+        this.fetchPublicProfileData({userId: userId}).then(
+          res => this.profileImg = res.data.avatarUrl
+        )
+      } else {
+        this.getTopics()
+      }
       document.addEventListener('click', this.handleClickOutside)
     },
     destroyed() {
