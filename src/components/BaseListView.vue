@@ -52,7 +52,7 @@
           class="github-container"
         >
           <img src="@/assets/icons/Github.png" class="github-icon">
-          GitHub  
+          GitHub
         </a>
       </div>
     </div>
@@ -160,7 +160,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
-    console.log(topicSlug)
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {

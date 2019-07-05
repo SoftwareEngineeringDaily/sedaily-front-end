@@ -12,17 +12,16 @@ git:
 stages:
   - test
   - name: docker
-    if: (branch = develop AND type = push)
+    if: branch = develop AND type = push
 jobs:
   include:
     - stage: test
       script:
         - npm run lint || travis_terminate 1
-        - docker-compose -f devops/docker-compose.yml up -d || travis_terminate 1
         - npm run build:dev || travis_terminate 1
     - stage: docker
       script:
-        - ./devops/build-image.sh
+        - ./devops/build-image.sh || travis_terminate 1
 cache:
   directories:
     - ~/.npm
