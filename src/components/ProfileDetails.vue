@@ -182,7 +182,10 @@
       },
       setResult(item) {
         const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
-        if (!topic) { this.modalTopics.push(item) }
+        if (!topic) {
+          this.modalTopics.push(item);
+          this.checkedTopics.push(item._id);
+        }
       },
       profileEdit() {
         this.$router.replace('/edit-profile')
