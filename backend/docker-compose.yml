@@ -6,7 +6,7 @@ services:
     container_name: sedaily-redis
     restart: always
   sedaily-api:
-    image: softwaredaily/sedaily-rest-api:develop
+    image: softwaredaily/sedaily-rest-api
     container_name: sedaily-rest-api
     ports:
       - "4040:4040"
@@ -15,7 +15,7 @@ services:
       - redis
     restart: always
   mongo:
-    image: softwaredaily/sedaily-mongo:develop
+    image: softwaredaily/sedaily-mongo
     container_name: mongo
     restart: always
     ports:

@@ -5,7 +5,7 @@ services:
     image: redis:4
     container_name: sedaily-redis
   sedaily-api:
-    image: softwaredaily/sedaily-rest-api:develop
+    image: softwaredaily/sedaily-rest-api
     container_name: sedaily-rest-api
     ports:
       - "4040:4040"
@@ -13,5 +13,5 @@ services:
       - mongo
       - redis
   mongo:
-    image: softwaredaily/sedaily-mongo:develop
+    image: softwaredaily/sedaily-mongo
     container_name: sedaily-mongo

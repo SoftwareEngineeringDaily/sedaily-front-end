@@ -29,11 +29,11 @@ describe('The Posts Page', function () {
   })
   it('Successfully filters by category', function () {
     // this should likely not change, but if need be can be changed here
-    const JAVASCRIPT_CATEGORY = 1084
+    const JAVASCRIPT_TAG = 10
     cy.visit('/#/new')
-    cy.getPosts(`type=new&limit=10&categories=${JAVASCRIPT_CATEGORY}`).then((posts) => {
+    cy.getPosts(`type=new&limit=10&tags=${JAVASCRIPT_TAG}`).then((posts) => {
       cy.contains('JavaScript').first().click()
-      cy.contains('JavaScript').first().should('have.class', 'category-active')
+      cy.contains('JavaScript').first().should('have.class', 'topic-active')
       cy.get('.news-post').each(($el, index) => {
         cy.decodeHTML(posts[index].title.rendered).then((title) => {
           cy
@@ -45,7 +45,7 @@ describe('The Posts Page', function () {
     })
     cy.getPosts('type=new&limit=10').then((posts) => {
       cy.contains('All').first().click()
-      cy.contains('All').first().should('have.class', 'category-active')
+      cy.contains('All').first().should('have.class', 'topic-active')
       cy.get('.news-post').each(($el, index) => {
         cy.decodeHTML(posts[index].title.rendered).then((title) => {
           cy
@@ -56,7 +56,7 @@ describe('The Posts Page', function () {
       })
     })
   })
-  it('Successfully plays episode', function () {
+  xit('Successfully plays episode', function () {
     cy.visit('/#/new')
     cy.get('.player-control').first().click()
     cy.get('.player-holder').find('.music-time').contains(/^00:00/)
@@ -74,6 +74,7 @@ describe('The Posts Page', function () {
     .upvoteToggle()
     cy.get('.toasted.error').should('contain', 'You must login to vote')
     cy.login().then(() => {
+      cy.reload();
       cy.visit('/#/new')
       cy
       .get('.news-post')
@@ -84,13 +85,7 @@ describe('The Posts Page', function () {
       cy
       .get('.news-post')
       .first()
-      .downvoteToggle()
-      .parent()
-      .expectActiveVote('down')
-      cy
-      .get('.news-post')
-      .first()
-      .downvoteToggle()
+      .upvoteToggle()
       .parent()
       .expectActiveVote('none')
     })

@@ -3,8 +3,8 @@
   <div class="score">
     <div
       v-if="upvoteHandler"
-      :class="[ upvoted === true ? 'active' : '' ]"
-      class='arrow'
+      :class="{ active: upvoted }"
+      class='arrow upvote'
       @click='upvoteHandler'>
       <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
       <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
@@ -14,7 +14,7 @@
     <div
       v-if="downvoteHandler"
       :class="{ active: downvoted }"
-      class="arrow"
+      class="arrow downvote"
       @click='downvoteHandler'>
       <!-- <img v-if="downvoted" src="@/assets/icons/downvote.svg" />
       <img v-else src="@/assets/icons/downvote-thin.svg" /> -->

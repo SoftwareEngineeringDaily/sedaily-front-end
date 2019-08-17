@@ -93,7 +93,7 @@
         </div>
 
         <div class="form-group">
-          <label class="container-input">
+          <label class="container-input" for="allowNewsletter">
             Register for newsletter?
             <input type="checkbox" v-model='newsletter'
             id="allowNewsletter"
@@ -181,9 +181,9 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                this.$toasted.error('Invalid registration', { 
-                    theme: "bubble", 
-                    position: "bottom-center", 
+                this.$toasted.error('Invalid registration', {
+                    theme: "bubble",
+                    position: "bottom-center",
                     duration : 700
                 })
               }
