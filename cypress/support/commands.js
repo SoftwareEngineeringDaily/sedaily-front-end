@@ -58,6 +58,13 @@ Cypress.Commands.add('logout', () => {
   })
 })
 
+Cypress.Commands.add('getPostsByTopic', (topic) => {
+  const endpoint = `${BASE_API_URL}/topics/${topic}`
+  return cy
+  .request('GET', endpoint)
+  .then((resp) => (resp.body))
+})
+
 Cypress.Commands.add('getPosts', (query) => {
   const endpoint = `${BASE_API_URL}/posts?${query}`
   return cy
@@ -78,8 +85,8 @@ Cypress.Commands.add('upvoteToggle', {
 }, (subject) => {
   cy.wrap(subject)
   .within(() => {
-    cy.get('.arrow')
-    .first() //first within element is up arrow
+    cy.get('.arrow.upvote')
+    .first()
     .click()
   })
 })
@@ -89,8 +96,8 @@ Cypress.Commands.add('downvoteToggle', {
 }, (subject) => {
   cy.wrap(subject)
   .within(() => {
-    cy.get('.arrow')
-    .last() //last within element is down arrow
+    cy.get('.arrow.downvote')
+    .first()
     .click()
   })
 })
