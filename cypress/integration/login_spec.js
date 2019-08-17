@@ -1,10 +1,7 @@
 const uuidv4 = require('uuid/v4')
 
 describe('The Login Page', function () {
-  const existingUser = {
-    username: 'test2',
-    password: 'test2'
-  }
+  let existingUser;
   before(function () {
     // create existing user
     cy.register()
@@ -17,24 +14,22 @@ describe('The Login Page', function () {
     .then(() => {
       cy.get('input[name=username]').type(existingUser.username)
       cy.get('input[name=password]').type(existingUser.password)
-      cy.get('button[name=submit-button]').click()
+      cy.get('.login-view button[name=submit-button]').click()
     })
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/')
     })
     cy.get('a[href="/profile"]').should('exist')
-    cy.get('a[href="/login"]').should('not.exist')
-    cy.get('a[href="/register"]').should('not.exist')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
       expect(win.localStorage.token).to.have.length.above(1)
     })
+    cy.get('nav.inner .dropdown-toggle').click()
     cy.contains('Logout').click()
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/')
     })
-    cy.get('a[href="/login"]').should('exist')
-    cy.get('a[href="/register"]').should('exist')
+    cy.get('nav.inner button[name=submit-button]').should('exist')
     cy.window().then((win) => {
       expect(win.localStorage).to.have.any.keys('token')
       expect(win.localStorage.token).to.have.lengthOf(0)
@@ -45,7 +40,7 @@ describe('The Login Page', function () {
     .then(() => {
       cy.get('input[name=username]').type(uuidv4())
       cy.get('input[name=password]').type('whatever')
-      cy.get('button[name=submit-button]').click()
+      cy.get('.login-view button[name=submit-button]').click()
     })
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/login')
@@ -57,7 +52,7 @@ describe('The Login Page', function () {
     .then(() => {
       cy.get('input[name=username]').type(existingUser.username)
       cy.get('input[name=password]').type('wrong')
-      cy.get('button[name=submit-button]').click()
+      cy.get('.login-view button[name=submit-button]').click()
     })
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/login')
