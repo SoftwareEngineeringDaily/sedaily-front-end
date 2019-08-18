@@ -9,7 +9,7 @@
     "DEPLOY": {
       "required": true
     },
-    "CYPRESS_CACHE_FOLDER": {
+    "CYPRESS_INSTALL_BINARY": {
       "required": true
     }
   },
