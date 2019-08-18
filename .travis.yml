@@ -15,7 +15,7 @@ stages:
   - lint
   - test
   - name: docker
-    if: branch = develop AND type = push
+    if: branch = master AND type = push
 matrix:
   include:
     - stage: lint
