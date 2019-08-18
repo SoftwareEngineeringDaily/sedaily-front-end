@@ -2,6 +2,8 @@ FROM node:6.10.1
 
 MAINTAINER Andrew Lloyd <andrew85.lloyd@gmail.com>
 
+ENV CYPRESS_INSTALL_BINARY=0
+
 RUN mkdir -p /app
 
 WORKDIR /app

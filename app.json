@@ -8,6 +8,9 @@
     },
     "DEPLOY": {
       "required": true
+    },
+    "CYPRESS_INSTALL_BINARY": {
+      "required": true
     }
   },
   "formation": {
