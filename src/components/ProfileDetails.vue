@@ -39,7 +39,7 @@
       @click.prevent="logoutHandler">Logout</a> -->
     <div v-if="ownProfile" class="col-md-6 edit-link">
       <hr>
-      <h5>My Topics<button class="btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
+      <h5>My Topics<button class="manage-my-topics btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
       <hr>
       <modal
         id="topic-modal"
