@@ -8,6 +8,9 @@
     },
     "DEPLOY": {
       "required": true
+    },
+    "CYPRESS_CACHE_FOLDER": {
+      "required": true
     }
   },
   "formation": {
