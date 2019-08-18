@@ -39,7 +39,7 @@
       @click.prevent="logoutHandler">Logout</a> -->
     <div v-if="ownProfile" class="col-md-6 edit-link">
       <hr>
-      <h5>My Topics<button class="btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
+      <h5>My Topics<button class="manage-my-topics btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
       <hr>
       <modal
         id="topic-modal"
@@ -182,7 +182,10 @@
       },
       setResult(item) {
         const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
-        if (!topic) { this.modalTopics.push(item) }
+        if (!topic) {
+          this.modalTopics.push(item);
+          this.checkedTopics.push(item._id);
+        }
       },
       profileEdit() {
         this.$router.replace('/edit-profile')
