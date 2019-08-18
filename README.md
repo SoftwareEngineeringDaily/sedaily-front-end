@@ -1,5 +1,7 @@
 [![logo](https://i.imgur.com/3OtP3p8.png)](https://softwareengineeringdaily.com/)
 
+[![Build Status](https://travis-ci.org/SoftwareEngineeringDaily/sedaily-front-end.svg?branch=master)](https://travis-ci.org/SoftwareEngineeringDaily/sedaily-front-end)
+
 # Software Engineering Daily Front End
 
 The web client for the Software Daily platform, a Vue.js project. See the Open Source Guide [project overview](https://softwareengineeringdaily.github.io/High_Level/project_description/) for more.
