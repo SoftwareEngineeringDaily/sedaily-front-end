@@ -1,11 +1,13 @@
 
 <template>
+  <div class="comment-add-form">
   <comment-form
     :isSubmitting="isSubmitting"
     :content="commentContent"
     :submitCallback="submitCallback"
   >
   </comment-form>
+  </div>
 </template>
 
 <script>
@@ -55,10 +57,10 @@ export default  {
         })
         .catch((error) => {
           this.isSubmitting = false
-          this.$toasted.error(error.response.data.message, { 
+          this.$toasted.error(error.response.data.message, {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         })
