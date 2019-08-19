@@ -2,10 +2,14 @@ const uuidv4 = require('uuid/v4')
 
 describe('The Post Detail Page', function () {
   it('Successfully displays post details', function () {
+    let postTitle = '';
     cy.visit('/new')
-    cy.get('.title > a').first().click({ force: true }).then(() => {
-      cy.location().should((loc) => {
-        expect(loc.pathname).to.match(/post/)
+    cy.get('.news-post .title').first().invoke('text').then(postTitle => {
+      cy.get('.news-post .title > a').first().click().then(() => {
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.match(/post/)
+        })
+        cy.get('h1').contains(postTitle)
       })
     })
   })
