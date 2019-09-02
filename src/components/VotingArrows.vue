@@ -8,7 +8,7 @@
       @click='upvoteHandler'>
       <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
       <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
-      <p>Upvote</p>
+      <img src="@/assets/icons/heart.png"/>      
     </div>
     <div class='score-text'>{{ score || 0}}</div>
     <div
@@ -81,10 +81,17 @@ export default {
 
   &.active
     color #856aff !important
-    &:hover
+  
+  &:hover
       cursor pointer
       color #888
 
+  &.upvote img {
+    width: 1.3rem;
+  }
+  &.upvote img:hover {
+    width: 1.5rem;
+  }
 </style>
 
 <style lang="stylus">
