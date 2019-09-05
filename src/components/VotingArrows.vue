@@ -6,9 +6,8 @@
       :class="{ active: upvoted }"
       class='arrow upvote'
       @click='upvoteHandler'>
-      <!-- <img v-if="upvoted" src="@/assets/icons/upvote.svg" />
-      <img v-else src="@/assets/icons/upvote-thin.svg" /> -->
-      <img src="@/assets/icons/heart.png"/>      
+      <img v-if="upvoted" src="@/assets/icons/heart-like.svg" />
+      <img v-else src="@/assets/icons/heart.svg" />           
     </div>
     <div class='score-text'>{{ score || 0}}</div>
     <div
@@ -87,10 +86,8 @@ export default {
       color #888
 
   &.upvote img {
-    width: 1.3rem;
-  }
-  &.upvote img:hover {
-    width: 1.5rem;
+    width: 1rem;
+    color #856aff
   }
 </style>
 
