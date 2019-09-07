@@ -16,7 +16,6 @@ describe('Episode comments', function () {
       cy.wait(1000)
       cy.get('.comment-add-form input.comment-box').type('This was such a great episode I wish there was more like it!');
       cy.get('.comment-add-form .buttons-comment button.button-submit').click().then(() => {
-        cy.reload();
         cy.contains('This was such a great episode I wish there was more like it!');
         cy.get('.comment-holder').within(() => {
           cy.get('.reply').should('contain', 'Reply');
@@ -37,7 +36,6 @@ describe('Episode comments', function () {
       cy.wait(1000)
       cy.get('.comment-add-form input.comment-box').type('This was such a great esipode I wish there was mor elike it!');
       cy.get('.comment-add-form .buttons-comment button.button-submit').click().then(() => {
-        cy.reload();
         cy.contains('This was such a great esipode I wish there was mor elike it!');
         cy.get('.edit').click();
         cy.get('.comment-edit-form input.comment-box').clear();
