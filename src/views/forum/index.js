@@ -1,0 +1,5 @@
+export { default as EditForumThreadView } from './EditForumThreadView'
+export { default as ForumView } from './ForumView'
+export { default as ForumThreadView } from './NewForumThreadView'
+export { default as NewForumThreadView } from './NewForumThreadView'
+export { default as NewProjectForumThreadView } from './NewProjectForumThreadView'

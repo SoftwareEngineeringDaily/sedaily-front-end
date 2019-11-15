@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import modal from '@/components/ModalComponent.vue'
+import modal from '@/components/ModalComponent'
 import { mapGetters, mapState, mapActions } from 'vuex'
 import lodash from 'lodash'
 
@@ -285,9 +285,9 @@ export default {
         background-color primary-color
         color white
         margin 2px 0
-        margin-right 5px
-        padding 5px
-        border-radius 5px
+        margin-right 10px
+        padding 5px 9px
+        border-radius 2px
         cursor pointer
     .add-topics
       .add-topics-btn

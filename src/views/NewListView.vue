@@ -1,8 +1,9 @@
 <script>
-import BaseListView from '../components/BaseListView.vue'
+import BaseListView from '@/components/BaseListView'
+import HomeSection from '@/components/HomeSection'
 
 export default {
-  extends: BaseListView,
+  extends: HomeSection,
 
   name: 'new-list',
   data () {

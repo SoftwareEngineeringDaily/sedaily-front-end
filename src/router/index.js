@@ -2,34 +2,17 @@ import Router from 'vue-router'
 import TopListView from '@/views/TopListView'
 import NewListView from '@/views/NewListView'
 import PostDetailsView from '@/views/PostDetailsView'
-import LoginView from '@/views/LoginView'
-import SubscribeView from '@/views/SubscribeView.vue'
-import RegisterView from '@/views/RegisterView'
+import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
-import EditProfile from '@/views/EditProfileView'
 import FeedView from '@/views/FeedView'
-import ProfileView from '@/views/ProfileView'
-import PublicProfileView from '@/views/PublicProfileView'
-import ForgotPassword from '@/views/ForgotPassword'
-import RegainAccount from '@/views/RegainAccount'
+import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
-import JobsBoardView from '@/views/JobsBoardView'
-import JobView from '@/views/JobView'
-import AddJobView from '@/views/AddJobView'
-import EditJobView from '@/views/EditJobView'
 import { apiConfig } from '../../config/apiConfig'
-import CompanyLandingPage from '@/views/CompanyLandingPage'
-import UpdateCompanyProfile from '@/views/UpdateCompanyProfile'
 import AdminDashboard from '@/views/AdminDashboard'
-import CompanyCompose from '@/views/CompanyCompose'
-import CompanyEdit from '@/views/CompanyEdit'
+import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
+import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
-import Forum from '@/views/Forum'
-import ForumThreadView from '@/views/ForumThreadView'
-import NewForumThreadView from '@/views/NewForumThreadView'
-import NewProjectForumThreadView from '@/views/NewProjectForumThreadView'
-import EditForumThreadView from '@/views/EditForumThreadView'
-import SettingsView from '@/views/SettingsView'
+import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
 
 import authorize from './authHook'
 
@@ -60,7 +43,7 @@ const router = new Router({
     { path: '/edit-job/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditJobView },
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
-    { path: '/forum', component: Forum },
+    { path: '/forum', component: ForumView },
     { path: '/new-thread', beforeEnter: authorize, name: 'NewThread', component: NewForumThreadView },
     { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
     { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },

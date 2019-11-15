@@ -1,16 +1,15 @@
 <template>
-
   <div class="row top-space">
     <div
-    v-if="post"
-    class="post-view col-md-9">
+      v-if="post"
+      class="post-view col-md-9">
       <div class="post-header">
         <post-topics
-        :post="post"
-        />
+          :post="post"
+          />
         <post-header
-        :post="post"
-        />
+          :post="post"
+          />
       </div>
         <div class="post-meta">
           <post-meta :post="post" />
@@ -25,58 +24,54 @@
           @selectRelatedLinks="selectRelatedLinks"
           @selectComments="selectComments" />
         </div>-->
-
         <div
-        v-if="showPostContent"
-        class="post-content">
-        <div
-        class="post-transcript"
-        v-html="postContent" />
+          v-if="showPostContent"
+          class="post-content">
+          <div
+            class="post-transcript"
+            v-html="postContent" />
+          <div class="voting-arrows-container">
+            <voting-arrows
+            :upvoted="post.upvoted"
+            :downvoted="post.downvoted"
+            :upvote-handler="upvoteHandler"
+            :downvote-handler="downvoteHandler"
+            :score="post.score" />
+          </div>
+          <div
+            v-if="isLoggedIn">
+            <hr>
+            <div class="col-md-12">
+              <comment-compose
+              v-if="forumThreadId"
+              :entityId="forumThreadId"
+              :rootEntityType='"forumthread"' />
+            </div>
+          </div>
 
-        <div class="voting-arrows-container">
-          <voting-arrows
-          :upvoted="post.upvoted"
-          :downvoted="post.downvoted"
-          :upvote-handler="upvoteHandler"
-          :downvote-handler="downvoteHandler"
-          :score="post.score" />
+          <hr>
+          <div class="row comments">
+            <div class="col-md-8">
+              <h3 class="section-title"> Comments </h3>
+              <comments-list :comments="comments" />
+            </div>
+          </div>
         </div>
-        <div
-        v-if="isLoggedIn">
-        <hr>
-        <div class="col-md-12">
-          <comment-compose
-          v-if="forumThreadId"
-          :entityId="forumThreadId"
-          :rootEntityType='"forumthread"' />
-        </div>
-      </div>
 
-      <hr>
-      <div class="row comments">
-        <div class="col-md-8">
+        <div
+          v-if="showComments"
+          class="comments">
+          <comment-compose v-if="forumThreadId"
+            :entityId="forumThreadId"
+            :rootEntityType='"forumthread"' />
+          <br>
           <h3 class="section-title"> Comments </h3>
-          <comments-list :comments="comments" />
+          <comments-list
+            :comments='comments'
+            :rootEntityType='"forumthread"'
+            :loading="isLoadingComments"
+            />
         </div>
-      </div>
-    </div>
-
-
-
-    <div
-    v-if="showComments"
-    class="comments">
-    <comment-compose v-if="forumThreadId"
-    :entityId="forumThreadId"
-    :rootEntityType='"forumthread"' />
-    <br>
-    <h3 class="section-title"> Comments </h3>
-    <comments-list
-    :comments='comments'
-    :rootEntityType='"forumthread"'
-    :loading="isLoadingComments"
-    />
-    </div>
     </div>
     <div class="view-top col-md-3">
       <div class="related-links">
@@ -96,20 +91,19 @@
 </template>
 
 <script>
-// import Spinner from '@/components/Spinner.vue'
 import { Spinner } from 'bootstrap-vue/es/components/spinner'
-import CommentsList from '@/components/CommentsList.vue'
-import CommentCompose from '@/components/CommentCompose.vue'
-import RelatedLinkList from '@/components/RelatedLinkList.vue'
-import VotingArrows from '@/components/VotingArrows.vue'
-import RelatedLinkCompose from '@/components/RelatedLinkCompose.vue'
+import CommentsList from '@/components/comment/CommentsList'
+import CommentCompose from '@/components/comment/CommentCompose'
+import RelatedLinkList from '@/components/related/RelatedLinkList'
+import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
+import VotingArrows from '@/components/VotingArrows'
 import PostSidebar from '@/components/post/PostSidebar'
 import PostHeader from '@/components/post/PostHeader'
 import PostSelectionIcons from '@/components/post/PostSelectionIcons'
 import PostMeta from '@/components/post/PostMeta'
 import PostTopics from '@/components/post/PostTopics'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import { PlayerState } from './../utils/playerState'
+import { PlayerState } from '@/utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
 
 export default {
@@ -380,7 +374,6 @@ export default {
 .post-view
   background-color white
   padding-bottom 100px
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
 
 .comment-children
   list-style-type none

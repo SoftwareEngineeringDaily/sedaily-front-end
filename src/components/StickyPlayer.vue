@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import AudioPlayer from 'components/AudioPlayer.vue'
+import AudioPlayer from '@/components/AudioPlayer'
 import { PlayerState } from './../utils/playerState'
 import { mapActions, mapState, mapGetters } from 'vuex'
 

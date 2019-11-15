@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import FeedItemWrapper from '@/components/FeedItemWrapper.vue'
+import FeedItemWrapper from '@/components/feed/FeedItemWrapper'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',

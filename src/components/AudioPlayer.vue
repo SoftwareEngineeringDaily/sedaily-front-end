@@ -221,6 +221,6 @@ export default {
   font-size: 0.9em
 .progress-slider
   margin-top 5px
-  .vue-slider-component
+  -slider-component
     padding 0
 </style>

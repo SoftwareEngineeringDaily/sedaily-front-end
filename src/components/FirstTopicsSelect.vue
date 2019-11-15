@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import modal from '@/components/ModalComponent.vue'
+import modal from '@/components/ModalComponent'
 import { mapState, mapActions } from 'vuex'
 import lodash from 'lodash'
 

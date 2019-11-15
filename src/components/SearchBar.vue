@@ -1,10 +1,14 @@
 <template>
-  <div class='search-bar' v-if="showFilteringElements">
-    <input id="search" v-on:keyup.enter='onEnter' class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
-  </div>
-  <div v-else>
-    <br />
-    <br />
+  <div class="search-wrapper">
+    <span v-if="!searchActive" v-on:click="onSearchActive">
+      <img class="search-img" src="../assets/icons/search.svg">
+    </span>
+    <div v-else>
+    <div class='search-bar' v-if="showFilteringElements">
+      <input id="search" v-on:keyup.enter='onEnter' class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+    </div>
+    
+    </div>
   </div>
 </template>
 
@@ -14,6 +18,7 @@ export default {
   data() {
     return {
       searchTerm: null,
+      searchActive: false,
       showFilteringElements: true,
     }
   },
@@ -30,6 +35,11 @@ export default {
       } else {
         this.$store.commit('setSearchTerm', { searchTerm: this.searchTerm })
       }
+    },
+     onSearchActive() {
+      !this.searchActive
+        ? (this.searchActive = true)
+        : (this.searchActive = false);
     },
     onEnter() {
       this.makeSearch()
@@ -51,7 +61,8 @@ input#search
 
 input#search focus
  background-image none
-
+.search-wrapper 
+  min-width 25px
 .search-bar
   flex 1
   display flex

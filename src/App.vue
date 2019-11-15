@@ -3,7 +3,6 @@
     <navigation-bar
       :userData="me"
     />
-
     <div class="container-fluid main-app">
       <!-- <div
         v-if="showBeta"
@@ -39,21 +38,24 @@
         <sticky-player />
       </div>
     </transition>
+    <nav-footer />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import StickyPlayer from './components/StickyPlayer.vue'
-import ChatBox from './components/ChatBox.vue'
-import NavigationBar from './components/NavigationBar.vue'
+import StickyPlayer from '@/components/StickyPlayer'
+import ChatBox from '@/components/chat/ChatBox'
+import NavigationBar from '@/components/layout/NavBar'
+import NavFooter from '@/components/layout/Footer'
 
 export default {
   name: 'app',
   components: {
     StickyPlayer,
     ChatBox,
-    NavigationBar
+    NavigationBar,
+    NavFooter
   },
   computed: {
     ...mapState({
@@ -93,8 +95,10 @@ export default {
 <style lang="stylus">
 @import './css/variables'
 #app
-  background-color rgba(219, 229, 236, 0.2)
+  background-color #fff
   min-height calc(100vh - 72px)
+  width: 100vw;
+  max-width: 100vw;
 
 .main-app
   max-width 1200px
@@ -164,8 +168,7 @@ body
   background-color white
   overflow-y scroll
   margin 0
-  #app
-    padding-bottom 120px
+    
 
 a
   color primary-color
