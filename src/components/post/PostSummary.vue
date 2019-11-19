@@ -54,32 +54,6 @@
       :rootEntityType='"forumthread"'
       :loading="isLoadingComments"
     />
-
-    <!-- <div class="news-content">
-      <div class="player">
-        <span
-          v-if="post.mp3"
-          class="player-controls">
-          <span
-            v-if="canPlay"
-            class="fa fa-2x fa-play player-control"
-            title="play"
-            @click="play" />
-          <span
-            v-if="canPause"
-            class="fa fa-2x fa-pause player-control"
-            title="pause"
-            @click="pause" />
-        </span>
-        <span
-          v-else
-          class="player-controls">
-          <span
-            class="fa fa-2x fa-file-text-o text-only"
-            title="Text-only" />
-        </span>
-      </div>
-    </div> -->
   </div>
 </template>
 

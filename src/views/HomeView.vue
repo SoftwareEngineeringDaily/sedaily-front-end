@@ -1,6 +1,6 @@
 <script>
-import BaseListView from '@/components/BaseListView'
 import HomeSection from '@/components/HomeSection'
+import BaseListView from '@/components/BaseListView'
 
 export default {
   extends: HomeSection,

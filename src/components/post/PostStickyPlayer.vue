@@ -9,14 +9,14 @@
 </template>
 
 <script>
-import AudioPlayer from '@/components/AudioPlayer'
-import { PlayerState } from './../utils/playerState'
+import PostAudioPlayer from './PostAudioPlayer'
+import { PlayerState } from '@/utils/playerState'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'sticky-player',
   components: {
-    'a-player': AudioPlayer
+    'a-player': PostAudioPlayer
   },
   data () {
     return {

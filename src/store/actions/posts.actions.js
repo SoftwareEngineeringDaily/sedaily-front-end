@@ -6,8 +6,7 @@ const BASE_URL = apiConfig.BASE_URL
 
 export default {
 
-  getTopicsInSearch: ({ commit, dispatch, state, getters }, { topic, search, createdAtBefore }) => {
-
+  getPosts: ({ commit, dispatch, state, getters }, { topic, search, createdAtBefore }) => {
     if (!createdAtBefore) createdAtBefore = moment().toISOString()
 
     let url = `${BASE_URL}/posts`

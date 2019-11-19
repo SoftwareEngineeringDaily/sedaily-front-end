@@ -2,42 +2,79 @@
 	<div class="popular-section" :class="[inverse ? 'inverse' : '']">
 		<h5>{{sectionTitle}}</h5>
 		<div class="popular-list">
-			<div class="popular-item" v-for="(post, i) in posts" :key="i">
+			<div class="popular-item" v-for="(post, i) in displayedPosts" :key="i">
+				<router-link :to="postPrettyUrl(post)">
 				<div class="left">
 					<div class="number">
 						{{i+1}}
 					</div>
 					<div class="copy">
-						<h3 class="title">{{post.title}}</h3>
+						<h3 class="title">{{ post.title.rendered | decodeString }}</h3>
 						<div class="details">
-							<div class="date">{{post.date}}</div><span>|</span>
-							<div class="duration">{{post.durationn}}</div>
+							<post-meta :post="post" :showDuration="showDuration"/>
 						</div>
 					</div>
 				</div>
-				<div class="img-container">
-					<img :src="post.img"/>
-				</div>
+				</router-link>
+				<div v-if="showImg" class="img-container">
+					<img :src="post.featuredImage"/>
+				</div>			
 			</div>		
 		</div>
 	</div>
 </template>
 
 <script>
+import { PostMeta } from '@/components/post'
+import { postPrettyUrl } from '@/utils/post.utils'
+import { mapActions } from "vuex"
 
 export default {
 	name: "feed-popular",
+	components: { PostMeta }, 
 	props: {
-		posts: {
-	      type: Array
+		postCount: {
+	      type: Number,
+	      default: 4
 	    },
 	    sectionTitle: {
 	    	type: String
 	    },
 	    inverse: {
 	    	type: Boolean
+	    },
+	    showImg: {
+	    	type: Boolean,
+	    	default: true
+	    },
+	    showDuration: {
+	    	type: Boolean,
+	    	default: true
+	    }
+	},
+	data() {
+	    return {
+	      loading: false,
+	      displayedPosts: []
+	    }
+	},
+	mounted() {
+	    this.fetchPosts()
+	},
+	methods: {
+		...mapActions(['getPosts']),
+		postPrettyUrl (post) {
+	      return postPrettyUrl(post)
+	    },
+	    fetchPosts() {
+	      this.getPosts({}).then(
+	        data => {
+	          this.displayedPosts = data.posts.splice(0,this.postCount)
+	        }
+	      )
 	    }
 	}
+
 }
 </script>
 
@@ -47,16 +84,23 @@ export default {
 	height 100%
 	background-color #e9ecef
 	padding 45px 30px
+	text-decoration none
+	a
+		color #222
 	&.inverse
 		background-color #222
-		color #fff
+		color #fff 
+		a 
+			color #fff !important
 	h5
 		text-align center
+		font-size 1rem
 	.popular-item
 		margin 20px 0
 		display flex
 		.img-container
-			width 50px
+			width 80px
+			margin-left 15px
 			img 
 				width 100%
 		.left
@@ -74,9 +118,7 @@ export default {
 				.title
 					font-size 1.3rem
 				.details
-					display flex
-					> * 
-						margin-right 5px
+					font-size .65rem
 
 
 </style>

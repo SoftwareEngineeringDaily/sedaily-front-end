@@ -1,24 +1,42 @@
 <template>
-	<div class="body">
-		<featured-item/>
-		<feed-grid/>
+	<div class="home-container">
+		<feed-grid :posts="displayedPosts"/>
 	</div>
 </template>
 
 
 <script>
-import FeaturedItem from '@/components/feed/FeaturedItem'
 import FeedGrid from '@/components/feed/FeedGrid'
-export default {
-	name: "home-section",
-	components: { FeaturedItem, FeedGrid },
-	props: {
+import { mapState, mapActions, mapGetters } from 'vuex'
 
+export default {
+	name: 'home-section',
+	components: { FeedGrid },
+	created() {
+	    this.fetchPosts()
+	},
+	data() {
+	    return {
+	      loading: false,
+	      displayedPosts: []
+	    }
+	},
+	methods: {
+	    ...mapActions(['getPosts']),
+	    fetchPosts() {
+	      this.getPosts({}).then(
+	        data => {
+	          this.displayedPosts = data.posts
+	          this.$store.commit('setPosts', {posts: data.posts})
+	        }
+	      )
+	    },
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
-.body 
-	min-height 80vh
+.home-container 
+	max-width 1050px
+	margin 0 auto
 </style>

@@ -1,37 +1,6 @@
 <template>
   <div class="news-view">
-    <div class="categories-container">
-      <div v-if="showUserTopics" class="topics-container">
-        <h4>Favourite</h4>
-        <ul>
-          <li
-            class="topic-item"
-            v-for="topic in showTopics"
-            :key="topic._id"
-            @click="topicHandler(topic)"
-            :class="getClassForTopic(topic._id)"
-          >{{ topic.name }}</li>
-        </ul>
-      </div>
-      <div class="topics-container">
-        <h4>Most Popular</h4>
-        <ul>
-          <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
-          <li
-            class="topic-item"
-            v-for="topic in showMostPopular"
-            :key="topic._id"
-            @click="topicHandler(topic)"
-            :class="getClassForTopic(topic._id)"
-          >{{ topic.name }}</li>
-        </ul>
-      </div>
-      <!-- <div
-        v-if="showTopics !== null &&
-         (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)"
-      >
-      <first-topics-select/>
-      </div> -->
+    
       <div class="app-download">
         <a
           href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
@@ -54,10 +23,9 @@
           <img src="@/assets/icons/Github.png" class="github-icon">
           GitHub
         </a>
-      </div>
+
     </div>
 
-    <instructions :displayedPosts="displayedPosts"></instructions>
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
@@ -78,20 +46,14 @@
 import moment from "moment";
 import Spinner from "@/components/Spinner";
 import PostSummary from "@/components/post/PostSummary";
-import CategoryList from "@/components/CategoryList";
-import Blank from "@/components/Blank";
-import FirstTopicsSelect from "@/components/FirstTopicsSelect";
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "top-list",
 
   components: {
-    instructions: Blank,
     Spinner,
-    CategoryList,
     PostSummary,
-    FirstTopicsSelect
   },
 
   data() {

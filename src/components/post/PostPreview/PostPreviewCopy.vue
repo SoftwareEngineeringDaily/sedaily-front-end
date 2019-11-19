@@ -1,21 +1,15 @@
 <template>
 	<div class="body" :class="[inverse ? 'inverse' : '']">
-		<div class="tags">
-			<span>podcast</span>
-			<span>facebook</span>
-			<span>social media</span>
-		</div>
+		<post-topics-list :post="post" :inverse="inverse" v-if="showTags"/>
 		<h3 class="title">
-			{{post.title}}
+			<router-link :to="postPrettyUrl">{{ post.title.rendered | decodeString }}</router-link>
 		</h3>
-		<div class="copy">
-			{{post.description}}
+		 
+		<div class="copy" v-if="showCopy">
+			<span v-if="post.excerpt.rendered !== '' && metaDescription === ''" v-html="post.excerpt.rendered"></span>
+        	<p v-else>{{metaDescription}}</p>
 		</div>
-		<div class="post-details">
-			<div class="date">{{post.date}}</div><span>|</span>
-			<div class="duration">40 mins</div><span>|</span>
-			<div class="comment-count">5 comments</div>
-		</div>
+		<post-meta :post="post" :showDuration="false"/>
 		<div class="author">
 			Posted by Jeff Myerson
 		</div>
@@ -24,8 +18,10 @@
 
 
 <script>
+import { PostMeta, PostTopicsList, PostTopics, PostTitle, PostAuthor } from '@/components/post'
+import { postPrettyUrl } from '@/utils/post.utils'
 export default {
-	name: "post-preview-copy",
+	components: { PostMeta, PostTopicsList, PostTopics, PostTitle, PostAuthor },
 	props: {
 		post: {
 	      type: Object,
@@ -33,14 +29,53 @@ export default {
 	    },
 	    inverse: {
 	    	type: Boolean
+	    },
+	    showTags: {
+	    	type: Boolean
+	    },
+	    showCopy: {
+	    	type: Boolean,
+	    	default: true
 	    }
+	},
+	computed: {
+		postPrettyUrl () {
+			console.log(this.post)
+	      return postPrettyUrl(this.post)
+	    },
+	    metaDescription () {
+	    	console.log('this.post',this.post)
+	      const maxLength = 200;
+	      const el = document.createElement('template')
+	      el.innerHTML = this.post.content.rendered.trim()
+	      // spans contain text to extract "summary"
+	      let paras = el.content.querySelectorAll('span')
+	      if ( paras.length === 0){
+	        paras = el.content.querySelectorAll('p')
+	      }
+
+	      let description = '';
+	      for (let para of paras) {
+
+	        if(para.className !== 'powerpress_links powerpress_links_mp3'){
+	          description += para.innerText + ' ';
+	        }
+	        if (description.length >= maxLength) {
+	          break;
+	        }
+	      }
+	      if (description.length > maxLength) {
+	        return description.substr(0, maxLength-3) + '...'
+	      }
+	      return description;
+	    },
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
 .body
-	padding 3.125rem .8rem
+	padding 1.3rem 1.5rem
 	@media (max-width 599px)	
 		padding: 2rem .8rem;
 	.post-details
@@ -48,25 +83,23 @@ export default {
 		font-weight bold
 		> *
 			margin-right 15px
-	.title 
-		font-size 2.2rem
+	.title a
+		text-decoration none
+		font-size 1.7rem
+		font-weight 700
+		&:hover
+			color inherit
 	.tags 
-		display block
-		margin 10px 0 20px 0
-		font-size 13px
-		span
-			margin 0 10px 10px 0
-			text-transform uppercase
-			user-select none
-			color #fff
-			background-color #222
-			border-radius 2px
-			padding 6px 12px
-			display inline-block
+		margin 10px 0
+		
 	&.inverse
 		color #fff
 		.tags
 			span
-				background-color #fff
-				color #222
+				background-color #fff !important
+				color #222 !important
+		.title a
+			color #fff
+	.author 
+		margin-top 10px
 </style>

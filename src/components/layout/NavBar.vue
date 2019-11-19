@@ -7,7 +7,7 @@
        </div>
       
       <span class="pull-right">
-        <SearchBar/>
+        <search-bar />
         <span v-if="!alreadySubscribed" class="register">
           <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
         </span>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { Dropdown } from 'bootstrap-vue/es/components/dropdown'
+import { Dropdown } from 'bootstrap-vue/esm/components/dropdown'
 import { mapGetters, mapState } from "vuex";
 import SearchBar from "@/components/SearchBar";
 import NavMobile from "./NavBarMobile"
@@ -376,7 +376,7 @@ $(function() {
   .call-to-action-secondary
     padding 10px 30px
     border-radius 2px
-    color #fff
+    color #fff !important
   .register-nav-link
     margin-right 1em
   .arrow

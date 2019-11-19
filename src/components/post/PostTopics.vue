@@ -273,7 +273,6 @@ export default {
     color black
     font-size 1.5rem
   .post-topics-header
-    margin 15px 20px
     display flex
     align-items center
     .post-topics
@@ -284,10 +283,11 @@ export default {
       .topics
         background-color primary-color
         color white
-        margin 2px 0
-        margin-right 10px
-        padding 5px 9px
-        border-radius 2px
+        text-transform uppercase
+        font-size .7rem
+        margin 2px 10px 8px 0
+        padding 3px 9px
+        border-radius 3px
         cursor pointer
     .add-topics
       .add-topics-btn

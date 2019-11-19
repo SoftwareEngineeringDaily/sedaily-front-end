@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-
-    <!--
-    <div class="row">
-
-    <div class="col-md-12 text-center subscribe-logo">
-    <img width="60%" src="https://s3-us-west-2.amazonaws.com/sd-profile-pictures/SED_Logo_Vector.svg"/>
-  </div>
-</div> -->
-
 <div class="row">
   <div class="col-md-12 text-center">
     <h1>Subscribe</h1>
@@ -131,7 +122,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
-import { selectSubscriptionPlan } from '../utils/subscription.utils.js'
+import { selectSubscriptionPlan } from '@/utils/subscription.utils.js'
 export default {
   methods: {
     signUpForSubscriptionYearly () {

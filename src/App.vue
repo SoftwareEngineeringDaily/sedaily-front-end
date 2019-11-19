@@ -4,22 +4,6 @@
       :userData="me"
     />
     <div class="container-fluid main-app">
-      <!-- <div
-        v-if="showBeta"
-        class="row">
-        <div
-          class="col-md-12 beta-msg text-center">
-          Welcome! We are in early beta, checkout the open source project on
-          <a
-            href="https://github.com/SoftwareEngineeringDaily"
-            target="_blank"
-            class="link"> Github</a> &amp; become a
-          <router-link
-            to="/contributors"
-            class="link">contributor</router-link>.
-        </div>
-
-      </div> -->
       <div class="row">
         <transition
           name="fade"
@@ -28,14 +12,13 @@
         </transition>
       </div>
     </div>
-
     <transition
       name="fade"
       mode="out-in">
       <div
         v-if="isPlayerActive"
         class="player-holder">
-        <sticky-player />
+        <post-sticky-player />
       </div>
     </transition>
     <nav-footer />
@@ -44,7 +27,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import StickyPlayer from '@/components/StickyPlayer'
+import { PostStickyPlayer } from '@/components/post'
 import ChatBox from '@/components/chat/ChatBox'
 import NavigationBar from '@/components/layout/NavBar'
 import NavFooter from '@/components/layout/Footer'
@@ -52,7 +35,7 @@ import NavFooter from '@/components/layout/Footer'
 export default {
   name: 'app',
   components: {
-    StickyPlayer,
+    PostStickyPlayer,
     ChatBox,
     NavigationBar,
     NavFooter
@@ -104,6 +87,7 @@ export default {
   max-width 1200px
   margin-top 4rem
   padding-top 15px
+  min-height 100vh
 
 .login-view,.register-view,.settings-view,.forgot-password-view
   margin 45px!important
@@ -156,14 +140,15 @@ export default {
   cursor pointer
 
 .section-title
-  font-weight 300
+  font-weight 600
 
 .col-centered
   float none
   margin 0 auto
 
 body
-  font-family 'Roboto', sans-serif
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size 14px
   background-color white
   overflow-y scroll

@@ -43,6 +43,7 @@
     "vue": "^2.5.16",
     "vue-analytics": "^5.9.1",
     "vue-aplayer": "^1.4.0",
+    "vue-axios": "^2.1.5",
     "vue-infinite-scroll": "^2.0.2",
     "vue-meta": "^1.5.0",
     "vue-recaptcha": "^1.1.1",
@@ -123,7 +124,7 @@
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.17.1",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.13",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.8.1",
     "webpack-merge": "^4.1.2"
   },

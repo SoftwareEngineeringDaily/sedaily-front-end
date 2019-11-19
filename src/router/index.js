@@ -1,7 +1,9 @@
 import Router from 'vue-router'
 import TopListView from '@/views/TopListView'
-import NewListView from '@/views/NewListView'
-import PostDetailsView from '@/views/PostDetailsView'
+import SearchView from '@/views/SearchView'
+import HomeView from '@/views/HomeView'
+import PostView from '@/views/post/PostView'
+
 import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
@@ -19,15 +21,16 @@ import authorize from './authHook'
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'NewListView', component: NewListView },
-    { path: '/topics/:topic', name: 'NewListView', component: NewListView },
-    { path: '/topics/:topic/:search', name: 'NewListView', component: NewListView },
+    { path: '/', name: 'HomeView', component: HomeView },
+    { path: '/search', component: SearchView },
+    { path: '/topics/:topic', name: 'SearchView', component: SearchView },
+    { path: '/topics/:topic/:search', name: 'SearchView', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/top/:page(\\d+)?', component: TopListView },
-    { path: '/new/:page(\\d+)?', name: 'NewListView', component: NewListView },
+    { path: '/new/:page(\\d+)?', name: 'SearchView', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
-    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostDetailsView },
+    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostView },
     { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },

@@ -40,7 +40,7 @@
 
 <script>
 import vueSlider from 'vue-slider-component'
-import { secondToTime } from './../utils/time.utils'
+import { secondToTime } from '@/utils/time.utils'
 
 export default {
   props: {
@@ -173,7 +173,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import './../css/variables'
+@import '../../css/variables'
 
 .audio-player-container 
   display flex

@@ -1,6 +1,5 @@
 <template>
   <div class="primary-post-header">
-    <!--<div class="header-title" v-bind:style="{ 'background-image': 'url(' + imageStyle + ')' }">-->
     <div class="header-title">
       <h1>{{ post.title.rendered }}</h1>
     </div>
@@ -15,16 +14,7 @@ export default {
       required: true
     },
   },
-  computed: {
-    featuredImage () {
-      return this.post.featuredImage
-      ? this.post.featuredImage
-      : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
-    },
-    imageStyle () {
-      return this.featuredImage
-    },
-  }
+  
 }
 </script>
 
@@ -35,9 +25,9 @@ export default {
 .header-title
   width 100%
   h1
-    margin 15px 20px
-    font-weight 600
-    font-size 2.5rem
+    margin 15px 0
+    font-weight 800
+    font-size 2.7rem
 
 @media (max-width 600px)
   .header-title

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { Dropdown } from 'bootstrap-vue/es/components/dropdown'
+import { Dropdown } from 'bootstrap-vue/esm/components/dropdown'
 import { mapGetters, mapState } from "vuex";
 import SearchBar from "@/components/SearchBar";
 

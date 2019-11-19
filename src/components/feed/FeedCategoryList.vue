@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import './../css/variables'
+@import '../../css/variables'
 
 .categories
   margin-bottom 10px
