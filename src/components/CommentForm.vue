@@ -26,7 +26,7 @@
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
       </div>
-      <div class="buttons-comment" v-else>
+      <div class="buttons-comment">
         <button
           class="button-submit"
           :disabled="isSubmitting"

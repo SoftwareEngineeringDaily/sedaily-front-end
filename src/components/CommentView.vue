@@ -25,13 +25,13 @@
           <!-- <div class="bullet-point"></div> -->
           <!-- <div v-if="isLoggedIn" class="bullet-point"></div> -->
           <span v-if="!isReplying && isLoggedIn">
-            <span class="link" @click="isReplying=!isReplying">Reply</span>
+            <span class="link reply" @click="isReplying=!isReplying">Reply</span>
           </span>
           <span v-if="isReplying && isLoggedIn" class="link" @click="isReplying=!isReplying">Cancel</span>
 
           <span class="delete" v-if="this.isMyComment && !comment.deleted" @click="remove">Delete</span>
           <span
-            class="delete"
+            class="edit"
             v-if="this.isMyComment && !comment.deleted"
             @click="editing=true"
           >Edit</span>
@@ -210,10 +210,10 @@ export default {
           });
         })
         .catch(error => {
-          this.$toasted.error("Error deleting :(", { 
+          this.$toasted.error("Error deleting :(", {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           });
         });

@@ -2,10 +2,14 @@ const uuidv4 = require('uuid/v4')
 
 describe('The Post Detail Page', function () {
   it('Successfully displays post details', function () {
+    let postTitle = '';
     cy.visit('/new')
-    cy.get('.title > a').first().click({ force: true }).then(() => {
-      cy.location().should((loc) => {
-        expect(loc.pathname).to.match(/post/)
+    cy.get('.news-post .title').first().invoke('text').then(postTitle => {
+      cy.get('.news-post .title > a').first().click().then(() => {
+        cy.location().should((loc) => {
+          expect(loc.pathname).to.match(/post/)
+        })
+        cy.get('h1').contains(postTitle)
       })
     })
   })
@@ -36,29 +40,6 @@ describe('The Post Detail Page', function () {
       .downvoteToggle()
       .parent()
       .expectActiveVote('none')
-    })
-  })
-  xit('Successfully comments on post', function () {
-    const comment = `My opinion - ${uuidv4()}`
-    const reply = `Also - ${uuidv4()}`
-    cy.login().then(() => {
-      cy.visit('/new')
-      cy.get('.title > a').first().click({ force: true })
-      cy.get('.comment-box').first().type(comment)
-      cy.contains('Add Comment').click()
-      cy.contains(comment).should('exist')
-      cy.get('.comment-box').should('have.value', '')
-      cy.contains('Reply').first().click()
-      cy.get('.reply-container').first()
-      .within(() => {
-        cy.get('.comment-box').type(reply)
-        cy.contains('Reply').click()
-      })
-      cy.contains(reply).should('exist')
-      cy.get('.replies').first().contains('Delete').click()
-      cy.contains(reply).should('not.exist')
-      cy.get('.comment-holder').first().contains('Delete').first().click()
-      cy.contains(comment).should('not.exist')
     })
   })
   xit('Successfully adds related link', function () {

@@ -1,14 +1,16 @@
 <template>
-  <comment-form
+  <div class="comment-edit-form">
+    <comment-form
       :isSubmitting="isSubmitting"
       :content="commentContent"
       :submitCallback="submitCallback"
       :cancelPressed="doneCallback"
       :existingMentions="originalMentions"
       :showCancel="true"
-      :submitButtonText="'Edit'"
-      >
+      :submitButtonText="'Save'"
+    >
     </comment-form>
+  </div>
 </template>
 
 <script>
@@ -81,10 +83,10 @@ export default {
           this.doneCallback()
         })
         .catch((error) => {
-          this.$toasted.error(error.response.data.message, { 
+          this.$toasted.error(error.response.data.message, {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         })
