@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="topics-container">
   	<h4>Most Popular</h4>
     <ul>
       <li @click="fetchPosts" :class="getClassForTopic('')">All</li>

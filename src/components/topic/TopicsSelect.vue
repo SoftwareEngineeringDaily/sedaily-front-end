@@ -151,7 +151,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import './../css/variables'
+  @import '../../css/variables'
   body.modal-open
     overflow hidden
   .autocomplete

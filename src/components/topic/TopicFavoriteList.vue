@@ -1,22 +1,24 @@
 <template>
-  <div>
-  	<h4>Favourite</h4>
-    <ul>
-      <li
-        class="topic-item"
-        v-for="topic in topics"
-        :key="topic._id"
-        @click="topicHandler(topic)"
-        :class="getClassForTopic(topic._id)"
-      >{{ topic.name }}</li>
-    </ul>
+  <div class="categories-container">
+  	<div v-if="showUserTopics" class="topics-container">
+	  	<h4>Favourite</h4>
+	    <ul>
+	      <li
+	        class="topic-item"
+	        v-for="topic in showTopics"
+	        :key="topic._id"
+	        @click="topicHandler(topic)"
+	        :class="getClassForTopic(topic._id)"
+	      >{{ topic.name }}</li>
+	    </ul>
+	</div>
   </div>
 </template>
 
 <script>
 	export default {
 		props: {
-			topics: {
+			showTopics: {
 				type: Array
 			},
 			topicHandler: {
@@ -24,6 +26,9 @@
 			},
 			getClassForTopic: {
 				type: Function
+			},
+			showUserTopics: {
+				type: Boolean
 			}
 		}
 	}

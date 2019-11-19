@@ -1,5 +1,19 @@
 <template>
-  <div>
+  <div class="news-view">
+    <div class="categories-container">
+      <topic-favorite-list 
+        :showTopics="showTopics"
+        :topicHandler="topicHandler"
+        :getClassForTopic="getClassForTopic"
+        :showUserTopics="showUserTopics"
+        />
+      <topic-popular-list 
+        :topics="topics"
+        :fetchPosts="fetchPosts"
+        :topicHandler="topicHandler"
+        :getClassForTopic="getClassForTopic"
+      />
+    </div>
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
@@ -17,11 +31,13 @@
 </template>
 
 <script>
-import moment from "moment";
-import Spinner from "@/components/Spinner";
-import { PostSummary, PostPreview } from "@/components/post";
-import CategoryList from "@/components/feed/FeedCategoryList";
-import { mapState, mapActions, mapGetters } from "vuex";
+import moment from 'moment'
+import { mapState, mapActions, mapGetters } from 'vuex'
+
+import Spinner from '@/components/Spinner'
+import { PostSummary, PostPreview } from '@/components/post'
+import CategoryList from '@/components/feed/FeedCategoryList'
+import { TopicFavoriteList, TopicPopularList } from '@/components/topic'
 
 export default {
   name: "top-list",
@@ -30,7 +46,9 @@ export default {
     Spinner,
     CategoryList,
     PostSummary,
-    PostPreview
+    PostPreview,
+    TopicFavoriteList,
+    TopicPopularList
   },
 
   data() {
@@ -70,6 +88,18 @@ export default {
     search() {
       return this.searchTerm;
     },
+    showTopics() {
+      return this.topics.user;
+    },
+    showUserTopics() {
+      if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
+        if (this.$store.state.topics.user.length !== 0) {
+          return true
+        }
+      } else {
+        return false
+      }
+    }
   },
   created() {
     this.$store.commit("setActiveType", { type: this.type });
@@ -108,6 +138,24 @@ export default {
   },
   methods: {
     ...mapActions(["showTopic", "getPosts"]),
+    getClassForTopic(topic_id) {
+      return this.topicId === topic_id ? "topic-active" : "";
+    },
+    topicHandler(topic) {
+      this.displayedPosts = [];
+      this.loading = true;
+      let topicId = topic._id,
+        topicSlug = topic.slug;
+      this.topicId = topicId;
+      this.showTopic(topicSlug).then(
+        topics => {
+          this.loading = false;
+          this.displayedPosts = topics.data.posts
+          this.$store.commit('setPosts', {posts: topics.data.posts})
+          }
+      );
+      this.$router.push({ path: `/topics/${topicSlug}` });
+    },
     fetchPosts() {
       this.topicId = "";
 

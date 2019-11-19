@@ -1,21 +1,21 @@
 import Router from 'vue-router'
+
 import TopListView from '@/views/TopListView'
 import SearchView from '@/views/SearchView'
 import HomeView from '@/views/HomeView'
 import PostView from '@/views/post/PostView'
-
 import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
-import { apiConfig } from '../../config/apiConfig'
 import AdminDashboard from '@/views/AdminDashboard'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
 
+import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
 
 const router = new Router({

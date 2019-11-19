@@ -1,5 +1,5 @@
 <template>
-	<div class="post-item">
+	<div class="news-post">
 		<div class="img-container" v-if="showImg">
 			<img :src="post.featuredImage"/>
 		</div>
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.post-item
+.news-post
 	display flex
 	position relative
 	flex-direction column

@@ -1,13 +1,12 @@
 <template>
   <div class="search-wrapper">
     <span v-if="!searchActive" v-on:click="onSearchActive">
-      <img class="search-img" src="../assets/icons/search.svg">
+      <img class="search-img" src="@/assets/icons/search.svg">
     </span>
     <div v-else>
-    <div class='search-bar' v-if="showFilteringElements">
-      <input id="search" v-on:keyup.enter='onEnter' class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
-    </div>
-    
+      <div class='search-bar' v-if="showFilteringElements">
+        <input id="search" v-on:keyup.enter='onEnter' class='search-bar-input' type='text' placeholder='Search...' v-model='searchTerm' debounce="900"/>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +51,7 @@ export default {
 <style scoped lang="stylus">
 @import '../../css/variables'
 input#search
- background-image url(../assets/icons/search.svg)
+ background-image url(../../assets/icons/search.svg)
  background-repeat: no-repeat
  background-position left
  background-position-x 5px
