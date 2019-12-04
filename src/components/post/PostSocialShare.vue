@@ -1,6 +1,7 @@
 <template>
 	<social-sharing
 	    :url="post.url"
+	    :href="post.url"
 	    :title="post.title.rendered"
 	    :description="postContent"
 	    twitter-user="software_daily"

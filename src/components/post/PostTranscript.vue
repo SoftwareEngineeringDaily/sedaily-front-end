@@ -2,7 +2,7 @@
 	<div class="transcript-section" v-if="post.transcript" :class="[isCollapsed ? 'collapsed' : '']" v-on:click="openTranscript">
 		<h6 class="section-title">Post Transcript</h6>
 		<div class="transcript-embed">
-		{{ post.transcript }}
+		{{ post.transcript }} 
 		</div>
 	</div>
 </template>
@@ -26,6 +26,11 @@ export default {
 		openTranscript() {
 			this.isCollapsed = false
 		}
+	},
+	watch: {
+	  $route(to, from) {
+	    this.isCollapsed = true
+	  },
 	}
 }
 </script>

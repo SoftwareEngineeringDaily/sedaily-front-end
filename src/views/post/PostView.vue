@@ -23,8 +23,13 @@
         </highlightable>
         <post-sponsors :post="post" />
       </div>
-  
-      <post-transcript :post="post"/>    
+      
+      <highlightable
+          @share="onForum"
+          @highlight="onComment"
+        >
+        <post-transcript :post="post"/>  
+      </highlightable>  
       <post-related :post="post" />
       <post-subscribe />
     </div>
@@ -195,15 +200,11 @@ export default {
    ...mapActions([ 'upvote', 'relatedLinksFetch',
     'downvote', 'fetchArticle', 'commentsFetch']),
     onForum (text) {
-      console.log('forum',text)
       this.$router.push({ name: 'NewThread', params: {initialContent:text }})
     },
 
     onComment (text) {
-      console.log('comment',text)
-      //this.comment = text
       this.$set(this, 'comment', text)
-      console.log('comment',this.comment)
       var container = this.$el.querySelector("#comment-box")
       container.scrollIntoView({behavior: "smooth", block: "end"})
     }
