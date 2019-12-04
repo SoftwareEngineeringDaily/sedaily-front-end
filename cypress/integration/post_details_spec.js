@@ -1,14 +1,14 @@
 const uuidv4 = require('uuid/v4')
 
 describe('The Post Detail Page', function () {
-  it('Successfully displays post details', function () {
-    cy.visit('/new')
-    cy.get('.title > a').first().click({ force: true }).then(() => {
-      cy.location().should((loc) => {
-        expect(loc.pathname).to.match(/post/)
-      })
-    })
-  })
+  // it('Successfully displays post details', function () {
+  //   cy.visit('/new')
+  //   cy.get('.title > a').first().click({ force: true }).then(() => {
+  //     cy.location().should((loc) => {
+  //       expect(loc.pathname).to.match(/post/)
+  //     })
+  //   })
+  // })
   xit('Successfully upvotes/downvotes post', function () {
     cy.visit('/new')
     cy.get('.title > a').first().click({ force: true })
