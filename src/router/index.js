@@ -47,7 +47,7 @@ const router = new Router({
     { path: '/update-company/:id([A-Za-z0-9-_]+)?/:companyName([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: UpdateCompanyProfile },
     { path: '/contributors', component: Contributors },
     { path: '/forum', component: ForumView },
-    { path: '/new-thread', beforeEnter: authorize, name: 'NewThread', component: NewForumThreadView },
+    { path: '/new-thread', beforeEnter: authorize, name: 'NewThread', component: NewForumThreadView,  props: true },
     { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
     { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },
     { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },

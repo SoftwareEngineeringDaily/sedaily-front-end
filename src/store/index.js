@@ -7,8 +7,6 @@ import actions from './actions'
 import getters from './getters'
 import initialState from './initialState'
 
-import post from './post.module'
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -16,7 +14,6 @@ const store = new Vuex.Store({
   actions,
   mutations,
   getters,
-  post,
   plugins: [
     analyticsMiddleware
   ]

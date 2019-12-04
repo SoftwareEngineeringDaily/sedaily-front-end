@@ -141,6 +141,7 @@ export default {
 
 .section-title
   font-weight 600
+  margin 20px 0
 
 .col-centered
   float none
@@ -148,12 +149,13 @@ export default {
 
 body
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
   font-size 14px
-  background-color white
+  color #222
   overflow-y scroll
   margin 0
-    
+  text-rendering optimizelegibility
+  -webkit-font-smoothing antialiased
 
 a
   color primary-color
@@ -197,7 +199,7 @@ a
   position relative
 
 .fade-enter-active, .fade-leave-active
-  transition all .2s ease
+  transition all .3s ease
 
 .fade-enter, .fade-leave-active
   opacity 0

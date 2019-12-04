@@ -1,6 +1,5 @@
 <template>
   <div class='link-holder'>
-
     <a :href="relatedLink.url | externalUrl" target="_blank"
     rel="external nofollow"
     > {{relatedLink.title || relatedLink.url}} </a>

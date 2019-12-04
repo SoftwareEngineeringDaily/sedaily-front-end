@@ -2,40 +2,48 @@
   <div class="row top-space">
     <div
       v-if="post"
-      class="post-view col-md-7">
-
+      class="post-view col-lg-7">
       <post-topics :post="post" />
       <post-title :post="post" />
-      <post-meta :post="post" />
-      <post-author :post="post" />
+      <post-meta :post="post" :showDuration="false"/>
+      <!-- <post-author :post="post" /> -->
       <post-action-buttons :post="post" />
       <post-subscribe-feed :post="post" />
       <div
         v-if="showPostContent"
         class="post-content">
         <h6 class="section-title">About the Episode</h6>
-        <div
-          class="post-transcript"
-          v-html="postContent" />
+        <highlightable
+          @share="onForum"
+          @highlight="onComment"
+        >
+          <div
+            class="post-transcript"
+            v-html="postContent" />
+        </highlightable>
         <post-sponsors :post="post" />
       </div>
-      <post-transcript :post="post"/>
-      <post-related />
+  
+      <post-transcript :post="post"/>    
+      <post-related :post="post" />
       <post-subscribe />
     </div>
-    <div class="view-top col-md-1">
+    <div class="view-top col-lg-1">
       <post-social-share :post="post" :postContent="postContent"/>
     </div>
-    <div class="view-top col-md-4">
+    <div class="view-top col-lg-4">
       <div class="popular-feed">
         <feed-popular 
           :showImg="false"
           :showDuration="false"
           sectionTitle="Popular Stories" />
+        <div id="comment-box">
         <comment-box
+          :initialComment="comment"
           :post="post"
           :forumThreadId="forumThreadId"
           :comments="comments" />
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +68,7 @@ import {
   PostTranscript,
   PostRelated
 } from '@/components/post'
+import Highlightable from '@/components/Highlightable'
 import store from '@/store'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { PlayerState } from '@/utils/playerState'
@@ -86,15 +95,17 @@ export default {
     PostRelated,
     CommentBox,
     VotingArrows,
-    FeedPopular
+    FeedPopular,
+    Highlightable
   },
   data () {
     return {
       showPostContent: true,
       showRelatedLinks: false,
       showComments: false,
+      comment: '',
       isLoadingComments: false,
-      loading: true
+      loading: false
     }
   },
   computed: {
@@ -118,7 +129,7 @@ export default {
     },
 
     post () {
-      return this.$store.state.posts[this.$route.params.id]
+      return this.$store.state.post
     },
 
     metaDescription () {
@@ -159,6 +170,10 @@ export default {
         return state.route.params.id
       },
 
+      post (state) {
+        return state.post
+      },
+
       posts (state) {
         return state.posts
       },
@@ -177,17 +192,29 @@ export default {
     })
   },
   methods: {
-     ...mapActions([ 'upvote', 'relatedLinksFetch',
-      'downvote', 'fetchArticle', 'commentsFetch']),
+   ...mapActions([ 'upvote', 'relatedLinksFetch',
+    'downvote', 'fetchArticle', 'commentsFetch']),
+    onForum (text) {
+      console.log('forum',text)
+      this.$router.push({ name: 'NewThread', params: {initialContent:text }})
+    },
+
+    onComment (text) {
+      console.log('comment',text)
+      //this.comment = text
+      this.$set(this, 'comment', text)
+      console.log('comment',this.comment)
+      var container = this.$el.querySelector("#comment-box")
+      container.scrollIntoView({behavior: "smooth", block: "end"})
+    }
   },
-  
+
   beforeMount () {
     this.fetchArticle({
       id: this.postId
     }).then(({ post }) => {
       this.loading = false
       this.isLoadingComments = true
-      console.log(post)
       // Fetch comments
       this.commentsFetch({
         entityId: post.thread._id
@@ -203,14 +230,17 @@ export default {
     })
   },
 
-  // beforeRouteEnter(to, from, next) {
-  //   Promise.all([
-  //     store.dispatch(FETCH_POST, to.params.id)
-  //     //store.dispatch(FETCH_COMMENTS, to.params.slug)
-  //   ]).then(() => {
-  //     next();
-  //   });
-  // },
+  beforeRouteUpdate(to, from, next) {
+    store.dispatch('fetchArticle', {id: to.params.id})
+      .then(({ post }) => {
+        store.dispatch('commentsFetch',{ entityId: post.thread._id})
+          .then(() => {
+            next();
+          }).catch((error) => {
+            next(error);
+          })
+      })    
+  },
   
   metaInfo() {
     // wait for post before updating meta
@@ -264,6 +294,8 @@ export default {
   max-height none!important
 .post-content
   img, figure
+    margin 15px 0
+    display block
     width 100%
     max-width  90vw
     height auto
@@ -274,13 +306,17 @@ export default {
     text-transform uppercase
     font-size .7rem
     font-weight 800
+  a 
+    color #a591ff
+    font-weight 600
+    span
+      font-weight 600 !important 
 
 .post-transcript
+  font-size 1rem
   figure
     width 98%
   p,.imageCaption
-    text-align justify
-    font-size 1.1rem
     margin 30px 0
   .size-large
     width 100%
@@ -329,7 +365,7 @@ export default {
 }
 
 .popular-feed 
-  @media (min-width 800px)
+  @media (min-width 1000px)
     margin-top 500px
 
 @media (max-width 600px)

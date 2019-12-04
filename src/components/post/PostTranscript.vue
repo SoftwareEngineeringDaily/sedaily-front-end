@@ -1,12 +1,9 @@
 <template>
-	<div class="transcript-section">
+	<div class="transcript-section" v-if="post.transcript" :class="[isCollapsed ? 'collapsed' : '']" v-on:click="openTranscript">
 		<h6 class="section-title">Post Transcript</h6>
-		<p><b>Host:</b> 
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur faucibus accumsan tellus a blandit. Sed sit amet ultricies felis. Vivamus ac tincidunt elit, non mollis augue. Praesent rhoncus non nunc et condimentum. Vestibulum gravida sit amet quam vel auctor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur congue diam non neque auctor, ut efficitur libero pretium. Quisque mattis dolor non consequat aliquet. Nunc vel eros quis ligula scelerisque vulputate sed at velit. Nulla facilisi. Proin ornare consectetur libero sit amet vulputate. Donec vitae lacinia nisi. Sed quis urna a eros auctor ultrices. Quisque finibus, nibh id pharetra maximus, purus elit venenatis nisi, vel pellentesque risus ante sit amet eros. Suspendisse eleifend semper molestie. Aenean semper commodo eleifend.</p>
-		<p><b>Guest:</b> Ut finibus ullamcorper est ornare maximus. In vel dui tincidunt, tempus neque quis, fringilla nibh. Integer nunc eros, mattis quis arcu et, commodo congue libero. Quisque facilisis ornare mi in tincidunt. Praesent id massa sed orci cursus bibendum et a odio. Sed euismod ut turpis vitae dignissim. Donec eu nibh justo. Morbi non pretium enim.</p>
-		<p><b>Host:</b> 
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur faucibus accumsan tellus a blandit. Sed sit amet ultricies felis. Vivamus ac tincidunt elit, non mollis augue. Praesent rhoncus non nunc et condimentum. Vestibulum gravida sit amet quam vel auctor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur congue diam non neque auctor, ut efficitur libero pretium. Quisque mattis dolor non consequat aliquet. Nunc vel eros quis ligula scelerisque vulputate sed at velit. Nulla facilisi. Proin ornare consectetur libero sit amet vulputate. Donec vitae lacinia nisi. Sed quis urna a eros auctor ultrices. Quisque finibus, nibh id pharetra maximus, purus elit venenatis nisi, vel pellentesque risus ante sit amet eros. Suspendisse eleifend semper molestie. Aenean semper commodo eleifend.</p>
-		<p><b>Guest:</b> Ut finibus ullamcorper est ornare maximus. In vel dui tincidunt, tempus neque quis, fringilla nibh. Integer nunc eros, mattis quis arcu et, commodo congue libero. Quisque facilisis ornare mi in tincidunt. Praesent id massa sed orci cursus bibendum et a odio. Sed euismod ut turpis vitae dignissim. Donec eu nibh justo. Morbi non pretium enim.</p>
+		<div class="transcript-embed">
+		{{ post.transcript }}
+		</div>
 	</div>
 </template>
 
@@ -19,6 +16,16 @@ export default {
 	      type: Object,
 	      required: true
 	    }
+	},
+	data() {
+	    return {
+	      isCollapsed: true
+	    }
+	},
+	methods: {
+		openTranscript() {
+			this.isCollapsed = false
+		}
 	}
 }
 </script>
@@ -26,5 +33,62 @@ export default {
 <style lang="stylus" scoped>
 .transcript-section
 	font-size 1.1rem
-	
+	color #222
+	position relative
+	margin-bottom 55px
+	display flex
+	flex-direction column
+	p
+		margin-bottom 25px
+		.transcript-header
+			font-size 15px
+			display block
+			margin-bottom 10px
+			font-weight bold
+			.transcript-time
+				font-weight 400
+				font-size .9rem
+				background-color #dee2e6
+				border-radius 2px
+				margin-right 10px
+				color #222
+				cursor pointer
+				padding 3px 6px
+	&.collapsed
+		cursor pointer
+		height 400px
+		overflow hidden
+		&:after 
+			background-image linear-gradient(
+			    to bottom,
+			    rgba(255, 255, 255, 0) 0%,
+			    rgb(255, 255, 255) 100%
+			)
+			bottom -20px
+			content ""
+			height 400px
+			left -20px
+			position absolute
+			width calc(100% + 40px)
+			cursor pointer
+		&:hover
+			&:before
+				background-color #a591ff
+				transform scale(1.02)
+		&:before 
+			align-self center
+			background-color #222
+			border-radius 3px
+			bottom 24px
+			color #fff
+			content "View Transcript"
+			font-size 15px
+			font-weight 500
+			padding 10px 20px
+			position absolute
+			text-align center
+			text-transform uppercase
+			transition all .2s
+			z-index 10000
+		
 </style>

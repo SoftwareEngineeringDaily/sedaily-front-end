@@ -1,18 +1,13 @@
 <template>
 	<label class="switch">
-	  <input type="checkbox">
-	  <span class="slider round" checked></span>
+	  <input type="checkbox" :bind="$attrs" :model="checked" v-on:input="$emit('input', $event.target.checked)">
+	  <span class="slider round"></span>
 	</label>
 </template>
 
-
 <script>
 export default {
-	props: {
-		post: {
-	      type: Object,
-	    }
-	}
+	props: ['checked'],
 }
 </script>
 
@@ -55,11 +50,11 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #222;
+  background-color: #a591ff;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #222;
+  box-shadow: 0 0 1px #a591ff;
 }
 
 input:checked + .slider:before {

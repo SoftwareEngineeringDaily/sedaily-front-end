@@ -1,28 +1,28 @@
 
 <template>
   <div v-if="me" class="comment-container">
-    <span class="active-without-border" v-if="isLoggedIn">
+    <!-- <span class="active-without-border" v-if="isLoggedIn">
       <router-link class="profile-img-link" to="/profile">
         <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
       </router-link>
-    </span>
+    </span> -->
     <vue-tribute
       class="comment-box__container"
       :options="options"
       @tribute-replaced="tributeReplaced"
       @tribute-no-match="tributeNoMatch"
     >
-      <input
-        placeholder="Your comment here..."
+      <textarea
+        placeholder="Your comment ..."
         class="comment-box"
         ref="contentTextarea"
         :disabled="isSubmitting"
         type="text"
         v-model="commentContent"
-      >
+      />
     </vue-tribute>
 
-    <div v-if="isLoggedIn">
+    <div v-if="isLoggedIn" style="align-self: flex-end;">
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
       </div>
@@ -61,7 +61,7 @@ export default {
         };
       }
     },
-    content: {
+    initialComment: {
       type: String
     },
     showCancel: {
@@ -112,7 +112,7 @@ export default {
         values: []
       },
       mentionedUsers: this.existingMentions,
-      commentContent: this.content,
+      commentContent: this.initialComment,
       errorImg: ''
     };
   },
@@ -135,8 +135,8 @@ export default {
         this.$toasted.error('You must login to post a comment')
       }
     },
-    content: function() {
-      this.commentContent = this.content;
+    initialComment: function() {
+      this.commentContent = this.initialComment;
     }
   },
 
@@ -239,6 +239,8 @@ export default {
   padding 0 0 0 10px
 .button-submit
   outline none
+  border-radius 4px
+  margin-top 10px
   a
     color white
     &:hover
@@ -248,6 +250,7 @@ export default {
 .comment-container
   background none
   display flex
+  flex-direction column
   align-items center
   width: 100%;
   .profile-img
@@ -258,57 +261,39 @@ export default {
 .comment-box
   margin 0 10px
   margin-left 0
+  margin-right 0
   width 100%
   padding 5px
   padding-left 10px
-  border-radius 30px
+  border-radius 4px
   border-color #c5c5c5
   resize none
   height inherit
   outline none
-  border: 1px solid #ccc;
+  border: 1px solid #ccc
+  height 100px
 
 .comment-box__container
   display flex
   width 100%
+  &:hover
+    text-decoration none
 
-    &:hover
-      text-decoration none
-
-
-
-.buttons-comment {
+.buttons-comment 
   display: flex;
-}
 
-.comment-container {
+.comment-container 
   display: flex;
   align-items: center;
   width: 100%;
 
-  .profile-img {
+  .profile-img 
     width: 35px;
     height: 35px;
     border-radius: 50px;
-  }
-}
-
-.comment-box {
-  margin: 0 10px;
-  width: 100%;
-  margin-left 0
-  padding: 5px;
-  padding-left: 10px;
-  border-radius: 30px;
-  border-color: #c5c5c5;
-  resize: none;
-  height: inherit;
-  outline: none;
-  border: 1px solid #ccc;
-}
-
-.comment-box__container {
+  
+.comment-box__container
   display: flex;
   width: 100%;
-}
+
 </style>

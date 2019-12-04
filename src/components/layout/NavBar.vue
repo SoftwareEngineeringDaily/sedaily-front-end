@@ -5,14 +5,13 @@
         <img class="logo-img" src="../../assets/sedaily-logo.png">
           Software Daily
        </div>
-      
       <span class="pull-right">
         <search-bar />
-        <span v-if="!alreadySubscribed" class="register">
+        <span v-if="!isLoggedIn" class="register">
           <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
         </span>
-        <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
+         <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
         <span class="active-without-border" v-if="isLoggedIn">
             <div>
               <b-dropdown variant="link" size="lg" no-caret>
@@ -175,7 +174,7 @@ $(function() {
           $("#header").css({ position: "absolute", top: "0" });
         } else {
           if (foo > st) {
-            $("#header").css({ position: "fixed", top: "0" });
+            $("#header").css({ position: "fixed", top: "0"});
             state = "fixed";
           }
         }

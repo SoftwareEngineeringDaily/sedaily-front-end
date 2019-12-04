@@ -52,5 +52,6 @@ export default {
 		span
 			color #222
 			background-color #fff
+
 	
 </style>

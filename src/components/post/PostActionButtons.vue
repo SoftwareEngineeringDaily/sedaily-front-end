@@ -85,7 +85,7 @@ export default {
 
 .post-action-btns
   display flex
-  margin 40px 0 15px 0
+  margin 25px 0 10px 0
   .btn-default 
     padding 5px 20px
     border-radius 3px
@@ -94,7 +94,16 @@ export default {
     background-color primary-color
     text-transform uppercase
     text-decoration none !important
-    margin-right 25px
-    font-weight 500
+    margin-right 15px
+    font-weight 400
+    transition all .2s
+    &:hover 
+      background-color #a591ff
+    @media (max-width 700px)
+      width 100%
+      margin-bottom 10px
+      padding 15px 20px
+  @media (max-width 700px)
+    flex-direction column
 
 </style>

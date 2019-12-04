@@ -2,10 +2,9 @@
 <template>
   <comment-form
     :isSubmitting="isSubmitting"
-    :content="commentContent"
+    :initialComment="initialComment"
     :submitCallback="submitCallback"
-  >
-  </comment-form>
+  />
 </template>
 
 <script>
@@ -20,12 +19,15 @@ export default  {
     },
     entityId: {
       required: true
+    },
+    initialComment: {
+      type: String
     }
   },
   data () {
     return {
       isSubmitting: false,
-      commentContent: ''
+      commentContent: this.comment || ''
     }
   },
   components: {

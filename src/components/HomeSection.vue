@@ -1,6 +1,6 @@
 <template>
 	<div class="home-container">
-		<feed-grid :posts="displayedPosts"/>
+		<feed-grid :posts="displayedPosts" :loading="loading"/>
 	</div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 	},
 	data() {
 	    return {
-	      loading: false,
+	      loading: true,
 	      displayedPosts: []
 	    }
 	},
@@ -27,6 +27,7 @@ export default {
 	      this.getPosts({}).then(
 	        data => {
 	          this.displayedPosts = data.posts
+	          this.loading = false
 	          this.$store.commit('setPosts', {posts: data.posts})
 	        }
 	      )

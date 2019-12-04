@@ -18,7 +18,8 @@ export default {
 	      required: true
 	    },
 	    isPreview: {
-	    	type: Boolean
+	    	type: Boolean,
+	    	default: false
 	    },
 	    showDuration: {
 	    	type: Boolean,
@@ -28,7 +29,7 @@ export default {
 	computed: {
 		publicationDate () {
 	      if (this.post) {
-	        return moment(this.post.date).format('MMMM Do YYYY')
+	        return moment(this.post.date).format('MMMM Do')
 	      }
 	    },
 	}
@@ -41,5 +42,5 @@ export default {
 	&.bold
 		font-weight bold
 	> *
-		margin-right 15px
+		margin-right 10px
 </style>

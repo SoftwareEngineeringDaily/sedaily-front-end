@@ -3,7 +3,7 @@
 		<div class="inner">
 			<div @click="resetApp" class="site-name site-logo">
 	          <img class="logo-img" src="../../assets/sedaily-logo.png">
-	          Software Daily
+	          <span>Software Daily</span>
 	       </div>
 	       <div class="center">
 	       		<a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8" class="footer-link">App Store</a>
@@ -24,6 +24,13 @@ export default {
 	name: "nav-footer",
 	props: {
 
+	},
+	methods: {
+		resetApp() {
+	      this.$store.commit('setSearchTerm', { searchTerm: null })
+	      this.$router.push({ path: `/` })
+	      document.location.reload(true)
+	    },
 	}
 }
 </script>
@@ -42,6 +49,12 @@ export default {
 		.footer-link 
 			color #fff
 			margin-left 10px
+		@media (max-width 659px)
+			flex-direction column
+			align-items flex-start
+			padding 25px 20px
+			> *
+				margin-bottom 10px
 	.site-logo
 		margin-right 0.75em
 		cursor pointer

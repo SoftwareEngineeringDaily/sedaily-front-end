@@ -10,9 +10,11 @@
       <br />
       <h4>
         <router-link
-        to="/forum"
-        exact
-        >Check out the Forum</router-link>
+          to="/forum"
+          exact
+        >
+          Check out the Forum
+        </router-link>
       </h4>
     </div>
   </div>

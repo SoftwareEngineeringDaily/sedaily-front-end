@@ -49,7 +49,11 @@ export default {
 	    },
 	    showDuration: {
 	    	type: Boolean,
-	    	default: true
+	    	default: false
+	    },
+	    postsType: {
+	    	type: String,
+	    	default: 'popular'
 	    }
 	},
 	data() {
@@ -62,16 +66,16 @@ export default {
 	    this.fetchPosts()
 	},
 	methods: {
-		...mapActions(['getPosts']),
+		...mapActions([ 'getPostsList']),
 		postPrettyUrl (post) {
 	      return postPrettyUrl(post)
 	    },
 	    fetchPosts() {
-	      this.getPosts({}).then(
-	        data => {
-	          this.displayedPosts = data.posts.splice(0,this.postCount)
-	        }
-	      )
+			this.getPostsList({type:this.postsType}).then(
+				data => {
+				  this.displayedPosts = data.posts.splice(0,this.postCount)
+				}
+			)
 	    }
 	}
 
@@ -83,10 +87,13 @@ export default {
 	position relative
 	height 100%
 	background-color #e9ecef
-	padding 45px 30px
-	text-decoration none
+	padding 35px 30px
 	a
 		color #222
+		text-decoration none
+		&:hover
+			.number
+				color #a591ff !important
 	&.inverse
 		background-color #222
 		color #fff 
@@ -98,6 +105,7 @@ export default {
 	.popular-item
 		margin 20px 0
 		display flex
+		justify-content space-between
 		.img-container
 			width 80px
 			margin-left 15px
@@ -106,7 +114,6 @@ export default {
 		.left
 			flex-basis 75%
 			display flex
-
 			.number 
 				font-size 2rem
 				font-weight bold
@@ -116,7 +123,7 @@ export default {
 				display flex
 				flex-direction column
 				.title
-					font-size 1.3rem
+					font-size 1.05rem
 				.details
 					font-size .65rem
 
