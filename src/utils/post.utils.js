@@ -1,7 +1,7 @@
 
 function postPrettyUrlTitle(post) {
   try {
-    const originalTitle = post.title.rendered
+    const originalTitle = typeof post.title === 'string' ? post.title : post.title.rendered
     if (originalTitle) {
       let title = originalTitle.replace(/[^\w\s]/gi, '')
       // Ghetto way to replace strings, should use regex:

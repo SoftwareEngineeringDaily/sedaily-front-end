@@ -15,7 +15,6 @@
     <link rel="android-touch-icon" href="android-icon.png" />
     <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
 
-
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel="stylesheet">
     <style>
@@ -64,5 +63,14 @@
 
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+    <script>
+      (function () {
+        if (window.origin === 'http://localhost:8080') {
+          let scriptEl = document.createElement('script')
+          scriptEl.setAttribute('src', 'http://localhost:8098')
+          document.body.appendChild(scriptEl)
+        }
+      })()
+    </script>
   </body>
 </html>

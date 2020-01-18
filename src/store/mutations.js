@@ -19,7 +19,6 @@ export default {
     state.activeType = type
   },
 
-
   setSearchTerm: (state, { searchTerm }) => {
     state.searchTerm = searchTerm
   },
@@ -179,7 +178,7 @@ export default {
   },
 
   upVote: (state, { articleId }) => {
-    let incrementValue = 1 
+    let incrementValue = 1
     // if (state.posts[articleId].downvoted) incrementValue += 1
     console.log(state.posts[articleId])
 
