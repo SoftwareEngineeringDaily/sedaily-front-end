@@ -8,8 +8,9 @@
           id="search"
           type="search"
           :value="currentRefinement"
-          placeholder="Search for a product"
-          @input="refine($event.currentTarget.value)">
+          placeholder="Search"
+          @input="refine($event.currentTarget.value)"
+          @keyup.enter="onSearch">
 
         <ul v-if="currentRefinement" v-for="index in indices" :key="index.label">
           <li v-for="hit in index.hits" :key="hit.objectID">
@@ -45,6 +46,15 @@ export default {
         return postPrettyUrl(post)
       },
     };
+  },
+  methods: {
+    onSearch({ target }) {
+      this.$store.commit('setSearchTerm', { searchTerm: target.value })
+      this.$store.commit('setNextPage', { nextPage: 0 })
+
+      window.scrollTo(0, 0)
+      target.blur()
+    },
   },
 };
 </script>
@@ -88,7 +98,6 @@ input#search {
   max-width: 500px;
   padding: 5px;
   font-weight: 100;
-  color: #C4C4C4;
   border-radius: 5px;
   border: 1px solid #ccc;
 }

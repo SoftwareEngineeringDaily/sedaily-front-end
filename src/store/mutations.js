@@ -135,6 +135,10 @@ export default {
     })
   },
 
+  setNextPage: (state, { nextPage }) => {
+    state.nextPage = nextPage
+  },
+
   upvoteRelatedLink: (state, { id, postId }) => {
     const links = state.postRelatedLinks[postId]
 

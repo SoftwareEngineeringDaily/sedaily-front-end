@@ -136,6 +136,13 @@ export default {
       loading: true
     }
   },
+  watch: {
+    $route(to, from) {
+      if (from.params.id !== to.params.id) {
+        this._fetchArticle()
+      }
+    }
+  },
   computed: {
     forumThreadId () {
       if (!this.isLoggedIn) return false
@@ -239,25 +246,7 @@ export default {
   },
 
   beforeMount () {
-    this.fetchArticle({
-      id: this.postId
-    }).then(({ post }) => {
-      this.loading = false
-      this.isLoadingComments = true
-      console.log(post)
-      // Fetch comments
-      this.commentsFetch({
-        entityId: post.thread._id
-      }).then(() => {
-        this.isLoadingComments = false
-      }).catch(() => {
-        this.isLoadingComments = false
-      })
-    })
-    // Fetch relatedLinks
-    this.relatedLinksFetch({
-      postId: this.postId
-    })
+    this._fetchArticle()
   },
 
   methods: {
@@ -304,7 +293,39 @@ export default {
       this.downvote({
         id: this.postId
       })
-    }
+    },
+    _fetchArticle () {
+      this.fetchArticle({
+        id: this.postId
+      }).then((reply) => {
+        if (!reply) {
+          return console.log('no reply')
+        }
+
+        const { post } = reply
+
+        this.loading = false
+        this.isLoadingComments = true
+        console.log(post)
+
+        if (!post.thread) {
+          return
+        }
+
+        // Fetch comments
+        this.commentsFetch({
+          entityId: post.thread._id
+        }).then(() => {
+          this.isLoadingComments = false
+        }).catch(() => {
+          this.isLoadingComments = false
+        })
+      })
+      // Fetch relatedLinks
+      this.relatedLinksFetch({
+        postId: this.postId
+      })
+    },
   },
   metaInfo() {
     // wait for post before updating meta
@@ -320,8 +341,9 @@ export default {
         this.metaTag('og:url', location.href),
         this.metaTag('og:description', metaDescription),
         this.metaTag('description', metaDescription),
+
         // links must use https
-        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+        this.metaTag('og:image', (typeof this.post.featuredImage === 'string') ? this.post.featuredImage.replace('http://','https://') : '')
       ]
     }
   }

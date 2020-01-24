@@ -76,6 +76,7 @@
 
 <script>
 import moment from "moment";
+import uniqBy from 'lodash/uniqBy'
 import Spinner from "components/Spinner.vue";
 import PostSummary from "components/PostSummary.vue";
 import CategoryList from "components/CategoryList.vue";
@@ -108,12 +109,13 @@ export default {
   watch: {
     searchTerm() {
       let term = this.$store.state.searchTerm;
+
       if (this.topicId === "") {
-        this.getTopicsInSearch({ search: term }).then(
+        this.fetchSearch({ query: term }).then(
           data => {
             this.displayedPosts = data.posts
             this.$store.commit('setPosts', {posts: data.posts})
-            }
+          }
         );
       } else {
         let id = this.topicId;
@@ -121,7 +123,7 @@ export default {
           data => {
             this.displayedPosts = data.posts
             this.$store.commit('setPosts', {posts: data.posts})
-            }
+          }
         );
       }
     }
@@ -190,7 +192,7 @@ export default {
     next();
   },
   methods: {
-    ...mapActions(["showTopic", "getTopicsInSearch"]),
+    ...mapActions(["showTopic", "getTopicsInSearch", "fetchSearch"]),
     getClassForTopic(topic_id) {
       return this.topicId === topic_id ? "topic-active" : "";
     },
@@ -225,6 +227,8 @@ export default {
       this.resetPosts();
     },
     loadMore(newSearch = false) {
+      let isSearch = !!(this.$store.state.searchTerm)
+      let method = isSearch ? 'fetchSearch' : 'getTopicsInSearch'
       if(this.routerTopic === true){
         if(this.topicId){
           this.routerTopic = false
@@ -235,28 +239,34 @@ export default {
         return;
       }
       this.loading = true;
-      const params = {
+      let params = {
         topic: this.topicId || undefined,
         search: undefined,
         createdAtBefore: undefined
       };
-      if (this.$store.state.searchTerm) {
-        params.search = this.$store.state.searchTerm;
+      if (isSearch) {
+        params = {
+          query: this.$store.state.searchTerm,
+          page: this.$store.state.nextPage,
+        }
       }
       if (this.displayedPosts.length > 0) {
         const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
         params.createdAtBefore = moment(lastPost.date).toISOString();
       }
       this.$store
-        .dispatch("getTopicsInSearch", params)
+        .dispatch(method, params)
         .then(result => {
           if (newSearch) {
             this.displayedPosts = [];
           }
           if (result && result.posts && result.posts.length > 0 && this.routerTopic === false) {
-            this.displayedPosts = this.displayedPosts.concat(result.posts);
+            this.displayedPosts = uniqBy(this.displayedPosts.concat(result.posts), '_id');
           } else {
             this.endOfPosts = true;
+          }
+          if (isSearch) {
+            this.endOfPosts = (params.page === result.nextPage)
           }
           this.loading = false;
         })
