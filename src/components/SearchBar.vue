@@ -7,9 +7,13 @@
         <input
           id="search"
           type="search"
-          :value="currentRefinement"
+          ref="input"
           placeholder="Search"
-          @input="refine($event.currentTarget.value)"
+          :value="value"
+          @input="$event => {
+            refine($event.currentTarget.value)
+            value = $event.currentTarget.value
+          }"
           @keyup.enter="onSearch">
 
         <ul v-if="currentRefinement" v-for="index in indices" :key="index.label">
@@ -26,15 +30,12 @@
 </template>
 
 <script>
+import isFunction from 'lodash/isFunction'
 import algoliasearch from 'algoliasearch/lite';
 import { postPrettyUrl } from './../utils/post.utils';
 import 'instantsearch.css/themes/algolia-min.css';
 
 export default {
-  props: [
-    'title',
-    'post'
-  ],
   data() {
     return {
       searchClient: algoliasearch(
@@ -42,18 +43,34 @@ export default {
         process.env.ALGOLIA_API_KEY
       ),
       index: process.env.ALGOLIA_POSTS_INDEX,
+      value: this.$route.query.query,
       postPrettyUrl: (post) => {
         return postPrettyUrl(post)
       },
     };
   },
+  mounted() {
+    if (!this.value) {
+      return
+    }
+
+    this.onSearch({ target: { value: this.value } })
+  },
   methods: {
     onSearch({ target }) {
-      this.$store.commit('setSearchTerm', { searchTerm: target.value })
+      this.$router.push({ path: target.value ? `/?query=${target.value}` : '/' })
+      window.scrollTo(0, 0)
+
+      if (!target.value) {
+       return document.location.reload(true)
+      }
+
+      this.$store.commit('setSearchTerm', { searchTerm: target.value || null })
       this.$store.commit('setNextPage', { nextPage: 0 })
 
-      window.scrollTo(0, 0)
-      target.blur()
+      if (target && isFunction(target.blur)) {
+        target.blur()
+      }
     },
   },
 };
