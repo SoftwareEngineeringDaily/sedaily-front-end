@@ -10,6 +10,7 @@ selenium-debug.log
 *.swo
 .vscode/
 .idea/
+.env
 
 # Cypress end-to-end tests
 cypress/videos

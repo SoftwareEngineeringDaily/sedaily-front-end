@@ -19,7 +19,6 @@ export default {
     state.activeType = type
   },
 
-
   setSearchTerm: (state, { searchTerm }) => {
     state.searchTerm = searchTerm
   },
@@ -136,6 +135,10 @@ export default {
     })
   },
 
+  setNextPage: (state, { nextPage }) => {
+    state.nextPage = nextPage
+  },
+
   upvoteRelatedLink: (state, { id, postId }) => {
     const links = state.postRelatedLinks[postId]
 
@@ -179,7 +182,7 @@ export default {
   },
 
   upVote: (state, { articleId }) => {
-    let incrementValue = 1 
+    let incrementValue = 1
     // if (state.posts[articleId].downvoted) incrementValue += 1
     console.log(state.posts[articleId])
 

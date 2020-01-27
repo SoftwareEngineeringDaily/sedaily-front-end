@@ -15,6 +15,7 @@ import VeeValidate from 'vee-validate'
 import SocialSharing from 'vue-social-sharing'
 import VueAnalytics from 'vue-analytics'
 import Toasted from 'vue-toasted'
+import InstantSearch from 'vue-instantsearch'
 import SmartBanner from 'smart-app-banner'
 import BootstrapVue from 'bootstrap-vue'
 
@@ -39,6 +40,7 @@ Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
 Vue.use(Meta)
 Vue.use(BootstrapVue)
+Vue.use(InstantSearch)
 Vue.config.productionTip = false
 
 Vue.use(Toasted, {

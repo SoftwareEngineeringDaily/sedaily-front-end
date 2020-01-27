@@ -42,6 +42,45 @@ export default {
       })
   },
 
+  fetchSearch: ({ commit, dispatch, state, getters }, { query, page = 0 }) => {
+    let url = `${BASE_URL}/posts/search`
+
+    if (!query) {
+      return this.getTopicsInSearch({})
+    }
+
+    url += `?query=${query}&page=${page}`
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchSearchData',
+            eventLabel: `url: ${url}`,
+            eventValue: 1,
+          }]
+        ]
+      }
+    })
+
+    return axios.get(url)
+      .then((response) => {
+        let posts = response.data.posts || []
+        let nextPage = response.data.nextPage || 0
+
+        commit('setPosts', { posts })
+        commit('setNextPage', { nextPage })
+
+        return { posts, nextPage, maxPage: 4 }
+      })
+      .catch((error) => {
+      // @TODO: Add pretty pop up here
+        console.log(error.response)
+        Vue.toasted.error(error.response.data.message)
+      })
+  },
+
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
     commit('setActiveType', { type })
     let url = `${BASE_URL}/posts/recommendations?page=${page}`
@@ -98,10 +137,10 @@ export default {
       .catch((error) => {
       // @TODO: Add pretty pop up here
         console.log(error.response)
-        Vue.toasted.error(error.response.data.message, { 
+        Vue.toasted.error(error.response.data.message, {
             singleton: true,
-            theme: "bubble", 
-            position: "bottom-center", 
+            theme: "bubble",
+            position: "bottom-center",
             duration : 700
         })
       })
@@ -109,10 +148,10 @@ export default {
 
   upvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote', { 
+      Vue.toasted.error('You must login to vote', {
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
      })
 
@@ -151,10 +190,10 @@ export default {
 
   downvote: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote', { 
+      Vue.toasted.error('You must login to vote', {
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
      })
 
