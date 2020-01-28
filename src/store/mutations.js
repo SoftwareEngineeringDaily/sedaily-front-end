@@ -19,7 +19,6 @@ export default {
     state.activeType = type
   },
 
-
   setSearchTerm: (state, { searchTerm }) => {
     state.searchTerm = searchTerm
   },
@@ -141,7 +140,6 @@ export default {
     })
   },
 
-
   setPopularPosts: (state, { posts }) => {
     state.popularPosts = {}
     posts.forEach(post => {
@@ -149,6 +147,10 @@ export default {
         Vue.set(state.popularPosts, post._id, post)
       }
     })
+  },
+
+  setNextPage: (state, { nextPage }) => {
+    state.nextPage = nextPage
   },
 
   upvoteRelatedLink: (state, { id, postId }) => {
@@ -194,7 +196,7 @@ export default {
   },
 
   upVote: (state, { articleId }) => {
-    let incrementValue = 1 
+    let incrementValue = 1
     // if (state.posts[articleId].downvoted) incrementValue += 1
     console.log(state.posts[articleId])
 

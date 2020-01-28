@@ -6,6 +6,7 @@ export default {
   activeType: null,
   searchTerm: null,
   post: {},
+  nextPage: 0,
   posts: {},
   entityComments: {}, // arrays of ids, only root comments
   comments: {}, // Map of all comments, key is comment._id

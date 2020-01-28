@@ -5,10 +5,10 @@
 				<img :src="post.featuredImage"/>
 			</div>
 			<div class="body-container">
-				<post-preview-copy 
-					:post="post" 
+				<post-preview-copy
+					:post="post"
 					:isPreview="isPreview"
-					:inverse="inverse" 
+					:inverse="inverse"
 					:showGuest="showGuest"
 					:showTags="showTags"
 					:showCopy="showCopy" />
@@ -53,14 +53,15 @@ export default {
 	},
 	computed: {
 		postPrettyUrl () {
-	      return postPrettyUrl(this.post)
-	    }
+      console.log('this.post ', this.post)
+      return postPrettyUrl(this.post)
+    }
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
-a 
+a
 	text-decoration none !important
 	cursor pointer
 .news-post
@@ -69,21 +70,21 @@ a
 	flex-direction column
 	height 100%
 	background #e9ecef
-	&.inverse 
+	&.inverse
 		background #222
 	.img-container
 		height 200px
 		background #fff
 		overflow hidden
-		img 	
+		img
 			width 100%
 			height 100%
 			object-fit cover
 			transition all .2s
-	&:hover 
-		img 
+	&:hover
+		img
 			transform: scale(1.05)
 
-		
-		
+
+
 </style>

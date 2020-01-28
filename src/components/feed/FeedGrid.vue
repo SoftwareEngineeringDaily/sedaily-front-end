@@ -4,20 +4,20 @@
 		 	<spinner :show="loading"></spinner>
 		</div>
 		<div v-else>
-			<featured-item :post="posts[0]"/>
+			<!-- <featured-item :post="posts[0]"/> -->
 			<h5>Latest Stories</h5>
 			<div class="grid">
 				<div v-for="(post, i) in posts.slice(1,6)" :key="i">
 					<post-preview :post="post" :inverse="((i+1)%4==2||(i+1)%4==3)"/>
 				</div>
-				<feed-popular 
+				<feed-popular
 					inverse
 					:postCount="6"
 					sectionTitle="Popular Stories" />
 				<div v-for="(post, i) in posts.slice(6,11)" :key="i">
 					<post-preview :post="post" :inverse="i==0||((i-1)%4==2||(i-1)%4==3)"/>
 				</div>
-				<feed-popular 
+				<feed-popular
 					:postCount="6"
 					:postsType="'recommended'"
 					sectionTitle="Recommended Stories" />
@@ -35,7 +35,7 @@ import Spinner from '@/components/Spinner'
 
 export default {
 	components: { PostPreview, FeedPopular , FeaturedItem, Spinner },
-	
+
 	props: {
 		posts: Array,
 		loading: Boolean
@@ -55,14 +55,14 @@ h5
 	text-transform uppercase
 	font-size .8rem
 	font-weight 700
-.grid 
+.grid
 	display grid
 	grid-template-columns auto
 	grid-auto-rows 1fr
 	grid-column-gap 10px
 	grid-row-gap 24px
 	padding-bottom 150px
-	@media (min-width: 900px) 
+	@media (min-width: 900px)
 		grid-template-columns repeat(2, 1fr)
 		grid-column-gap 30px
 		grid-row-gap 24px
@@ -71,5 +71,5 @@ h5
 	:nth-child(2)
 		.body-container
 			background #222 !important
-	
+
 </style>

@@ -79,6 +79,11 @@ export default {
         return '--'
       }
     },
+    featuredImage () {
+      return this.post.featuredImage
+        ? this.post.featuredImage
+        : 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png'
+    },
     imageSrc () {
       const placeholder = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/linkplaceholder.png';
       const image = this.feedItem.image !== undefined

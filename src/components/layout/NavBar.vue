@@ -39,7 +39,7 @@
               </b-dropdown>
             </div>
         </span>
-        
+
       </span>
     </nav>
     <NavMobile/>
@@ -271,10 +271,10 @@ $(function() {
     width 35px
   .inner
     text-transform uppercase
-    max-width 1200px
+    max-width 1050px
     box-sizing border-box
     margin 0px auto
-    padding 15px 5px
+    padding 15px 15px
     display flex
     align-items center
     justify-content space-between
