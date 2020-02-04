@@ -79,33 +79,33 @@ export default {
   //     })
   // },
 
-  // getPostsList: ({ commit, dispatch, state, getters }, {page=1, type='popular'}) => {
-  //   const MONTH_OFFSET = 2
+  getPostsList: ({ commit, dispatch, state, getters }, {page=1, type='popular'}) => {
+    const MONTH_OFFSET = 2
 
-  //   const date = new Date()
-  //   date.setMonth(date.getMonth() - MONTH_OFFSET)
+    const date = new Date()
+    date.setMonth(date.getMonth() - MONTH_OFFSET)
 
-  //   let url = `${BASE_URL}/posts?limit=30&createdAtBefore=${date.toISOString()}`
+    let url = `${BASE_URL}/posts?limit=30&createdAtBefore=${date.toISOString()}`
 
-  //   return axios.get(url)
-  //     .then((response) => {
-  //       const posts = response.data
-  //       if (type=='popular'){
-  //         posts.sort((a, b) => (a.thread.commentsCount > b.thread.commentsCount) ? -1 : 1)
-  //       } else {
-  //         posts.sort((a, b) => (0.5 - Math.random()))
-  //       }
+    return axios.get(url)
+      .then((response) => {
+        const posts = response.data
+        if (type=='popular'){
+          posts.sort((a, b) => (a.thread.commentsCount > b.thread.commentsCount) ? -1 : 1)
+        } else {
+          posts.sort((a, b) => (0.5 - Math.random()))
+        }
 
-  //       commit('setPosts', { posts })
-  //       return { posts, maxPage: 4 }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     // Vue.toasted.error(error.message)
-  //     // Vue.toasted.error(error.response.data.message)
-  //     })
+        commit('setPosts', { posts })
+        return { posts, maxPage: 4 }
+      })
+      .catch((error) => {
+        console.log(error)
+      // Vue.toasted.error(error.message)
+      // Vue.toasted.error(error.response.data.message)
+      })
 
-  // },
+  },
 
   fetchSearch: ({ commit, dispatch, state, getters }, { query, page = 0 }) => {
     let url = `${BASE_URL}/posts/search`

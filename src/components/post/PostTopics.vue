@@ -12,7 +12,7 @@
       @close="closeModal"
       showCloseBtn="true">
       <!-- header-->
-      <h2 slot="header">{{ post.title.rendered }}</h2>
+      <h2 slot="header" v-if="post.title">{{ post.title.rendered }}</h2>
       <!-- body-->
       <div slot="body">
         <div v-if="isAddTopic">
@@ -422,5 +422,5 @@ export default {
     background #d0c6ff
   .popular-topics::-webkit-scrollbar-thumb:hover
     background #555
- 
+
 </style>

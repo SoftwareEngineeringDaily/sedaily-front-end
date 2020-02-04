@@ -69,17 +69,19 @@ Vue.use(VueAnalytics, {
   router
 })
 Vue.directive('click-outside', {
-  bind () {
-      this.event = event => this.vm.$emit(this.expression, event)
-      this.el.addEventListener('click', this.stopProp)
-      document.body.addEventListener('click', this.event)
+  bind: function (el, binding, vnode) {
+    el.clickOutsideEvent = function (event) {
+      // here I check that click was outside the el and his childrens
+      if (!(el == event.target || el.contains(event.target))) {
+        // and if it did, call method provided in attribute value
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent)
   },
-  unbind() {
-    this.el.removeEventListener('click', this.stopProp)
-    document.body.removeEventListener('click', this.event)
+  unbind: function (el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent)
   },
-
-  stopProp(event) { event.stopPropagation() }
 })
 
 /* eslint-disable no-new */

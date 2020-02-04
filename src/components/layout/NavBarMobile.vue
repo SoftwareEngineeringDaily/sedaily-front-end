@@ -181,10 +181,13 @@ $(function() {
   padding 0px!important
 .btn-sign-in
   font-size 14px
-  font-weight 400
+  font-weight 700
   line-height 16px
   letter-spacing 1.05px
   border-radius 2px
+.subscribed,
+.call-to-action-secondary
+  font-weight 700
 .site-logo
   margin-right 0.75em
   cursor pointer
@@ -397,9 +400,7 @@ $(function() {
   .inner-mobile
     .search-bar
       justify-content center
-      margin 15px auto!important
-      margin 15px
-      margin-left 0
+      margin 15px auto 0
       width 90%
 @media (min-width 660px)
   .inner-mobile

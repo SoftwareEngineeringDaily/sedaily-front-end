@@ -1,9 +1,7 @@
 <template>
 	<div class="transcript-section" v-if="post.transcript" :class="[isCollapsed ? 'collapsed' : '']" v-on:click="openTranscript">
-		<h6 class="section-title">Post Transcript</h6>
-		<div class="transcript-embed">
-		{{ post.transcript }} 
-		</div>
+		<h6 class="section-title">Transcript</h6>
+		<div class="transcript-embed" v-html="post.transcript" />
 	</div>
 </template>
 
@@ -37,7 +35,7 @@ export default {
 
 <style lang="stylus" scoped>
 .transcript-section
-	font-size 1.1rem
+	font-size 1rem
 	color #222
 	position relative
 	margin-bottom 55px
@@ -63,7 +61,7 @@ export default {
 		cursor pointer
 		height 400px
 		overflow hidden
-		&:after 
+		&:after
 			background-image linear-gradient(
 			    to bottom,
 			    rgba(255, 255, 255, 0) 0%,
@@ -80,13 +78,13 @@ export default {
 			&:before
 				background-color #a591ff
 				transform scale(1.02)
-		&:before 
+		&:before
 			align-self center
 			background-color #222
 			border-radius 3px
 			bottom 24px
 			color #fff
-			content "View Transcript"
+			content "View Discussion"
 			font-size 15px
 			font-weight 500
 			padding 10px 20px
@@ -95,5 +93,5 @@ export default {
 			text-transform uppercase
 			transition all .2s
 			z-index 10000
-		
+
 </style>

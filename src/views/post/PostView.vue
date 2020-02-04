@@ -1,12 +1,12 @@
 <template>
   <div class="row top-space">
     <div
-      v-if="post"
+      v-if="post && post._id"
       class="post-view col-lg-7">
       <post-topics :post="post" />
       <post-title :post="post" />
       <post-meta :post="post" :showDuration="false"/>
-      <!-- <post-author :post="post" /> -->
+      <post-author :post="post" />
       <post-action-buttons :post="post" />
       <post-subscribe-feed :post="post" />
       <div
@@ -15,21 +15,18 @@
         <h6 class="section-title">About the Episode</h6>
         <highlightable
           @share="onForum"
-          @highlight="onComment"
-        >
-          <div
-            class="post-transcript"
-            v-html="postContent" />
+          @highlight="onComment">
+          <div class="post-transcript" v-html="postContent" />
         </highlightable>
         <post-sponsors :post="post" />
       </div>
-      
+
       <highlightable
-          @share="onForum"
-          @highlight="onComment"
-        >
-        <post-transcript :post="post"/>  
-      </highlightable>  
+        @share="onForum"
+        @highlight="onComment">
+        <post-transcript :post="post"/>
+      </highlightable>
+
       <post-related :post="post" />
       <post-subscribe />
     </div>
@@ -38,7 +35,7 @@
     </div>
     <div class="view-top col-lg-4">
       <div class="popular-feed">
-        <feed-popular 
+        <feed-popular
           :showImg="false"
           :showDuration="false"
           sectionTitle="Popular Stories" />
@@ -59,7 +56,7 @@ import CommentBox from '@/components/comment/CommentBox'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import VotingArrows from '@/components/VotingArrows'
-import { 
+import {
   PostSidebar,
   PostTitle,
   PostMeta,
@@ -113,20 +110,28 @@ export default {
       loading: false
     }
   },
+  watch: {
+    $route(to, from) {
+      if (from.params.id !== to.params.id) {
+        this._fetchArticle()
+      }
+    },
+  },
   computed: {
     forumThreadId () {
-      if (!this.isLoggedIn) return false
-      if (!(this.post && this.post.thread)) return false
+      if (!this.isLoggedIn) return '' // Expects a string
+      if (!(this.post && this.post.thread)) return '' // Expects a string
       return this.post.thread._id
     },
 
     postContent () {
       let content
+
       if (this.post.cleanedContent) {
        content = this.post.cleanedContent
        return content
       }
-      else if (this.post.content.rendered) {
+      else if (this.post.content && this.post.content.rendered) {
        return this.post.content.rendered
       } else {
        return ""
@@ -138,6 +143,9 @@ export default {
     },
 
     metaDescription () {
+      if (!this.post.content) {
+        return ''
+      }
       const maxLength = 400;
       const el = document.createElement('template')
       el.innerHTML = this.post.content.rendered.trim()
@@ -197,8 +205,41 @@ export default {
     })
   },
   methods: {
-   ...mapActions([ 'upvote', 'relatedLinksFetch',
-    'downvote', 'fetchArticle', 'commentsFetch']),
+    ...mapActions([
+      'upvote',
+      'relatedLinksFetch',
+      'downvote',
+      'fetchArticle',
+      'commentsFetch'
+    ]),
+
+    _fetchArticle () {
+      this.fetchArticle({
+        id: this.postId
+      }).then(({ post }) => {
+        this.loading = false
+        this.isLoadingComments = true
+
+        if (!post.thread) {
+          return
+        }
+
+        // Fetch comments
+        this.commentsFetch({
+          entityId: post.thread._id
+        }).then(() => {
+          this.isLoadingComments = false
+        }).catch(() => {
+          this.isLoadingComments = false
+        })
+      })
+
+      // Fetch relatedLinks
+      this.relatedLinksFetch({
+        postId: this.postId
+      })
+    },
+
     onForum (text) {
       this.$router.push({ name: 'NewThread', params: {initialContent:text }})
     },
@@ -207,45 +248,35 @@ export default {
       this.$set(this, 'comment', text)
       var container = this.$el.querySelector("#comment-box")
       container.scrollIntoView({behavior: "smooth", block: "end"})
-    }
+    },
   },
 
   beforeMount () {
-    this.fetchArticle({
-      id: this.postId
-    }).then(({ post }) => {
-      this.loading = false
-      this.isLoadingComments = true
-      // Fetch comments
-      this.commentsFetch({
-        entityId: post.thread._id
-      }).then(() => {
-        this.isLoadingComments = false
-      }).catch(() => {
-        this.isLoadingComments = false
-      })
-    })
-    // Fetch relatedLinks
-    this.relatedLinksFetch({
-      postId: this.postId
-    })
+    this._fetchArticle()
+  },
+
+  mounted () {
+    console.log('mounted this ', this)
   },
 
   beforeRouteUpdate(to, from, next) {
-    store.dispatch('fetchArticle', {id: to.params.id})
+    store.dispatch('fetchArticle', { id: to.params.id })
       .then(({ post }) => {
-        store.dispatch('commentsFetch',{ entityId: post.thread._id})
+        store.dispatch('commentsFetch', { entityId: post.thread._id})
           .then(() => {
+
+            store.dispatch('relatedLinksFetch', { postId: to.params.id })
+
             next();
           }).catch((error) => {
             next(error);
           })
-      })    
+      })
   },
-  
+
   metaInfo() {
     // wait for post before updating meta
-    if (!this.post) {
+    if (!this.post || !this.post.title) {
       return {}
     }
     const title = `${this.post.title.rendered} | Software Daily`
@@ -307,16 +338,18 @@ export default {
     text-transform uppercase
     font-size .7rem
     font-weight 800
-  a 
+  a
     color #a591ff
     font-weight 600
     span
-      font-weight 600 !important 
+      font-weight 600 !important
 
 .post-transcript
   font-size 1rem
   figure
     width 98%
+  p > img
+    display none
   p,.imageCaption
     margin 30px 0
   .size-large
@@ -365,7 +398,7 @@ export default {
   width: 100% !important;
 }
 
-.popular-feed 
+.popular-feed
   @media (min-width 1000px)
     margin-top 500px
 

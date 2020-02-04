@@ -26,38 +26,10 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
-      <!-- <div
-        v-if="showTopics !== null &&
-         (this.$store.state.topics.user === null || this.$store.state.topics.user.length === 0)"
-      >
-      <first-topics-select/>
-      </div> -->
-      <div class="app-download">
-        <a
-          href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"
-          target="_blank"
-        >
-          <img src="@/assets/iosstore.png" class="icon">
-        </a>
-
-        <a
-          href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"
-          target="_blank"
-        >
-          <img src="@/assets/androidstore.png" class="icon">
-        </a>
-        <a
-          href="https://github.com/SoftwareEngineeringDaily"
-          target="_blank"
-          class="github-container"
-        >
-          <img src="@/assets/icons/Github.png" class="github-icon">
-          GitHub
-        </a>
-      </div>
+      <app-download-buttons />
     </div>
 
-    <instructions :displayedPosts="displayedPosts"></instructions>
+    <!-- <instructions :displayedPosts="displayedPosts"></instructions> -->
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
@@ -65,7 +37,8 @@
         infinite-scroll-distance="10"
         class="post-scroll-container"
       >
-        <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary>
+        <!-- <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary> -->
+        <post-preview v-for="post in displayedPosts" :key="post._id" :post="post" />
         <div class="spinner-holder">
           <spinner :show="loading"></spinner>
         </div>
@@ -77,22 +50,25 @@
 <script>
 import moment from "moment";
 import uniqBy from 'lodash/uniqBy'
-import Spinner from "@/components/Spinner.vue";
-import PostSummary from "@/components/PostSummary.vue";
-import CategoryList from "@/components/CategoryList.vue";
-import Blank from "@/components/Blank.vue";
-import FirstTopicsSelect from "@/components/FirstTopicsSelect.vue";
-import { mapState, mapActions, mapGetters } from "vuex";
+import PostPreview from '@/components/post/PostPreview'
+import Spinner from '@/components/Spinner.vue'
+import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
+// import PostSummary from '@/components/post/PostSummary.vue'
+import CategoryList from '@/components/feed/FeedCategoryList.vue'
+// import FirstTopicsSelect from '@/components/FirstTopicsSelect.vue'
+import { mapState, mapActions, mapGetters } from 'vuex'
+// import Blank from '@/components/Blank.vue'
 
 export default {
   name: "top-list",
 
   components: {
-    instructions: Blank,
+    // instructions: Blank,
     Spinner,
     CategoryList,
-    PostSummary,
-    FirstTopicsSelect
+    PostPreview,
+    AppDownloadButtons,
+    // FirstTopicsSelect
   },
 
   data() {
@@ -222,7 +198,7 @@ export default {
         data => {
           this.displayedPosts = data.posts
           this.$store.commit('setPosts', {posts: data.posts})
-          }
+        }
       );
       this.resetPosts();
     },
@@ -286,105 +262,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import './../css/variables';
-
-.news-view {
-  padding-top: 10px;
-}
-
-.news-list-nav, .news-list {
-  background-color: #fff;
-  border-radius: 2px;
-}
-
-.news-list-nav {
-  padding: 15px 30px;
-  position: fixed;
-  text-align: center;
-  left: 0;
-  right: 0;
-  z-index: 998;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-
-  a {
-    margin: 0 1em;
-  }
-
-  .disabled {
-    color: #ccc;
-  }
-}
-
-.github-container {
-    width: 145px;
-    background-color: #000;
-    border-radius: 5px;
-    overflow: hidden;
-    padding: 3px;
-    margin-left: 3px;
-    color: #fff;
-    font-size: 1.3rem;
-    align-items: center;
-    display: flex;
-    height: 45px;
-    margin-bottom: 4px;
-
-  &:hover {
-    color: white;
-    text-decoration: none;
-  }
-}
-
-.github-icon {
-  max-width: 25%;
-  margin-right: 5px;
-}
-
-.news-list {
-  position: absolute;
-  margin: 30px 0;
-  width: 100%;
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.slide-left-enter, .slide-right-leave-active {
-  opacity: 0;
-  transform: translate(30px, 0);
-}
-
-.slide-left-leave-active, .slide-right-enter {
-  opacity: 0;
-  transform: translate(-30px, 0);
-}
-
-.post-move, .post-enter-active, .post-leave-active {
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-}
-
-.post-enter {
-  opacity: 0;
-  transform: translate(30px, 0);
-}
-
-.post-leave-active {
-  position: absolute;
-  opacity: 0;
-  transform: translate(30px, 0);
-}
-
-@media (max-width: 600px) {
-  .news-list {
-    margin: 10px 0;
-  }
-}
-
-@import './../css/variables';
+@import '../../css/variables';
 
 .news-view {
   padding-top: 10px;
@@ -570,8 +448,8 @@ export default {
 
 @media (max-width: 750px) {
   .news-view {
-      flex-direction: column;
-    }
+    flex-direction: column;
+  }
 
   .row {
     display: flex;
@@ -599,3 +477,75 @@ export default {
   }
 }
 </style>
+
+
+<!-- .news-view {
+  padding-top: 10px;
+}
+
+.news-list-nav, .news-list {
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.news-list-nav {
+  padding: 15px 30px;
+  position: fixed;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 998;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+  a {
+    margin: 0 1em;
+  }
+
+  .disabled {
+    color: #ccc;
+  }
+}
+
+.news-list {
+  position: absolute;
+  margin: 30px 0;
+  width: 100%;
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  transform: translate(30px, 0);
+}
+
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  transform: translate(-30px, 0);
+}
+
+.post-move, .post-enter-active, .post-leave-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.post-enter {
+  opacity: 0;
+  transform: translate(30px, 0);
+}
+
+.post-leave-active {
+  position: absolute;
+  opacity: 0;
+  transform: translate(30px, 0);
+}
+
+@media (max-width: 600px) {
+  .news-list {
+    margin: 10px 0;
+  }
+} -->

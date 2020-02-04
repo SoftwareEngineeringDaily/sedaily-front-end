@@ -35,9 +35,9 @@
 
     <div class="comment-section">
       <comment-compose
-            class="comment"
-            :entityId="forumThreadId"
-            :rootEntityType='"forumthread"' />
+        class="comment"
+        :entityId="forumThreadId"
+        :rootEntityType='"forumthread"' />
     </div>
     <div
     v-if="comments.length > 0"

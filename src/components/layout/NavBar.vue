@@ -11,7 +11,7 @@
           <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
         </span>
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
-         <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
+        <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
         <span class="active-without-border" v-if="isLoggedIn">
             <div>
               <b-dropdown variant="link" size="lg" no-caret>
@@ -190,11 +190,14 @@ $(function() {
 @import '../../css/variables'
 .btn-sign-in
   font-size 14px
-  font-weight 400
+  font-weight 700
   line-height 16px
   border 0
   letter-spacing 1.05px
   padding 10px 20px
+.button-submit
+  margin-left 15px
+  font-weight 700
 .site-logo
   margin-right 0.75em
   cursor pointer
@@ -258,7 +261,7 @@ $(function() {
   .register
     display flex
     align-items center
-    margin-right 15px
+    margin-left 5px
   .logo-img
     max-height 30px
     margin-right 10px

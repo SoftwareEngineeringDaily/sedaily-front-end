@@ -1,17 +1,18 @@
 <template>
   <div class="home-container">
-    <feed-grid :posts="displayedPosts" :loading="loading"/>
+    <feed-list :posts="displayedPosts" :loading="loading"/>
   </div>
 </template>
 
 
 <script>
-import FeedGrid from '@/components/feed/FeedGrid'
+// import FeedGrid from '@/components/feed/FeedGrid'
+import FeedList from '@/components/feed/FeedList'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'home-section',
-  components: { FeedGrid },
+  components: { FeedList },
   created() {
       this.fetchPosts()
   },

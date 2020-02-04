@@ -1,7 +1,7 @@
 <template>
   <div class="primary-post-header">
     <div class="header-title">
-      <h1>{{ post.title.rendered }}</h1>
+      <h1 v-if="post.title">{{ post.title.rendered }}</h1>
     </div>
   </div>
 </template>
@@ -14,7 +14,6 @@ export default {
       required: true
     },
   },
-  
 }
 </script>
 

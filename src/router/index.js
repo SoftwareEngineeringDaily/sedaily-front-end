@@ -22,7 +22,6 @@ const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'HomeView', component: HomeView },
-    { path: '/search', component: SearchView },
     { path: '/topics/:topic', name: 'SearchView', component: SearchView },
     { path: '/topics/:topic/:search', name: 'SearchView', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },

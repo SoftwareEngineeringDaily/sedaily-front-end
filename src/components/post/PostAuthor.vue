@@ -1,25 +1,33 @@
 <template>
-	<div class="post-author">
-		<div>Jeff Meyerson</div>
-	</div>
+  <div v-if="typeof post.author == 'object'" class="post-author">
+    <img :src="post.author.image" :title="post.author.name" />
+    <a :href="post.author.url" :title="post.author.name" target="_blank">{{post.author.name}}</a>
+  </div>
 </template>
 
 
 <script>
 export default {
-	name: "post-author",
-	props: {
-		post: {
-	      type: Object,
-	      required: true
-	    }
-	}
+  name: "post-author",
+  props: {
+    post: {
+        type: Object,
+        required: true
+      }
+  },
+  mounted() {
+    console.log('this.post ', this.post)
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
 .post-author
-	display flex
-	margin-top 10px
-	
+  display flex
+  align-items center
+  margin-top 10px
+  img
+    width auto
+    height 32px
+    margin-right 10px
 </style>

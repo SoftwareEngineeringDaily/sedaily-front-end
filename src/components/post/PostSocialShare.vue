@@ -1,25 +1,26 @@
 <template>
 	<social-sharing
-	    :url="post.url"
-	    :href="post.url"
-	    :title="post.title.rendered"
-	    :description="postContent"
-	    twitter-user="software_daily"
-	    inline-template>
+    v-if="post.title"
+    :url="post.url"
+    :href="post.url"
+    :title="post.title.rendered"
+    :description="postContent"
+    twitter-user="software_daily"
+    inline-template>
 		<div class="sharing">
-	      <network network="facebook">
-	        <i class="fa fa-facebook" />
-	      </network>
-	      <network network="linkedin">
-	        <i class="fa fa-linkedin" />
-	      </network>
-	      <network network="twitter">
-	        <i class="fa fa-twitter" />
-	      </network>
-	      <network network="telegram">
-	        <i class="fa fa-telegram" />
-	      </network>
-	    </div>
+      <network network="facebook">
+        <i class="fa fa-facebook" />
+      </network>
+      <network network="linkedin">
+        <i class="fa fa-linkedin" />
+      </network>
+      <network network="twitter">
+        <i class="fa fa-twitter" />
+      </network>
+      <network network="telegram">
+        <i class="fa fa-telegram" />
+      </network>
+    </div>
 	</social-sharing>
 </template>
 
@@ -32,18 +33,18 @@ export default {
 	components: { SocialSharing },
 	props: {
 		post: {
-	      type: Object,
-	      required: true
-	    },
-	    postContent: {
-	    	type: String
-	    }
+      type: Object,
+      required: true
+    },
+    postContent: {
+    	type: String
+    },
 	}
 }
 </script>
 
 <style lang="stylus">
-.sharing 
+.sharing
 	display flex
 	font-size 1.1rem
 	color #fff
@@ -55,9 +56,9 @@ export default {
 		width 30px
 		align-items center
 		justify-content center
-		display flex 
+		display flex
 		background-color #222
-		border-radius 2px 
+		border-radius 2px
 		margin-right 10px
 		@media (min-width 1000px)
 			margin-bottom 10px
@@ -71,7 +72,7 @@ export default {
 		top 100px
 		margin-top 600px
 
-	
+
 </style>
 
 
