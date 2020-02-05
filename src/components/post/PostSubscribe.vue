@@ -10,7 +10,10 @@ import SwitchToggle from '@/components/SwitchToggle'
 import SubscribeBox from '@/components/subscribe/SubscriptionBox'
 
 export default {
-  components: { SwitchToggle, SubscribeBox }
+  components: {
+    SwitchToggle,
+    SubscribeBox
+  }
 }
 </script>
 

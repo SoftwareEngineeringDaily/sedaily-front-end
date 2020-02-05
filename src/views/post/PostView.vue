@@ -18,7 +18,6 @@
           @highlight="onComment">
           <div class="post-transcript" v-html="postContent" />
         </highlightable>
-        <post-sponsors :post="post" />
       </div>
 
       <highlightable
@@ -28,6 +27,10 @@
       </highlightable>
 
       <post-related :post="post" />
+      <div class="post-content">
+        <post-sponsors :post="post" />
+      </div>
+
       <post-subscribe />
     </div>
     <div class="view-top col-lg-1">
@@ -399,9 +402,15 @@ export default {
     margin-top 500px
 
 @media (max-width 600px)
+  .container-fluid
+    overflow hidden
   .post-view-header
     h1
       font-size 1.25em
+  .post-content a[href="mailto:sponsor@softwaredaily.com"],
+  .post-content a[href="mailto:sponsor@softwareengineeringdaily.com"]
+    display block
+    word-break break-all
 .view-top
   padding 1.5rem 2rem
 .post-view

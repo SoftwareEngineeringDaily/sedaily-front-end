@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Subscribe to Software Daily</h3>
+    <h3>Subscribe to Software Daily</h3>
     <p>Get ad-free episodes</p>
     <div class="switch-section">
       <span class="option">Bill monthly</span>

@@ -43,7 +43,7 @@ export default {
     display flex
 .sponsor-list
   display flex
-  flex-wrap wrap
+  flex-wrap nowrap
   align-items center
   margin-left -10px
   margin-right -10px
@@ -51,9 +51,14 @@ export default {
     box-sizing border-box
     display block
     flex-grow 1
-    max-width 33.33%
-    padding 0 10px
+    min-width 100px
+    padding 0 16px
 .sponsor-inquiry
   margin-top 10px
   text-align center
+@media (max-width 600px)
+  .sponsor-list
+    flex-wrap wrap
+    a
+      max-width 50%
 </style>
