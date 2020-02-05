@@ -255,10 +255,6 @@ export default {
     this._fetchArticle()
   },
 
-  mounted () {
-    console.log('mounted this ', this)
-  },
-
   beforeRouteUpdate(to, from, next) {
     store.dispatch('fetchArticle', { id: to.params.id })
       .then(({ post }) => {
@@ -355,8 +351,8 @@ export default {
   .size-large
     width 100%
     height 100%
-  .row
-    .row
+  .row .row,
+  .powerpress_player
       display none
 .voting-arrows-container
   width 10%

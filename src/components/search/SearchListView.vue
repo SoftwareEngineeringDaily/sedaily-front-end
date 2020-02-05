@@ -1,25 +1,50 @@
 <template>
   <div class="news-view">
     <div class="categories-container">
-      <topic-favorite-list 
+      <!-- <topic-favorite-list
         :showTopics="showTopics"
         :topicHandler="topicHandler"
         :getClassForTopic="getClassForTopic"
         :showUserTopics="showUserTopics"
         />
-      <topic-popular-list 
+      <topic-popular-list
         :topics="topics"
         :fetchPosts="fetchPosts"
         :topicHandler="topicHandler"
         :getClassForTopic="getClassForTopic"
-      />
+      /> -->
+      <div v-if="showUserTopics" class="topics-container">
+        <h4>Favourite</h4>
+        <ul>
+          <li
+            class="topic-item"
+            v-for="topic in showTopics"
+            :key="topic._id"
+            @click="topicHandler(topic)"
+            :class="getClassForTopic(topic._id)"
+          >{{ topic.name }}</li>
+        </ul>
+      </div>
+      <div class="topics-container">
+        <h4>Most Popular</h4>
+        <ul>
+          <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
+          <li
+            class="topic-item"
+            v-for="topic in showMostPopular"
+            :key="topic._id"
+            @click="topicHandler(topic)"
+            :class="getClassForTopic(topic._id)"
+          >{{ topic.name }}</li>
+        </ul>
+      </div>
     </div>
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="true"
         infinite-scroll-distance="10"
-        class="grid-view"
+        class="post-scroll-container"
       >
         <post-preview v-for="(post, i) in displayedPosts" :key="post._id" :post="post" :inverse="((i+1)%4==2||(i+1)%4==3)"></post-preview>
         <div class="spinner-holder">
@@ -91,6 +116,9 @@ export default {
     showTopics() {
       return this.topics.user;
     },
+    showMostPopular() {
+      return this.topics.mostPopular;
+    },
     showUserTopics() {
       if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
         if (this.$store.state.topics.user.length !== 0) {
@@ -137,7 +165,7 @@ export default {
     next();
   },
   methods: {
-    ...mapActions(["showTopic", "getPosts"]),
+    ...mapActions([ "showTopic", "getTopicsInSearch" ]),
     getClassForTopic(topic_id) {
       return this.topicId === topic_id ? "topic-active" : "";
     },
@@ -158,12 +186,11 @@ export default {
     },
     fetchPosts() {
       this.topicId = "";
-
-      this.getPosts({}).then(
+      this.getTopicsInSearch({}).then(
         data => {
           this.displayedPosts = data.posts
           this.$store.commit('setPosts', {posts: data.posts})
-          }
+        }
       );
       this.resetPosts();
     },
@@ -191,7 +218,7 @@ export default {
         params.createdAtBefore = moment(lastPost.date).toISOString();
       }
       this.$store
-        .dispatch("getPosts", params)
+        .dispatch("getTopicsInSearch", params)
         .then(result => {
           if (newSearch) {
             this.displayedPosts = [];
@@ -221,18 +248,78 @@ export default {
 <style lang="stylus">
 @import '../../css/variables';
 
-.grid-view
-  display grid
-  grid-template-columns auto
-  grid-auto-rows 1fr
-  grid-column-gap 30px
-  grid-row-gap 24px
-  padding-bottom 150px
+//.grid-view
+//  display grid
+//  grid-template-columns auto
+//  grid-auto-rows 1fr
+//  grid-column-gap 30px
+//  grid-row-gap 24px
+//  padding-bottom 150px
+//
+//  @media (min-width: 900px)
+//    grid-template-columns repeat(2, 1fr)
+//    grid-column-gap 30px
+//    grid-row-gap 24px
 
-  @media (min-width: 900px) 
-    grid-template-columns repeat(2, 1fr)
-    grid-column-gap 30px
-    grid-row-gap 24px
+.post-scroll-container {
+  flex: 1;
+}
 
+.news-view {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
 
+// TOPIC
+.topics-container {
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 10px 0;
+      color: #808080;
+      cursor: pointer;
+
+      &:hover {
+        color: primary-color !important;
+      }
+    }
+  }
+}
+@media (max-width: 750px) {
+  .topics-container {
+    ul {
+      li {
+        margin-right: 10px;
+      }
+    }
+  }
+  .spinner-holder {
+    margin: auto;
+  }
+}
+
+.topic-active {
+  color: #856aff !important;
+  font-weight: 600;
+}
+
+.categories-container {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.spinner-holder {
+  width: 85%;
+  text-align: center;
+}
+
+@media (max-width: 750px) {
+  .spinner-holder {
+    margin: auto;
+  }
+}
 </style>

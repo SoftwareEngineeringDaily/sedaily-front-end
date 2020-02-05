@@ -14,7 +14,7 @@
       <post-meta
         :post="post"
         :showDuration="false"
-        :isPreview="isPreview"/>
+        :isPreview="isPreview" />
       <post-author :post="post" />
     </div>
     <!-- <div class="bottom-bar">
@@ -34,38 +34,44 @@
   </div>
 </template>
 
-
 <script>
 import { PostMeta, PostTopicsList, PostTopics, PostTitle, PostAuthor } from '@/components/post'
 import VotingArrows from '@/components/VotingArrows'
 import { postPrettyUrl } from '@/utils/post.utils'
 
 export default {
-  components: { VotingArrows, PostMeta, PostTopicsList, PostTopics, PostTitle, PostAuthor },
+  components: {
+    VotingArrows,
+    PostMeta,
+    PostTopicsList,
+    PostTopics,
+    PostTitle,
+    PostAuthor
+  },
   props: {
     post: {
-        type: Object,
-        required: true
-      },
-      inverse: {
-        type: Boolean
-      },
-      isPreview: {
-        type: Boolean
-      },
-      featured: {
-        type: Boolean
-      },
-      showTags: {
-        type: Boolean
-      },
-      showGuest: {
-        type: Boolean
-      },
-      showCopy: {
-        type: Boolean,
-        default: true
-      }
+      type: Object,
+      required: true
+    },
+    inverse: {
+      type: Boolean
+    },
+    isPreview: {
+      type: Boolean
+    },
+    featured: {
+      type: Boolean
+    },
+    showTags: {
+      type: Boolean
+    },
+    showGuest: {
+      type: Boolean
+    },
+    showCopy: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     postPrettyUrl () {
@@ -123,6 +129,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../../../css/variables'
+
 .body
   padding 2rem
   display flex
@@ -167,8 +174,3 @@ export default {
       border-radius 50%
       background-color darken(grey, 10%)
 </style>
-
-
-
-
-

@@ -46,7 +46,7 @@ export default {
         return state.me
       }
     }),
-    ...mapState(['activePlayerPost']),
+    ...mapState([ 'activePlayerPost' ]),
     isPlayerActive () {
       return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
     },

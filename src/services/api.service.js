@@ -13,7 +13,7 @@ const ApiService = {
   },
 
   setHeader() {
-    // TODO 
+    // TODO
   },
 
   query(resource, params) {
@@ -47,8 +47,6 @@ const ApiService = {
   }
 }
 
-export default ApiService
-
 export const PostsService = {
   query(type, params) {
     return ApiService.query('posts', {
@@ -80,16 +78,4 @@ export const CommentsService = {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default ApiService

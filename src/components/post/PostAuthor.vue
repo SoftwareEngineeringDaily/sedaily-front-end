@@ -5,7 +5,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   name: "post-author",
@@ -14,9 +13,6 @@ export default {
         type: Object,
         required: true
       }
-  },
-  mounted() {
-    console.log('this.post ', this.post)
   }
 }
 </script>

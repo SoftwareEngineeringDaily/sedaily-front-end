@@ -8,6 +8,7 @@ export default {
   },
 
   setActivePostInPlayer: (state, { post }) => {
+    console.log('post ', post)
     state.activePlayerPost = post
   },
 

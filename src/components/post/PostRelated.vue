@@ -26,9 +26,9 @@ export default {
   },
   props: {
     post: {
-        type: Object,
-        required: true,
-      },
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     posts: {

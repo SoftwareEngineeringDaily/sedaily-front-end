@@ -24,56 +24,6 @@
 </template>
 
 <script>
-// export default {
-//   data () {
-//     return {
-//       x: 0,
-//       y: 0,
-//       showTools: false,
-//       selectedText: '',
-//     }
-//   },
-
-//   computed: {
-//     highlightableEl () {
-//       return this.$slots.default[0].elm
-//     }
-//   },
-
-//   mounted () {
-//     window.addEventListener('mouseup', this.onMouseup)
-//   },
-
-//   beforeDestroy () {
-//     window.removeEventListener('mouseup', this.onMouseup)
-//   },
-
-//   methods: {
-//     onMouseup () {
-//       const selection = window.getSelection()
-//       const startNode = selection.getRangeAt(0).startContainer.parentNode
-//       const endNode = selection.getRangeAt(0).endContainer.parentNode
-//       if (!startNode.isSameNode(this.highlightableEl) || !startNode.isSameNode(endNode)) {
-//         this.showTools = false
-//         return
-//       }
-//       const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect()
-//       console.log(x, y, width)
-//       if (!width) {
-//         this.showTools = false
-//         return
-//       }
-//       this.x = x + (width / 2)
-//       this.y = y + window.scrollY - 10
-//       this.showTools = true
-//       this.selectedText = selection.toString()
-//     },
-
-//     handleAction (action) {
-//       this.$emit(action, this.selectedText)
-//     }
-//   }
-// }
 export default {
   data () {
     return {
@@ -117,8 +67,6 @@ export default {
 
       const { top: parentTop, left: parentLeft } = this.$el.getBoundingClientRect()
       const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect()
-      console.log(x, y, width)
-      console.log('top, left, _x, _y: ', parentTop, parentLeft)
 
       if (!width || selection.toString() === '') {
         this.showTools = false
@@ -160,8 +108,6 @@ export default {
   justify-content: center
   align-items: center
   z-index 10
-  // @media (min-width 1000px)
-  //  transform: translate(-200%, -460%)
   &:after
     content: ''
     position: absolute

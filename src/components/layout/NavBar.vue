@@ -13,31 +13,25 @@
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
         <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
         <span class="active-without-border" v-if="isLoggedIn">
-            <div>
-              <b-dropdown variant="link" size="lg" no-caret>
-                <template slot="button-content">
-                  <div class="crop-image" v-if="isLoggedIn">
-                    <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
-                  </div>
-                </template>
-                <b-dropdown-item >
-                  <div class="arrow"></div>
-                  <router-link to="/profile">
-                    Profile
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <router-link to="/settings">
-                    Settings
-                  </router-link>
-                </b-dropdown-item>
-                <b-dropdown-item @click.prevent="logoutHandler">
-                    <a>
-                      Logout
-                    </a>
-                </b-dropdown-item>
-              </b-dropdown>
-            </div>
+          <div>
+            <b-dropdown variant="link" size="lg" no-caret>
+              <template slot="button-content">
+                <div class="crop-image" v-if="isLoggedIn">
+                  <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
+                </div>
+              </template>
+              <b-dropdown-item to="/profile">
+                <div class="arrow"></div>
+                Profile
+              </b-dropdown-item>
+              <b-dropdown-item to="/settings">
+                Settings
+              </b-dropdown-item>
+              <b-dropdown-item @click.prevent="logoutHandler">
+                Logout
+              </b-dropdown-item>
+            </b-dropdown>
+          </div>
         </span>
 
       </span>
@@ -186,6 +180,26 @@ $(function() {
 });
 </script>
 
+<style lang="stylus">
+@import '../../css/variables'
+.header
+  .dropdown-menu .dropdown-item
+    border-bottom none
+    text-transform capitalize
+    width 100%
+    padding 8px 10px
+    &:hover
+      color primary-color
+    &:active,
+    &.router-link-active
+      font-weight bold
+      color #fff
+      background-color primary-color
+      border-color white
+    &.router-link-active
+      pointer-events none
+</style>
+
 <style scoped lang="stylus">
 @import '../../css/variables'
 .btn-sign-in
@@ -321,20 +335,19 @@ $(function() {
       line-height 25px
     &:nth-child(2)
       margin-right 0
-  .dropdown-menu a
+  .dropdown-menu .dropdown-item
     border-bottom none
     text-transform capitalize
     width 100%
     padding 8px 10px
     &:hover
       color primary-color
-    &.router-link-active
+    &:active
       font-weight bold
+      color #fff
       border-color white
       padding-top 2px
       color primary-color
-    &:active
-      color #fff
       background-color primary-color
   .github
     color #fff

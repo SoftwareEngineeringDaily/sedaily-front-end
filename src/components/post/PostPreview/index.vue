@@ -23,30 +23,30 @@ export default {
   components: { PostPreviewCopy },
   props: {
     post: {
-        type: Object
-      },
-      inverse: {
-        type: Boolean
-      },
-      isPreview: {
-        type: Boolean
-      },
-      showImg: {
-        type: Boolean,
-        default: true
-      },
-      showTags: {
-        type: Boolean,
-        default: true
-      },
-      showGuest: {
-        type: Boolean,
-        default: true
-      },
-      showCopy: {
-        type: Boolean,
-        default: true
-      }
+      type: Object
+    },
+    inverse: {
+      type: Boolean
+    },
+    isPreview: {
+      type: Boolean
+    },
+    showImg: {
+      type: Boolean,
+      default: true
+    },
+    showTags: {
+      type: Boolean,
+      default: true
+    },
+    showGuest: {
+      type: Boolean,
+      default: true
+    },
+    showCopy: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     postPrettyUrl () {
@@ -84,5 +84,8 @@ a
   &:hover
     img
       transform: scale(1.05)
+  @media (max-width: 750px)
+    width 100%
+    margin 15px auto
 
 </style>

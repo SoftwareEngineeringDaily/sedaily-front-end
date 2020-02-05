@@ -39,7 +39,3 @@ export default {
   mutations,
   getters
 }
-
-
-
-

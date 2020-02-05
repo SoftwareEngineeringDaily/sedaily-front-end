@@ -86,7 +86,7 @@ export default {
 .post-action-btns
   display flex
   margin 25px 0 10px 0
-  .btn-default 
+  .btn-default
     padding 5px 20px
     border-radius 3px
     font-size 1.03rem
@@ -97,7 +97,7 @@ export default {
     margin-right 15px
     font-weight 400
     transition all .2s
-    &:hover 
+    &:hover
       background-color #a591ff
     @media (max-width 700px)
       width 100%

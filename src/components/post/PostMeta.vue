@@ -1,41 +1,41 @@
 <template>
-	<div class="post-details" :class="{ bold :isPreview }">
-		<div class="date">{{ publicationDate }}</div>
-		<span v-if="showDuration">|</span>
+  <div class="post-details" :class="{ bold :isPreview }">
+    <div class="date">{{ publicationDate }}</div>
+    <span v-if="showDuration">|</span>
     <div v-if="showDuration" class="duration">40 mins</div>
-		<span>|</span>
-		<div v-if="post.thread" class="comment-count">{{post.thread.commentsCount}} comments</div>
+    <span>|</span>
+    <div v-if="post.thread" class="comment-count">{{post.thread.commentsCount}} comments</div>
     <div v-else class="comment-count">0 comments</div>
-	</div>
+  </div>
 </template>
 
 
 <script>
 import moment from 'moment'
 export default {
-	name: "post-meta",
-	props: {
-		post: {
+  name: "post-meta",
+  props: {
+    post: {
       type: Object,
       required: true
     },
     isPreview: {
-    	type: Boolean,
-    	default: false
+      type: Boolean,
+      default: false
     },
     showDuration: {
-    	type: Boolean,
-    	default: true
+      type: Boolean,
+      default: true
     },
-	},
-	computed: {
-		publicationDate () {
+  },
+  computed: {
+    publicationDate () {
       let format = this.isPreview ? 'MMM Do' : 'MMMM Do, YYYY'
       if (this.post) {
         return moment(this.post.date).format(format)
       }
     },
-	}
+  }
 }
 </script>
 
