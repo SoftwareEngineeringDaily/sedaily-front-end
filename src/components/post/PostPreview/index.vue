@@ -81,9 +81,6 @@ a
       height 100%
       object-fit cover
       transition all .2s
-  &:hover
-    img
-      transform: scale(1.05)
   @media (max-width: 750px)
     width 100%
     margin 15px auto

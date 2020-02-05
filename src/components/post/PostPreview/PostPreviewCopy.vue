@@ -1,6 +1,6 @@
 <template>
-  <div class="body" :class="{inverse:inverse,featured:featured}" >
-    <post-topics-list :post="post" :inverse="inverse" v-if="showTags"/>
+  <div class="body" :class="{ featured }" >
+    <post-topics-list :post="post" v-if="showTags"/>
 
     <h3 class="title">
       {{ post.title.rendered | decodeString }}
