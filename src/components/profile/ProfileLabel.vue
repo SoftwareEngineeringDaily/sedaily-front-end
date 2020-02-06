@@ -1,19 +1,20 @@
 <template>
-  <span class="user-info" v-if="userData">
-    <router-link :to="'/profile/' + userData._id">
-      <div :style="imageStyle" class="avatar"></div>
-    </router-link>
-
-    <div class="profile-container">
-      <span v-if="showName" class="name">
-        <router-link :to="'/profile/' + userData._id">{{displayName}}</router-link>
-      </span>
-      <span>
-        <p  class="date">{{dateComment}}</p>
-      </span>
+  <div>
+    <div class="user-info" v-if="userData">
+      <router-link
+        :to="'/profile/' + userData._id"
+        :style="imageStyle"
+        class="avatar" />
+      <router-link
+        v-if="showName"
+        :to="'/profile/' + userData._id"
+        class="name">
+        {{displayName}}
+      </router-link>
     </div>
+    <time class="date">{{dateComment}}</time>
     <slot></slot>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -61,33 +62,29 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.avatar {
-  margin: 10px;
-  display: inline-block;
-  min-width: 25px;
-  max-width: 25px;
-  min-height: 25px;
-  border-radius: 50%;
-}
+.avatar
+  margin-right 10px
+  display inline-block
+  width 28px
+  height 28px
+  border-radius 50%
 
-.profile-container {
-  width: 100%;
-}
+.profile-container
+  width 100%
 
-.date {
-  color: #9b9b9b;
-}
+.date
+  font-size 0.7rem
+  text-transform uppercase
+  color #9b9b9b
 
 .user-info
   display flex
   align-items center
   justify-content flex-start
+  margin-bottom 2px
   p
     margin 0
   span
     margin 0
 
-.name {
-  margin-left: 12px;
-}
 </style>

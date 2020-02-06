@@ -1,8 +1,6 @@
 <template>
-  <div class="row top-space">
-    <div
-      v-if="post && post._id"
-      class="post-view col-lg-7">
+  <div v-if="post && post._id" class="row top-space">
+    <div class="post-view col-lg-7">
       <post-topics :post="post" />
       <post-title :post="post" />
       <post-meta :post="post" :showDuration="false"/>
@@ -14,30 +12,38 @@
         class="post-content">
         <h6 class="section-title">About the Episode</h6>
         <highlightable
-          @share="onForum"
-          @highlight="onComment">
+          :contentUrl="contentUrl"
+          @highlight="onForum">
           <div class="post-transcript" v-html="postContent" />
         </highlightable>
       </div>
 
       <highlightable
-        @share="onForum"
-        @highlight="onComment">
+        :contentUrl="contentUrl"
+        @highlight="onForum">
         <post-transcript :post="post"/>
       </highlightable>
 
-      <post-related :post="post" />
       <div class="post-content">
         <post-sponsors :post="post" />
       </div>
 
       <post-subscribe />
     </div>
+
     <div class="view-top col-lg-1">
-      <post-social-share :post="post" :postContent="postContent"/>
+      <post-social-share
+        :post="post"
+        :postContent="postContent"/>
     </div>
+
     <div class="view-top col-lg-4">
       <div class="popular-feed">
+        <post-related
+          :post="post" />
+        <related-link-list
+          :related-links="relatedLinks"
+          :is-logged-in="isLoggedIn" />
         <feed-popular
           :showImg="false"
           :showDuration="false"
@@ -125,6 +131,10 @@ export default {
       if (!this.isLoggedIn) return '' // Expects a string
       if (!(this.post && this.post.thread)) return '' // Expects a string
       return this.post.thread._id
+    },
+
+    contentUrl () {
+      return window.location.href
     },
 
     postContent () {
@@ -396,10 +406,6 @@ export default {
 .comment-container[data-v-3476be63] {
   width: 100% !important;
 }
-
-.popular-feed
-  @media (min-width 1000px)
-    margin-top 500px
 
 @media (max-width 600px)
   .container-fluid

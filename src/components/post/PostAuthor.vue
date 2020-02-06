@@ -24,6 +24,6 @@ export default {
   margin-top 10px
   img
     width auto
-    height 32px
+    height 28px
     margin-right 10px
 </style>

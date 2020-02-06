@@ -20,7 +20,7 @@
 
       <!-- <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/> -->
 
-      <div class="row misc-detail">
+      <div class="misc-detail">
         <div class="comment-op">
           <!-- <div class="bullet-point"></div> -->
           <!-- <div v-if="isLoggedIn" class="bullet-point"></div> -->
@@ -28,7 +28,6 @@
             <span class="link" @click="isReplying=!isReplying">Reply</span>
           </span>
           <span v-if="isReplying && isLoggedIn" class="link" @click="isReplying=!isReplying">Cancel</span>
-
           <span class="delete" v-if="this.isMyComment && !comment.deleted" @click="remove">Delete</span>
           <span
             class="delete"
@@ -163,11 +162,13 @@ export default {
   },
   methods: {
     ...mapActions(["likeComment", "removeComment", "commentsFetch"]),
+
     updateLinkToOpenTab(html) {
       const regExLink = /\<a href=/gi;
       const updatedLink = '<a target="_blank" href=';
       return html.replace(regExLink, updatedLink);
     },
+
     linkifyMentions(html) {
       const { mentions } = this.comment;
       if (!mentions) return html;
@@ -187,12 +188,15 @@ export default {
       }
       return newHtml;
     },
+
     doneReplyingCallback() {
       this.isReplying = false;
     },
+
     doneEditingCallback() {
       this.editing = false;
     },
+
     upvoteHandler() {
       this.likeComment({
         id: this.comment._id,
@@ -200,6 +204,7 @@ export default {
         entityId: this.comment.rootEntity
       });
     },
+
     remove() {
       this.removeComment({
         id: this.comment._id
@@ -210,14 +215,15 @@ export default {
           });
         })
         .catch(error => {
-          this.$toasted.error("Error deleting :(", { 
+          this.$toasted.error("Error deleting :(", {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           });
         });
     },
+
     user(comment) {
       if (comment.author) {
         return comment.author;
@@ -229,11 +235,11 @@ export default {
 
     date(comment) {
       if (comment.dateCreated) {
-        return moment(comment.dateCreated)
-          .startOf("second")
-          .fromNow();
+        let date = moment(comment.dateCreated).format('MMMM Do, YYYY')
+        let duration = moment(comment.dateCreated).startOf('second').fromNow()
+        return `${date} | ${duration}`
       } else {
-        return "Now";
+        return 'Now'
       }
     }
   }
@@ -262,18 +268,16 @@ export default {
 }
 
 .content-area {
-  margin-top: 1%;
-  padding-left: 3.25em;
-  word-break: break-word;
-  color: #000;
+  word-break: break-word
+  color: #000
+}
+
+.comment-holder:hover .misc-detail {
+  visibility visible
 }
 
 .comment-holder .deleted {
   color: #bf687e;
-}
-
-.comment-holder {
-  padding-bottom: 10px;
 }
 
 .deleted {
@@ -283,11 +287,10 @@ export default {
 }
 
 .misc-detail {
+  visibility hidden
   color: #9B9B9B;
   font-size: 14px;
-  margin-left: 45px;
   font-family: 'Roboto', sans-serif;
-
 }
 
 .link {

@@ -3,23 +3,22 @@
     <div v-if="loading" class="spinner-holder">
       <spinner :show="loading" />
     </div>
-    <div v-else v-for="comment in comments" :key="comment._id">
-      <div class='row' :id='comment._id'>
-        <div class='col-md-12' >
+    <div class="comment" v-else v-for="comment in comments" :key="comment._id">
+      <div class="row" :id="comment._id">
+        <div class="col-md-12" >
           <comment-view
-            :rootEntityType='rootEntityType'
-            :comment='comment'
+            :rootEntityType="rootEntityType"
+            :comment="comment"
             :isParentComment="true" />
         </div>
       </div>
-        <div class='replies'>
-          <div v-for="replyComment in comment.replies" :key="replyComment._id">
-            <comment-view
-              :rootEntityType='rootEntityType'
-              :comment='replyComment' />
-          </div>
+      <div class="replies" v-if="comment.replies.length">
+        <div v-for="replyComment in comment.replies" :key="replyComment._id">
+          <comment-view
+            :rootEntityType="rootEntityType"
+            :comment="replyComment" />
         </div>
-      <br />
+      </div>
     </div>
   </div>
 </template>
@@ -65,9 +64,27 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.comment
+  margin-bottom 18px
+  padding-bottom 18px
+  border-bottom 1px solid #ddd
+  &:last-child
+    margin-bottom 0
+    padding-bottom 0
+    border-bottom none
 .replies
-  // margin-top 45px
-  padding-left 25px
+  position relative
+  margin-top 10px
+  margin-left 5px
+  padding-left 20px
+  border-left 1px solid #000
+  &:before
+    content ''
+    position absolute
+    top 14px
+    left 0
+    width 10px
+    border-top 1px solid #000
 .no-comments
   padding-top 20px
   color #ccc

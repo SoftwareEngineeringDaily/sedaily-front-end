@@ -11,12 +11,26 @@
       <span
         class="item"
         @mousedown.prevent="handleAction('share')">
-        <svg viewBox="0 0 512 512"><path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z"/></svg>
+
+        <social-sharing
+          v-if="contentUrl"
+          :url="contentUrl"
+          :href="contentUrl"
+          :title="selectedText"
+          twitter-user="software_daily"
+          inline-template>
+          <network network="twitter">
+            <i class="fa fa-twitter"></i>
+          </network>
+        </social-sharing>
+
       </span>
       <span
         class="item"
         @mousedown.prevent="handleAction('highlight')">
-        <svg viewBox="0 0 512 512"><path fill="currentColor" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/></svg>
+        <svg viewBox="0 0 512 512">
+          <path fill="currentColor" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"/>
+        </svg>
       </span>
     </div>
     <slot/>
@@ -24,7 +38,19 @@
 </template>
 
 <script>
+import SocialSharing from 'vue-social-sharing'
 export default {
+  components: {
+    SocialSharing
+  },
+
+  props: {
+    contentUrl: {
+      type: String,
+      required: true
+    },
+  },
+
   data () {
     return {
       x: 0,
@@ -79,7 +105,7 @@ export default {
       this.x = x - parentLeft + (width / 2)
       this.y = y - parentTop
       this.showTools = true
-      this.selectedText = selection.toString()
+      this.selectedText = `"${selection.toString()}"`
     },
 
     handleAction (action) {
@@ -94,7 +120,6 @@ export default {
 }
 </script>
 
-
 <style lang="stylus" scoped>
 .tools
   display: flex
@@ -104,7 +129,6 @@ export default {
   background #333
   border-radius 3px
   transform: translate(-50%, -140%)
-  transition: 0.2s all
   justify-content: center
   align-items: center
   z-index 10
@@ -120,13 +144,15 @@ export default {
     border-right: 6px solid transparent
     border-top: 6px solid #333
   .item
-    color: #FFF
     cursor: pointer
     display flex
+    font-size 1.25rem
+    color: #FFF
     svg
       height 18px
       width 18px
-    &:hover svg
+    &:hover svg,
+    &:hover .fa
       transform: translateY(-5%)
   .item + .item
     margin-left: 10px

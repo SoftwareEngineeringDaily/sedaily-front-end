@@ -63,16 +63,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.recommended-grid
-  display grid
-  grid-template-columns auto
-  grid-auto-rows 1fr
-  grid-column-gap 10px
-  grid-row-gap 24px
-  overflow hidden
-  @media (min-width: 900px)
-    grid-template-columns repeat(2, auto)
-    grid-column-gap 30px
-    grid-row-gap 24px
-
 </style>

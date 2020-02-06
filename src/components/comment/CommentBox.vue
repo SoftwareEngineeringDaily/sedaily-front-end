@@ -57,7 +57,7 @@ export default {
 .comment-box
   background-color #f8f9fa
   padding 10px 20px
-  margin-top 100px
+  margin-top 40px
   position relative
   @media (max-width 1000px)
     margin-bottom 100px

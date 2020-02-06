@@ -1,7 +1,11 @@
 <template>
   <div>
-    <button v-if="!showModal" class='button-related' id="show-modal" @click="showModal = true">+ Add New Link</button>
-    <button v-else class='button-related' id="show-modal" @click="showModal = false">+ Add New Link</button>
+    <div class="related-actions">
+      <button v-if="!showModal" class="button-related" id="show-modal" @click="showModal = true">+ Add New Link</button>
+      <button v-else class="button-related" id="show-modal" @click="showModal = false">
+        <span v-if="showModal">-</span><span v-else>+</span> Add New Link
+      </button>
+    </div>
     <div v-if="showModal" @close="showModal = false">
       <textarea
         placeholder='Add a related link...'
@@ -35,7 +39,7 @@
         <spinner :show="true" />
       </span>
 
-      <div v-else>
+      <div class="related-actions" v-else>
         <button
           class='button-submit'
           :disabled="isSubmitting"
@@ -99,18 +103,18 @@ export default {
             })
             .catch((error) => {
               this.isSubmitting = false
-              this.$toasted.error(error.response.data.message, { 
+              this.$toasted.error(error.response.data.message, {
                   singleton: true,
-                  theme: "bubble", 
-                  position: "bottom-center", 
+                  theme: "bubble",
+                  position: "bottom-center",
                   duration : 700
               })
             })
         } else {
-          this.$toasted.error('Sorry there was a problem :(', { 
+          this.$toasted.error('Sorry there was a problem :(', {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         }
@@ -122,8 +126,8 @@ export default {
 
 <style scoped lang="stylus">
 @import '../../css/variables'
-.button-submit
-  float right
+.related-actions
+  text-align right
 .related-link-box
   width 100%
   padding 10px
@@ -133,10 +137,11 @@ export default {
 .button-related
   background none
   border none
-  font-size 1rem
-  font-weight 600
+  font-size 0.8rem
+  font-weight 700
   color primary-color
-  margin 15px 0
+  margin 15px 0 0
+  padding-right 0
   outline none
   cursor pointer
 .related-title-box

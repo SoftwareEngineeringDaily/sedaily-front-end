@@ -68,7 +68,7 @@ a
   margin 15px 16% 40px
   background #e9ecef
   &.is-preview
-    margin 0
+    margin 0 0 40px
     max-width 100%
   &.inverse
     background #222

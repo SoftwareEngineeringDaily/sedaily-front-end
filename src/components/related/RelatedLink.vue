@@ -1,10 +1,15 @@
 <template>
-  <div class='link-holder'>
-    <a :href="relatedLink.url | externalUrl" target="_blank"
-    rel="external nofollow"
-    > {{relatedLink.title || relatedLink.url}} </a>
+  <div class="link-holder">
+    <a
+      :href="relatedLink.url | externalUrl"
+      target="_blank"
+      rel="external nofollow">
+      {{relatedLink.title || relatedLink.url}}
+    </a>
     <div v-if='myLink'>
-      <button @click='remove' class='button-delete'><i class="fa fa-trash"/></button>
+      <button @click='remove' class='button-delete'>
+        <i class="fa fa-trash"/>
+      </button>
     </div>
   </div>
 </template>
@@ -27,19 +32,19 @@ export default {
       this.removeRelatedLink({
         id: this.relatedLink._id
       })
-        .then(() => {
-          this.relatedLinksFetch({
-            postId: this.relatedLink.post
-          })
+      .then(() => {
+        this.relatedLinksFetch({
+          postId: this.relatedLink.post
         })
-        .catch((error) => {
-          this.$toasted.error('Error deleting :(', { 
-              singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
-              duration : 700
-          })
+      })
+      .catch((error) => {
+        this.$toasted.error('Error deleting :(', {
+          singleton: true,
+          theme: "bubble",
+          position: "bottom-center",
+          duration : 700
         })
+      })
     },
     upvoteHandler () {
       this.upvoteRelatedLink({
@@ -78,9 +83,10 @@ export default {
 .link-holder
   display flex
   align-items center
+  padding-bottom 10px
   a
     font-size 16px
     font-weight normal
     color primary-color
-    opacity .7
+
 </style>

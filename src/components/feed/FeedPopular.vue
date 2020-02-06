@@ -87,7 +87,7 @@ export default {
   position relative
   height 100%
   background-color #e9ecef
-  padding 35px 30px
+  padding 2rem
   a
     color #222
     text-decoration none
