@@ -3,7 +3,7 @@
     <div v-if="loading" class="spinner-holder">
       <spinner :show="loading" />
     </div>
-    <div class="comment" v-else v-for="comment in comments" :key="comment._id">
+    <div class="comment" v-else v-for="comment in filteredComments" :key="comment._id">
       <div class="row" :id="comment._id">
         <div class="col-md-12" >
           <comment-view
@@ -34,6 +34,9 @@ export default {
       type: Array,
       required: true
     },
+    filter: {
+      type: String,
+    },
     rootEntityType: {
       type: String,
       required: false
@@ -45,7 +48,10 @@ export default {
     },
   },
   beforeMount () {},
-  components: { CommentView, Spinner },
+  components: {
+    CommentView,
+    Spinner,
+  },
   computed: {
     emptyComments () {
       if (!this.comments || this.comments.length === 0) {
@@ -54,13 +60,16 @@ export default {
       return false
     },
 
+    filteredComments () {
+      if (this.filter) {
+        return this.comments.filter(c => !!(c[this.filter]))
+      }
+
+      // Default is general discussion without highlights
+      return this.comments.filter(c => !(c.highlight))
+    },
   },
-  // mounted () {
-  //     let id = this.comments.slice(-1)[0]._id
-  //     let scrollToId = document.getElementById(`${id}`)
-  //     scrollToId.scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
-  //   }
-  }
+}
 </script>
 
 <style scoped lang="stylus">

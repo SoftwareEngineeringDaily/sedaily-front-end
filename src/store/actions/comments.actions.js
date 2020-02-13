@@ -4,12 +4,19 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  commentsCreate ({ commit, getters }, { content, entityId, rootEntityType, parentCommentId, mentions }) {
-    const options = { content, entityType: rootEntityType, mentions }
-    if (parentCommentId) options.parentCommentId = parentCommentId
-
+  commentsCreate ({ commit, getters }, { content, highlight, entityId, rootEntityType, parentCommentId, mentions }) {
     const url = `${BASE_URL}/comments/forEntity/${entityId}`
+    const options = {
+      content,
+      highlight,
+      entityType: rootEntityType,
+      mentions,
+    }
 
+    if (parentCommentId) {
+      options.parentCommentId = parentCommentId
+    }
+console.log('options ', options)
     // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
     return axios.post(url, options)
   },
@@ -19,6 +26,7 @@ export default {
       Vue.toasted.error('You must login to vote')
       return
     }
+
     return axios.post(`${BASE_URL}/comments/${id}/upvote`, {})
       .then((response) => {
         const comment = response.data.entity

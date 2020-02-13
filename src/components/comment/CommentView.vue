@@ -15,6 +15,11 @@
           <!-- <span class="comment-date">{{}}</span>      -->
         </div>
         <!-- <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span> -->
+        <div v-if="comment && comment.highlight" class="quote-scroll">
+          <blockquote class="quote">
+            "{{comment.highlight}}"
+          </blockquote>
+        </div>
         <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
       </div>
 
@@ -278,6 +283,20 @@ export default {
 
 .comment-holder .deleted {
   color: #bf687e;
+}
+
+.quote-scroll {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.quote {
+  display: inline;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #a591ff;
 }
 
 .deleted {

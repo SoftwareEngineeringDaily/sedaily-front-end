@@ -1,6 +1,8 @@
 
 <template>
   <comment-form
+    :autoFocus="autoFocus"
+    :highlight="highlight"
     :isSubmitting="isSubmitting"
     :initialComment="initialComment"
     :submitCallback="submitCallback"
@@ -8,8 +10,10 @@
 </template>
 
 <script>
+import isFunction from 'lodash/isFunction'
 import CommentForm from './CommentForm'
 import { mapState, mapActions, mapMutations } from 'vuex'
+
 export default  {
   name: 'comment-compose',
   props: {
@@ -21,8 +25,18 @@ export default  {
       required: true
     },
     initialComment: {
-      type: String
-    }
+      type: String,
+    },
+    highlight: {
+      type: String,
+    },
+    autoFocus: {
+      type: Boolean,
+      default: false,
+    },
+    onSubmit: {
+      type: Function,
+    },
   },
   data () {
     return {
@@ -34,33 +48,44 @@ export default  {
     CommentForm
   },
   methods: {
-    ...mapActions(['commentsCreate', 'commentsFetch']),
+    ...mapActions([
+      'commentsCreate',
+      'commentsFetch'
+    ]),
     ...mapMutations(['commentsToggle']),
-    submitCallback ({content, mentions}) {
-      this.isSubmitting = true
-      // First update then change back to empty to clear: this.commentContent = content
-      this.commentContent = content
-      this.commentsToggle({id: this.entityId})
-      this.commentsCreate({
+    submitCallback ({ content, highlight, mentions }) {
+      const data = {
         entityId: this.entityId,
         rootEntityType: this.rootEntityType,
         mentions,
-        content
-      })
+        highlight,
+        content,
+      }
+
+      this.isSubmitting = true
+
+      // First update then change back to empty to clear: this.commentContent = content
+      // this.commentContent = content
+      this.commentsToggle({ id: this.entityId })
+      this.commentsCreate(data)
         .then((response) => {
           this.isSubmitting = false
-          this.commentContent = ''
+
           // Fetch comments
           this.commentsFetch({
             entityId: this.entityId
           })
+
+          if (isFunction(this.onSubmit)) {
+            this.onSubmit(data)
+          }
         })
         .catch((error) => {
           this.isSubmitting = false
-          this.$toasted.error(error.response.data.message, { 
+          this.$toasted.error(error.response.data.message, {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         })
