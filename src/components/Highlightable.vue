@@ -6,6 +6,7 @@
       ref="tools"
       :class="{
         'is-highlight': isHighlighting,
+        'is-logged-out': !(isLoggedIn),
         'is-reply': isReplying
       }"
       :style="{
@@ -150,15 +151,26 @@ export default {
     },
 
     setMobileToolsPosition () {
-      if (window.innerWidth > 990) {
-        return this.arrowX = -5
+      const parentWidth = this.$el.offsetWidth
+      const toolsWidth = this.$refs.tools.offsetWidth
+      const toolsCenter = toolsWidth / 2
+      const arrowOffset = 7
+
+      if ((this.isHighlighting || this.isReplying) && window.innerWidth > 990) {
+        return this.arrowX = arrowOffset * -1
       }
 
-      const parentWidth = this.$el.offsetWidth
-      const toolsCenter = this.$refs.tools.offsetWidth / 2
-      const arrowOffset = 6
+      // Handle arrows position
+      this.arrowX = Math.max(this.selectedWidth / 2, arrowOffset)
 
-      this.arrowX = (this.x >= toolsCenter) ? toolsCenter : Math.max(this.selectedWidth / 2, arrowOffset)
+      if (this.x >= (parentWidth - toolsCenter)) {
+        this.arrowX = Math.max((toolsWidth + this.x - (this.selectedWidth / 2)) - this.x - arrowOffset, toolsCenter)
+      }
+      else if (this.x >= toolsCenter) {
+        this.arrowX = Math.max(toolsCenter, arrowOffset)
+      }
+
+      // Handle tools positions
       this.toolsX = Math.min(Math.max(this.x, this.$refs.tools.offsetWidth / 2), parentWidth - toolsCenter)
     },
 
@@ -291,6 +303,12 @@ export default {
     .tools-actions,
     .tools-comment-highlight
       display none
+
+  &.is-logged-out
+    text-align center
+    color #fff
+    p
+      margin-bottom 0
 
   .tools-actions
     display: flex

@@ -311,6 +311,12 @@ export default {
     this._fetchArticle()
   },
 
+  mounted () {
+    this.$nextTick(() => {
+      window.prerenderReady = true
+    })
+  },
+
   beforeRouteUpdate(to, from, next) {
     store.dispatch('fetchArticle', { id: to.params.id })
       .then(({ post }) => {
@@ -331,8 +337,10 @@ export default {
     if (!this.post || !this.post.title) {
       return {}
     }
+
     const title = `${this.post.title.rendered} | Software Daily`
     const { metaDescription } = this
+
     return {
       title,
       meta: [
@@ -340,6 +348,7 @@ export default {
         this.metaTag('og:url', location.href),
         this.metaTag('og:description', metaDescription),
         this.metaTag('description', metaDescription),
+
         // links must use https
         this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]
