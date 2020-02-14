@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <script>
 import FeedList from '@/components/feed/FeedList'
 import { mapState, mapActions, mapGetters } from 'vuex'

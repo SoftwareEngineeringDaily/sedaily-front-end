@@ -5,7 +5,6 @@
       <div class="comment-compose">
         <comment-compose
           :highlight="highlight"
-          :autoFocus="autoFocus"
           :entityId="forumThreadId"
           :rootEntityType='"forumthread"'
           :onSubmit="onSubmit" />
@@ -41,10 +40,6 @@ export default {
     },
     onSubmit: {
       type: Function,
-    },
-    autoFocus: {
-      type: Boolean,
-      default: false,
     },
   },
   components: {

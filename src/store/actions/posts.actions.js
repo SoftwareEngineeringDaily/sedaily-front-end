@@ -180,7 +180,6 @@ export default {
 
   // aka fetchPost
   fetchArticle: ({ commit, state, getters }, {id} ) => {
-    console.log('fetchArticle',id)
     commit('analytics', {
       meta : {
         analytics: [

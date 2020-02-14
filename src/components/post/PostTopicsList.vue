@@ -52,5 +52,4 @@ export default {
       color #222
       background-color #fff
 
-
 </style>

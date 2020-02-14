@@ -1,21 +1,21 @@
 <template>
   <div class="comment-box">
-    <svg class="comment-chevron" viewBox="0 0 320 512" data-ember-extension="1"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+    <svg class="comment-chevron" viewBox="0 0 320 512" data-ember-extension="1">
+      <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
+    </svg>
     <div class="title">
       {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
     </div>
     <div class="title" v-if="!post.thread">
       0 comments
     </div>
-    <div
-      v-if="isLoggedIn">
-      <br/>
+    <div v-if="isLoggedIn && !filter">
       <comment-compose
         :initialComment="initialComment"
         :entityId="forumThreadId"
         :rootEntityType='"forumthread"' />
     </div>
-    <div v-else class="guest-message">
+    <div v-else-if="!isLoggedIn" class="guest-message">
       <p>Please <router-link to="/login">log in</router-link> to leave a comment</p>
     </div>
     <div class="row comments">
@@ -50,7 +50,11 @@ export default {
     },
     comments: {
       type: Array
-    }
+    },
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
   },
 
   components: {
@@ -60,23 +64,6 @@ export default {
 
   computed: {
     ...mapGetters([ 'isLoggedIn' ]),
-
-    commentCount () {
-      if (!this.comments || !isArray(this.comments)) {
-        return 0
-      }
-
-      let comments = this.comments.filter(c => (this.filter) ? !!(c[this.filter]) : !(c.highlight))
-      let commentCount = comments.length
-
-      comments.forEach(c => {
-        commentCount += (c.replies || [])
-          .filter(c => !c.deleted)
-          .length
-      })
-
-      return commentCount
-    }
   },
 }
 </script>

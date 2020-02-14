@@ -1,17 +1,22 @@
 <template>
-  <div
-    v-if="me"
-    :class="{ 'is-highlight': !!(highlight) }">
-    <comment-quote :highlight="highlight" />
-    <div class='reply-container'>
-      <comment-form
-        :isSubmitting="isSubmitting"
-        :content="commentContent"
-        :submitCallback="submitCallback"
-        :cancelPressed="doneCallback"
-        :existingMentions="existingMentions"
-        :showCancel="true"
-        :submitButtonText="'Reply'" />
+  <div>
+    <div
+      v-if="me && isLoggedIn"
+      :class="{ 'is-highlight': !!(highlight) }">
+      <comment-quote :highlight="highlight" />
+      <div class='reply-container'>
+        <comment-form
+          :isSubmitting="isSubmitting"
+          :content="commentContent"
+          :submitCallback="submitCallback"
+          :cancelPressed="doneCallback"
+          :existingMentions="existingMentions"
+          :showCancel="true"
+          :submitButtonText="'Reply'" />
+      </div>
+    </div>
+    <div v-else class="guest-message">
+      <p>Please <router-link to="/login">log in</router-link> to leave a reply</p>
     </div>
   </div>
 </template>
@@ -19,7 +24,7 @@
 <script>
 import CommentForm from '@/components/comment/CommentForm'
 import CommentQuote from '@/components/comment/CommentQuote'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'comment-reply',
@@ -66,6 +71,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters([ 'isLoggedIn' ]),
+
     // local computed methods +
     ...mapState({
       me (state) {
@@ -78,6 +85,7 @@ export default {
     ...mapActions(['commentsCreate', 'commentsFetch']),
     submitCallback ({ content, mentions }) {
       this.isSubmitting = true
+
       // First update then change back to empty to clear: this.commentContent = content
       this.commentContent = content
       this.commentsCreate({
@@ -87,23 +95,24 @@ export default {
         parentCommentId: this.parentCommentId,
         content
       })
-        .then((response) => {
-          this.isSubmitting = false
-          this.commentContent = ''
-          this.commentsFetch({
-            entityId: this.entityId
-          })
-          this.doneCallback()
+      .then((response) => {
+        this.isSubmitting = false
+        this.commentContent = ''
+        this.commentsFetch({
+          entityId: this.entityId
         })
-        .catch((error) => {
-          this.$toasted.error(error.response.data.message, {
-              singleton: true,
-              theme: "bubble",
-              position: "bottom-center",
-              duration : 700
-          })
+        this.doneCallback()
+      })
+      .catch((error) => {
+        this.$toasted.error(error.response.data.message, {
+          singleton: true,
+          theme: "bubble",
+          position: "bottom-center",
+          duration : 700
         })
-    } }
+      })
+    }
+  }
 }
 </script>
 

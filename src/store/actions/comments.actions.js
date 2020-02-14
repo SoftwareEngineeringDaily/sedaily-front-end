@@ -16,8 +16,7 @@ export default {
     if (parentCommentId) {
       options.parentCommentId = parentCommentId
     }
-console.log('options ', options)
-    // commit('commentPrepend', {content, entityId, dateCreated: Date.now()})
+
     return axios.post(url, options)
   },
 
@@ -30,6 +29,7 @@ console.log('options ', options)
     return axios.post(`${BASE_URL}/comments/${id}/upvote`, {})
       .then((response) => {
         const comment = response.data.entity
+
         // Tricky since it doesn't come back down with replies:
         // We have to re-add them
         const currentComment = state.comments[comment._id]

@@ -3,7 +3,12 @@
     <div class="post-view col-lg-7">
       <post-topics :post="post" />
       <post-title :post="post" />
-      <post-meta :post="post" :showDuration="false"/>
+
+      <post-meta
+        :post="post"
+        :showDuration="false"
+        :commentCount="commentTotal" />
+
       <post-author :post="post" />
       <post-action-buttons :post="post" />
       <post-subscribe-feed :post="post" />
@@ -35,6 +40,7 @@
         :initialComment="comment"
         :post="post"
         :forumThreadId="forumThreadId"
+        :commentCount="commentCount"
         :comments="comments" />
 
       <post-subscribe />
@@ -63,6 +69,7 @@
           :initialComment="comment"
           :post="post"
           :forumThreadId="forumThreadId"
+          :commentCount="highlightCount"
           :comments="comments" />
         </div>
       </div>
@@ -71,6 +78,7 @@
 </template>
 
 <script>
+import isArray from 'lodash/isArray'
 import CommentBox from '@/components/comment/CommentBox'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
@@ -163,12 +171,12 @@ export default {
     },
 
     highlightedContent () {
-      let content = this.postContent || ''
+      const content = this.postContent || ''
       return this.highlightContent(content)
     },
 
     highlightedTranscript () {
-      let content = (this.post && this.post.transcript) ? this.post.transcript : ''
+      const content = (this.post && this.post.transcript) ? this.post.transcript : ''
       return this.highlightContent(content)
     },
 
@@ -209,6 +217,56 @@ export default {
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
       })
+    },
+
+    commentTotal () {
+      if (!this.comments || !isArray(this.comments)) {
+        return 0
+      }
+
+      let commentCount = this.comments.length
+
+      this.comments.forEach(c => {
+        commentCount += (c.replies || [])
+          .filter(c => !c.deleted)
+          .length
+      })
+
+      return commentCount
+    },
+
+    commentCount () {
+      if (!this.comments || !isArray(this.comments)) {
+        return 0
+      }
+
+      let comments = this.comments.filter(c => !(c.highlight))
+      let commentCount = comments.length
+
+      comments.forEach(c => {
+        commentCount += (c.replies || [])
+          .filter(c => !c.deleted)
+          .length
+      })
+
+      return commentCount
+    },
+
+    highlightCount () {
+      if (!this.comments || !isArray(this.comments)) {
+        return 0
+      }
+
+      let comments = this.comments.filter(c => !!(c.highlight))
+      let commentCount = comments.length
+
+      comments.forEach(c => {
+        commentCount += (c.replies || [])
+          .filter(c => !c.deleted)
+          .length
+      })
+
+      return commentCount
     },
 
     ...mapGetters(['isLoggedIn', 'metaTag']),
@@ -309,12 +367,6 @@ export default {
 
   beforeMount () {
     this._fetchArticle()
-  },
-
-  mounted () {
-    this.$nextTick(() => {
-      window.prerenderReady = true
-    })
   },
 
   beforeRouteUpdate(to, from, next) {

@@ -72,10 +72,3 @@ export default {
     margin-top 600px
 
 </style>
-
-
-
-
-
-
-

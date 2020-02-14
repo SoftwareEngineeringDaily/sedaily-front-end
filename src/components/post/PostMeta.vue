@@ -4,7 +4,7 @@
     <span v-if="showDuration">|</span>
     <div v-if="showDuration" class="duration">40 mins</div>
     <span>|</span>
-    <div v-if="post.thread" class="comment-count">{{post.thread.commentsCount}} comments</div>
+    <div v-if="post.thread" class="comment-count">{{commentCount}} comments</div>
     <div v-else class="comment-count">0 comments</div>
   </div>
 </template>
@@ -27,7 +27,12 @@ export default {
       type: Boolean,
       default: true
     },
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
   },
+
   computed: {
     publicationDate () {
       let format = this.isPreview ? 'MMM Do' : 'MMMM Do, YYYY'

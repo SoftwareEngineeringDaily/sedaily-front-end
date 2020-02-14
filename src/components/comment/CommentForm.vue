@@ -1,4 +1,3 @@
-
 <template>
   <div v-if="me" class="comment-container">
     <!-- <span class="active-without-border" v-if="isLoggedIn">
@@ -90,10 +89,6 @@ export default {
       type: String,
       default: "Submit"
     },
-    autoFocus: {
-      type: Boolean,
-      default: false,
-    },
   },
   components: {
     CommentTribute,
@@ -121,25 +116,21 @@ export default {
       errorImg: ''
     };
   },
-  mounted() {
-    console.log('this.autoFocus ', this.autoFocus)
-    // this.$refs.content.focus()
-    if (this.autoFocus) {
-      this.focusTextarea()
-    }
-  },
 
   watch: {
     commentContent: function() {
       // Check mentions
-      if(this.isLoggedIn){
+      if (this.isLoggedIn) {
         const currentMentions = [];
+
         each(this.mentionedUsers, user => {
           const mentionText = "@" + user.name;
+
           if (this.commentContent.indexOf(mentionText) >= 0) {
             currentMentions.push(user);
           }
         });
+
         this.mentionedUsers = currentMentions;
       } else {
         this.$toasted.error('You must login to post a comment')

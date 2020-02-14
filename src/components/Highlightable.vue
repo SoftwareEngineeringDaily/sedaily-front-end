@@ -19,12 +19,11 @@
           <comment-highlight
             :forumThreadId="forumThreadId"
             :highlight="selectedText"
-            :autoFocus="isHighlighting"
+            :autoFocus="true"
             :onSubmit="resetTools" />
         </div>
         <div class="tools-comment-reply">
           <comment-reply
-            v-if="isLoggedIn"
             :entityId="entityId"
             :doneCallback="resetTools"
             :highlight="selectedText"
@@ -154,7 +153,7 @@ export default {
       const parentWidth = this.$el.offsetWidth
       const toolsWidth = this.$refs.tools.offsetWidth
       const toolsCenter = toolsWidth / 2
-      const arrowOffset = 7
+      const arrowOffset = 6
 
       if ((this.isHighlighting || this.isReplying) && window.innerWidth > 990) {
         return this.arrowX = arrowOffset * -1
@@ -249,7 +248,7 @@ export default {
       this.selectedWidth = width
     },
 
-    onReply (action) {
+    onReply () {
       this.isReplying = true
     },
 

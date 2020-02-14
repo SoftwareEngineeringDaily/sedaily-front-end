@@ -12,7 +12,7 @@
             :isParentComment="true" />
         </div>
       </div>
-      <div class="replies" v-if="comment.replies.length">
+      <div class="replies" v-if="comment.replies.filter(r => !r.deleted).length">
         <div v-for="replyComment in comment.replies" :key="replyComment._id">
           <comment-view
             :rootEntityType="rootEntityType"
@@ -32,7 +32,8 @@ export default {
   props: {
     comments: {
       type: Array,
-      required: true
+      default: () => [],
+      required: true,
     },
     filter: {
       type: String,
@@ -47,17 +48,17 @@ export default {
       default: false
     },
   },
+
   beforeMount () {},
+
   components: {
     CommentView,
     Spinner,
   },
+
   computed: {
     emptyComments () {
-      if (!this.comments || this.comments.length === 0) {
-        return true
-      }
-      return false
+      return (!this.comments || !this.comments.length)
     },
 
     filteredComments () {
