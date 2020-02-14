@@ -108,7 +108,7 @@ export default {
           } </span>`;
         },
         noMatchTemplate: "",
-        allowSpaces: true,
+        allowSpaces: false,
         values: []
       },
       mentionedUsers: this.existingMentions,
@@ -192,8 +192,13 @@ export default {
       this.handleSelectUser(user);
     },
     tributeNoMatch: debounce(function(searchQuery) {
+      
+      const list = [1,1,1,1,1,1,1,1,1,1,1,1,1].map(() => { return { _id:Math.random().toString(36).slice(0,8).toUpperCase(), name: Math.random().toString(36).slice(0,8).toUpperCase()}});
+
+      // this.setUserList(list);
       this.searchUsers({ name: searchQuery }).then(users => {
-        this.setUserList(users);
+        console.log(users.concat(list))
+        this.setUserList(users.concat(list));
       });
     }, 10),
 
