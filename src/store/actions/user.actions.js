@@ -24,8 +24,8 @@ export default {
       })
   },
 
-  searchUsers: ({ commit, state, getters }, { name }) => {
-    return axios.get(`${BASE_URL}/users/search?name=${name}`)
+  searchUsers: (_, { name }) => {
+    return axios.get(`${BASE_URL}/users/search/names?name=${name}`)
       .then(({data}) => {
         return data
       })
