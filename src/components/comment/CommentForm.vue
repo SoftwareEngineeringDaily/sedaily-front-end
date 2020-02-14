@@ -6,7 +6,7 @@
         <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
       </router-link>
     </span> -->
-    <vue-tribute
+    <CommentTribute
       class="comment-box__container"
       :options="options"
       @tribute-replaced="tributeReplaced"
@@ -19,8 +19,7 @@
         type="text"
         v-model="commentContent"
       />
-    </vue-tribute>
-
+    </CommentTribute>
     <div v-if="isLoggedIn" style="align-self: flex-end;">
       <div v-if="isSubmitting">
         <spinner :show="true"></spinner>
@@ -32,7 +31,6 @@
           @click="submitComment">
           {{submitButtonText}}
         </button>
-
         <button v-if="showCancel" class='btn-cancel btn btn-link'
         :disabled="isSubmitting"
         @click='cancelPressed'><i class="fa fa-times"/></button>
@@ -45,7 +43,7 @@
 </template>
 
 <script>
-import VueTribute from "@/components/VueTribute.js";
+import CommentTribute from "@/components/comment/CommentTribute";
 import ProfileLabel from "@/components/profile/ProfileLabel";
 import { debounce, each, map } from "lodash";
 import Spinner from "@/components/Spinner";
@@ -98,7 +96,7 @@ export default {
     },
   },
   components: {
-    VueTribute,
+    CommentTribute,
     ProfileLabel,
     Spinner
   },
@@ -211,13 +209,8 @@ export default {
     },
 
     tributeNoMatch: debounce(function(searchQuery) {
-      
-      const list = [1,1,1,1,1,1,1,1,1,1,1,1,1].map(() => { return { _id:Math.random().toString(36).slice(0,8).toUpperCase(), name: Math.random().toString(36).slice(0,8).toUpperCase()}});
-
-      // this.setUserList(list);
       this.searchUsers({ name: searchQuery }).then(users => {
-        console.log(users.concat(list))
-        this.setUserList(users.concat(list));
+        this.setUserList(users);
       });
     }, 10),
 
