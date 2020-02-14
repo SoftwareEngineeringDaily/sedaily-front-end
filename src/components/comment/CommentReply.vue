@@ -1,22 +1,24 @@
 <template>
-  <div v-if="me" class="col-md-10">
+  <div
+    v-if="me"
+    :class="{ 'is-highlight': !!(highlight) }">
+    <comment-quote :highlight="highlight" />
     <div class='reply-container'>
       <comment-form
-      :isSubmitting="isSubmitting"
-      :content="commentContent"
-      :submitCallback="submitCallback"
-      :cancelPressed="doneCallback"
-      :existingMentions="existingMentions"
-      :showCancel="true"
-      :submitButtonText="'Reply'"
-      >
-      </comment-form>
+        :isSubmitting="isSubmitting"
+        :content="commentContent"
+        :submitCallback="submitCallback"
+        :cancelPressed="doneCallback"
+        :existingMentions="existingMentions"
+        :showCancel="true"
+        :submitButtonText="'Reply'" />
     </div>
   </div>
 </template>
 
 <script>
 import CommentForm from '@/components/comment/CommentForm'
+import CommentQuote from '@/components/comment/CommentQuote'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -25,6 +27,9 @@ export default {
     replyingTo: {
       type: Object,
       required: false
+    },
+    highlight: {
+      type: String,
     },
     parentCommentId: {
       type: String,
@@ -44,7 +49,8 @@ export default {
     }
   },
   components: {
-    CommentForm
+    CommentForm,
+    CommentQuote,
   },
   beforeMount () {},
   data () {
@@ -90,10 +96,10 @@ export default {
           this.doneCallback()
         })
         .catch((error) => {
-          this.$toasted.error(error.response.data.message, { 
+          this.$toasted.error(error.response.data.message, {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         })
@@ -107,6 +113,9 @@ export default {
   margin-top 15px
   .button-submit
     width 20px
+
+  .is-highlight &
+    margin-left 0
 
 .collapsed-area
   margin-left 20px

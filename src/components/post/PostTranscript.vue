@@ -1,7 +1,7 @@
 <template>
-  <div class="transcript-section" v-if="post.transcript" :class="[isCollapsed ? 'collapsed' : '']" v-on:click="openTranscript">
+  <div class="transcript-section" v-if="transcript" :class="[ isCollapsed ? 'collapsed' : '' ]" v-on:click="openTranscript">
     <h6 class="section-title">Transcript</h6>
-    <div class="transcript-embed" v-html="post.transcript" />
+    <div class="transcript-embed" v-html="transcript" />
   </div>
 </template>
 
@@ -9,8 +9,8 @@
 export default {
   name: "post-transcript",
   props: {
-    post: {
-      type: Object,
+    transcript: {
+      type: String,
       required: true
     }
   },

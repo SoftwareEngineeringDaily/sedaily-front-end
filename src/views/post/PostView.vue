@@ -7,26 +7,35 @@
       <post-author :post="post" />
       <post-action-buttons :post="post" />
       <post-subscribe-feed :post="post" />
+
       <div
         v-if="showPostContent"
         class="post-content">
         <h6 class="section-title">About the Episode</h6>
         <highlightable
           :contentUrl="contentUrl"
-          @highlight="onForum">
-          <div class="post-transcript" v-html="postContent" />
+          :forumThreadId="forumThreadId"
+          @highlight="onHighlight">
+          <div class="post-transcript" v-html="highlightedContent" />
         </highlightable>
       </div>
 
       <highlightable
         :contentUrl="contentUrl"
-        @highlight="onForum">
-        <post-transcript :post="post"/>
+        :forumThreadId="forumThreadId"
+        @highlight="onHighlight">
+        <post-transcript :transcript="highlightedTranscript" />
       </highlightable>
 
       <div class="post-content">
         <post-sponsors :post="post" />
       </div>
+
+      <comment-box
+        :initialComment="comment"
+        :post="post"
+        :forumThreadId="forumThreadId"
+        :comments="comments" />
 
       <post-subscribe />
     </div>
@@ -44,12 +53,13 @@
         <related-link-list
           :related-links="relatedLinks"
           :is-logged-in="isLoggedIn" />
-        <feed-popular
+        <!-- <feed-popular
           :showImg="false"
           :showDuration="false"
-          sectionTitle="Popular Stories" />
+          sectionTitle="Popular Stories" /> -->
         <div id="comment-box">
         <comment-box
+          :filter="'highlight'"
           :initialComment="comment"
           :post="post"
           :forumThreadId="forumThreadId"
@@ -115,8 +125,9 @@ export default {
       showRelatedLinks: false,
       showComments: false,
       comment: '',
+      highlight: '',
       isLoadingComments: false,
-      loading: false
+      loading: false,
     }
   },
   watch: {
@@ -149,6 +160,16 @@ export default {
       } else {
        return ""
       }
+    },
+
+    highlightedContent () {
+      let content = this.postContent || ''
+      return this.highlightContent(content)
+    },
+
+    highlightedTranscript () {
+      let content = (this.post && this.post.transcript) ? this.post.transcript : ''
+      return this.highlightContent(content)
     },
 
     post () {
@@ -253,19 +274,47 @@ export default {
       })
     },
 
+    highlightContent (content = '') {
+      let comments = (this.comments || [])
+        .filter(c => !!(c.highlight))
+
+      comments.forEach(c => {
+        content = content.replace(c.highlight, h => {
+          return `<mark
+            data-entity-id="${c.rootEntity}"
+            data-parent-comment-id="${c._id}">${h}</mark>`
+        })
+      })
+
+      return content
+    },
+
     onForum (text) {
       this.$router.push({ name: 'NewThread', params: {initialContent:text }})
     },
 
+    onHighlight (highlight = '') {
+      this.$set(this, 'highlight', highlight)
+    },
+
     onComment (text) {
       this.$set(this, 'comment', text)
-      var container = this.$el.querySelector("#comment-box")
-      container.scrollIntoView({behavior: "smooth", block: "end"})
+      const container = this.$el.querySelector("#comment-box")
+      container.scrollIntoView({
+        behavior: "smooth",
+        block: "end"
+      })
     },
   },
 
   beforeMount () {
     this._fetchArticle()
+  },
+
+  mounted () {
+    this.$nextTick(() => {
+      window.prerenderReady = true
+    })
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -288,8 +337,10 @@ export default {
     if (!this.post || !this.post.title) {
       return {}
     }
+
     const title = `${this.post.title.rendered} | Software Daily`
     const { metaDescription } = this
+
     return {
       title,
       meta: [
@@ -297,6 +348,7 @@ export default {
         this.metaTag('og:url', location.href),
         this.metaTag('og:description', metaDescription),
         this.metaTag('description', metaDescription),
+
         // links must use https
         this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
       ]
@@ -406,6 +458,17 @@ export default {
 .comment-container[data-v-3476be63] {
   width: 100% !important;
 }
+
+mark
+  cursor pointer
+  font-weight 700
+  color #fff
+  background-color: #a591ff
+  opacity 0.7
+  &::selection
+    background-color: #a591ff
+  &:hover
+    opacity 1.0
 
 @media (max-width 600px)
   .container-fluid

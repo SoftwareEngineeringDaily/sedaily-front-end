@@ -10,8 +10,7 @@
       class="comment-box__container"
       :options="options"
       @tribute-replaced="tributeReplaced"
-      @tribute-no-match="tributeNoMatch"
-    >
+      @tribute-no-match="tributeNoMatch">
       <textarea
         placeholder="Your comment ..."
         class="comment-box"
@@ -30,8 +29,9 @@
         <button
           class="button-submit"
           :disabled="isSubmitting"
-          @click="submitComment"
-        >{{submitButtonText}}</button>
+          @click="submitComment">
+          {{submitButtonText}}
+        </button>
 
         <button v-if="showCancel" class='btn-cancel btn btn-link'
         :disabled="isSubmitting"
@@ -64,6 +64,9 @@ export default {
     initialComment: {
       type: String
     },
+    highlight: {
+      type: String,
+    },
     showCancel: {
       type: Boolean,
       default: false
@@ -88,7 +91,11 @@ export default {
     submitButtonText: {
       type: String,
       default: "Submit"
-    }
+    },
+    autoFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     VueTribute,
@@ -117,8 +124,13 @@ export default {
     };
   },
   mounted() {
+    console.log('this.autoFocus ', this.autoFocus)
     // this.$refs.content.focus()
+    if (this.autoFocus) {
+      this.focusTextarea()
+    }
   },
+
   watch: {
     commentContent: function() {
       // Check mentions
@@ -168,6 +180,10 @@ export default {
     errorSubmit() {
       this.$toasted.error('You must login to post a comment')
     },
+    // TODO: Focus not working
+    focusTextarea() {
+      this.$refs.contentTextarea.focus()
+    },
     handleSelectUser(user) {
       // Check if contains user already to avoid duplicates.
       let containsUserAlready = false;
@@ -180,9 +196,11 @@ export default {
         this.mentionedUsers.push(user);
       }
     },
+
     imgOnError() {
       this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
     },
+
     tributeReplaced({ detail }) {
       const { user } = detail.item.original;
 
@@ -191,6 +209,7 @@ export default {
       this.commentContent = this.$refs.contentTextarea.value;
       this.handleSelectUser(user);
     },
+
     tributeNoMatch: debounce(function(searchQuery) {
       
       const list = [1,1,1,1,1,1,1,1,1,1,1,1,1].map(() => { return { _id:Math.random().toString(36).slice(0,8).toUpperCase(), name: Math.random().toString(36).slice(0,8).toUpperCase()}});
@@ -212,6 +231,7 @@ export default {
       });
       return contains;
     },
+
     // TODO: loop over and match. Start with longer matches
     // Search for [space]@_${value} so when we replace while we replace
     // with . What if mention is first character.
@@ -225,14 +245,22 @@ export default {
     },
 
     submitComment() {
+      const data = {
+        content: this.commentContent,
+        mentions: mentions
+      }
+
       const mentions = map(this.mentionedUsers, user => {
         return user._id;
       });
+
+      if (this.highlight) {
+        data.highlight = this.highlight
+      }
+
       this.mentionedUsers = []; // resetting mentioned users
-      this.submitCallback({
-        content: this.commentContent,
-        mentions: mentions
-      });
+      this.commentContent = ''
+      this.submitCallback(data);
     }
   }
 };
@@ -284,19 +312,19 @@ export default {
   &:hover
     text-decoration none
 
-.buttons-comment 
+.buttons-comment
   display: flex;
 
-.comment-container 
+.comment-container
   display: flex;
   align-items: center;
   width: 100%;
 
-  .profile-img 
+  .profile-img
     width: 35px;
     height: 35px;
     border-radius: 50px;
-  
+
 .comment-box__container
   display: flex;
   width: 100%;
