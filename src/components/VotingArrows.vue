@@ -1,13 +1,12 @@
 <template>
 <div class='voting'>
-  <div class="score">
+  <div class="score" :class="[inverse ? 'inverse' : '']">
     <div
       v-if="upvoteHandler"
       :class="{ active: upvoted }"
       class='arrow upvote'
       @click='upvoteHandler'>
-      <img v-if="upvoted" src="@/assets/icons/heart-like.svg" />
-      <img v-else src="@/assets/icons/heart.svg" />           
+      <svg viewBox="0 0 448 512"><path fill="currentColor" d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"/></svg>         
     </div>
     <div class='score-text'>{{ score || 0}}</div>
     <div
@@ -46,7 +45,10 @@ export default {
     downvoted: {
       type: Boolean,
       required: false
-    }
+    },
+    inverse: {
+      type: Boolean
+    },
   }
 }
 </script>
@@ -54,41 +56,48 @@ export default {
 <style scoped lang="stylus">
 @import './../css/variables'
 
-.score-text
-  padding-left 10px
+@keyframes bounce {
+  0%,
+  50%,
+  75%,
+  to {
+       transform: translateY(-20%)
+  }
+  40% {
+      transform: translateY(-10%)
+  }
+  60% {
+      transform: translateY(-30%)
+  }
+}
 
 .score
-    margin-top: 10px
-    display flex
-    align-items center
-    color #856aff
-    width 1.5em
-
-.active
-    color #856aff !important
-    font-weight 700
-
-.arrow
-  color: #9B9B9B;
-  img
-    margin-left 5px
-  p
-    margin 0
+  margin-top: 10px
+  display flex
+  align-items center
+  width 1.5em
   &:hover
     cursor pointer
-    color #856aff
-
-  &.active
+    color #888
+    svg
+      animation: bounce 1.2s ease infinite
+  .active
     color #856aff !important
-  
-  &:hover
-      cursor pointer
-      color #888
-
-  &.upvote img {
-    width: 1rem;
-    color #856aff
-  }
+    font-weight 700
+  .arrow
+    &.active
+      color #856aff !important
+    svg 
+      width: 1rem
+      color #222
+  .score-text
+    color #222
+    padding-left 10px
+  &.inverse
+    svg
+      color #fff
+    .score-text
+      color #fff
 </style>
 
 <style lang="stylus">

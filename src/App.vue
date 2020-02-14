@@ -3,24 +3,7 @@
     <navigation-bar
       :userData="me"
     />
-
     <div class="container-fluid main-app">
-      <!-- <div
-        v-if="showBeta"
-        class="row">
-        <div
-          class="col-md-12 beta-msg text-center">
-          Welcome! We are in early beta, checkout the open source project on
-          <a
-            href="https://github.com/SoftwareEngineeringDaily"
-            target="_blank"
-            class="link"> Github</a> &amp; become a
-          <router-link
-            to="/contributors"
-            class="link">contributor</router-link>.
-        </div>
-
-      </div> -->
       <div class="row">
         <transition
           name="fade"
@@ -29,31 +12,33 @@
         </transition>
       </div>
     </div>
-
     <transition
       name="fade"
       mode="out-in">
       <div
         v-if="isPlayerActive"
         class="player-holder">
-        <sticky-player />
+        <post-sticky-player />
       </div>
     </transition>
+    <nav-footer />
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import StickyPlayer from './components/StickyPlayer.vue'
-import ChatBox from './components/ChatBox.vue'
-import NavigationBar from './components/NavigationBar.vue'
+import { PostStickyPlayer } from '@/components/post'
+import ChatBox from '@/components/chat/ChatBox'
+import NavigationBar from '@/components/layout/NavBar'
+import NavFooter from '@/components/layout/Footer'
 
 export default {
   name: 'app',
   components: {
-    StickyPlayer,
+    PostStickyPlayer,
     ChatBox,
-    NavigationBar
+    NavigationBar,
+    NavFooter
   },
   computed: {
     ...mapState({
@@ -61,7 +46,7 @@ export default {
         return state.me
       }
     }),
-    ...mapState(['activePlayerPost']),
+    ...mapState([ 'activePlayerPost' ]),
     isPlayerActive () {
       return Boolean(this.activePlayerPost && this.activePlayerPost.mp3)
     },
@@ -93,13 +78,16 @@ export default {
 <style lang="stylus">
 @import './css/variables'
 #app
-  background-color rgba(219, 229, 236, 0.2)
+  background-color #fff
   min-height calc(100vh - 72px)
+  width: 100vw;
+  max-width: 100vw;
 
 .main-app
   max-width 1200px
   margin-top 4rem
   padding-top 15px
+  min-height 100vh
 
 .login-view,.register-view,.settings-view,.forgot-password-view
   margin 45px!important
@@ -152,20 +140,23 @@ export default {
   cursor pointer
 
 .section-title
-  font-weight 300
+  font-weight 600
+  margin 20px 0
 
 .col-centered
   float none
   margin 0 auto
 
 body
-  font-family 'Roboto', sans-serif
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
   font-size 14px
-  background-color white
+  font-weight 500
+  color #222
   overflow-y scroll
   margin 0
-  #app
-    padding-bottom 120px
+  text-rendering optimizelegibility
+  -webkit-font-smoothing antialiased
 
 a
   color primary-color
@@ -209,7 +200,7 @@ a
   position relative
 
 .fade-enter-active, .fade-leave-active
-  transition all .2s ease
+  transition all .3s ease
 
 .fade-enter, .fade-leave-active
   opacity 0

@@ -1,9 +1,9 @@
 <script>
-import BaseListView from '@/components/BaseListView.vue'
-import RecommendationSnippet from '@/components/RecommendationSnippet.vue'
+import SearchListView from '@/components/search/SearchListView'
+import RecommendationSnippet from '@/components/RecommendationSnippet'
 
 export default {
-  extends: BaseListView,
+  extends: SearchListView,
 
   components: {
     instructions: RecommendationSnippet

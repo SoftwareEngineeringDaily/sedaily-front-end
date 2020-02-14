@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { analyticsMiddleware } from 'vue-analytics'
+
 import mutations from './mutations'
 import actions from './actions'
 import getters from './getters'
 import initialState from './initialState'
-import { analyticsMiddleware } from 'vue-analytics'
 
 Vue.use(Vuex)
 

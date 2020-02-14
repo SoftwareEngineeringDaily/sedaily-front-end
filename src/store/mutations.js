@@ -8,6 +8,7 @@ export default {
   },
 
   setActivePostInPlayer: (state, { post }) => {
+    console.log('post ', post)
     state.activePlayerPost = post
   },
 
@@ -126,11 +127,25 @@ export default {
     Vue.set(state, 'forumThreadIdsList', ids)
   },
 
+  setPost: (state, { post }) => {
+    state.post = post
+    Vue.set(state.post, post._id, post)
+  },
+
   setPosts: (state, { posts }) => {
     state.posts = {}
     posts.forEach(post => {
       if (post) {
         Vue.set(state.posts, post._id, post)
+      }
+    })
+  },
+
+  setPopularPosts: (state, { posts }) => {
+    state.popularPosts = {}
+    posts.forEach(post => {
+      if (post) {
+        Vue.set(state.popularPosts, post._id, post)
       }
     })
   },

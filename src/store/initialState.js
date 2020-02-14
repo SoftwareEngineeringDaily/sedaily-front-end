@@ -5,6 +5,7 @@ export default {
   activePlayerPost: {title: {}},
   activeType: null,
   searchTerm: null,
+  post: {},
   nextPage: 0,
   posts: {},
   entityComments: {}, // arrays of ids, only root comments

@@ -1,8 +1,8 @@
 <script>
-import BaseListView from '../components/BaseListView.vue'
+import SearchListView from '@/components/search/SearchListView'
 
 export default {
-  extends: BaseListView,
+  extends: SearchListView,
 
   name: 'top-list',
   data () {

@@ -10,16 +10,18 @@
       <br />
       <h4>
         <router-link
-        to="/forum"
-        exact
-        >Check out the Forum</router-link>
+          to="/forum"
+          exact
+        >
+          Check out the Forum
+        </router-link>
       </h4>
     </div>
   </div>
 </template>
 
 <script>
-import FeedItemWrapper from '@/components/FeedItemWrapper.vue'
+import FeedItemWrapper from '@/components/feed/FeedItemWrapper'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'feed-view',

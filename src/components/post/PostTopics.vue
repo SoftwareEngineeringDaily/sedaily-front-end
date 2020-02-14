@@ -12,7 +12,7 @@
       @close="closeModal"
       showCloseBtn="true">
       <!-- header-->
-      <h2 slot="header">{{ post.title.rendered }}</h2>
+      <h2 slot="header" v-if="post.title">{{ post.title.rendered }}</h2>
       <!-- body-->
       <div slot="body">
         <div v-if="isAddTopic">
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import modal from '@/components/ModalComponent.vue'
+import modal from '@/components/ModalComponent'
 import { mapGetters, mapState, mapActions } from 'vuex'
 import lodash from 'lodash'
 
@@ -273,22 +273,23 @@ export default {
     color black
     font-size 1.5rem
   .post-topics-header
-    margin 15px 20px
     display flex
     align-items center
     .post-topics
       display flex
       align-items center
-      max-width 70%
       flex-wrap wrap
       .topics
         background-color primary-color
         color white
-        margin 2px 0
-        margin-right 5px
-        padding 5px
-        border-radius 5px
+        text-transform uppercase
+        font-size .8rem
+        margin 2px 10px 8px 0
+        padding 3px 9px
+        border-radius 2px
         cursor pointer
+        &:hover
+          background-color #a591ff
     .add-topics
       .add-topics-btn
         border none
@@ -421,14 +422,5 @@ export default {
     background #d0c6ff
   .popular-topics::-webkit-scrollbar-thumb:hover
     background #555
-  @media (max-width 960px)
-    .post-topics-header
-      overflow auto
-      margin-right 35px
-      white-space nowrap
-      .post-topics
-        flex-wrap nowrap
-      .add-topics
-        position absolute
-        right 8px
+
 </style>
