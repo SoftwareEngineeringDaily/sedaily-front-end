@@ -1,7 +1,6 @@
 
 <template>
   <comment-form
-    :autoFocus="autoFocus"
     :highlight="highlight"
     :isSubmitting="isSubmitting"
     :initialComment="initialComment"
@@ -29,10 +28,6 @@ export default  {
     },
     highlight: {
       type: String,
-    },
-    autoFocus: {
-      type: Boolean,
-      default: false,
     },
     onSubmit: {
       type: Function,

@@ -128,5 +128,4 @@ export default {
         .details
           font-size .65rem
 
-
 </style>

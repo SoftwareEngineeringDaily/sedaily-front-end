@@ -4,7 +4,6 @@
 		 	<spinner :show="loading"></spinner>
 		</div>
 		<div v-else>
-			<!-- <featured-item :post="posts[0]"/> -->
 			<h5>Latest Stories</h5>
 			<div class="grid">
 				<div v-for="(post, i) in posts.slice(1,6)" :key="i">
@@ -27,14 +26,17 @@
 </template>
 
 <script>
-import FeaturedItem from './FeaturedItem'
 import PostPreview from '@/components/post/PostPreview'
 import FeedPopular from './FeedPopular'
 import { mapActions } from 'vuex'
 import Spinner from '@/components/Spinner'
 
 export default {
-	components: { PostPreview, FeedPopular , FeaturedItem, Spinner },
+	components: {
+    PostPreview,
+    FeedPopular,
+    Spinner
+  },
 
 	props: {
 		posts: Array,

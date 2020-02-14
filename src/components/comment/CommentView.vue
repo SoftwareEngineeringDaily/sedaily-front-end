@@ -12,9 +12,7 @@
       <div>
         <div class="profile-container">
           <profile-label :userData="user(comment)" :dateComment="date(comment)"></profile-label>
-          <!-- <span class="comment-date">{{}}</span>      -->
         </div>
-        <!-- <span v-if="wasDeleted" class="col-md-8 content-area deleted" v-html="compiledMarkdown"></span> -->
         <div v-if="comment && comment.highlight" class="quote-scroll">
           <blockquote class="quote">
             "{{comment.highlight}}"
@@ -23,12 +21,8 @@
         <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
       </div>
 
-      <!-- <last-edited-info v-if="!wasDeleted" :lastEditedTimestamp="lastEdited"/> -->
-
       <div class="misc-detail">
         <div class="comment-op">
-          <!-- <div class="bullet-point"></div> -->
-          <!-- <div v-if="isLoggedIn" class="bullet-point"></div> -->
           <span v-if="!isReplying && isLoggedIn">
             <span class="link" @click="isReplying=!isReplying">Reply</span>
           </span>
@@ -37,8 +31,9 @@
           <span
             class="delete"
             v-if="this.isMyComment && !comment.deleted"
-            @click="editing=true"
-          >Edit</span>
+            @click="editing=true">
+            Edit
+          </span>
 
           <span class="arrows voting-container">
             <voting-arrows
@@ -166,7 +161,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["likeComment", "removeComment", "commentsFetch"]),
+    ...mapActions([
+      'likeComment',
+      'removeComment',
+      'commentsFetch'
+    ]),
 
     updateLinkToOpenTab(html) {
       const regExLink = /\<a href=/gi;
@@ -176,22 +175,27 @@ export default {
 
     linkifyMentions(html) {
       const { mentions } = this.comment;
-      if (!mentions) return html;
+      if (!mentions) {
+        return html
+      }
+
       // We sort mentions by longest name first so that we don't have partial
       // matches from shorter mentions that would mess up the mention links.
       const sortedMentions = mentions.slice(0).sort((a, b) => {
-        return a.name.length >= b.name.length;
-      });
+        return a.name.length >= b.name.length
+      })
 
-      let newHtml = html;
-      for (var ii = 0; ii < sortedMentions.length; ii++) {
-        const user = sortedMentions[ii];
-        const textToReplace = "@" + user.name;
-        const newText = `<a href='/profile/${user._id}' target='_blank'>
-        ${textToReplace}</a>`;
-        newHtml = newHtml.split(textToReplace).join(newText);
+      let newHtml = html
+
+      for (var i = 0; i < sortedMentions.length; i++) {
+        const user = sortedMentions[i]
+        const textToReplace = "@" + user.name
+        const newText = `<a href='/profile/${user._id}' target='_blank'>${textToReplace}</a>`
+
+        newHtml = newHtml.split(textToReplace).join(newText)
       }
-      return newHtml;
+
+      return newHtml
     },
 
     doneReplyingCallback() {
