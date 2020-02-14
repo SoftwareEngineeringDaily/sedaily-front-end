@@ -9,15 +9,13 @@
     <div class="title" v-if="!post.thread">
       0 comments
     </div>
-    <div
-      v-if="isLoggedIn">
-      <br/>
+    <div v-if="isLoggedIn && !filter">
       <comment-compose
         :initialComment="initialComment"
         :entityId="forumThreadId"
         :rootEntityType='"forumthread"' />
     </div>
-    <div v-else class="guest-message">
+    <div v-else-if="!isLoggedIn" class="guest-message">
       <p>Please <router-link to="/login">log in</router-link> to leave a comment</p>
     </div>
     <div class="row comments">

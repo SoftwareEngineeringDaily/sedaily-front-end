@@ -26,4 +26,5 @@ export default {
     width auto
     height 28px
     margin-right 10px
+    border-radius 50%
 </style>
