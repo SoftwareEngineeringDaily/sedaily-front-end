@@ -36,7 +36,7 @@
         <post-sponsors :post="post" />
       </div>
 
-      <comment-box
+      <comments-list
         :initialComment="comment"
         :post="post"
         :forumThreadId="forumThreadId"
@@ -56,22 +56,23 @@
       <div class="popular-feed">
         <post-related
           :post="post" />
+
         <related-link-list
           :related-links="relatedLinks"
           :is-logged-in="isLoggedIn" />
+
         <!-- <feed-popular
           :showImg="false"
           :showDuration="false"
           sectionTitle="Popular Stories" /> -->
-        <div id="comment-box">
-        <comment-box
+
+        <comments-list
           :filter="'highlight'"
           :initialComment="comment"
           :post="post"
           :forumThreadId="forumThreadId"
           :commentCount="highlightCount"
           :comments="comments" />
-        </div>
       </div>
     </div>
   </div>
@@ -79,7 +80,7 @@
 
 <script>
 import isArray from 'lodash/isArray'
-import CommentBox from '@/components/comment/CommentBox'
+import CommentsList from '@/components/comment/CommentsList'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import VotingArrows from '@/components/VotingArrows'
@@ -122,7 +123,7 @@ export default {
     PostSocialShare,
     PostTranscript,
     PostRelated,
-    CommentBox,
+    CommentsList,
     VotingArrows,
     FeedPopular,
     Highlightable
@@ -353,15 +354,6 @@ export default {
 
     onHighlight (highlight = '') {
       this.$set(this, 'highlight', highlight)
-    },
-
-    onComment (text) {
-      this.$set(this, 'comment', text)
-      const container = this.$el.querySelector("#comment-box")
-      container.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      })
     },
   },
 

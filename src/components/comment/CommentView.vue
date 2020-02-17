@@ -281,7 +281,7 @@ export default {
   color: #000
 }
 
-.comment-holder:hover .misc-detail {
+.replies .comment-holder:hover .misc-detail {
   visibility visible
 }
 
@@ -310,10 +310,13 @@ export default {
 }
 
 .misc-detail {
-  visibility hidden
   color: #9B9B9B;
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
+}
+
+.replies .misc-detail {
+  visibility hidden
 }
 
 .link {
@@ -325,6 +328,10 @@ export default {
 
 .comment-date {
   padding-left: 10px;
+}
+
+.comment-op {
+  margin-bottom 10px
 }
 
 .delete {
