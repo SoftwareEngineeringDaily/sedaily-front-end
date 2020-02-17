@@ -1,13 +1,10 @@
 <template>
   <div class="related-container" v-if="relatedLinks">
-    <h6 class="section-title">Related Links</h6>
+    <h6 class="section-title">{{ headline }}</h6>
     <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
-      <div @click="logLink(relatedLink.url)">
-        <related-link :relatedLink="relatedLink"></related-link>
-      </div>
+      <related-link :relatedLink="relatedLink"></related-link>
     </div>
-
-    <related-link-compose v-if="isLoggedIn" />
+    <slot />
   </div>
 </template>
 
@@ -22,14 +19,18 @@ export default {
     RelatedLinkCompose,
   },
   props: {
+    headline: {
+      type: String,
+    },
     relatedLinks: {
       type: Array,
+      default: () => [],
       required: true
     },
     isLoggedIn: {
       type: Boolean,
       required: true
-    }
+    },
   },
   data () {
     return {
@@ -37,9 +38,6 @@ export default {
       username: null
     }
   },
-  methods: {
-    logLink (url) {}
-  }
 }
 </script>
 

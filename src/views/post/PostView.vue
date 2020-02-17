@@ -50,14 +50,19 @@
         :postContent="postContent"/>
     </div>
 
-    <div class="view-top col-lg-4">
+    <div class="col-lg-4">
       <div class="popular-feed">
-        <post-related
-          :post="post" />
+        <related-link-list
+          :headline="'Related Episodes'"
+          :related-links="relatedEpisodes"
+          :is-logged-in="isLoggedIn" />
 
         <related-link-list
+          :headline="'Related Links'"
           :related-links="relatedLinks"
-          :is-logged-in="isLoggedIn" />
+          :is-logged-in="isLoggedIn">
+          <related-link-compose v-if="isLoggedIn" />
+        </related-link-list>
 
         <!-- <feed-popular
           :showImg="false"
@@ -77,6 +82,7 @@
 </template>
 
 <script>
+import clone from 'lodash/clone'
 import isArray from 'lodash/isArray'
 import CommentsList from '@/components/comment/CommentsList'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
@@ -94,7 +100,6 @@ import {
   PostActionButtons,
   PostSocialShare,
   PostTranscript,
-  PostRelated
 } from '@/components/post'
 import Highlightable from '@/components/Highlightable'
 import store from '@/store'
@@ -120,7 +125,6 @@ export default {
     PostActionButtons,
     PostSocialShare,
     PostTranscript,
-    PostRelated,
     CommentsList,
     VotingArrows,
     FeedPopular,
@@ -207,6 +211,28 @@ export default {
 
     relatedLinks () {
       return this.postRelatedLinks[this.$route.params.id] || []
+    },
+
+    relatedEpisodes () {
+      const post = this.post
+      const store_posts = this.$store.state.posts
+
+      return Object.keys(store_posts)
+        .map(key => {
+          let _post = clone(store_posts[key])
+
+          _post.url = _post.link || ''
+          _post.title = (_post.title && _post.title.rendered) ? _post.title.rendered : ''
+
+          return _post
+        })
+        .filter(p => (
+          p.title &&
+          p.url &&
+          p.url.search(/software(engineering|)daily\.com/g) >= 0
+        ))
+        .sort((a, b) => (0.5 - Math.random()))
+        .splice(0, 2)
     },
 
     comments () {
@@ -299,36 +325,37 @@ export default {
     ...mapActions([
       'upvote',
       'relatedLinksFetch',
+      'getTopicsInSearch',
       'downvote',
       'fetchArticle',
       'commentsFetch'
     ]),
 
-    _fetchArticle () {
-      this.fetchArticle({
-        id: this.postId
-      }).then(({ post }) => {
-        this.loading = false
-        this.isLoadingComments = true
+    async _fetchArticle () {
+      const { post } = await this.fetchArticle({ id: this.postId })
+      const post_keys = Object.keys(this.$store.state.posts)
 
-        if (!post.thread) {
-          return
-        }
+      this.loading = false
+      this.isLoadingComments = true
 
-        // Fetch comments
-        this.commentsFetch({
-          entityId: post.thread._id
-        }).then(() => {
-          this.isLoadingComments = false
-        }).catch(() => {
-          this.isLoadingComments = false
-        })
-      })
+      if (!post.thread) {
+        return
+      }
+
+      // Fetch comments
+      await this.commentsFetch({ entityId: post.thread._id })
+      this.isLoadingComments = false
 
       // Fetch relatedLinks
-      this.relatedLinksFetch({
-        postId: this.postId
-      })
+      await this.relatedLinksFetch({ postId: this.postId })
+
+      if (post_keys.length) {
+        return
+      }
+
+      const { posts } = await this.getTopicsInSearch({})
+
+      this.$store.commit('setPosts', { posts })
     },
 
     highlightContent (content = '') {

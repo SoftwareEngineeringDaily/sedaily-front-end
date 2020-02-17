@@ -284,8 +284,8 @@ export default {
 
   &.is-reply,
   &.is-highlight
-    width 30vw
-    min-width 340px
+    width 28vw
+    min-width 280px
 
   &.is-highlight
     .tools-comment

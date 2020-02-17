@@ -1,5 +1,3 @@
-<!-- Related Episodes  -->
-
 <template>
   <div class="related-container" v-if="post">
     <h6 class="section-title">Related Episodes</h6>
@@ -33,11 +31,15 @@ export default {
   computed: {
     posts: {
       get: function () {
-        let post = this.post
+        const post = this.post
         const store_posts = this.$store.state.posts
-        const posts = Object.keys(store_posts).map(post => store_posts[post])
+        const posts = Object.keys(store_posts)
+          .map(post => store_posts[post])
+          .filter(p => (p.link && p.link.search(/software(engineering|)daily\.com/g) >= 0))
+
         posts.sort((a, b) => (0.5 - Math.random()))
-        return posts.splice(0,2)
+
+        return posts.splice(0, 2)
       },
     },
   },
