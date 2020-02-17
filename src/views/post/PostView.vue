@@ -1,6 +1,6 @@
 <template>
   <div v-if="post && post._id" class="row top-space">
-    <div class="post-view col-lg-7">
+    <div class="post-view col-lg-8">
       <post-topics :post="post" />
       <post-title :post="post" />
 
@@ -44,9 +44,7 @@
         :comments="comments" />
 
       <post-subscribe />
-    </div>
 
-    <div class="view-top col-lg-1">
       <post-social-share
         :post="post"
         :postContent="postContent"/>
@@ -469,7 +467,7 @@ export default {
   align-self flex-end
 
 .post-view
-  padding-bottom 100px
+  padding-bottom 220px
 
 .comment-children
   list-style-type none
@@ -526,6 +524,5 @@ mark
     word-break break-all
 .view-top
   padding 1.5rem 2rem
-.post-view
-  padding-bottom 5px
+
 </style>
