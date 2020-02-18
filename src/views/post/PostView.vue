@@ -336,15 +336,13 @@ export default {
       const post_keys = Object.keys(this.$store.state.posts)
 
       this.loading = false
-      this.isLoadingComments = true
-
-      if (!post.thread) {
-        return
-      }
 
       // Fetch comments
-      await this.commentsFetch({ entityId: post.thread._id })
-      this.isLoadingComments = false
+      if (post.thread) {
+        this.isLoadingComments = true
+        await this.commentsFetch({ entityId: post.thread._id })
+        this.isLoadingComments = false
+      }
 
       // Fetch relatedLinks
       await this.relatedLinksFetch({ postId: this.postId })

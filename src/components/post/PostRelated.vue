@@ -35,7 +35,7 @@ export default {
         const store_posts = this.$store.state.posts
         const posts = Object.keys(store_posts)
           .map(post => store_posts[post])
-          .filter(p => (p.link && p.link.search(/software(engineering|)daily\.com/g) >= 0))
+          .filter(p => (p.link && p.link.search(/software(engineering)?daily\.com/g) >= 0))
 
         posts.sort((a, b) => (0.5 - Math.random()))
 
