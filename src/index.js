@@ -21,9 +21,9 @@ import BootstrapVue from 'bootstrap-vue'
 
 import 'smart-app-banner/dist/smart-app-banner.css'
 
-import 'bootstrap'
+// import 'bootstrap'
 import './css/vendor.scss'
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // sync the router with the vuex store.
@@ -35,10 +35,10 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(Meta)
 Vue.use(Router)
 Vue.use(SocialSharing)
 Vue.use(infiniteScroll)
-Vue.use(Meta)
 Vue.use(BootstrapVue)
 Vue.use(InstantSearch)
 Vue.config.productionTip = false

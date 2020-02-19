@@ -1,6 +1,6 @@
 <template>
   <div v-if="post && post._id" class="row top-space">
-    <div class="post-view col-lg-7">
+    <div class="post-view col-lg-8">
       <post-topics :post="post" />
       <post-title :post="post" />
 
@@ -36,7 +36,7 @@
         <post-sponsors :post="post" />
       </div>
 
-      <comment-box
+      <comments-list
         :initialComment="comment"
         :post="post"
         :forumThreadId="forumThreadId"
@@ -44,42 +44,54 @@
         :comments="comments" />
 
       <post-subscribe />
-    </div>
 
-    <div class="view-top col-lg-1">
       <post-social-share
         :post="post"
         :postContent="postContent"/>
     </div>
 
-    <div class="view-top col-lg-4">
+    <div class="col-lg-4">
       <div class="popular-feed">
-        <post-related
-          :post="post" />
         <related-link-list
+          :headline="'Related Episodes'"
+          :related-links="relatedEpisodes"
+          :is-logged-in="isLoggedIn">
+          <related-link-compose
+            v-if="isLoggedIn"
+            :headline="'Add New Episode'"
+            :type="'episode'" />
+        </related-link-list>
+
+        <related-link-list
+          :headline="'Related Links'"
           :related-links="relatedLinks"
-          :is-logged-in="isLoggedIn" />
+          :is-logged-in="isLoggedIn">
+          <related-link-compose
+            v-if="isLoggedIn"
+            :headline="'Add New Link'" />
+        </related-link-list>
+
         <!-- <feed-popular
           :showImg="false"
           :showDuration="false"
           sectionTitle="Popular Stories" /> -->
-        <div id="comment-box">
-        <comment-box
+
+        <comments-list
           :filter="'highlight'"
           :initialComment="comment"
           :post="post"
           :forumThreadId="forumThreadId"
           :commentCount="highlightCount"
           :comments="comments" />
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import clone from 'lodash/clone'
 import isArray from 'lodash/isArray'
-import CommentBox from '@/components/comment/CommentBox'
+import CommentsList from '@/components/comment/CommentsList'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import VotingArrows from '@/components/VotingArrows'
@@ -95,7 +107,6 @@ import {
   PostActionButtons,
   PostSocialShare,
   PostTranscript,
-  PostRelated
 } from '@/components/post'
 import Highlightable from '@/components/Highlightable'
 import store from '@/store'
@@ -121,8 +132,7 @@ export default {
     PostActionButtons,
     PostSocialShare,
     PostTranscript,
-    PostRelated,
-    CommentBox,
+    CommentsList,
     VotingArrows,
     FeedPopular,
     Highlightable
@@ -130,8 +140,6 @@ export default {
   data () {
     return {
       showPostContent: true,
-      showRelatedLinks: false,
-      showComments: false,
       comment: '',
       highlight: '',
       isLoadingComments: false,
@@ -207,7 +215,17 @@ export default {
     },
 
     relatedLinks () {
-      return this.postRelatedLinks[this.$route.params.id] || []
+      return (this.postRelatedLinks[this.$route.params.id] || [])
+        .filter(p => (p.type !== 'episode'))
+    },
+
+    relatedEpisodes () {
+      return (this.postRelatedLinks[this.$route.params.id] || [])
+        .filter(p => (
+          p.url &&
+          p.url.search(/software(engineering)?daily\.com/g) >= 0 &&
+          p.type === 'episode'
+        ))
     },
 
     comments () {
@@ -300,36 +318,35 @@ export default {
     ...mapActions([
       'upvote',
       'relatedLinksFetch',
+      'getTopicsInSearch',
       'downvote',
       'fetchArticle',
       'commentsFetch'
     ]),
 
-    _fetchArticle () {
-      this.fetchArticle({
-        id: this.postId
-      }).then(({ post }) => {
-        this.loading = false
+    async _fetchArticle () {
+      const { post } = await this.fetchArticle({ id: this.postId })
+      const post_keys = Object.keys(this.$store.state.posts)
+
+      this.loading = false
+
+      // Fetch comments
+      if (post.thread) {
         this.isLoadingComments = true
-
-        if (!post.thread) {
-          return
-        }
-
-        // Fetch comments
-        this.commentsFetch({
-          entityId: post.thread._id
-        }).then(() => {
-          this.isLoadingComments = false
-        }).catch(() => {
-          this.isLoadingComments = false
-        })
-      })
+        await this.commentsFetch({ entityId: post.thread._id })
+        this.isLoadingComments = false
+      }
 
       // Fetch relatedLinks
-      this.relatedLinksFetch({
-        postId: this.postId
-      })
+      await this.relatedLinksFetch({ postId: this.postId })
+
+      if (post_keys.length) {
+        return
+      }
+
+      const { posts } = await this.getTopicsInSearch({})
+
+      this.$store.commit('setPosts', { posts })
     },
 
     highlightContent (content = '') {
@@ -353,15 +370,6 @@ export default {
 
     onHighlight (highlight = '') {
       this.$set(this, 'highlight', highlight)
-    },
-
-    onComment (text) {
-      this.$set(this, 'comment', text)
-      const container = this.$el.querySelector("#comment-box")
-      container.scrollIntoView({
-        behavior: "smooth",
-        block: "end"
-      })
     },
   },
 
@@ -477,7 +485,7 @@ export default {
   align-self flex-end
 
 .post-view
-  padding-bottom 100px
+  padding-bottom 220px
 
 .comment-children
   list-style-type none
@@ -534,6 +542,5 @@ mark
     word-break break-all
 .view-top
   padding 1.5rem 2rem
-.post-view
-  padding-bottom 5px
+
 </style>

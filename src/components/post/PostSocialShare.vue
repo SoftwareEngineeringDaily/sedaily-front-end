@@ -17,9 +17,6 @@
       <network network="twitter">
         <i class="fa fa-twitter" />
       </network>
-      <network network="telegram">
-        <i class="fa fa-telegram" />
-      </network>
     </div>
   </social-sharing>
 </template>
@@ -44,31 +41,20 @@ export default {
 
 <style lang="stylus">
 .sharing
-  display flex
+  text-align center
   font-size 1.1rem
   color #fff
-  align-items center
-  justify-content center
   span
     cursor pointer
+    display inline-block
     height 30px
     width 30px
-    align-items center
-    justify-content center
-    display flex
-    background-color #222
-    border-radius 2px
     margin-right 10px
-    @media (min-width 1000px)
-      margin-bottom 10px
-      margin-right 0
+    line-height 30px
+    background-color #c4c4c4
+    border-radius 2px
     &:hover
       background-color #a591ff
       transform scale(1.05)
-  @media (min-width 1000px)
-    position sticky
-    flex-direction column
-    top 100px
-    margin-top 600px
 
 </style>

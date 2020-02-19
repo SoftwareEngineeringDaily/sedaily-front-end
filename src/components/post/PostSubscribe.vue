@@ -19,21 +19,17 @@ export default {
 
 <style lang="stylus" scoped>
 .subscribe-container
-  margin 70px 0 120px 0
-  padding: 60px 0
+  margin 120px 0 60px
   font-size .8rem
   display flex
   flex-direction column
   text-align center
-  border-top 1px solid #e9ecef
   align-items center
+
   @media (max-width 1000px)
-    margin 0
-    padding: 60px 0 0 0
-    border-top none
-  .footer-message
-    font-size .7rem
-    a
-      color #222 !important
+    .footer-message
+      font-size .7rem
+      a
+        color #222 !important
 
 </style>
