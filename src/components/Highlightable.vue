@@ -25,7 +25,7 @@
         <div class="tools-comment-reply">
           <comment-reply
             :entityId="entityId"
-            :doneCallback="resetTools"
+            :doneCallback="resetReply"
             :highlight="selectedText"
             :parentCommentId="parentCommentId"
             :rootEntityType="'forumthread'" />
@@ -177,11 +177,14 @@ export default {
       this.showTools = false
       this.isHighlighting = false
       this.isReplying = false
-      this.selectedText = ''
-      this.parentCommentId = ''
-      this.entityId = ''
 
       this.$el.style.position = ''
+    },
+
+    resetReply () {
+      this.parentCommentId = ''
+      this.entityId = ''
+      this.resetTools()
     },
 
     // Selects previously highlighted quotes
@@ -199,8 +202,6 @@ export default {
         range.selectNodeContents(target)
         selection.removeAllRanges()
         selection.addRange(range)
-
-        return this.onReply()
       }
     },
 
@@ -219,10 +220,10 @@ export default {
         return
       }
 
-      if (isQuote) {
+      // If we have reply info, set it
+      if (entityId && parentCommentId) {
         this.entityId = entityId
         this.parentCommentId = parentCommentId
-        this.isReplying = true
       }
 
       if (blurSelection) {
@@ -253,6 +254,10 @@ export default {
     },
 
     onHighlight () {
+      if (this.parentCommentId && this.entityId) {
+        return this.onReply()
+      }
+
       this.isHighlighting = true
     },
   },
@@ -268,7 +273,11 @@ export default {
 
     isHighlighting () {
       this.$nextTick(this.setMobileToolsPosition)
-    }
+    },
+
+    isReplying () {
+      this.$nextTick(this.setMobileToolsPosition)
+    },
   }
 }
 </script>

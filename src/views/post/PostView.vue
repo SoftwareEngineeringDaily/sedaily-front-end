@@ -55,13 +55,20 @@
         <related-link-list
           :headline="'Related Episodes'"
           :related-links="relatedEpisodes"
-          :is-logged-in="isLoggedIn" />
+          :is-logged-in="isLoggedIn">
+          <related-link-compose
+            v-if="isLoggedIn"
+            :headline="'Add New Episode'"
+            :type="'episode'" />
+        </related-link-list>
 
         <related-link-list
           :headline="'Related Links'"
           :related-links="relatedLinks"
           :is-logged-in="isLoggedIn">
-          <related-link-compose v-if="isLoggedIn" />
+          <related-link-compose
+            v-if="isLoggedIn"
+            :headline="'Add New Link'" />
         </related-link-list>
 
         <!-- <feed-popular
@@ -133,8 +140,6 @@ export default {
   data () {
     return {
       showPostContent: true,
-      showRelatedLinks: false,
-      showComments: false,
       comment: '',
       highlight: '',
       isLoadingComments: false,
@@ -210,29 +215,17 @@ export default {
     },
 
     relatedLinks () {
-      return this.postRelatedLinks[this.$route.params.id] || []
+      return (this.postRelatedLinks[this.$route.params.id] || [])
+        .filter(p => (p.type !== 'episode'))
     },
 
     relatedEpisodes () {
-      const post = this.post
-      const store_posts = this.$store.state.posts
-
-      return Object.keys(store_posts)
-        .map(key => {
-          let _post = clone(store_posts[key])
-
-          _post.url = _post.link || ''
-          _post.title = (_post.title && _post.title.rendered) ? _post.title.rendered : ''
-
-          return _post
-        })
+      return (this.postRelatedLinks[this.$route.params.id] || [])
         .filter(p => (
-          p.title &&
           p.url &&
-          p.url.search(/software(engineering|)daily\.com/g) >= 0
+          p.url.search(/software(engineering)?daily\.com/g) >= 0 &&
+          p.type === 'episode'
         ))
-        .sort((a, b) => (0.5 - Math.random()))
-        .splice(0, 2)
     },
 
     comments () {
