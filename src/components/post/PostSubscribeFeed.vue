@@ -10,8 +10,6 @@
 <script>
 import { apiConfig } from '../../../config/apiConfig'
 
-const BASE_URL = apiConfig.BASE_URL
-
 export default {
   props: {
     post: {
@@ -21,7 +19,7 @@ export default {
   },
   computed: {
     rssUrl() {
-      return `${BASE_URL}${this.post.rss || '/rss/public/all'}`;
+      return `${apiConfig.BASE_URL}${this.post.rss || '/rss/public/all'}`;
     }
   }
 }
