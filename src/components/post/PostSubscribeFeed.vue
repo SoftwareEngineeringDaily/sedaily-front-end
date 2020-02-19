@@ -3,16 +3,25 @@
     <div>Subscribe:</div>
     <div><a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8"><b>Apple</b></a></div><span>|</span>
     <div><a href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"><b>Android</b></a></div><span>|</span>
-    <div><a href="https://softwareengineeringdaily.com/feed/podcast/"><b>RSS</b></a></div>
+    <div><a :href="rssUrl"><b>RSS</b></a></div>
   </div>
 </template>
 
 <script>
+import { apiConfig } from '../../../config/apiConfig'
+
+const BASE_URL = apiConfig.BASE_URL
+
 export default {
   props: {
     post: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    rssUrl() {
+      return `${BASE_URL}${this.post.rss || '/rss/public/all'}`;
     }
   }
 }
