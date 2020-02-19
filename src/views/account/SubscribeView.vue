@@ -6,7 +6,7 @@
     </div>
     <div v-if="alreadySubscribed">
       <br />
-      <h1> You are subscribed :) </h1>
+      <h1> You are subscribed. Thank you. </h1>
       <br />
       <p>
       Your subscription started: {{dateSubscriptionStarted}}
