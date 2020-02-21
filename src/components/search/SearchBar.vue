@@ -29,7 +29,7 @@
         <ul v-if="currentRefinement" v-for="index in indices" :key="index.label">
           <li v-for="hit in index.hits" :key="hit.objectID">
               <router-link :to="postPrettyUrl(hit)" :post="hit">
-                <ais-highlight attribute="title" :hit="hit"/>
+                <ais-highlight attribute="_title" :hit="hit"/>
               </router-link>
           </li>
         </ul>

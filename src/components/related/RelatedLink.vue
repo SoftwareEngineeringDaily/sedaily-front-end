@@ -87,6 +87,6 @@ export default {
   a
     font-size 16px
     font-weight normal
-    color primary-color
+    color #1a0dab
 
 </style>

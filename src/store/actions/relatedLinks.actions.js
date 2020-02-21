@@ -4,8 +4,8 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  relatedLinksCreate ({ commit, getters }, { url, title, postId }) {
-    const options = { url, title }
+  relatedLinksCreate ({ commit, getters }, { url, title, postId, type }) {
+    const options = { url, title, type }
 
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
 
@@ -27,21 +27,24 @@ export default {
 
   removeRelatedLink: ({ commit, getters, state }, { id }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to remove your link',{ 
+      Vue.toasted.error('You must login to remove your link',{
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
-    })
+      })
+
       return
     }
+
     if (!id) {
-      Vue.toasted.error('Error with that link', { 
+      Vue.toasted.error('Error with that link', {
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
-    })
+      })
+
       return
     }
 
@@ -63,12 +66,13 @@ export default {
 
   upvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote', { 
+      Vue.toasted.error('You must login to vote', {
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
-    })
+      })
+
       return
     }
     commit('upvoteRelatedLink', { id, postId })
@@ -91,12 +95,13 @@ export default {
 
   downvoteRelatedLink: ({ commit, getters, state }, { id, postId }) => {
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote', { 
+      Vue.toasted.error('You must login to vote', {
         singleton: true,
-        theme: "bubble", 
-        position: "bottom-center", 
+        theme: "bubble",
+        position: "bottom-center",
         duration : 700
-    })
+      })
+
       return
     }
     commit('downvoteRelatedLink', { id, postId })

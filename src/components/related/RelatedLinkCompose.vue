@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="related-actions">
-      <button v-if="!showModal" class="button-related" id="show-modal" @click="showModal = true">+ Add New Link</button>
+      <button v-if="!showModal" class="button-related" id="show-modal" @click="showModal = true">
+        + {{ headline }}
+      </button>
       <button v-else class="button-related" id="show-modal" @click="showModal = false">
-        <span v-if="showModal">-</span><span v-else>+</span> Add New Link
+        - {{ headline }}
       </button>
     </div>
     <div v-if="showModal" @close="showModal = false">
@@ -57,6 +59,18 @@ export default {
   components: {
     Spinner
   },
+
+  props: {
+    headline: {
+      type: String,
+      default: 'Add New Link',
+    },
+    type: {
+      type: String,
+      default: 'link',
+    },
+  },
+
   data () {
     return {
       url: '',
@@ -88,28 +102,29 @@ export default {
         if (result) {
           this.isSubmitting = true
           this.relatedLinksCreate({
+            type: this.type,
             postId: this.postId,
             title: this.title,
-            url: this.url
+            url: this.url,
           })
-            .then((response) => {
-              this.url = ''
-              this.title = ''
-              this.isSubmitting = false
-              // Fetch comments
-              this.relatedLinksFetch({
-                postId: this.postId
-              })
+          .then((response) => {
+            this.url = ''
+            this.title = ''
+            this.isSubmitting = false
+            // Fetch comments
+            this.relatedLinksFetch({
+              postId: this.postId
             })
-            .catch((error) => {
-              this.isSubmitting = false
-              this.$toasted.error(error.response.data.message, {
-                  singleton: true,
-                  theme: "bubble",
-                  position: "bottom-center",
-                  duration : 700
-              })
+          })
+          .catch((error) => {
+            this.isSubmitting = false
+            this.$toasted.error(error.response.data.message, {
+                singleton: true,
+                theme: "bubble",
+                position: "bottom-center",
+                duration : 700
             })
+          })
         } else {
           this.$toasted.error('Sorry there was a problem :(', {
               singleton: true,
