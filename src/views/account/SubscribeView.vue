@@ -1,12 +1,14 @@
 <template>
   <div id='app' class='subscribe-view'>
     <div v-if="loadingUser">
-
       <spinner :show="loadingUser"></spinner>
     </div>
     <div v-if="alreadySubscribed">
       <br />
-      <h1> You are subscribed :) </h1>
+      <h1> You are subscribed. Thank you. </h1>
+      <br />
+      <p>
+      Enjoy your ad-free episodes! <a class="rss-link" :href="rssUrl">RSS Link</a>
       <br />
       <p>
       Your subscription started: {{dateSubscriptionStarted}}
@@ -89,6 +91,7 @@ import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '@/utils/subscription.utils.js'
+import { apiConfig } from '../../../config/apiConfig';
 export default {
   props: {
     stripePublicKey: {
@@ -222,6 +225,9 @@ export default {
       },
       me (state) {
         return state.me
+      },
+      rssUrl(state) {
+        return `${apiConfig.BASE_URL}${state.me.rss || '/rss/public/all'}`;
       }
     })
   }
@@ -287,4 +293,9 @@ export default {
   margin 0px 0px -30px
   color: red
 }
+.rss-link
+  color #a591ff
+  font-weight 600
+.rss-link:hover 
+  color primary-color
 </style>
