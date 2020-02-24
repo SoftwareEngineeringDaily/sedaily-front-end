@@ -4,7 +4,8 @@
       :href="relatedLink.url | externalUrl"
       target="_blank"
       rel="external nofollow">
-      {{relatedLink.title || relatedLink.url}}
+      <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" />
+      <div class="text-ellipsis">{{relatedLink.title || relatedLink.url}}</div>
     </a>
     <div v-if='myLink'>
       <button @click='remove' class='button-delete'>
@@ -83,10 +84,21 @@ export default {
 .link-holder
   display flex
   align-items center
+  margin-right -0.5rem
   padding-bottom 10px
   a
+    display flex
+    align-items center
+    width calc(100% - 2rem)
     font-size 16px
     font-weight normal
     color #1a0dab
+.text-ellipsis
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+.link-icon
+  max-width 16px
+  margin-right 0.5rem
 
 </style>

@@ -23,7 +23,7 @@
         class="alert alert-danger">
         {{ errors.first('url') }}</div>
 
-      <input
+      <!-- <input
         placeholder='Add a short title...'
         class='related-title-box'
         :disabled="isSubmitting"
@@ -35,7 +35,7 @@
       <div
         v-show="errors.has('title')"
         class="alert alert-danger">
-        {{ errors.first('title') }}</div>
+        {{ errors.first('title') }}</div> -->
 
       <span v-if="isSubmitting">
         <spinner :show="true" />
@@ -75,7 +75,6 @@ export default {
     return {
       url: '',
       showModal: false,
-      title: '',
       isSubmitting: false,
       loading: true
     }
@@ -104,13 +103,12 @@ export default {
           this.relatedLinksCreate({
             type: this.type,
             postId: this.postId,
-            title: this.title,
             url: this.url,
           })
           .then((response) => {
             this.url = ''
-            this.title = ''
             this.isSubmitting = false
+
             // Fetch comments
             this.relatedLinksFetch({
               postId: this.postId

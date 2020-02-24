@@ -4,8 +4,8 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  relatedLinksCreate ({ commit, getters }, { url, title, postId, type }) {
-    const options = { url, title, type }
+  relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
+    const options = { url, type }
 
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
 

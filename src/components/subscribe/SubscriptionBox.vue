@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!alreadySubscribed" class="subscribe-container">
     <h3>Subscribe to Software Daily</h3>
     <p>Get ad-free episodes</p>
     <div class="switch-section">
@@ -7,19 +7,26 @@
       <switch-toggle v-model="checked" />
       <span class="option">Bill yearly (save 20%!)</span>
     </div>
-    <div class="subscription-box" v-on:click="signUpForSubscription" >
+    <div class="subscription-box" v-on:click="signUpForSubscription">
       <h5>Software Daily Podcast Subscription</h5>
       <div class="details-price">
-        <div class="price"><b v-if="!checked">$10</b><b v-else>$100</b> month</div>
-        <div>billed yearly</div>
+        <div v-if="!checked" class="price">
+          <b>$10</b> /month
+        </div>
+        <div v-else class="price">
+          <b>$100</b> /year
+        </div>
       </div>
-      <div><button class="btn-default">subscribe</button></div>
+      <button class="btn-default">subscribe</button>
     </div>
+    <p class="footer-message">
+      Want more information? Visit our <router-link to="/premium"><b>Subscription Page</b></router-link>
+    </p>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import SwitchToggle from '@/components/SwitchToggle'
 import { selectSubscriptionPlan } from '@/utils/subscription.utils.js'
 
@@ -42,17 +49,30 @@ export default {
       if (this.isLoggedIn) {
         selectSubscriptionPlan(planType)
         // Redirect to subscription cc page:
-        this.$router.replace('/subscribe')
+        this.$router.push('/subscribe')
       } else {
         // Redirect to  sign up page, then redirect to Subscription
         // OR at least show a banner
         selectSubscriptionPlan(planType)
-        this.$router.replace('/register')
+        this.$router.push('/register')
       }
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({
+      alreadySubscribed(state) {
+        if (!this.isLoggedIn) return false;
+        if (state.me && state.me.subscription && state.me.subscription.active) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      avatarUrl(state) {
+        return state.me.avatarUrl || state.placeholderAvatar;
+      },
+    })
   }
 }
 </script>
@@ -92,6 +112,7 @@ export default {
     .btn-default
       background-color #a591ff
       transform scale(1.02)
+
 .option
   width 150px
   @media (max-width 800px)
@@ -99,4 +120,18 @@ export default {
   &:first-child
     text-align right
     margin-right 23px
+
+.subscribe-container
+  margin 120px 0 60px
+  font-size .8rem
+  display flex
+  flex-direction column
+  text-align center
+  align-items center
+
+  @media (max-width 1000px)
+    .footer-message
+      font-size .7rem
+      a
+        color #222 !important
 </style>

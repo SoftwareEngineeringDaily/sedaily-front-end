@@ -83,7 +83,7 @@ export default {
       border-radius 3px
       bottom 24px
       color #fff
-      content "View Discussion"
+      content "View Transcript"
       font-size 15px
       font-weight 500
       padding 10px 20px

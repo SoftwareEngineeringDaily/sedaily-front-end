@@ -42,9 +42,9 @@
 
 <script>
 import { Dropdown } from 'bootstrap-vue/esm/components/dropdown'
-import { mapGetters, mapState } from "vuex";
-import SearchBar from "@/components/search/SearchBar";
-import NavMobile from "./NavBarMobile"
+import { mapGetters, mapState } from 'vuex';
+import SearchBar from '@/components/search/SearchBar';
+import NavMobile from './NavBarMobile'
 
 export default {
   name: "navigation-bar",
