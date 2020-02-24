@@ -485,6 +485,7 @@ export default {
   align-self flex-end
 
 .post-view
+  padding-left 0
   padding-bottom 220px
 
 .comment-children
