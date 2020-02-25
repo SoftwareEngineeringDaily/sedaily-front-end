@@ -1,12 +1,10 @@
 <template>
-  <div class='item-container row'>
+  <div class="item-container row">
     <span class="profile-avatar">
-      <div>
-        <img class="feed-image" :src="imageSrc" />
-      </div>
+      <img class="feed-image" :src="imageSrc" />
     </span>
 
-    <span class='votes-container'>
+    <span class="votes-container">
       <voting-arrows
         :upvoteHandler="upvoteHandler"
         :upvoted="feedItem.upvoted"
@@ -15,15 +13,15 @@
     </span>
 
     <span class="content-holder">
-      <span class='item-title'>
+      <span class="item-title">
 
         <a :href="feedItem.url | externalUrl" target="_blank">
           Related link: {{feedItem.title}}
         </a>
       </span>
 
-      <div class='item-misc'>
-        <div class='episode-info'>
+      <div class="item-misc">
+        <div class="episode-info">
           Episode: {{ feedItem.post.title.rendered | decodeString }}
         </div>
         Added by
@@ -33,7 +31,7 @@
           </router-link>
         </span>
         <div class="bullet-point">&#9679;</div>
-        <span class='misc-detail'>{{hostname}}</span>
+        <span class="misc-detail">{{hostname}}</span>
 
       </div>
     </span>

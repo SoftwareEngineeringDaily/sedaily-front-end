@@ -1,5 +1,8 @@
 <template>
-  <router-link :to="postPrettyUrl" class="news-post" :class="{ 'is-preview': isPreview }">
+  <router-link
+    :to="postPrettyUrl"
+    class="news-post"
+    :class="{ 'is-preview': isPreview }">
     <div class="img-container" v-if="showImg">
       <img :src="post.featuredImage"/>
     </div>
@@ -60,13 +63,16 @@ export default {
 a
   text-decoration none !important
   cursor pointer
+
 .news-post
   display flex
   flex-direction column
   position relative
   max-width 525px
   margin 15px 16% 40px
+  border 2px solid #e9ecef
   background #e9ecef
+
   &.is-preview
     margin 0 0 40px
     max-width 100%
