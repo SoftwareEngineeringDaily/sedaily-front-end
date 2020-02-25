@@ -107,7 +107,6 @@
 <script>
   import modal from '@/components/ModalComponent'
   import { mapState, mapActions, mapGetters } from "vuex";
-  import lodash from 'lodash'
 
   export default {
     name: 'profile-details',

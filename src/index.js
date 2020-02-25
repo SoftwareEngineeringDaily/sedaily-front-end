@@ -18,6 +18,9 @@ import Toasted from 'vue-toasted'
 import InstantSearch from 'vue-instantsearch'
 import SmartBanner from 'smart-app-banner'
 import BootstrapVue from 'bootstrap-vue'
+import socketio from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io'
+import { apiConfig } from '../config/apiConfig'
 
 import 'smart-app-banner/dist/smart-app-banner.css'
 
@@ -25,6 +28,8 @@ import 'smart-app-banner/dist/smart-app-banner.css'
 import './css/vendor.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+const WS_URL = apiConfig.BASE_URL.replace('/api', '');
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -81,6 +86,15 @@ Vue.directive('click-outside', {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   },
 })
+
+Vue.use(new VueSocketIO({
+  connection: socketio(WS_URL), 
+  vuex: {
+    store,
+    actionPrefix: "notification.",
+    mutationPrefix: "notification."
+  }
+}));
 
 /* eslint-disable no-new */
 new Vue({

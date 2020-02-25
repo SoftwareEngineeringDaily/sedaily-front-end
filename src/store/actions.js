@@ -12,6 +12,7 @@ import loggingPostActions from './actions/logging.post.actions'
 import jobActions from './actions/job.actions'
 import companyActions from './actions/company.actions'
 import forumActions from './actions/forum.actions'
+import notificationsActions from './actions/notifications.actions'
 
 export default {
   ...authActions,
@@ -27,5 +28,6 @@ export default {
   ...chatActions,
   ...loggingPostActions,
   ...jobActions,
-  ...forumActions
+  ...forumActions,
+  ...notificationsActions
 }

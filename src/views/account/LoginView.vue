@@ -85,6 +85,7 @@ export default {
                 })
                   .then((eventResponse) => {
                     // Ignore response for now
+                    this.$store.dispatch('notification.app.register')
                   })
                 if (wantedToSubscribe()) {
                   this.$router.replace('/subscribe')

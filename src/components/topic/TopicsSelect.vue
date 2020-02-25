@@ -64,7 +64,6 @@
 <script>
 import modal from '@/components/ModalComponent'
 import { mapState, mapActions } from 'vuex'
-import lodash from 'lodash'
 
 export default {
   name: "first-topics-select",
