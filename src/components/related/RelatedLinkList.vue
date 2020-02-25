@@ -44,11 +44,14 @@ export default {
 <style scoped lang="stylus">
 h4
   font-weight 400
+
 .section-title
-  margin-top 0
+  margin 0 0 10px
   font-size 0.8rem
+
 .related-container
-  margin 0 0 40px
-  padding 2rem
+  margin 0 0 20px
+  padding 1.5rem
   background #e9ecef
+
 </style>

@@ -28,7 +28,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    ...mapActions([
+      'upvoteRelatedLink',
+      'downvoteRelatedLink',
+      'removeRelatedLink',
+      'relatedLinksFetch'
+    ]),
     remove () {
       this.removeRelatedLink({
         id: this.relatedLink._id
@@ -81,11 +86,12 @@ export default {
   outline none
   border none
   color #c4c4c4
+
 .link-holder
   display flex
   align-items center
   margin-right -0.5rem
-  padding-bottom 10px
+
   a
     display flex
     align-items center
@@ -93,10 +99,12 @@ export default {
     font-size 16px
     font-weight normal
     color #1a0dab
+
 .text-ellipsis
   overflow hidden
   white-space nowrap
   text-overflow ellipsis
+
 .link-icon
   max-width 16px
   margin-right 0.5rem

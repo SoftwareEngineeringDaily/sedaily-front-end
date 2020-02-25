@@ -1,10 +1,21 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
+
 const BASE_URL = apiConfig.BASE_URL
+
+const formatLink = (url) => {
+  if (url.trim().indexOf(/http(s)?:\/\//g) < 0) {
+    url = `http://${url}`
+  }
+
+  return url
+}
 
 export default {
   relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
+    url = formatLink(url)
+
     const options = { url, type }
 
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`

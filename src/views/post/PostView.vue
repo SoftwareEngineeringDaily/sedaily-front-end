@@ -217,6 +217,9 @@ export default {
           p.url.search(/software(engineering)?daily\.com/g) >= 0 &&
           p.type === 'episode'
         ))
+        .filter(p => (
+          p.title && p.title.indexOf('softwaredaily') >= 0
+        ))
     },
 
     comments () {

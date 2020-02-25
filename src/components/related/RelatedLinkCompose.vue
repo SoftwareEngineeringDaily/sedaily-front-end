@@ -1,22 +1,28 @@
 <template>
   <div>
-    <div class="related-actions">
+    <!-- <div class="related-actions">
       <button v-if="!showModal" class="button-related" id="show-modal" @click="showModal = true">
         + {{ headline }}
       </button>
       <button v-else class="button-related" id="show-modal" @click="showModal = false">
         - {{ headline }}
       </button>
-    </div>
-    <div v-if="showModal" @close="showModal = false">
-      <textarea
-        placeholder='Add a related link...'
-        class='related-link-box'
-        :disabled="isSubmitting"
-        name="url"
-        v-validate="'required|url'"
-        type='text'
-        v-model='url' />
+    </div> -->
+    <form @submit.prevent="submit">
+      <div class="related-link-box">
+        <input
+          type="text"
+          :placeholder="placeholder"
+          :disabled="isSubmitting"
+          name="url"
+          v-model="url" />
+
+        <span
+          v-if="isSubmitting"
+          class="related-spinner">
+          <spinner :show="true" />
+        </span>
+      </div>
 
       <div
         v-show="errors.has('url')"
@@ -37,17 +43,15 @@
         class="alert alert-danger">
         {{ errors.first('title') }}</div> -->
 
-      <span v-if="isSubmitting">
-        <spinner :show="true" />
-      </span>
-
-      <div class="related-actions" v-else>
+      <!-- <div class="related-actions" v-else>
         <button
-          class='button-submit'
-          :disabled="isSubmitting"
-          @click.prevent='submit'>Submit</button>
-      </div>
-    </div>
+          type="submit"
+          class="button-submit"
+          :disabled="isSubmitting">
+          Submit
+        </button>
+      </div> -->
+    </form>
   </div>
 </template>
 <script>
@@ -88,6 +92,9 @@ export default {
       },
       postId (state) {
         return state.route.params.id
+      },
+      placeholder () {
+        return `Add a related ${this.type || 'link'}`
       }
     })
   },
@@ -108,6 +115,7 @@ export default {
           .then((response) => {
             this.url = ''
             this.isSubmitting = false
+            this.showModal = false
 
             // Fetch comments
             this.relatedLinksFetch({
@@ -141,12 +149,26 @@ export default {
 @import '../../css/variables'
 .related-actions
   text-align right
+
 .related-link-box
-  width 100%
-  padding 10px
-  margin-bottom 12px
-  border-radius 4px
-  border-color #c4c4c4
+  position relative
+  margin 20px 0 0
+
+  input
+    width 100%
+    padding 8px 10px
+    border-radius 4px
+    outline none
+    border none
+    &:focus
+      box-shadow 0 0 3px 3px rgba(#a591ff, 0.4)
+
+  .related-spinner
+    position absolute
+    top 50%
+    right 0
+    transform translateY(-50%) scale(0.5)
+
 .button-related
   background none
   border none
@@ -157,9 +179,10 @@ export default {
   padding-right 0
   outline none
   cursor pointer
+
 .related-title-box
   width 100%
-  padding 10px
+  padding 8px
   margin-bottom 12px
   border 1px solid
   border-radius 4px
