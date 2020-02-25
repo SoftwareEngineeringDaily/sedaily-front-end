@@ -14,7 +14,6 @@
 
     <span class="content-holder">
       <span class="item-title">
-
         <a :href="feedItem.url | externalUrl" target="_blank">
           Related link: {{feedItem.title}}
         </a>
@@ -32,7 +31,6 @@
         </span>
         <div class="bullet-point">&#9679;</div>
         <span class="misc-detail">{{hostname}}</span>
-
       </div>
     </span>
 </div>

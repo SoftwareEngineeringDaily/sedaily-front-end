@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- <div class="related-actions">
-      <button v-if="!showModal" class="button-related" id="show-modal" @click="showModal = true">
-        + {{ headline }}
-      </button>
-      <button v-else class="button-related" id="show-modal" @click="showModal = false">
-        - {{ headline }}
-      </button>
-    </div> -->
     <form @submit.prevent="submit">
       <div class="related-link-box">
         <input
@@ -28,29 +20,6 @@
         v-show="errors.has('url')"
         class="alert alert-danger">
         {{ errors.first('url') }}</div>
-
-      <!-- <input
-        placeholder='Add a short title...'
-        class='related-title-box'
-        :disabled="isSubmitting"
-        name="title"
-        v-validate="'required'"
-        type='text'
-        v-model='title' />
-
-      <div
-        v-show="errors.has('title')"
-        class="alert alert-danger">
-        {{ errors.first('title') }}</div> -->
-
-      <!-- <div class="related-actions" v-else>
-        <button
-          type="submit"
-          class="button-submit"
-          :disabled="isSubmitting">
-          Submit
-        </button>
-      </div> -->
     </form>
   </div>
 </template>
@@ -65,10 +34,6 @@ export default {
   },
 
   props: {
-    headline: {
-      type: String,
-      default: 'Add New Link',
-    },
     type: {
       type: String,
       default: 'link',
