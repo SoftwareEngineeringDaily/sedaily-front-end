@@ -246,5 +246,14 @@ export default {
   },
   setJobs: (state, { jobs }) => {
     state.jobs = jobs
+  },
+  setNotificationsSocket: (state, socket) => {
+    state.socket = socket
+  },
+  setNotificationsRegistered: (state) => {
+    state.socket.registered = true;
+  },
+  notifications: (state, notifications) => {
+    state.notifications = notifications;
   }
 }
