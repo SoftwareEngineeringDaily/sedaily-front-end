@@ -5,19 +5,31 @@ import { apiConfig } from '../../../config/apiConfig'
 const BASE_URL = apiConfig.BASE_URL
 
 const formatLink = (url) => {
-  if (url.trim().indexOf(/http(s)?:\/\//g) < 0) {
+  if (url.trim().search(/http(s)?:\/\//g) < 0) {
     url = `http://${url}`
   }
 
   return url
 }
 
+const isValidEpisode = (url) => {
+  return (url.trim().search(/softwaredaily\.com/g) >= 0)
+}
+
 export default {
   relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
     url = formatLink(url)
 
-    const options = { url, type }
+    if (type === 'episode' && !isValidEpisode(url)) {
+      return Vue.toasted.error('Only episodes from softwaredaily.com are permitted.', {
+        singleton: true,
+        theme: 'bubble',
+        position: 'bottom-center',
+        duration : 700
+      })
+    }
 
+    const options = { url, type }
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
 
     commit('analytics', {
@@ -40,8 +52,8 @@ export default {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to remove your link',{
         singleton: true,
-        theme: "bubble",
-        position: "bottom-center",
+        theme: 'bubble',
+        position: 'bottom-center',
         duration : 700
       })
 

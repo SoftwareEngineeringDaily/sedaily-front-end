@@ -214,11 +214,8 @@ export default {
       return (this.postRelatedLinks[this.$route.params.id] || [])
         .filter(p => (
           p.url &&
-          p.url.search(/software(engineering)?daily\.com/g) >= 0 &&
+          p.url.search(/softwaredaily\.com/g) >= 0 &&
           p.type === 'episode'
-        ))
-        .filter(p => (
-          p.title && p.title.indexOf('softwaredaily') >= 0
         ))
     },
 
