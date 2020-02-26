@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 
+const TOAST_DELAY = 3000
 const BASE_URL = apiConfig.BASE_URL
 
 const formatLink = (url) => {
@@ -25,7 +26,7 @@ export default {
         singleton: true,
         theme: 'bubble',
         position: 'bottom-center',
-        duration : 700
+        duration: TOAST_DELAY,
       })
     }
 
@@ -54,7 +55,7 @@ export default {
         singleton: true,
         theme: 'bubble',
         position: 'bottom-center',
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return
@@ -65,7 +66,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return
@@ -93,7 +94,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return
@@ -122,7 +123,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return

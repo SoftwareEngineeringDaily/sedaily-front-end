@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="row text-center">
+    <div class="row justify-center">
       <div class="col-md-offset-2 col-md-6 text-center">
         <h4 class="plan-name"> Monthly </h4>
         <h4 class="price">
@@ -37,11 +37,8 @@
     </div>
 
     <div class="row why-subscribe">
-      <div class="col-md-12 text-center why-subscribe-title">
-        <h3>Why Subscribe?</h3>
-      </div>
       <div class="col-md-12 why-subscribe-inner">
-        <br />
+        <h3 class="why-subscribe-title">Why Subscribe?</h3>
         <p>
           For 4.5 years, our business model has been to sell advertisements in exchange for exposure on the podcast. We love our sponsors, and believe in the products that we promote. But we want to give listeners the ability to opt out of advertisements.
         </p>
@@ -55,15 +52,13 @@
     </div>
 
     <div class="row faq">
-      <h3>Frequently Asked Questions</h3>
-      <br />
+      <h3 class="question-headline">Frequently Asked Questions</h3>
       <div class="question">
         <h4 class="question-title">
           How do I listen to ad-free episodes?
         </h4>
         <p class="question-answer">
           After becoming a paid subscriber, you can listen to ad-free content in two ways. You can listen in the SEDaily app for <a href="https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8" target="_blank">iOS</a> or <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily" target="_blank">Android</a>. Also, you will get a link to a private RSS feed that has no ads. You can subscribe to the paid content on a podcast player.
-          <!-- Download the Software Engineering Daily app for <a href="https://itunes.apple.com/us/app/software-engineering-daily-podcast-app/id1253734426?ls=1&mt=8" target="_blank">iOS</a> or <a href="https://play.google.com/store/apps/details?id=com.koalatea.thehollidayinn.softwareengineeringdaily" target="_blank">Android</a>, or go to softwaredaily.com and login. -->
         </p>
       </div>
 
@@ -155,6 +150,9 @@ h1
   display block
   font-size 2rem
 
+.justify-center
+  justify-content center
+
 button
   margin 20px
   padding 15px 20px
@@ -182,9 +180,8 @@ button:hover
   outline: 0
 
 .why-subscribe-title
-  margin 0 auto
-  margin-top 50px
-  max-width 80%
+  text-align center
+  margin-bottom 2rem
 
 .why-subscribe-inner
   margin  30px auto
@@ -197,12 +194,16 @@ button:hover
 .faq
   max-width 80%
   margin auto
+  padding-bottom 4rem
 
-.question
-  margin 20px 0
+.question-headline
+  margin-bottom 2rem
+
+.question p
+  margin-bottom 2rem
 
 .question-title
-  margin 20px 0
+  margin-bottom 0.4rem
 
 .container
   background white

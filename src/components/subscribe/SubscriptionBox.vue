@@ -59,21 +59,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
-    ...mapState({
-      alreadySubscribed(state) {
-        if (!this.isLoggedIn) return false;
-        if (state.me && state.me.subscription && state.me.subscription.active) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      avatarUrl(state) {
-        return state.me.avatarUrl || state.placeholderAvatar;
-      },
-    })
-  }
+    ...mapGetters([
+      'isLoggedIn',
+    ]),
+
+    alreadySubscribed () {
+      const { me } = this.$store.state
+      return (me && me.subscription && me.subscription.active)
+    },
+  },
 }
 </script>
 
