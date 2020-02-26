@@ -15,7 +15,7 @@
         <notification v-if="isLoggedIn"></notification>
         <span class="active-without-border" v-if="isLoggedIn">
           <div>
-            <b-dropdown variant="link" right size="lg" no-caret>
+            <b-dropdown variant="link" class="user" right size="lg" no-caret>
               <template slot="button-content">
                 <div class="crop-image" v-if="isLoggedIn">
                   <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
