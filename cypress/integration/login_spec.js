@@ -24,7 +24,7 @@ describe('The Login Page', function () {
       expect(win.localStorage).to.have.any.keys('token')
       expect(win.localStorage.token).to.have.length.above(1)
     })
-    cy.get('nav.inner .dropdown-toggle').click()
+    cy.get('nav.inner .user').click()
     cy.contains('Logout').click()
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq('/')

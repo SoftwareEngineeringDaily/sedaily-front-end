@@ -16,7 +16,7 @@ describe('The Profile Page', function () {
     const newName = uuidv4()
     cy.visit('/')
     .then(() => {
-      cy.get('nav.inner .dropdown-toggle').click()
+      cy.get('nav.inner .user').click()
       cy.get('nav.inner a[href="/profile"]').click()
     })
     cy.location().should((loc) => {
@@ -43,7 +43,7 @@ describe('The Profile Page', function () {
   it('Adding topics to my profile', function () {
     cy.visit('/')
     .then(() => {
-      cy.get('nav.inner .dropdown-toggle').click()
+      cy.get('nav.inner .user').click()
       cy.get('nav.inner a[href="/profile"]').click()
     })
     cy.contains('My Topics')

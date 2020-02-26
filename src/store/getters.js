@@ -42,5 +42,8 @@ export default {
     const content = contentValue ? contentValue: state.defaultMetaContent[vmid]
     // open graph (og), uses 'property' key instead of 'name'
     return vmid.substr(0,2) === 'og' ? { vmid, property: vmid, content} : { vmid, name: vmid, content }
+  },
+  socket: (state) => {
+    return state.socket
   }
 }

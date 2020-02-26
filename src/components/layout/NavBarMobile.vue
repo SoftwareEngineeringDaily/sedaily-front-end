@@ -11,9 +11,10 @@
       </span>
       <router-link v-if="alreadySubscribed" to="/subscribe" class="subscribed">Subscribed</router-link>
       <router-link v-else to="/premium" class="call-to-action-secondary">Subscribe</router-link>
+      <notification v-if="isLoggedIn"></notification>
       <span class="active-without-border" v-if="isLoggedIn">
         <div>
-          <b-dropdown variant="link" size="lg" no-caret>
+          <b-dropdown variant="link" class="user" right size="lg" no-caret>
             <template slot="button-content">
               <div class="crop-image" v-if="isLoggedIn">
                 <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
@@ -44,11 +45,13 @@
 import { Dropdown } from 'bootstrap-vue/esm/components/dropdown'
 import { mapGetters, mapState } from "vuex"
 import SearchBar from "@/components/search/SearchBar"
+import Notification from "@/components/notification/Notification"
 
 export default {
   name: "navigation-bar-mobile",
   components: {
-    SearchBar
+    SearchBar,
+    Notification
   },
   props: {
     userData: {
@@ -218,15 +221,6 @@ $(function() {
       border-color white
       color white
       background-color primary-color
-.dropdown-menu
-  display block
-  transform translate3d(0px, 15px, 0px)
-  .dropdown-menu
-    opacity 0
-    position absolute
-    top 0px
-    left 0px
-    will-change transform
 .dropdown-enter-active
   animation dropdown-in 0.2s
 .dropdown-leave-active
@@ -381,7 +375,7 @@ $(function() {
         border-bottom: 0 solid #fff
         border-right: 0 solid #fff
         position: absolute
-        right : 35px
+        right : 13px
         top: -5px
         margin-left: -6px
         -webkit-transform: rotate(45deg)
@@ -389,10 +383,6 @@ $(function() {
         background-color: #fff
         -webkit-box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1)
         box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1)
-
-.active-without-border >>> .dropdown-menu {
-        transform translate3d(-91px, 52px, 0px) !important
-}
 
 @media (max-width 659px)
   .inner

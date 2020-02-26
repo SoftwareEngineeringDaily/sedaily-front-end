@@ -40,6 +40,11 @@ export default {
     NavigationBar,
     NavFooter
   },
+  sockets: {
+    connect: function() {      
+      this.$store.commit('setNotificationsSocket', this.$socket)
+    }
+  },
   computed: {
     ...mapState({
       me (state) {
@@ -179,9 +184,6 @@ a
   margin-right 10px
   display inline-block
   vertical-align middle
-
-.feed-icon
-  width 30px
 
 .registration-icon
   width 30px

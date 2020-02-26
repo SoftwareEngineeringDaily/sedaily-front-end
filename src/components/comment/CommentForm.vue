@@ -228,15 +228,15 @@ export default {
       });
     },
 
-    submitComment() {
+    submitComment() {  
+      const mentions = map(this.mentionedUsers, user => {
+        return user._id;
+      });
+
       const data = {
         content: this.commentContent,
         mentions: mentions
       }
-
-      const mentions = map(this.mentionedUsers, user => {
-        return user._id;
-      });
 
       if (this.highlight) {
         data.highlight = this.highlight

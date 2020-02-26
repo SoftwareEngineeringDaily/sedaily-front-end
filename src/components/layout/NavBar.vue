@@ -12,9 +12,10 @@
         </span>
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
         <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
+        <notification v-if="isLoggedIn"></notification>
         <span class="active-without-border" v-if="isLoggedIn">
           <div>
-            <b-dropdown variant="link" size="lg" no-caret>
+            <b-dropdown variant="link" class="user" right size="lg" no-caret>
               <template slot="button-content">
                 <div class="crop-image" v-if="isLoggedIn">
                   <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
@@ -33,7 +34,6 @@
             </b-dropdown>
           </div>
         </span>
-
       </span>
     </nav>
     <NavMobile/>
@@ -42,15 +42,17 @@
 
 <script>
 import { Dropdown } from 'bootstrap-vue/esm/components/dropdown'
-import { mapGetters, mapState } from 'vuex';
-import SearchBar from '@/components/search/SearchBar';
+import { mapGetters, mapState } from 'vuex'
+import SearchBar from '@/components/search/SearchBar'
 import NavMobile from './NavBarMobile'
+import Notification from '@/components/notification/Notification'
 
 export default {
   name: "navigation-bar",
   components: {
     SearchBar,
-    NavMobile
+    NavMobile,
+    Notification
   },
   props: {
     userData: {
@@ -242,15 +244,6 @@ $(function() {
       border-color white
       color white
       background-color primary-color
-.dropdown-menu
-  display block
-  transform translate3d(-91px, 52px, 0px) !important
-  .dropdown-menu
-    opacity 0
-    position absolute
-    top 0px
-    left 0px
-    will-change transform
 .dropdown-enter-active
   animation dropdown-in 0.2s
 .dropdown-leave-active
@@ -412,10 +405,6 @@ $(function() {
       background-color: #fff;
       -webkit-box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
       box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
-
-.active-without-border >>> .dropdown-menu {
-        transform translate3d(-91px, 52px, 0px) !important
-}
 
 @media (max-width 659px)
   .inner
