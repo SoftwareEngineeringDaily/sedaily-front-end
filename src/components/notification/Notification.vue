@@ -77,7 +77,7 @@ export default {
     },
     formatDate (date) {
       const notificationDate = moment(date)
-      if (notificationDate.format('YYYYMMDD') === moment().format('YYYYMMDD')) return notificationDate.format('HH[h]:mm[m]')
+      if (notificationDate.format('YYYYMMDD') === moment().format('YYYYMMDD')) return notificationDate.format('HH[h]mm[m]')
       return notificationDate.format('MMMM Do, YYYY')
     }
   }
