@@ -10,15 +10,9 @@ const whitelist = [
 ]
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+  origin: '*',
   optionsSuccessStatus: 200,
-  methods: 'GET'
+  methods: 'GET',
 }))
 
 // prerender-node must be used before connect-history-api-fallback
