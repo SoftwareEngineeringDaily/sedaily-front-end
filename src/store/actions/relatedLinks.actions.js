@@ -14,7 +14,10 @@ const formatLink = (url) => {
 }
 
 const isValidEpisode = (url) => {
-  return (url.trim().search(/softwaredaily\.com/g) >= 0)
+  return (
+    url.trim().search(/softwaredaily\.com/g) >= 0 ||
+    url.trim().search(/sedaily-frontend-staging/g) >= 0
+  )
 }
 
 export default {
