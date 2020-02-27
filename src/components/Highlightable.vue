@@ -209,6 +209,7 @@ export default {
       this.preselectText(target)
 
       const selection = window.getSelection()
+      if (!selection.anchorNode) return
       const isQuote = (target.tagName === 'MARK')
       const { entityId, parentCommentId } = target.dataset
       const startNode = selection.getRangeAt(0).startContainer.parentNode.parentNode.parentNode
