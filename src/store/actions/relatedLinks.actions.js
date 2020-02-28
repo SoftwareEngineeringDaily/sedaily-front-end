@@ -13,18 +13,11 @@ const formatLink = (url) => {
   return url
 }
 
-const isValidEpisode = (url) => {
-  return (
-    url.trim().search(/softwaredaily\.com/g) >= 0 ||
-    url.trim().search(/sedaily-frontend-staging/g) >= 0
-  )
-}
-
 export default {
-  relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
+  async relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
     url = formatLink(url)
 
-    if (type === 'episode' && !isValidEpisode(url)) {
+    if (type === 'episode' && url.trim().search(/softwaredaily\.com/g) < 0) {
       return Vue.toasted.error('Only episodes from softwaredaily.com are permitted.', {
         singleton: true,
         theme: 'bubble',

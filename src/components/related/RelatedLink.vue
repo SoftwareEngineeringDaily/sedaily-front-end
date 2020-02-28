@@ -4,7 +4,7 @@
       :href="relatedLink.url | externalUrl"
       target="_blank"
       rel="external nofollow">
-      <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" />
+      <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" @error.once="faviconFallback" />
       <div class="text-ellipsis">{{relatedLink.title || relatedLink.url}}</div>
     </a>
     <div v-if='myLink'>
@@ -63,6 +63,9 @@ export default {
         id: this.relatedLink._id,
         postId: this.relatedLink.post
       })
+    },
+    faviconFallback ({ target }) {
+      target.src = 'https://www.softwaredaily.com/static/favicon.png'
     }
   },
   computed: {
