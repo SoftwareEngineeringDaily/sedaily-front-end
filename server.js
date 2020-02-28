@@ -1,6 +1,5 @@
 const express = require('express')
 const serveStatic = require('serve-static')
-
 const app = express()
 
 // prerender-node must be used before connect-history-api-fallback

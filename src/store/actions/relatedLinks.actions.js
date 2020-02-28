@@ -1,12 +1,32 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
+
+const TOAST_DELAY = 3000
 const BASE_URL = apiConfig.BASE_URL
 
-export default {
-  relatedLinksCreate ({ commit, getters }, { url, title, postId, type }) {
-    const options = { url, title, type }
+const formatLink = (url) => {
+  if (url.trim().search(/http(s)?:\/\//g) < 0) {
+    url = `http://${url}`
+  }
 
+  return url
+}
+
+export default {
+  async relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
+    url = formatLink(url)
+
+    if (type === 'episode' && url.trim().search(/softwaredaily\.com/g) < 0) {
+      return Vue.toasted.error('Only episodes from softwaredaily.com are permitted.', {
+        singleton: true,
+        theme: 'bubble',
+        position: 'bottom-center',
+        duration: TOAST_DELAY,
+      })
+    }
+
+    const options = { url, type }
     const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
 
     commit('analytics', {
@@ -29,9 +49,9 @@ export default {
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to remove your link',{
         singleton: true,
-        theme: "bubble",
-        position: "bottom-center",
-        duration : 700
+        theme: 'bubble',
+        position: 'bottom-center',
+        duration: TOAST_DELAY,
       })
 
       return
@@ -42,7 +62,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return
@@ -70,7 +90,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return
@@ -99,7 +119,7 @@ export default {
         singleton: true,
         theme: "bubble",
         position: "bottom-center",
-        duration : 700
+        duration: TOAST_DELAY,
       })
 
       return

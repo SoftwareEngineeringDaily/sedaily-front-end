@@ -1,9 +1,6 @@
 <template>
   <div class="comments-list">
-    <div v-if="!filter" class="comment-item">
-      <svg class="comment-chevron" viewBox="0 0 320 512" data-ember-extension="1">
-        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/>
-      </svg>
+    <div v-if="!filter" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
       </div>
@@ -125,6 +122,8 @@ export default {
   margin-bottom 20px
   padding 10px 15px
   background-color #f8f9fa
+  &.text-center
+    text-align center
 
 .comment-chevron
   position absolute

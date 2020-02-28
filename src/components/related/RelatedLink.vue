@@ -4,7 +4,8 @@
       :href="relatedLink.url | externalUrl"
       target="_blank"
       rel="external nofollow">
-      {{relatedLink.title || relatedLink.url}}
+      <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" @error.once="faviconFallback" />
+      <div class="text-ellipsis">{{relatedLink.title || relatedLink.url}}</div>
     </a>
     <div v-if='myLink'>
       <button @click='remove' class='button-delete'>
@@ -27,7 +28,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['upvoteRelatedLink', 'downvoteRelatedLink', 'removeRelatedLink', 'relatedLinksFetch']),
+    ...mapActions([
+      'upvoteRelatedLink',
+      'downvoteRelatedLink',
+      'removeRelatedLink',
+      'relatedLinksFetch'
+    ]),
     remove () {
       this.removeRelatedLink({
         id: this.relatedLink._id
@@ -57,6 +63,9 @@ export default {
         id: this.relatedLink._id,
         postId: this.relatedLink.post
       })
+    },
+    faviconFallback ({ target }) {
+      target.src = 'https://www.softwaredaily.com/static/favicon.png'
     }
   },
   computed: {
@@ -80,13 +89,27 @@ export default {
   outline none
   border none
   color #c4c4c4
+
 .link-holder
   display flex
   align-items center
-  padding-bottom 10px
+  margin-right -0.5rem
+
   a
+    display flex
+    align-items center
+    width calc(100% - 2rem)
     font-size 16px
     font-weight normal
     color #1a0dab
+
+.text-ellipsis
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+
+.link-icon
+  max-width 16px
+  margin-right 0.5rem
 
 </style>

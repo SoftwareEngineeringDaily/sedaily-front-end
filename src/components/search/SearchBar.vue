@@ -164,6 +164,12 @@ export default {
   margin-bottom: 1em;
 }
 
+.ais-Highlight-highlighted,
+.ais-Snippet-highlighted {
+  color: #ffffff;
+  background-color: #a591ff
+}
+
 .search {
   position: relative;
   display: flex;

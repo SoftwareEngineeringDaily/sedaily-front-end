@@ -1,5 +1,6 @@
 {
   "name": "sedaily-front-end",
+  "stack": "heroku-18",
   "scripts": {
   },
   "env": {

@@ -11,12 +11,10 @@
 
       <post-author :post="post" />
       <post-action-buttons :post="post" />
-      <post-subscribe-feed :post="post" />
 
       <div
         v-if="showPostContent"
         class="post-content">
-        <h6 class="section-title">About the Episode</h6>
         <highlightable
           :contentUrl="contentUrl"
           :forumThreadId="forumThreadId"
@@ -43,7 +41,7 @@
         :commentCount="commentCount"
         :comments="comments" />
 
-      <post-subscribe />
+      <subscription-box />
 
       <post-social-share
         :post="post"
@@ -71,11 +69,6 @@
             :headline="'Add New Link'" />
         </related-link-list>
 
-        <!-- <feed-popular
-          :showImg="false"
-          :showDuration="false"
-          sectionTitle="Popular Stories" /> -->
-
         <comments-list
           :filter="'highlight'"
           :initialComment="comment"
@@ -102,8 +95,7 @@ import {
   PostAuthor,
   PostTopics,
   PostSponsors,
-  PostSubscribeFeed,
-  PostSubscribe,
+  SubscriptionBox,
   PostActionButtons,
   PostSocialShare,
   PostTranscript,
@@ -127,8 +119,7 @@ export default {
     PostTitle,
     PostAuthor,
     PostSponsors,
-    PostSubscribeFeed,
-    PostSubscribe,
+    SubscriptionBox,
     PostActionButtons,
     PostSocialShare,
     PostTranscript,
@@ -223,7 +214,7 @@ export default {
       return (this.postRelatedLinks[this.$route.params.id] || [])
         .filter(p => (
           p.url &&
-          p.url.search(/software(engineering)?daily\.com/g) >= 0 &&
+          p.url.search(/softwaredaily\.com/g) >= 0 &&
           p.type === 'episode'
         ))
     },
@@ -399,7 +390,8 @@ export default {
     }
 
     const title = `${this.post.title.rendered} | Software Daily`
-    const { metaDescription } = this
+    const { post, metaDescription } = this
+    const { featuredImage = '' } = post
 
     return {
       title,
@@ -410,7 +402,7 @@ export default {
         this.metaTag('description', metaDescription),
 
         // links must use https
-        this.metaTag('og:image', this.post.featuredImage.replace('http://','https://'))
+        this.metaTag('og:image', featuredImage.replace('http://','https://'))
       ]
     }
   }
@@ -485,6 +477,7 @@ export default {
   align-self flex-end
 
 .post-view
+  padding-left 0
   padding-bottom 220px
 
 .comment-children
