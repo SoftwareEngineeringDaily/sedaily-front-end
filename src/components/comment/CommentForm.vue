@@ -234,7 +234,7 @@ export default {
       });
 
       const data = {
-        content: this.commentContent,
+        content: this.replaceCommentMentions(),
         mentions: mentions
       }
 
@@ -245,6 +245,20 @@ export default {
       this.mentionedUsers = []; // resetting mentioned users
       this.commentContent = ''
       this.submitCallback(data);
+    },
+
+    replaceCommentMentions() {
+      const sortedMentions = this.mentionedUsers.slice(0).sort((a, b) => {
+        return a.name.length >= b.name.length
+      })
+
+      let newContent = this.commentContent
+
+      sortedMentions.forEach((user) => {
+        newContent = newContent.replace(new RegExp(`@${user.name}`,'g'), `@${user._id}`)
+      })
+
+      return newContent
     }
   }
 };
