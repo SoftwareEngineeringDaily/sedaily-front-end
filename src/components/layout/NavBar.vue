@@ -21,7 +21,7 @@
                   <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
                 </div>
               </template>
-              <b-dropdown-item to="/profile">
+              <b-dropdown-item to="/profile" exact>
                 <div class="arrow"></div>
                 Profile
               </b-dropdown-item>

@@ -2,7 +2,7 @@
   <div class="profile">
     <div class="col-md-6 wrapper">
       <div class="display-details">
-        <div class="user-details">
+        <div v-if="userData" class="user-details">
           <div class="row-name">
             <h3 class="display-name">
               {{displayName}}
@@ -32,75 +32,8 @@
           <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
         </div>
       </div>
-    </div>
-    <!-- <a
-      href="/"
-      name="logouts-nav-link"
-      @click.prevent="logoutHandler">Logout</a> -->
-    <div v-if="ownProfile" class="col-md-6 edit-link">
-      <hr>
-      <h5>My Topics<button class="manage-my-topics btn-link" @click="showModal"><i class="fa fa-pencil"/></button></h5>
-      <hr>
-      <modal
-        id="topic-modal"
-        v-show="isModalVisible"
-        @close="closeModal"
-        showCloseBtn="true">
-        <!-- header-->
-        <h2 slot="header">Edit Topics</h2>
-        <!-- body-->
-        <div slot="body">
-          <div id="search-container">
-            <div class='search-bar'>
-              <input
-                id="search"
-                class='search-bar-input'
-                type='text'
-                @input="onChange"
-                placeholder='Search...'
-                v-model='searchTopic'
-                debounce="900"
-                autocomplete="off"
-              />
-            </div>
-            <div v-show="isOpen" class="autocomplete">
-              <ul class="popular-topics absolute">
-                <li class="popular-topic" v-for="(item, i) in filterItems(topics)" :key="i">
-                  <label class="search-label" @click="setResult(item)" :for="item.id">
-                    {{ item.name }}
-                  </label>
-                </li>
-                <li v-show="this.$store.state.topics.searchedAllTopics === null">
-                  <label>
-                    No scores for this request..
-                  </label>
-                </li>
-              </ul>
-            </div>
-            <br>
-            <ul v-if="modalTopics.length > 0" class="popular-topics" >
-              <li class="popular-topic" v-for="item in modalTopics" :key="item.id">
-                <label class="container" :for="item.id">
-                  {{ item.name }}
-                  <input type="checkbox" :id="item.id" :value="item._id" v-model="checkedTopics">
-                  <span class="checkmark"></span>
-                </label>
-              </li>
-            </ul>
-            <!-- <span v-else class='no-topic'>Ups! There is no topics added yet..</span> -->
-          </div>
-        </div>
-        <!-- footer-->
-        <span slot="footer">
-          <button type="button" class="button-submit" @click="selectTopicsToUser">Submit</button>
-        </span>
-      </modal>
-      <div class="user-topics-header">
-        <div class="user-topics">
-          <div class="topics" v-for="item in userTopics" :key="item.id" @click="goTo(item.slug)">{{ item.name }}</div>
-        </div>
-      </div>
-    </div>
+      <router-link v-if="ownProfile && publicLink" :to="publicLink" class="public-link">See public profile</router-link>
+    </div>    
   </div>
 </template>
 
@@ -169,7 +102,11 @@
           return this.userData.bio || `${this.displayName} is still writing their biography`
         },
         avatarUrl(state) {
-          return state.me.avatarUrl || state.placeholderAvatar;
+          return state.me.avatarUrl || state.placeholderAvatar
+        },
+        publicLink (state) {
+          if (!this.userData || !this.userData.name) return null;
+          return `/profile/${this.userData.name.replace(/[ ]/g,'-').toLowerCase()}-${this.userData._id}`
         }
       })
     },
@@ -519,4 +456,10 @@
     background #d0c6ff
   .popular-topics::-webkit-scrollbar-thumb:hover
     background #555
+  .public-link
+    text-decoration none
+    color primary-color
+    &:hover
+      font-weight bold
+
 </style>

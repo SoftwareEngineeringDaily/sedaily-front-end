@@ -1,37 +1,36 @@
 <template>
   <div>
-    <template v-if="loading">
-      <div class="center">
-        <spinner :show="loading"></spinner>
-      </div>
-    </template>
-    <template v-else-if="error">
-      <div class="bg-danger"> Error: {{ error }}</div>
-    </template>
-    <template v-else>
-      <div class="profile-view col-md-12">
-        <profile-details
-        :userData="me"
-        :ownProfile="true" />
-      </div>
-    </template>
+    <div v-if="loading" class="center">
+      <spinner :show="loading"></spinner>
+    </div>
+    <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
+    <div v-else class="profile-view col-md-12">
+      <profile-details
+      :userData="me"
+      :ownProfile="true" />
+      <profile-activities :activities="activities" :activityDays="activityDays" />
+    </div>
   </div>
 </template>
 <script type="text/javascript">
 import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
+import ProfileActivities from './ProfileActivities'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'profile-view',
   components: {
     ProfileDetails,
+    ProfileActivities,
     Spinner
   },
   data () {
     return {
       loading: false,
-      error: null
+      error: null,
+      activities: null,
+      activityDays: 0
     }
   },
   computed: {
@@ -40,11 +39,47 @@ export default {
         return state.me
       }
     })
-  }
+  },
+  watch: {
+    me (newData) {
+      if (newData && newData._id) this.fetchData()
+    }
+  },
+  mounted () {
+    this.fetchData()
+  },
+  methods: {
+    ...mapActions(['fetchPublicActivities']),
+    async fetchData () {
+      if (!this.me || !this.me._id) return;
+      this.loading = true
+      try {
+        const response = await this.fetchPublicActivities({ userId: this.me._id })
+        if (response.data) {
+           this.activities = response.data.activities || {}
+           this.activityDays = response.data.activityDays
+        }
+      }
+      catch (error) {
+        this.error = error.response.data.message
+      }
+      finally {
+        this.loading = false
+      }
+    }
+  },
 }
 </script>
 <style lang="stylus">
-.center
-  text-align center
-  margin 5vh 0
+  @import '../../css/variables'
+  .center
+    text-align center
+    margin 5vh 0
+
+  .bg-danger
+    text-align center
+    color #ffffff
+    padding 10px
+    font-size 16px
+    font-weight 600  
 </style>

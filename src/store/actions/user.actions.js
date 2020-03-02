@@ -31,8 +31,12 @@ export default {
       })
   },
 
-  fetchPublicProfileData: ({ commit, state, getters }, { userId }) => {
-    return axios.get(`${BASE_URL}/users/${userId}`)
+  fetchPublicActivities: (_, { userId }) => {
+    return axios.get(`${BASE_URL}/profile/activities/${userId}`)
+  },
+
+  fetchPublicProfileData: (_, { userId }) => {
+    return axios.get(`${BASE_URL}/profile/${userId}`)
   },
 
   updateEmailNotiicationSettings: ({ commit, dispatch }, { emailNotificationSettings }) => {
