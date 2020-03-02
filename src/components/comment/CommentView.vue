@@ -189,13 +189,15 @@ export default {
 
       for (var i = 0; i < sortedMentions.length; i++) {
         const user = sortedMentions[i]
-        const textToReplace = "@" + user.name
-        const newText = `<a href='/profile/${user._id}' target='_blank'>${textToReplace}</a>`
-
-        newHtml = newHtml.split(textToReplace).join(newText)
+        const newText = `<a href='${this.getPublicProfileRoute(user)}' class="mention-link" target='_blank'>@${user.name || 'anonymous'}</a>`                
+        newHtml = newHtml.replace(new RegExp(`@${user._id}|@${user.name}`,'g'), newText)
       }
 
       return newHtml
+    },
+
+    getPublicProfileRoute (user) {
+      return `/profile/${user.name.toLowerCase().replace(/[ ]/g,'-')}-${user._id}`
     },
 
     doneReplyingCallback() {
@@ -261,6 +263,11 @@ export default {
 .content-area {
   /deep/ a {
     color: primary-color;
+  }
+
+  /deep/ .mention-link {    
+    color: #007bff;
+    font-weight: 600;
   }
 
   /deep/ p {
