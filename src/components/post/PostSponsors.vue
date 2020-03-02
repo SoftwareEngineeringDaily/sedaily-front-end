@@ -1,6 +1,6 @@
 <template>
   <div class="sponsors" v-if="post.sponsors">
-    <h6 class="section-title">Sponsors and Links</h6>
+    <h6 class="section-title">Sponsors</h6>
     <div class="sponsor-list">
       <a
         :key="sponsor.url"

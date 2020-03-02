@@ -1,16 +1,13 @@
 <template>
   <div>
     <forum-thread-summary
-    v-if="isThread"
-    :key="feedItem._id"
-    :forumThread="feedItem"/>
+      v-if="isThread"
+      :key="feedItem._id"
+      :forumThread="feedItem"/>
     <div v-else>
       <feed-item
-      :feedItem="feedItem.relatedLink"
-      />
-
+        :feedItem="feedItem.relatedLink" />
     </div>
-
   </div>
 </template>
 

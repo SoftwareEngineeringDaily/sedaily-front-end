@@ -25,7 +25,6 @@ export default {
     fetchPosts() {
       this.getTopicsInSearch({}).then(
         data => {
-          console.log('data ', data)
           this.displayedPosts = data.posts
           this.loading = false
           this.$store.commit('setPosts', {posts: data.posts})

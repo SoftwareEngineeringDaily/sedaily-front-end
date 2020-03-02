@@ -5,7 +5,7 @@
     </div>
     <div v-if="alreadySubscribed">
       <br />
-      <h1> You are subscribed. Thank you. </h1>
+      <h1>You are subscribed. Thank you.</h1>
       <br />
       <p>
       Enjoy your ad-free episodes! <a class="rss-link" :href="rssUrl">RSS Link</a>
@@ -23,64 +23,68 @@
         <spinner :show="processing"></spinner>
       </div>
       <div v-else>
+        <h3>
+          Checkout the latest episodes:
+          <router-link class="link" :to="{ name: 'NewListView', params: {} }">here</router-link>.
+        </h3>
+        <br />
+        <div><h2> {{error}} </h2> </div>
+        <div>
+          <h2 class='success-msg'>{{successSubscribingMessage}}</h2>
+        </div>
 
-      <h3>
-         Checkout the latest episodes:
-         <router-link class="link" :to="{ name: 'NewListView', params: {}}">here</router-link>.
-       </h3>
-       <br />
-      <div><h2> {{error}} </h2> </div>
-      <div><h2 class='success-msg'> {{successSubscribingMessage}} </h2>
+        <button v-if="justCancelled === false" class="cancel-button" @click="cancelSubscriptionClicked">
+          Cancel Your Subscription
+        </button>
 
-       </div>
-
-      <button v-if="justCancelled === false"   class="cancel-button" @click="cancelSubscriptionClicked">
-        Cancel Your Subscription
-      </button>
-
-      <br />
-      <br />
-      <h4> Cancelling?</h4>
-      <p>
-      Your subscription will be cancelled right away and you won't be charged again
-      but you will lose access to the premium content right away.
-      Contact jeff@softwaredaily.com for any questions.
-      </p>
-    </div>
+        <br />
+        <br />
+        <h4> Cancelling?</h4>
+        <p>
+          Your subscription will be cancelled right away and you won't be charged again
+          but you will lose access to the premium content right away.
+          Contact jeff@softwaredaily.com for any questions.
+        </p>
+      </div>
     </div>
 
     <div v-else>
-      <h1 class='main-title'> Subscribe </h1>
+      <div class="main-title">
+        <h1>Subscribe</h1>
+        <h3>Listen to Software Daily on Apple | Android | RSS</h3>
+      </div>
 
       <input type="radio" id="monthly" value="monthly" v-model="planType">
-      <label for="one">Monthly  ($10 / month )</label>
-      <br>
-      <input type="radio" id="yearly" value="yearly" v-model="planType">
-      <label for="two">Yearly  ($100 / year ) </label>
-      <br>
-
-      <h3 class='secondary-title'>Please provide your payment details:</h3>
+      <label for="monthly">Monthly ($10 / month)</label>
       <br />
-      <card class='stripe-card'
-      :class='{ complete }'
-      :stripe='stripePublicKey'
-      :options='stripeOptions'
-      @change='complete = $event.complete'
-      />
-      <div class="error-message"><p> {{error}} </p> </div>
+      <input type="radio" id="yearly" value="yearly" v-model="planType">
+      <label for="yearly">Yearly ($100 / year)</label>
+      <br />
+      <br />
+
+      <h3 class="secondary-title">Please provide your payment details:</h3>
+      <card class="stripe-card"
+        :class="{ complete }"
+        :stripe="stripePublicKey"
+        :options="stripeOptions"
+        @change="complete = $event.complete" />
+
+      <div class="error-message">
+        <p>{{error}}</p>
+      </div>
+
       <div v-if="processing">
         Submitting...
         <spinner :show="processing"></spinner>
       </div>
-      <div v-else>
-        <button class='pay-with-stripe pay-button' @click='pay' :disabled='!complete'>Pay with credit card</button>
-        <div><h2> {{successSubscribingMessage}} </h2> </div>
 
+      <div v-else>
+        <button class="pay-with-stripe pay-button" @click="pay" :disabled="!complete">Pay with credit card</button>
+        <h2>{{successSubscribingMessage}}</h2>
       </div>
 
       <img class="icon" src="../../assets/powered_by_stripe.png" />
     </div>
-
   </div>
 </template>
 
@@ -296,6 +300,6 @@ export default {
 .rss-link
   color #a591ff
   font-weight 600
-.rss-link:hover 
+.rss-link:hover
   color primary-color
 </style>

@@ -279,8 +279,8 @@ export default {
       align-items center
       flex-wrap wrap
       .topics
-        background-color primary-color
-        color white
+        background-color #f7f7f7
+        color #666
         text-transform uppercase
         font-size .8rem
         margin 2px 10px 8px 0
@@ -288,7 +288,7 @@ export default {
         border-radius 2px
         cursor pointer
         &:hover
-          background-color #a591ff
+          color #a591ff
     .add-topics
       .add-topics-btn
         border none

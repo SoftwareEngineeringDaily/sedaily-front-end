@@ -89,7 +89,7 @@ export default {
   max-width: 100vw;
 
 .main-app
-  max-width 1200px
+  max-width 1050px
   margin-top 4rem
   padding-top 15px
   min-height 100vh
