@@ -124,7 +124,7 @@
         }
       },
       profileEdit() {
-        this.$router.replace('/edit-profile')
+        this.$router.push('/edit-profile')
       },
       debounceSearchRequest: _.debounce(function () {
         this.getSearchedTopics(this.searchTopic)
@@ -203,7 +203,7 @@
     max-width 400px
     .button-submit
       max-height 30px
-      margin-left 10px
+      min-width 90px
     .button-submit-reverse
       background-color inherit
       border 1px solid primary-color

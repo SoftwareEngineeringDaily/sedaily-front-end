@@ -1,12 +1,29 @@
 <template>
   <div>
-    <div class='row'>
-      <form class='col-md-6 offset-md-3' v-on:submit.prevent='submit'>
+    <div class="row">
+      <form class="col-md-6 offset-md-3" v-on:submit.prevent="submit">
         <div class="row">
         </div>
         <h1>Edit Profile</h1>
-        <div class="crop-edit-image" v-if="showExisintAvatarUrl">
+        <div class="crop-edit-image" v-if="showExistingAvatarUrl">
           <img class="edit-profile-img" :src="avatarUrl" />
+        </div>
+
+        <div class="form-group">
+          <label for="emailInput">Email address</label>
+          <input type="email"
+          id="emailInput"
+          v-model="email"
+          v-validate="{ required: false, email: true}"
+          disabled
+          name="email"
+          class="form-control"
+          aria-describedby="emailHelp"
+          placeholder="youremail@email.com">
+
+          <div v-show="errors.has('email')" class="alert alert-danger">
+            {{ errors.first("email") }}
+          </div>
         </div>
 
         <div class="form-group">
@@ -24,7 +41,8 @@
 
         <div class="form-group">
           <label for="usernameInput">Username <span class="public-info"/></label>
-          <input type="username" v-model='username'
+          <input type="username" 
+          v-model="username"
           id="usernameInput"
           name="username"
           v-validate="'required'"
@@ -32,14 +50,15 @@
           aria-describedby="usernameHelp"
           placeholder="Username">
 
-          <div v-show="errors.has('username')"
-          class="alert alert-danger">
-          {{ errors.first('username') }}</div>
+          <div v-show="errors.has('username')" class="alert alert-danger">
+            {{ errors.first("username") }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="nameInput">Name <span class="public-info"/></label>
-          <input type="text" v-model='name'
+          <input type="text" 
+          v-model="name"
           name="name"
           id="nameInput"
           class="form-control"
@@ -47,14 +66,15 @@
           aria-describedby="nameHelp"
           placeholder="Alex Smith">
 
-          <div v-show="errors.has('name')"
-          class="alert alert-danger">
-          {{ errors.first('name') }}</div>
+          <div v-show="errors.has('name')" class="alert alert-danger">
+            {{ errors.first("name") }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="bioInput">Bio <span class="public-info"/></label>
-          <input type="text" v-model='bio'
+          <input type="text" 
+          v-model="bio"
           id="bioInput"
           class="form-control"
           aria-describedby="bioHelp"
@@ -62,22 +82,9 @@
         </div>
 
         <div class="form-group">
-          <label for="emailInput">Email address</label>
-          <input type="email"
-          v-model='email'
-          v-validate="{ required: false, email: true}"
-          name='email'
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-           placeholder="youremail@email.com">
-           <div v-show="errors.has('email')"
-           class="alert alert-danger">
-           {{ errors.first('email') }}</div>
-        </div>
-
-        <div class="form-group">
           <label for="websiteInput">Website</label>
-          <input type="text" v-model='website'
+          <input type="text" 
+          v-model="website"
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
@@ -85,8 +92,7 @@
         </div>
 
         <button
-        class='button-submit'
-        @click.prevent='submit' :disabled='loading'>
+        class="button-submit" @click.prevent="submit" :disabled="loading">
           Update
         </button>
         {{msg}}
@@ -142,7 +148,7 @@ export default {
         return state.me.avatarUrl
       },
 
-      showExisintAvatarUrl (state) {
+      showExistingAvatarUrl (state) {
         return state.me.avatarUrl && !this.image
       }
 
@@ -183,7 +189,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, id } = this
+          const { username, bio, website, name, id } = this
 
           let updatePromise = null
           if (this.file) {
@@ -195,8 +201,7 @@ export default {
                   name,
                   bio,
                   isAvatarSet: true,
-                  website,
-                  email
+                  website
                 })
               })
               .catch((error) => {
@@ -215,8 +220,7 @@ export default {
               name,
               bio,
               isAvatarSet: this.avatarUrl == null,
-              website,
-              email
+              website
             })
           }
 
@@ -227,8 +231,7 @@ export default {
               // TODO: have it be a componenet that is passed on
               if (this.me) {
                 this.msg = 'Success, your profile was Updated :)'
-                this.$router.replace('/profile')
-                document.location.reload(true)
+                setTimeout(() => this.$router.push('/profile') , 1000)
               }
             })
             .catch((error) => {
