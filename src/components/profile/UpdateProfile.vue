@@ -11,7 +11,7 @@
 
         <div class="form-group">
           <div v-if="!image">
-            <label for="file">Select an image</label>
+            <label for="file">Select an image <span class="public-info"/></label>
             <input class="form-control fileInput" type="file" @change="onFileChange">
           </div>
           <div v-else>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-          <label for="usernameInput">Username</label>
+          <label for="usernameInput">Username <span class="public-info"/></label>
           <input type="username" v-model='username'
           id="usernameInput"
           name="username"
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label for="nameInput">Name</label>
+          <label for="nameInput">Name <span class="public-info"/></label>
           <input type="text" v-model='name'
           name="name"
           id="nameInput"
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-group">
-          <label for="bioInput">Bio</label>
+          <label for="bioInput">Bio <span class="public-info"/></label>
           <input type="text" v-model='bio'
           id="bioInput"
           class="form-control"
@@ -249,6 +249,7 @@ export default {
 }
 </script>
 <style lang="stylus">
+  @import '../../css/variables'
   .fileInput
     padding 3px !important
     display ruby-text-container
@@ -265,4 +266,10 @@ export default {
     width 100px
     height 100px
     overflow hidden
+  
+  .public-info
+    color light-grey
+
+  .public-info:before
+    content "*Public"
 </style>

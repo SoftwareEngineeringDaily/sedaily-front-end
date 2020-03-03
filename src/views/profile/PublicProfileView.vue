@@ -1,44 +1,38 @@
 <template>
-  <div class="container center">
-    <template v-if="loading">
-      <spinner :show="loading"></spinner>
-    </template>
-    <template v-else-if="error">
-      <div class="bg-danger"> Error: {{ error }}</div>
-    </template>
-    <template v-else>
-      <div class="profile-view col-md-12">
-        <profile-details
-        :userData="user" />
-      </div>
-    </template>
+  <div class="container">
+    <div v-if="loading" class="profile-loading"><spinner :show="loading"/></div>
+    <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
+    <div v-else class="profile-view col-md-12">
+      <profile-details :userData="user" />
+      <profile-activities :activities="activities" :activityDays="activityDays" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
+import ProfileActivities from './ProfileActivities'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'public-profile-view',
   components: {
     ProfileDetails,
+    ProfileActivities,
     Spinner
   },
   data () {
     return {
       loading: false,
       error: null,
-      user: null
+      user: null,
+      activities: null,
+      activityDays: 0
     }
   },
-  created () {
+  mounted () {
     this.fetchData()
-  },
-  watch: {
-    // re-fetch if route changes
-    '$route': 'fetchData'
   },
 
   methods: {
@@ -47,7 +41,11 @@ export default {
       this.loading = true
       try {
         const response = await this.fetchPublicProfileData({ userId: this.userId })
-        this.user = response.data
+        if (response.data) {
+           this.user = response.data.user || {}
+           this.activities = response.data.activities || {}
+           this.activityDays = response.data.activityDays
+        }
       }
       catch (error) {
         this.error = error.response.data.message
@@ -67,8 +65,8 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  .center
-    text-align center
-    margin 5vh 0
+<style lang="stylus" scoped>
+  .container 
+    .profile-loading
+      text-align center
 </style>

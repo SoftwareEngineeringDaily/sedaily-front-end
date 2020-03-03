@@ -39,24 +39,5 @@ describe('The Profile Page', function () {
     cy.get(`a[href="//${newWebsite}"]`).should('exist')
     cy.get('.display-bio').should('contain', newBio)
     cy.get('.display-name').should('contain', newName)
-  })
-  it('Adding topics to my profile', function () {
-    cy.visit('/')
-    .then(() => {
-      cy.get('nav.inner .user').click()
-      cy.get('nav.inner a[href="/profile"]').click()
-    })
-    cy.contains('My Topics')
-    cy.get('button.manage-my-topics').click()
-    cy.get('#topic-modal').within(function () {
-      cy.contains('Edit Topics')
-      cy.get('#search').type('JavaScript')
-      cy.get('.autocomplete .popular-topic:first-child .search-label').click()
-      cy.contains('JavaScript')
-      cy.get('button.button-submit').click();
-    })
-    cy.get('.user-topics').within(function () {
-      cy.contains('JavaScript');
-    })
-  })
+  })  
 })
