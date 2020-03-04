@@ -2,6 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import moment from 'moment'
 import clone from 'lodash/clone'
+import isEmpty from 'lodash/isEmpty'
+import keys from 'lodash/keys'
 
 import { apiConfig } from '../../../config/apiConfig'
 
@@ -11,6 +13,11 @@ const toastOptions = {
   theme: "bubble",
   position: "bottom-center",
   duration: 3000,
+}
+
+// Clean Observer `__ob__`
+const co = (obj = {}) => {
+  return JSON.parse(JSON.stringify(obj))
 }
 
 const PostActions = {
@@ -54,7 +61,7 @@ const PostActions = {
       })
   },
 
-  getPostsList: ({ commit, dispatch, state, getters }, {page=1, type='popular'}) => {
+  getPostsList: ({ commit, dispatch, state, getters }, { page = 1, type = 'popular' }) => {
     const MONTH_OFFSET = 2
 
     const date = new Date()
@@ -65,7 +72,8 @@ const PostActions = {
     return axios.get(url)
       .then((response) => {
         const posts = response.data
-        if (type=='popular'){
+
+        if (type == 'popular') {
           posts.sort((a, b) => (a.thread.commentsCount > b.thread.commentsCount) ? -1 : 1)
         } else {
           posts.sort((a, b) => (0.5 - Math.random()))
@@ -113,7 +121,6 @@ const PostActions = {
         return { posts, nextPage, maxPage: 4 }
       })
       .catch((error) => {
-      // @TODO: Add pretty pop up here
         console.log(error.response)
         Vue.toasted.error(error.response.data.message)
       })
@@ -145,9 +152,8 @@ const PostActions = {
         return { posts: response.data, maxPage: 4 }
       })
       .catch((error) => {
-        console.log(error)
-        // Vue.toasted.error(error.message)
-        // Vue.toasted.error(error.response.data.message)
+        console.error('error ', error)
+        Vue.toasted.error(error.response.data.message, toastOptions)
       })
   },
 
@@ -173,9 +179,7 @@ const PostActions = {
         return { post }
       })
       .catch((error) => {
-        // @TODO: Add pretty pop up here
-        console.log('error',error)
-        console.error(error.response)
+        console.error('error ', error)
         Vue.toasted.error(error.response.data.message, toastOptions)
       })
   },
@@ -256,14 +260,17 @@ const PostActions = {
   },
 
   likePost: ({ commit, getters, state }, { id, active }) => {
+    const url = `${BASE_URL}/posts/${id}/like`
+    const options = { active }
+    const _postsObj = clone(state.posts || {})
+    const _postIds = keys(_postsObj)
+    const _posts = _postIds.map(id => _postsObj[id])
+
+    let _post = (state.post._id === id) ? state.post : {}
     let event = {
       eventLabel: id,
       eventValue: 1
     }
-
-    const url = `${BASE_URL}/posts/${id}/like`
-    const options = { active }
-    const _post = clone(state.post)
 
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must login to vote', toastOptions)
@@ -291,11 +298,22 @@ const PostActions = {
       }
     })
 
+    _post = isEmpty(_post) ? co(_postsObj[id]) || {} : _post
+
     _post.likeActive = active
     _post.likeCount = _post.likeCount || 0
     _post.likeCount = Math.max(active ? ++_post.likeCount : --_post.likeCount, 0)
 
+    for (let i = 0; i < _posts.length; i++) {
+      if (_posts[i]._id === id) {
+        _posts[i].likeActive = !!(_post.likeActive)
+        _posts[i].likeCount = _post.likeCount
+        break
+      }
+    }
+
     commit('setPost', { post: _post })
+    commit('setPosts', { posts: _posts })
 
     return axios.post(url, options)
       .then(({ data }) => {

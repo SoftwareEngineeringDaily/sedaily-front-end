@@ -1,11 +1,10 @@
 <template>
-  <router-link
-    :to="postPrettyUrl"
+  <div
     class="news-post"
     :class="{ 'is-preview': isPreview }">
-    <div class="img-container" v-if="showImg">
+    <router-link :to="postPrettyUrl" v-if="showImg" class="img-container">
       <img :src="post.featuredImage"/>
-    </div>
+    </router-link>
     <div class="body-container">
       <post-preview-copy
         :post="post"
@@ -14,7 +13,7 @@
         :showTags="showTags"
         :showCopy="showCopy" />
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
