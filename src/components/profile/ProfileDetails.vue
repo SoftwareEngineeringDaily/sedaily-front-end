@@ -23,13 +23,8 @@
             > {{ userData.website | host }} </a>
           </p>
         </div>
-        <div class="crop-image" v-if="!ownProfile">
-          <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
-          <img v-else-if="profileImg" class="profile-img" :src="errorImg || profileImg" @error="imgOnError">
-          <img v-else-if="profileImg === undefined" class="profile-img" :src="errorImg" @error="imgOnError">
-        </div>
-        <div class="crop-image" v-if="ownProfile">
-          <img v-if="ownProfile" class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
+        <div class="crop-image">
+          <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
         </div>
       </div>
       <router-link v-if="ownProfile && publicLink" :to="publicLink" class="public-link">See public profile</router-link>
@@ -74,19 +69,10 @@
         topics:[],
         isOpen: false,
         modalTopics: [],
-        errorImg: '',
-        profileImg: null
+        errorImg: ''
       }
     },
     mounted () {
-      const userId = this.$route.params.id;
-      if(userId) {
-        this.fetchPublicProfileData({userId: userId}).then(
-          res => this.profileImg = res.data.avatarUrl
-        )
-      } else {
-        this.getTopics()
-      }
       document.addEventListener('click', this.handleClickOutside)
     },
     destroyed() {
@@ -102,7 +88,7 @@
           return this.userData.bio || `${this.displayName} is still writing their biography`
         },
         avatarUrl(state) {
-          return state.me.avatarUrl || state.placeholderAvatar
+          return (this.userData) ? this.userData.avatarUrl || state.placeholderAvatar : state.placeholderAvatar 
         },
         publicLink (state) {
           if (!this.userData || !this.userData.name) return null;
@@ -146,7 +132,7 @@
           this.debounceSearchRequest()
         }
       },
-      imgOnError() {
+      imgOnError(event) {
         this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
       },
       showModal() {
