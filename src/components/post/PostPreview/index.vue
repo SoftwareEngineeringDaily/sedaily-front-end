@@ -8,6 +8,7 @@
     <div class="body-container">
       <post-preview-copy
         :post="post"
+        :displayedPosts="displayedPosts"
         :isPreview="isPreview"
         :showGuest="showGuest"
         :showTags="showTags"
@@ -26,6 +27,9 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    displayedPosts: {
+      type: Array,
     },
     inverse: {
       type: Boolean

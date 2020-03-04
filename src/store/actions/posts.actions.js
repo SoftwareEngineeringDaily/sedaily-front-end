@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import moment from 'moment'
 import clone from 'lodash/clone'
+import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import keys from 'lodash/keys'
 
@@ -259,12 +260,9 @@ const PostActions = {
     return axios.post(`${BASE_URL}/posts/${article._id}/downvote`)
   },
 
-  likePost: ({ commit, getters, state }, { id, active }) => {
+  likePost: ({ commit, getters, state }, { id, active, posts = [] }) => {
     const url = `${BASE_URL}/posts/${id}/like`
     const options = { active }
-    const _postsObj = clone(state.posts || {})
-    const _postIds = keys(_postsObj)
-    const _posts = _postIds.map(id => _postsObj[id])
 
     let _post = (state.post._id === id) ? state.post : {}
     let event = {
@@ -298,22 +296,22 @@ const PostActions = {
       }
     })
 
-    _post = isEmpty(_post) ? co(_postsObj[id]) || {} : _post
+    _post = isEmpty(_post) ? find(posts, { _id: id }) || {} : _post
 
     _post.likeActive = active
     _post.likeCount = _post.likeCount || 0
     _post.likeCount = Math.max(active ? ++_post.likeCount : --_post.likeCount, 0)
 
-    for (let i = 0; i < _posts.length; i++) {
-      if (_posts[i]._id === id) {
-        _posts[i].likeActive = !!(_post.likeActive)
-        _posts[i].likeCount = _post.likeCount
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i]._id === id) {
+        posts[i].likeActive = !!(_post.likeActive)
+        posts[i].likeCount = _post.likeCount
         break
       }
     }
 
     commit('setPost', { post: _post })
-    commit('setPosts', { posts: _posts })
+    commit('setPosts', { posts })
 
     return axios.post(url, options)
       .then(({ data }) => {

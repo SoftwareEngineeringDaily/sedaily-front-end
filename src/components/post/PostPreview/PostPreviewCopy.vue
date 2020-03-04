@@ -16,6 +16,7 @@
     <div class="author">
       <post-meta
         :post="post"
+        :displayedPosts="displayedPosts"
         :showDuration="false"
         :isPreview="isPreview" />
       <post-author :post="post" />
@@ -57,6 +58,9 @@ export default {
     post: {
       type: Object,
       required: true
+    },
+    displayedPosts: {
+      type: Array,
     },
     inverse: {
       type: Boolean
@@ -115,19 +119,19 @@ export default {
     }
   },
   methods: {
-     upvoteHandler () {
-        // TODO: Fix this action, it will error if it's being called
-        // and there is no episode stored for this id in the store, which
-        // can happen if rendered from forum:
-        this.$store.dispatch('upvote', {
-          id: this.post._id
-        })
-      },
-      downvoteHandler () {
-        this.$store.dispatch('downvote', {
-          id: this.post._id
-        })
-      }
+    upvoteHandler () {
+      // TODO: Fix this action, it will error if it's being called
+      // and there is no episode stored for this id in the store, which
+      // can happen if rendered from forum:
+      this.$store.dispatch('upvote', {
+        id: this.post._id
+      })
+    },
+    downvoteHandler () {
+      this.$store.dispatch('downvote', {
+        id: this.post._id
+      })
+    }
   }
 }
 </script>

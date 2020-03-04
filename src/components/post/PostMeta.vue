@@ -25,6 +25,9 @@ export default {
       type: Object,
       required: true
     },
+    displayedPosts: {
+      type: Array,
+    },
     isPreview: {
       type: Boolean,
       default: false
@@ -61,6 +64,7 @@ export default {
       this.likePost({
         id: this.post._id,
         active: !this.likeActive,
+        posts: this.displayedPosts,
       })
     }
   },
