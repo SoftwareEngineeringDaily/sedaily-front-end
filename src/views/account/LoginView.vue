@@ -6,14 +6,14 @@
 
 
         <div class="form-group">
-          <label for="usernameInput">Username or Email</label>
+          <label for="usernameInput">Email</label>
           <input type="text" v-model='username'
           id="usernameInput"
           name="username"
           v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="Enter a username or email">
+          placeholder="Enter a email">
 
           <div v-show="errors.has('username')"
           class="alert alert-danger">

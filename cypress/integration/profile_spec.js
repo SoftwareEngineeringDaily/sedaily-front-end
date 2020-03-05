@@ -27,7 +27,6 @@ describe('The Profile Page', function () {
       expect(loc.pathname).to.contain('edit')
     })
     // populates with existing
-    cy.get('input[name=username]').should('have.value', existingUser.username)
     cy.get('input[name=name]').should('have.value', existingUser.name)
     cy.get('input[name=email]').should('have.value', existingUser.email)
     // input and update

@@ -5,18 +5,33 @@
         <h1>Register</h1>
 
         <div class="form-group">
-          <label for="usernameInput">Username</label>
-          <input type="text" 
-          v-model="username"
-          id="usernameInput"
-          name="username"
+          <label for="emailInput">E-mail address</label>
+          <input type="email"
+          v-model="email"
+          name="email"
           v-validate="'required'"
-          class="form-control"
-          aria-describedby="usernameHelp"
-          placeholder="AlexSmith">
+          class="form-control" id="emailInput"
+          aria-describedby="emailHelp"
+          placeholder="alex@email.com"
+          ref="email">
 
-          <div v-show="errors.has('username')" class="alert alert-danger">
-            {{ errors.first('username') }}
+          <div v-show="errors.has('email')" class="alert alert-danger">
+            {{ errors.first('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="emailConfirmInput">Confirm e-mail address</label>
+          <input type="email"
+          v-model="confirmEmail"
+          name="confirmEmail"
+          v-validate="'required|confirmed:email'"
+          class="form-control" id="emailConfirmInput"
+          aria-describedby="emailHelp"
+          placeholder="alex@email.com">
+
+          <div v-show="errors.has('confirmEmail')" class="alert alert-danger">
+            {{ errors.first('confirmEmail') }}
           </div>
         </div>
 
@@ -80,37 +95,6 @@
         </div>
 
         <div class="form-group">
-          <label for="emailInput">E-mail address</label>
-          <input type="email"
-          v-model="email"
-          name="email"
-          v-validate="'required'"
-          class="form-control" id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="alex@email.com"
-          ref="email">
-
-          <div v-show="errors.has('email')" class="alert alert-danger">
-            {{ errors.first('email') }}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="emailConfirmInput">Confirm e-mail address</label>
-          <input type="email"
-          v-model="confirmEmail"
-          name="confirmEmail"
-          v-validate="'required|confirmed:email'"
-          class="form-control" id="emailConfirmInput"
-          aria-describedby="emailHelp"
-          placeholder="alex@email.com">
-
-          <div v-show="errors.has('confirmEmail')" class="alert alert-danger">
-            {{ errors.first('confirmEmail') }}
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="websiteInput">Website</label>
           <input type="text" 
           v-model="website"
@@ -166,7 +150,6 @@ export default {
 
   data () {
     return {
-      username: '',
       password: '',
       confirmPassword: '',
       name: '',
@@ -184,9 +167,8 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, email, bio, website, name, password, newsletter } = this
+          const { email, bio, website, name, password, newsletter } = this
           this.$store.dispatch('register', {
-            username,
             password,
             name,
             bio,
@@ -199,7 +181,7 @@ export default {
 
               if (response.data.token) {
                 this.$store.dispatch('registerEvent', {
-                  username
+                  email
                 })
                   .then((eventResponse) => {
                     // Ignore response for now
