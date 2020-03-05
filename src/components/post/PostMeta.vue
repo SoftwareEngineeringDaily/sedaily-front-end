@@ -7,9 +7,13 @@
     <div v-if="post.thread" class="comment-count">{{ commentCount }} comments</div>
     <div v-else class="comment-count">0 comments</div>
     <span>|</span>
-    <div class="like" @click="like">
+    <div class="cursor-pointer" @click="like">
       <i class="fa" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
       {{ post.likeCount }}
+    </div>
+    <div class="cursor-pointer" @click="bookmark">
+      <i class="fa" :class="{ 'fa-bookmark-o': !bookmarkActive, 'fa-bookmark': bookmarkActive }"></i>
+      {{ post.totalFavorites }}
     </div>
   </div>
 </template>
@@ -52,18 +56,31 @@ export default {
 
     likeActive () {
       return !!(this.post.likeActive)
-    }
+    },
+
+    bookmarkActive () {
+      return !!(this.post.bookmarkActive)
+    },
   },
 
   methods: {
     ...mapActions([
       'likePost',
+      'bookmarkPost',
     ]),
 
     like () {
       this.likePost({
         id: this.post._id,
         active: !this.likeActive,
+        posts: this.displayedPosts,
+      })
+    },
+
+    bookmark () {
+      this.bookmarkPost({
+        id: this.post._id,
+        active: !this.bookmarkActive,
         posts: this.displayedPosts,
       })
     }
@@ -84,7 +101,7 @@ export default {
   margin-right: 10px;
 }
 
-.like {
+.cursor-pointer {
   cursor: pointer;
 }
 </style>

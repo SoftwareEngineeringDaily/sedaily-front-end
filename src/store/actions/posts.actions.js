@@ -271,7 +271,7 @@ const PostActions = {
     }
 
     if (!getters.isLoggedIn) {
-      Vue.toasted.error('You must login to vote', toastOptions)
+      Vue.toasted.error('You must be logged in to like a post', toastOptions)
 
       event.eventCategory = 'errors'
       event.eventAction = 'like -- not logged in'
@@ -329,7 +329,78 @@ const PostActions = {
         commit('setPost', { post: clone(state.post) })
         Vue.toasted.error(error.response.data.message)
       })
-  }
+  },
+
+  bookmarkPost: ({ commit, getters, state }, { id, active, posts = [] }) => {
+    const url = `${BASE_URL}/posts/${id}/${active ? '' : 'un'}bookmark`
+    const options = { active }
+
+    let _post = (state.post._id === id) ? state.post : {}
+    let event = {
+      eventLabel: id,
+      eventValue: 1
+    }
+
+    if (!getters.isLoggedIn) {
+      Vue.toasted.error('You must be logged in to bookmark', toastOptions)
+
+      event.eventCategory = 'errors'
+      event.eventAction = 'bookmark -- not logged in'
+
+      return commit('analytics', {
+        meta : {
+          analytics: [
+            [ 'event', event ]
+          ]
+        }
+      })
+    }
+
+    event.eventCategory = 'posts'
+    event.eventAction = 'bookmark'
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          [ 'event', event ]
+        ]
+      }
+    })
+
+    _post = isEmpty(_post) ? find(posts, { _id: id }) || {} : _post
+
+    _post.bookmarkActive = active
+    _post.totalFavorites = _post.totalFavorites || 0
+    _post.totalFavorites = Math.max(active ? ++_post.totalFavorites : --_post.totalFavorites, 0)
+
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i]._id === id) {
+        posts[i].bookmarkActive = !!(_post.bookmarkActive)
+        posts[i].totalFavorites = _post.totalFavorites
+        break
+      }
+    }
+
+    commit('setPost', { post: _post })
+    commit('setPosts', { posts })
+
+    return axios.post(url, options)
+      .then(({ data }) => {
+
+        // Set again after response
+        // so data is accurate
+        _post.totalFavorites = data.totalFavorites
+        _post.bookmarkActive = data.active
+
+        commit('setPost', { post: _post })
+      })
+      .catch((error) => {
+
+        // Reset post on error
+        commit('setPost', { post: clone(state.post) })
+        Vue.toasted.error(error.response.data.message)
+      })
+  },
 }
 
 export default PostActions
