@@ -26,7 +26,6 @@ describe('The Register Page', function () {
     // require hash when visiting directly
     cy.visit('/#/register')
     .then(() => {
-      cy.get('input[name=username]').type(newUser.username)
       cy.get('input[name=password]').type(newUser.password)
       cy.get('input[name=confirmPassword]').type(newUser.password)
       cy.get('input[name=name]').type(newUser.name)
@@ -49,7 +48,6 @@ describe('The Register Page', function () {
   it('Displays error when registering existing user', function () {
     cy.visit('/#/register')
     .then(() => {
-      cy.get('input[name=username]').type(existingUser.username)
       cy.get('input[name=password]').type(existingUser.password)
       cy.get('input[name=confirmPassword]').type(newUser.password)
       cy.get('input[name=name]').type(existingUser.name)

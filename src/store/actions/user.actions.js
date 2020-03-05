@@ -71,7 +71,7 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name }) => {
+  updateProfile: ({ commit, dispatch }, { id, bio, isAvatarSet, website, name }) => {
 
     commit('analytics', {
       meta : {
@@ -87,7 +87,6 @@ export default {
     })
 
     return axios.put(`${BASE_URL}/users/${id}`, {
-      username,
       bio,
       website,
       name,
