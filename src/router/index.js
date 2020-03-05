@@ -9,7 +9,7 @@ import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
-import AdminDashboard from '@/views/AdminDashboard'
+import { AdminDashboard, AdminCompany } from '@/views/admin'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
@@ -50,9 +50,13 @@ const router = new Router({
     { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
     // { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },
     // { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },
-    { path: '/admin', beforeEnter: authorize, component: AdminDashboard },
-    { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },
-    { path: '/admin/edit-company/:id', beforeEnter: authorize, component: CompanyEdit },
+    { path: '/admin', beforeEnter: authorize, component: AdminDashboard,
+      children: [
+        { path: 'company', component: AdminCompany },
+        { path: 'company/add', component: CompanyCompose },
+        { path: 'company/:id', component: CompanyEdit },
+      ]
+    },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {
