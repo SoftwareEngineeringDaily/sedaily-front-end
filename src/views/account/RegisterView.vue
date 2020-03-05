@@ -1,12 +1,13 @@
 <template>
   <div class="login-view container">
-    <div class='row' v-if="!isLoggedIn">
-      <form class='col-md-6 offset-md-3' @submit.prevent='registerHandler'>
+    <div class="row" v-if="!isLoggedIn">
+      <form class="col-md-6 offset-md-3" @submit.prevent="registerHandler">
         <h1>Register</h1>
 
         <div class="form-group">
           <label for="usernameInput">Username</label>
-          <input type="text" v-model='username'
+          <input type="text" 
+          v-model="username"
           id="usernameInput"
           name="username"
           v-validate="'required'"
@@ -14,14 +15,15 @@
           aria-describedby="usernameHelp"
           placeholder="AlexSmith">
 
-          <div v-show="errors.has('username')"
-          class="alert alert-danger">
-          {{ errors.first('username') }}</div>
+          <div v-show="errors.has('username')" class="alert alert-danger">
+            {{ errors.first('username') }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="password" v-model='password'
+          <input type="password" 
+          v-model="password"
           id="passwordInput"
           name="password"
           v-validate="'required'"
@@ -30,14 +32,15 @@
           placeholder="Password"
           ref="password">
 
-          <div v-show="errors.has('password')"
-          class="alert alert-danger">
-          {{ errors.first('password') }}</div>
+          <div v-show="errors.has('password')" class="alert alert-danger">
+            {{ errors.first('password') }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="passwordConfirmInput">Confirm Password</label>
-          <input type="password" v-model='confirmPassword'
+          <input type="password" 
+          v-model="confirmPassword"
           id="passwordConfirmInput"
           name="confirmPassword"
           v-validate="'required|confirmed:password'"
@@ -45,14 +48,15 @@
           aria-describedby="passwordHelp"
           placeholder="Confirm password">
 
-          <div v-show="errors.has('confirmPassword')"
-          class="alert alert-danger">
-          {{ errors.first('confirmPassword') }}</div>
+          <div v-show="errors.has('confirmPassword')" class="alert alert-danger">
+            {{ errors.first('confirmPassword') }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="nameInput">Name</label>
-          <input type="text" v-model='name'
+          <input type="text" 
+          v-model="name"
           name="name"
           id="nameInput"
           class="form-control"
@@ -60,14 +64,15 @@
           aria-describedby="nameHelp"
           placeholder="Alex">
 
-          <div v-show="errors.has('name')"
-          class="alert alert-danger">
-          {{ errors.first('name') }}</div>
+          <div v-show="errors.has('name')" class="alert alert-danger">
+           {{ errors.first('name') }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="bioInput">Bio</label>
-          <input type="text" v-model='bio'
+          <input type="text" 
+          v-model="bio"
           id="bioInput"
           class="form-control"
           aria-describedby="bioHelp"
@@ -75,17 +80,40 @@
         </div>
 
         <div class="form-group">
-          <label for="emailInput">Email address</label>
+          <label for="emailInput">E-mail address</label>
           <input type="email"
-          v-model='email'
+          v-model="email"
+          name="email"
+          v-validate="'required'"
           class="form-control" id="emailInput"
           aria-describedby="emailHelp"
+          placeholder="alex@email.com"
+          ref="email">
+
+          <div v-show="errors.has('email')" class="alert alert-danger">
+            {{ errors.first('email') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="emailConfirmInput">Confirm e-mail address</label>
+          <input type="email"
+          v-model="confirmEmail"
+          name="confirmEmail"
+          v-validate="'required|confirmed:email'"
+          class="form-control" id="emailConfirmInput"
+          aria-describedby="emailHelp"
           placeholder="alex@email.com">
+
+          <div v-show="errors.has('confirmEmail')" class="alert alert-danger">
+            {{ errors.first('confirmEmail') }}
+          </div>
         </div>
 
         <div class="form-group">
           <label for="websiteInput">Website</label>
-          <input type="text" v-model='website'
+          <input type="text" 
+          v-model="website"
           id="websiteInput"
           class="form-control"
           aria-describedby="websiteHelp"
@@ -95,16 +123,16 @@
         <div class="form-group">
           <label class="container-input" for="allowNewsletter">
             Register for newsletter?
-            <input type="checkbox" v-model='newsletter'
+            <input type="checkbox" 
+            v-model="newsletter"
             id="allowNewsletter"
-            class=""
             aria-describedby="newsletterHelp">
             <span class="checkmark"></span>
           </label>
         </div>
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
           <div>
-            <button name='submit-button' class='button-submit' :disabled='loading'>Register</button>
+            <button name="submit-button" class="button-submit" :disabled="loading">Register</button>
             <spinner :show="loading"></spinner>
           </div>
           <div>
@@ -117,7 +145,7 @@
 
     <br />
     <div v-if="isLoggedIn" class="row">
-      <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
+      <div v-if="isLoggedIn" class="col-md-6 offset-md-3">
       <p>You're already logged in! <a href="/" @click.prevent="logout">Logout</a> or <a href="/profile">go to your profile</a>.</p>
     </div>
     </div>
@@ -143,6 +171,7 @@ export default {
       confirmPassword: '',
       name: '',
       email: '',
+      confirmEmail: '',
       bio: '',
       website: '',
       newsletter: true,

@@ -71,7 +71,7 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name, email }) => {
+  updateProfile: ({ commit, dispatch }, { id, username, bio, isAvatarSet, website, name }) => {
 
     commit('analytics', {
       meta : {
@@ -91,8 +91,7 @@ export default {
       bio,
       website,
       name,
-      isAvatarSet,
-      email
+      isAvatarSet
     })
       .then((response) => {
         return dispatch('fetchMyProfileData')
