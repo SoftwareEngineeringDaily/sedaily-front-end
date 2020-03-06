@@ -86,12 +86,14 @@ export default {
     postPrettyUrl () {
       return postPrettyUrl(this.post)
     },
+
     guestImage () {
       if (this.featured){
         console.log(this.post)
       }
       return `background: url('${this.post.guestImage}') center center / cover no-repeat`
     },
+
     metaDescription () {
       const maxLength = 200;
       const el = document.createElement('template')

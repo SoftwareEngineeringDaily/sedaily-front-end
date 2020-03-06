@@ -6,8 +6,7 @@
 
       <post-meta
         :post="post"
-        :showDuration="false"
-        :commentCount="commentTotal" />
+        :showDuration="false" />
 
       <post-author :post="post" />
       <post-action-buttons :post="post" />
