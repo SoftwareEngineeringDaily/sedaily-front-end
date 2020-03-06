@@ -1,20 +1,20 @@
 <template>
-  <router-link
-    :to="postPrettyUrl"
+  <div
     class="news-post"
     :class="{ 'is-preview': isPreview }">
-    <div class="img-container" v-if="showImg">
+    <router-link :to="postPrettyUrl" v-if="showImg" class="img-container">
       <img :src="post.featuredImage"/>
-    </div>
+    </router-link>
     <div class="body-container">
       <post-preview-copy
         :post="post"
+        :displayedPosts="displayedPosts"
         :isPreview="isPreview"
         :showGuest="showGuest"
         :showTags="showTags"
         :showCopy="showCopy" />
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -27,6 +27,9 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    displayedPosts: {
+      type: Array,
     },
     inverse: {
       type: Boolean

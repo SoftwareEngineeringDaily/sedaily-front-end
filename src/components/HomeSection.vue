@@ -27,7 +27,9 @@ export default {
         data => {
           this.displayedPosts = data.posts
           this.loading = false
-          this.$store.commit('setPosts', {posts: data.posts})
+          this.$store.commit('setPosts', {
+            posts: data.posts,
+          })
         }
       )
     },
