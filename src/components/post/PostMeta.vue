@@ -4,7 +4,9 @@
     <span v-if="showDuration">|</span>
     <div v-if="showDuration" class="duration">40 mins</div>
     <span>|</span>
-    <div v-if="post.thread" class="comment-count">{{ commentCount }} comments</div>
+    <div v-if="post.thread" class="comment-count">
+      {{ post.thread.commentsCount || 0 }} comment{{ post.thread.commentsCount !== 1 ? 's' : '' }}
+    </div>
     <div v-else class="comment-count">0 comments</div>
     <span>|</span>
     <div class="cursor-pointer" @click="like">
@@ -38,10 +40,6 @@ export default {
     showDuration: {
       type: Boolean,
       default: true
-    },
-    commentCount: {
-      type: Number,
-      default: 0,
     },
   },
 
