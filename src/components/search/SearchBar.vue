@@ -74,8 +74,17 @@ export default {
         this.isFocused = !this.isFocused
       }, 300)
     },
-    onSearch({ target }) {
-      this.$router.push({ path: target.value ? `/?query=${target.value}` : '/' })
+
+    async onSearch({ target }) {
+      const path = target.value ? `/?query=${target.value}` : '/'
+
+      try {
+        await this.$router.push({ path })
+      }
+      catch (err) {
+        console.error('err ', err)
+      }
+
       window.scrollTo(0, 0)
 
       if (!target.value) {
@@ -196,8 +205,10 @@ export default {
   display: none;
   overflow: hidden;
   position: absolute;
+  right: 0;
   top: 100%;
   width: 100%;
+  min-width: 279px;
   max-width: 500px;
   margin-top: 0.5rem;
   padding-left: 0;

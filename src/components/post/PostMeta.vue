@@ -8,12 +8,11 @@
     <div v-else class="comment-count">0 comments</div>
     <span>|</span>
     <div class="cursor-pointer" @click="like">
-      <i class="fa" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
+      <i class="fa fa-lg" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
       {{ post.likeCount }}
     </div>
     <div class="cursor-pointer" @click="bookmark">
-      <i class="fa" :class="{ 'fa-bookmark-o': !bookmarkActive, 'fa-bookmark': bookmarkActive }"></i>
-      {{ post.totalFavorites }}
+      <i class="fa fa-lg" :class="{ 'fa-bookmark-o': !bookmarkActive, 'fa-bookmark': bookmarkActive }"></i>
     </div>
   </div>
 </template>
