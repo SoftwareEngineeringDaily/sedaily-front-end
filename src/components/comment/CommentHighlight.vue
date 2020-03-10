@@ -40,6 +40,7 @@ export default {
     },
     onSubmit: {
       type: Function,
+      default: () => {},
     },
   },
   components: {

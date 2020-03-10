@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-list">
+  <div class="comments-list" :class="{ 'is-preview': preview }" @click="openHighlights">
     <div v-if="!filter" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
@@ -15,6 +15,7 @@
         :entityId="forumThreadId"
         :rootEntityType='"forumthread"' />
     </div>
+
     <div v-else-if="!isLoggedIn" class="comment-item guest-message">
       <p>Please <router-link to="/login">log in</router-link> to leave a comment</p>
     </div>
@@ -23,11 +24,19 @@
       <spinner :show="loading" />
     </div>
 
-    <div :id="comment._id" class="comment comment-item" v-else v-for="comment in filteredComments" :key="comment._id">
+    <div
+      v-else
+      :id="comment._id"
+      :key="comment._id"
+      :data-selector="`c${comment._id}`"
+      class="comment comment-item"
+      v-for="comment in filteredComments">
+
       <comment-view
         :rootEntityType="rootEntityType"
         :comment="comment"
         :isParentComment="true" />
+
       <div class="replies" v-if="comment.replies.filter(r => !r.deleted).length">
         <div v-for="replyComment in comment.replies" :key="replyComment._id">
           <comment-view
@@ -35,6 +44,7 @@
             :comment="replyComment" />
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -50,6 +60,10 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    preview: {
+      type: Boolean,
+      default: false,
     },
     forumThreadId: {
       type: String
@@ -104,6 +118,21 @@ export default {
       return this.comments.filter(c => !(c.highlight))
     },
   },
+
+  methods: {
+    openHighlights (evt) {
+      if (!this.preview) {
+        return
+      }
+
+      const query = {
+        thread_id: this.forumThreadId,
+        comment_id: evt.target.getAttribute('id'),
+      }
+
+      this.$router.push({ query }).catch((err) => {})
+    }
+  }
 }
 </script>
 
@@ -112,6 +141,15 @@ export default {
   position relative
   margin-top 1rem
   min-height 20px
+
+  &.is-preview
+    cursor pointer
+
+    .replies
+      display none
+
+    .comment *
+      pointer-events none
 
 .comment
   margin-bottom 18px

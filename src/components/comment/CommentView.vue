@@ -5,20 +5,19 @@
         :id="commentId"
         :originalContent="commentContent"
         :originalMentions="commentMentions"
-        :doneCallback="doneEditingCallback"
-      ></comment-edit>
+        :doneCallback="doneEditingCallback" />
     </div>
     <div v-if="!editing && !wasDeleted" class="comment-holder">
       <div>
         <div class="profile-container">
-          <profile-label :userData="user(comment)" :dateComment="date(comment)"></profile-label>
+          <profile-label :userData="user(comment)" :dateComment="date(comment)" />
         </div>
         <div v-if="comment && comment.highlight" class="quote-scroll">
           <blockquote class="quote">
             "{{comment.highlight}}"
           </blockquote>
         </div>
-        <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown"></div>
+        <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown" />
       </div>
 
       <div class="misc-detail">
@@ -41,32 +40,19 @@
               class="upvote-comment"
               :upvoteHandler="upvoteHandler"
               :upvoted="comment.upvoted"
-              :score="comment.score"
-            ></voting-arrows>
+              :score="comment.score" />
           </span>
         </div>
       </div>
 
-      <div class="row" v-if="isParentComment && isReplying">
+      <div v-if="isReplying">
         <comment-reply
           v-if="isLoggedIn"
           :entityId="comment.rootEntity"
           :doneCallback="doneReplyingCallback"
           :isReply="true"
-          :parentCommentId="comment._id"
-          :rootEntityType="rootEntityType"
-        ></comment-reply>
-      </div>
-      <div v-if="!isParentComment && isReplying" class="row">
-        <comment-reply
-          v-if="isLoggedIn"
-          :replyingTo="comment.author"
-          :entityId="comment.rootEntity"
-          :doneCallback="doneReplyingCallback"
-          :isReply="true"
-          :parentCommentId="comment.parentComment"
-          :rootEntityType="rootEntityType"
-        ></comment-reply>
+          :parentCommentId="isParentComment ? comment._id : comment.parentComment"
+          :rootEntityType="rootEntityType" />
       </div>
     </div>
   </span>
@@ -189,7 +175,7 @@ export default {
 
       for (var i = 0; i < sortedMentions.length; i++) {
         const user = sortedMentions[i]
-        const newText = `<a href='${this.getPublicProfileRoute(user)}' class="mention-link" target='_blank'>@${user.name || 'anonymous'}</a>`                
+        const newText = `<a href='${this.getPublicProfileRoute(user)}' class="mention-link" target='_blank'>@${user.name || 'anonymous'}</a>`
         newHtml = newHtml.replace(new RegExp(`@${user._id}|@${user.name}`,'g'), newText)
       }
 
@@ -265,7 +251,7 @@ export default {
     color: primary-color;
   }
 
-  /deep/ .mention-link {    
+  /deep/ .mention-link {
     color: #007bff;
     font-weight: 600;
   }

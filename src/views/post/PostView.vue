@@ -72,11 +72,18 @@
           :filter="'highlight'"
           :initialComment="comment"
           :post="post"
+          :preview="true"
           :forumThreadId="forumThreadId"
           :commentCount="highlightCount"
           :comments="comments" />
       </div>
     </div>
+
+    <post-highlights
+      :highlight="highlight"
+      :comments="comments"
+      :commentCount="highlightCount"
+      :post="post" />
   </div>
 </template>
 
@@ -98,6 +105,7 @@ import {
   PostActionButtons,
   PostSocialShare,
   PostTranscript,
+  PostHighlights,
 } from '@/components/post'
 import Highlightable from '@/components/Highlightable'
 import store from '@/store'
@@ -122,11 +130,13 @@ export default {
     PostActionButtons,
     PostSocialShare,
     PostTranscript,
+    PostHighlights,
     CommentsList,
     VotingArrows,
     FeedPopular,
     Highlightable
   },
+
   data () {
     return {
       showPostContent: true,
@@ -136,6 +146,7 @@ export default {
       loading: false,
     }
   },
+
   watch: {
     $route(to, from) {
       if (from.params.id !== to.params.id) {
@@ -143,6 +154,7 @@ export default {
       }
     },
   },
+
   computed: {
     forumThreadId () {
       if (!this.isLoggedIn) return '' // Expects a string
@@ -525,13 +537,19 @@ mark
 @media (max-width 600px)
   .container-fluid
     overflow hidden
+
+  .post-view
+    padding-left 15px
+
   .post-view-header
     h1
       font-size 1.25em
+
   .post-content a[href="mailto:sponsor@softwaredaily.com"],
   .post-content a[href="mailto:sponsor@softwareengineeringdaily.com"]
     display block
     word-break break-all
+
 .view-top
   padding 1.5rem 2rem
 
