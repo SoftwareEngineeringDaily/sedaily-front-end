@@ -77,9 +77,6 @@ export default {
 
   watch: {
     $route (to, from) {
-      console.log('to ', to)
-      console.log('from ', from)
-
       const isActive = (to.query.thread_id || to.query.comment_id)
       const element = this.$el.querySelector(`[data-selector="c${to.query.comment_id}"]`)
       const modalBodyEl = this.$refs['modal-body']
@@ -88,7 +85,6 @@ export default {
         this.isActive = isActive
         this.commentId = to.query.comment_id
         this.threadId = to.query.thread_id
-        console.log('to.query.thread_id ', to.query.thread_id)
       }
 
       if (element) {
