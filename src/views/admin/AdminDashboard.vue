@@ -2,15 +2,15 @@
   <div class="admin-dashboard">
     <div v-if="me.isAdmin">
       <h1> Admin Dashboard </h1>
-      <div class="admin-page">
-        <div class="admin-menu">
+      <div class="row">
+        <div class="col-12 col-md-4 admin-menu">
           <ul>
             <li v-for="item in menuItems" :key="item.name">
               <router-link :to="item.route">{{item.name}}</router-link>
             </li>
           </ul>
         </div>
-        <div class="admin-content">
+        <div class="col-12 col-md-8 admin-content">
           <router-view />
         </div>
       </div>
@@ -49,13 +49,9 @@ export default {
 
 <style scoped lang="stylus">
   .admin-dashboard
-    padding 10px 20px
-
-    .admin-page
-      display flex
+    padding 20px 30px
     
     .admin-menu
-      width 200px
 
       ul 
         list-style none
@@ -78,7 +74,6 @@ export default {
           color #856aff !important
 
     .admin-content
-      flex 1
       padding 0 20px
 
     h1
@@ -88,7 +83,7 @@ export default {
       margin-bottom 40px
     
     >>> .button-group
-      margin-top 10px
+      margin 10px 0
 
     >>> .button-submit
       outline none
@@ -96,6 +91,7 @@ export default {
       margin-top 10px
       cursor pointer
       text-decoration none
+      display inline-block
     
     >>> .button-submit:hover
       color #ffffff

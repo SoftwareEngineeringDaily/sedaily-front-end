@@ -12,6 +12,34 @@ export default {
     })
   },
 
+  getTopic: (_, { topicId }) => {
+    return axios.get(`${BASE_URL}/topics/${topicId}`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  addTopic: (_, data) => {
+    return axios.post(`${BASE_URL}/topics/add`, data)
+    .then((response) => {
+      return response.data
+    })
+  }, 
+
+  updateTopic: (_, { topicId, data }) => {
+    return axios.put(`${BASE_URL}/topics/${topicId}`, data)
+    .then((response) => {
+      return response
+    })
+  },
+
+  getFullTopics: ({ commit }) => {
+    return axios.get(`${BASE_URL}/topics/full`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   getUserTopics: ({ commit, state, getters }) => {
     const userId = state.me._id
     return axios.get(`${BASE_URL}/topics?userId=${userId}`)
