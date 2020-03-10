@@ -75,14 +75,6 @@ export default {
     }
   },
 
-  mounted () {
-    // const { query } = this.$router.currentRoute
-
-    // this.isActive = !!(query.thread_id || query.comment_id)
-    // this.commentId = query.comment_id
-    // this.threadId = query.thread_id
-  },
-
   watch: {
     $route (to, from) {
       console.log('to ', to)

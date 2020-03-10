@@ -175,7 +175,7 @@ export default {
 
       for (var i = 0; i < sortedMentions.length; i++) {
         const user = sortedMentions[i]
-        const newText = `<a href='${this.getPublicProfileRoute(user)}' class="mention-link" target='_blank'>@${user.name || 'anonymous'}</a>`
+        const newText = `<a href="${this.getPublicProfileRoute(user)}" class="mention-link" target="_blank">@${user.name || 'anonymous'}</a>`
         newHtml = newHtml.replace(new RegExp(`@${user._id}|@${user.name}`,'g'), newText)
       }
 
