@@ -10,7 +10,7 @@ import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
 import { AdminDashboard, AdminCompany, AdminTopic } from '@/views/admin'
-import { Topicform } from '@/views/topic'
+import { TopicForm, TopicPageEdit } from '@/views/topic'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
@@ -57,10 +57,11 @@ const router = new Router({
         { path: 'company/add', component: CompanyCompose },
         { path: 'company/:id', component: CompanyEdit },
         { path: 'topic', component: AdminTopic },
-        { path: 'topic/add', component: Topicform },
-        { path: 'topic/:id', component: Topicform }
+        { path: 'topic/add', component: TopicForm },
+        { path: 'topic/:id', component: TopicForm }
       ]
     },
+    { path: '/topic/:slug/edit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {

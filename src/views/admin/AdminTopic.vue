@@ -43,7 +43,7 @@ import Spinner from "@/components/Spinner.vue";
 import Avatar from '@/components/Avatar'
 
 export default {
-  name: 'admin-company',
+  name: 'admin-topic',
   components: {
     Avatar,
     Spinner

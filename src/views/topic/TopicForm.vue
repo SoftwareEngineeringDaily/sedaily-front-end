@@ -109,7 +109,7 @@ export default {
       this.getTopic({ topicId: this.editingId }).then((data) => {
         this.data = { ...this.data, ...pick(data, '_id', 'name', 'slug', 'status', 'maintainer') }
       }).catch((e) => {
-        this.$toasted.error(e, { duration : 0 })
+        this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
         this.loadingTopic = false
       })
@@ -137,7 +137,7 @@ export default {
       this.updateTopic({ topicId: this.data._id, data: this.getSaveData() }).then(() => {
         this.$toasted.success('Saved!', { duration : 2000 })
       }).catch((e) => {
-        this.$toasted.error(e, { duration : 0 })
+        this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
         this.saving = false
       })
