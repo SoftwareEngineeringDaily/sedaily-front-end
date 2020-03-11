@@ -63,6 +63,7 @@
 
 <script>
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import isString from 'lodash/isString'
 import CommentHighlight from '@/components/comment/CommentHighlight'
 import CommentReply from '@/components/comment/CommentReply'
@@ -264,7 +265,7 @@ export default {
         comment_id: this.parentCommentId,
       }
 
-      this.$router.push({ query }).catch((err) => {})
+      this.$router.push({ query })
     },
 
     onHighlight () {
@@ -277,7 +278,7 @@ export default {
         comment_id: undefined,
       }
 
-      this.$router.push({ query }).catch((err) => {})
+      this.$router.push({ query })
     },
   },
 
@@ -285,6 +286,10 @@ export default {
     $route(to, from) {
       this.showTools = false
       this.isHighlighting = false
+
+      if (!to.query.thread_id) {
+        this.$emit('highlight', '')
+      }
     },
 
     x () {

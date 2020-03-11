@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span :data-selector="`c${commentId}`">
     <div v-if="editing" class="comment-holder">Editing Comment:
       <comment-edit
         :id="commentId"
@@ -89,7 +89,11 @@ export default {
     rootEntityType: {
       type: String,
       required: false
-    }
+    },
+    onChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -209,7 +213,8 @@ export default {
         .then(() => {
           this.commentsFetch({
             entityId: this.comment.rootEntity
-          });
+          })
+          this.onChange()
         })
         .catch(error => {
           this.$toasted.error("Error deleting :(", {

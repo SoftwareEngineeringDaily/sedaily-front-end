@@ -35,6 +35,7 @@
       <comment-view
         :rootEntityType="rootEntityType"
         :comment="comment"
+        :onChange="onChange"
         :isParentComment="true" />
 
       <div class="replies" v-if="comment.replies.filter(r => !r.deleted).length">
@@ -92,6 +93,10 @@ export default {
       required: false,
       default: false
     },
+    onChange: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   beforeMount () {},
@@ -115,7 +120,7 @@ export default {
       }
 
       // Default is general discussion without highlights
-      return this.comments.filter(c => !(c.highlight))
+      return this.comments.filter(c => !(c && c.highlight))
     },
   },
 
@@ -130,11 +135,22 @@ export default {
         comment_id: evt.target.getAttribute('id'),
       }
 
-      this.$router.push({ query }).catch((err) => {})
+      this.$router.push({ query })
     }
   }
 }
 </script>
+
+<style lang="stylus">
+.comments-list.is-preview
+  cursor pointer
+
+  .replies,
+  .content-area,
+  .misc-detail
+    display none
+
+</style>
 
 <style scoped lang="stylus">
 .comments-list
@@ -145,7 +161,9 @@ export default {
   &.is-preview
     cursor pointer
 
-    .replies
+    .replies,
+    .content-area,
+    .misc-detail
       display none
 
     .comment *
