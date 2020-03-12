@@ -298,14 +298,14 @@ const PostActions = {
 
     _post = isEmpty(_post) ? find(posts, { _id: id }) || {} : _post
 
-    _post.likeActive = active
-    _post.likeCount = _post.likeCount || 0
-    _post.likeCount = Math.max(active ? ++_post.likeCount : --_post.likeCount, 0)
+    _post.upvoted = active
+    _post.score = _post.score || 0
+    _post.score = Math.max(active ? ++_post.score : --_post.score, 0)
 
     for (let i = 0; i < posts.length; i++) {
       if (posts[i]._id === id) {
-        posts[i].likeActive = !!(_post.likeActive)
-        posts[i].likeCount = _post.likeCount
+        posts[i].upvoted = !!(_post.upvoted)
+        posts[i].score = _post.score
         break
       }
     }
@@ -318,8 +318,8 @@ const PostActions = {
 
         // Set again after response
         // so data is accurate
-        _post.likeCount = data.likeCount
-        _post.likeActive = data.likeActive
+        _post.score = data.score
+        _post.upvoted = data.upvoted
 
         commit('setPost', { post: _post })
       })
@@ -369,13 +369,13 @@ const PostActions = {
 
     _post = isEmpty(_post) ? find(posts, { _id: id }) || {} : _post
 
-    _post.bookmarkActive = active
+    _post.bookmarked = active
     _post.totalFavorites = _post.totalFavorites || 0
     _post.totalFavorites = Math.max(active ? ++_post.totalFavorites : --_post.totalFavorites, 0)
 
     for (let i = 0; i < posts.length; i++) {
       if (posts[i]._id === id) {
-        posts[i].bookmarkActive = !!(_post.bookmarkActive)
+        posts[i].bookmarked = !!(_post.bookmarked)
         posts[i].totalFavorites = _post.totalFavorites
         break
       }
@@ -390,7 +390,7 @@ const PostActions = {
         // Set again after response
         // so data is accurate
         _post.totalFavorites = data.totalFavorites
-        _post.bookmarkActive = data.active
+        _post.bookmarked = data.active
 
         commit('setPost', { post: _post })
       })

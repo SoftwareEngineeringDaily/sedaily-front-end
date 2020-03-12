@@ -1,3 +1,4 @@
+const sslRedirect = require('heroku-ssl-redirect')
 const express = require('express')
 const serveStatic = require('serve-static')
 const app = express()
@@ -12,6 +13,9 @@ app.use(require('connect-history-api-fallback')({
 }))
 
 app.use(serveStatic(__dirname + "/dist"))
+
+// enable ssl redirect
+app.use(sslRedirect())
 
 const port = process.env.PORT || 5000
 app.listen(port)
