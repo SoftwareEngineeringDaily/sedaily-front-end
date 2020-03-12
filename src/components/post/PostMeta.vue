@@ -11,7 +11,7 @@
     <span>|</span>
     <div class="cursor-pointer" @click="like">
       <i class="fa fa-lg" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
-      {{ post.likeCount }}
+      {{ post.score }}
     </div>
     <div class="cursor-pointer" @click="bookmark">
       <i class="fa fa-lg" :class="{ 'fa-bookmark-o': !bookmarkActive, 'fa-bookmark': bookmarkActive }"></i>
@@ -52,11 +52,11 @@ export default {
     },
 
     likeActive () {
-      return !!(this.post.likeActive)
+      return !!(this.post.upvoted)
     },
 
     bookmarkActive () {
-      return !!(this.post.bookmarkActive)
+      return !!(this.post.bookmarked)
     },
   },
 
@@ -77,7 +77,7 @@ export default {
     bookmark () {
       this.bookmarkPost({
         id: this.post._id,
-        active: !this.bookmarkActive,
+        active: !this.bookmarked,
         posts: this.displayedPosts,
       })
     }
