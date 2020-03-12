@@ -40,6 +40,7 @@ export default {
   margin-bottom 55px
   display flex
   flex-direction column
+
   p
     margin-bottom 25px
     .transcript-header
@@ -47,6 +48,7 @@ export default {
       display block
       margin-bottom 10px
       font-weight bold
+
       .transcript-time
         font-weight 400
         font-size .9rem
@@ -56,10 +58,12 @@ export default {
         color #222
         cursor pointer
         padding 3px 6px
+
   &.collapsed
     cursor pointer
     height 400px
     overflow hidden
+
     &:after
       background-image linear-gradient(
           to bottom,
@@ -73,24 +77,26 @@ export default {
       position absolute
       width calc(100% + 40px)
       cursor pointer
+
     &:hover
       &:before
         background-color #a591ff
         transform scale(1.02)
+
     &:before
-      align-self center
-      background-color #222
-      border-radius 3px
-      bottom 24px
-      color #fff
       content "View Transcript"
+      align-self center
+      position absolute
+      z-index 1
+      bottom 24px
+      padding 10px 20px
       font-size 15px
       font-weight 500
-      padding 10px 20px
-      position absolute
       text-align center
       text-transform uppercase
+      color #fff
+      background-color #222
+      border-radius 3px
       transition all .2s
-      z-index 10000
 
 </style>

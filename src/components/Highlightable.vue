@@ -31,6 +31,7 @@
             :rootEntityType="'forumthread'" />
         </div>
       </div>
+
       <div class="tools-actions">
         <span class="item">
           <social-sharing
@@ -61,6 +62,8 @@
 </template>
 
 <script>
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import isString from 'lodash/isString'
 import CommentHighlight from '@/components/comment/CommentHighlight'
 import CommentReply from '@/components/comment/CommentReply'
@@ -209,7 +212,11 @@ export default {
       this.preselectText(target)
 
       const selection = window.getSelection()
-      if (!selection.anchorNode) return
+
+      if (!selection.anchorNode) {
+        return
+      }
+
       const isQuote = (target.tagName === 'MARK')
       const { entityId, parentCommentId } = target.dataset
       const startNode = selection.getRangeAt(0).startContainer.parentNode.parentNode.parentNode
@@ -222,10 +229,8 @@ export default {
       }
 
       // If we have reply info, set it
-      if (entityId && parentCommentId) {
-        this.entityId = entityId
-        this.parentCommentId = parentCommentId
-      }
+      this.entityId = entityId || this.forumThreadId
+      this.parentCommentId = parentCommentId || ''
 
       if (blurSelection) {
         return this.resetTools()
@@ -234,10 +239,12 @@ export default {
       const { top: parentTop, left: parentLeft } = this.$el.getBoundingClientRect()
       const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect()
 
+      // If nothing is selected, stop and clear.
       if (!width || selection.toString() === '') {
         return this.resetTools()
       }
-      else if (this.selectedText && selection.toString() !== this.selectedText) {
+
+      if (this.selectedText && selection.toString() !== this.selectedText) {
         this.resetTools()
       }
 
@@ -248,10 +255,17 @@ export default {
       this.showTools = true
       this.selectedText = selection.toString()
       this.selectedWidth = width
+
+      this.$emit('highlight', this.selectedText)
     },
 
     onReply () {
-      this.isReplying = true
+      const query = {
+        thread_id: this.entityId,
+        comment_id: this.parentCommentId,
+      }
+
+      this.$router.push({ query })
     },
 
     onHighlight () {
@@ -259,13 +273,23 @@ export default {
         return this.onReply()
       }
 
-      this.isHighlighting = true
+      const query = {
+        thread_id: this.entityId,
+        comment_id: undefined,
+      }
+
+      this.$router.push({ query })
     },
   },
+
   watch: {
     $route(to, from) {
       this.showTools = false
       this.isHighlighting = false
+
+      if (!to.query.thread_id) {
+        this.$emit('highlight', '')
+      }
     },
 
     x () {

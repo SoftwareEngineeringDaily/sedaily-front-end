@@ -3,17 +3,18 @@
     <div
       v-if="me && isLoggedIn"
       :class="{ 'is-highlight': !!(highlight) }">
+
       <comment-quote :highlight="highlight" />
-      <div class='reply-container'>
-        <comment-form
-          :isSubmitting="isSubmitting"
-          :content="commentContent"
-          :submitCallback="submitCallback"
-          :cancelPressed="doneCallback"
-          :existingMentions="existingMentions"
-          :showCancel="true"
-          :submitButtonText="'Reply'" />
-      </div>
+
+      <comment-form
+        :isSubmitting="isSubmitting"
+        :content="commentContent"
+        :submitCallback="submitCallback"
+        :cancelPressed="doneCallback"
+        :existingMentions="existingMentions"
+        :showCancel="true"
+        :submitButtonText="'Reply'" />
+
     </div>
     <div v-else class="guest-message">
       <p>Please <router-link to="/login">log in</router-link> to leave a reply</p>

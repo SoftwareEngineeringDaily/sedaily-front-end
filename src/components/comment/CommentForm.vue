@@ -30,13 +30,19 @@
           @click="submitComment">
           {{submitButtonText}}
         </button>
-        <button v-if="showCancel" class='btn-cancel btn btn-link'
-        :disabled="isSubmitting"
-        @click='cancelPressed'><i class="fa fa-times"/></button>
+        <button
+          v-if="showCancel"
+          class="btn-cancel btn btn-link"
+          :disabled="isSubmitting"
+          @click="cancelPressed">
+          <i class="fa fa-times" />
+        </button>
       </div>
     </div>
     <div v-else>
-      <button @click='errorSubmit' class="button-submit">{{submitButtonText}}</button>
+      <button @click="errorSubmit" class="button-submit">
+        {{submitButtonText}}
+      </button>
     </div>
   </div>
 </template>
@@ -228,7 +234,7 @@ export default {
       });
     },
 
-    submitComment() {  
+    submitComment() {
       const mentions = map(this.mentionedUsers, user => {
         return user._id;
       });
@@ -266,29 +272,37 @@ export default {
 
 <style scoped lang="stylus">
 @import '../../css/variables'
+
 .btn-cancel
   padding 0 0 0 10px
+
 .button-submit
   outline none
   border-radius 4px
-  margin-top 10px
+
   a
     color white
+
     &:hover
       text-decoration none
+
 .buttons-comment
   display flex
+  margin-top 10px
+
 .comment-container
   background none
   display flex
   flex-direction column
   align-items center
   width: 100%;
+
   .profile-img
     width 35px
     height 35px
     border-radius 50px
     margin-right 10px
+
 .comment-box
   margin 0 10px
   margin-left 0
@@ -304,9 +318,14 @@ export default {
   border: 1px solid #ccc
   height 100px
 
+  &:focus
+    border: 1px solid #a591ff;
+    box-shadow: 0 0 0 2px rgba(165,145,255, 0.2);
+
 .comment-box__container
   display flex
   width 100%
+
   &:hover
     text-decoration none
 

@@ -41,7 +41,7 @@ export default {
     NavFooter
   },
   sockets: {
-    connect: function() {      
+    connect: function() {
       this.$store.commit('setNotificationsSocket', this.$socket)
     }
   },
@@ -90,7 +90,6 @@ export default {
 
 .main-app
   max-width 1050px
-  margin-top 4rem
   padding-top 15px
   min-height 100vh
 
@@ -225,9 +224,6 @@ a
       max-width 300px
       width 100%
       margin-top 15px
-@media (max-width 660px)
-  .main-app
-    margin-top 7rem
 
 @media (max-width 700px)
   .header .inner
