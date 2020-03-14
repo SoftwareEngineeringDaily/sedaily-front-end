@@ -1,64 +1,74 @@
 <template>
-  <div class="topicpage-edit">
-    <Spinner :show="loading"/>
-    <div v-if="!editPermission.canEdit" class="no-edit">Can't edit this Topic. <br>{{editPermission.msg}}</div>
-    <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
-      
-      <div class="topicpage-toolbar">
-        <h1 class="header-title">{{topicData.name}}</h1>
-        <div class="mode-status">
-          <button @click='previewEdit' class="button-secundary button-preview">{{buttonPreviewText}}</button>
-        </div>
-        <div class="right">
-          <button @click='save' :disabled="saving" class="button-submit">
+  <topic-page-template>
+    <template v-slot:content>
+      <div class="topicpage-edit">
+        <Spinner :show="loading"/>
+        <div v-if="!editPermission.canEdit" class="no-edit">Can't edit this Topic. <br>{{editPermission.msg}}</div>
+        <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
+        
+          <div class="topicpage-header">
+            <h1 class="header-title">{{topicData.name}}</h1>
+            <div class="mode-status">
+              <button @click='previewEdit' class="button-secundary button-preview">{{buttonPreviewText}}</button>
+            </div>
+            <ImageEditThumb
+              v-if="showThumb"
+              :class="['topic-logo', !isPreviewing ? 'topic-logo-edit' : '']"
+              :edit="!isPreviewing"
+              :crop="true"
+              :sizeLimit="100"
+              v-model="topicPageData.logo"
+              placeholder="Topic logo" />
+          </div>
+
+          <topic-page-maintainer :user="topicData.maintainer" />
+
+          <div v-if="isPreviewing" class="topicpage-content" v-html="htmlContent"></div>
+
+          <content-editor
+            v-show="!isPreviewing"
+            v-model="topicPageData.content" 
+            ref="editor"
+          />
+
+          <button v-show="!isPreviewing" @click='save' :disabled="saving" class="button-submit button-save">
             <spinner :show="saving"></spinner>
             Save
           </button>
+
+          <div v-if="!isPreviewing" class="topicpage-history">
+            <h4>Activities</h4>
+            <div class="topicpage-history-event" v-for="event in topicPageData.history" :key="event._id">
+              <div class="time">{{dateFormat(event.dateCreated)}}</div>
+              <div class="event"> {{getHistoryEvent(event.event)}}</div>
+              <Avatar width="30px" :user="event.user" />
+              <div class="name"> {{event.user.name}}</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="topicpage-maintainer">
-        <Avatar width="60px" :user="topicData.maintainer" />
-        Maintained by {{topicData.maintainer.name}}
-      </div>
-
-      <div v-if="isPreviewing" class="topicpage-content" v-html="htmlContent"></div>
-
-      <vue-simplemde 
-        v-if="!isPreviewing"
-        v-model="topicPageData.content" 
-        ref="editor"
-        :configs="editorConfig"
-        @input="handleInput" 
-      />
-
-      <div v-if="!isPreviewing" class="topicpage-history">
-        <h4>Activities</h4>
-        <div class="topicpage-history-event" v-for="event in topicPageData.history" :key="event._id">
-          <div class="time">{{dateFormat(event.dateCreated)}}</div>
-          <div class="event"> {{getHistoryEvent(event.event)}}</div>
-          <Avatar width="30px" :user="event.user" />
-          <div class="name"> {{event.user.name}}</div>
-        </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </topic-page-template>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
-// import { debounce } from 'lodash'
-import Spinner from "@/components/Spinner.vue";
-import VueSimplemde from 'vue-simplemde'
+import Spinner from '@/components/Spinner';
+import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
+import ContentEditor from '@/components/contentEditor/ContentEditor'
 import Avatar from '@/components/Avatar'
+import { ImageEditThumb } from '@/components/ImageEdit'
 
 export default {
   name: 'topicpage-edit',
   components: {
     Spinner,
-    VueSimplemde,
-    Avatar
+    TopicPageMaintainer,
+    TopicPageTemplate,
+    ContentEditor,
+    Avatar,
+    ImageEditThumb
   },
   beforeMount () {
     this.loadTopic()
@@ -70,20 +80,7 @@ export default {
       topicData: {},
       topicPageData: {},
       isPreviewing: false,
-      htmlContent: '',
-      editorConfig: {
-        status: false,
-        spellChecker: false,
-        uploadImage: true,
-        // hideIcons: ['side-by-side'],
-        // TODO: upload images
-        // toolbar: ['bold', {
-        //     name: "image-import",
-        //     action: () => { console.log('action') },
-        //     className: "fa fa-picture-o",
-        //     title: "Image",
-        // }]
-      }
+      htmlContent: ''
     }
   },
   computed: {
@@ -99,11 +96,17 @@ export default {
     },
 
     editor () {
-      return this.$refs.editor.simplemde;
+      return this.$refs.editor;
     },
 
     buttonPreviewText () {
       return !!this.isPreviewing ? 'Edit' : 'Preview'
+    },
+
+    showThumb () {
+      if (this.topicPageData.logo) return true
+      if (!this.topicPageData.logo && !this.isPreviewing) return true
+      return false
     }
   },
   methods: {
@@ -116,7 +119,7 @@ export default {
         data.topicPage.history.sort((o1, o2) => {
           return o1.dateCreated >= o2.dateCreated ? -1 : 1;
         });
-        this.topicPageData = data.topicPage
+        this.topicPageData = { ...data.topicPage, logo: '' }
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
@@ -129,7 +132,7 @@ export default {
     },
 
     getHTML () {
-      return this.editor.markdown(this.topicPageData.content)
+      return this.editor.getHTML()
     },
 
     previewEdit () {
@@ -180,6 +183,10 @@ export default {
         case 'edit': return 'Edited'
       }
       return ''
+    },
+
+    editorReplaceSelection (content) {
+      this.editor.codemirror.doc.replaceSelection(content)
     }
 
   }
@@ -187,22 +194,27 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  @import '../../css/variables'
+  @import '~@/css/variables'
   @import '~simplemde/dist/simplemde.min.css';
 
   .topicpage-edit
+    margin-top 5px
+    
     .spinner
         margin: 0 auto;
-        display: inherit;
+        display block
     
     .no-edit
       padding 20px
       text-align center
       font-size 22px
     
-    .topicpage-toolbar
+    .topicpage-header
       display flex
       align-items center
+      
+      .topic-logo-edit
+        border 1px solid #e9ecef
 
       .mode-status
         flex 1
@@ -210,16 +222,11 @@ export default {
         color #999
         font-size 18px
         font-weight 800
-      
-
-    .header-title
-      margin 15px 0
-      font-weight 800
-      font-size 2.7rem
     
-    .topicpage-maintainer
-      font-size 16px
-      margin 20px 0
+    .button-save
+      display block
+      margin 20px auto
+      width 120px
     
     >>> .fullscreen, 
     >>> .CodeMirror-fullscreen, 
@@ -256,7 +263,11 @@ export default {
       margin-top 20px
     
     .topicpage-history
-      margin-top 30px
+      margin 30px 0
+
+      h4
+        margin-bottom 20px
+        padding 0 10px
 
       .topicpage-history-event
         display flex
@@ -266,8 +277,7 @@ export default {
         padding 10px
 
         .time
-          width 100px
-          // text-align center
+          width 120px
           color #6c757d
           font-size 12px
         

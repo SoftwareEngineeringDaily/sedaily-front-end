@@ -1,0 +1,91 @@
+<template>
+  <div class="categories-container">
+    <div v-if="showUserTopics" class="topics-container">
+      <h4>Favourite</h4>
+      <router-link v-for="topic in showTopics" :key="topic._id" :to="getTopicRoute(topic)">
+        {{ topic.name }}
+      </router-link>
+    </div>
+    <div class="topics-container">
+      <h4>Most Popular</h4>
+      <router-link to="/">All</router-link>
+      <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
+          {{ topic.name }}
+      </router-link>
+    </div>
+    <app-download-buttons />
+</div>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex'
+import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
+export default {
+  name: 'home-left-panel',
+  components: {
+    AppDownloadButtons
+  },
+  data () {
+    return {
+      
+    }
+  },
+  computed: {
+    ...mapState(["topics", "searchTerm"]),
+    search() {
+      return this.searchTerm;
+    },
+    showTopics() {
+      return this.topics.user;
+    },
+    showMostPopular() {
+      return this.topics.mostPopular;
+    },
+    showUserTopics() {
+      if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
+        if (this.$store.state.topics.user.length !== 0) {
+          return true
+        }
+      } else {
+        return false
+      }
+    }
+  },
+  created() {
+    this.$store.commit("setActiveType", { type: this.type });
+    this.$store.dispatch("mostPopular");
+  },
+  methods: {
+    ...mapActions(["getTopicsInSearch", "fetchSearch"]),
+    getTopicRoute(topic) {
+      return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
+    },
+  }
+}
+</script>
+
+<style lang="stylus" scoped>
+  .categories-container 
+    padding-top 2rem
+    display flex
+    flex-direction column
+
+    .topics-container
+
+      a 
+        margin 10px 0
+        color #808080
+        text-decoration none
+        display block
+
+        &:hover 
+          color primary-color !important
+
+        &.router-link-exact-active
+          color #856aff !important
+          font-weight 600
+
+  @media (max-width 750px) 
+    .categories-container
+      padding 10px
+</style>

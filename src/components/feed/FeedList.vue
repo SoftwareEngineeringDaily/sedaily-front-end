@@ -15,7 +15,7 @@
       </div>
       <div class="topics-container">
         <h4>Most Popular</h4>
-        <ul>
+        <!-- <ul>
           <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
           <li
             class="topic-item"
@@ -24,7 +24,11 @@
             @click="topicHandler(topic)"
             :class="getClassForTopic(topic._id)"
           >{{ topic.name }}</li>
-        </ul>
+        </ul> -->
+        <router-link to="/">All</router-link>
+        <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
+          {{ topic.name }}
+        </router-link>
       </div>
       <app-download-buttons />
     </div>
@@ -176,21 +180,24 @@ export default {
       this.activeCategory = category;
       this.resetPosts();
     },
-    topicHandler(topic) {
-      this.displayedPosts = [];
-      this.loading = true;
-      let topicId = topic._id,
-        topicSlug = topic.slug;
-      this.topicId = topicId;
-      this.showTopic(topicSlug).then(
-        topics => {
-          this.loading = false;
-          this.displayedPosts = topics.data.posts
-          this.$store.commit('setPosts', {posts: topics.data.posts})
-          }
-      );
-      this.$router.push({ path: `/topics/${topicSlug}` });
+    getTopicRoute(topic) {
+      return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
     },
+    // topicHandler(topic) {
+    //   this.displayedPosts = [];
+    //   this.loading = true;
+    //   let topicId = topic._id,
+    //     topicSlug = topic.slug;
+    //   this.topicId = topicId;
+    //   this.showTopic(topicSlug).then(
+    //     topics => {
+    //       this.loading = false;
+    //       this.displayedPosts = topics.data.posts
+    //       this.$store.commit('setPosts', {posts: topics.data.posts})
+    //       }
+    //   );
+    //   this.$router.push({ path: `/topics/${topicSlug}` });
+    // },
     fetchPosts() {
       this.topicId = "";
       this.$router.push({ path: `/` });
@@ -264,218 +271,177 @@ export default {
 <style lang="stylus">
 @import '../../css/variables';
 
-.news-view {
-  padding-top: 10px;
-  display: flex;
-  justify-content: space-between;
-}
+.news-view 
+  padding-top 10px
+  display flex
+  justify-content space-between
 
-.news-list-nav, .news-list {
-  background-color: #fff;
-  border-radius: 2px;
-}
+.news-list-nav, .news-list 
+  background-color #fff
+  border-radius 2px
 
-.news-list-nav {
-  padding: 15px 30px;
-  position: fixed;
-  text-align: center;
-  left: 0;
-  right: 0;
-  z-index: 998;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.news-list-nav 
+  padding 15px 30px
+  position fixed
+  text-align center
+  left 0
+  right 0
+  z-index 998
+  box-shadow 0 1px 2px rgba(0, 0, 0, 0.1)
 
-  a {
-    margin: 0 1em;
-  }
+  a 
+    margin 0 1em
 
-  .disabled {
-    color: #ccc;
-  }
-}
+  .disabled 
+    color #ccc
+  
+.news-list 
+  position absolute
+  margin 30px 0
+  width 100%
+  transition all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
 
-.news-list {
-  position: absolute;
-  margin: 30px 0;
-  width: 100%;
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-}
-
+  ul 
+    list-style-type none
+    padding 0
+    margin 0
+  
 // TOPIC
-.topics-container {
-  ul {
-    list-style: none;
-    padding: 0;
+.topics-container 
+  a 
+    margin 10px 0
+    color #808080
+    text-decoration none
+    display block
 
-    li {
-      margin: 10px 0;
-      color: #808080;
-      cursor: pointer;
+    &:hover 
+      color primary-color !important
 
-      &:hover {
-        color: primary-color !important;
-      }
-    }
-  }
-}
-@media (max-width: 750px) {
-  .topics-container {
-    ul {
-      li {
-        margin-right: 10px;
-      }
-    }
-  }
-  .spinner-holder {
-    margin: auto;
-  }
-}
+    // TODO for /posts
+    &.router-link-exact-active
+      color #856aff !important
+      font-weight 600
+    
+@media (max-width 750px) 
+  .topics-container 
+    ul 
+      li 
+        margin-right 10px
+      
+  .spinner-holder 
+    margin auto
+  
+.topic-active 
+  color #856aff !important
+  font-weight 600
 
-.topic-active {
-  color: #856aff !important;
-  font-weight: 600;
-}
+.categories-container 
+  padding-top 2rem
+  display flex
+  flex-direction column
 
-.categories-container {
-  padding-top: 2rem;
-  display: flex;
-  flex-direction: column;
-}
+.slide-left-enter, .slide-right-leave-active 
+  opacity 0
+  transform translate(30px, 0)
 
-.slide-left-enter, .slide-right-leave-active {
-  opacity: 0;
-  transform: translate(30px, 0);
-}
+.slide-left-leave-active, .slide-right-enter 
+  opacity 0
+  transform translate(-30px, 0)
 
-.slide-left-leave-active, .slide-right-enter {
-  opacity: 0;
-  transform: translate(-30px, 0);
-}
+.post-scroll-container 
+  flex 1
 
-.post-scroll-container {
-  flex: 1;
-}
+.post-summary__container 
+  width 50%
+  padding 2rem
+  margin-left 7rem
 
-.post-summary__container {
-  width: 50%;
-  padding: 2rem;
-  margin-left: 7rem;
-}
+.post-move, .post-enter-active, .post-leave-active 
+  transition all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
 
-.post-move, .post-enter-active, .post-leave-active {
-  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-}
+.post-enter 
+  opacity 0
+  transform translate(30px, 0)
 
-.post-enter {
-  opacity: 0;
-  transform: translate(30px, 0);
-}
-
-.post-leave-active {
-  position: absolute;
-  opacity: 0;
-  transform: translate(30px, 0);
-}
+.post-leave-active 
+  position absolute
+  opacity 0
+  transform translate(30px, 0)
 
 /* Filters */
-.filters {
-  position: relative;
-  margin-top: 1em;
+.filters 
+  position relative
+  margin-top 1em
 
-  input {
-    width: 100%;
-  }
+  input 
+    width 100%
+  
+  button 
+    background-color #3F58AF
+    color #fff
+    box-shadow none
+    border none
+    font-size 14px
+    height 30px
+    border-radius 2px
+ 
+.active-tags 
+  margin-top 1em
 
-  button {
-    background-color: #3F58AF;
-    color: #fff;
-    box-shadow: none;
-    border: none;
-    font-size: 14px;
-    height: 30px;
-    border-radius: 2px;
-  }
-}
+.app-download 
+  display flex
+  flex-direction column
+  align-items center
 
-.active-tags {
-  margin-top: 1em;
-}
+.active-tag 
+  padding 0.5em
+  color #fff
+  background-color #3F58AF
 
-.app-download {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.remove-tag-buttonhover 
+  cursor pointer
 
-.active-tag {
-  padding: 0.5em;
-  color: #fff;
-  background-color: #3F58AF;
-}
+.spinner-holder 
+  width 85%
+  text-align center
 
-.remove-tag-button:hover {
-  cursor: pointer;
-}
+.auto-complete 
+  width 200px
+  background #fff
+  padding 1em
+  position absolute
+  top 30px
+  z-index 1000
+  box-shadow 6px 0px 10px #efefef
 
-.spinner-holder {
-  width: 85%;
-  text-align: center;
-}
+  .add-tag-button 
+    color #3F58AF
+    font-size 10px
+  
+  .add-tag-buttonhover 
+    cursor pointer
+  
 
-.auto-complete {
-  width: 200px;
-  background: #fff;
-  padding: 1em;
-  position: absolute;
-  top: 30px;
-  z-index: 1000;
-  box-shadow: 6px 0px 10px #efefef;
-
-  .add-tag-button {
-    color: #3F58AF;
-    font-size: 10px;
-  }
-
-  .add-tag-button:hover {
-    cursor: pointer;
-  }
-}
-
-@media (max-width: 750px) {
-  .news-view {
-    flex-direction: column;
-  }
-
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: 0px;
-    margin-left: 0px;
-  }
-
-  .news-post {
-    width: 100%;
-    margin 15px auto;
-  }
-
-  .topics-container ul {
-    display: flex;
-    overflow: auto;
-    white-space: nowrap;
-  }
-
-  .app-download {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
+@media (max-width 750px) 
+  .news-view 
+    flex-direction column
+  
+  .row 
+    display flex
+    flex-wrap wrap
+    margin-right 0px
+    margin-left 0px
+  
+  .news-post 
+    width 100%
+    margin 15px auto
+  
+  .app-download 
+    display flex
+    flex-direction row
+    flex-wrap wrap
+    justify-content center
+  
 </style>
 
 

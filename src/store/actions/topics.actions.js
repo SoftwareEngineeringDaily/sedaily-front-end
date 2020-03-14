@@ -13,28 +13,28 @@ export default {
   },
 
   getTopic: (_, { topicId }) => {
-    return axios.get(`${BASE_URL}/topics/${topicId}`)
+    return axios.get(`${BASE_URL}/topic/${topicId}`)
     .then((response) => {
       return response.data
     })
   },
 
   addTopic: (_, data) => {
-    return axios.post(`${BASE_URL}/topics/add`, data)
+    return axios.post(`${BASE_URL}/topic`, data)
     .then((response) => {
       return response.data
     })
   }, 
 
   updateTopic: (_, { topicId, data }) => {
-    return axios.put(`${BASE_URL}/topics/${topicId}`, data)
+    return axios.put(`${BASE_URL}/topic/${topicId}`, data)
     .then((response) => {
       return response
     })
   },
 
-  getFullTopics: ({ commit }) => {
-    return axios.get(`${BASE_URL}/topics/full`)
+  getFullTopics: () => {
+    return axios.get(`${BASE_URL}/topic`)
     .then((response) => {
       return response.data
     })
