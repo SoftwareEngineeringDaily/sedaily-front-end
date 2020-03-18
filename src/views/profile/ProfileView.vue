@@ -6,9 +6,12 @@
     <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
     <div v-else class="profile-view col-md-12">
       <profile-details
-      :userData="me"
-      :ownProfile="true" />
-      <profile-activities :activities="activities" :activityDays="activityDays" />
+        :userData="me"
+        :ownProfile="true" />
+      <profile-activities
+        :userData="me"
+        :activities="activities"
+        :activityDays="activityDays" />
     </div>
   </div>
 </template>
@@ -81,5 +84,5 @@ export default {
     color #ffffff
     padding 10px
     font-size 16px
-    font-weight 600  
+    font-weight 600
 </style>

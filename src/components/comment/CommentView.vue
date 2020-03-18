@@ -8,17 +8,8 @@
         :doneCallback="doneEditingCallback" />
     </div>
     <div v-if="!editing && !wasDeleted" class="comment-holder">
-      <div>
-        <div class="profile-container">
-          <profile-label :userData="user(comment)" :dateComment="date(comment)" />
-        </div>
-        <div v-if="comment && comment.highlight" class="quote-scroll">
-          <blockquote class="quote">
-            "{{comment.highlight}}"
-          </blockquote>
-        </div>
-        <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown" />
-      </div>
+
+      <comment-content :comment="comment" />
 
       <div class="misc-detail">
         <div class="comment-op">
@@ -65,6 +56,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import VotingArrows from "@/components/VotingArrows";
 import ProfileLabel from "@/components/profile/ProfileLabel";
 import CommentReply from "@/components/comment/CommentReply";
+import CommentContent from "@/components/comment/CommentContent";
 import CommentEdit from "@/components/comment/CommentEdit";
 import LastEditedInfo from "@/components/LastEditedInfo";
 
@@ -74,6 +66,7 @@ export default {
     VotingArrows,
     ProfileLabel,
     CommentReply,
+    CommentContent,
     LastEditedInfo,
     CommentEdit
   },
