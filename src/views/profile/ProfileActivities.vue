@@ -7,7 +7,7 @@
         <div v-for="(activity, index) in items" :key="index" class="activity-container">
           <div v-if="activity.post" class="content">
             <p class="activity-label text-ellipsis">
-              Added a {{activityType(activity)}} in <a :href="activity.post.url">{{activity.post.title}}</a>
+              Added a {{activityType(activity)}} in <router-link :to="activity.post.url">{{activity.post.title}}</router-link>
             </p>
             <div v-if="activity.activityType === 'comment'" class="comment comment-item">
               <CommentContent :comment="comment(activity)" />

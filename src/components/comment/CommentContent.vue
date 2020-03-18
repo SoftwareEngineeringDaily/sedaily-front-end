@@ -57,8 +57,8 @@ export default {
       return 'Now'
     },
 
-    timeFormat (date) {
-      return moment(date).format('HH[h]mm[m]')
+    getPublicProfileRoute (user) {
+      return `/profile/${user._id}`
     },
 
     linkifyMentions(html) {
@@ -78,7 +78,7 @@ export default {
 
       for (var i = 0; i < sortedMentions.length; i++) {
         const user = sortedMentions[i]
-        const newText = `<a href="${this.getPublicProfileRoute(user)}" class="mention-link" target="_blank">@${user.name || 'anonymous'}</a>`
+        const newText = `<a href="${this.getPublicProfileRoute(user)}" style="font-weight:700;" target="_blank">@${user.name || 'anonymous'}</a>`
         newHtml = newHtml.replace(new RegExp(`@${user._id}|@${user.name}`,'g'), newText)
       }
 
