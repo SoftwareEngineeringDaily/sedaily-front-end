@@ -8,17 +8,8 @@
         :doneCallback="doneEditingCallback" />
     </div>
     <div v-if="!editing && !wasDeleted" class="comment-holder">
-      <div>
-        <div class="profile-container">
-          <profile-label :userData="user(comment)" :dateComment="date(comment)" />
-        </div>
-        <div v-if="comment && comment.highlight" class="quote-scroll">
-          <blockquote class="quote">
-            "{{comment.highlight}}"
-          </blockquote>
-        </div>
-        <div v-if="!wasDeleted" class="content-area" v-html="compiledMarkdown" />
-      </div>
+
+      <comment-content :comment="comment" />
 
       <div class="misc-detail">
         <div class="comment-op">
@@ -65,6 +56,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import VotingArrows from "@/components/VotingArrows";
 import ProfileLabel from "@/components/profile/ProfileLabel";
 import CommentReply from "@/components/comment/CommentReply";
+import CommentContent from "@/components/comment/CommentContent";
 import CommentEdit from "@/components/comment/CommentEdit";
 import LastEditedInfo from "@/components/LastEditedInfo";
 
@@ -74,6 +66,7 @@ export default {
     VotingArrows,
     ProfileLabel,
     CommentReply,
+    CommentContent,
     LastEditedInfo,
     CommentEdit
   },
@@ -108,15 +101,6 @@ export default {
         return !this.comment.parentComment;
       },
 
-      compiledMarkdown() {
-        marked.setOptions({
-          breaks: true
-        });
-        const htmlMarkdown = marked(this.comment.content);
-        const updatedHtmlMarkdown = this.updateLinkToOpenTab(htmlMarkdown);
-        return this.linkifyMentions(updatedHtmlMarkdown);
-      },
-
       placeholderAvatar(state) {
         return state.placeholderAvatar;
       },
@@ -139,15 +123,17 @@ export default {
         }
       }
     }),
+
     commentId() {
-      return this.comment._id;
+      return this.comment._id
     },
+
     commentMentions() {
-      if (!this.comment.mentions) return [];
-      else return this.comment.mentions;
+      return (!this.comment.mentions) ? [] : this.comment.mentions
     },
+
     commentContent() {
-      return this.comment.content;
+      return this.comment.content
     }
   },
   methods: {
@@ -156,39 +142,6 @@ export default {
       'removeComment',
       'commentsFetch'
     ]),
-
-    updateLinkToOpenTab(html) {
-      const regExLink = /\<a href=/gi;
-      const updatedLink = '<a target="_blank" href=';
-      return html.replace(regExLink, updatedLink);
-    },
-
-    linkifyMentions(html) {
-      const { mentions } = this.comment;
-      if (!mentions) {
-        return html
-      }
-
-      // We sort mentions by longest name first so that we don't have partial
-      // matches from shorter mentions that would mess up the mention links.
-      const sortedMentions = mentions.slice(0).sort((a, b) => {
-        return a.name.length >= b.name.length
-      })
-
-      let newHtml = html
-
-      for (var i = 0; i < sortedMentions.length; i++) {
-        const user = sortedMentions[i]
-        const newText = `<a href="${this.getPublicProfileRoute(user)}" class="mention-link" target="_blank">@${user.name || 'anonymous'}</a>`
-        newHtml = newHtml.replace(new RegExp(`@${user._id}|@${user.name}`,'g'), newText)
-      }
-
-      return newHtml
-    },
-
-    getPublicProfileRoute (user) {
-      return `/profile/${user.name.toLowerCase().replace(/[ ]/g,'-')}-${user._id}`
-    },
 
     doneReplyingCallback() {
       this.isReplying = false;
