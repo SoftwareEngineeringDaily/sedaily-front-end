@@ -12,7 +12,7 @@ import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
 import { AdminDashboard, AdminCompany, AdminTopic } from '@/views/admin'
-import { TopicForm, TopicPageEdit } from '@/views/topic'
+import { TopicPage, TopicForm, TopicPageEdit } from '@/views/topic'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
@@ -69,6 +69,7 @@ const router = new Router({
         { path: 'topic/:id', component: TopicForm }
       ]
     },
+    { path: '/topic/:slug', component: TopicPage },
     { path: '/topic/:slug/edit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],

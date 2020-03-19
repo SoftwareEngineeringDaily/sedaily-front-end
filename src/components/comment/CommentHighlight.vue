@@ -6,7 +6,7 @@
         <comment-compose
           :highlight="highlight"
           :entityId="forumThreadId"
-          :rootEntityType='"forumthread"'
+          :rootEntityType="rootEntityType"
           :onSubmit="onSubmit" />
       </div>
     </div>
@@ -25,6 +25,10 @@ export default {
   props: {
     post: {
       type: Object,
+    },
+    rootEntityType: {
+      type: String,
+      default: 'forumthread'
     },
     top: {
       type: Number,

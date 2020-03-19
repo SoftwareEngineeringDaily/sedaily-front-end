@@ -7,6 +7,7 @@
       :existingMentions="originalMentions"
       :showCancel="true"
       :submitButtonText="'Edit'"
+      :rootEntityType="rootEntityType"
       >
     </comment-form>
 </template>
@@ -33,7 +34,10 @@ export default {
     doneCallback: {
       type: Function,
       required: true
-    }
+    },
+    rootEntityType: {
+      type: String,
+    },
   },
   components: {
     CommentForm

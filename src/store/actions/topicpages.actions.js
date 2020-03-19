@@ -11,6 +11,13 @@ export default {
     })
   },
 
+  getTopicPageEdit: (_, slug ) => {
+    return axios.get(`${BASE_URL}/topicpage/${slug}/edit`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   saveTopicPage: (_, { slug, data } ) => {
     return axios.put(`${BASE_URL}/topicpage/${slug}`, data)
     .then((response) => {

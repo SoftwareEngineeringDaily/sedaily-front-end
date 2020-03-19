@@ -2,15 +2,14 @@
   <topic-page-template>
     <template v-slot:content>
       <div class="topicpage-edit">
-        <Spinner :show="loading"/>
+        <spinner :show="loading"/>
         <div v-if="!editPermission.canEdit" class="no-edit">Can't edit this Topic. <br>{{editPermission.msg}}</div>
         <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
         
           <div class="topicpage-header">
-            <h1 class="header-title">{{topicData.name}}</h1>
-            <div class="mode-status">
+            <h1 class="header-title">{{topicData.name}} 
               <button @click='previewEdit' class="button-secundary button-preview">{{buttonPreviewText}}</button>
-            </div>
+            </h1>
             <ImageEditThumb
               v-if="showThumb"
               :class="['topic-logo', !isPreviewing ? 'topic-logo-edit' : '']"
@@ -41,7 +40,7 @@
             <div class="topicpage-history-event" v-for="event in topicPageData.history" :key="event._id">
               <div class="time">{{dateFormat(event.dateCreated)}}</div>
               <div class="event"> {{getHistoryEvent(event.event)}}</div>
-              <Avatar width="30px" :user="event.user" />
+              <avatar width="30px" :user="event.user" />
               <div class="name"> {{event.user.name}}</div>
             </div>
           </div>
@@ -110,16 +109,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTopicPage', 'saveTopicPage']),
+    ...mapActions(['getTopicPageEdit', 'saveTopicPage']),
 
     loadTopic () {
       this.loading = true
-      this.getTopicPage(this.$route.params.slug).then((data) => {
+      this.getTopicPageEdit(this.$route.params.slug).then((data) => {
         this.topicData = data.topic
         data.topicPage.history.sort((o1, o2) => {
           return o1.dateCreated >= o2.dateCreated ? -1 : 1;
         });
-        this.topicPageData = { ...data.topicPage, logo: '' }
+        this.topicPageData = data.topicPage
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
@@ -158,6 +157,7 @@ export default {
         slug: this.topicData.slug,
         data: {
           content: this.topicPageData.content,
+          logo: this.topicPageData.logo,
           event: 'edit'
         }
       }
@@ -198,30 +198,15 @@ export default {
   @import '~simplemde/dist/simplemde.min.css';
 
   .topicpage-edit
-    margin-top 5px
     
     .spinner
-        margin: 0 auto;
-        display block
+      margin: 0 auto;
+      display block
     
     .no-edit
       padding 20px
       text-align center
       font-size 22px
-    
-    .topicpage-header
-      display flex
-      align-items center
-      
-      .topic-logo-edit
-        border 1px solid #e9ecef
-
-      .mode-status
-        flex 1
-        padding 0 20px
-        color #999
-        font-size 18px
-        font-weight 800
     
     .button-save
       display block
@@ -249,19 +234,18 @@ export default {
     
     .button-preview
       width 80px
+      margin-left 10px
 
     .button-submit
 
       .spinner
         width 22px
         height 22px
+        display inline-block
 
         >>> circle
           stroke #ffffff
 
-    .topicpage-content
-      margin-top 20px
-    
     .topicpage-history
       margin 30px 0
 

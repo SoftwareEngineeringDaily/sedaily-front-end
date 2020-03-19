@@ -9,6 +9,7 @@
           :isSubmitting="isSubmitting"
           :content="commentContent"
           :submitCallback="submitCallback"
+          :rootEntityType="rootEntityType"
           :cancelPressed="doneCallback"
           :existingMentions="existingMentions"
           :showCancel="true"

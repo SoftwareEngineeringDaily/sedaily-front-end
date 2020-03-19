@@ -228,7 +228,7 @@ export default {
       });
     },
 
-    submitComment() {  
+    submitComment() {
       const mentions = map(this.mentionedUsers, user => {
         return user._id;
       });

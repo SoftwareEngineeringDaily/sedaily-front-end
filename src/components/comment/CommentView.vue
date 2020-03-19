@@ -6,6 +6,7 @@
         :originalContent="commentContent"
         :originalMentions="commentMentions"
         :doneCallback="doneEditingCallback"
+        :rootEntityType="rootEntityType"
       ></comment-edit>
     </div>
     <div v-if="!editing && !wasDeleted" class="comment-holder">
