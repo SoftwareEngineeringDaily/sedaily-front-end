@@ -1,6 +1,6 @@
 <template>
   <div v-if="post && post._id" class="row top-space">
-    <div class="post-view col-lg-8">
+    <div class="post-view col-8">
       <post-topics :post="post" />
       <post-title :post="post" />
 
@@ -47,7 +47,7 @@
         :postContent="postContent"/>
     </div>
 
-    <div class="col-lg-4">
+    <div class="post-sidebar col-4">
       <div class="popular-feed">
         <related-link-list
           :headline="'Related Episodes'"
@@ -112,6 +112,7 @@ import store from '@/store'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { PlayerState } from '@/utils/playerState'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
+import { isMobile } from '@/utils/post.utils'
 import FeedPopular from '@/components/feed/FeedPopular'
 import { FETCH_POST, FETCH_COMMENTS } from '@/store/actions.type'
 
@@ -375,6 +376,14 @@ export default {
     },
   },
 
+  mounted () {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    document.documentElement.classList.add(isMobile ? 'is-mobile' : 'is-desktop')
+  },
+
   beforeMount () {
     this._fetchArticle()
   },
@@ -470,18 +479,25 @@ export default {
 
 .post-transcript
   font-size 1rem
+
   figure
     width 98%
+
   p > img
     display none
-  p,.imageCaption
+
+  p,
+  .imageCaption
     margin 30px 0
+
   .size-large
     width 100%
     height 100%
+
   .row .row,
   .powerpress_player
-      display none
+    display none
+
 .voting-arrows-container
   width 10%
   margin 0 20px
@@ -495,6 +511,7 @@ export default {
   list-style-type none
   padding 0
   margin 0
+
 .view-top
   padding 3rem 2rem
   background-color white
@@ -519,20 +536,31 @@ export default {
   grid-row 1 / span 4
   grid-column 2
 
-.comment-container[data-v-3476be63] {
-  width: 100% !important;
-}
-
 mark
   cursor pointer
   font-weight 700
   color #fff
   background-color: #a591ff
   opacity 0.7
+
   &::selection
     background-color: #a591ff
+
   &:hover
     opacity 1.0
+
+.is-desktop
+  .main-app
+    min-width 800px
+
+  .row.top-space
+    flex-wrap nowrap
+
+.is-mobile
+  .post-view,
+  .post-sidebar
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
 
 @media (max-width 600px)
   .container-fluid
