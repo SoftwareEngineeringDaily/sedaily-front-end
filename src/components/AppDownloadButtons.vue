@@ -5,19 +5,18 @@
       target="_blank">
       <img src="@/assets/iosstore.png" class="icon">
     </a>
-
     <a
       href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily"
       target="_blank">
       <img src="@/assets/androidstore.png" class="icon">
     </a>
-    <a
+    <!-- <a
       href="https://github.com/SoftwareEngineeringDaily"
       target="_blank"
       class="github-container">
       <img src="@/assets/icons/Github.png" class="github-icon">
       GitHub
-    </a>
+    </a> -->
   </div>
 </template>
 
@@ -31,7 +30,6 @@
 <style lang="stylus">
 .app-download
   display flex
-  flex-direction column
   align-items center
 
 .github-container

@@ -2,9 +2,8 @@
 import HomeSection from '@/components/HomeSection'
 
 export default {
-  extends: HomeSection,
-
   name: 'new-list',
+  extends: HomeSection,
   data () {
     return {
       type: 'new',

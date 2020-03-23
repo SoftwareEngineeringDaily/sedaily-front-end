@@ -4,7 +4,8 @@ import TopListView from '@/views/TopListView'
 import SearchView from '@/views/SearchView'
 import HomeView from '@/views/HomeView'
 import PostView from '@/views/post/PostView'
-import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
+import PopularView from '@/views/PopularView'
+import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword } from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
@@ -25,6 +26,7 @@ const router = new Router({
     { path: '/topics/:topic', component: SearchView },
     { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
+    { path: '/popular', component: PopularView },
     { path: '/top/:page(\\d+)?', component: TopListView },
     { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },

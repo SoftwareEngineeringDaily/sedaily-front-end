@@ -13,8 +13,8 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
+
       <div class="topics-container">
-        <h4>Most Popular</h4>
         <ul>
           <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
           <li
@@ -26,7 +26,6 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
-      <app-download-buttons />
     </div>
 
     <!-- <instructions :displayedPosts="displayedPosts"></instructions> -->
@@ -57,7 +56,6 @@ import moment from "moment";
 import uniqBy from 'lodash/uniqBy'
 import PostPreview from '@/components/post/PostPreview'
 import Spinner from '@/components/Spinner.vue'
-import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
 // import PostSummary from '@/components/post/PostSummary.vue'
 import CategoryList from '@/components/feed/FeedCategoryList.vue'
 // import FirstTopicsSelect from '@/components/FirstTopicsSelect.vue'
@@ -72,7 +70,6 @@ export default {
     Spinner,
     CategoryList,
     PostPreview,
-    AppDownloadButtons,
     // FirstTopicsSelect
   },
 
@@ -110,7 +107,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["topics", "searchTerm"]),
+    ...mapState([
+      'topics',
+      'searchTerm'
+    ]),
     search() {
       return this.searchTerm;
     },
@@ -137,12 +137,15 @@ export default {
       }
     }
   },
+
   created() {
-    this.$store.commit("setActiveType", { type: this.type });
-    this.$store.dispatch("mostPopular");
+    this.$store.commit('setActiveType', { type: this.type });
+    this.$store.dispatch('mostPopular');
   },
+
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
+
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
@@ -151,90 +154,125 @@ export default {
         }
       });
     }
+
     next(vm =>
       vm.$store
         .dispatch("showTopic", topicSlug)
         .then(topics => {
           vm.routerTopic = true
           vm.displayedPosts = topics.data.posts;
-          vm.$store.commit('setPosts', {posts: topics.data.posts})
+          vm.$store.commit('setPosts', {
+            posts: topics.data.posts
+          })
+
           vm.topicId = topics.data.topic[0]._id
         })
     );
   },
+
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
-    this.$store.dispatch("showTopic", topicSlug).then(topics => {
-      this.routerTopic = false
-      this.endOfPosts = false
-      this.displayedPosts = topics.data.posts;
-      this.$store.commit('setPosts', {posts: topics.data.posts})
-    });
+
+    this.$store.dispatch('showTopic', topicSlug)
+      .then(topics => {
+        this.routerTopic = false
+        this.endOfPosts = false
+        this.displayedPosts = topics.data.posts;
+        this.$store.commit('setPosts', {
+          posts: topics.data.posts
+        })
+      });
+
     next();
   },
+
   methods: {
-    ...mapActions(["showTopic", "getTopicsInSearch", "fetchSearch"]),
+    ...mapActions([
+      'showTopic',
+      'getTopicsInSearch',
+      'fetchSearch'
+    ]),
+
     getClassForTopic(topic_id) {
       return this.topicId === topic_id ? "topic-active" : "";
     },
+
     setSelectedCategory(category) {
       this.activeCategory = category;
       this.resetPosts();
     },
+
     topicHandler(topic) {
       this.displayedPosts = [];
       this.loading = true;
-      let topicId = topic._id,
-        topicSlug = topic.slug;
+
+      let topicId = topic._id;
+      let topicSlug = topic.slug;
+
       this.topicId = topicId;
-      this.showTopic(topicSlug).then(
-        topics => {
+      this.showTopic(topicSlug)
+        .then(topics => {
           this.loading = false;
           this.displayedPosts = topics.data.posts
-          this.$store.commit('setPosts', {posts: topics.data.posts})
-          }
-      );
+          this.$store.commit('setPosts', {
+            posts: topics.data.posts
+          })
+        });
+
       this.$router.push({ path: `/topics/${topicSlug}` });
     },
+
     fetchPosts() {
-      this.topicId = "";
+      this.topicId = '';
       this.$router.push({ path: `/` });
-      this.getTopicsInSearch({}).then(
-        data => {
+
+      this.getTopicsInSearch({})
+        .then(data => {
           this.displayedPosts = data.posts
-          this.$store.commit('setPosts', {posts: data.posts})
-        }
-      );
+          this.$store.commit('setPosts', {
+            posts: data.posts
+          })
+        });
+
       this.resetPosts();
     },
+
     loadMore(newSearch = false) {
       let isSearch = !!(this.$store.state.searchTerm)
-      let method = isSearch ? 'fetchSearch' : 'getTopicsInSearch'
-      if(this.routerTopic === true){
-        if(this.topicId){
+      let isPopular = !!(this.$router.history.current.path.indexOf('popular') >= 0)
+      let method = isSearch ? 'fetchSearch' : isPopular ? 'getPostsList' : 'getTopicsInSearch'
+
+      if (this.routerTopic === true) {
+        if (this.topicId) {
           this.routerTopic = false
           this.endOfPosts = false
         }
       }
+
       if (this.endOfPosts) {
         return;
       }
+
       this.loading = true;
+
       let params = {
         topic: this.topicId || undefined,
         search: undefined,
         createdAtBefore: undefined
       };
+
       if (isSearch) {
         params = {
           query: this.$store.state.searchTerm,
           page: this.$store.state.nextPage,
         }
       }
+
       if (this.displayedPosts.length > 0) {
         const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
         params.createdAtBefore = moment(lastPost.date).toISOString();
       }
+
       this.$store
         .dispatch(method, params)
         .then(result => {
@@ -256,6 +294,7 @@ export default {
           this.loading = false;
         });
     },
+
     resetPosts() {
       this.displayedPosts = [];
       this.endOfPosts = false;
