@@ -1,12 +1,10 @@
 <template>
-  <div class="topic-page">
-    <div class="row">
-      <div class="col-lg-8">
-        <slot name="content"/>
-      </div>
-      <div class="col-lg-4">
-        <slot name="side"/>
-      </div>
+  <div class="row topic-page">
+    <div class="col-8">
+      <slot name="content"/>
+    </div>
+    <div class="col-4">
+      <slot name="side"/>
     </div>
   </div>
 </template>

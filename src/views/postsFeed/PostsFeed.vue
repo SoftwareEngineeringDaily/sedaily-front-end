@@ -5,7 +5,11 @@
       infinite-scroll-disabled="loading"
       infinite-scroll-distance="10"
       >
-        <post-preview v-for="post in displayedPosts" :key="post._id" :post="post" />
+        <post-preview 
+          v-for="post in displayedPosts"
+          :key="post._id"
+          :displayedPosts="displayedPosts"
+          :post="post" />
         <spinner :show="loading"></spinner>
     </div>
   </transition>

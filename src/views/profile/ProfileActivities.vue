@@ -5,12 +5,15 @@
       <div class="activity-group-date">{{groupDateFormat(date)}}</div>
       <div class="activity-group-content">
         <div v-for="(activity, index) in items" :key="index" class="activity-container">
-          <div v-if="activity.post" class="content">
+          <div v-if="activity.entity" class="content">
             <p class="activity-label text-ellipsis">
-              Added a {{activityType(activity)}} in <router-link :to="activity.post.url">{{activity.post.title}}</router-link>
+              Added a {{activityType(activity)}} in <router-link :to="activity.entity.url">{{activity.entity.title}}</router-link>
             </p>
             <div v-if="activity.activityType === 'comment'" class="comment comment-item">
               <CommentContent :comment="comment(activity)" />
+            </div>
+            <div v-if="activity.activityType === 'relatedLink'" class="comment comment-item">
+              {{activity.title}} <a :href="activity.url">({{activity.url}})</a>
             </div>
           </div>
         </div>
@@ -88,6 +91,8 @@ export default {
         author: this.userData,
       }
     },
+
+
   }
 }
 </script>

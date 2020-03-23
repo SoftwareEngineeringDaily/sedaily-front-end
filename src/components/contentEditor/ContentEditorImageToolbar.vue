@@ -47,8 +47,6 @@ export default {
   components: {
     Spinner
   },
-  props: {
-  },
   data () {
     return {
       show: false,
@@ -62,9 +60,6 @@ export default {
   },
   beforeMount () {
     this.loadImages()
-  },
-  mounted () {
-
   },
   computed: {
     selectedImage() {

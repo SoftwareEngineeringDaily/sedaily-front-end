@@ -5,7 +5,7 @@
       :class="{ 'is-highlight': !!(highlight) }">
 
       <comment-quote :highlight="highlight" />
-      <div class='reply-container'>
+      <div class="reply-container">
         <comment-form
           :isSubmitting="isSubmitting"
           :content="commentContent"
@@ -59,7 +59,6 @@ export default {
     CommentForm,
     CommentQuote,
   },
-  beforeMount () {},
   data () {
     const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
     const existingMentions = this.replyingTo? [this.replyingTo]:[]
@@ -71,7 +70,6 @@ export default {
       loading: true
     }
   },
-
   computed: {
     ...mapGetters([ 'isLoggedIn' ]),
 
@@ -82,7 +80,6 @@ export default {
       }
     })
   },
-
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
     submitCallback ({ content, mentions }) {

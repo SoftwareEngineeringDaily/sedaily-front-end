@@ -25,11 +25,6 @@ export default {
   components: {
     AppDownloadButtons
   },
-  data () {
-    return {
-      
-    }
-  },
   computed: {
     ...mapState(["topics", "searchTerm"]),
     search() {
