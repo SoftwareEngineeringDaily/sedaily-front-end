@@ -54,8 +54,8 @@ export default {
       })
   },
 
-  register: ({ commit, state, dispatch },
-    { password, username, bio, website, name, email, newsletter }) => {
+  register: ({ commit, dispatch },
+    { password, bio, website, name, email, newsletter }) => {
 
 
     commit('analytics', {
@@ -64,7 +64,7 @@ export default {
           ['event', {
             eventCategory: 'auth',
             eventAction: 'register',
-            eventLabel: `${username}`,
+            eventLabel: `${email}`,
             eventValue: 1
           }]
         ]
@@ -72,7 +72,6 @@ export default {
     })
 
     return axios.post(`${BASE_URL}/auth/register`, {
-      username,
       bio,
       password,
       website,

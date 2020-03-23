@@ -39,10 +39,15 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
-        class="post-scroll-container"
-      >
+        class="post-scroll-container">
+
         <!-- <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary> -->
-        <post-preview v-for="post in displayedPosts" :key="post._id" :post="post" />
+        <post-preview
+          v-for="post in displayedPosts"
+          :key="post._id"
+          :displayedPosts="displayedPosts"
+          :post="post" />
+
         <div class="spinner-holder">
           <spinner :show="loading"></spinner>
         </div>

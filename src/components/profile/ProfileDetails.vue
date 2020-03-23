@@ -5,7 +5,7 @@
         <div v-if="userData" class="user-details">
           <div class="row-name">
             <h3 class="display-name">
-              {{displayName}}
+              {{ displayName }}
             </h3>
             <button
             v-if="ownProfile"
@@ -15,12 +15,15 @@
             </button>
           </div>
           <p class="display-bio text-muted">
-            {{displayBio}}
+            {{ displayBio }}
           </p>
           <p class="display-website" v-if="userData.website">
-            <a :href="userData.website | externalUrl" target="_blank"
-            rel="external nofollow"
-            > {{ userData.website | host }} </a>
+            <a
+              :href="userData.website | externalUrl"
+              target="_blank"
+              rel="external nofollow">
+              {{ userData.website | host }}
+            </a>
           </p>
         </div>
         <div class="crop-image">
@@ -28,7 +31,7 @@
         </div>
       </div>
       <router-link v-if="ownProfile && publicLink" :to="publicLink" class="public-link">See public profile</router-link>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -88,7 +91,7 @@
           return this.userData.bio || `${this.displayName} is still writing their biography`
         },
         avatarUrl(state) {
-          return (this.userData) ? this.userData.avatarUrl || state.placeholderAvatar : state.placeholderAvatar 
+          return (this.userData) ? this.userData.avatarUrl || state.placeholderAvatar : state.placeholderAvatar
         },
         publicLink (state) {
           if (!this.userData || !this.userData.name) return null;

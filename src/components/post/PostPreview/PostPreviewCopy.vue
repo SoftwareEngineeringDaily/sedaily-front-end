@@ -1,22 +1,27 @@
 <template>
-  <div class="body" :class="{ featured }" >
-    <post-topics-list :post="post" v-if="showTags"/>
+  <div class="body" :class="{ featured }">
+    <router-link :to="postPrettyUrl">
+      <post-topics-list :post="post" v-if="showTags"/>
 
-    <h3 class="title">
-      {{ post.title.rendered | decodeString }}
-    </h3>
+      <h3 class="title">
+        {{ post.title.rendered | decodeString }}
+      </h3>
 
-    <div class="copy" v-if="showCopy">
-      <span v-if="post.excerpt.rendered !== '' && metaDescription === ''" v-html="post.excerpt.rendered"></span>
-      <p v-else>{{metaDescription}}</p>
-    </div>
+      <div class="copy" v-if="showCopy">
+        <span v-if="post.excerpt.rendered !== '' && metaDescription === ''" v-html="post.excerpt.rendered"></span>
+        <p v-else>{{metaDescription}}</p>
+      </div>
+    </router-link>
+
     <div class="author">
       <post-meta
         :post="post"
+        :displayedPosts="displayedPosts"
         :showDuration="false"
         :isPreview="isPreview" />
       <post-author :post="post" />
     </div>
+
     <!-- <div class="bottom-bar">
       <voting-arrows
         class="upvote-post"
@@ -31,6 +36,7 @@
         <div class="profile-pic" alt="" v-else :style='guestImage'></div>
       </span>
     </div> -->
+
   </div>
 </template>
 
@@ -52,6 +58,9 @@ export default {
     post: {
       type: Object,
       required: true
+    },
+    displayedPosts: {
+      type: Array,
     },
     inverse: {
       type: Boolean
@@ -77,12 +86,14 @@ export default {
     postPrettyUrl () {
       return postPrettyUrl(this.post)
     },
+
     guestImage () {
       if (this.featured){
         console.log(this.post)
       }
       return `background: url('${this.post.guestImage}') center center / cover no-repeat`
     },
+
     metaDescription () {
       const maxLength = 200;
       const el = document.createElement('template')
@@ -110,19 +121,19 @@ export default {
     }
   },
   methods: {
-     upvoteHandler () {
-        // TODO: Fix this action, it will error if it's being called
-        // and there is no episode stored for this id in the store, which
-        // can happen if rendered from forum:
-        this.$store.dispatch('upvote', {
-          id: this.post._id
-        })
-      },
-      downvoteHandler () {
-        this.$store.dispatch('downvote', {
-          id: this.post._id
-        })
-      }
+    upvoteHandler () {
+      // TODO: Fix this action, it will error if it's being called
+      // and there is no episode stored for this id in the store, which
+      // can happen if rendered from forum:
+      this.$store.dispatch('upvote', {
+        id: this.post._id
+      })
+    },
+    downvoteHandler () {
+      this.$store.dispatch('downvote', {
+        id: this.post._id
+      })
+    }
   }
 }
 </script>
@@ -136,16 +147,24 @@ export default {
   flex-direction column
   text-decoration none !important
   color #222 !important
+
+  a:hover
+    color #222
+    text-decoration none
+
   &.featured
     justify-content center
+
   @media (max-width 599px)
     padding: 1.5rem;
+
   .title
     margin-bottom 1rem
     text-decoration none
     font-size 1.7rem
     font-weight 800
     color inherit
+
   .tags
     margin 0 0 10px
 

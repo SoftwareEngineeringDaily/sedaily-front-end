@@ -19,7 +19,6 @@ export default {
 <style lang="stylus" scoped>
 .quote-scroll
   overflow auto
-  max-height 156px
 
 .quote
   display: inline;

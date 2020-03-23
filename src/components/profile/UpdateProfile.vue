@@ -40,22 +40,6 @@
         </div>
 
         <div class="form-group">
-          <label for="usernameInput">Username <span class="public-info"/></label>
-          <input type="username" 
-          v-model="username"
-          id="usernameInput"
-          name="username"
-          v-validate="'required'"
-          class="form-control"
-          aria-describedby="usernameHelp"
-          placeholder="Username">
-
-          <div v-show="errors.has('username')" class="alert alert-danger">
-            {{ errors.first("username") }}
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="nameInput">Name <span class="public-info"/></label>
           <input type="text" 
           v-model="name"
@@ -106,14 +90,10 @@
 // Maybe this can be a simple updater of profiles etc:
 import Spinner from '@/components/Spinner'
 import { mapState, mapActions } from 'vuex'
-// TODO: remove usename update for now?
+
 export default {
   name: 'update-profile',
   props: {
-    initialUsername: {
-      type: String,
-      required: true
-    },
     me: {
       type: Object,
       required: false
@@ -128,7 +108,6 @@ export default {
       msg: '',
       image: '',
       file: null,
-      username: this.initialUsername,
       name: this.me ? this.me.name : '',
       email: this.me ? this.me.email : '',
       bio: this.me ? this.me.bio : '',
@@ -138,7 +117,6 @@ export default {
   },
 
   computed: {
-    // local computed methods +
     ...mapState({
       id (state) {
         return state.me._id
@@ -189,14 +167,13 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { username, bio, website, name, id } = this
+          const { bio, website, name, id } = this
 
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({ imageFile: this.file })
               .then((imageSuccess) => {
                 return this.updateProfile({
-                  username,
                   id,
                   name,
                   bio,
@@ -215,7 +192,6 @@ export default {
               })
           } else {
             updatePromise = this.updateProfile({
-              username,
               id,
               name,
               bio,

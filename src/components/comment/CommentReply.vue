@@ -3,6 +3,7 @@
     <div
       v-if="me && isLoggedIn"
       :class="{ 'is-highlight': !!(highlight) }">
+
       <comment-quote :highlight="highlight" />
       <div class='reply-container'>
         <comment-form

@@ -4,7 +4,10 @@
     <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
     <div v-else class="profile-view col-md-12">
       <profile-details :userData="user" />
-      <profile-activities :activities="activities" :activityDays="activityDays" />
+      <profile-activities
+        :userData="user"
+        :activities="activities"
+        :activityDays="activityDays" />
     </div>
   </div>
 </template>
@@ -31,6 +34,7 @@ export default {
       activityDays: 0
     }
   },
+
   mounted () {
     this.fetchData()
   },
@@ -66,7 +70,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  .container 
+  .container
     .profile-loading
       text-align center
 </style>
