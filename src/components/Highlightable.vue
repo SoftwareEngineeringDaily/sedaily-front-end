@@ -1,5 +1,5 @@
 <template>
-  <div class="highlight-table">
+  <div class="highlighttable">
     <div
       v-show="showTools"
       class="tools"
@@ -223,8 +223,8 @@ export default {
 
       const isQuote = (target.tagName === 'MARK')
       const { entityId, parentCommentId } = target.dataset
-      const validStartNode = selection.getRangeAt(0).startContainer.parentNode.closest('.highlight-table')
-      const validEndNode = selection.getRangeAt(0).endContainer.parentNode.closest('.highlight-table')
+      const validStartNode = selection.getRangeAt(0).startContainer.parentNode.closest('.highlighttable')
+      const validEndNode = selection.getRangeAt(0).endContainer.parentNode.closest('.highlighttable')
       const isWithinTools = await this.isWithin('tools', target)
       const blurSelection = (!validStartNode || !validEndNode)
 

@@ -126,10 +126,6 @@ export default {
       })
     },
 
-    handleInput (content) {
-      
-    },
-
     getHTML () {
       return this.editor.getHTML()
     },
@@ -173,16 +169,13 @@ export default {
     },
 
     dateFormat (date) {
-      const day = moment(date);
-      if (day.format('YYYYMMDD') === moment().format('YYYYMMDD')) return moment(date).format('[Today, ]HH[h]mm')
+      if (moment().isSame(date, 'day')) return moment(date).format('[Today, ]HH[h]mm')
       return moment(date).format('MMMM Do, YYYY')
     },
 
-    getHistoryEvent (event) {
-      switch (event) {
-        case 'edit': return 'Edited'
-      }
-      return ''
+    getHistoryEvent (event) {      
+      if (event === 'edit') return 'Edited'
+      return '-'
     },
 
     editorReplaceSelection (content) {
@@ -212,12 +205,7 @@ export default {
       display block
       margin 20px auto
       width 120px
-    
-    >>> .fullscreen, 
-    >>> .CodeMirror-fullscreen, 
-    >>> .editor-preview-active-side
-      z-index 11000
-    
+      
     .button-secundary
       background-color inherit
       border 1px solid #222

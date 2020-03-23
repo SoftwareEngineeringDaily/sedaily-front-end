@@ -42,8 +42,9 @@ export default {
       return this.topics.mostPopular;
     },
     showUserTopics() {
-      if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
-        if (this.$store.state.topics.user.length !== 0) {
+      const { me, topics } = this.$store.state
+      if ((Object.entries(me).length !== 0 && me.constructor === Object) && topics.user !== null) {
+        if (topics.user.length !== 0) {
           return true
         }
       } else {

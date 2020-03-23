@@ -71,9 +71,10 @@ export default {
           height: `${this.sizeLimit}px`
         }
       }
+      const squareSize = (this.size.width || this.size.height) ? `${this.size.width || this.size.height}px` : undefined
       return {
-        width: (this.size.width || this.size.height) ? `${this.size.width || this.size.height}px` : undefined,
-        height: (this.size.width || this.size.height) ? `${this.size.width || this.size.height}px` : undefined,
+        width: squareSize,
+        height: squareSize,
       }
     }
   },

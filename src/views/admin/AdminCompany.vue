@@ -1,6 +1,6 @@
 <template>
   <div class="admin-company">
-    <h2> Companies </h2>
+    <h2>Companies</h2>
     <div class="button-group">
       <router-link class="button-submit" to="/admin/company/add">Create new company</router-link>
     </div>
@@ -9,8 +9,8 @@
       <div>externalUrl: {{company.externalUrl}}</div>
       <div>localUrl: {{company.localUrl}}</div>
       <div class="button-group">
-        <router-link class="link-button" target="_blank" :to='companyPath(company)'>View</router-link>
-        <router-link class="link-button" :to='editCompany(company)'>Edit</router-link>
+        <router-link class="link-button" target="_blank" :to="companyPath(company)">View</router-link>
+        <router-link class="link-button" :to="editCompany(company)">Edit</router-link>
       </div>
     </div>
 </div>

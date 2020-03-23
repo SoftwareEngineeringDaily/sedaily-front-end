@@ -18,8 +18,9 @@ import Spinner from '@/components/Spinner.vue'
 import VueSimplemde from 'vue-simplemde'
 import ContentEditorImageToolbar from './ContentEditorImageToolbar'
 
-const toolbarIcons = ['bold','italic','strikethrough', '|', 'heading-smaller', 'heading-bigger', '|', 'code', 'quote', 'unordered-list', 'ordered-list', 'clean-block', 
-  'link', 'table' , '|', 'fullscreen', 'guide', '|']
+const toolbarIcons = ['bold','italic','strikethrough', '|', 'heading-smaller', 'heading-bigger', '|', 
+  'code', 'quote', 'unordered-list', 'ordered-list', 'clean-block', 
+  'link', 'table' , '|', 'guide', '|']
 
 export default {
   name: 'content-editor',
@@ -108,12 +109,7 @@ export default {
     .spinner
         margin 0 auto
         display inherit
-    
-    >>> .fullscreen, 
-    >>> .CodeMirror-fullscreen, 
-    >>> .editor-preview-active-side
-      z-index 11000
-    
+        
     .button-secundary
       background-color inherit
       border 1px solid #222

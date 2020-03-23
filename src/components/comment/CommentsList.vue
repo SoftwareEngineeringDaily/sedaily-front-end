@@ -83,7 +83,7 @@ export default {
     },
     rootEntityType: {
       type: String,
-      required: true
+      default: 'forumthread'
     },
     loading: {
       type: Boolean,

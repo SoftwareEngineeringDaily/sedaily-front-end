@@ -13,12 +13,7 @@ export default {
   components: {
     HomeLeftPanel
   },
-  name: 'home',
-  data () {
-    return {
-      
-    }
-  }
+  name: 'home'
 }
 </script>
 
