@@ -30,6 +30,12 @@
       .topic-logo-edit
         border 1px solid #e9ecef
 
+    .content-block
+      >>> img
+        max-width 95%
+        margin 20px auto
+        display block
+
       
     
 </style>

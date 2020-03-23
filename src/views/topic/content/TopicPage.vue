@@ -10,16 +10,14 @@
       
       <topic-page-maintainer :user="topicData.maintainer" />
       
-      <!-- <div class="topicpage-content" v-html="topicPageData.content"></div> -->
-
-      <div class="post-content">
-      <highlightable
-        :contentUrl="contentUrl"
-        :forumThreadId="topicPageData._id"
-        :rootEntityType="'topic'"
-        @highlight="onHighlight">
-        <div v-html="highlightedContent" />
-      </highlightable>
+      <div class="content-block">
+        <highlightable
+          :contentUrl="contentUrl"
+          :forumThreadId="topicPageData._id"
+          :rootEntityType="'topic'"
+          @highlight="onHighlight">
+          <div v-html="highlightedContent" />
+        </highlightable>
       </div>
       
       <comments-list
@@ -261,9 +259,6 @@ export default {
       meta: [
         this.metaTag('og:title', title),
         this.metaTag('og:url', location.href),
-        // this.metaTag('og:description', metaDescription),
-        // this.metaTag('description', metaDescription),
-
         // links must use https
         this.metaTag('og:image', featuredImage.replace('http://','https://'))
       ]

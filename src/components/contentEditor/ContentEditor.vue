@@ -8,18 +8,25 @@
       :configs="editorConfig"
       @input="onContentChange"
     />
+    <content-editor-image-toolbar ref="imageToolbar" @action="onImageAction" />
   </div>
 </template>
 
 <script>
-import Spinner from "@/components/Spinner.vue";
+import Vue from 'vue'
+import Spinner from '@/components/Spinner.vue'
 import VueSimplemde from 'vue-simplemde'
+import ContentEditorImageToolbar from './ContentEditorImageToolbar'
+
+const toolbarIcons = ['bold','italic','strikethrough', '|', 'heading-smaller', 'heading-bigger', '|', 'code', 'quote', 'unordered-list', 'ordered-list', 'clean-block', 
+  'link', 'table' , '|', 'fullscreen', 'guide', '|']
 
 export default {
   name: 'content-editor',
   components: {
     Spinner,
     VueSimplemde,
+    ContentEditorImageToolbar
   },
   props: {
     value: {
@@ -38,19 +45,20 @@ export default {
         status: false,
         spellChecker: false,
         uploadImage: true,
-        // hideIcons: ['side-by-side'],
-        // TODO: upload images
-        // toolbar: ['bold', {
-        //     name: "image-import",
-        //     action: () => { console.log('action') },
-        //     className: "fa fa-picture-o",
-        //     title: "Image",
-        // }]
+        toolbar: [ ...toolbarIcons,  {
+            name: "image-import",
+            action: this.goAddImage,
+            className: "fa fa-picture-o",
+            title: "Image",
+        }]
       }
     }
   },
   beforeMount () {
     this.content = this.value
+  },
+  mounted () {
+    this.moveImageToolbar()
   },
   computed: {
     editor () {
@@ -58,6 +66,12 @@ export default {
     }
   },
   methods: {
+
+    moveImageToolbar () {
+      // move the element of imageToolbar to between editor elements
+      this.$el.querySelector('.vue-simplemde .editor-toolbar').insertAdjacentElement('afterend',this.$refs.imageToolbar.$el);
+    },
+
     onContentChange () {
       this.$emit('input', this.content)
     },
@@ -66,8 +80,19 @@ export default {
       return this.editor.markdown(this.value)
     },
 
+    onImageAction (options) {
+      if (!options.method) return
+      if (!this[options.method]) return
+
+      this[options.method].apply(this, [options.value])
+    },
+
     editorReplaceSelection (content) {
       this.editor.codemirror.doc.replaceSelection(content)
+    },
+
+    goAddImage () {
+      this.$refs.imageToolbar.setShow()
     }
   }
 }
@@ -75,14 +100,14 @@ export default {
 
 <style scoped lang="stylus">
   @import '../../css/variables'
-  @import '~simplemde/dist/simplemde.min.css';
+  @import '~simplemde/dist/simplemde.min.css'
 
   .content-editor
     margin-top 5px
     
     .spinner
-        margin: 0 auto;
-        display: inherit;
+        margin 0 auto
+        display inherit
     
     >>> .fullscreen, 
     >>> .CodeMirror-fullscreen, 

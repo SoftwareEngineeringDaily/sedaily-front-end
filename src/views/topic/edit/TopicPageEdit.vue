@@ -8,7 +8,7 @@
         
           <div class="topicpage-header">
             <h1 class="header-title">{{topicData.name}} 
-              <button @click='previewEdit' class="button-secundary button-preview">{{buttonPreviewText}}</button>
+              <button @click="previewEdit" class="button-secundary button-preview">{{buttonPreviewText}}</button>
             </h1>
             <ImageEditThumb
               v-if="showThumb"
@@ -22,7 +22,7 @@
 
           <topic-page-maintainer :user="topicData.maintainer" />
 
-          <div v-if="isPreviewing" class="topicpage-content" v-html="htmlContent"></div>
+          <div v-if="isPreviewing" class="content-block" v-html="htmlContent"></div>
 
           <content-editor
             v-show="!isPreviewing"
@@ -30,7 +30,7 @@
             ref="editor"
           />
 
-          <button v-show="!isPreviewing" @click='save' :disabled="saving" class="button-submit button-save">
+          <button v-show="!isPreviewing" @click="save" :disabled="saving" class="button-submit button-save">
             <spinner :show="saving"></spinner>
             Save
           </button>
