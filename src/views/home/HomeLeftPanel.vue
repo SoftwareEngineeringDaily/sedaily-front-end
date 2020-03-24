@@ -10,7 +10,7 @@
       <h4>Most Popular</h4>
       <router-link to="/">All</router-link>
       <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
-          {{ topic.name }}
+        {{ topic.name }}
       </router-link>
     </div>
     <app-download-buttons />
@@ -26,10 +26,7 @@ export default {
     AppDownloadButtons
   },
   computed: {
-    ...mapState(["topics", "searchTerm"]),
-    search() {
-      return this.searchTerm;
-    },
+    ...mapState(["topics"]),
     showTopics() {
       return this.topics.user;
     },
@@ -52,7 +49,6 @@ export default {
     this.$store.dispatch("mostPopular");
   },
   methods: {
-    ...mapActions(["getTopicsInSearch", "fetchSearch"]),
     getTopicRoute(topic) {
       return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
     },

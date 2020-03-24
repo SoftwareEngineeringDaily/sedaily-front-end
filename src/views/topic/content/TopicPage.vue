@@ -58,6 +58,12 @@
         :rootEntityType="'topic'"
         :commentCount="highlightCount"
         :comments="comments" />
+      <post-highlights
+        :highlight="highlight"
+        :comments="comments"
+        :commentCount="highlightCount"
+        :rootEntityType="'topic'"
+        :post="{}" />
     </template>
   </topic-page-template>    
 </template>
@@ -74,6 +80,7 @@ import { parseIdsIntoComments } from '@/utils/comment.utils'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import Highlightable from '@/components/Highlightable'
+import { PostHighlights } from '@/components/post'
 
 export default {
   name: 'topicpage-content',
@@ -85,7 +92,8 @@ export default {
     CommentsList,
     RelatedLinkList,
     RelatedLinkCompose,
-    Highlightable
+    Highlightable,
+    PostHighlights
   },
   beforeMount () {
      marked.setOptions({

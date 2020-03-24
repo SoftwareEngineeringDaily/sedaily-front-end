@@ -25,14 +25,15 @@
             @blur="toggleFocus"
             @keyup.enter="onSearch" />
         </div>
-
-        <ul v-if="currentRefinement" v-for="index in indices" :key="index.label">
-          <li v-for="hit in index.hits" :key="hit.objectID">
-              <router-link :to="postPrettyUrl(hit)" :post="hit">
-                <ais-highlight attribute="_title" :hit="hit"/>
-              </router-link>
-          </li>
-        </ul>
+        <template v-if="currentRefinement">
+          <ul v-for="index in indices" :key="index.label">
+            <li v-for="hit in index.hits" :key="hit.objectID">
+                <router-link :to="postPrettyUrl(hit)" :post="hit">
+                  <ais-highlight attribute="_title" :hit="hit"/>
+                </router-link>
+            </li>
+          </ul>
+        </template>
 
       </div>
     </ais-autocomplete>
@@ -76,31 +77,40 @@ export default {
     },
 
     async onSearch({ target }) {
-      const path = target.value ? `/?query=${target.value}` : '/'
+      if (!target.value) {
+        this.hideSearch()
+        return (this.$route.name !== 'PostsAll') ? this.$router.push({ name: 'PostsAll' }) : false
+      }
+
+      this.$store.commit('setNextPage', { nextPage: 0 })
+
+      this.hideSearch()
 
       try {
-        await this.$router.push({ path })
+        if (!this.$route.query.query || this.$route.query.query !== target.value) {
+          await this.$router.push({ name: 'Search', query: { query: target.value } })
+        }
       }
       catch (err) {
         console.error('err ', err)
       }
 
       window.scrollTo(0, 0)
+    },
 
-      if (!target.value) {
-       return document.location.reload(true)
-      }
-
-      this.$store.commit('setSearchTerm', { searchTerm: target.value || null })
-      this.$store.commit('setNextPage', { nextPage: 0 })
-
-      if (target && isFunction(target.blur)) {
-        target.blur()
+    hideSearch() {
+      const { input } = this.$refs
+      if (!input) return
+      if (isFunction(input.blur)) {
+        input.blur()
+        this.onSearchInactive()
       }
     },
+
     onSearchInactive() {
       this.searchActive = false
     },
+
     onSearchActive() {
       !this.searchActive
         ? (this.searchActive = true, this.$refs.input.focus())
@@ -116,11 +126,13 @@ export default {
 .search-bar
   display flex
   min-width 25px
+
   @media (max-width 600px)
     width 100%
     background-color #dee2e6
     padding 10px
     margin-right 0
+
   .search-icon
     cursor: pointer
     vertical-align: unset
@@ -130,11 +142,13 @@ export default {
     height: unset
     margin-left 5px
     filter: none
+
     svg
       pointer-events: none;
       margin-left: 0;
       height: 1.5rem;
       width: 1.5rem;
+
   input
     padding: 0
     padding-left 8px
@@ -146,15 +160,19 @@ export default {
     border-color: initial
     border-image: initial
     transition all .3s cubic-bezier(0.19, 1, 0.22, 1) 0s
+
     @media (max-width 600px)
       width 100%
       background-color transparent
+
     &:focus
       outline: none
+
   &.open
     padding 5px
     input
       width: 15rem
+
 .search-bar
   flex 1
   display flex

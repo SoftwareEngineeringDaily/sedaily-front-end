@@ -1,11 +1,9 @@
 import Router from 'vue-router'
 
-import TopListView from '@/views/TopListView'
-import SearchView from '@/views/SearchView'
-import HomeView from '@/views/HomeView'
 import { Home }  from '@/views/home'
 import PostsFeed  from '@/views/postsFeed/PostsFeed'
 import PostView from '@/views/post/PostView'
+import SearchView  from '@/views/search/SearchView'
 import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
@@ -24,18 +22,18 @@ import authorize from './authHook'
 const router = new Router({
   mode: 'history',
   routes: [
-    // { path: '/', name: 'HomeView', component: HomeView },
     { path: '/', name: 'Home', component: Home,
       children: [
         { path: '', name: 'PostsAll', component: PostsFeed },
         { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
+        { path: '/search', name: 'Search', component: SearchView },
       ]
     },
-    { path: '/topics/:topic', component: SearchView },
-    { path: '/topics/:topic/:search', component: SearchView },
+    // { path: '/topics/:topic', component: SearchView },
+    // { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
-    { path: '/top/:page(\\d+)?', component: TopListView },
-    { path: '/new/:page(\\d+)?', component: SearchView },
+    // { path: '/top/:page(\\d+)?', component: TopListView },
+    // { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostView },

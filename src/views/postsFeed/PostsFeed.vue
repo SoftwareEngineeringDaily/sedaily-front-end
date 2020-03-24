@@ -74,37 +74,6 @@ export default {
       if (to.name === 'Posts') return this.fetchTopicPosts()
     }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   const topicSlug = to.params.slug;
-  //   if (topicSlug === undefined) {
-  //     return next(vm => {
-  //       if(vm.$store.state.searchTerm === null) {
-  //         vm.routerTopic = false
-  //         vm.fetchPosts()
-  //       }
-  //     });
-  //   }
-  //   next(vm =>
-  //     vm.$store
-  //       .dispatch("showTopic", topicSlug)
-  //       .then(topics => {
-  //         vm.routerTopic = true
-  //         vm.displayedPosts = topics.data.posts;
-  //         vm.$store.commit('setPosts', {posts: topics.data.posts})
-  //         vm.topicId = topics.data.topic[0]._id
-  //       })
-  //   );
-  // },
-  // beforeRouteUpdate(to, from, next) {
-  //   const topicSlug = to.params.topic;
-  //   this.$store.dispatch("showTopic", topicSlug).then(topics => {
-  //     this.routerTopic = false
-  //     this.endOfPosts = false
-  //     this.displayedPosts = topics.data.posts;
-  //     this.$store.commit('setPosts', {posts: topics.data.posts})
-  //   });
-  //   next();
-  // },
   methods: {
     ...mapActions(["showTopic", "getTopicsInSearch", "fetchSearch"]),
     fetchPosts() {
