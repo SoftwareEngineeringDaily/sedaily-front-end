@@ -13,6 +13,7 @@
           v-if="canComment"
           :forumThreadId="threadId"
           :highlight="highlight"
+          :rootEntityType="rootEntityType"
           :autoFocus="true"
           :onSubmit="onClose" />
 
@@ -21,6 +22,7 @@
           :post="post"
           :onChange="onClose"
           :forumThreadId="threadId"
+          :rootEntityType="rootEntityType"
           :commentCount="commentsSorted.length"
           :comments="commentsSorted" />
 
@@ -58,6 +60,10 @@ export default {
     highlight: {
       type: String,
       defaults: '',
+    },
+    rootEntityType: {
+      type: String,
+      default: 'forumthread'
     }
   },
 

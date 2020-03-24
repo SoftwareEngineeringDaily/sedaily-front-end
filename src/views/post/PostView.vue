@@ -37,6 +37,7 @@
         :initialComment="comment"
         :post="post"
         :forumThreadId="forumThreadId"
+        :rootEntityType="'forumthread'"
         :commentCount="commentCount"
         :comments="comments" />
 
@@ -74,6 +75,7 @@
           :post="post"
           :preview="true"
           :forumThreadId="forumThreadId"
+          :rootEntityType="'forumthread'"
           :commentCount="highlightCount"
           :comments="comments" />
       </div>

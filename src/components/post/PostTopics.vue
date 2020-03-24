@@ -1,7 +1,7 @@
 <template>
   <div class="post-topics-header">
     <div class="post-topics">
-      <div class="topics" v-for="item in postTopics" :key="item.id" @click="goTo(item.slug)">{{ item.name }}</div>
+      <div class="topics" v-for="item in postTopics" :key="item.id" @click="goTo(item)">{{ item.name }}</div>
     </div>
     <div v-if="isLoggedIn" class="add-topics">
       <button class="add-topics-btn" type="button" @click="showModal"><i class="fa fa-pencil"/></button>
@@ -120,8 +120,9 @@ export default {
         this.isOpen = false;
       }
     },
-    goTo(slug){
-      this.$router.push({ path: `/topics/${slug}` });
+    goTo(topic){
+      const path = (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
+      this.$router.push({ path });
     },
     setResult(item) {
       const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))

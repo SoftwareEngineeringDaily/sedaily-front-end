@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="highlighttable">
     <div
       v-show="showTools"
       class="tools"
@@ -19,6 +19,7 @@
           <comment-highlight
             :forumThreadId="forumThreadId"
             :highlight="selectedText"
+            :rootEntityType="rootEntityType"
             :autoFocus="true"
             :onSubmit="resetTools" />
         </div>
@@ -28,7 +29,7 @@
             :doneCallback="resetReply"
             :highlight="selectedText"
             :parentCommentId="parentCommentId"
-            :rootEntityType="'forumthread'" />
+            :rootEntityType="rootEntityType" />
         </div>
       </div>
 
@@ -84,6 +85,10 @@ export default {
     },
     forumThreadId: {
       type: String
+    },
+    rootEntityType: {
+      type: String,
+      default: 'forumthread'
     },
   },
 
@@ -210,7 +215,6 @@ export default {
 
     async onMouseUp ({ target }) {
       this.preselectText(target)
-
       const selection = window.getSelection()
 
       if (!selection.anchorNode) {
@@ -219,10 +223,10 @@ export default {
 
       const isQuote = (target.tagName === 'MARK')
       const { entityId, parentCommentId } = target.dataset
-      const startNode = selection.getRangeAt(0).startContainer.parentNode.parentNode.parentNode
-      const endNode = selection.getRangeAt(0).endContainer.parentNode.parentNode.parentNode
+      const validStartNode = selection.getRangeAt(0).startContainer.parentNode.closest('.highlighttable')
+      const validEndNode = selection.getRangeAt(0).endContainer.parentNode.closest('.highlighttable')
       const isWithinTools = await this.isWithin('tools', target)
-      const blurSelection = (!startNode.isSameNode(this.highlightableEl) || !startNode.isSameNode(endNode))
+      const blurSelection = (!validStartNode || !validEndNode)
 
       if ((this.isHighlighting || this.isReplying) && isWithinTools) {
         return

@@ -113,13 +113,14 @@ const PostActions = {
 
     return axios.get(url)
       .then((response) => {
-        let posts = response.data.posts || []
-        let nextPage = response.data.nextPage || 0
+        const posts = response.data.posts || []
+        const nextPage = response.data.nextPage || 0
+        const isEnd = response.data.isEnd
 
         commit('setPosts', { posts })
         commit('setNextPage', { nextPage })
 
-        return { posts, nextPage, maxPage: 4 }
+        return { posts, nextPage, isEnd, maxPage: 4 }
       })
       .catch((error) => {
         console.log(error.response)

@@ -13,6 +13,7 @@ import jobActions from './actions/job.actions'
 import companyActions from './actions/company.actions'
 import forumActions from './actions/forum.actions'
 import notificationsActions from './actions/notifications.actions'
+import topicpagesActions from './actions/topicpages.actions'
 
 export default {
   ...authActions,
@@ -29,5 +30,6 @@ export default {
   ...loggingPostActions,
   ...jobActions,
   ...forumActions,
-  ...notificationsActions
+  ...notificationsActions,
+  ...topicpagesActions
 }

@@ -213,7 +213,7 @@ export default {
           this.$store.commit('setPosts', {posts: topics.data.posts})
           }
       );
-      this.$router.push({ path: `/topics/${topicSlug}` });
+      this.$router.push({ path: `/posts/${topicSlug}` });
     },
     fetchPosts() {
       this.topicId = "";
