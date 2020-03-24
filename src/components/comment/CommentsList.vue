@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-list" :class="{ 'is-preview': preview }" @click="openHighlights">
+  <div class="comments-list" :class="{ 'is-preview': preview }">
     <div v-if="!filter" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
@@ -30,7 +30,8 @@
       :key="comment._id"
       :data-selector="`c${comment._id}`"
       class="comment comment-item"
-      v-for="comment in filteredComments">
+      v-for="comment in filteredComments"
+      @click="() => openHighlights(comment._id)">
 
       <comment-view
         :rootEntityType="rootEntityType"
@@ -125,14 +126,14 @@ export default {
   },
 
   methods: {
-    openHighlights (evt) {
+    openHighlights (comment_id) {
       if (!this.preview) {
         return
       }
 
       const query = {
         thread_id: this.forumThreadId,
-        comment_id: evt.target.getAttribute('id'),
+        comment_id,
       }
 
       this.$router.push({ query })
@@ -190,6 +191,7 @@ export default {
   transform translateY(-50%)
   & + .title
     text-align center
+
 .guest-message
   height 100%
   text-align center

@@ -87,33 +87,19 @@ export default {
       const modalBodyEl = this.$refs['modal-body']
 
       if (!isEqual(to.query, from.query)) {
-        this.init(to.query)
+        return this.init(to.query)
       }
-
-      if (element) {
-        return this.$nextTick(() => {
-          // Reset scroll position
-          modalBodyEl.scrollTo(0, 0)
-
-          const offset = 20
-          const modalBodyTop = modalBodyEl.getBoundingClientRect().top
-          const scrollTop = Math.round(element.getBoundingClientRect().top || 0)
-
-          modalBodyEl.scrollTo(0, scrollTop - modalBodyTop - offset)
-        })
-      }
-
-      this.$nextTick(() => modalBodyEl.scrollTo(0, 0))
     },
 
     isActive (value) {
-      const scrollTop = window.scrollY
+      const scrollTop = value ? window.scrollY : parseInt(document.body.style.top || 0) * -1
 
-      document.body.style.overflow = value ? 'hidden' : ''
+      document.body.style.position = value ? 'fixed' : ''
+      document.body.style.top = value ? `-${scrollTop}px` : ''
 
-      requestAnimationFrame(() => {
-        return window.scrollTo(0, scrollTop)
-      }, 1)
+      if (!value) {
+        requestAnimationFrame(() => window.scrollTo(0, scrollTop))
+      }
     },
 
     comments (value = []) {
@@ -150,16 +136,14 @@ export default {
       this.threadId = thread_id
 
       if (element) {
-        return this.$nextTick(() => {
-          // Reset scroll position
-          modalBodyEl.scrollTo(0, 0)
+        // Reset scroll position
+        modalBodyEl.scrollTo(0, 0)
 
-          const offset = 20
-          const modalBodyTop = modalBodyEl.getBoundingClientRect().top
-          const scrollTop = Math.round(element.getBoundingClientRect().top || 0)
+        const offset = 20
+        const modalBodyTop = modalBodyEl.getBoundingClientRect().top
+        const scrollTop = Math.round(element.getBoundingClientRect().top || 0)
 
-          modalBodyEl.scrollTo(0, scrollTop - modalBodyTop - offset)
-        })
+        return modalBodyEl.scrollTo(0, scrollTop - modalBodyTop - offset)
       }
 
       this.$nextTick(() => modalBodyEl.scrollTo(0, 0))
@@ -206,7 +190,7 @@ export default {
     max-width 50vw
     max-height 80vh
     background-color #ffffff
-    transform translate3d(-50%, -50%, 0)
+    transform translate(-50%, -50%)
     box-shadow 0 2px 16px rgba(0,0,0, 0.15)
 
   .modal-header
