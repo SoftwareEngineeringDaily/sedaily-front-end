@@ -31,6 +31,13 @@ export default {
       })
   },
 
+  searchUsersComplete: (_, { name }) => {
+    return axios.get(`${BASE_URL}/users/search?name=${name}`)
+      .then(({data}) => {
+        return data
+      })
+  },
+
   fetchPublicActivities: (_, { userId }) => {
     return axios.get(`${BASE_URL}/profile/activities/${userId}`)
   },

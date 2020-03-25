@@ -14,7 +14,7 @@ const formatLink = (url) => {
 }
 
 export default {
-  async relatedLinksCreate ({ commit, getters }, { url, postId, type }) {
+  async relatedLinksCreate ({ commit, getters }, { url, postId, topicSlug, type }) {
     url = formatLink(url)
 
     if (type === 'episode' && url.trim().search(/softwaredaily\.com/g) < 0) {
@@ -27,7 +27,9 @@ export default {
     }
 
     const options = { url, type }
-    const requestUrl = `${BASE_URL}/posts/${postId}/related-link`
+    let requestUrl;
+    if (postId) requestUrl = `${BASE_URL}/posts/${postId}/related-link`
+    if (topicSlug) requestUrl = `${BASE_URL}/topic/${topicSlug}/related-link`
 
     commit('analytics', {
       meta : {
@@ -124,8 +126,8 @@ export default {
 
       return
     }
-    commit('downvoteRelatedLink', { id, postId })
 
+    commit('downvoteRelatedLink', { id, postId })
     commit('analytics', {
       meta : {
         analytics: [
@@ -142,12 +144,21 @@ export default {
     return axios.post(`${BASE_URL}/related-links/${id}/downvote`)
   },
 
-  relatedLinksFetch ({ getters, commit }, { postId }) {
-    const requestUrl = `${BASE_URL}/posts/${postId}/related-links`
+  relatedLinksFetch ({ getters, commit }, { postId, topicSlug }) {
+    let requestUrl = '';
+
+    if (postId) {
+      requestUrl = `${BASE_URL}/posts/${postId}/related-links`
+    }
+
+    if (topicSlug) {
+      requestUrl = `${BASE_URL}/topic/${topicSlug}/related-links`
+    }
+
     return axios.get(requestUrl)
       .then((response) => {
         const relatedLinks = response.data
-        commit('setRelatedLinks', { postId, relatedLinks })
+        commit('setRelatedLinks', { postId, topicSlug, relatedLinks })
         return relatedLinks
       })
   }

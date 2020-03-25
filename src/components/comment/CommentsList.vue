@@ -1,11 +1,8 @@
 <template>
-  <div class="comments-list" :class="{ 'is-preview': preview }" @click="openHighlights">
+  <div class="comments-list" :class="{ 'is-preview': preview }">
     <div v-if="!filter" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
-      </div>
-      <div class="title" v-if="!post.thread">
-        0 comments
       </div>
     </div>
 
@@ -13,7 +10,7 @@
       <comment-compose
         :initialComment="initialComment"
         :entityId="forumThreadId"
-        :rootEntityType='"forumthread"' />
+        :rootEntityType="rootEntityType" />
     </div>
 
     <div v-else-if="!isLoggedIn" class="comment-item guest-message">
@@ -30,7 +27,8 @@
       :key="comment._id"
       :data-selector="`c${comment._id}`"
       class="comment comment-item"
-      v-for="comment in filteredComments">
+      v-for="comment in filteredComments"
+      @click="() => openHighlights(comment._id)">
 
       <comment-view
         :rootEntityType="rootEntityType"
@@ -86,7 +84,7 @@ export default {
     },
     rootEntityType: {
       type: String,
-      required: false
+      default: 'forumthread'
     },
     loading: {
       type: Boolean,
@@ -125,14 +123,14 @@ export default {
   },
 
   methods: {
-    openHighlights (evt) {
+    openHighlights (comment_id) {
       if (!this.preview) {
         return
       }
 
       const query = {
         thread_id: this.forumThreadId,
-        comment_id: evt.target.getAttribute('id'),
+        comment_id,
       }
 
       this.$router.push({ query })
@@ -190,6 +188,7 @@ export default {
   transform translateY(-50%)
   & + .title
     text-align center
+
 .guest-message
   height 100%
   text-align center

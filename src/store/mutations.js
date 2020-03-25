@@ -95,8 +95,8 @@ export default {
     Vue.set(state.entityComments, entityId, ids)
   },
 
-  setRelatedLinks: (state, { relatedLinks, postId }) => {
-    Vue.set(state.postRelatedLinks, postId, relatedLinks)
+  setRelatedLinks: (state, { relatedLinks, postId, topicSlug }) => {
+    Vue.set(state.postRelatedLinks, postId || topicSlug, relatedLinks)
   },
 
   setFeedItems: (state, { feedItems }) => {

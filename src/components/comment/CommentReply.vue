@@ -5,16 +5,17 @@
       :class="{ 'is-highlight': !!(highlight) }">
 
       <comment-quote :highlight="highlight" />
-
-      <comment-form
-        :isSubmitting="isSubmitting"
-        :content="commentContent"
-        :submitCallback="submitCallback"
-        :cancelPressed="doneCallback"
-        :existingMentions="existingMentions"
-        :showCancel="true"
-        :submitButtonText="'Reply'" />
-
+      <div class="reply-container">
+        <comment-form
+          :isSubmitting="isSubmitting"
+          :content="commentContent"
+          :submitCallback="submitCallback"
+          :rootEntityType="rootEntityType"
+          :cancelPressed="doneCallback"
+          :existingMentions="existingMentions"
+          :showCancel="true"
+          :submitButtonText="'Reply'" />
+      </div>
     </div>
     <div v-else class="guest-message">
       <p>Please <router-link to="/login">log in</router-link> to leave a reply</p>
@@ -58,7 +59,6 @@ export default {
     CommentForm,
     CommentQuote,
   },
-  beforeMount () {},
   data () {
     const commentContent = this.replyingTo? `@${this.replyingTo.name} ` : ''
     const existingMentions = this.replyingTo? [this.replyingTo]:[]
@@ -70,7 +70,6 @@ export default {
       loading: true
     }
   },
-
   computed: {
     ...mapGetters([ 'isLoggedIn' ]),
 
@@ -81,7 +80,6 @@ export default {
       }
     })
   },
-
   methods: {
     ...mapActions(['commentsCreate', 'commentsFetch']),
     submitCallback ({ content, mentions }) {

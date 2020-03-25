@@ -38,6 +38,11 @@ export default {
       type: String,
       default: 'link',
     },
+    
+    rootEntityType: {
+      type: String,
+      default: 'post'
+    },
   },
 
   data () {
@@ -58,6 +63,9 @@ export default {
       postId (state) {
         return state.route.params.id
       },
+      topicSlug (state) {
+        return state.route.params.slug
+      },
       placeholder () {
         return `Add a related ${this.type || 'link'}`
       }
@@ -72,20 +80,22 @@ export default {
       return this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSubmitting = true
-          this.relatedLinksCreate({
+          const data = {
             type: this.type,
-            postId: this.postId,
             url: this.url,
-          })
+          }
+
+          if (this.rootEntityType === 'post') { data.postId = this.postId }
+          if (this.rootEntityType === 'topic') { data.topicSlug = this.topicSlug }
+
+          this.relatedLinksCreate(data)
           .then((response) => {
             this.url = ''
             this.isSubmitting = false
             this.showModal = false
 
             // Fetch comments
-            this.relatedLinksFetch({
-              postId: this.postId
-            })
+            this.relatedLinksFetch(data)
           })
           .catch((error) => {
             this.isSubmitting = false

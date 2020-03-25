@@ -1,16 +1,17 @@
 import Router from 'vue-router'
 
-import TopListView from '@/views/TopListView'
-import SearchView from '@/views/SearchView'
-import HomeView from '@/views/HomeView'
+import { Home }  from '@/views/home'
+import PostsFeed  from '@/views/postsFeed/PostsFeed'
 import PostView from '@/views/post/PostView'
 import PopularView from '@/views/PopularView'
+import SearchView  from '@/views/search/SearchView'
 import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword } from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
-import AdminDashboard from '@/views/AdminDashboard'
+import { AdminDashboard, AdminCompany, AdminTopic } from '@/views/admin'
+import { TopicPage, TopicForm, TopicPageEdit } from '@/views/topic'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
@@ -22,13 +23,19 @@ import authorize from './authHook'
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'HomeView', component: HomeView },
-    { path: '/topics/:topic', component: SearchView },
-    { path: '/topics/:topic/:search', component: SearchView },
+    { path: '/', name: 'Home', component: Home,
+      children: [
+        { path: '', name: 'PostsAll', component: PostsFeed },
+        { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
+        { path: '/search', name: 'Search', component: SearchView },
+      ]
+    },
+    // { path: '/topics/:topic', component: SearchView },
+    // { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
     { path: '/popular', component: PopularView },
-    { path: '/top/:page(\\d+)?', component: TopListView },
-    { path: '/new/:page(\\d+)?', component: SearchView },
+    // { path: '/top/:page(\\d+)?', component: TopListView },
+    // { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
     { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostView },
@@ -52,9 +59,18 @@ const router = new Router({
     { path: '/new-project-thread', beforeEnter: authorize, name: 'NewProjectThread', component: NewProjectForumThreadView },
     // { path: '/forum/edit-thread/:id([A-Za-z0-9-_]+)?', beforeEnter: authorize, component: EditForumThreadView },
     // { path: '/forum/:id([A-Za-z0-9-_]+)?/', component: ForumThreadView },
-    { path: '/admin', beforeEnter: authorize, component: AdminDashboard },
-    { path: '/admin/add-company', beforeEnter: authorize, component: CompanyCompose },
-    { path: '/admin/edit-company/:id', beforeEnter: authorize, component: CompanyEdit },
+    { path: '/admin', beforeEnter: authorize, component: AdminDashboard,
+      children: [
+        { path: 'company', component: AdminCompany },
+        { path: 'company/add', component: CompanyCompose },
+        { path: 'company/:id', component: CompanyEdit },
+        { path: 'topic', component: AdminTopic },
+        { path: 'topic/add', component: TopicForm },
+        { path: 'topic/:id', component: TopicForm }
+      ]
+    },
+    { path: '/topic/:slug', component: TopicPage },
+    { path: '/topic/:slug/edit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {
