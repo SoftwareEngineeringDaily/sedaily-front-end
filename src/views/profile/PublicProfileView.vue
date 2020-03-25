@@ -3,11 +3,19 @@
     <div v-if="loading" class="profile-loading"><spinner :show="loading"/></div>
     <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
     <div v-else class="profile-view col-md-12">
-      <profile-details :userData="user" />
+
+      <profile-details
+        :userData="user" />
+
+      <profile-badges
+        :userData="me"
+        :badges="badges" />
+
       <profile-activities
         :userData="user"
         :activities="activities"
         :activityDays="activityDays" />
+
     </div>
   </div>
 </template>
@@ -16,12 +24,14 @@
 import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
 import ProfileActivities from './ProfileActivities'
+import ProfileBadges from './ProfileBadges'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'public-profile-view',
   components: {
     ProfileDetails,
+    ProfileBadges,
     ProfileActivities,
     Spinner
   },
@@ -30,6 +40,7 @@ export default {
       loading: false,
       error: null,
       user: null,
+      badges: null,
       activities: null,
       activityDays: 0
     }
@@ -48,6 +59,7 @@ export default {
         if (response.data) {
            this.user = response.data.user || {}
            this.activities = response.data.activities || {}
+           this.badges = response.data.badges || []
            this.activityDays = response.data.activityDays
         }
       }

@@ -4,15 +4,16 @@
       <div class="display-details">
         <div v-if="userData" class="user-details">
           <div class="row-name">
+            <button
+              v-if="ownProfile"
+              class="button-submit button-submit-reverse"
+              style="margin-bottom:1rem;"
+              @click="profileEdit">
+              Edit Profile
+            </button>
             <h3 class="display-name">
               {{ displayName }}
             </h3>
-            <button
-            v-if="ownProfile"
-            class='button-submit button-submit-reverse'
-            @click='profileEdit'>
-              Edit Profile
-            </button>
           </div>
           <p class="display-bio text-muted">
             {{ displayBio }}
@@ -95,7 +96,7 @@
         },
         publicLink (state) {
           if (!this.userData || !this.userData.name) return null;
-          return `/profile/${this.userData.name.replace(/[ ]/g,'-').toLowerCase()}-${this.userData._id}`
+          return `/profile/${this.userData._id}`
         }
       })
     },
@@ -186,45 +187,58 @@
   .display-details
     display flex
     justify-content space-between
+
   .row-name
     display flex
+    flex-direction column
     align-items flex-start
     max-width 400px
+
     .button-submit
       max-height 30px
       min-width 90px
+
     .button-submit-reverse
       background-color inherit
       border 1px solid primary-color
       padding 5px 10px
       color primary-color
+
   @media (max-width 450px)
     .display-details
       flex-direction column-reverse
       justify-content center
+
     .user-details
       margin 15px 0
-      text-align center!important
+      text-align center !important
+
       .display-name
-        margin 0 auto!important
+        margin 0 auto !important
+
     .crop-image
-      margin-left auto!important
+      margin-left auto !important
       margin auto
+
     .button-submit
-      margin-left auto!important
+      margin-left auto !important
       margin 10px auto
+
     .row-name
       flex-direction column-reverse
       justify-content center
+
   @media (max-width 750px)
     .user-topics
       overflow auto
       white-space nowrap
       flex-wrap nowrap!important
+
   .user-topics-header
     margin 20px 0
     display flex
     align-items center
+
     .user-topics
       display flex
       align-items center
