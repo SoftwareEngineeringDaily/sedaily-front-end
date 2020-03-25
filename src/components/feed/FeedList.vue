@@ -22,7 +22,6 @@
       </div>
     </div>
 
-    <!-- <instructions :displayedPosts="displayedPosts"></instructions> -->
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
@@ -30,7 +29,6 @@
         infinite-scroll-distance="10"
         class="post-scroll-container">
 
-        <!-- <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary> -->
         <post-preview
           v-for="post in displayedPosts"
           :key="post._id"

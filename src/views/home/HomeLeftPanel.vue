@@ -12,18 +12,14 @@
         {{ topic.name }}
       </router-link>
     </div>
-    <app-download-buttons />
 </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
+
 export default {
   name: 'home-left-panel',
-  components: {
-    AppDownloadButtons
-  },
   computed: {
     ...mapState(["topics"]),
     showTopics() {
