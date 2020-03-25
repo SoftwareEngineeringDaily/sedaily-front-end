@@ -7,8 +7,7 @@
       </router-link>
     </div>
     <div class="topics-container">
-      <h4>Most Popular</h4>
-      <router-link to="/">All</router-link>
+      <router-link to="/popular">Most Popular</router-link>
       <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
         {{ topic.name }}
       </router-link>
@@ -57,27 +56,27 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .categories-container 
+  .categories-container
     padding-top 2rem
     display flex
     flex-direction column
 
     .topics-container
 
-      a 
+      a
         margin 10px 0
         color #808080
         text-decoration none
         display block
 
-        &:hover 
+        &:hover
           color primary-color !important
 
         &.router-link-exact-active
           color #856aff !important
           font-weight 600
 
-  @media (max-width 750px) 
+  @media (max-width 750px)
     .categories-container
       padding 10px
 </style>

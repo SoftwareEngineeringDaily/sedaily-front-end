@@ -15,19 +15,9 @@
       </div>
 
       <div class="topics-container">
-        <!-- <ul>
-          <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
-          <li
-            class="topic-item"
-            v-for="topic in showMostPopular"
-            :key="topic._id"
-            @click="topicHandler(topic)"
-            :class="getClassForTopic(topic._id)"
-          >{{ topic.name }}</li>
-        </ul> -->
-        <router-link to="/">All</router-link>
+        <router-link to="/popular">Most Popular</router-link>
         <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
-          {{topic.name}}
+          {{ topic.name }}
         </router-link>
       </div>
     </div>
