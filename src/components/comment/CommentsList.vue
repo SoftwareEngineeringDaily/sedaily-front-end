@@ -4,16 +4,13 @@
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
       </div>
-      <div class="title" v-if="!post.thread">
-        0 comments
-      </div>
     </div>
 
     <div v-if="isLoggedIn && !filter" class="comment-item">
       <comment-compose
         :initialComment="initialComment"
         :entityId="forumThreadId"
-        :rootEntityType='"forumthread"' />
+        :rootEntityType="rootEntityType" />
     </div>
 
     <div v-else-if="!isLoggedIn" class="comment-item guest-message">
@@ -87,7 +84,7 @@ export default {
     },
     rootEntityType: {
       type: String,
-      required: false
+      default: 'forumthread'
     },
     loading: {
       type: Boolean,
