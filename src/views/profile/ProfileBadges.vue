@@ -70,9 +70,9 @@ export default {
   align-items center
   margin-right 0.6rem
   padding 0.6rem 1rem
-  color: #6c757d
+  color: #bbbbbb
   font-size 13px
-  border 2px solid #6c757d
+  border 2px solid #bbbbbb
   border-radius 4px
 
   .fa
@@ -80,8 +80,8 @@ export default {
 
   &.is-complete
     color #ffffff
-    background-color #A591FF
-    border-color #A591FF
+    background-color #77E6B6
+    border-color #77E6B6
 
     .badge-progress
       display none
@@ -90,13 +90,13 @@ export default {
   display block
   margin-top 6px
   background-color transparent
-  border 1px solid #6c757d
+  border 1px solid #bbbbbb
   border-radius 4px
 
   .badge-progress-bar
     display block
     height 4px
-    background-color #6c757d
+    background-color #bbbbbb
     border-radius 4px
 
 </style>
