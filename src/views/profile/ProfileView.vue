@@ -78,7 +78,7 @@ export default {
       try {
         const response = await this.fetchPublicActivities({ userId: this.me._id })
         if (response.data) {
-           this.activities = response.data.activities || {}
+           this.activities = response.data.activities
            this.badges = response.data.badges || []
            this.activityDays = response.data.activityDays
         }

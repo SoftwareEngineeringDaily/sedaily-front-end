@@ -58,7 +58,7 @@ export default {
         const response = await this.fetchPublicProfileData({ userId: this.userId })
         if (response.data) {
            this.user = response.data.user || {}
-           this.activities = response.data.activities || {}
+           this.activities = response.data.activities
            this.badges = response.data.badges || []
            this.activityDays = response.data.activityDays
         }
