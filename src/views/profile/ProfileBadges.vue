@@ -42,10 +42,6 @@ export default {
     ActivityHeader,
   },
 
-  mounted () {
-    console.log('badges ', this.badges)
-  },
-
   computed: {
     completeCount () {
       return this.badges.filter(b => b.completed).length
@@ -93,14 +89,14 @@ export default {
 .badge-progress
   display block
   margin-top 6px
-  background-color #A591FF
-  border 1px solid #ffffff
+  background-color transparent
+  border 1px solid #6c757d
   border-radius 4px
 
   .badge-progress-bar
     display block
     height 4px
-    background-color #ffffff
+    background-color #6c757d
     border-radius 4px
 
 </style>
