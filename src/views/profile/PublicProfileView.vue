@@ -8,7 +8,7 @@
         :userData="user" />
 
       <profile-badges
-        :userData="me"
+        :userData="user"
         :badges="badges" />
 
       <profile-activities
