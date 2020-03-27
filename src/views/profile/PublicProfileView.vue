@@ -2,20 +2,20 @@
   <div class="container">
     <div v-if="loading" class="profile-loading"><spinner :show="loading"/></div>
     <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
-    <div v-else class="profile-view col-md-12">
-
-      <profile-details
-        :userData="user" />
-
-      <profile-badges
-        :userData="user"
-        :badges="badges" />
-
-      <profile-activities
-        :userData="user"
-        :activities="activities"
-        :activityDays="activityDays" />
-
+    <div v-else class="row">
+      <div class="col-md-8">
+        <profile-details
+          :userData="user" />
+        <profile-activities
+          :userData="user"
+          :activities="activities"
+          :activityDays="activityDays" />
+      </div>
+      <div class="col-md-4">
+        <profile-badges
+          :userData="user"
+          :badges="badges" />
+      </div>
     </div>
   </div>
 </template>

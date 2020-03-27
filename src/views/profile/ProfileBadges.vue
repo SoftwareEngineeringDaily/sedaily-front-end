@@ -1,12 +1,17 @@
 <template>
-  <div class="display-badges col-md-6" v-if="badges">
+  <div class="display-badges" v-if="badges">
     <activity-header>{{completeCount}} Badges</activity-header>
     <ul class="badges">
       <li
         v-for="badge in badges"
-        :key="badge.label"
+        :id="badge.id"
+        :key="badge.id"
         :class="{ 'is-complete': badge.completed }"
-        class="badge badge-podcast">
+        class="badge">
+
+        <b-tooltip v-if="!badge.completed" :key="badge.icon" :target="badge.id" triggers="hover">
+          {{badge.tooltip}}
+        </b-tooltip>
 
         <i class="fa fa-2x" :class="badge.icon" />
 
@@ -57,8 +62,8 @@ export default {
   padding 10px
 
 .badges
-  overflow auto
   display flex
+  flex-direction column
   align-items center
   justify-content flex-start
   margin-bottom 0
@@ -68,10 +73,13 @@ export default {
 .badge
   display flex
   align-items center
-  margin-right 0.6rem
+  width 100%
+  margin-bottom 0.6rem
   padding 0.6rem 1rem
-  color: #bbbbbb
   font-size 13px
+  text-align left
+  white-space normal
+  color #bbbbbb
   border 2px solid #bbbbbb
   border-radius 4px
 

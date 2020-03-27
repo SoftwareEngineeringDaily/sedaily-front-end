@@ -6,20 +6,23 @@
     <div v-else-if="error" class="bg-danger">
       Error: {{ error }}
     </div>
-    <div v-else class="profile-view col-md-12">
+    <div v-else class="row">
 
-      <profile-details
-        :userData="me"
-        :ownProfile="true" />
+      <div class="profile-view col-md-8">
+        <profile-details
+          :userData="me"
+          :ownProfile="true" />
+        <profile-activities
+          :userData="me"
+          :activities="activities"
+          :activityDays="activityDays" />
+      </div>
 
-      <profile-badges
-        :userData="me"
-        :badges="badges" />
-
-      <profile-activities
-        :userData="me"
-        :activities="activities"
-        :activityDays="activityDays" />
+      <div class="profile-view col-md-4">
+        <profile-badges
+          :userData="me"
+          :badges="badges" />
+      </div>
 
     </div>
   </div>

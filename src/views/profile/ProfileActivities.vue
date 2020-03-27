@@ -1,5 +1,5 @@
 <template>
-  <div class="display-activities col-md-6" v-if="activities">
+  <div class="display-activities" v-if="activities">
     <activity-header>Last {{activityDays}} Days of Activities</activity-header>
     <div v-for="(items, date) in activities" class="activity-group" :key="date">
       <div class="activity-group-date">{{groupDateFormat(date)}}</div>
