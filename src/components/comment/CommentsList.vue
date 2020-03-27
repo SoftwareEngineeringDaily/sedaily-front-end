@@ -1,6 +1,6 @@
 <template>
   <div class="comments-list" :class="{ 'is-preview': preview }">
-    <div v-if="!filter" class="comment-item text-center">
+    <div v-if="!filter && showCount" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
       </div>
@@ -94,6 +94,10 @@ export default {
     onChange: {
       type: Function,
       default: () => {},
+    },
+    showCount: {
+      type: Boolean,
+      default: true
     },
   },
 
