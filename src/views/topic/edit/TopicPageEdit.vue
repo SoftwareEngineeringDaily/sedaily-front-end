@@ -30,10 +30,21 @@
             ref="editor"
           />
 
-          <button v-show="!isPreviewing" @click="save" :disabled="saving" class="button-submit button-save">
-            <spinner :show="saving"></spinner>
-            Save
-          </button>
+          <div v-show="!isPreviewing" class="button-bar">
+            <div :class="['left-items', topicPublishStatus ? 'published' : 'unpublished']">Status: {{topicPublishMsg}}</div>
+            <div class="center-items">
+              <button @click="save" :disabled="saving" class="button-submit button-save">
+                <spinner :show="saving"></spinner>
+                Save
+              </button>
+            </div>
+            <div class="right-items">
+              <button @click="onClickPublish" :disabled="publishing" class="button-submit">
+                <spinner :show="publishing"></spinner>
+                {{(topicPublishStatus) ? 'Unpublish' : 'Publish'}}
+              </button>
+            </div>
+          </div>
 
           <div v-if="!isPreviewing" class="topicpage-history">
             <h4>Activities</h4>
@@ -76,6 +87,7 @@ export default {
     return {
       loading: false,
       saving: false,
+      publishing: false,
       topicData: {},
       topicPageData: {},
       isPreviewing: false,
@@ -106,10 +118,20 @@ export default {
       if (this.topicPageData.logo) return true
       if (!this.topicPageData.logo && !this.isPreviewing) return true
       return false
+    },
+
+    topicPublishStatus () {
+      return !(!this.topicPageData || !this.topicPageData.published)
+    },
+
+    topicPublishMsg () {
+      if (!this.topicPageData) return ''
+      if (!this.topicPageData.published) return 'This topic is not published'
+      return 'Published'
     }
   },
   methods: {
-    ...mapActions(['getTopicPageEdit', 'saveTopicPage']),
+    ...mapActions(['getTopicPageEdit', 'saveTopicPage', 'publishTopicPage', 'unpublishTopicPage']),
 
     loadTopic () {
       this.loading = true
@@ -168,13 +190,36 @@ export default {
       })
     },
 
+    onClickPublish () {
+      this.publishing = true
+
+      const method = (this.topicPageData.published) ? 'unpublishTopicPage' : 'publishTopicPage'
+
+      const saveData = {
+        slug: this.topicData.slug
+      }
+
+      this[method].apply(this, [saveData]).then((response) => {
+        this.$toasted.success('Topic updated', { duration : 4000 })
+        this.loadTopic()
+      }).catch((e) => {
+        this.$toasted.error(e.response.data, { duration : 0 })
+      }).finally(() => {
+        this.publishing = false
+      })
+    },
+
     dateFormat (date) {
       if (moment().isSame(date, 'day')) return moment(date).format('[Today, ]HH[h]mm')
       return moment(date).format('MMMM Do, YYYY')
     },
 
-    getHistoryEvent (event) {      
-      if (event === 'edit') return 'Edited'
+    getHistoryEvent (event) { 
+      switch(event) {
+        case 'edit': return 'Edited'
+        case 'publish': return 'Published'
+        case 'unpublish': return 'Unpublished'
+      }
       return '-'
     },
 
@@ -201,9 +246,34 @@ export default {
       text-align center
       font-size 22px
     
+    .button-bar
+      display flex
+      justify-content space-between
+      padding 20px 0
+
+      div
+        flex 1
+        display flex
+        align-items: center;
+
+      .left-items
+        justify-content flex-start
+        font-weight 600
+        padding 0 5px
+
+      .center-items
+        justify-content center
+
+      .right-items
+        justify-content flex-end
+      
+      .published
+        color #6c757d
+
+      .unpublished
+        color #b35454
+
     .button-save
-      display block
-      margin 20px auto
       width 120px
       
     .button-secundary
@@ -224,7 +294,7 @@ export default {
       width 80px
       margin-left 10px
 
-    .button-submit
+    button
 
       .spinner
         width 22px
