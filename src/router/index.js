@@ -15,6 +15,7 @@ import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit }
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
+import WriteInfoView from '@/views/write/WriteInfoView'
 
 import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
@@ -29,6 +30,7 @@ const router = new Router({
         { path: '/search', name: 'Search', component: SearchView },
       ]
     },
+    { path: '/write', component: WriteInfoView },
     // { path: '/topics/:topic', component: SearchView },
     // { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },

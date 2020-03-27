@@ -1,10 +1,17 @@
 <template>
   <header class="header" id="header">
     <nav class="inner">
-       <div @click="resetApp" class="site-name site-logo">
-        <img class="logo-img" src="../../assets/sedaily-logo.png">
-          Software Daily
-       </div>
+      <div class="navbar-centered">
+        <div @click="resetApp" class="navbar-centered">
+          <img @click="resetApp" class="logo-img site-logo" src="../../assets/sedaily-logo.png">
+          <span @click="resetApp" class="site-name">Software Daily</span>
+        </div>
+        <div class="top-menu">
+          <router-link to="/write" class="write-button">
+            <i class="fa fa-pencil"/> Write
+          </router-link>
+        </div>
+      </div>
       <span class="pull-right">
         <search-bar />
         <span v-if="!isLoggedIn" class="register">
@@ -181,10 +188,6 @@ export default {
   margin-left 15px
   font-weight 700
 
-.site-logo
-  margin-right 0.75em
-  cursor pointer
-
 .btn-secondary
   font-size 14px
   margin-top 8px
@@ -246,6 +249,49 @@ export default {
   left 0
   right 0
   background-color white
+
+  .navbar-centered
+    text-transform uppercase
+    display flex
+    align-items center
+
+    .site-name
+      font-size 20px
+      color #222
+      line-height 25px
+      letter-spacing normal
+      font-weight bold
+      cursor pointer
+
+      &:hover
+        text-decoration none
+        color #222
+
+      &.router-link-active
+        text-decoration none
+        border-bottom none
+
+    .site-logo
+      margin-right 0.75em
+      cursor pointer
+
+    .top-menu
+      margin-left 20px
+
+      a
+        padding 5px 10px
+        font-weight normal
+        border-radius 30px
+
+        .fa
+          font-size: 16px
+
+        &:hover
+          color #222
+        
+        &.router-link-active
+          border-bottom 0
+          line-height 16px
 
   .register
     display flex
@@ -345,27 +391,9 @@ export default {
     margin 0
     float right
 
-  .site-name
-    text-transform uppercase
-    font-size 20px
-    color #000
-    line-height 25px
-    letter-spacing normal
-    font-weight bold
-    display flex
-    align-items center
-
-    &:hover
-      text-decoration none
-      color #000
-
-    &.router-link-active
-      text-decoration none
-      border-bottom none
-
   .call-to-action
     text-decoration none
-    box-shadow 0 0px 0px rgba(#000, 0.3)
+    box-shadow 0 0px 0px rgba(#222, 0.3)
     line-height 25px
     color white
     background-color primary-color
@@ -377,13 +405,13 @@ export default {
 
     &.router-link-active
       background #dcdcdd
-      color #000
+      color #222
       border-bottom 0px solid rgba(0,0,0,0.5)
 
     &:hover
       color #fff
       background-color #a591ff
-      box-shadow 0 5px 15px rgba(#000, 0.3)
+      box-shadow 0 5px 15px rgba(#222, 0.3)
 
   .call-to-action-secondary
     padding 10px 30px
