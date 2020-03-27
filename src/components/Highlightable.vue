@@ -1,5 +1,5 @@
 <template>
-  <div class="highlighttable">
+  <div class="highlightable">
     <div
       v-show="showTools"
       class="tools"
@@ -65,9 +65,9 @@
 <script>
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import isString from 'lodash/isString'
 import CommentHighlight from '@/components/comment/CommentHighlight'
 import CommentReply from '@/components/comment/CommentReply'
+import { isWithin } from '@/utils/post.utils'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import SocialSharing from 'vue-social-sharing'
 
@@ -131,32 +131,6 @@ export default {
   },
 
   methods: {
-    isWithin (className, target) {
-      return new Promise((resolve, reject) => {
-        const parentEl = this.$slots.default[0].elm
-        const findParent = (element) => {
-          if (!element) {
-            return resolve(false)
-          }
-
-          let hasClass = (element.classList && element.classList.contains(className))
-          let ieSupport = (isString(element.className) && element.className.indexOf(className) >= 0)
-
-          if (hasClass || ieSupport) {
-            return resolve(true)
-          }
-
-          if (element == parentEl.parentElement) {
-            return resolve(false)
-          }
-
-          findParent(element.parentElement)
-        }
-
-        findParent(target)
-      })
-    },
-
     setMobileToolsPosition () {
       const parentWidth = this.$el.offsetWidth
       const toolsWidth = this.$refs.tools.offsetWidth
@@ -223,9 +197,10 @@ export default {
 
       const isQuote = (target.tagName === 'MARK')
       const { entityId, parentCommentId } = target.dataset
-      const validStartNode = selection.getRangeAt(0).startContainer.parentNode.closest('.highlighttable')
-      const validEndNode = selection.getRangeAt(0).endContainer.parentNode.closest('.highlighttable')
-      const isWithinTools = await this.isWithin('tools', target)
+      const validStartNode = selection.getRangeAt(0).startContainer.parentNode.closest('.highlightable')
+      const validEndNode = selection.getRangeAt(0).endContainer.parentNode.closest('.highlightable')
+      const parentEl = this.$slots.default[0].elm
+      const isWithinTools = await isWithin(parentEl, 'tools', target)
       const blurSelection = (!validStartNode || !validEndNode)
 
       if ((this.isHighlighting || this.isReplying) && isWithinTools) {

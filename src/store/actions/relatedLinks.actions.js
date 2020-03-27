@@ -28,8 +28,8 @@ export default {
 
     const options = { url, type }
     let requestUrl;
-    if (postId) requestUrl = `${BASE_URL}/posts/${postId}/related-links`
-    if (topicSlug) requestUrl = `${BASE_URL}/topic/${topicSlug}/related-links`
+    if (postId) requestUrl = `${BASE_URL}/posts/${postId}/related-link`
+    if (topicSlug) requestUrl = `${BASE_URL}/topic/${topicSlug}/related-link`
 
     commit('analytics', {
       meta : {

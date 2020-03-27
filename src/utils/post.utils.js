@@ -1,3 +1,5 @@
+import isString from 'lodash/isString'
+
 function postPrettyUrlTitle(post) {
   try {
     const originalTitle = typeof post.title === 'string' ? post.title : post.title.rendered
@@ -17,6 +19,41 @@ function postPrettyUrlTitle(post) {
 
 export function postPrettyUrl(post) {
   return '/post/' +  post._id + '/' + postPrettyUrlTitle(post);
+}
+
+/**
+ * Checks if a provided target is within a
+ * provided class before it hits the `parentEl`
+ *
+ * @param parentEl {Node} - The final element to search before giving up/
+ * @param className {String} - The selector that a target should be within
+ * @param target {Node} - The element to use as a reference for validating within the `className`
+ *
+ * @return Promise {boolean} - Whether or not the target is within the `className`
+ */
+export const isWithin = (parentEl, className, target) => {
+  return new Promise((resolve, reject) => {
+    const findParent = (element) => {
+      if (!element) {
+        return resolve(false)
+      }
+
+      let hasClass = (element.classList && element.classList.contains(className))
+      let ieSupport = (isString(element.className) && element.className.indexOf(className) >= 0)
+
+      if (hasClass || ieSupport) {
+        return resolve(true)
+      }
+
+      if (element == parentEl.parentElement) {
+        return resolve(false)
+      }
+
+      findParent(element.parentElement)
+    }
+
+    findParent(target)
+  })
 }
 
 export const isMobile = (() => {
