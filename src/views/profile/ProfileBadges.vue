@@ -94,6 +94,9 @@ export default {
     .badge-progress
       display none
 
+.badge-content
+  flex-grow 1
+
 .badge-progress
   display block
   margin-top 6px
