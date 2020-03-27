@@ -36,7 +36,7 @@ const router = new Router({
     // { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
-    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostView },
+    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', name: 'Post', component: PostView },
     { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
@@ -67,8 +67,8 @@ const router = new Router({
         { path: 'topic/:id', component: TopicForm }
       ]
     },
-    { path: '/topic/:slug', component: TopicPage },
-    { path: '/topic/:slug/edit', component: TopicPageEdit },
+    { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
+    { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {
