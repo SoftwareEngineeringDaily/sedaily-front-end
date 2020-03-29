@@ -1,6 +1,6 @@
 <template>
-  <div class="display-activities col-md-6" v-if="activities">
-    <div class="activity-header">Last {{activityDays}} days of activities</div>
+  <div class="display-activities" v-if="activities">
+    <activity-header>Last {{activityDays}} Days of Activities</activity-header>
     <div v-for="(items, date) in activities" class="activity-group" :key="date">
       <div class="activity-group-date">{{groupDateFormat(date)}}</div>
       <div class="activity-group-content">
@@ -26,6 +26,7 @@
 import moment from 'moment'
 import marked from 'marked'
 import ProfileLabel from '@/components/profile/ProfileLabel'
+import ActivityHeader from '@/components/profile/ActivityHeader'
 import CommentContent from '@/components/comment/CommentContent'
 
 export default {
@@ -55,6 +56,7 @@ export default {
 
   components: {
     ProfileLabel,
+    ActivityHeader,
     CommentContent,
   },
 
@@ -91,8 +93,6 @@ export default {
         author: this.userData,
       }
     },
-
-
   }
 }
 </script>
@@ -102,13 +102,6 @@ export default {
   margin-left auto
   margin-right auto
   padding 10px
-
-.activity-header
-  font-size 20px
-  text-align center
-  padding 20px 0
-  text-transform uppercase
-  font-weight 600
 
 .activity-label
   margin-bottom 0.5rem
@@ -144,6 +137,9 @@ export default {
 .comment
   margin-bottom 18px
   padding-bottom 8px
+
+  >>> a
+    word-break break-all
 
   >>> p
     margin-bottom 0

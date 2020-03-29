@@ -2,12 +2,20 @@
   <div class="container">
     <div v-if="loading" class="profile-loading"><spinner :show="loading"/></div>
     <div v-else-if="error" class="bg-danger"> Error: {{ error }}</div>
-    <div v-else class="profile-view col-md-12">
-      <profile-details :userData="user" />
-      <profile-activities
-        :userData="user"
-        :activities="activities"
-        :activityDays="activityDays" />
+    <div v-else class="row">
+      <div class="col-md-8">
+        <profile-details
+          :userData="user" />
+        <profile-activities
+          :userData="user"
+          :activities="activities"
+          :activityDays="activityDays" />
+      </div>
+      <div class="col-md-4">
+        <profile-badges
+          :userData="user"
+          :badges="badges" />
+      </div>
     </div>
   </div>
 </template>
@@ -16,12 +24,14 @@
 import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
 import ProfileActivities from './ProfileActivities'
+import ProfileBadges from './ProfileBadges'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'public-profile-view',
   components: {
     ProfileDetails,
+    ProfileBadges,
     ProfileActivities,
     Spinner
   },
@@ -30,6 +40,7 @@ export default {
       loading: false,
       error: null,
       user: null,
+      badges: null,
       activities: null,
       activityDays: 0
     }
@@ -47,7 +58,8 @@ export default {
         const response = await this.fetchPublicProfileData({ userId: this.userId })
         if (response.data) {
            this.user = response.data.user || {}
-           this.activities = response.data.activities || {}
+           this.activities = response.data.activities
+           this.badges = response.data.badges || []
            this.activityDays = response.data.activityDays
         }
       }
