@@ -171,7 +171,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .cursor-pointer
   cursor pointer
 
