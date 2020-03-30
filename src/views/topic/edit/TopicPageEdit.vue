@@ -176,7 +176,8 @@ export default {
         data: {
           content: this.topicPageData.content,
           logo: this.topicPageData.logo,
-          event: 'edit'
+          event: 'edit',
+          published: this.topicPageData.published
         }
       }
 
