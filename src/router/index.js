@@ -28,12 +28,12 @@ const router = new Router({
         { path: '', name: 'PostsAll', component: PostsFeed },
         { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
         { path: '/search', name: 'Search', component: SearchView },
+        { path: '/popular', name: 'Popular', component: PopularView },
       ]
     },
     // { path: '/topics/:topic', component: SearchView },
     // { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
-    { path: '/popular', component: PopularView },
     // { path: '/top/:page(\\d+)?', component: TopListView },
     // { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
@@ -69,7 +69,7 @@ const router = new Router({
         { path: 'topic/:id', component: TopicForm }
       ]
     },
-    { path: '/topic/:slug', component: TopicPage },
+    { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
     { path: '/topic/:slug/edit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],

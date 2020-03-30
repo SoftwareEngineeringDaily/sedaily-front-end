@@ -1,14 +1,19 @@
 <template>
   <div class="categories-container">
-    <div v-if="showUserTopics" class="topics-container">
+    <!-- <div v-if="showUserTopics" class="topics-container">
       <h4>Favourite</h4>
       <router-link v-for="topic in showTopics" :key="topic._id" :to="getTopicRoute(topic)">
         {{ topic.name }}
       </router-link>
-    </div>
+    </div> -->
     <div class="topics-container">
       <router-link to="/popular">Most Popular</router-link>
-      <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
+      <div class="header-topic">Posts</div>
+      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{name: 'Posts', params: { slug: topic.slug }}">
+        {{ topic.name }}
+      </router-link>
+      <div class="header-topic">Topics</div>
+      <router-link v-for="topic in pagesTopics" :key="topic._id" :to="{name: 'TopicPage', params: { slug: topic.slug }}">
         {{ topic.name }}
       </router-link>
     </div>
@@ -20,40 +25,58 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'home-left-panel',
-  computed: {
-    ...mapState(["topics"]),
-    showTopics() {
-      return this.topics.user;
-    },
-    showMostPopular() {
-      return this.topics.mostPopular;
-    },
-    showUserTopics() {
-      const { me, topics } = this.$store.state
-      if ((Object.entries(me).length !== 0 && me.constructor === Object) && topics.user !== null) {
-        if (topics.user.length !== 0) {
-          return true
-        }
-      } else {
-        return false
-      }
+  data () {
+    return {
+      postsTopics: [],
+      pagesTopics: []
     }
   },
-  created() {
-    this.$store.commit("setActiveType", { type: this.type });
-    this.$store.dispatch("mostPopular");
+  computed: {
+    // ...mapState(["topics"]),
+    // showTopics() {
+    //   return this.topics.user;
+    // },
+    // showUserTopics() {
+    //   const { me, topics } = this.$store.state
+    //   if ((Object.entries(me).length !== 0 && me.constructor === Object) && topics.user !== null) {
+    //     if (topics.user.length !== 0) {
+    //       return true
+    //     }
+    //   } else {
+    //     return false
+    //   }
+    // }
+  },
+  mounted() {
+    this.loadPostTopics()
+    this.loadPageTopics()
   },
   methods: {
-    getTopicRoute(topic) {
-      return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
+    loadPostTopics() {
+      this.$store.dispatch('mostPosts')
+        .then(result => {
+          this.postsTopics = result
+        })
+        .catch(_ => {
+          this.$toasted.error('There was a problem loading the menu', { duration : 0 })
+        })
     },
+
+    loadPageTopics() {
+      this.$store.dispatch('mostRecentPages')
+        .then(result => {
+          this.pagesTopics = result
+        })
+        .catch(_ => {
+          this.$toasted.error('There was a problem loading the menu', { duration : 0 })
+        })
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
   .categories-container
-    padding-top 2rem
     display flex
     flex-direction column
 
@@ -71,6 +94,9 @@ export default {
         &.router-link-exact-active
           color #856aff !important
           font-weight 600
+      
+      .header-topic
+        margin 20px 0
 
   @media (max-width 750px)
     .categories-container

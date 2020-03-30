@@ -43,6 +43,12 @@ export default {
     .then((response) => {
       return response.data
     })
+  },
+
+  mostRecentPages: () => {
+    return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
+      return response.data
+    })
   }
 
 }

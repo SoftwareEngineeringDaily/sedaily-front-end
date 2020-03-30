@@ -106,5 +106,11 @@ export default {
       commit('setMostPopular', response.data)
       return response
     })
+  },
+
+  mostPosts: () => {
+    return axios.get(`${BASE_URL}/topics/mostPosts`).then((response) => {
+      return response.data
+    })
   }
 }
