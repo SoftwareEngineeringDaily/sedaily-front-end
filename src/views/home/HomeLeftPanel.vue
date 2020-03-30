@@ -1,19 +1,11 @@
 <template>
   <div class="categories-container">
-    <!-- <div v-if="showUserTopics" class="topics-container">
-      <h4>Favourite</h4>
-      <router-link v-for="topic in showTopics" :key="topic._id" :to="getTopicRoute(topic)">
-        {{ topic.name }}
-      </router-link>
-    </div> -->
     <div class="topics-container">
       <router-link to="/popular">Most Popular</router-link>
-      <div class="header-topic">Posts</div>
-      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{name: 'Posts', params: { slug: topic.slug }}">
+      <router-link v-for="topic in pagesTopics" :key="topic._id" :to="{name: 'TopicPage', params: { slug: topic.slug }}">
         {{ topic.name }}
       </router-link>
-      <div class="header-topic">Topics</div>
-      <router-link v-for="topic in pagesTopics" :key="topic._id" :to="{name: 'TopicPage', params: { slug: topic.slug }}">
+      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{name: 'Posts', params: { slug: topic.slug }}">
         {{ topic.name }}
       </router-link>
     </div>
@@ -30,22 +22,6 @@ export default {
       postsTopics: [],
       pagesTopics: []
     }
-  },
-  computed: {
-    // ...mapState(["topics"]),
-    // showTopics() {
-    //   return this.topics.user;
-    // },
-    // showUserTopics() {
-    //   const { me, topics } = this.$store.state
-    //   if ((Object.entries(me).length !== 0 && me.constructor === Object) && topics.user !== null) {
-    //     if (topics.user.length !== 0) {
-    //       return true
-    //     }
-    //   } else {
-    //     return false
-    //   }
-    // }
   },
   mounted() {
     this.loadPostTopics()
