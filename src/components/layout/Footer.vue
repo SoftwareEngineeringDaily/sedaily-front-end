@@ -8,7 +8,7 @@
       <div class="center">
         <a href="https://itunes.apple.com/us/app/software-engineering-daily/id1253734426?mt=8" class="footer-link">App Store</a>
         <a href="https://play.google.com/store/apps/details?id=com.koalatea.sedaily" class="footer-link">Google Play</a>
-        <a href="https://github.com/SoftwareEngineeringDaily" class="footer-link">Github</a>
+        <a href="https://github.com/SoftwareEngineeringDaily" class="footer-link">GitHub</a>
       </div>
       <span class="right">
         <router-link to="/terms" class="footer-link">Terms of Service</router-link>

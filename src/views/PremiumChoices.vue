@@ -67,7 +67,7 @@
           How does payment work for a subscription?
         </h4>
         <p class="question-answer">
-          You’ll need a credit card to sign up for a subscription. Payments are handled through stripe.
+          You’ll need a credit card to sign up for a subscription. Payments are handled through Stripe.
         </p>
       </div>
 

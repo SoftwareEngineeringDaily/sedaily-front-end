@@ -4,33 +4,31 @@
       <div class="modal"
         role="dialog"
         aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
+        aria-describedby="modalDescription">
         <header
           class="modal-header"
-          id="modalTitle"
-        >
+          id="modalTitle">
           <slot name="header">
             This is the default tile!
-
           </slot>
-          <button v-show='showCloseBtn'
-          type="button"
-          class="btn-close"
-          @click="close"
-          aria-label="Close modal"
-          >
-          x
-        </button>
+          <button
+            v-show="showCloseBtn"
+            type="button"
+            class="btn-close"
+            @click="close"
+            aria-label="Close modal">
+            x
+          </button>
         </header>
+
         <section
           class="modal-body"
-          id="modalDescription"
-        >
+          id="modalDescription">
           <slot name="body">
             I'm the default body!
           </slot>
         </section>
+
         <footer class="modal-footer">
           <slot name="footer">
             I'm the default footer!
@@ -40,6 +38,7 @@
     </div>
   </transition>
 </template>
+
 <script>
   export default {
     name: 'modal',
@@ -51,6 +50,7 @@
     },
   };
 </script>
+
 <style lang="stylus" scoped>
   @import './../css/variables'
   .modal-backdrop
@@ -67,7 +67,6 @@
 
   .modal
     background #FFFFFF
-    box-shadow 2px 2px 20px 1px
     overflow-x auto
     display flex
     justify-content center
@@ -75,9 +74,10 @@
     width: 90%
     min-height 500px
     flex-direction column
-    left 50%
     top 50%
+    left 50%
     transform translate(-50%, -50%)
+    box-shadow 2px 2px 20px 1px
 
   .modal-header,
   .modal-search,
@@ -115,4 +115,5 @@
     color primary-color
     background transparent
     outline none
+
 </style>
