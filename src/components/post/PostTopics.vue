@@ -1,11 +1,16 @@
 <template>
   <div class="post-topics-header">
     <div class="post-topics">
-      <div class="topics" v-for="item in postTopics" :key="item.id" @click="goTo(item)">{{ item.name }}</div>
+      <router-link class="topics" v-for="item in postTopics" :key="item.id" :to="getTopicPath(item)">
+        {{ item.name }}
+      </router-link>
     </div>
     <div v-if="isLoggedIn" class="add-topics">
-      <button class="add-topics-btn" type="button" @click="showModal"><i class="fa fa-pencil"/></button>
+      <button class="add-topics-btn" type="button" @click="showModal">
+        <i class="fa fa-pencil"/>
+      </button>
     </div>
+
     <modal
       id="topic-modal"
       v-show="isModalVisible"
@@ -120,9 +125,8 @@ export default {
         this.isOpen = false;
       }
     },
-    goTo(topic){
-      const path = (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
-      this.$router.push({ path });
+    getTopicPath(topic) {
+      return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
     },
     setResult(item) {
       const topic = _.find(this.modalTopics, (x) => ( x._id === item._id ))
@@ -220,207 +224,241 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import './../../css/variables'
-  .autocomplete
-    max-width 500px
-    margin auto
-    .absolute
-      background white
-      z-index 1000
-      height auto!important
-      position absolute
-  .search-label
-    width 100%
-    cursor pointer
-    &:hover
-      color primary-color
-  body.modal-open
-    overflow hidden
-  .btn-submit-disactive
-    padding 7px
-    font-size 12px
-    white-space nowrap
-    color #fff
-    min-width 70px
-    border none
-    border-radius 30px
-    text-align center
-    -webkit-transition all 0.15s ease
-    transition all 0.15s ease
-    background-color #c4c4c4
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
-  .btn-modal
-    background-color primary-color
-    color white
-    margin-right 5px
-    padding 5px
-    border-radius 0 5px 5px 0
-    border 1px solid #c4c4c4
-    cursor pointer
-    outline none
-  .btn-modal-secondary
-    background-color white
-    color black
-    margin-right 5px
-    padding 5px
-    border none
-    cursor pointer
-    outline none
-  h2
-    margin 0
-    color black
-    font-size 1.5rem
-  .post-topics-header
-    display flex
-    align-items center
-    .post-topics
-      display flex
-      align-items center
-      flex-wrap wrap
-      .topics
-        background-color #f7f7f7
-        color #666
-        text-transform uppercase
-        font-size .8rem
-        margin 2px 10px 8px 0
-        padding 3px 9px
-        border-radius 2px
-        cursor pointer
-        &:hover
-          color #a591ff
-    .add-topics
-      .add-topics-btn
-        border none
-        background none
-        cursor pointer
-        outline none
-        color #c4c4c4
-        font-size 18px
-        margin-left 5px
-  .message-error
-    margin 15px 0
-  .add-bar
-    justify-content center
-    flex 1
-    display flex
-    align-items center
-    margin-right 15px
-    input
-      max-width 300px
-      flex 1
-      border-radius 5px 0 0 5px
-      padding 5px
-      font-weight 100
-      color #C4C4C4
-      border 1px solid #ccc
-      &:focus
-        outline none
-        color #495057
-        background-color #fff
-  .search-bar
-    justify-content center
-    flex 1
-    display flex
-    align-items center
-    input
-      max-width 500px
-      flex 1
-      border-radius 5px
-      padding 5px
-      font-weight 100
-      color #C4C4C4
-      border 1px solid #ccc
-      &:focus
-        outline none
-        color #495057
-        background-color #fff
-        border-color: #edeaff
-        outline 0
-        box-shadow 0 0 0 0.2rem rgba(133, 106, 255, 0.25)
-  .container
-    width auto
-    display flex
-    align-items center
-    position relative
-    padding-left 35px
-    margin-bottom 12px
-    margin-top 12px
-    cursor pointer
-    font-size 16px
-    -webkit-user-select none
-    -moz-user-select none
-    -ms-user-select none
-    input
-      position absolute
-      opacity 0
-      cursor pointer
-      height 0
-      width 0
-    .checkmark
-      position absolute
-      left 0
-      height 20px
-      width 20px
-      background-color #eee
-  .container:hover input ~ .checkmark
-    background-color #ccc
-  .container input:checked ~ .checkmark
-    background-color primary-color
-  .checkmark:after
-    content ""
+@import './../../css/variables'
+.autocomplete
+  max-width 500px
+  margin auto
+
+  .absolute
+    background white
+    z-index 1000
+    height auto!important
     position absolute
-    display none
-  .container input:checked ~ .checkmark:after
-    display block
-  .container .checkmark:after
-    left 7px
-    top 3px
-    width 6px
-    height 12px
-    border 2px solid white
-    border-width 0 3px 3px 0
-    -webkit-transform rotate(45deg)
-    -ms-transform rotate(45deg)
-    transform rotate(45deg)
-  .no-topic
-    display flex
-    flex-direction column
-    overflow auto
-    overflow-x hidden
-    width 100%
-    height 100%
-    max-height 250px
-    max-width 500px
-    margin auto
-    padding 0
+
+.search-label
+  width 100%
+  cursor pointer
+
+  &:hover
+    color primary-color
+
+body.modal-open
+  overflow hidden
+
+.btn-submit-disactive
+  padding 7px
+  font-size 12px
+  white-space nowrap
+  color #fff
+  min-width 70px
+  border none
+  border-radius 30px
+  text-align center
+  -webkit-transition all 0.15s ease
+  transition all 0.15s ease
+  background-color #c4c4c4
+  border 1px solid #c4c4c4
+  cursor pointer
+  outline none
+.btn-modal
+  background-color primary-color
+  color white
+  margin-right 5px
+  padding 5px
+  border-radius 0 5px 5px 0
+  border 1px solid #c4c4c4
+  cursor pointer
+  outline none
+.btn-modal-secondary
+  background-color white
+  color black
+  margin-right 5px
+  padding 5px
+  border none
+  cursor pointer
+  outline none
+
+h2
+  margin 0
+  color black
+  font-size 1.5rem
+
+.post-topics-header
+  display flex
+  align-items center
+
+.post-topics
+  display flex
+  align-items center
+  flex-wrap wrap
+
+.topics
+  cursor pointer
+  margin 2px 10px 8px 0
+  padding 3px 9px
+  font-size .8rem
+  text-transform uppercase
+  color #666
+  background-color #f7f7f7
+  border-radius 2px
+
+  &:hover
+    color #a591ff
+    text-decoration none
+
+.add-topics
+  .add-topics-btn
+    border none
+    background none
+    cursor pointer
+    outline none
+    color #c4c4c4
+    font-size 18px
+    margin-left 5px
+
+.message-error
+  margin 15px 0
+
+.add-bar
+  justify-content center
+  flex 1
+  display flex
+  align-items center
+  margin-right 15px
+
+  input
+    max-width 300px
+    flex 1
+    border-radius 5px 0 0 5px
     padding 5px
-  .popular-topics
-    list-style none
-    display flex
-    flex-direction column
-    overflow auto
-    overflow-x hidden
-    width 100%
-    height 100%
-    max-height 250px
+    font-weight 100
+    color #C4C4C4
+    border 1px solid #ccc
+
+    &:focus
+      outline none
+      color #495057
+      background-color #fff
+
+.search-bar
+  justify-content center
+  flex 1
+  display flex
+  align-items center
+
+  input
     max-width 500px
-    margin auto
-    padding 0
+    flex 1
     border-radius 5px
-    border 1px solid #c4c4c4
-    padding 10px
-    list-style none
-      .popular-topic
-        justify-content center
-  .popular-topics::-webkit-scrollbar
-    width 5px
-  .popular-topics::-webkit-scrollbar-track
-    background #f1f1f1
-  .popular-topics::-webkit-scrollbar-thumb
-    background #d0c6ff
-  .popular-topics::-webkit-scrollbar-thumb:hover
-    background #555
+    padding 5px
+    font-weight 100
+    color #C4C4C4
+    border 1px solid #ccc
+
+    &:focus
+      outline none
+      color #495057
+      background-color #fff
+      border-color: #edeaff
+      outline 0
+      box-shadow 0 0 0 0.2rem rgba(133, 106, 255, 0.25)
+
+.container
+  width auto
+  display flex
+  align-items center
+  position relative
+  padding-left 35px
+  margin-bottom 12px
+  margin-top 12px
+  cursor pointer
+  font-size 16px
+  -webkit-user-select none
+  -moz-user-select none
+  -ms-user-select none
+
+  input
+    position absolute
+    opacity 0
+    cursor pointer
+    height 0
+    width 0
+
+  .checkmark
+    position absolute
+    left 0
+    height 20px
+    width 20px
+    background-color #eee
+
+.container:hover input ~ .checkmark
+  background-color #ccc
+
+.container input:checked ~ .checkmark
+  background-color primary-color
+
+.checkmark:after
+  content ""
+  position absolute
+  display none
+
+.container input:checked ~ .checkmark:after
+  display block
+
+.container .checkmark:after
+  left 7px
+  top 3px
+  width 6px
+  height 12px
+  border 2px solid white
+  border-width 0 3px 3px 0
+  -webkit-transform rotate(45deg)
+  -ms-transform rotate(45deg)
+  transform rotate(45deg)
+
+.no-topic
+  display flex
+  flex-direction column
+  overflow auto
+  overflow-x hidden
+  width 100%
+  height 100%
+  max-height 250px
+  max-width 500px
+  margin auto
+  padding 0
+  padding 5px
+
+.popular-topics
+  list-style none
+  display flex
+  flex-direction column
+  overflow auto
+  overflow-x hidden
+  width 100%
+  height 100%
+  max-height 250px
+  max-width 500px
+  margin auto
+  padding 0
+  border-radius 5px
+  border 1px solid #c4c4c4
+  padding 10px
+
+  list-style none
+    .popular-topic
+      justify-content center
+
+.popular-topics::-webkit-scrollbar
+  width 5px
+
+.popular-topics::-webkit-scrollbar-track
+  background #f1f1f1
+
+.popular-topics::-webkit-scrollbar-thumb
+  background #d0c6ff
+
+.popular-topics::-webkit-scrollbar-thumb:hover
+  background #555
 
 </style>
