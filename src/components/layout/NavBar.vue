@@ -2,9 +2,9 @@
   <header class="header" id="header">
     <nav class="inner">
       <div class="navbar-centered">
-        <div @click="resetApp" class="navbar-centered">
-          <img @click="resetApp" class="logo-img site-logo" src="../../assets/sedaily-logo.png">
-          <span @click="resetApp" class="site-name">Software Daily</span>
+        <div @click="resetApp" class="navbar-logo navbar-centered">
+          <img class="logo-img site-logo" src="../../assets/sedaily-logo.png">
+          <span class="site-name">Software Daily</span>
         </div>
         <div class="top-menu">
           <router-link to="/write" class="write-button">
@@ -136,8 +136,7 @@ export default {
     },
     resetApp() {
       this.$store.commit('setSearchTerm', { searchTerm: null })
-      this.$router.push({ path: `/` })
-      document.location.reload(true)
+      this.$router.push({ path: `/` }).catch(err => {})
     },
     imgOnError() {
         this.errorImg = 'https://s3-us-west-2.amazonaws.com/sd-profile-pictures/profile-icon-9.png'
@@ -250,6 +249,9 @@ export default {
   right 0
   background-color white
 
+  .navbar-logo
+    cursor pointer
+
   .navbar-centered
     text-transform uppercase
     display flex
@@ -261,7 +263,6 @@ export default {
       line-height 25px
       letter-spacing normal
       font-weight bold
-      cursor pointer
 
       &:hover
         text-decoration none
@@ -273,7 +274,6 @@ export default {
 
     .site-logo
       margin-right 0.75em
-      cursor pointer
 
     .top-menu
       margin-left 20px
