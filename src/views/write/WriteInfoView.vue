@@ -2,21 +2,33 @@
   <div class="write-view">
     <h1>Write on Software Daily</h1>
     <p>
-      We are looking for volunteer writers to summarize the topics on Software Daily. 
-      If you want to write about one of the following topics, select one of the topics below:
+      We are looking for volunteer writers to summarize the topics on Software Daily.
+      If you want to write about one of the following topics, select one of the topics below or suggest your own topic.
     </p>
     <div v-if="message" class="display-content">
       <span class="message">{{message}}</span>
     </div>
-    <div v-else class="display-content topics-block">
-      <spinner :show="loading"/>
-      <button
-        v-for="topic in topics" 
-        :key="topic._id"
-        @click="onClickTopic(topic)">
-        {{topic.name}}
-      </button>
-    </div>
+    <template v-else>
+      <template v-if="loading">
+        <spinner :show="loading"/>
+      </template>
+      <template v-else>
+        <form class="display-content" v-on:submit.prevent="submitNewTopic">
+          <input type="text"
+            v-model="newTopic"
+            class="form-control"
+            placeholder="Sugest new topic">
+        </form>
+        <div class="display-content topics-block">
+          <button
+            v-for="topic in topics" 
+            :key="topic._id"
+            @click="onClickTopic(topic)">
+            {{topic.name}}
+          </button>
+        </div>
+      </template>
+    </template>    
   </div>
 </template>
 
@@ -31,6 +43,7 @@ export default {
     return {
       loading: false,
       topics: [],
+      newTopic: '',
       message: ''
     }
   },
@@ -64,7 +77,26 @@ export default {
       const data = {
         topicName: topic.name,
         userName: this.me.name,
-        userEmail: this.me.email,
+        userEmail: this.me.email
+      }
+
+      this.setMaintainerInterest(data).then((data) => {
+        this.message = 'Great! We will be in touch with you.'
+      }).catch((e) => {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+
+    submitNewTopic () {
+      if (!this.me || !this.me._id) return this.message = 'Please log in first'
+
+      this.loading = true
+      const data = {
+        topicName: (''.trim) ? this.newTopic.trim() : this.newTopic,
+        userName: this.me.name,
+        userEmail: this.me.email
       }
 
       this.setMaintainerInterest(data).then((data) => {
@@ -92,7 +124,7 @@ export default {
       display block
 
     .display-content
-      padding 10px 15px
+      padding 20px
       background-color #f8f9fa
       min-width 400px
       width 50vw
