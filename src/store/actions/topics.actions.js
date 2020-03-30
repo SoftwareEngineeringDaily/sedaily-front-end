@@ -49,6 +49,20 @@ export default {
     })
   },
 
+  getTopTopics: (_, top) => {
+    return axios.get(`${BASE_URL}/topics/top/${top}`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  setMaintainerInterest: (_, data) => {
+    return axios.post(`${BASE_URL}/topics/interest`, data)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   getPostTopics: ({ commit, state, getters }, { postId }) => {
     const post_id = postId
      return axios.get(`${BASE_URL}/topics?postId=${post_id}`)

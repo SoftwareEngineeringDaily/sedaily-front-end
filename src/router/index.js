@@ -16,6 +16,7 @@ import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit }
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
+import WriteInfoView from '@/views/write/WriteInfoView'
 
 import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
@@ -31,6 +32,7 @@ const router = new Router({
         { path: '/popular', name: 'Popular', component: PopularView },
       ]
     },
+    { path: '/write', component: WriteInfoView },
     // { path: '/topics/:topic', component: SearchView },
     // { path: '/topics/:topic/:search', component: SearchView },
     { path: '/regain-account/:secretKey/:resetUID', component: RegainAccount },
@@ -38,7 +40,7 @@ const router = new Router({
     // { path: '/new/:page(\\d+)?', component: SearchView },
     { path: '/recommendations/:page(\\d+)?', component: RecomendationListView },
     { path: '/feed', component: FeedView },
-    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', component: PostView },
+    { path: '/post/:id([A-Za-z0-9-_]+)?/:postTitle([A-Za-z0-9-_]+)?', name: 'Post', component: PostView },
     { path: '/subscribe', component: SubscribeView, props: { stripePublicKey: apiConfig.STRIPE_PUBLIC_KEY }},
     { path: '/premium', component: PremiumChoices },
     { path: '/login', component: LoginView },
@@ -70,7 +72,7 @@ const router = new Router({
       ]
     },
     { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
-    { path: '/topic/:slug/edit', component: TopicPageEdit },
+    { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {

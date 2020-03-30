@@ -89,9 +89,10 @@ export default {
   max-width: 100vw;
 
 .main-app
+  overflow hidden
   max-width 1050px
-  padding-top 15px
   min-height 100vh
+  padding-top 15px
 
 .login-view,.register-view,.settings-view,.forgot-password-view
   margin 45px!important

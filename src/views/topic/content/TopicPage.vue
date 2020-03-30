@@ -4,10 +4,18 @@
       <spinner :show="loading"/>
       
       <div class="topicpage-header">
-        <h1 class="header-title">{{topicData.name}}</h1>
-        <img :src="topicPageData.logo" />         
+        <h1 class="header-title">
+          {{topicData.name}}
+          <router-link
+            v-if="isMaintainer"
+            :to="{name: 'TopicPageEdit', params: $route.params.slug}"
+            class="edit-link">
+            Edit
+          </router-link>
+        </h1>
+        <img :src="topicPageData.logo" />
       </div>
-      
+            
       <topic-page-maintainer :user="topicData.maintainer" />
       
       <div class="content-block">
@@ -26,30 +34,33 @@
         :post="{}"
         :forumThreadId="topicPageData._id"
         :rootEntityType="'topic'"
-        :commentCount="commentCount"
+        :showCount="false"
         :comments="comments" />
     </template>
 
-    <template v-slot:side>
-      <related-link-list
-        :headline="'Related Episodes'"
-        :related-links="relatedEpisodes"
-        :is-logged-in="isLoggedIn">
-        <related-link-compose
-          v-if="isLoggedIn"
-          :headline="'Add New Episode'"
-          :rootEntityType="'topic'"
-          :type="'episode'" />
-      </related-link-list>
-      <related-link-list
-        :headline="'Related Links'"
-        :related-links="relatedLinks"
-        :is-logged-in="isLoggedIn">
-        <related-link-compose
-          v-if="isLoggedIn"
-          :rootEntityType="'topic'"
-          :headline="'Add New Link'" />
-      </related-link-list>
+    <template v-if="topicPageData._id" v-slot:side>
+      <div class="related-container">
+        <h6>related episodes</h6>
+        <spinner :show="loadingEpisodes"/>
+        <router-link 
+          class="episode-link"
+          v-for="episode in relatedEpisodes" 
+          :key="episode._id" 
+          :to="{ name: 'Post', params: { id: episode._id, postTitle: episode.slug} }" >
+          {{episode.title.rendered}}
+        </router-link>
+        <div v-if="relatedEpisodes.length < relatedEpisodesTotal" class="total">
+          <router-link 
+          class="episode-see-all-link"
+          :to="`/posts/${$route.params.slug}`">
+            See all {{relatedEpisodesTotal}}
+          </router-link>
+        </div>
+        <div v-if="!relatedEpisodesTotal && !loadingEpisodes" class="no-episodes">
+          0 Episodes
+        </div>
+      </div>
+
       <comments-list
         :filter="'highlight'"
         :initialComment="''"
@@ -58,6 +69,7 @@
         :rootEntityType="'topic'"
         :commentCount="highlightCount"
         :comments="comments" />
+
       <post-highlights
         :highlight="highlight"
         :comments="comments"
@@ -77,8 +89,6 @@ import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
 import Avatar from '@/components/Avatar'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
-import RelatedLinkList from '@/components/related/RelatedLinkList'
-import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import Highlightable from '@/components/Highlightable'
 import { PostHighlights } from '@/components/post'
 
@@ -90,8 +100,6 @@ export default {
     TopicPageTemplate,
     Avatar,
     CommentsList,
-    RelatedLinkList,
-    RelatedLinkCompose,
     Highlightable,
     PostHighlights
   },
@@ -100,34 +108,45 @@ export default {
       breaks: true
     })
     this.loadTopic()
-    this.loadRelatedLinks()
   },
   data () {
     return {
       loading: false,
+      loadingEpisodes: false,
       topicData: {},
       topicPageData: {},
       highlight: '',
+      relatedEpisodes: [],
+      relatedEpisodesTotal: 0
     }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'metaTag']),
-    ...mapState({      
+    ...mapState({    
+      me (state) {
+        return state.me
+      },
+
       commentsMap (state) {
         return state.comments
       },
 
       entityComments (state) {
         return state.entityComments
-      },
-
-      postRelatedLinks (state) {
-        return state.postRelatedLinks
       }
     }),
     
     contentUrl () {
       return window.location.href
+    },
+
+    isMaintainer () {
+      return (
+        this.topicData && 
+        this.me &&
+        this.topicData.maintainer &&
+        this.topicData.maintainer._id === this.me._id
+      )
     },
 
     comments () {
@@ -156,20 +175,6 @@ export default {
       return commentCount
     },
 
-    relatedLinks () {
-      return (this.postRelatedLinks[this.$route.params.slug] || [])
-        .filter(p => (p.type !== 'episode'))
-    },
-
-    relatedEpisodes () {
-      return (this.postRelatedLinks[this.$route.params.slug] || [])
-        .filter(p => (
-          p.url &&
-          p.url.search(/softwaredaily\.com/g) >= 0 &&
-          p.type === 'episode'
-        ))
-    },
-
     highlightedContent () {
       const content = this.topicPageData.content || ''
       return this.highlightContent(content)
@@ -193,19 +198,33 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getTopicPage', 'commentsFetch', 'relatedLinksFetch']),
+    ...mapActions(['getTopicPage', 'commentsFetch', 'getTopicEpisodes']),
 
     loadTopic () {
       this.loading = true
       this.getTopicPage(this.$route.params.slug).then((data) => {
+        if (
+          data && data.topic && 
+          (!data.topicPage.published) || (!data.topic.maintainer)
+        ) {
+          return this.redirectToPosts()
+        }
         this.topicData = data.topic
         this.topicPageData = this.convertMarkdown(data.topicPage)
         this.loadComments()
+        this.loadEpisodes()
       }).catch((e) => {
+        if (e.response && e.response.status === 404) {
+          return this.redirectToPosts()
+        }
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
         this.loading = false
       })
+    },
+
+    redirectToPosts () {
+      this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
     loadComments () {
@@ -216,8 +235,23 @@ export default {
       })
     },
 
-    loadRelatedLinks () {
-      this.relatedLinksFetch({ topicSlug: this.$route.params.slug })
+    loadEpisodes () {
+      this.loadingEpisodes = true
+      this.getTopicEpisodes(this.$route.params.slug).then((data) => {
+        if (data && data.episodes) {
+          this.relatedEpisodes = data.episodes
+          this.relatedEpisodesTotal = data.total
+        }
+      }).catch((e) => {
+        if (e.response && e.response.status === 404) {
+          this.relatedEpisodes = 0
+          this.relatedEpisodesTotal = 0
+          return
+        }
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }).finally(() => {
+        this.loadingEpisodes = false
+      })
     },
 
     convertMarkdown (topicPage) {
@@ -280,17 +314,58 @@ export default {
     margin-top 5px
     
     .spinner
-      margin: 0 auto;
+      margin 0 auto
       display block
+
+    .edit-link
+      border 1px solid #222
+      padding 7px 10px
+      font-size 12px
+      font-weight normal
+      color #222
+      border-radius 30px
+      margin-left 10px
+
+      &:hover
+        text-decoration none
+
+    .related-container
+      margin 0 0 20px
+      padding 1.5rem
+      background #e9ecef
+
+      h6
+        margin-top 0 0 10px
+        text-transform uppercase
+        font-size 0.8rem
+        font-weight 800
+      
+      .episode-link
+        display block
+        margin 10px 0
+        font-size 14px
+        font-weight normal
+        color #1a0dab
+      
+      .total
+        text-align center
+
+        .episode-see-all-link
+          color #9b9b9b
+      
+      .no-episodes
+        color #9b9b9b
+        text-align center
+        margin-top 20px
    
   >>> mark
     cursor pointer
     font-weight 700
     color #fff
-    background-color: #a591ff
+    background-color #a591ff
     opacity 0.7
     &::selection
-      background-color: #a591ff
+      background-color #a591ff
     &:hover
       opacity 1.0
     

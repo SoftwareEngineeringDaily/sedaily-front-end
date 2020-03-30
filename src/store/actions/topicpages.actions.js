@@ -33,6 +33,13 @@ export default {
     })
   },
 
+  getTopicEpisodes: (_, slug ) => {
+    return axios.get(`${BASE_URL}/topic/${slug}/episodes`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   saveTopicPageImage: (_, { slug , file} ) => {
     const endpointUrl = `${BASE_URL}/topicpage/${slug}/images`
     return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
@@ -49,6 +56,19 @@ export default {
     return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
       return response.data
     })
-  }
+  },
 
+  publishTopicPage: (_, { slug } ) => {
+    return axios.put(`${BASE_URL}/topicpage/${slug}/publish`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  unpublishTopicPage: (_, { slug } ) => {
+    return axios.put(`${BASE_URL}/topicpage/${slug}/unpublish`)
+    .then((response) => {
+      return response.data
+    })
+  }
 }
