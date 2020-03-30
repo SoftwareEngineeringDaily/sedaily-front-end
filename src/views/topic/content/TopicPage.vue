@@ -56,6 +56,9 @@
             See all {{relatedEpisodesTotal}}
           </router-link>
         </div>
+        <div v-if="!relatedEpisodesTotal && !loadingEpisodes" class="no-episodes">
+          0 Episodes
+        </div>
       </div>
 
       <comments-list
@@ -240,6 +243,11 @@ export default {
           this.relatedEpisodesTotal = data.total
         }
       }).catch((e) => {
+        if (e.response && e.response.status === 404) {
+          this.relatedEpisodes = 0
+          this.relatedEpisodesTotal = 0
+          return
+        }
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
         this.loadingEpisodes = false
@@ -344,6 +352,11 @@ export default {
 
         .episode-see-all-link
           color #9b9b9b
+      
+      .no-episodes
+        color #9b9b9b
+        text-align center
+        margin-top 20px
    
   >>> mark
     cursor pointer
