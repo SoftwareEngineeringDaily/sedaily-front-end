@@ -62,20 +62,21 @@ const PostActions = {
       })
   },
 
-  getPostsList: ({ commit, dispatch, state, getters }, { page = 1, type = 'popular' }) => {
-    const MONTH_OFFSET = 2
+  getPostsList: ({ commit, dispatch, state, getters }, { type = 'popular', createdAtBefore }) => {
+    if (!createdAtBefore) {
+      createdAtBefore = moment().toISOString()
+    }
 
-    const date = new Date()
-    date.setMonth(date.getMonth() - MONTH_OFFSET)
-
-    let url = `${BASE_URL}/posts?limit=30&createdAtBefore=${date.toISOString()}`
+    let url = `${BASE_URL}/posts?type=top&limit=30&createdAtBefore=${createdAtBefore}`
 
     return axios.get(url)
       .then((response) => {
         const posts = response.data
 
         if (type == 'popular') {
-          posts.sort((a, b) => (a.thread.commentsCount > b.thread.commentsCount) ? -1 : 1)
+          posts.sort((a, b) => {
+            return (a.thread && b.thread && a.thread.commentsCount > b.thread.commentsCount) ? -1 : 1
+          })
         } else {
           posts.sort((a, b) => (0.5 - Math.random()))
         }

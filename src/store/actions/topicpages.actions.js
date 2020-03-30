@@ -52,6 +52,12 @@ export default {
     })
   },
 
+  mostRecentPages: () => {
+    return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
+      return response.data
+    })
+  },
+
   publishTopicPage: (_, { slug } ) => {
     return axios.put(`${BASE_URL}/topicpage/${slug}/publish`)
     .then((response) => {
@@ -64,6 +70,5 @@ export default {
     .then((response) => {
       return response.data
     })
-  },
-
+  }
 }

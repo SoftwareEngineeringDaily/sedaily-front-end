@@ -13,27 +13,15 @@
           >{{ topic.name }}</li>
         </ul>
       </div>
+
       <div class="topics-container">
-        <h4>Most Popular</h4>
-        <!-- <ul>
-          <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
-          <li
-            class="topic-item"
-            v-for="topic in showMostPopular"
-            :key="topic._id"
-            @click="topicHandler(topic)"
-            :class="getClassForTopic(topic._id)"
-          >{{ topic.name }}</li>
-        </ul> -->
-        <router-link to="/">All</router-link>
+        <router-link to="/popular">Most Popular</router-link>
         <router-link v-for="topic in showMostPopular" :key="topic._id" :to="getTopicRoute(topic)">
           {{ topic.name }}
         </router-link>
       </div>
-      <app-download-buttons />
     </div>
 
-    <!-- <instructions :displayedPosts="displayedPosts"></instructions> -->
     <transition :name="transition">
       <div
         v-infinite-scroll="loadMore"
@@ -41,7 +29,6 @@
         infinite-scroll-distance="10"
         class="post-scroll-container">
 
-        <!-- <post-summary v-for="post in displayedPosts" :key="post._id" :post="post"></post-summary> -->
         <post-preview
           v-for="post in displayedPosts"
           :key="post._id"
@@ -61,7 +48,6 @@ import moment from "moment";
 import uniqBy from 'lodash/uniqBy'
 import PostPreview from '@/components/post/PostPreview'
 import Spinner from '@/components/Spinner.vue'
-import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
 // import PostSummary from '@/components/post/PostSummary.vue'
 import CategoryList from '@/components/feed/FeedCategoryList.vue'
 // import FirstTopicsSelect from '@/components/FirstTopicsSelect.vue'
@@ -76,7 +62,6 @@ export default {
     Spinner,
     CategoryList,
     PostPreview,
-    AppDownloadButtons,
     // FirstTopicsSelect
   },
 
@@ -114,7 +99,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["topics", "searchTerm"]),
+    ...mapState([
+      'topics',
+      'searchTerm'
+    ]),
     search() {
       return this.searchTerm;
     },
@@ -141,12 +129,15 @@ export default {
       }
     }
   },
+
   created() {
-    this.$store.commit("setActiveType", { type: this.type });
-    this.$store.dispatch("mostPopular");
+    this.$store.commit('setActiveType', { type: this.type });
+    this.$store.dispatch('mostPopular');
   },
+
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
+
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
@@ -155,39 +146,58 @@ export default {
         }
       });
     }
+
     next(vm =>
       vm.$store
         .dispatch("showTopic", topicSlug)
         .then(topics => {
           vm.routerTopic = true
           vm.displayedPosts = topics.data.posts;
-          vm.$store.commit('setPosts', {posts: topics.data.posts})
+          vm.$store.commit('setPosts', {
+            posts: topics.data.posts
+          })
+
           vm.topicId = topics.data.topic[0]._id
         })
     );
   },
+
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
-    this.$store.dispatch("showTopic", topicSlug).then(topics => {
-      this.routerTopic = false
-      this.endOfPosts = false
-      this.displayedPosts = topics.data.posts;
-      this.$store.commit('setPosts', {posts: topics.data.posts})
-    });
+
+    this.$store.dispatch('showTopic', topicSlug)
+      .then(topics => {
+        this.routerTopic = false
+        this.endOfPosts = false
+        this.displayedPosts = topics.data.posts;
+        this.$store.commit('setPosts', {
+          posts: topics.data.posts
+        })
+      });
+
     next();
   },
+
   methods: {
-    ...mapActions(["showTopic", "getTopicsInSearch", "fetchSearch"]),
+    ...mapActions([
+      'showTopic',
+      'getTopicsInSearch',
+      'fetchSearch'
+    ]),
+
     getClassForTopic(topic_id) {
       return this.topicId === topic_id ? "topic-active" : "";
     },
+
     setSelectedCategory(category) {
       this.activeCategory = category;
       this.resetPosts();
     },
+
     getTopicRoute(topic) {
       return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
     },
+
     // topicHandler(topic) {
     //   this.displayedPosts = [];
     //   this.loading = true;
@@ -203,45 +213,58 @@ export default {
     //   );
     //   this.$router.push({ path: `/topics/${topicSlug}` });
     // },
+
     fetchPosts() {
-      this.topicId = "";
+      this.topicId = '';
       this.$router.push({ path: `/` });
-      this.getTopicsInSearch({}).then(
-        data => {
+
+      this.getTopicsInSearch({})
+        .then(data => {
           this.displayedPosts = data.posts
-          this.$store.commit('setPosts', {posts: data.posts})
-        }
-      );
+          this.$store.commit('setPosts', {
+            posts: data.posts
+          })
+        });
+
       this.resetPosts();
     },
+
     loadMore(newSearch = false) {
       let isSearch = !!(this.$store.state.searchTerm)
-      let method = isSearch ? 'fetchSearch' : 'getTopicsInSearch'
-      if(this.routerTopic === true){
-        if(this.topicId){
+      let isPopular = !!(this.$router.history.current.path.indexOf('popular') >= 0)
+      let method = isSearch ? 'fetchSearch' : isPopular ? 'getPostsList' : 'getTopicsInSearch'
+
+      if (this.routerTopic === true) {
+        if (this.topicId) {
           this.routerTopic = false
           this.endOfPosts = false
         }
       }
+
       if (this.endOfPosts) {
         return;
       }
+
       this.loading = true;
+
       let params = {
         topic: this.topicId || undefined,
         search: undefined,
         createdAtBefore: undefined
       };
+
       if (isSearch) {
         params = {
           query: this.$store.state.searchTerm,
           page: this.$store.state.nextPage,
         }
       }
+
       if (this.displayedPosts.length > 0) {
         const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
         params.createdAtBefore = moment(lastPost.date).toISOString();
       }
+
       this.$store
         .dispatch(method, params)
         .then(result => {
@@ -263,6 +286,7 @@ export default {
           this.loading = false;
         });
     },
+
     resetPosts() {
       this.displayedPosts = [];
       this.endOfPosts = false;
@@ -276,16 +300,16 @@ export default {
 <style lang="stylus">
 @import '../../css/variables';
 
-.news-view 
+.news-view
   padding-top 10px
   display flex
   justify-content space-between
 
-.news-list-nav, .news-list 
+.news-list-nav, .news-list
   background-color #fff
   border-radius 2px
 
-.news-list-nav 
+.news-list-nav
   padding 15px 30px
   position fixed
   text-align center
@@ -294,94 +318,94 @@ export default {
   z-index 998
   box-shadow 0 1px 2px rgba(0, 0, 0, 0.1)
 
-  a 
+  a
     margin 0 1em
 
-  .disabled 
+  .disabled
     color #ccc
-  
-.news-list 
+
+.news-list
   position absolute
   margin 30px 0
   width 100%
   transition all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
 
-  ul 
+  ul
     list-style-type none
     padding 0
     margin 0
-  
+
 // TOPIC
-.topics-container 
-  a 
+.topics-container
+  a
     margin 10px 0
     color #808080
     text-decoration none
     display block
 
-    &:hover 
+    &:hover
       color primary-color !important
 
     // TODO for /posts
     &.router-link-exact-active
       color #856aff !important
       font-weight 600
-    
-@media (max-width 750px) 
-  .topics-container 
-    ul 
-      li 
+
+@media (max-width 750px)
+  .topics-container
+    ul
+      li
         margin-right 10px
-      
-  .spinner-holder 
+
+  .spinner-holder
     margin auto
-  
-.topic-active 
+
+.topic-active
   color #856aff !important
   font-weight 600
 
-.categories-container 
+.categories-container
   padding-top 2rem
   display flex
   flex-direction column
 
-.slide-left-enter, .slide-right-leave-active 
+.slide-left-enter, .slide-right-leave-active
   opacity 0
   transform translate(30px, 0)
 
-.slide-left-leave-active, .slide-right-enter 
+.slide-left-leave-active, .slide-right-enter
   opacity 0
   transform translate(-30px, 0)
 
-.post-scroll-container 
+.post-scroll-container
   flex 1
 
-.post-summary__container 
+.post-summary__container
   width 50%
   padding 2rem
   margin-left 7rem
 
-.post-move, .post-enter-active, .post-leave-active 
+.post-move, .post-enter-active, .post-leave-active
   transition all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
 
-.post-enter 
+.post-enter
   opacity 0
   transform translate(30px, 0)
 
-.post-leave-active 
+.post-leave-active
   position absolute
   opacity 0
   transform translate(30px, 0)
 
 /* Filters */
-.filters 
+.filters
   position relative
   margin-top 1em
 
-  input 
+  input
     width 100%
-  
-  button 
+
+  button
     background-color #3F58AF
     color #fff
     box-shadow none
@@ -389,28 +413,28 @@ export default {
     font-size 14px
     height 30px
     border-radius 2px
- 
-.active-tags 
+
+.active-tags
   margin-top 1em
 
-.app-download 
+.app-download
   display flex
   flex-direction column
   align-items center
 
-.active-tag 
+.active-tag
   padding 0.5em
   color #fff
   background-color #3F58AF
 
-.remove-tag-buttonhover 
+.remove-tag-buttonhover
   cursor pointer
 
-.spinner-holder 
+.spinner-holder
   width 85%
   text-align center
 
-.auto-complete 
+.auto-complete
   width 200px
   background #fff
   padding 1em
@@ -419,34 +443,34 @@ export default {
   z-index 1000
   box-shadow 6px 0px 10px #efefef
 
-  .add-tag-button 
+  .add-tag-button
     color #3F58AF
     font-size 10px
-  
-  .add-tag-buttonhover 
-    cursor pointer
-  
 
-@media (max-width 750px) 
-  .news-view 
+  .add-tag-buttonhover
+    cursor pointer
+
+
+@media (max-width 750px)
+  .news-view
     flex-direction column
-  
-  .row 
+
+  .row
     display flex
     flex-wrap wrap
     margin-right 0px
     margin-left 0px
-  
-  .news-post 
+
+  .news-post
     width 100%
     margin 15px auto
-  
-  .app-download 
+
+  .app-download
     display flex
     flex-direction row
     flex-wrap wrap
     justify-content center
-  
+
 </style>
 
 

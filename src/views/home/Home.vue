@@ -6,7 +6,6 @@
 </template>
 
 <script>
-
 import { HomeLeftPanel } from './'
 
 export default {
@@ -24,21 +23,21 @@ export default {
     display flex
     justify-content space-between
 
-  @media (max-width 750px) 
-    .home-container 
+  @media (max-width 750px)
+    .home-container
       flex-direction column
-    
-    .row 
+
+    .row
       display flex
       flex-wrap wrap
       margin-right 0px
       margin-left 0px
-    
-    .news-post 
+
+    .news-post
       width 100%
       margin 15px auto
-    
-    .app-download 
+
+    .app-download
       display flex
       flex-direction row
       flex-wrap wrap

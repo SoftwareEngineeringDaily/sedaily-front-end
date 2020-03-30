@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import { Home }  from '@/views/home'
 import PostsFeed  from '@/views/postsFeed/PostsFeed'
 import PostView from '@/views/post/PostView'
+import PopularView from '@/views/PopularView'
 import SearchView  from '@/views/search/SearchView'
-import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
+import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword } from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
@@ -28,6 +29,7 @@ const router = new Router({
         { path: '', name: 'PostsAll', component: PostsFeed },
         { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
         { path: '/search', name: 'Search', component: SearchView },
+        { path: '/popular', name: 'Popular', component: PopularView },
       ]
     },
     { path: '/write', component: WriteInfoView },
