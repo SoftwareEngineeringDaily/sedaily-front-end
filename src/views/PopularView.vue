@@ -64,7 +64,7 @@ export default {
       })
     },
 
-    loadMore(newSearch = false) {
+    loadMore() {
       if (this.endOfPosts) {
         return;
       }
