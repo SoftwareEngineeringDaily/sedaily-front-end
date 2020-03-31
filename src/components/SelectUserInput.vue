@@ -74,7 +74,7 @@ export default {
     ...mapActions(["searchUsersComplete"]),
 
     onInput: debounce( function(value)  {
-      if (value.length < 2) return
+      if (value.length < 1) return
       this.loadUsers(value)
     },500),
 
