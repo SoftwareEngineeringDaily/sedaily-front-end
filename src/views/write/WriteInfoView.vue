@@ -3,14 +3,37 @@
     <h1>Write on Software Daily</h1>
     <p>
       We are looking for volunteer writers to summarize the topics on Software Daily.
-      If you want to write about a topic, you can select one or suggest your own topic.
+      If you want to write about one of the following topics, select one of the topics below or suggest your own topic.
     </p>
-    <button class="learn" @click="toggleModal">Learn more</button>
 
-    <modal v-show="isModalVisible" class="test" showCloseBtn="true">
+    <button class="learn" @click="toggleLearn">Learn more</button>
+
+    <spinner :show="loading"/>
+    
+    <div v-if="!me || !me._id" class="display-content">You need to login first</div>
+    <template v-else>
+      
+      <form class="display-content" v-on:submit.prevent="selectNewTopic">
+        <input type="text"
+          v-model="newTopic"
+          class="form-control"
+          placeholder="Suggest new topic">
+      </form>  
+      
+      <div class="display-content topics-block">
+        <button
+          v-for="topic in topics" 
+          :key="topic._id"
+          @click="onClickTopic(topic)">
+          {{topic.name}}
+        </button>
+      </div>
+
+    </template>
+
+    <modal v-show="showLearn">
       <h2 slot="header"></h2>
-      <!-- Selection -->
-      <div v-if="!selectedTopic" slot="body">
+      <div slot="body">
         <div>
           <p>If you are listening to lots of episodes of Software Daily, you can write about the topics in the show. It will help us grow our content, and help you retain information.</p>
           <p>A topic page should be:</p>
@@ -20,33 +43,23 @@
             <li>informative (an unbiased presentation of the topic)</li>
           </ul>
           <p>Here are a few examples:</p>
-        </div>
-        <spinner :show="loading"/>
-        <div v-if="!me || !me._id" class="display-content">You need to login first</div>
-        <template v-else>
-          <form class="display-content" v-on:submit.prevent="selectNewTopic">
-            <input type="text"
-              v-model="newTopic"
-              class="form-control"
-              placeholder="Suggest new topic">
-          </form>  
-          <div class="display-content topics-block">
-            <button
-              v-for="topic in topics" 
-              :key="topic._id"
-              @click="onClickTopic(topic)">
-              {{topic.name}}
-            </button>
-          </div>
-        </template>
+          <router-link to="/topic/container-orchestration-wars">Container Orchestration Wars</router-link><br>
+          <router-link to="/topic/apache-spark">Apache Spark</router-link>
+        </div>        
       </div>
-      <!-- Confirmation -->
-      <div v-if="selectedTopic" slot="body">
+      <div slot="footer">
+        <button class="cancel" @click="showLearn=false">Close</button>
+      </div>
+    </modal>
+
+    <modal v-show="showConfirmation">
+      <h2 slot="header"></h2>        
+      <div slot="body">
         Confirm selection of <span class="topic">{{selectedTopic}}</span> topic?
       </div>  
       <div slot="footer">
-        <button class="cancel" @click="cancelModal">Cancel</button>
-        <button v-if="selectedTopic" :disabled="saving" class="button-submit" @click="submit">Submit</button>
+        <button class="cancel" @click="showConfirmation=false">Close</button>
+        <button :disabled="saving" class="button-submit" @click="submit">Submit</button>
       </div>
     </modal>
   </div>
@@ -65,7 +78,8 @@ export default {
     return {
       loading: false,
       saving: false,
-      isModalVisible: false,
+      showLearn: false,
+      showConfirmation: false,
       topics: [],
       newTopic: '',
       selectedTopic: ''
@@ -84,12 +98,12 @@ export default {
   methods: {
     ...mapActions(['getTopTopics', 'setMaintainerInterest']),
 
-    toggleModal() {
-      this.isModalVisible = !this.isModalVisible;
+    toggleLearn() {
+      this.showLearn = !this.showLearn;
     },
 
-    cancelModal() {
-      this.isModalVisible = false
+    cancelSelection() {
+      this.showConfirmation = false
       this.selectedTopic = ''
       this.newTopic = ''
     },
@@ -107,10 +121,16 @@ export default {
 
     onClickTopic(topic) { 
       this.selectedTopic = topic.name
+      this.$nextTick(() => {
+        this.showConfirmation = true
+      })
     },
 
     selectNewTopic() {
       this.selectedTopic = (''.trim) ? this.newTopic.trim() : this.newTopic
+      this.$nextTick(() => {
+        this.showConfirmation = true
+      })
     },
 
     submit() {
@@ -120,10 +140,9 @@ export default {
         userName: this.me.name,
         userEmail: this.me.email
       }
-
       this.setMaintainerInterest(data).then((data) => {
         this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
-        this.cancelModal()
+        this.cancelSelection()
       }).catch((e) => {
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
@@ -167,16 +186,21 @@ export default {
       border 0
       background-color transparent
       font-size 16px
-
+  
     >>> .modal
-      height 70 vh
+      height unset
+      min-height unset
+
       .modal-header
         display none 
 
       .modal-body
         padding 30px
         overflow auto
-    
+
+      a
+        color #1a0dab
+
     .topic
       color #a591ff
 
