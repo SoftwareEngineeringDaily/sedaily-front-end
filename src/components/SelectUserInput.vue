@@ -74,14 +74,14 @@ export default {
     ...mapActions(["searchUsersComplete"]),
 
     onInput: debounce( function(value)  {
-      if (value.length < 1) return
+      if (value.length < 2) return
       this.loadUsers(value)
     },500),
 
     loadUsers (value) {
       this.loading = true
       this.users = []
-      this.searchUsersComplete({ name: value }).then(users => {
+      this.searchUsersComplete({ query: value }).then(users => {
         this.users = users
         this.loading = false
       });

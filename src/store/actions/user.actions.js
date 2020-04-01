@@ -31,8 +31,8 @@ export default {
       })
   },
 
-  searchUsersComplete: (_, { name }) => {
-    return axios.get(`${BASE_URL}/users/search?name=${name}`)
+  searchUsersComplete: (_, { query }) => {
+    return axios.get(`${BASE_URL}/users/search?name=${query}||email=${query}`)
       .then(({data}) => {
         return data
       })
