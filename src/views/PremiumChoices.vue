@@ -3,6 +3,9 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <h1>Subscribe</h1>
+        <a v-if="notSubscribed" :href="rssUrl" class="feed-link" target="_blank">
+          RSS Feed
+        </a>
       </div>
     </div>
 
@@ -93,9 +96,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { selectSubscriptionPlan } from '@/utils/subscription.utils.js'
+import { apiConfig } from '@/../config/apiConfig'
 export default {
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    ...mapState({    
+      me (state) {
+        return state.me
+      },
+    }),
+    notSubscribed() {
+      return !this.me || !this.me.subscription || !this.me.subscription.active
+    },
+    rssUrl() {
+      return `${apiConfig.BASE_URL}/rss/public/all`;
+    }
+  },
+
   methods: {
     signUpForSubscriptionYearly () {
       this.signUpForSubscription('yearly')
@@ -122,10 +141,6 @@ export default {
       //  We need to take the user to logged in route
     }
 
-  },
-
-  computed: {
-    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>
@@ -135,6 +150,22 @@ export default {
 
 h1
   font-size 4rem
+
+.feed-link
+  display inline-block
+  padding 8px 15px
+  border none
+  border-radius 3px
+  background primary-color
+  font-size 12px
+  color #FFF
+  text-align center
+  text-transform uppercase
+  letter-spacing 2px
+
+  &:hover
+    color #FFF
+    text-decoration none
 
 .subtitle
   margin-top 20px
