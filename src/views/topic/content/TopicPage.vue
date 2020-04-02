@@ -13,11 +13,12 @@
             Edit
           </router-link>
         </h1>
-        <img :src="topicPageData.logo" />
       </div>
             
       <topic-page-maintainer :user="topicData.maintainer" />
       
+      <img :src="topicPageData.logo" width="100%" class="topic-logo" />
+
       <div class="content-block">
         <highlightable
           :contentUrl="contentUrl"

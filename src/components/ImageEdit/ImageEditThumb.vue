@@ -1,9 +1,10 @@
 <template>
   <div class="image-edit-thumb" :style="getSize" >
-    <img v-if="value" :src="value" :style="getSize"/>
+    <div v-if="saving" class="saving"><spinner :show="saving"/></div>
+    <img v-if="imgSrc" :src="imgSrc" :style="getSize"/>
     <template v-else>{{placeholder}}</template>
-    <button v-if="edit" class="action" @click="onClickChange">
-      Change
+    <button v-if="edit" :disabled="saving" class="action" @click="onClickChange">
+      {{buttonText}}
     </button>
     <input
       v-if="edit"
@@ -16,12 +17,27 @@
 </template>
 
 <script>
+import spinner from '@/components/Spinner';
 
 export default {
   name: 'image-edit-thumb',
+  components: {
+    spinner
+  },
   props: {
     value: {
       type: String
+    },
+    src: {
+      type: String
+    },
+    saving: {
+      type: Boolean,
+      default: false
+    },
+    buttonText: {
+      type: String,
+      default: 'Change'
     },
     edit: {
       type: Boolean,
@@ -34,6 +50,12 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    maxWidth: {
+      type: Number,
+    },
+    maxHeight: {
+      type: Number,
     },
     size: {
       type: Object,
@@ -57,8 +79,13 @@ export default {
       },
     }
   },
-  computed: {   
+  computed: {
+    imgSrc () {
+      return this.fileData.dataUrl || this.value || this.src
+    },
     getSize () {
+      if (this.maxWidth || this.maxHeight) return { width: '100%' }
+
       if (this.fileData && this.fileData.width) {
         return {
           width: `${this.fileData.width}px`,
@@ -88,14 +115,15 @@ export default {
       if (!file) return
       this.readFile(file, (error, data) => {
         if (error) return this.$toasted.error('Error reading file', { duration : 0 })
-        this.handleUploadInput(data) 
+        this.handleUploadInput(data, file) 
       })
     },
 
-    handleUploadInput (data) {
+    handleUploadInput (data, file) {
       if (!this.crop) {
         this.setFileData(data) //TODO width height
         this.returnImage()
+        this.emitFile(file)
       }
       else this.cropImage(data)
     },
@@ -108,10 +136,15 @@ export default {
       this.fileData.height = data.height
     },
 
+    // for use with v-model in parent (no file, just base64 data)
     returnImage () {
       this.$nextTick(() => {
         this.$emit('input', this.fileData.dataUrl)
       })
+    },
+
+    emitFile (file) {
+      this.$emit('onChangeFile', file)
     },
 
     readFile (file, callback) {
@@ -132,7 +165,7 @@ export default {
       let width = img.width
       let height = img.height
 
-      const computedWidth = this.sizeLimit || this.size.width || undefined
+      const computedWidth = this.maxWidth || this.sizeLimit || this.size.width || undefined
       const computedHeight = (this.size) ? this.size.height : undefined
 
       if (computedWidth) {        
@@ -154,7 +187,7 @@ export default {
           width *= computedHeight / img.width;
           height = computedHeight;
         }
-      }      
+      }
       return { width, height }
     },
 
@@ -177,6 +210,7 @@ export default {
             if (error) return this.$toasted.error('Error reading file', { duration : 0 })
             this.setFileData({ ...data, width, height })
             this.returnImage()
+            this.emitFile(file)
           })
         }, data.type, 1);
       }
@@ -193,7 +227,21 @@ export default {
     justify-content center
     color #888
     font-weight 600
+    min-height 100px
     position relative
+
+    .saving
+      background-color #cecece
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+      margin auto
+      opacity .8
+      display flex
+      align-items center
+      justify-content center
 
     .action
       position absolute
@@ -206,7 +254,10 @@ export default {
       color #222
       border 1px solid #f5f5f5
       outline 1px solid #f5f5f5
-      opacity .8
+      opacity .4
+
+      &:hover
+        opacity .8
     
     input
       display none
