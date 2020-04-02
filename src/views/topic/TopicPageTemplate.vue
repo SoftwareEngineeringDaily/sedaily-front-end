@@ -24,16 +24,17 @@
         font-size 2.7rem
         display flex
         align-items center
+    
+    .topic-logo
+      margin-top 10px
+      margin-bottom 30px
 
-      .topic-logo-edit
-        border 1px solid #e9ecef
+    .topic-logo-edit
+      border 1px solid #e9ecef
 
     .content-block
       >>> img
         max-width 95%
         margin 20px auto
         display block
-
-      
-    
 </style>
