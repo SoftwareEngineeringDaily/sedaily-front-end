@@ -11,6 +11,13 @@ export default {
     return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
   },
 
+  getBookmarks: () => {
+    return axios.get(`${BASE_URL}/users/me/bookmarked`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   fetchMyProfileData: ({ commit, state, getters, dispatch }) => {
     if (!getters.isLoggedIn) {
       return Promise.reject('User not signed in.')
