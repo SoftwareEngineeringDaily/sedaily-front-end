@@ -10,7 +10,7 @@
           Edit Profile
         </button>
         <h3 class="display-name">
-          {{ displayName }}
+          {{ displayName }} {{ displayLastName }}
         </h3>
       </div>
       <p class="display-bio text-muted">
@@ -47,6 +47,7 @@
             avatarUrl: '',
             bio: '',
             name: '',
+            lastName: '',
             website: ''
           }
         }
@@ -82,6 +83,9 @@
       ...mapState({
         displayName () {
           return this.userData.name || this.userData.username
+        },
+        displayLastName () {
+          return this.userData.lastName || ''
         },
         displayBio () {
           return this.userData.bio || `${this.displayName} is still writing their biography`
