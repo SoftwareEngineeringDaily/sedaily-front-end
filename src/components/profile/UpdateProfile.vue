@@ -59,15 +59,15 @@
           <label for="LastNameInput">Last name <span class="public-info"/></label>
           <input type="text" 
           v-model="lastName"
-          name="LastNameInput"
+          name="lastName"
           id="LastNameInput"
           class="form-control"
           v-validate="'required'"
           aria-describedby="lastNameHelp"
           placeholder="Smith">
 
-          <div v-show="errors.has('name')" class="alert alert-danger">
-            {{ errors.first("name") }}
+          <div v-show="errors.has('LastName')" class="alert alert-danger">
+            {{ errors.first("LastName") }}
           </div>
         </div>
 

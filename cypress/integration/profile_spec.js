@@ -14,6 +14,7 @@ describe('The Profile Page', function () {
     const newWebsite = 'www.me.com'
     const newBio = 'My Bio!'
     const newName = uuidv4()
+    const newLastName = uuidv4()
     cy.visit('/')
     .then(() => {
       cy.get('nav.inner .user').click()
@@ -28,11 +29,13 @@ describe('The Profile Page', function () {
     })
     // populates with existing
     cy.get('input[name=name]').should('have.value', existingUser.name)
+    cy.get('input[name=lastName]').should('have.value', existingUser.lastName)
     cy.get('input[name=email]').should('have.value', existingUser.email)
     // input and update
     cy.get('#websiteInput').type(newWebsite)
     cy.get('#bioInput').type(newBio)
     cy.get('input[name=name]').type(newName)
+    cy.get('input[name=lastName]').type(newLastName)
     cy.contains('Update').click()
     // check updated
     cy.get(`a[href="//${newWebsite}"]`).should('exist')

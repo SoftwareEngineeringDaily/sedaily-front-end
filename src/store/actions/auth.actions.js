@@ -55,7 +55,7 @@ export default {
   },
 
   register: ({ commit, dispatch },
-    { password, bio, website, name, email, newsletter }) => {
+    { password, bio, website, name, lastName, email, newsletter }) => {
 
 
     commit('analytics', {
@@ -76,6 +76,7 @@ export default {
       password,
       website,
       name,
+      lastName,
       email,
       newsletter
     })
