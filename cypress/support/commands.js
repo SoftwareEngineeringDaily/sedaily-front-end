@@ -23,6 +23,7 @@ Cypress.Commands.add('register', () => {
   const userData = {
     username: randomName,
     name: randomName,
+    lastName: randomName,
     email: `${randomName}@mail.com`,
     password: 'fakePassword',
   }

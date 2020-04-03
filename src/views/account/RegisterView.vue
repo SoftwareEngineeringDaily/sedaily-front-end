@@ -85,6 +85,22 @@
         </div>
 
         <div class="form-group">
+          <label for="lastNameInput">Last Name</label>
+          <input type="text" 
+          v-model="lastName"
+          name="lastName"
+          id="lastNameInput"
+          class="form-control"
+          v-validate="'required'"
+          aria-describedby="lastNameHelp"
+          placeholder="Smith">
+
+          <div v-show="errors.has('lastName')" class="alert alert-danger">
+           {{ errors.first('lastName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="bioInput">Bio</label>
           <input type="text" 
           v-model="bio"
@@ -153,6 +169,7 @@ export default {
       password: '',
       confirmPassword: '',
       name: '',
+      lastName: '',
       email: '',
       confirmEmail: '',
       bio: '',
@@ -167,10 +184,11 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { email, bio, website, name, password, newsletter } = this
+          const { email, bio, website, name, lastName, password, newsletter } = this
           this.$store.dispatch('register', {
             password,
             name,
+            lastName,
             bio,
             website,
             email,
