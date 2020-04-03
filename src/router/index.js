@@ -17,6 +17,7 @@ import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
 import WriteInfoView from '@/views/write/WriteInfoView'
+import BookmarksView from '@/views/bookmarks/BookmarksView'
 
 import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
@@ -50,6 +51,7 @@ const router = new Router({
     { path: '/settings', name: 'NotificationSettings', beforeEnter: authorize, component: SettingsView },
     { path: '/profile', component: ProfileView },
     { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
+    { path: '/bookmarks', component: BookmarksView },
     { path: '/jobs', component: JobsBoardView },
     { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
     { path: '/add-job', beforeEnter: authorize, component: AddJobView },
