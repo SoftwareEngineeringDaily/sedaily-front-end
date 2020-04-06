@@ -28,9 +28,9 @@
         <template v-if="currentRefinement">
           <ul v-for="index in indices" :key="index.label">
             <li v-for="hit in index.hits" :key="hit.objectID">
-                <router-link :to="postPrettyUrl(hit)" :post="hit">
-                  <ais-highlight attribute="_title" :hit="hit"/>
-                </router-link>
+              <button @click="onClickResult(hit, refine)">
+                <ais-highlight attribute="_title" :hit="hit"/>
+              </button>
             </li>
           </ul>
         </template>
@@ -93,6 +93,21 @@ export default {
       }
 
       window.scrollTo(0, 0)
+    },
+
+    hideSearch(refine) {
+      const { input } = this.$refs
+      if (!input) return
+      if (isFunction(input.blur)) {
+        input.blur()
+        refine('')
+        this.value = ''
+      }
+    },
+
+    onClickResult (hit, refine) {
+      this.$router.push(this.postPrettyUrl(hit))
+      this.hideSearch(refine)
     }
   }
 };
@@ -203,7 +218,7 @@ export default {
   overflow: hidden;
   position: absolute;
   top: 100%;
-  margin: 5px 7px 0 -1px;
+  margin: 5px 22px 0 -1px;
   padding-left: 0;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -218,6 +233,20 @@ export default {
 }
 
 .search ul li:last-child a {
+  border-bottom: none;
+}
+
+.search ul li button {
+  display: block;
+  border: 0;
+  text-align: left;
+  outline: 0;
+  margin-right: 0;
+  padding: 0.4rem 0.8rem;
+  border-bottom: 1px solid #edeaff;
+}
+
+.search ul li:last-child button {
   border-bottom: none;
 }
 
