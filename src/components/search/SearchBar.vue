@@ -4,8 +4,8 @@
     <ais-autocomplete>
       <div class="search" slot-scope="{ currentRefinement, indices, refine }">
 
-        <div class="search-bar" :class="{ open: searchActive, focus: isFocused }" v-click-outside="onSearchInactive">
-          <span class="search-icon" v-on:click="onSearchActive">
+        <div class="search-bar" :class="{ open: searchActive, focus: isFocused }">
+          <span class="search-icon" >
             <svg fill="currentColor" viewBox="0 0 512 512">
               <path d="M443.5 420.2L336.7 312.4c20.9-26.2 33.5-59.4 33.5-95.5 0-84.5-68.5-153-153.1-153S64 132.5 64 217s68.5 153 153.1 153c36.6 0 70.1-12.8 96.5-34.2l106.1 107.1c3.2 3.4 7.6 5.1 11.9 5.1 4.1 0 8.2-1.5 11.3-4.5 6.6-6.3 6.8-16.7.6-23.3zm-226.4-83.1c-32.1 0-62.3-12.5-85-35.2-22.7-22.7-35.2-52.9-35.2-84.9 0-32.1 12.5-62.3 35.2-84.9 22.7-22.7 52.9-35.2 85-35.2s62.3 12.5 85 35.2c22.7 22.7 35.2 52.9 35.2 84.9 0 32.1-12.5 62.3-35.2 84.9-22.7 22.7-52.9 35.2-85 35.2z"></path>
             </svg>
@@ -56,7 +56,7 @@ export default {
       index: process.env.ALGOLIA_POSTS_INDEX,
       value: this.$route.query.query,
       isFocused: false,
-      searchActive: false,
+      searchActive: true,
       postPrettyUrl: (post) => {
         return postPrettyUrl(post)
       },
@@ -78,13 +78,10 @@ export default {
 
     async onSearch({ target }) {
       if (!target.value) {
-        this.hideSearch()
         return (this.$route.name !== 'PostsAll') ? this.$router.push({ name: 'PostsAll' }) : false
       }
 
       this.$store.commit('setNextPage', { nextPage: 0 })
-
-      this.hideSearch()
 
       try {
         if (!this.$route.query.query || this.$route.query.query !== target.value) {
@@ -96,27 +93,8 @@ export default {
       }
 
       window.scrollTo(0, 0)
-    },
-
-    hideSearch() {
-      const { input } = this.$refs
-      if (!input) return
-      if (isFunction(input.blur)) {
-        input.blur()
-        this.onSearchInactive()
-      }
-    },
-
-    onSearchInactive() {
-      this.searchActive = false
-    },
-
-    onSearchActive() {
-      !this.searchActive
-        ? (this.searchActive = true, this.$refs.input.focus())
-        : (this.searchActive = false);
     }
-  },
+  }
 };
 </script>
 
@@ -210,12 +188,13 @@ export default {
   width: 100%;
   max-width: 500px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .search-bar.open {
-  box-shadow: 0 0 0 0.2rem rgba(133, 106, 255, 0.25);
-  border-radius: 5px;
+  box-shadow: 0 0 0 0.1rem rgba(133, 106, 255, 0.25);
+  margin-right: 1.5rem;
+  border-radius: 3px;
 }
 
 .search ul {
@@ -223,16 +202,12 @@ export default {
   display: none;
   overflow: hidden;
   position: absolute;
-  right: 0;
   top: 100%;
-  width: 100%;
-  min-width: 279px;
-  max-width: 500px;
-  margin-top: 0.5rem;
+  margin: 5px 7px 0 -1px;
   padding-left: 0;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .search ul li a {
