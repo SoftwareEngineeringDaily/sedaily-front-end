@@ -24,6 +24,11 @@
           {{ userData.website | host }}
         </a>
       </p>
+      <p class="display-website" v-if="userData.twitter">
+        <a :href="`https://twitter.com/${userData.twitter}`" target="_blank">
+        @{{ userData.twitter }}
+        </a>
+      </p>
     </div>
     <div class="crop-image">
       <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
@@ -48,7 +53,8 @@
             bio: '',
             name: '',
             lastName: '',
-            website: ''
+            website: '',
+            twitter: ''
           }
         }
       },

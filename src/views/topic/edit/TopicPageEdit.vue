@@ -13,6 +13,15 @@
           </div>
 
           <topic-page-maintainer :user="topicData.maintainer" />
+          
+          <div v-if="!me.avatarUrl" class="alert-block">
+            <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
+            share your writing
+          </div>
+           <div v-if="!me.lastName" class="alert-block">
+            <router-link to="/edit-profile">Add a Last Name</router-link> to your profile if you would like us to
+            share your writing
+          </div>
 
           <ImageEditThumb
             v-if="showThumb"
@@ -48,6 +57,11 @@
                 {{(topicPublishStatus) ? 'Unpublish' : 'Publish'}}
               </button>
             </div>
+          </div>
+
+          <div v-if="!me.twitter" class="alert-block">
+            <router-link to="/edit-profile">Add a Twitter account</router-link> to your profile if you would like us to
+            share your writing
           </div>
 
           <div v-if="!isPreviewing" class="topicpage-history">
@@ -96,10 +110,16 @@ export default {
       topicData: {},
       topicPageData: {},
       isPreviewing: false,
-      htmlContent: ''
+      htmlContent: '',
+      alerts: [1,2,3]
     }
   },
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
     editPermission () {
       if (!this.topicData || !this.$store.state.me || !this.$store.state.me._id) return { canEdit: true }
       if (!this.topicData.maintainer || !this.topicData.maintainer._id) {
@@ -322,6 +342,15 @@ export default {
 
         >>> circle
           stroke #ffffff
+
+    .alert-block
+      background-color #ececec
+      padding 10px
+      margin 5px 0
+      color #6c757d
+    
+      a
+        color main-purple
 
     .topicpage-history
       margin 30px 0

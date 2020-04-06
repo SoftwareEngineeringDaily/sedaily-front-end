@@ -85,7 +85,7 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, bio, isAvatarSet, website, name, lastName }) => {
+  updateProfile: ({ commit, dispatch }, { id, bio, isAvatarSet, website, name, lastName, twitter }) => {
 
     commit('analytics', {
       meta : {
@@ -105,6 +105,7 @@ export default {
       website,
       name,
       lastName,
+      twitter,
       isAvatarSet
     })
       .then((response) => {

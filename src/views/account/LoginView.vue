@@ -4,7 +4,6 @@
       <form v-if="!isLoggedIn" class='col-md-6 offset-md-3' v-on:submit.prevent='login'>
         <h1>Login</h1>
 
-
         <div class="form-group">
           <label for="usernameInput">Email</label>
           <input type="text" v-model='username'
@@ -13,7 +12,7 @@
           v-validate="'required'"
           class="form-control"
           aria-describedby="usernameHelp"
-          placeholder="Enter a email">
+          placeholder="Enter your email">
 
           <div v-show="errors.has('username')"
           class="alert alert-danger">
@@ -38,8 +37,8 @@
           <spinner :show="loading"></spinner>
         </div>
         <div class="login-buttons col-md-12">
-          <span>Don't have an account? <router-link to="/register" name="register">Sign Up</router-link></span>
-          <router-link to="/forgot-password" name="forgot-password">Forgotten your Password?</router-link>
+          <span>Don't have an account? <router-link to="/register" name="register" class="signup">Sign Up</router-link></span>
+          <router-link to="/forgot-password" name="forgot-password">Forgot password?</router-link>
         </div>
       </form>
     <div v-if="isLoggedIn" class='col-md-6 offset-md-3'>
@@ -115,18 +114,28 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.container
+.container  
   .login-buttons
     padding 15px 0
     display flex
     align-items center
     justify-content space-between
+    
     .button-submit
       min-width 100px
+  
+  .signup
+    text-decoration underline
+    color #007bff
+  
+    &:hover
+      color #222
+
 @media (max-width 500px)
-  .container
+  .container    
     .container-input
       text-align center
+    
     .login-buttons
       flex-direction column
       align-items flex-start

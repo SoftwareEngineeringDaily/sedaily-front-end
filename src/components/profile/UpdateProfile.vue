@@ -72,6 +72,21 @@
         </div>
 
         <div class="form-group">
+          <label for="twitterInput">Twitter account <span class="public-info"/></label>
+          <input type="text" 
+          v-model="twitter"
+          name="twitter"
+          id="twitterInput"
+          class="form-control"
+          aria-describedby="twitterHelp"
+          placeholder="alexsmith">
+
+          <div v-show="errors.has('twitter')" class="alert alert-danger">
+            {{ errors.first("twitter") }}
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="bioInput">Bio <span class="public-info"/></label>
           <input type="text" 
           v-model="bio"
@@ -129,6 +144,7 @@ export default {
       email: this.me ? this.me.email : '',
       bio: this.me ? this.me.bio : '',
       website: this.me ? this.me.website : '',
+      twitter: this.me ? this.me.twitter : '',
       loading: false
     }
   },
@@ -184,8 +200,8 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { bio, website, name, id, lastName } = this
-
+          const { bio, website, name, id, lastName, twitter } = this
+          const cleanTwitter = (twitter) ? twitter.replace('@','') : null
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({ imageFile: this.file })
@@ -196,7 +212,8 @@ export default {
                   lastName,
                   bio,
                   isAvatarSet: true,
-                  website
+                  website,
+                  cleanTwitter
                 })
               })
               .catch((error) => {
@@ -214,8 +231,9 @@ export default {
               name,
               lastName,
               bio,
-              isAvatarSet: this.avatarUrl == null,
-              website
+              isAvatarSet: false,
+              website,
+              cleanTwitter
             })
           }
 

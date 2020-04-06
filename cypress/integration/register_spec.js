@@ -28,13 +28,9 @@ describe('The Register Page', function () {
     cy.visit('/#/register')
     .then(() => {
       cy.get('input[name=password]').type(newUser.password)
-      cy.get('input[name=confirmPassword]').type(newUser.password)
       cy.get('input[name=name]').type(newUser.name)
       cy.get('input[name=lastName]').type(newUser.lastName)
-      cy.get('#bioInput').type(newUser.bio)
       cy.get('#emailInput').type(newUser.email)
-      cy.get('#emailConfirmInput').type(newUser.email)
-      cy.get('[for="allowNewsletter"]').click()
       cy.get('.login-view button[name=submit-button]').click()
     })
     cy.location().should((loc) => {

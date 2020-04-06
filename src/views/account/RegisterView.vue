@@ -21,21 +21,6 @@
         </div>
 
         <div class="form-group">
-          <label for="emailConfirmInput">Confirm e-mail address</label>
-          <input type="email"
-          v-model="confirmEmail"
-          name="confirmEmail"
-          v-validate="'required|confirmed:email'"
-          class="form-control" id="emailConfirmInput"
-          aria-describedby="emailHelp"
-          placeholder="alex@email.com">
-
-          <div v-show="errors.has('confirmEmail')" class="alert alert-danger">
-            {{ errors.first('confirmEmail') }}
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="passwordInput">Password</label>
           <input type="password" 
           v-model="password"
@@ -53,23 +38,7 @@
         </div>
 
         <div class="form-group">
-          <label for="passwordConfirmInput">Confirm Password</label>
-          <input type="password" 
-          v-model="confirmPassword"
-          id="passwordConfirmInput"
-          name="confirmPassword"
-          v-validate="'required|confirmed:password'"
-          class="form-control"
-          aria-describedby="passwordHelp"
-          placeholder="Confirm password">
-
-          <div v-show="errors.has('confirmPassword')" class="alert alert-danger">
-            {{ errors.first('confirmPassword') }}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="nameInput">Name</label>
+          <label for="nameInput">First Name</label>
           <input type="text" 
           v-model="name"
           name="name"
@@ -100,36 +69,6 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="bioInput">Bio</label>
-          <input type="text" 
-          v-model="bio"
-          id="bioInput"
-          class="form-control"
-          aria-describedby="bioHelp"
-          placeholder="A short bio">
-        </div>
-
-        <div class="form-group">
-          <label for="websiteInput">Website</label>
-          <input type="text" 
-          v-model="website"
-          id="websiteInput"
-          class="form-control"
-          aria-describedby="websiteHelp"
-          placeholder="alexWebsite.com">
-        </div>
-
-        <div class="form-group">
-          <label class="container-input" for="allowNewsletter">
-            Register for newsletter?
-            <input type="checkbox" 
-            v-model="newsletter"
-            id="allowNewsletter"
-            aria-describedby="newsletterHelp">
-            <span class="checkmark"></span>
-          </label>
-        </div>
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
           <div>
             <button name="submit-button" class="button-submit" :disabled="loading">Register</button>
@@ -167,14 +106,9 @@ export default {
   data () {
     return {
       password: '',
-      confirmPassword: '',
       name: '',
       lastName: '',
       email: '',
-      confirmEmail: '',
-      bio: '',
-      website: '',
-      newsletter: true,
       loading: false
     }
   },
@@ -182,46 +116,33 @@ export default {
     ...mapActions(['register']),
     registerHandler () {
       this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          const { email, bio, website, name, lastName, password, newsletter } = this
-          this.$store.dispatch('register', {
-            password,
-            name,
-            lastName,
-            bio,
-            website,
-            email,
-            newsletter
-          })
-            .then((response) => {
-              this.loading = false
-
-              if (response.data.token) {
-                this.$store.dispatch('registerEvent', {
-                  email
-                })
-                  .then((eventResponse) => {
-                    // Ignore response for now
-                  })
-                if (wantedToSubscribe()) {
-                  this.$router.replace('/subscribe')
-                } else {
-                  this.$router.replace('/')
-                }
-              } else {
-                this.$toasted.error('Invalid registration', {
-                    theme: "bubble",
-                    position: "bottom-center",
-                    duration : 700
-                })
-              }
-            })
-        } else {
-          console.log('Failed to validate for registraiotn')
-        }
+        if (result) return this.register()
       })
     },
+
+    register () {
+      const { email, name, lastName, password } = this
+      this.$store.dispatch('register', { password, name, lastName, email })
+        .then((response) => {
+          this.$store.commit('setToken', response.data.token)
+          this.$store.dispatch('fetchMyProfileData')
+          if (wantedToSubscribe()) {
+            this.$router.push('/subscribe')
+          } else {
+            this.$router.push('/')
+          }
+        })
+        .catch((e) => {
+          const msg = (e.response.data && e.response.data.message) 
+            ? e.response.data.message
+            : 'Failed to register'
+          this.$toasted.error(msg, { duration : 6000 })
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+
     logout () {
       this.$auth.logout()
     }
