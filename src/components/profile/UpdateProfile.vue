@@ -213,7 +213,7 @@ export default {
                   bio,
                   isAvatarSet: true,
                   website,
-                  cleanTwitter
+                  twitter: cleanTwitter
                 })
               })
               .catch((error) => {
@@ -233,7 +233,7 @@ export default {
               bio,
               isAvatarSet: false,
               website,
-              cleanTwitter
+              twitter: cleanTwitter
             })
           }
 
