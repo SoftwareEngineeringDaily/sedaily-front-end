@@ -24,6 +24,7 @@
           :contentUrl="contentUrl"
           :forumThreadId="topicPageData._id"
           :rootEntityType="'topic'"
+          :socialShareUsers="[topicData.maintainer]"
           @highlight="onHighlight">
           <div v-html="highlightedContent" />
         </highlightable>

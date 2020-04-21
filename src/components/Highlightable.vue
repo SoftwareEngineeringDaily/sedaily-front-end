@@ -39,7 +39,7 @@
             v-if="contentUrl"
             :url="contentUrl"
             :href="contentUrl"
-            :title="selectedText"
+            :title="twitterContent"
             twitter-user="software_daily"
             inline-template>
             <network network="twitter">
@@ -90,6 +90,9 @@ export default {
       type: String,
       default: 'forumthread'
     },
+    socialShareUsers: {
+      type: Array
+    }
   },
 
   data () {
@@ -115,6 +118,17 @@ export default {
     highlightableEl () {
       return this.$slots.default[0].elm
     },
+    twitterContent () {
+      let users = ''
+      if (this.socialShareUsers) {
+        users = this.socialShareUsers.reduce((prev, user) => {
+          if (!user) return prev
+          prev += user.twitter ? ` @${user.twitter}` : ''
+          return prev
+        },users)
+      }
+      return `${this.selectedText}${users}`
+    }
   },
 
   mounted () {
