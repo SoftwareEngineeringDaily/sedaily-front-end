@@ -9,14 +9,21 @@
         :showDuration="false" />
 
       <post-author :post="post" />
-      <post-action-buttons :post="post" />
 
+      <div class="twitter-users" v-if="post.relatedTweetUsers">
+        <span v-for="user in post.relatedTweetUsers" :key="user.id_str">
+          <a :href="`https://twitter.com/${user.screen_name}`" target="_blank">@{{user.screen_name}}</a>
+        </span>
+      </div>
+      
+      <post-action-buttons :post="post" />
       <div
         v-if="showPostContent"
         class="post-content">
         <highlightable
           :contentUrl="contentUrl"
           :forumThreadId="forumThreadId"
+          :socialShareUsers="relatedTweetUsers"
           @highlight="onHighlight">
           <div class="post-transcript" v-html="highlightedContent" />
         </highlightable>
@@ -25,6 +32,7 @@
       <highlightable
         :contentUrl="contentUrl"
         :forumThreadId="forumThreadId"
+        :socialShareUsers="relatedTweetUsers"
         @highlight="onHighlight">
         <post-transcript :transcript="highlightedTranscript" />
       </highlightable>
@@ -191,6 +199,15 @@ export default {
     highlightedTranscript () {
       const content = (this.post && this.post.transcript) ? this.post.transcript : ''
       return this.highlightContent(content)
+    },
+
+    relatedTweetUsers () {
+      if (!this.post || !this.post.relatedTweetUsers || !this.post.relatedTweetUsers.length) return null
+
+      return this.post.relatedTweetUsers.map(user => ({
+        twitter: user.screen_name
+      }))
+
     },
 
     post () {
@@ -437,28 +454,45 @@ export default {
   p
     a
       margin 0 2px
+
   h2
     margin-top 15px
+
   .col-12,col-md-6
     align-items center
     margin 15px 0
     display flex
     justify-content center
+
   a
     margin-left 20px
+
 .top-space
   padding-top 25px
+
+.twitter-users
+  margin 10px 0 25px 0
+  
+  span:not(:first-child)
+    margin-left 10px
+  
+  a
+    color #a591ff
+
 .post-content p .size-full
   max-width 175px!important
   max-height 175px!important
+
 .section-title
   margin-top: 30px;
   text-transform: uppercase;
   font-size: 0.7rem;
   font-weight: 800;
+
 .post-content a .size-full
   max-width 90vw!important
   max-height none!important
+
 .post-content
   img, figure
     margin 15px 0
@@ -466,16 +500,20 @@ export default {
     width 100%
     max-width  90vw
     height auto
+
   .comments
     margin 0 5px
+
   .section-title
     margin-top 30px
     text-transform uppercase
     font-size .7rem
     font-weight 800
+
   a
     color #a591ff
     font-weight 600
+
     span
       font-weight 600 !important
 
