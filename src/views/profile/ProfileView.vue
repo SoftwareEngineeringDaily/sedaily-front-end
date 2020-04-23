@@ -12,6 +12,7 @@
         <profile-details
           :userData="me"
           :ownProfile="true" />
+        <router-link to="/settings" class="settings">E-mail Settings</router-link>
         <profile-activities
           :userData="me"
           :activities="activities"
@@ -101,6 +102,13 @@ export default {
   .center
     text-align center
     margin 5vh 0
+  
+  .settings
+    display inline-block
+    margin-left 10px
+    font-weight 600
+    &:hover
+      color primary-color
 
   .bg-danger
     text-align center

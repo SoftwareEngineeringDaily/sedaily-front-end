@@ -1,8 +1,9 @@
 <template>
   <div v-if="typeof topics === 'array'" class="topics-container">
-    <h4>Most Popular</h4>
     <ul>
-      <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
+      <li class="topic-item">
+        <router-link to="/popular">Most Popular</router-link>
+      </li>
       <li
         class="topic-item"
         v-for="topic in topics"

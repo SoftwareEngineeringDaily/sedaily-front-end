@@ -2,36 +2,87 @@
   <div class="write-view">
     <h1>Write on Software Daily</h1>
     <p>
-      We are looking for volunteer writers to summarize the topics on Software Daily. 
-      If you want to write about one of the following topics, select one of the topics below:
+      We are looking for volunteer writers to summarize the topics on Software Daily.
+      If you want to write about one of the following topics, select one of the topics below or suggest your own topic.
     </p>
-    <div v-if="message" class="display-content">
-      <span class="message">{{message}}</span>
-    </div>
-    <div v-else class="display-content topics-block">
-      <spinner :show="loading"/>
-      <button
-        v-for="topic in topics" 
-        :key="topic._id"
-        @click="onClickTopic(topic)">
-        {{topic.name}}
-      </button>
-    </div>
+
+    <button class="learn" @click="toggleLearn">Learn more</button>
+
+    <spinner :show="loading"/>
+    
+    <div v-if="!me || !me._id" class="display-content">You need to login first</div>
+    <template v-else>
+      
+      <form class="display-content" v-on:submit.prevent="selectNewTopic">
+        <input type="text"
+          v-model="newTopic"
+          class="form-control"
+          placeholder="Suggest new topic">
+      </form>  
+      
+      <div class="display-content topics-block">
+        <button
+          v-for="topic in topics" 
+          :key="topic._id"
+          @click="onClickTopic(topic)">
+          {{topic.name}}
+        </button>
+      </div>
+
+    </template>
+
+    <modal v-show="showLearn">
+      <h2 slot="header"></h2>
+      <div slot="body">
+        <div>
+          <p>If you are listening to lots of episodes of Software Daily, you can write about the topics in the show. It will help us grow our content, and help you retain information.</p>
+          <p>A topic page should be:</p>
+          <ul>
+            <li>brief (2-3 pages; you would want to read it on an airplane or on a short 15 minute commute)</li>
+            <li>high-level (it should read like an executive summary, not a tutorial)</li>
+            <li>informative (an unbiased presentation of the topic)</li>
+          </ul>
+          <p>Here are a few examples:</p>
+          <router-link to="/topic/container-orchestration-wars">Container Orchestration Wars</router-link><br>
+          <router-link to="/topic/apache-spark">Apache Spark</router-link>
+        </div>        
+      </div>
+      <div slot="footer">
+        <button class="cancel" @click="showLearn=false">Close</button>
+      </div>
+    </modal>
+
+    <modal v-show="showConfirmation">
+      <h2 slot="header"></h2>        
+      <div slot="body">
+        Confirm selection of <span class="topic">{{selectedTopic}}</span> topic?
+      </div>  
+      <div slot="footer">
+        <button class="cancel" @click="showConfirmation=false">Close</button>
+        <button :disabled="saving" class="button-submit" @click="submit">Submit</button>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import Spinner from '@/components/Spinner.vue'
+import spinner from '@/components/Spinner.vue'
+import modal from '@/components/ModalComponent'
 export default {
   components: {
-    Spinner
+    spinner,
+    modal
   },
   data () {
     return {
       loading: false,
+      saving: false,
+      showLearn: false,
+      showConfirmation: false,
       topics: [],
-      message: ''
+      newTopic: '',
+      selectedTopic: ''
     }
   },
   mounted() {
@@ -46,6 +97,17 @@ export default {
   },
   methods: {
     ...mapActions(['getTopTopics', 'setMaintainerInterest']),
+
+    toggleLearn() {
+      this.showLearn = !this.showLearn;
+    },
+
+    cancelSelection() {
+      this.showConfirmation = false
+      this.selectedTopic = ''
+      this.newTopic = ''
+    },
+
     loadTopics() {
       this.loading = true
       this.getTopTopics(200).then((data) => {
@@ -57,22 +119,34 @@ export default {
       })
     },
 
-    onClickTopic (topic) {
-      if (!this.me || !this.me._id) return this.message = 'Please log in first'
+    onClickTopic(topic) { 
+      this.selectedTopic = topic.name
+      this.$nextTick(() => {
+        this.showConfirmation = true
+      })
+    },
 
-      this.loading = true
+    selectNewTopic() {
+      this.selectedTopic = (''.trim) ? this.newTopic.trim() : this.newTopic
+      this.$nextTick(() => {
+        this.showConfirmation = true
+      })
+    },
+
+    submit() {
+      this.saving = true
       const data = {
-        topicName: topic.name,
+        topicName: this.selectedTopic,
         userName: this.me.name,
-        userEmail: this.me.email,
+        userEmail: this.me.email
       }
-
       this.setMaintainerInterest(data).then((data) => {
-        this.message = 'Great! We will be in touch with you.'
+        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+        this.cancelSelection()
       }).catch((e) => {
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
-        this.loading = false
+        this.saving = false
       })
     }
   }
@@ -91,19 +165,56 @@ export default {
       margin 0 auto
       display block
 
+    .learn
+      color #a591ff
+      font-weight 600
+      margin 0
+      padding 0
+      border 0
+      background-color transparent
+      font-size 16px
+
+      &:hover
+        color #222
+        text-decoration underline
+
+    .cancel
+      font-weight 600
+      color #9b9b9b
+      margin 0
+      padding 0
+      border 0
+      background-color transparent
+      font-size 16px
+  
+    >>> .modal
+      height unset
+      min-height unset
+
+      .modal-header
+        display none 
+
+      .modal-body
+        padding 30px
+        overflow auto
+
+      a
+        color #1a0dab
+
+    .topic
+      color #a591ff
+
+    .button-submit
+      margin-left 20px
+    
     .display-content
-      padding 10px 15px
+      padding 20px
       background-color #f8f9fa
-      min-width 400px
-      width 50vw
       margin 10px auto
       text-align center
       
-      .message
-        font-size 16px
-
     .topics-block
-
+      
       button
         border 0
         background-color transparent

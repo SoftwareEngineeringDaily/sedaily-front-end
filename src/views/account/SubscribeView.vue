@@ -3,6 +3,7 @@
     <div v-if="loadingUser">
       <spinner :show="loadingUser"></spinner>
     </div>
+
     <div v-if="alreadySubscribed">
       <br />
       <h1>You are subscribed. Thank you.</h1>
@@ -27,8 +28,11 @@
           Checkout the latest episodes:
           <router-link class="link" :to="{ name: 'NewListView', params: {} }">here</router-link>.
         </h3>
-        <br />
-        <div><h2> {{error}} </h2> </div>
+        <app-download-buttons />
+
+        <div>
+          <h2>{{error}}</h2>
+        </div>
         <div>
           <h2 class='success-msg'>{{successSubscribingMessage}}</h2>
         </div>
@@ -39,7 +43,7 @@
 
         <br />
         <br />
-        <h4> Cancelling?</h4>
+        <h4>Cancelling?</h4>
         <p>
           Your subscription will be cancelled right away and you won't be charged again
           but you will lose access to the premium content right away.
@@ -89,20 +93,28 @@
 </template>
 
 <script>
-// import { stripeKey, stripeOptions } from './stripeConfig.json'
 import moment from 'moment'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
+import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
 import { wantedToSubscribe, preSelectedSubscriptionPlan, unselectSubscriptionPlan } from '@/utils/subscription.utils.js'
 import { apiConfig } from '../../../config/apiConfig';
+
 export default {
+  components: {
+    Card,
+    Spinner,
+    AppDownloadButtons,
+  },
+
   props: {
     stripePublicKey: {
       type: String,
       required: true
     }
   },
+
   data () {
     return {
       complete: false,
@@ -124,22 +136,22 @@ export default {
       }
     }
   },
-  beforeMount () {
+
+  mounted () {
     if (!this.isLoggedIn) {
       // If user is not logged in we should show
-      this.$router.replace('/premium')
-    } else {
-      if (!this.alreadySubscribed) {
-        if (wantedToSubscribe()) {
-          this.planType = preSelectedSubscriptionPlan()
-        }
-      } else {
-      // Already subbed
-        unselectSubscriptionPlan()
-      }
+      return this.$router.replace('/premium')
     }
+
+    if (!this.alreadySubscribed && wantedToSubscribe()) {
+      this.planType = preSelectedSubscriptionPlan()
+      return
+    }
+
+    // Already subbed
+    unselectSubscriptionPlan()
   },
-  components: { Card, Spinner },
+
   methods: {
     ...mapActions(['createSubscription', 'cancelSubscription']),
     pay () {

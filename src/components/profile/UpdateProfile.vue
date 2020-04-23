@@ -48,10 +48,41 @@
           class="form-control"
           v-validate="'required'"
           aria-describedby="nameHelp"
-          placeholder="Alex Smith">
+          placeholder="Alex">
 
           <div v-show="errors.has('name')" class="alert alert-danger">
             {{ errors.first("name") }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="LastNameInput">Last name <span class="public-info"/></label>
+          <input type="text" 
+          v-model="lastName"
+          name="lastName"
+          id="LastNameInput"
+          class="form-control"
+          v-validate="'required'"
+          aria-describedby="lastNameHelp"
+          placeholder="Smith">
+
+          <div v-show="errors.has('LastName')" class="alert alert-danger">
+            {{ errors.first("LastName") }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="twitterInput">Twitter account <span class="public-info"/></label>
+          <input type="text" 
+          v-model="twitter"
+          name="twitter"
+          id="twitterInput"
+          class="form-control"
+          aria-describedby="twitterHelp"
+          placeholder="alexsmith">
+
+          <div v-show="errors.has('twitter')" class="alert alert-danger">
+            {{ errors.first("twitter") }}
           </div>
         </div>
 
@@ -109,9 +140,11 @@ export default {
       image: '',
       file: null,
       name: this.me ? this.me.name : '',
+      lastName: this.me ? this.me.lastName : '',
       email: this.me ? this.me.email : '',
       bio: this.me ? this.me.bio : '',
       website: this.me ? this.me.website : '',
+      twitter: this.me ? this.me.twitter : '',
       loading: false
     }
   },
@@ -167,8 +200,8 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
-          const { bio, website, name, id } = this
-
+          const { bio, website, name, id, lastName, twitter } = this
+          const cleanTwitter = (twitter) ? twitter.replace('@','') : null
           let updatePromise = null
           if (this.file) {
             updatePromise = this.uploadAvatarImage({ imageFile: this.file })
@@ -176,9 +209,11 @@ export default {
                 return this.updateProfile({
                   id,
                   name,
+                  lastName,
                   bio,
                   isAvatarSet: true,
-                  website
+                  website,
+                  twitter: cleanTwitter
                 })
               })
               .catch((error) => {
@@ -194,9 +229,11 @@ export default {
             updatePromise = this.updateProfile({
               id,
               name,
+              lastName,
               bio,
-              isAvatarSet: this.avatarUrl == null,
-              website
+              isAvatarSet: false,
+              website,
+              twitter: cleanTwitter
             })
           }
 

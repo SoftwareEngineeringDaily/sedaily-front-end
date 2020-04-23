@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import { Home }  from '@/views/home'
 import PostsFeed  from '@/views/postsFeed/PostsFeed'
 import PostView from '@/views/post/PostView'
+import PopularView from '@/views/PopularView'
 import SearchView  from '@/views/search/SearchView'
-import { LoginView, SubscribeView, RegisterView , RegainAccount, SettingsView, ForgotPassword} from '@/views/account'
+import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword } from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
@@ -16,6 +17,7 @@ import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
 import WriteInfoView from '@/views/write/WriteInfoView'
+import BookmarksView from '@/views/bookmarks/BookmarksView'
 
 import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
@@ -28,6 +30,7 @@ const router = new Router({
         { path: '', name: 'PostsAll', component: PostsFeed },
         { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
         { path: '/search', name: 'Search', component: SearchView },
+        { path: '/popular', name: 'Popular', component: PopularView },
       ]
     },
     { path: '/write', component: WriteInfoView },
@@ -46,8 +49,9 @@ const router = new Router({
     { path: '/register', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/settings', name: 'NotificationSettings', beforeEnter: authorize, component: SettingsView },
-    { path: '/profile', component: ProfileView },
-    { path: '/profile/:id([A-Za-z0-9-_]+)?', component: PublicProfileView },
+    { path: '/profile', name: 'Profile', component: ProfileView },
+    { path: '/profile/:id([A-Za-z0-9-_]+)?', name: 'PublicProfile', component: PublicProfileView },
+    { path: '/bookmarks', component: BookmarksView },
     { path: '/jobs', component: JobsBoardView },
     { path: '/jobs/:id([A-Za-z0-9-_]+)?', component: JobView },
     { path: '/add-job', beforeEnter: authorize, component: AddJobView },

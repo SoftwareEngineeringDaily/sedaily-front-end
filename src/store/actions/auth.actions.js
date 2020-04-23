@@ -55,7 +55,7 @@ export default {
   },
 
   register: ({ commit, dispatch },
-    { password, bio, website, name, email, newsletter }) => {
+    { password, name, lastName, email }) => {
 
 
     commit('analytics', {
@@ -72,42 +72,11 @@ export default {
     })
 
     return axios.post(`${BASE_URL}/auth/register`, {
-      bio,
       password,
-      website,
       name,
-      email,
-      newsletter
+      lastName,
+      email
     })
-      .then((response) => {
-        commit('setToken', response.data.token)
-        dispatch('fetchMyProfileData')
-        return response
-      })
-      .catch((error) => {
-      // @TODO: Add pretty pop up here
-        console.log(error.response)
-        Vue.toasted.error(error.response.data.message, { 
-          singleton: true,
-          theme: "bubble", 
-          position: "bottom-center", 
-          duration : 700
-      })
-
-        commit('analytics', {
-          meta : {
-            analytics: [
-              ['event', {
-                eventCategory: 'errors',
-                eventAction: 'register error',
-                eventLabel: `${email}`,
-                eventValue: 1
-              }]
-            ]
-          }
-        })
-        return error
-      })
   },
 
   sendForgotPasswordEmail: ({ commit, state }, { email }) => {

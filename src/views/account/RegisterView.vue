@@ -21,21 +21,6 @@
         </div>
 
         <div class="form-group">
-          <label for="emailConfirmInput">Confirm e-mail address</label>
-          <input type="email"
-          v-model="confirmEmail"
-          name="confirmEmail"
-          v-validate="'required|confirmed:email'"
-          class="form-control" id="emailConfirmInput"
-          aria-describedby="emailHelp"
-          placeholder="alex@email.com">
-
-          <div v-show="errors.has('confirmEmail')" class="alert alert-danger">
-            {{ errors.first('confirmEmail') }}
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="passwordInput">Password</label>
           <input type="password"
           v-model="password"
@@ -53,67 +38,38 @@
         </div>
 
         <div class="form-group">
-          <label for="passwordConfirmInput">Confirm Password</label>
-          <input type="password"
-          v-model="confirmPassword"
-          id="passwordConfirmInput"
-          name="confirmPassword"
-          v-validate="'required|confirmed:password'"
-          class="form-control"
-          aria-describedby="passwordHelp"
-          placeholder="Confirm password">
-
-          <div v-show="errors.has('confirmPassword')" class="alert alert-danger">
-            {{ errors.first('confirmPassword') }}
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="nameInput">Name</label>
-          <input type="text"
-          v-model="name"
-          name="name"
-          id="nameInput"
-          class="form-control"
-          v-validate="'required'"
-          aria-describedby="nameHelp"
-          placeholder="Alex">
+          <label for="nameInput">First Name</label>
+          <input
+            type="text"
+            name="name"
+            id="nameInput"
+            class="form-control"
+            v-model="name"
+            v-validate="'required'"
+            aria-describedby="nameHelp"
+            placeholder="Alex">
 
           <div v-show="errors.has('name')" class="alert alert-danger">
-           {{ errors.first('name') }}
+            {{ errors.first('name') }}
           </div>
         </div>
 
         <div class="form-group">
           <label for="bioInput">Bio</label>
-          <input type="text"
-          v-model="bio"
-          id="bioInput"
-          class="form-control"
-          aria-describedby="bioHelp"
-          placeholder="A short bio">
-        </div>
 
-        <div class="form-group">
-          <label for="websiteInput">Website</label>
-          <input type="text"
-          v-model="website"
-          id="websiteInput"
-          class="form-control"
-          aria-describedby="websiteHelp"
-          placeholder="alexWebsite.com">
-        </div>
+          <input
+            type="text"
+            id="bioInput"
+            class="form-control"
+            v-model="bio"
+            v-validate="'required'"
+            aria-describedby="lastNameHelp"
+            placeholder="Smith">
 
-        <!-- <div class="form-group">
-          <label class="container-input" for="allowNewsletter">
-            Register for newsletter?
-            <input type="checkbox"
-            v-model="newsletter"
-            id="allowNewsletter"
-            aria-describedby="newsletterHelp">
-            <span class="checkmark"></span>
-          </label>
-        </div> -->
+          <div v-show="errors.has('lastName')" class="alert alert-danger">
+            {{ errors.first('lastName') }}
+          </div>
+        </div>
 
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
           <div>
@@ -152,55 +108,44 @@ export default {
   data () {
     return {
       password: '',
-      confirmPassword: '',
       name: '',
+      lastName: '',
       email: '',
-      confirmEmail: '',
-      bio: '',
-      website: '',
       loading: false
     }
   },
   methods: {
     ...mapActions(['register']),
-    async registerHandler () {
-      const result = await this.$validator.validateAll()
 
-      if (!result) {
-        return console.log('Failed to validate for registration')
-      }
-
-      this.loading = true
-
-      const { email, bio, website, name, password } = this
-      const options = {
-        password,
-        name,
-        bio,
-        website,
-        email,
-      }
-
-      const response = await this.$store.dispatch('register', options)
-
-      this.loading = false
-
-      if (!response.data.token) {
-        return this.$toasted.error('Invalid registration', {
-            theme: 'bubble',
-            position: 'bottom-center',
-            duration : 700
-        })
-      }
-
-      this.$store.dispatch('registerEvent', { email })
-
-      if (wantedToSubscribe()) {
-        return this.$router.replace('/subscribe')
-      }
-
-      this.$router.replace('/')
+    registerHandler () {
+      this.$validator.validateAll().then((result) => {
+        if (result) return this.register()
+      })
     },
+
+    register () {
+      const { email, name, lastName, password } = this
+      this.$store.dispatch('register', { password, name, lastName, email })
+        .then((response) => {
+          this.$store.commit('setToken', response.data.token)
+          this.$store.dispatch('fetchMyProfileData')
+          if (wantedToSubscribe()) {
+            this.$router.push('/subscribe')
+          } else {
+            this.$router.push('/')
+          }
+        })
+        .catch((e) => {
+          const msg = (e.response.data && e.response.data.message)
+            ? e.response.data.message
+            : 'Failed to register'
+          this.$toasted.error(msg, { duration : 6000 })
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+
     logout () {
       this.$auth.logout()
     }

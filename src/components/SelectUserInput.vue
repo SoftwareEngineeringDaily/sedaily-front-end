@@ -81,7 +81,7 @@ export default {
     loadUsers (value) {
       this.loading = true
       this.users = []
-      this.searchUsersComplete({ name: value }).then(users => {
+      this.searchUsersComplete({ query: value }).then(users => {
         this.users = users
         this.loading = false
       });

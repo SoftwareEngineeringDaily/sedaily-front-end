@@ -45,9 +45,20 @@ export default {
     return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
   },
 
+  saveTopicPageLogo: (_, { slug , file} ) => {
+    const endpointUrl = `${BASE_URL}/topicpage/${slug}/logo`
+    return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
+  },
+
   deleteTopicPageImage: (_, { slug , imageId} ) => {
     return axios.delete(`${BASE_URL}/topicpage/${slug}/images/${imageId}`)
     .then((response) => {
+      return response.data
+    })
+  },
+
+  mostRecentPages: () => {
+    return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
       return response.data
     })
   },
@@ -64,6 +75,5 @@ export default {
     .then((response) => {
       return response.data
     })
-  },
-
+  }
 }

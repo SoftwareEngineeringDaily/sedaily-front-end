@@ -33,8 +33,8 @@
                 <div class="arrow"></div>
                 Profile
               </b-dropdown-item>
-              <b-dropdown-item to="/settings">
-                Settings
+              <b-dropdown-item to="/bookmarks">
+                Bookmarks
               </b-dropdown-item>
               <b-dropdown-item @click.prevent="logoutHandler">
                 Logout

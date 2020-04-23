@@ -11,6 +11,13 @@ export default {
     return getS3SingedUploadUrlAndUpload({ imageFile, endpointUrl })
   },
 
+  getBookmarks: () => {
+    return axios.get(`${BASE_URL}/users/me/bookmarked`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   fetchMyProfileData: ({ commit, state, getters, dispatch }) => {
     if (!getters.isLoggedIn) {
       return Promise.reject('User not signed in.')
@@ -31,8 +38,8 @@ export default {
       })
   },
 
-  searchUsersComplete: (_, { name }) => {
-    return axios.get(`${BASE_URL}/users/search?name=${name}`)
+  searchUsersComplete: (_, { query }) => {
+    return axios.get(`${BASE_URL}/users/search?name=${query}||email=${query}`)
       .then(({data}) => {
         return data
       })
@@ -78,7 +85,7 @@ export default {
       })
   },
 
-  updateProfile: ({ commit, dispatch }, { id, bio, isAvatarSet, website, name }) => {
+  updateProfile: ({ commit, dispatch }, { id, bio, isAvatarSet, website, name, lastName, twitter }) => {
 
     commit('analytics', {
       meta : {
@@ -97,6 +104,8 @@ export default {
       bio,
       website,
       name,
+      lastName,
+      twitter,
       isAvatarSet
     })
       .then((response) => {

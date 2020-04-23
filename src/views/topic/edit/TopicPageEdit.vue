@@ -5,23 +5,36 @@
         <spinner :show="loading"/>
         <div v-if="!editPermission.canEdit" class="no-edit">Can't edit this Topic. <br>{{editPermission.msg}}</div>
         <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
-        
+          
           <div class="topicpage-header">
             <h1 class="header-title">{{topicData.name}} 
               <button @click="previewEdit" class="button-secundary button-preview">{{buttonPreviewText}}</button>
             </h1>
-            <ImageEditThumb
-              v-if="showThumb"
-              :class="['topic-logo', !isPreviewing ? 'topic-logo-edit' : '']"
-              :edit="!isPreviewing"
-              :crop="true"
-              :sizeLimit="100"
-              v-model="topicPageData.logo"
-              placeholder="Topic logo" />
           </div>
 
           <topic-page-maintainer :user="topicData.maintainer" />
+          
+          <div v-if="!me.avatarUrl" class="alert-block">
+            <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
+            share your writing
+          </div>
+           <div v-if="!me.lastName" class="alert-block">
+            <router-link to="/edit-profile">Add a Last Name</router-link> to your profile if you would like us to
+            share your writing
+          </div>
 
+          <ImageEditThumb
+            v-if="showThumb"
+            :saving="savingLogo"
+            buttonText="Change (1200x628)"
+            :class="['topic-logo', !isPreviewing ? 'topic-logo-edit' : '']"
+            :edit="!isPreviewing"
+            :crop="true"
+            :maxWidth="1200"
+            :src="topicPageData.logo"
+            @onChangeFile="onLogoChange"
+            placeholder="Topic logo" />
+            
           <div v-if="isPreviewing" class="content-block" v-html="htmlContent"></div>
 
           <content-editor
@@ -44,6 +57,11 @@
                 {{(topicPublishStatus) ? 'Unpublish' : 'Publish'}}
               </button>
             </div>
+          </div>
+
+          <div v-if="!me.twitter" class="alert-block">
+            <router-link to="/edit-profile">Add a Twitter account</router-link> to your profile if you would like us to
+            share your writing
           </div>
 
           <div v-if="!isPreviewing" class="topicpage-history">
@@ -87,14 +105,21 @@ export default {
     return {
       loading: false,
       saving: false,
+      savingLogo: false,
       publishing: false,
       topicData: {},
       topicPageData: {},
       isPreviewing: false,
-      htmlContent: ''
+      htmlContent: '',
+      alerts: [1,2,3]
     }
   },
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      }
+    }),
     editPermission () {
       if (!this.topicData || !this.$store.state.me || !this.$store.state.me._id) return { canEdit: true }
       if (!this.topicData.maintainer || !this.topicData.maintainer._id) {
@@ -131,7 +156,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTopicPageEdit', 'saveTopicPage', 'publishTopicPage', 'unpublishTopicPage']),
+    ...mapActions(['getTopicPageEdit', 'saveTopicPage', 'saveTopicPageLogo', 'publishTopicPage', 'unpublishTopicPage']),
 
     loadTopic () {
       this.loading = true
@@ -175,7 +200,6 @@ export default {
         slug: this.topicData.slug,
         data: {
           content: this.topicPageData.content,
-          logo: this.topicPageData.logo,
           event: 'edit',
           published: this.topicPageData.published
         }
@@ -189,6 +213,10 @@ export default {
       }).finally(() => {
         this.saving = false
       })
+    },
+
+    onLogoChange (file) {
+      this.saveLogoImage(file)
     },
 
     onClickPublish () {
@@ -210,12 +238,23 @@ export default {
       })
     },
 
+    saveLogoImage (file) {
+      this.savingLogo = true
+      this.saveTopicPageLogo({slug: this.$route.params.slug, file }).then(() => {
+        
+      }).catch((e) => {
+        this.$toasted.error((e && e.response) ? e.response.data : e, { duration : 0 })
+      }).finally(() => {
+        this.savingLogo = false
+      })
+    },
+
     dateFormat (date) {
       if (moment().isSame(date, 'day')) return moment(date).format('[Today, ]HH[h]mm')
       return moment(date).format('MMMM Do, YYYY')
     },
 
-    getHistoryEvent (event) { 
+    getHistoryEvent (event) {
       switch(event) {
         case 'edit': return 'Edited'
         case 'publish': return 'Published'
@@ -227,7 +266,6 @@ export default {
     editorReplaceSelection (content) {
       this.editor.codemirror.doc.replaceSelection(content)
     }
-
   }
 }
 </script>
@@ -304,6 +342,15 @@ export default {
 
         >>> circle
           stroke #ffffff
+
+    .alert-block
+      background-color #ececec
+      padding 10px
+      margin 5px 0
+      color #6c757d
+    
+      a
+        color main-purple
 
     .topicpage-history
       margin 30px 0

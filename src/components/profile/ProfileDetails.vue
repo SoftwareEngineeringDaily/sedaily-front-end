@@ -10,7 +10,7 @@
           Edit Profile
         </button>
         <h3 class="display-name">
-          {{ displayName }}
+          {{ displayName }} {{ displayLastName }}
         </h3>
       </div>
       <p class="display-bio text-muted">
@@ -22,6 +22,11 @@
           target="_blank"
           rel="external nofollow">
           {{ userData.website | host }}
+        </a>
+      </p>
+      <p class="display-website" v-if="userData.twitter">
+        <a :href="`https://twitter.com/${userData.twitter}`" target="_blank">
+        @{{ userData.twitter }}
         </a>
       </p>
     </div>
@@ -47,7 +52,9 @@
             avatarUrl: '',
             bio: '',
             name: '',
-            website: ''
+            lastName: '',
+            website: '',
+            twitter: ''
           }
         }
       },
@@ -82,6 +89,9 @@
       ...mapState({
         displayName () {
           return this.userData.name || this.userData.username
+        },
+        displayLastName () {
+          return this.userData.lastName || ''
         },
         displayBio () {
           return this.userData.bio || `${this.displayName} is still writing their biography`

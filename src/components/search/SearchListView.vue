@@ -26,7 +26,6 @@
         </ul>
       </div>
       <div class="topics-container">
-        <h4>Most Popular</h4>
         <ul>
           <li @click="fetchPosts" :class="getClassForTopic('')">All</li>
           <li
@@ -44,8 +43,7 @@
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="true"
         infinite-scroll-distance="10"
-        class="post-scroll-container"
-      >
+        class="post-scroll-container">
         <post-preview v-for="(post, i) in displayedPosts" :key="post._id" :post="post" :inverse="((i+1)%4==2||(i+1)%4==3)"></post-preview>
         <div class="spinner-holder">
           <spinner :show="loading"></spinner>
@@ -87,27 +85,28 @@ export default {
       routerTopic: false
     };
   },
+
   watch: {
     searchTerm() {
       let term = this.$store.state.searchTerm;
-      if (this.topicId === "") {
-        this.getPosts({ search: term }).then(
-          data => {
+      let id = this.topicId;
+
+      if (id === '') {
+        return this.getPosts({ search: term })
+          .then(data => {
             this.displayedPosts = data.posts
             this.$store.commit('setPosts', {posts: data.posts})
-            }
-        );
-      } else {
-        let id = this.topicId;
-        this.getPosts({ topic: id, search: term }).then(
-          data => {
-            this.displayedPosts = data.posts
-            this.$store.commit('setPosts', {posts: data.posts})
-            }
-        );
+          });
       }
+
+      this.getPosts({ topic: id, search: term })
+        .then(data => {
+          this.displayedPosts = data.posts
+          this.$store.commit('setPosts', {posts: data.posts})
+        });
     }
   },
+
   computed: {
     ...mapState(["topics", "searchTerm"]),
     search() {
@@ -129,12 +128,15 @@ export default {
       }
     }
   },
+
   created() {
     this.$store.commit("setActiveType", { type: this.type });
     this.$store.dispatch("mostPopular");
   },
+
   beforeRouteEnter(to, from, next) {
     const topicSlug = to.params.topic;
+
     if (topicSlug === undefined) {
       return next(vm => {
         if(vm.$store.state.searchTerm === null) {
@@ -143,27 +145,38 @@ export default {
         }
       });
     }
+
     next(vm =>
       vm.$store
-        .dispatch("showTopic", topicSlug)
+        .dispatch('showTopic', topicSlug)
         .then(topics => {
           vm.routerTopic = true
           vm.displayedPosts = topics.data.posts;
-          vm.$store.commit('setPosts', {posts: topics.data.posts})
+          vm.$store.commit('setPosts', {
+            posts: topics.data.posts
+          })
+
           vm.topicId = topics.data.topic[0]._id
         })
     );
   },
+
   beforeRouteUpdate(to, from, next) {
     const topicSlug = to.params.topic;
-    this.$store.dispatch("showTopic", topicSlug).then(topics => {
-      this.routerTopic = false
-      this.endOfPosts = false
-      this.displayedPosts = topics.data.posts;
-      this.$store.commit('setPosts', {posts: topics.data.posts})
-    });
+
+    this.$store.dispatch('showTopic', topicSlug)
+      .then(topics => {
+        this.routerTopic = false
+        this.endOfPosts = false
+        this.displayedPosts = topics.data.posts;
+        this.$store.commit('setPosts', {
+          posts: topics.data.posts
+        })
+      });
+
     next();
   },
+
   methods: {
     ...mapActions([ "showTopic", "getTopicsInSearch" ]),
     getClassForTopic(topic_id) {
