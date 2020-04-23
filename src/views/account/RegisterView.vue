@@ -37,7 +37,7 @@
 
         <div class="form-group">
           <label for="passwordInput">Password</label>
-          <input type="password" 
+          <input type="password"
           v-model="password"
           id="passwordInput"
           name="password"
@@ -54,7 +54,7 @@
 
         <div class="form-group">
           <label for="passwordConfirmInput">Confirm Password</label>
-          <input type="password" 
+          <input type="password"
           v-model="confirmPassword"
           id="passwordConfirmInput"
           name="confirmPassword"
@@ -70,7 +70,7 @@
 
         <div class="form-group">
           <label for="nameInput">Name</label>
-          <input type="text" 
+          <input type="text"
           v-model="name"
           name="name"
           id="nameInput"
@@ -86,7 +86,7 @@
 
         <div class="form-group">
           <label for="bioInput">Bio</label>
-          <input type="text" 
+          <input type="text"
           v-model="bio"
           id="bioInput"
           class="form-control"
@@ -96,7 +96,7 @@
 
         <div class="form-group">
           <label for="websiteInput">Website</label>
-          <input type="text" 
+          <input type="text"
           v-model="website"
           id="websiteInput"
           class="form-control"
@@ -104,16 +104,17 @@
           placeholder="alexWebsite.com">
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="container-input" for="allowNewsletter">
             Register for newsletter?
-            <input type="checkbox" 
+            <input type="checkbox"
             v-model="newsletter"
             id="allowNewsletter"
             aria-describedby="newsletterHelp">
             <span class="checkmark"></span>
           </label>
-        </div>
+        </div> -->
+
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
           <div>
             <button name="submit-button" class="button-submit" :disabled="loading">Register</button>
@@ -157,52 +158,48 @@ export default {
       confirmEmail: '',
       bio: '',
       website: '',
-      newsletter: true,
       loading: false
     }
   },
   methods: {
     ...mapActions(['register']),
-    registerHandler () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          this.loading = true
-          const { email, bio, website, name, password, newsletter } = this
-          this.$store.dispatch('register', {
-            password,
-            name,
-            bio,
-            website,
-            email,
-            newsletter
-          })
-            .then((response) => {
-              this.loading = false
+    async registerHandler () {
+      const result = await this.$validator.validateAll()
 
-              if (response.data.token) {
-                this.$store.dispatch('registerEvent', {
-                  email
-                })
-                  .then((eventResponse) => {
-                    // Ignore response for now
-                  })
-                if (wantedToSubscribe()) {
-                  this.$router.replace('/subscribe')
-                } else {
-                  this.$router.replace('/')
-                }
-              } else {
-                this.$toasted.error('Invalid registration', {
-                    theme: "bubble",
-                    position: "bottom-center",
-                    duration : 700
-                })
-              }
-            })
-        } else {
-          console.log('Failed to validate for registraiotn')
-        }
-      })
+      if (!result) {
+        return console.log('Failed to validate for registration')
+      }
+
+      this.loading = true
+
+      const { email, bio, website, name, password } = this
+      const options = {
+        password,
+        name,
+        bio,
+        website,
+        email,
+      }
+
+      const response = await this.$store.dispatch('register', options)
+
+      this.loading = false
+
+      if (!response.data.token) {
+        return this.$toasted.error('Invalid registration', {
+            theme: 'bubble',
+            position: 'bottom-center',
+            duration : 700
+        })
+      }
+
+      this.$store.dispatch('registerEvent', { email })
+
+      if (wantedToSubscribe()) {
+        return this.$router.replace('/subscribe')
+      }
+
+      this.$router.replace('/')
     },
     logout () {
       this.$auth.logout()

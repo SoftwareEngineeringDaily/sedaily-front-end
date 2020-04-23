@@ -1,9 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
 import Router from 'vue-router'
 import Meta from 'vue-meta'
+import VueAxios from 'vue-axios'
+import VueAuthenticate from 'vue-authenticate'
+import axios from 'axios'
+import App from './App'
 import router from './router'
 import store from './store'
 import * as filters from './filters'
@@ -30,6 +33,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const WS_URL = apiConfig.BASE_URL.replace('/api', '');
+const getRedirectUri = (uri = '/') => {
+  return `${window.location.origin}${uri}`
+}
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
@@ -61,7 +67,26 @@ Vue.use(Toasted, {
   }
 })
 
+// Authentication
 Vue.use(AuthPlugin)
+Vue.use(VueAxios, axios)
+Vue.use(VueAuthenticate, {
+  baseUrl: apiConfig.BASE_URL, // Your API domain
+  providers: {
+    linkedin: {
+      clientId: '77jena9cpsji2f',
+      redirectUri: getRedirectUri(), // Your client app URL
+      requiredUrlParams: [ 'state', 'scope' ],
+      scope: [
+        'r_emailaddress',
+        'r_liteprofile',
+        'r_basicprofile',
+        'w_member_social'
+      ],
+      state: 'STATE',
+    }
+  }
+})
 
 Vue.use(VeeValidate, {
   events: 'blur'
@@ -88,7 +113,7 @@ Vue.directive('click-outside', {
 })
 
 Vue.use(new VueSocketIO({
-  connection: socketio(WS_URL), 
+  connection: socketio(WS_URL),
   vuex: {
     store,
     actionPrefix: "notification.",

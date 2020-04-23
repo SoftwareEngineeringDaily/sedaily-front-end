@@ -48,6 +48,7 @@
     "vue": "^2.5.16",
     "vue-analytics": "^5.9.1",
     "vue-aplayer": "^1.4.0",
+    "vue-authenticate": "^1.4.1",
     "vue-axios": "^2.1.5",
     "vue-infinite-scroll": "^2.0.2",
     "vue-instantsearch": "^2.6.0",

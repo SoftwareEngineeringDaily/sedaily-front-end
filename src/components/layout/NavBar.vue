@@ -15,7 +15,8 @@
       <span class="pull-right">
         <search-bar />
         <span v-if="!isLoggedIn" class="register">
-          <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
+          <button @click="signIn" name="submit-button" class="btn-sign-in">Sign In</button>
+          <button @click="authenticate('linkedin')" class="btn-sign-in btn-sign-in--linkedin">Connect with LinkedIn</button>
         </span>
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
         <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
@@ -53,6 +54,7 @@ import { mapGetters, mapState } from 'vuex'
 import SearchBar from '@/components/search/SearchBar'
 import NavMobile from './NavBarMobile'
 import Notification from '@/components/notification/Notification'
+import { apiConfig } from './../../../config/apiConfig'
 
 export default {
   name: "navigation-bar",
@@ -75,6 +77,7 @@ export default {
       default: false
     }
   },
+
   watch: {
     searchTerm() {
       this.makeSearch();
@@ -108,6 +111,15 @@ export default {
   methods: {
     signIn() {
       this.$router.push({ path: `/login` })
+    },
+    authenticate(provider) {
+      this.$auth.authenticate(provider)
+        .then(response => {
+          console.log('response ', response)
+        })
+        .catch(err => {
+          console.error('err ', err)
+        })
     },
     logoutHandler() {
       this.$auth.logout()
@@ -176,12 +188,20 @@ export default {
 <style scoped lang="stylus">
 @import '../../css/variables'
 .btn-sign-in
+  padding 10px 20px
   font-size 14px
   font-weight 700
   line-height 16px
-  border 0
   letter-spacing 1.05px
-  padding 10px 20px
+  text-transform uppercase
+  border 0
+
+  &.btn-sign-in--linkedin
+    color #2867B2
+
+    &:hover
+      color #ffffff
+      background-color #2867B2
 
 .button-submit
   margin-left 15px
@@ -288,7 +308,7 @@ export default {
 
         &:hover
           color #222
-        
+
         &.router-link-active
           border-bottom 0
           line-height 16px
