@@ -36,6 +36,8 @@
         <question
           v-for="question in questions"
           :key="question._id"
+          :topicSlug="topicData.slug"
+          :answerLimit="1"
           :question="question" />
       </div>
 
@@ -258,6 +260,7 @@ export default {
         ) {
           return this.redirectToPosts()
         }
+
         this.topicData = data.topic
         this.topicPageData = this.convertMarkdown(data.topicPage)
         // this.loadComments()

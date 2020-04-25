@@ -27,6 +27,9 @@ export default {
     state.me = me
   },
 
+  setTopicPage: (state, topicpage) => {
+    state.topics.topicpage = topicpage
+  },
   setAllTopics: (state, topics) => {
     state.topics.all = topics
   },

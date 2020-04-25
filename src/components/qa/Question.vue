@@ -3,8 +3,9 @@
     <h3>{{question.content}}</h3>
 
     <answer
-      v-for="answer in question.answers"
+      v-for="answer in answers"
       :key="answer._id"
+      :question="question.content"
       :answer="answer" />
 
     <div class="question-footer">
@@ -13,6 +14,14 @@
         @click="showAnswerEdit">
         Add Answer
       </div>
+
+      <span v-if="question.answers.length > answerLimit">|</span>
+      <router-link
+        class="link"
+        v-if="question.answers.length > answerLimit"
+        :to="{ path: `/topic/${topicSlug}/question/${question._id}` }">
+        View {{question.answers.length - answerLimit}} More Answer{{(question.answers.length - answerLimit) > 1 ? 's' : ''}}
+      </router-link>
     </div>
 
     <div class="answer" :class="{ 'is-disabled': isLoading }" v-show="isAnswering">
@@ -54,7 +63,13 @@ export default {
   props: {
     question: {
       type: Object,
-    }
+    },
+    answerLimit: {
+      type: Number,
+    },
+    topicSlug: {
+      type: String,
+    },
   },
 
   data () {
@@ -70,6 +85,14 @@ export default {
     Spinner,
     ContentEditor,
     CommentQuote,
+  },
+
+  computed: {
+    answers () {
+      return this.question ?
+        this.question.answers.slice(0, this.answerLimit) :
+        []
+    }
   },
 
   methods: {
@@ -111,6 +134,19 @@ export default {
 .question-footer {
   margin-top: 1rem;
   text-align: right;
+
+  > * {
+    display: inline-block;
+  }
+
+  span {
+    color: #e9ecef;
+  }
+
+  span,
+  *:last-child {
+    margin-left: 10px;
+  }
 }
 
 .link,
@@ -118,6 +154,10 @@ export default {
   cursor: pointer;
   font-weight: 700;
   color: #a591ff;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 .answer {

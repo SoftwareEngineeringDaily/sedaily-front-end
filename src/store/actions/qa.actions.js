@@ -13,7 +13,7 @@ export default {
   },
 
   getQuestions: async ({ commit, state, getters }, id) => {
-    axios
+    return axios
       .get(`${BASE_URL}/question/entity/topic/${id}`)
       .then(({ data: questions }) => {
         questions.forEach(q => {

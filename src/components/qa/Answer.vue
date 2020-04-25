@@ -1,5 +1,5 @@
 <template>
-  <div class="answer">
+  <div :id="`answer-${answer._id}`" class="answer">
     <div class="profile-container">
       <profile-label
         :userData="answer.author"
@@ -23,6 +23,19 @@
         <i class="fa fa-lg" :class="{ 'fa-heart-o': !isMyVote, 'fa-heart': isMyVote }"></i>
         {{ answer.votes.length }}
       </div>
+
+      <social-sharing
+        :url="shareUrl"
+        :href="shareUrl"
+        :title="shareText"
+        twitter-user="software_daily"
+        inline-template>
+        <div class="cursor-pointer hover-highlight">
+          <network network="twitter">
+            <i class="fa fa-lg fa-twitter" />
+          </network>
+        </div>
+      </social-sharing>
 
       <div class="answer-edit" :class="{ 'is-disabled': isLoading }">
         <span v-if="isMyAnswer">
@@ -52,7 +65,8 @@
 <script>
 import marked from 'marked'
 import moment from 'moment'
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import SocialSharing from 'vue-social-sharing'
 import VotingArrows from '@/components/VotingArrows'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import ProfileLabel from '@/components/profile/ProfileLabel'
@@ -61,6 +75,9 @@ export default {
   name: 'answer',
 
   props: {
+    question: {
+      type: String,
+    },
     answer: {
       type: Object,
     }
@@ -77,6 +94,7 @@ export default {
     ContentEditor,
     VotingArrows,
     ProfileLabel,
+    SocialSharing,
   },
 
   computed: {
@@ -84,12 +102,28 @@ export default {
       'isLoggedIn',
     ]),
 
+    ...mapState({
+      topicpage ({ topics }) {
+        return topics.topicpage
+      },
+    }),
+
     compiledMarkdown () {
       marked.setOptions({
         breaks: true
       })
 
       return marked(this.answer.content || '')
+    },
+
+    shareUrl () {
+      const { topicpage, answer } = this
+      return `${window.location.origin}/topic/${topicpage.slug}/question/${answer.question}#answer-${answer._id}`
+    },
+
+    shareText () {
+      const { question, answer, shareUrl } = this
+      return `"${question}"\n${answer.content} ${shareUrl}`
     },
 
     isMyVote () {
@@ -174,6 +208,10 @@ export default {
   font-size: 0.8rem;
   letter-spacing: 0.6px;
   font-weight: 600;
+
+  & > .cursor-pointer {
+    margin-right: 1rem;
+  }
 }
 
 .answer-edit {
