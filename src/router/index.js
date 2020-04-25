@@ -18,6 +18,7 @@ import Contributors from '@/views/Contributors'
 import { ForumView, ForumThreadView, NewForumThreadView, NewProjectForumThreadView, EditForumThreadView }  from '@/views/forum'
 import WriteInfoView from '@/views/write/WriteInfoView'
 import BookmarksView from '@/views/bookmarks/BookmarksView'
+import QuestionView from '@/views/question/QuestionView'
 
 import { apiConfig } from '../../config/apiConfig'
 import authorize from './authHook'
@@ -73,8 +74,13 @@ const router = new Router({
         { path: 'topic/:id', component: TopicForm }
       ]
     },
-    { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
+    { path: '/topic/:slug', name: 'TopicPage', component: TopicPage,
+      children: [
+        { path: '/question/:questionId', name: 'TopicPageEdit', component: QuestionView },
+      ]
+    },
     { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
+    // { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {

@@ -5,15 +5,15 @@
         <spinner :show="loading"/>
         <div v-if="!editPermission.canEdit" class="no-edit">Can't edit this Topic. <br>{{editPermission.msg}}</div>
         <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
-          
+
           <div class="topicpage-header">
-            <h1 class="header-title">{{topicData.name}} 
+            <h1 class="header-title">{{topicData.name}}
               <button @click="previewEdit" class="button-secundary button-preview">{{buttonPreviewText}}</button>
             </h1>
           </div>
 
           <topic-page-maintainer :user="topicData.maintainer" />
-          
+
           <div v-if="!me.avatarUrl" class="alert-block">
             <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
             share your writing
@@ -34,14 +34,13 @@
             :src="topicPageData.logo"
             @onChangeFile="onLogoChange"
             placeholder="Topic logo" />
-            
+
           <div v-if="isPreviewing" class="content-block" v-html="htmlContent"></div>
 
           <content-editor
             v-show="!isPreviewing"
-            v-model="topicPageData.content" 
-            ref="editor"
-          />
+            v-model="topicPageData.content"
+            ref="editor" />
 
           <div v-show="!isPreviewing" class="button-bar">
             <div :class="['left-items', topicPublishStatus ? 'published' : 'unpublished']">Status: {{topicPublishMsg}}</div>
@@ -82,8 +81,8 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
-import Spinner from '@/components/Spinner';
-import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
+import Spinner from '@/components/Spinner'
+import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import Avatar from '@/components/Avatar'
 import { ImageEditThumb } from '@/components/ImageEdit'
@@ -96,7 +95,7 @@ export default {
     TopicPageTemplate,
     ContentEditor,
     Avatar,
-    ImageEditThumb
+    ImageEditThumb,
   },
   beforeMount () {
     this.loadTopic()
@@ -241,7 +240,7 @@ export default {
     saveLogoImage (file) {
       this.savingLogo = true
       this.saveTopicPageLogo({slug: this.$route.params.slug, file }).then(() => {
-        
+
       }).catch((e) => {
         this.$toasted.error((e && e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
@@ -275,16 +274,16 @@ export default {
   @import '~simplemde/dist/simplemde.min.css';
 
   .topicpage-edit
-    
+
     .spinner
       margin: 0 auto;
       display block
-    
+
     .no-edit
       padding 20px
       text-align center
       font-size 22px
-    
+
     .button-bar
       display flex
       justify-content space-between
@@ -305,7 +304,7 @@ export default {
 
       .right-items
         justify-content flex-end
-      
+
       .published
         color #6c757d
 
@@ -314,7 +313,7 @@ export default {
 
     .button-save
       width 120px
-      
+
     .button-secundary
       background-color inherit
       border 1px solid #222
@@ -322,13 +321,13 @@ export default {
       font-size 12px
       color #222
       border-radius 30px
-    
+
     .button-secundary:hover
       outline none
 
     .button-secundary:focus
       outline none
-    
+
     .button-preview
       width 80px
       margin-left 10px
@@ -348,7 +347,7 @@ export default {
       padding 10px
       margin 5px 0
       color #6c757d
-    
+
       a
         color main-purple
 
@@ -370,12 +369,12 @@ export default {
           width 120px
           color #6c757d
           font-size 12px
-        
+
         .event
           width 100px
           text-align center
           color #6c757d
-        
+
         .name
           margin-left 10px
 

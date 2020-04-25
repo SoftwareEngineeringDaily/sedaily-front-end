@@ -39,6 +39,9 @@ export default {
   setSearchedAllTopics: (state, topics) => {
     state.topics.searchedAllTopics = topics
   },
+  setQuestions: (state, questions = []) => {
+    state.topics.questions = questions
+  },
 
   setSearchTopic: (state, topic) => {
     state.searchTopic = topic.posts
@@ -116,6 +119,7 @@ export default {
   setForumThread: (state, { entity }) => {
     Vue.set(state.forumThreads, entity._id, entity)
   },
+
   setForumThreads: (state, { list }) => {
     list.forEach(entity => {
       if (entity) {

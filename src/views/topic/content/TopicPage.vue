@@ -2,21 +2,23 @@
   <topic-page-template>
     <template v-slot:content>
       <spinner :show="loading"/>
-      
+
       <div class="topicpage-header">
         <h1 class="header-title">
           {{topicData.name}}
           <router-link
             v-if="isMaintainer"
-            :to="{name: 'TopicPageEdit', params: $route.params.slug}"
+            :to="{
+              path: `/topic/${$route.params.slug}/edit`,
+            }"
             class="edit-link">
             Edit
           </router-link>
         </h1>
       </div>
-            
+
       <topic-page-maintainer :user="topicData.maintainer" />
-      
+
       <img :src="topicPageData.logo" width="100%" class="topic-logo" />
 
       <div class="content-block">
@@ -29,30 +31,37 @@
           <div v-html="highlightedContent" />
         </highlightable>
       </div>
-      
-      <comments-list
+
+      <div class="content-block">
+        <question
+          v-for="question in questions"
+          :key="question._id"
+          :question="question" />
+      </div>
+
+      <!-- <comments-list
         v-if="topicPageData._id"
         :initialComment="''"
         :post="{}"
         :forumThreadId="topicPageData._id"
         :rootEntityType="'topic'"
         :showCount="false"
-        :comments="comments" />
+        :comments="comments" /> -->
     </template>
 
     <template v-if="topicPageData._id" v-slot:side>
       <div class="related-container">
         <h6>related episodes</h6>
         <spinner :show="loadingEpisodes"/>
-        <router-link 
+        <router-link
           class="episode-link"
-          v-for="episode in relatedEpisodes" 
-          :key="episode._id" 
+          v-for="episode in relatedEpisodes"
+          :key="episode._id"
           :to="{ name: 'Post', params: { id: episode._id, postTitle: episode.slug} }" >
           {{episode.title.rendered}}
         </router-link>
         <div v-if="relatedEpisodes.length < relatedEpisodesTotal" class="total">
-          <router-link 
+          <router-link
           class="episode-see-all-link"
           :to="`/posts/${$route.params.slug}`">
             See all {{relatedEpisodesTotal}}
@@ -79,16 +88,18 @@
         :rootEntityType="'topic'"
         :post="{}" />
     </template>
-  </topic-page-template>    
+  </topic-page-template>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import marked from 'marked'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import Spinner from '@/components/Spinner';
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
 import Avatar from '@/components/Avatar'
+import Question from '@/components/qa/Question'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
 import Highlightable from '@/components/Highlightable'
@@ -96,8 +107,10 @@ import { PostHighlights } from '@/components/post'
 
 export default {
   name: 'topicpage-content',
+
   components: {
     Spinner,
+    Question,
     TopicPageMaintainer,
     TopicPageTemplate,
     Avatar,
@@ -105,12 +118,14 @@ export default {
     Highlightable,
     PostHighlights
   },
+
   beforeMount () {
-     marked.setOptions({
-      breaks: true
+    marked.setOptions({
+      breaks: true,
     })
     this.loadTopic()
   },
+
   data () {
     return {
       loading: false,
@@ -122,9 +137,14 @@ export default {
       relatedEpisodesTotal: 0
     }
   },
+
   computed: {
-    ...mapGetters(['isLoggedIn', 'metaTag']),
-    ...mapState({    
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+
+    ...mapState({
       me (state) {
         return state.me
       },
@@ -135,16 +155,20 @@ export default {
 
       entityComments (state) {
         return state.entityComments
-      }
+      },
+
+      questions ({ topics }) {
+        return topics.questions
+      },
     }),
-    
+
     contentUrl () {
       return window.location.href
     },
 
     isMaintainer () {
       return (
-        this.topicData && 
+        this.topicData &&
         this.me &&
         this.topicData.maintainer &&
         this.topicData.maintainer._id === this.me._id
@@ -199,21 +223,44 @@ export default {
       return commentCount
     },
   },
+
+  watch: {
+    async topicPageData ({ _id }) {
+      const hasQuestions = (
+        _id &&
+        isArray(this.questions) &&
+        this.questions.length > 0 &&
+        find(this.questions, { entityId: _id })
+      )
+
+      if (!_id || hasQuestions) {
+        return
+      }
+
+      this.getQuestions(_id)
+    }
+  },
+
   methods: {
-    ...mapActions(['getTopicPage', 'commentsFetch', 'getTopicEpisodes']),
+    ...mapActions([
+      'getTopicPage',
+      'commentsFetch',
+      'getTopicEpisodes',
+      'getQuestions',
+    ]),
 
     loadTopic () {
       this.loading = true
       this.getTopicPage(this.$route.params.slug).then((data) => {
         if (
-          data && data.topic && 
+          data && data.topic &&
           (!data.topicPage.published) || (!data.topic.maintainer)
         ) {
           return this.redirectToPosts()
         }
         this.topicData = data.topic
         this.topicPageData = this.convertMarkdown(data.topicPage)
-        this.loadComments()
+        // this.loadComments()
         this.loadEpisodes()
       }).catch((e) => {
         if (e.response && e.response.status === 404) {
@@ -229,13 +276,13 @@ export default {
       this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
-    loadComments () {
-      this.commentsFetch({ entityId: this.topicPageData._id }).then((data) => {
-        
-      }).catch((e) => {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-      })
-    },
+    // loadComments () {
+    //   this.commentsFetch({ entityId: this.topicPageData._id })
+    //     .then((data) => {})
+    //     .catch((e) => {
+    //       this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+    //     })
+    // },
 
     loadEpisodes () {
       this.loadingEpisodes = true
@@ -257,7 +304,7 @@ export default {
     },
 
     convertMarkdown (topicPage) {
-      if (topicPage.content) {       
+      if (topicPage.content) {
         const htmlMarkdown = marked(topicPage.content);
         topicPage.content = this.updateLinkToOpenTab(htmlMarkdown);
       }
@@ -314,7 +361,7 @@ export default {
 <style scoped lang="stylus">
   .topic-page
     margin-top 5px
-    
+
     .spinner
       margin 0 auto
       display block
@@ -331,6 +378,9 @@ export default {
       &:hover
         text-decoration none
 
+    .content-block
+      margin-bottom 4rem
+
     .related-container
       margin 0 0 20px
       padding 1.5rem
@@ -341,25 +391,25 @@ export default {
         text-transform uppercase
         font-size 0.8rem
         font-weight 800
-      
+
       .episode-link
         display block
         margin 10px 0
         font-size 14px
         font-weight normal
         color #1a0dab
-      
+
       .total
         text-align center
 
         .episode-see-all-link
           color #9b9b9b
-      
+
       .no-episodes
         color #9b9b9b
         text-align center
         margin-top 20px
-   
+
   >>> mark
     cursor pointer
     font-weight 700
@@ -370,5 +420,5 @@ export default {
       background-color #a591ff
     &:hover
       opacity 1.0
-    
+
 </style>
