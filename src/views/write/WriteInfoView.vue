@@ -51,17 +51,6 @@
         <button class="cancel" @click="showLearn=false">Close</button>
       </div>
     </modal>
-
-    <modal v-show="showConfirmation">
-      <h2 slot="header"></h2>        
-      <div slot="body">
-        Confirm selection of <span class="topic">{{selectedTopic}}</span> topic?
-      </div>  
-      <div slot="footer">
-        <button class="cancel" @click="showConfirmation=false">Close</button>
-        <button :disabled="saving" class="button-submit" @click="submit">Submit</button>
-      </div>
-    </modal>
   </div>
 </template>
 
@@ -79,7 +68,6 @@ export default {
       loading: false,
       saving: false,
       showLearn: false,
-      showConfirmation: false,
       topics: [],
       newTopic: '',
       selectedTopic: ''
@@ -103,7 +91,6 @@ export default {
     },
 
     cancelSelection() {
-      this.showConfirmation = false
       this.selectedTopic = ''
       this.newTopic = ''
     },
@@ -122,18 +109,22 @@ export default {
     onClickTopic(topic) { 
       this.selectedTopic = topic.name
       this.$nextTick(() => {
-        this.showConfirmation = true
+        this.submit()
       })
     },
 
     selectNewTopic() {
       this.selectedTopic = (''.trim) ? this.newTopic.trim() : this.newTopic
+      if (!this.selectedTopic) return
+
       this.$nextTick(() => {
-        this.showConfirmation = true
+        this.submit();
       })
     },
 
     submit() {
+      if (this.saving) return
+      
       this.saving = true
       const data = {
         topicName: this.selectedTopic,
