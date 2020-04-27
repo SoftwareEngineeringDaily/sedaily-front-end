@@ -11,6 +11,7 @@ export default {
       const { topic = {}, topicPage = {} } = data
 
       _.commit('setTopicPage', {
+        topicId: topic._id,
         ...topic,
         ...topicPage,
       })

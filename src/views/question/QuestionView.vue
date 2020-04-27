@@ -71,14 +71,14 @@ export default {
   methods: {
     ...mapActions([
       'getTopicPage',
-      'getQuestions',
+      'getEntityQuestions',
     ]),
 
     scrollToAnswer () {
       const { hash } = window.location
 
       // Invalid element selector
-      if (hash && !/[a-zA-Z]/g.test(hash[1])) {
+      if (!hash || hash && !/[a-zA-Z]/g.test(hash[1])) {
         return
       }
 
@@ -100,20 +100,25 @@ export default {
 
     async loadQuestions () {
       const { questionId } = this.$route.params
-      const { _id } = this.topicpage
+      const { topicId } = this.topicpage
       const hasQuestions = (
-        _id &&
+        topicId &&
         isArray(this.questions) &&
         this.questions.length > 0 &&
-        find(this.questions, { entityId: _id })
+        find(this.questions, { entityId: topicId })
       )
 
-      if (!_id || hasQuestions) {
+      if (!topicId || hasQuestions) {
         return
       }
 
       this.isLoading = true
-      await this.getQuestions(_id)
+
+      await this.getEntityQuestions({
+        entityId: topicId,
+        entityType: 'topic',
+      })
+
       this.scrollToAnswer()
       this.isLoading = false
     },

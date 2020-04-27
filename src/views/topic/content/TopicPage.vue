@@ -227,20 +227,20 @@ export default {
   },
 
   watch: {
-    async topicPageData ({ _id }) {
+    async topicPageData ({ topic: topicId }) {
       const hasQuestions = (
-        _id &&
+        topicId &&
         isArray(this.questions) &&
         this.questions.length > 0 &&
-        find(this.questions, { entityId: _id })
+        find(this.questions, { entityId: topicId })
       )
 
-      if (!_id || hasQuestions) {
+      if (!topicId || hasQuestions) {
         return
       }
 
       this.getEntityQuestions({
-        entityId: _id,
+        entityId: topicId,
         entityType: 'topic',
       })
     }

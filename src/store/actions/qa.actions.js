@@ -8,7 +8,15 @@ export default {
   getEntityQuestions: (_, { entityId, entityType } ) => {
     return axios.get(`${BASE_URL}/question/entity/${entityType}/${entityId}`)
     .then((response) => {
-      _.commit('setQuestions', response.data)
+      const questions = response.data || []
+
+      questions.forEach((question) => {
+        question.answers = (question.answers || [])
+          .filter(q => !(q.deleted))
+      })
+
+      _.commit('setQuestions', questions)
+
       return response.data
     })
   },
@@ -55,7 +63,10 @@ export default {
         questions.forEach((question) => {
           if (question._id === reply.data.question)  {
             question.answers = question.answers || []
-            question.answers.push(reply.data)
+            question.answers.push({
+              ...reply.data,
+              author: state.me,
+            })
           }
         })
 
