@@ -48,6 +48,7 @@
         </div>
       </form>
     </div>
+    <EditQuestions v-if="data._id" :entityId="data._id" entityType="topic" />
   </div>
 </template>
 
@@ -56,11 +57,13 @@ import { mapState, mapActions } from 'vuex'
 import { pick } from 'lodash'
 import Spinner from "@/components/Spinner.vue";
 import SelectUserInput from '@/components/SelectUserInput'
+import EditQuestions from '@/components/questions/EditQuestions'
 
 export default {
   components: {
     Spinner,
-    SelectUserInput
+    SelectUserInput,
+    EditQuestions
   },
   name: 'topic-form',  
   data () {
