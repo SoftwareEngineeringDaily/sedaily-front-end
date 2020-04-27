@@ -30,17 +30,6 @@
         <button class="cancel" @click="showLearn = false">Close</button>
       </div>
     </modal>
-
-    <modal v-show="showConfirmation">
-      <h2 slot="header"></h2>
-      <div slot="body">
-        Confirm selection of <span class="topic">{{selectedTopic}}</span> topic?
-      </div>
-      <div slot="footer">
-        <button class="cancel" @click="onCancelSelection">Close</button>
-        <button :disabled="saving" class="button-submit" @click="requestTopicOwnership">Submit</button>
-      </div>
-    </modal>
   </div>
 </template>
 
@@ -55,95 +44,16 @@ export default {
     modal,
   },
 
-  props: {
-    selectedTopic: {
-      type: String,
-    },
-    showConfirmation: {
-      type: Boolean,
-    },
-    onCancelSelection: {
-      type: Function,
-    },
-  },
-
   data () {
     return {
       loading: false,
-      saving: false,
       showLearn: false,
     }
   },
 
-  mounted() {
-    this.loadTopics()
-  },
-
-  computed: {
-    ...mapState({
-      me (state) {
-        return state.me
-      },
-    })
-  },
-
   methods: {
-    ...mapActions([
-      'getTopTopics',
-      'setMaintainerInterest'
-    ]),
-
     toggleLearn() {
       this.showLearn = !this.showLearn;
-    },
-
-    loadTopics() {
-      this.loading = true
-      this.getTopTopics(200).then((data) => {
-        this.topics = data
-      }).catch((e) => {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-      }).finally(() => {
-        this.loading = false
-      })
-    },
-
-    onClickTopic(topic) {
-      this.selectedTopic = topic.name
-      this.$nextTick(() => {
-        this.showConfirmation = true
-      })
-    },
-
-    selectNewTopic() {
-      this.selectedTopic = (''.trim) ? this.newTopic.trim() : this.newTopic
-      this.$nextTick(() => {
-        this.showConfirmation = true
-      })
-    },
-
-    async requestTopicOwnership() {
-      this.saving = true
-
-      const data = {
-        topicName: this.selectedTopic,
-        userName: this.me.name,
-        userEmail: this.me.email,
-      }
-
-      try {
-        await this.setMaintainerInterest(data)
-        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
-      }
-      catch (e) {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-      }
-
-      if (typeof this.onCancelSelection === 'function') {
-        this.onCancelSelection()
-      }
-
-      this.saving = false
     },
   }
 }

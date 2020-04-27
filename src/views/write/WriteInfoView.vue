@@ -1,9 +1,5 @@
 <template>
-  <write-request
-    :showConfirmation="showConfirmation"
-    :onCancelSelection="onCancelSelection"
-    :selectedTopic="selectedTopic">
-
+  <write-request>
     <spinner :show="loading"/>
 
     <div v-if="!me || !me._id" class="display-content">
@@ -67,10 +63,10 @@ export default {
   methods: {
     ...mapActions([
       'getTopTopics',
+      'setMaintainerInterest',
     ]),
 
     onCancelSelection() {
-      this.showConfirmation = false
       this.selectedTopic = ''
       this.newTopic = ''
     },
@@ -89,15 +85,39 @@ export default {
     onClickTopic(topic) {
       this.selectedTopic = topic.name
       this.$nextTick(() => {
-        this.showConfirmation = true
+        this.requestTopicOwnership()
       })
     },
 
     selectNewTopic() {
       this.selectedTopic = (''.trim) ? this.newTopic.trim() : this.newTopic
       this.$nextTick(() => {
-        this.showConfirmation = true
+        this.requestTopicOwnership()
       })
+    },
+
+    async requestTopicOwnership() {
+      this.saving = true
+
+      const data = {
+        topicName: this.selectedTopic,
+        userName: this.me.name,
+        userEmail: this.me.email,
+      }
+
+      try {
+        await this.setMaintainerInterest(data)
+        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+      }
+      catch (e) {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
+
+      if (typeof this.onCancelSelection === 'function') {
+        this.onCancelSelection()
+      }
+
+      this.saving = false
     },
   }
 }

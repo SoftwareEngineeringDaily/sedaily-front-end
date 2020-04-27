@@ -44,12 +44,7 @@
         </div>
       </template>
 
-      <write-request
-        v-else-if="!loading"
-        :showConfirmation="showConfirmation"
-        :onCancelSelection="onCancelTopicSelection"
-        :selectedTopic="selectedTopic">
-
+      <write-request v-else-if="!loading">
         <div v-if="!me || !me._id" class="display-content">
           You need to login first.
         </div>
@@ -60,7 +55,6 @@
             </button>
           </div>
         </template>
-
       </write-request>
     </template>
 
@@ -149,10 +143,7 @@ export default {
       highlight: '',
       relatedEpisodes: [],
       relatedEpisodesTotal: 0,
-
-      // Maintenance Request
       selectedTopic: '',
-      showConfirmation: false,
     }
   },
 
@@ -275,6 +266,26 @@ export default {
       'getEntityQuestions',
     ]),
 
+    async requestTopicOwnership() {
+      this.saving = true
+
+      const data = {
+        topicName: this.selectedTopic,
+        userName: this.me.name,
+        userEmail: this.me.email,
+      }
+
+      try {
+        await this.setMaintainerInterest(data)
+        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+      }
+      catch (e) {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
+
+      this.saving = false
+    },
+
     async loadTopic () {
       const { slug } = this.$route.params
 
@@ -313,12 +324,11 @@ export default {
     onClickTopic(topic) {
       this.selectedTopic = topic.name
       this.$nextTick(() => {
-        this.showConfirmation = true
+        this.requestTopicOwnership()
       })
     },
 
     onCancelTopicSelection() {
-      this.showConfirmation = false
       this.selectedTopic = ''
       this.newTopic = ''
     },
