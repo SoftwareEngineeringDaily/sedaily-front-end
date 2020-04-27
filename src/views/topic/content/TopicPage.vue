@@ -1,6 +1,7 @@
 <template>
   <topic-page-template>
     <template v-slot:content>
+
       <spinner :show="loading"/>
 
       <div class="topicpage-header">
@@ -17,38 +18,50 @@
         </h1>
       </div>
 
-      <topic-page-maintainer :user="topicData.maintainer" />
+      <template v-if="topicData.maintainer">
+        <topic-page-maintainer :user="topicData.maintainer" />
 
-      <img :src="topicPageData.logo" width="100%" class="topic-logo" />
+        <img :src="topicPageData.logo" width="100%" class="topic-logo" />
 
-      <div class="content-block">
-        <highlightable
-          :contentUrl="contentUrl"
-          :forumThreadId="topicPageData._id"
-          :rootEntityType="'topic'"
-          :socialShareUsers="[topicData.maintainer]"
-          @highlight="onHighlight">
-          <div v-html="highlightedContent" />
-        </highlightable>
-      </div>
+        <div class="content-block">
+          <highlightable
+            :contentUrl="contentUrl"
+            :forumThreadId="topicPageData._id"
+            :rootEntityType="'topic'"
+            :socialShareUsers="[topicData.maintainer]"
+            @highlight="onHighlight">
+            <div v-html="highlightedContent" />
+          </highlightable>
+        </div>
 
-      <div class="content-block">
-        <question
-          v-for="question in questions"
-          :key="question._id"
-          :topicSlug="topicData.slug"
-          :answerLimit="1"
-          :question="question" />
-      </div>
+        <div class="content-block">
+          <question
+            v-for="question in questions"
+            :key="question._id"
+            :topicSlug="topicData.slug"
+            :answerLimit="1"
+            :question="question" />
+        </div>
+      </template>
 
-      <!-- <comments-list
-        v-if="topicPageData._id"
-        :initialComment="''"
-        :post="{}"
-        :forumThreadId="topicPageData._id"
-        :rootEntityType="'topic'"
-        :showCount="false"
-        :comments="comments" /> -->
+      <write-request
+        v-else-if="!loading"
+        :showConfirmation="showConfirmation"
+        :onCancelSelection="onCancelTopicSelection"
+        :selectedTopic="selectedTopic">
+
+        <div v-if="!me || !me._id" class="display-content">
+          You need to login first.
+        </div>
+        <template v-else>
+          <div class="display-content topics-block">
+            <button @click="onClickTopic(topicData)">
+              {{topicData.name}}
+            </button>
+          </div>
+        </template>
+
+      </write-request>
     </template>
 
     <template v-if="topicPageData._id" v-slot:side>
@@ -96,14 +109,15 @@
 <script>
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
-import marked from 'marked'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import Spinner from '@/components/Spinner';
-import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
+import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
+import WriteRequest from '@/views/write/WriteRequest'
 import Avatar from '@/components/Avatar'
 import Question from '@/components/qa/Question'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
+import { cleanContent } from '@/utils/post.utils'
 import Highlightable from '@/components/Highlightable'
 import { PostHighlights } from '@/components/post'
 
@@ -116,15 +130,13 @@ export default {
     TopicPageMaintainer,
     TopicPageTemplate,
     Avatar,
+    WriteRequest,
     CommentsList,
     Highlightable,
     PostHighlights
   },
 
   beforeMount () {
-    marked.setOptions({
-      breaks: true,
-    })
     this.loadTopic()
   },
 
@@ -136,7 +148,11 @@ export default {
       topicPageData: {},
       highlight: '',
       relatedEpisodes: [],
-      relatedEpisodesTotal: 0
+      relatedEpisodesTotal: 0,
+
+      // Maintenance Request
+      selectedTopic: '',
+      showConfirmation: false,
     }
   },
 
@@ -161,6 +177,10 @@ export default {
 
       questions ({ topics }) {
         return topics.questions
+      },
+
+      topicpage ({ topics }) {
+        return topics.topicpage
       },
     }),
 
@@ -250,45 +270,58 @@ export default {
     ...mapActions([
       'getTopicPage',
       'commentsFetch',
+      'setMaintainerInterest',
       'getTopicEpisodes',
       'getEntityQuestions',
     ]),
 
-    loadTopic () {
-      this.loading = true
-      this.getTopicPage(this.$route.params.slug).then((data) => {
-        if (
-          data && data.topic &&
-          (!data.topicPage.published) || (!data.topic.maintainer)
-        ) {
-          return this.redirectToPosts()
-        }
+    async loadTopic () {
+      const { slug } = this.$route.params
+
+      if (!this.topicpage || this.topicpage && this.topicpage.slug !== slug) {
+        this.loading = true
+      }
+
+      try {
+        const data = await this.getTopicPage(slug)
+        const topicPage = data.topicPage || {}
+        const { content } = topicPage
 
         this.topicData = data.topic
-        this.topicPageData = this.convertMarkdown(data.topicPage)
-        // this.loadComments()
+        this.topicPageData = {
+          ...topicPage,
+          content: cleanContent(content),
+        }
+
         this.loadEpisodes()
-      }).catch((e) => {
+      }
+      catch (e) {
         if (e.response && e.response.status === 404) {
           return this.redirectToPosts()
         }
+
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-      }).finally(() => {
-        this.loading = false
-      })
+      }
+
+      this.loading = false
     },
 
     redirectToPosts () {
       this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
-    // loadComments () {
-    //   this.commentsFetch({ entityId: this.topicPageData._id })
-    //     .then((data) => {})
-    //     .catch((e) => {
-    //       this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-    //     })
-    // },
+    onClickTopic(topic) {
+      this.selectedTopic = topic.name
+      this.$nextTick(() => {
+        this.showConfirmation = true
+      })
+    },
+
+    onCancelTopicSelection() {
+      this.showConfirmation = false
+      this.selectedTopic = ''
+      this.newTopic = ''
+    },
 
     loadEpisodes () {
       this.loadingEpisodes = true
@@ -307,20 +340,6 @@ export default {
       }).finally(() => {
         this.loadingEpisodes = false
       })
-    },
-
-    convertMarkdown (topicPage) {
-      if (topicPage.content) {
-        const htmlMarkdown = marked(topicPage.content);
-        topicPage.content = this.updateLinkToOpenTab(htmlMarkdown);
-      }
-      return topicPage
-    },
-
-    updateLinkToOpenTab(html) {
-      const regExLink = /\<a href=/gi;
-      const updatedLink = '<a target="_blank" href=';
-      return html.replace(regExLink, updatedLink);
     },
 
     onHighlight (highlight = '') {
@@ -368,53 +387,53 @@ export default {
   .topic-page
     margin-top 5px
 
-    .spinner
-      margin 0 auto
+  .spinner
+    margin 0 auto
+    display block
+
+  .edit-link
+    border 1px solid #222
+    padding 7px 10px
+    font-size 12px
+    font-weight normal
+    color #222
+    border-radius 30px
+    margin-left 10px
+
+    &:hover
+      text-decoration none
+
+  .content-block
+    margin-bottom 4rem
+
+  .related-container
+    margin 0 0 20px
+    padding 1.5rem
+    background #e9ecef
+
+    h6
+      margin-top 0 0 10px
+      text-transform uppercase
+      font-size 0.8rem
+      font-weight 800
+
+    .episode-link
       display block
-
-    .edit-link
-      border 1px solid #222
-      padding 7px 10px
-      font-size 12px
+      margin 10px 0
+      font-size 14px
       font-weight normal
-      color #222
-      border-radius 30px
-      margin-left 10px
+      color #1a0dab
 
-      &:hover
-        text-decoration none
+    .total
+      text-align center
 
-    .content-block
-      margin-bottom 4rem
-
-    .related-container
-      margin 0 0 20px
-      padding 1.5rem
-      background #e9ecef
-
-      h6
-        margin-top 0 0 10px
-        text-transform uppercase
-        font-size 0.8rem
-        font-weight 800
-
-      .episode-link
-        display block
-        margin 10px 0
-        font-size 14px
-        font-weight normal
-        color #1a0dab
-
-      .total
-        text-align center
-
-        .episode-see-all-link
-          color #9b9b9b
-
-      .no-episodes
+      .episode-see-all-link
         color #9b9b9b
-        text-align center
-        margin-top 20px
+
+    .no-episodes
+      color #9b9b9b
+      text-align center
+      margin-top 20px
 
   >>> mark
     cursor pointer
