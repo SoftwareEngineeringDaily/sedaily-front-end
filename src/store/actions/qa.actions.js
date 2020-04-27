@@ -8,6 +8,7 @@ export default {
   getEntityQuestions: (_, { entityId, entityType } ) => {
     return axios.get(`${BASE_URL}/question/entity/${entityType}/${entityId}`)
     .then((response) => {
+      _.commit('setQuestions', response.data)
       return response.data
     })
   },
@@ -32,26 +33,12 @@ export default {
       return response.data
     })
   },
-  
+
   createQuestion: ({ commit, state, getters }, data) => {
     return axios.post(`${BASE_URL}/question`, data)
     .then((response) => {
       return response
     })
-  },
-
-  getQuestions: async ({ commit, state, getters }, id) => {
-    return axios
-      .get(`${BASE_URL}/question/entity/topic/${id}`)
-      .then(({ data: questions }) => {
-        questions.forEach(q => {
-          q.answers.sort((a, b) => {
-            return b.votes.length - a.votes.length
-          })
-        })
-
-        commit('setQuestions', questions)
-      })
   },
 
   /**
@@ -147,9 +134,6 @@ export default {
     }
 
     toggleVote() // Immediately update locally
-
-    console.log('me ', me)
-    console.log('questions ', questions)
 
     commit('setQuestions', questions)
 

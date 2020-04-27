@@ -239,7 +239,10 @@ export default {
         return
       }
 
-      this.getQuestions(_id)
+      this.getEntityQuestions({
+        entityId: _id,
+        entityType: 'topic',
+      })
     }
   },
 
@@ -248,7 +251,7 @@ export default {
       'getTopicPage',
       'commentsFetch',
       'getTopicEpisodes',
-      'getQuestions',
+      'getEntityQuestions',
     ]),
 
     loadTopic () {
