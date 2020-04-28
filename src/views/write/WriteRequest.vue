@@ -1,11 +1,21 @@
 <template>
   <div class="write-view">
     <h1>Write on Software Daily</h1>
-    <p>
+    <p v-if="me && me._id">
       We are looking for volunteer writers to summarize the topics on Software Daily.
-      If you want to write about one of the following topics, select one of the topics below or suggest your own topic.
+      If you want to write about {{topicName || 'one of the following topics'}},
+      <span v-if="canSuggest">
+        select the topic below or suggest your own topic.
+      </span>
+      <span v-else class="learn" @click="topicSelect">
+        click here.
+      </span>
     </p>
 
+    <span v-if="!me || !me._id">
+      <router-link to="/register" class="learn">Register</router-link>
+      <span>|</span>
+    </span>
     <button class="learn" @click="toggleLearn">Learn more</button>
 
     <slot></slot>
@@ -44,11 +54,34 @@ export default {
     modal,
   },
 
+  props: {
+    canSuggest: {
+      type: Boolean,
+      default: false,
+    },
+    topicName: {
+      type: String,
+      default: '',
+    },
+    topicSelect: {
+      type: Function,
+      default: () => {},
+    },
+  },
+
   data () {
     return {
       loading: false,
       showLearn: false,
     }
+  },
+
+  computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      },
+    })
   },
 
   methods: {
@@ -70,13 +103,17 @@ export default {
       display block
 
     .learn
-      color #a591ff
-      font-weight 600
+      cursor pointer
       margin 0 0 2rem
       padding 0
-      border 0
-      background-color transparent
       font-size 16px
+      font-weight 600
+      color #a591ff
+      background-color transparent
+      border 0
+
+      & + span
+        margin 0 10px
 
       &:hover
         color #222

@@ -41,17 +41,13 @@
         </div>
       </template>
 
-      <write-request v-else-if="!loading">
+      <write-request
+        v-else-if="!loading"
+        :topicName="topicData.name"
+        :topicSelect="() => onClickTopic(topicData)">
         <div v-if="!me || !me._id" class="display-content">
           You need to login first.
         </div>
-        <template v-else>
-          <div class="display-content topics-block">
-            <button @click="onClickTopic(topicData)">
-              {{topicData.name}}
-            </button>
-          </div>
-        </template>
       </write-request>
 
       <div class="content-block">

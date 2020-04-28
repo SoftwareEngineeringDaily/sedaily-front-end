@@ -1,5 +1,6 @@
 <template>
-  <write-request>
+  <write-request
+    :canSuggest="true">
     <spinner :show="loading"/>
 
     <div v-if="!me || !me._id" class="display-content">
