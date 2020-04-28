@@ -2,11 +2,11 @@
   <topic-page-template>
     <template v-slot:content class="question">
       <div class="topicpage-header">
-        <h1 class="header-title">
-          <router-link :to="`/topic/${topicpage.slug}`">
+        <div class="post-topics">
+          <router-link :to="`/topic/${topicpage.slug}`" class="topics">
             {{topicpage.name}}
           </router-link>
-        </h1>
+        </div>
       </div>
 
       <question
@@ -142,6 +142,25 @@ export default {
   0% { background-color: #FDF991; }
   100% { background-color: #e9ecef; }
 }
+
+.post-topics
+  display flex
+  align-items center
+  flex-wrap wrap
+
+.topics
+  cursor pointer
+  margin 2px 10px 8px 0
+  padding 3px 9px
+  font-size .8rem
+  text-transform uppercase
+  color #666
+  background-color #f7f7f7
+  border-radius 2px
+
+  &:hover
+    color #a591ff
+    text-decoration none
 
 >>> .answer-highlight {
   animation: answer-highlight 3s ease-in 0s;

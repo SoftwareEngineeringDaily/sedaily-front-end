@@ -103,6 +103,10 @@ export default {
     ]),
 
     ...mapState({
+      me ({ me }) {
+        return me
+      },
+
       topicpage ({ topics }) {
         return topics.topicpage
       },
@@ -122,8 +126,8 @@ export default {
     },
 
     shareText () {
-      const { question, answer, shareUrl } = this
-      return `"${question}"\n${answer.content} ${shareUrl}`
+      const author = this.answer && this.answer.author && this.answer.author.name
+      return `Answer to ${this.question}${author ? ` by ${author}` : ''}`
     },
 
     isMyVote () {

@@ -1,6 +1,9 @@
 <template>
   <div class="question" v-if="question">
-    <h3>{{question.content}}</h3>
+    <router-link
+      :to="{ path: `/topic/${topicSlug}/question/${question._id}` }">
+      <h3>{{question.content}}</h3>
+    </router-link>
 
     <answer
       v-for="answer in answers"
@@ -11,6 +14,7 @@
     <div class="question-footer">
       <div
         class="link"
+        v-show="!hasAnswered"
         @click="showAnswerEdit">
         Add Answer
       </div>
@@ -88,11 +92,28 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      me (state) {
+        return state.me
+      },
+    }),
+
     answers () {
       return this.question ?
         this.question.answers.slice(0, this.answerLimit) :
         []
-    }
+    },
+
+    hasAnswered () {
+      const userId = this.me && this.me._id
+
+      return (
+        userId &&
+        this.answers.filter(a => (
+          a.author && a.author._id === userId && !a.deleted
+        )).length
+      )
+    },
   },
 
   methods: {
