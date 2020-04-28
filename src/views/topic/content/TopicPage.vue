@@ -4,6 +4,12 @@
 
       <spinner :show="loading"/>
 
+      <div
+        v-if="isMaintainer && !topicData.published"
+        class="related-container">
+        Only you can see this. This topic page is private. <router-link :to="`/topic/${topicData.slug}/edit`" class="link">Click here to publish.</router-link>
+      </div>
+
       <div class="topicpage-header">
         <h1 class="header-title">
           {{topicData.name}}
@@ -304,6 +310,12 @@ export default {
           content: cleanContent(content),
         }
 
+        if (this.topicData.maintainer &&
+          !this.isMaintainer &&
+          !this.topicPageData.published) {
+          return this.redirectToPosts()
+        }
+
         this.loadEpisodes()
       }
       catch (e) {
@@ -400,6 +412,11 @@ export default {
   .spinner
     margin 0 auto
     display block
+
+  .link
+    font-weight 700
+    color #1a0dab
+    text-decoration underline
 
   .edit-link
     border 1px solid #222

@@ -65,7 +65,7 @@ export default {
     SelectUserInput,
     EditQuestions
   },
-  name: 'topic-form',  
+  name: 'topic-form',
   data () {
     return {
       editing: false,
