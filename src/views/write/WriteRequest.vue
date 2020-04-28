@@ -1,7 +1,7 @@
 <template>
   <div class="write-view">
     <h1>Write on Software Daily</h1>
-    <p v-if="me && me._id">
+    <p>
       We are looking for volunteer writers to summarize the topics on Software Daily.
       If you want to write about {{topicName || 'one of the following topics'}},
       <span v-if="canSuggest">
@@ -12,10 +12,6 @@
       </span>
     </p>
 
-    <span v-if="!me || !me._id">
-      <router-link to="/register" class="learn">Register</router-link>
-      <span>|</span>
-    </span>
     <button class="learn" @click="toggleLearn">Learn more</button>
 
     <slot></slot>
@@ -111,9 +107,6 @@ export default {
       color #a591ff
       background-color transparent
       border 0
-
-      & + span
-        margin 0 10px
 
       &:hover
         color #222

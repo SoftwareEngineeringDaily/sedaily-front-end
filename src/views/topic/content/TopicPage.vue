@@ -334,15 +334,14 @@ export default {
     },
 
     onClickTopic(topic) {
+      if (!this.me || !this.me._id) {
+        return this.$router.push(`/register`)
+      }
+
       this.selectedTopic = topic.name
       this.$nextTick(() => {
         this.requestTopicOwnership()
       })
-    },
-
-    onCancelTopicSelection() {
-      this.selectedTopic = ''
-      this.newTopic = ''
     },
 
     loadEpisodes () {
