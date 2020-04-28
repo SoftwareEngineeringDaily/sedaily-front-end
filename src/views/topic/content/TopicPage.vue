@@ -39,15 +39,6 @@
             <div v-html="highlightedContent" />
           </highlightable>
         </div>
-
-        <div class="content-block">
-          <question
-            v-for="question in questions"
-            :key="question._id"
-            :topicSlug="topicData.slug"
-            :answerLimit="1"
-            :question="question" />
-        </div>
       </template>
 
       <write-request v-else-if="!loading">
@@ -62,6 +53,15 @@
           </div>
         </template>
       </write-request>
+
+      <div class="content-block">
+        <question
+          v-for="question in questions"
+          :key="question._id"
+          :topicSlug="topicData.slug"
+          :answerLimit="1"
+          :question="question" />
+      </div>
     </template>
 
     <template v-if="topicPageData._id" v-slot:side>
@@ -244,7 +244,7 @@ export default {
   },
 
   watch: {
-    async topicPageData ({ topic: topicId }) {
+    async topicpage ({ topicId }) {
       const hasQuestions = (
         topicId &&
         isArray(this.questions) &&
@@ -256,10 +256,20 @@ export default {
         return
       }
 
-      this.getEntityQuestions({
+      await this.getEntityQuestions({
         entityId: topicId,
         entityType: 'topic',
       })
+
+      // Handle redirect if no valid content
+      if (
+        this.topicData &&
+        this.topicData.maintainer &&
+        !this.isMaintainer &&
+        !this.topicPageData.published &&
+        !this.questions.length) {
+        return this.redirectToPosts()
+      }
     }
   },
 
@@ -308,12 +318,6 @@ export default {
         this.topicPageData = {
           ...topicPage,
           content: cleanContent(content),
-        }
-
-        if (this.topicData.maintainer &&
-          !this.isMaintainer &&
-          !this.topicPageData.published) {
-          return this.redirectToPosts()
         }
 
         this.loadEpisodes()
@@ -430,7 +434,8 @@ export default {
     &:hover
       text-decoration none
 
-  .content-block
+  .content-block,
+  >>> .write-view
     margin-bottom 4rem
 
   .related-container
