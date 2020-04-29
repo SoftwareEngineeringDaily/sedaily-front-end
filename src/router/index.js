@@ -77,7 +77,6 @@ const router = new Router({
     { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
     { path: '/topic/:slug/question/:questionId', name: 'Question', component: QuestionView },
     { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
-    // { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
     { path: '/:company', component: CompanyLandingPage }
   ],
   scrollBehavior (to, from, savedPosition) {
