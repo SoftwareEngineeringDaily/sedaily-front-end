@@ -1,4 +1,5 @@
 import isString from 'lodash/isString'
+import marked from 'marked'
 
 function postPrettyUrlTitle(post) {
   try {
@@ -17,8 +18,27 @@ function postPrettyUrlTitle(post) {
   }
 }
 
-export function postPrettyUrl(post) {
+export const postPrettyUrl = (post) => {
   return '/post/' +  post._id + '/' + postPrettyUrlTitle(post);
+}
+
+/**
+ * Cleans HTML content for display
+ *
+ * @param content {String|HTML} - HTML formatted strings to be properly cleaned and formatted
+ * @return {String} - Properyl formatted content
+ */
+export const cleanContent = (content = '') => {
+  marked.setOptions({ breaks: true })
+
+  const htmlMarkdown = marked(content)
+  const updateLinkToOpenTab = (html) => {
+    const regExLink = /\<a href=/gi;
+    const updatedLink = '<a target="_blank" href=';
+    return html.replace(regExLink, updatedLink);
+  }
+
+  return updateLinkToOpenTab(htmlMarkdown)
 }
 
 /**

@@ -1,14 +1,28 @@
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 import { getS3SingedUploadUrlAndUpload } from '@/utils/uploadImage.utils'
+import { cleanContent } from '@/utils/post.utils'
+
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
-  
+
   getTopicPage: (_, slug ) => {
     return axios.get(`${BASE_URL}/topicpage/${slug}`)
-    .then((response) => {
-      return response.data
+    .then(({ data }) => {
+      const { topic = {}, topicPage = {} } = data
+
+      if (topicPage && topicPage.content) {
+        topicPage.content = cleanContent(topicPage.content)
+      }
+
+      _.commit('setTopicPage', {
+        topicId: topic._id,
+        ...topic,
+        ...topicPage,
+      })
+
+      return data
     })
   },
 

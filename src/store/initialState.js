@@ -33,7 +33,9 @@ export default {
     user: null,
     post: null,
     mostPopular: null,
-    searchedAllTopics: null
+    searchedAllTopics: null,
+    topicpage: {},
+    questions: [],
   },
   searchTopic: [],
   token: localStorage.getItem('token'),

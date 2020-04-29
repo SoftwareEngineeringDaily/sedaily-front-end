@@ -1,9 +1,9 @@
 <template>
   <div class="row topic-page">
-    <div class="col-8">
+    <div class="col-lg-8 col-md-8 col-sm-12">
       <slot name="content"/>
     </div>
-    <div class="col-4">
+    <div class="col-lg-4 col-md-4 col-sm-12">
       <slot name="side"/>
     </div>
   </div>
@@ -17,14 +17,14 @@
       display flex
       align-items center
       justify-content space-between
-      
+
       .header-title
         margin 15px 0
         font-weight 800
         font-size 2.7rem
         display flex
         align-items center
-    
+
     .topic-logo
       margin-top 10px
       margin-bottom 30px

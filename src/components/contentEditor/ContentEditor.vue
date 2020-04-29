@@ -18,8 +18,8 @@ import Spinner from '@/components/Spinner.vue'
 import VueSimplemde from 'vue-simplemde'
 import ContentEditorImageToolbar from './ContentEditorImageToolbar'
 
-const toolbarIcons = ['bold','italic','strikethrough', '|', 'heading-smaller', 'heading-bigger', '|', 
-  'code', 'quote', 'unordered-list', 'ordered-list', 'clean-block', 
+const toolbarIcons = ['bold','italic','strikethrough', '|', 'heading-smaller', 'heading-bigger', '|',
+  'code', 'quote', 'unordered-list', 'ordered-list', 'clean-block',
   'link', 'table' , '|', 'guide', '|']
 
 export default {
@@ -34,6 +34,10 @@ export default {
       type: String,
       default: ''
     },
+    placeholder: {
+      type: String,
+      default: '',
+    },
     loading: {
       type: Boolean,
       default: false
@@ -46,7 +50,8 @@ export default {
         status: false,
         spellChecker: false,
         uploadImage: true,
-        toolbar: [ ...toolbarIcons,  {
+        placeholder: this.placeholder,
+        toolbar: [ ...toolbarIcons, {
             name: "image-import",
             action: this.goAddImage,
             className: "fa fa-picture-o",
@@ -105,11 +110,11 @@ export default {
 
   .content-editor
     margin-top 5px
-    
+
     .spinner
         margin 0 auto
         display inherit
-        
+
     .button-secundary
       background-color inherit
       border 1px solid #222
@@ -117,5 +122,5 @@ export default {
       font-size 12px
       color #222
       border-radius 30px
-    
+
 </style>

@@ -1,58 +1,78 @@
 <template>
   <topic-page-template>
     <template v-slot:content>
+
       <spinner :show="loading"/>
-      
+
+      <div
+        v-if="isMaintainer && !topicData.published"
+        class="related-container">
+        Only you can see this. This topic page is private. <router-link :to="`/topic/${topicData.slug}/edit`" class="link">Click here to publish.</router-link>
+      </div>
+
       <div class="topicpage-header">
         <h1 class="header-title">
           {{topicData.name}}
           <router-link
             v-if="isMaintainer"
-            :to="{name: 'TopicPageEdit', params: $route.params.slug}"
+            :to="{
+              path: `/topic/${$route.params.slug}/edit`,
+            }"
             class="edit-link">
             Edit
           </router-link>
         </h1>
       </div>
-            
-      <topic-page-maintainer :user="topicData.maintainer" />
-      
-      <img :src="topicPageData.logo" width="100%" class="topic-logo" />
+
+      <template v-if="topicData.maintainer">
+        <topic-page-maintainer :user="topicData.maintainer" />
+
+        <img :src="topicPageData.logo" width="100%" class="topic-logo" />
+
+        <div class="content-block">
+          <highlightable
+            :contentUrl="contentUrl"
+            :forumThreadId="topicPageData._id"
+            :rootEntityType="'topic'"
+            :socialShareUsers="[topicData.maintainer]"
+            @highlight="onHighlight">
+            <div v-html="highlightedContent" />
+          </highlightable>
+        </div>
+      </template>
+
+      <write-request
+        v-else-if="!loading"
+        :topicName="topicData.name"
+        :topicSelect="() => onClickTopic(topicData)">
+        <div v-if="!me || !me._id" class="display-content">
+          You need to login first.
+        </div>
+      </write-request>
 
       <div class="content-block">
-        <highlightable
-          :contentUrl="contentUrl"
-          :forumThreadId="topicPageData._id"
-          :rootEntityType="'topic'"
-          :socialShareUsers="[topicData.maintainer]"
-          @highlight="onHighlight">
-          <div v-html="highlightedContent" />
-        </highlightable>
+        <question
+          v-for="question in questions"
+          :key="question._id"
+          :topicSlug="topicData.slug"
+          :answerLimit="1"
+          :question="question" />
       </div>
-      
-      <comments-list
-        v-if="topicPageData._id"
-        :initialComment="''"
-        :post="{}"
-        :forumThreadId="topicPageData._id"
-        :rootEntityType="'topic'"
-        :showCount="false"
-        :comments="comments" />
     </template>
 
     <template v-if="topicPageData._id" v-slot:side>
       <div class="related-container">
         <h6>related episodes</h6>
         <spinner :show="loadingEpisodes"/>
-        <router-link 
+        <router-link
           class="episode-link"
-          v-for="episode in relatedEpisodes" 
-          :key="episode._id" 
+          v-for="episode in relatedEpisodes"
+          :key="episode._id"
           :to="{ name: 'Post', params: { id: episode._id, postTitle: episode.slug} }" >
           {{episode.title.rendered}}
         </router-link>
         <div v-if="relatedEpisodes.length < relatedEpisodesTotal" class="total">
-          <router-link 
+          <router-link
           class="episode-see-all-link"
           :to="`/posts/${$route.params.slug}`">
             See all {{relatedEpisodesTotal}}
@@ -79,38 +99,43 @@
         :rootEntityType="'topic'"
         :post="{}" />
     </template>
-  </topic-page-template>    
+  </topic-page-template>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import find from 'lodash/find'
 import isArray from 'lodash/isArray'
-import marked from 'marked'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import Spinner from '@/components/Spinner';
-import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic';
+import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
+import WriteRequest from '@/views/write/WriteRequest'
 import Avatar from '@/components/Avatar'
+import Question from '@/components/qa/Question'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
+import { cleanContent } from '@/utils/post.utils'
 import Highlightable from '@/components/Highlightable'
 import { PostHighlights } from '@/components/post'
 
 export default {
   name: 'topicpage-content',
+
   components: {
     Spinner,
+    Question,
     TopicPageMaintainer,
     TopicPageTemplate,
     Avatar,
+    WriteRequest,
     CommentsList,
     Highlightable,
     PostHighlights
   },
+
   beforeMount () {
-     marked.setOptions({
-      breaks: true
-    })
     this.loadTopic()
   },
+
   data () {
     return {
       loading: false,
@@ -119,12 +144,18 @@ export default {
       topicPageData: {},
       highlight: '',
       relatedEpisodes: [],
-      relatedEpisodesTotal: 0
+      relatedEpisodesTotal: 0,
+      selectedTopic: '',
     }
   },
+
   computed: {
-    ...mapGetters(['isLoggedIn', 'metaTag']),
-    ...mapState({    
+    ...mapGetters([
+      'isLoggedIn',
+      'metaTag'
+    ]),
+
+    ...mapState({
       me (state) {
         return state.me
       },
@@ -135,16 +166,24 @@ export default {
 
       entityComments (state) {
         return state.entityComments
-      }
+      },
+
+      questions ({ topics }) {
+        return topics.questions
+      },
+
+      topicpage ({ topics }) {
+        return topics.topicpage
+      },
     }),
-    
+
     contentUrl () {
       return window.location.href
     },
 
     isMaintainer () {
       return (
-        this.topicData && 
+        this.topicData &&
         this.me &&
         this.topicData.maintainer &&
         this.topicData.maintainer._id === this.me._id
@@ -199,41 +238,109 @@ export default {
       return commentCount
     },
   },
-  methods: {
-    ...mapActions(['getTopicPage', 'commentsFetch', 'getTopicEpisodes']),
 
-    loadTopic () {
-      this.loading = true
-      this.getTopicPage(this.$route.params.slug).then((data) => {
-        if (
-          data && data.topic && 
-          (!data.topicPage.published) || (!data.topic.maintainer)
-        ) {
-          return this.redirectToPosts()
-        }
+  watch: {
+    async topicpage ({ topicId }) {
+      const hasQuestions = (
+        topicId &&
+        isArray(this.questions) &&
+        this.questions.length > 0 &&
+        find(this.questions, { entityId: topicId })
+      )
+
+      if (!topicId || hasQuestions) {
+        return
+      }
+
+      await this.getEntityQuestions({
+        entityId: topicId,
+        entityType: 'topic',
+      })
+
+      // Handle redirect if no valid content
+      if (
+        this.topicData &&
+        this.topicData.maintainer &&
+        !this.isMaintainer &&
+        !this.topicPageData.published &&
+        !this.questions.length) {
+        return this.redirectToPosts()
+      }
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'getTopicPage',
+      'commentsFetch',
+      'setMaintainerInterest',
+      'getTopicEpisodes',
+      'getEntityQuestions',
+    ]),
+
+    async requestTopicOwnership() {
+      this.saving = true
+
+      const data = {
+        topicName: this.selectedTopic,
+        userName: this.me.name,
+        userEmail: this.me.email,
+      }
+
+      try {
+        await this.setMaintainerInterest(data)
+        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+      }
+      catch (e) {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
+
+      this.saving = false
+    },
+
+    async loadTopic () {
+      const { slug } = this.$route.params
+
+      if (!this.topicpage || this.topicpage && this.topicpage.slug !== slug) {
+        this.loading = true
+      }
+
+      try {
+        const data = await this.getTopicPage(slug)
+        const topicPage = data.topicPage || {}
+        const { content } = topicPage
+
         this.topicData = data.topic
-        this.topicPageData = this.convertMarkdown(data.topicPage)
-        this.loadComments()
+        this.topicPageData = {
+          ...topicPage,
+          content: cleanContent(content),
+        }
+
         this.loadEpisodes()
-      }).catch((e) => {
+      }
+      catch (e) {
         if (e.response && e.response.status === 404) {
           return this.redirectToPosts()
         }
+
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
-      }).finally(() => {
-        this.loading = false
-      })
+      }
+
+      this.loading = false
     },
 
     redirectToPosts () {
       this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
-    loadComments () {
-      this.commentsFetch({ entityId: this.topicPageData._id }).then((data) => {
-        
-      }).catch((e) => {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+    onClickTopic(topic) {
+      if (!this.me || !this.me._id) {
+        return this.$router.push(`/register`)
+      }
+
+      this.selectedTopic = topic.name
+      this.$nextTick(() => {
+        this.requestTopicOwnership()
       })
     },
 
@@ -254,20 +361,6 @@ export default {
       }).finally(() => {
         this.loadingEpisodes = false
       })
-    },
-
-    convertMarkdown (topicPage) {
-      if (topicPage.content) {       
-        const htmlMarkdown = marked(topicPage.content);
-        topicPage.content = this.updateLinkToOpenTab(htmlMarkdown);
-      }
-      return topicPage
-    },
-
-    updateLinkToOpenTab(html) {
-      const regExLink = /\<a href=/gi;
-      const updatedLink = '<a target="_blank" href=';
-      return html.replace(regExLink, updatedLink);
     },
 
     onHighlight (highlight = '') {
@@ -314,52 +407,61 @@ export default {
 <style scoped lang="stylus">
   .topic-page
     margin-top 5px
-    
-    .spinner
-      margin 0 auto
+
+  .spinner
+    margin 0 auto
+    display block
+
+  .link
+    font-weight 700
+    color #1a0dab
+    text-decoration underline
+
+  .edit-link
+    border 1px solid #222
+    padding 7px 10px
+    font-size 12px
+    font-weight normal
+    color #222
+    border-radius 30px
+    margin-left 10px
+
+    &:hover
+      text-decoration none
+
+  .content-block,
+  >>> .write-view
+    margin-bottom 4rem
+
+  .related-container
+    margin 0 0 20px
+    padding 1.5rem
+    background #e9ecef
+
+    h6
+      margin-top 0 0 10px
+      text-transform uppercase
+      font-size 0.8rem
+      font-weight 800
+
+    .episode-link
       display block
-
-    .edit-link
-      border 1px solid #222
-      padding 7px 10px
-      font-size 12px
+      margin 10px 0
+      font-size 14px
       font-weight normal
-      color #222
-      border-radius 30px
-      margin-left 10px
+      color #1a0dab
 
-      &:hover
-        text-decoration none
+    .total
+      text-align center
 
-    .related-container
-      margin 0 0 20px
-      padding 1.5rem
-      background #e9ecef
-
-      h6
-        margin-top 0 0 10px
-        text-transform uppercase
-        font-size 0.8rem
-        font-weight 800
-      
-      .episode-link
-        display block
-        margin 10px 0
-        font-size 14px
-        font-weight normal
-        color #1a0dab
-      
-      .total
-        text-align center
-
-        .episode-see-all-link
-          color #9b9b9b
-      
-      .no-episodes
+      .episode-see-all-link
         color #9b9b9b
-        text-align center
-        margin-top 20px
-   
+
+    .no-episodes
+      color #9b9b9b
+      text-align center
+      margin-top 20px
+
   >>> mark
     cursor pointer
     font-weight 700
@@ -370,5 +472,5 @@ export default {
       background-color #a591ff
     &:hover
       opacity 1.0
-    
+
 </style>
