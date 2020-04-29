@@ -37,6 +37,7 @@ export default {
     recentTopicPages: [],
     topicpage: {},
     questions: [],
+    mostPosts: [],
   },
   searchTopic: [],
   token: localStorage.getItem('token'),

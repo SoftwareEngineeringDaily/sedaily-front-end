@@ -89,10 +89,10 @@ export default {
       }
 
       const { top } = elementEl.getBoundingClientRect()
-      const offset = 100
+      const offset = 200
 
       setTimeout(() => {
-        window.scrollTo(0, top + offset)
+        window.scrollTo(0, top - offset)
       }, 300)
 
       elementEl.classList.add('answer-highlight')

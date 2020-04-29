@@ -49,6 +49,9 @@ export default {
   setQuestions: (state, questions = []) => {
     state.topics.questions = questions
   },
+  setMostPosts: (state, mostPosts = []) => {
+    state.topics.mostPosts = mostPosts
+  },
 
   setSearchTopic: (state, topic) => {
     state.searchTopic = topic.posts

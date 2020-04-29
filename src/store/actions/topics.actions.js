@@ -24,7 +24,7 @@ export default {
     .then((response) => {
       return response.data
     })
-  }, 
+  },
 
   updateTopic: (_, { topicId, data }) => {
     return axios.put(`${BASE_URL}/topic/${topicId}`, data)
@@ -115,16 +115,17 @@ export default {
     })
   },
 
-  mostPopular: ({ commit, state}) => {
+  mostPopular: ({ commit, state }) => {
     return axios.get(`${BASE_URL}/topics/mostPopular`).then((response) => {
       commit('setMostPopular', response.data)
       return response
     })
   },
 
-  mostPosts: () => {
-    return axios.get(`${BASE_URL}/topics/mostPosts`).then((response) => {
-      return response.data
+  mostPosts: ({ commit }) => {
+    return axios.get(`${BASE_URL}/topics/mostPosts`).then(({ data }) => {
+      commit('setMostPosts', data)
+      return data
     })
   }
 }
