@@ -34,6 +34,7 @@ export default {
     post: null,
     mostPopular: null,
     searchedAllTopics: null,
+    recentTopicPages: [],
     topicpage: {},
     questions: [],
   },
