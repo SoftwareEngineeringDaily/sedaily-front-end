@@ -1,5 +1,11 @@
 <template>
   <div
+    v-if="post.type && post.type === 'answer'"
+    class="news-post">
+    {{post.content}}
+  </div>
+  <div
+    v-else
     class="news-post"
     :class="{ 'is-preview': isPreview }">
     <router-link :to="postPrettyUrl" v-if="showImg" class="img-container">
