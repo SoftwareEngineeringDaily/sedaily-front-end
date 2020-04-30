@@ -5,7 +5,7 @@
       <spinner :show="loading"/>
 
       <div
-        v-if="isMaintainer && !topicData.published"
+        v-if="isMaintainer && !topicPageData.published"
         class="related-container">
         Only you can see this. This topic page is private. <router-link :to="`/topic/${topicData.slug}/edit`" class="link">Click here to publish.</router-link>
       </div>

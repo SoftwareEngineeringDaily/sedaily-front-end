@@ -71,9 +71,10 @@ export default {
     })
   },
 
-  mostRecentPages: () => {
-    return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
-      return response.data
+  mostRecentPages: ({ commit }) => {
+    return axios.get(`${BASE_URL}/topicpage/recentPages`).then(({ data }) => {
+      commit('setRecentTopicPages', data)
+      return data
     })
   },
 

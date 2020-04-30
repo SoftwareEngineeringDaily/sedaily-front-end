@@ -51,11 +51,15 @@ export default {
   },
 
   methods: {
-    ...mapActions(['fetchPublicProfileData']),
+    ...mapActions([
+      'fetchPublicProfileData',
+    ]),
+
     async fetchData () {
       this.loading = true
       try {
         const response = await this.fetchPublicProfileData({ userId: this.userId })
+
         if (response.data) {
            this.user = response.data.user || {}
            this.activities = response.data.activities

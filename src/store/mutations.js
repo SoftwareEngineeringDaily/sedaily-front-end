@@ -27,8 +27,12 @@ export default {
     state.me = me
   },
 
+  // Topics
   setTopicPage: (state, topicpage) => {
     state.topics.topicpage = topicpage
+  },
+  setRecentTopicPages: (state, recentTopicPages = []) => {
+    state.topics.recentTopicPages = recentTopicPages
   },
   setAllTopics: (state, topics) => {
     state.topics.all = topics
@@ -44,6 +48,9 @@ export default {
   },
   setQuestions: (state, questions = []) => {
     state.topics.questions = questions
+  },
+  setMostPosts: (state, mostPosts = []) => {
+    state.topics.mostPosts = mostPosts
   },
 
   setSearchTopic: (state, topic) => {

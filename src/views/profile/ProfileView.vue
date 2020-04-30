@@ -75,12 +75,16 @@ export default {
   },
 
   methods: {
-    ...mapActions([ 'fetchPublicActivities' ]),
+    ...mapActions([
+      'fetchPublicActivities',
+    ]),
+
     async fetchData () {
       if (!this.me || !this.me._id) return;
       this.loading = true
       try {
         const response = await this.fetchPublicActivities({ userId: this.me._id })
+
         if (response.data) {
            this.activities = response.data.activities
            this.badges = response.data.badges || []
@@ -102,7 +106,7 @@ export default {
   .center
     text-align center
     margin 5vh 0
-  
+
   .settings
     display inline-block
     margin-left 10px

@@ -5,6 +5,7 @@
       <div class="activity-group-date">{{groupDateFormat(date)}}</div>
       <div class="activity-group-content">
         <div v-for="(activity, index) in items" :key="index" class="activity-container">
+
           <div v-if="activity.entity" class="content">
             <p class="activity-label text-ellipsis">
               Added a {{activityType(activity)}} in <router-link :to="activity.entity.url">{{activity.entity.title}}</router-link>
@@ -15,7 +16,11 @@
             <div v-if="activity.activityType === 'relatedLink'" class="comment comment-item">
               {{activity.title}} <a :href="activity.url">({{activity.url}})</a>
             </div>
+            <div v-if="activity.activityType === 'answer'" class="comment comment-item">
+              {{activity.content.slice(0, 240)}}{{activity.content.length > 240 ? '...' : ''}}
+            </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -76,6 +81,10 @@ export default {
 
       if (act.activityType === 'relatedLink' && act.type === 'episode') {
         return 'related episode'
+      }
+
+      if (act.activityType === 'answer') {
+        return 'new answer'
       }
     },
 
