@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-input-group>
-      <b-form-input list="usersList" autocomplete="off" v-model="selectedOption" debounce="500" @input="onInput" @change="onChange"></b-form-input>
+      <b-form-input list="usersList" autocomplete="off" :placeholder="placeholder" v-model="selectedOption" debounce="500" @input="onInput" @change="onChange"></b-form-input>
       <template v-slot:append>
         <div class="append">
           <div v-show="stateIdle">...</div>
@@ -42,6 +42,10 @@ export default {
   props: {
     value: {
       type: Object
+    },
+    placeholder: {
+      type: String,
+      default: 'Select a user'
     }
   },
   data () {
@@ -100,6 +104,7 @@ export default {
       if (!match || !match.length || !match[1]) return
       this.selectedUser = this.users.find((u) => u.email === match[1])
       this.$emit('input', this.selectedUser)
+      this.$emit('onChange', this.selectedUser)
     },
 
     erase () {

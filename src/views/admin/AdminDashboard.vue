@@ -30,7 +30,8 @@ export default {
     return {
       menuItems: [
         { name: 'Companies', route: '/admin/company'},
-        { name: 'Topics', route: '/admin/topic'}
+        { name: 'Topics', route: '/admin/topic'},
+        { name: 'Users', route: '/admin/user'}
       ]
     }
   },
