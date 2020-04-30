@@ -7,7 +7,7 @@ const BASE_URL = apiConfig.BASE_URL
 
 export default {
 
-  getTopicPage: (_, slug ) => {
+  getTopicPage: (_, slug) => {
     return axios.get(`${BASE_URL}/topicpage/${slug}`)
     .then(({ data }) => {
       const { topic = {}, topicPage = {} } = data
@@ -26,45 +26,45 @@ export default {
     })
   },
 
-  getTopicPageEdit: (_, slug ) => {
+  getTopicPageEdit: (_, slug) => {
     return axios.get(`${BASE_URL}/topicpage/${slug}/edit`)
     .then((response) => {
       return response.data
     })
   },
 
-  saveTopicPage: (_, { slug, data } ) => {
+  saveTopicPage: (_, { slug, data }) => {
     return axios.put(`${BASE_URL}/topicpage/${slug}`, data)
     .then((response) => {
       return response.data
     })
   },
 
-  getTopicPageImages: (_, slug ) => {
+  getTopicPageImages: (_, slug) => {
     return axios.get(`${BASE_URL}/topicpage/${slug}/images`)
     .then((response) => {
       return response.data
     })
   },
 
-  getTopicEpisodes: (_, slug ) => {
+  getTopicEpisodes: (_, slug) => {
     return axios.get(`${BASE_URL}/topic/${slug}/episodes`)
     .then((response) => {
       return response.data
     })
   },
 
-  saveTopicPageImage: (_, { slug , file} ) => {
+  saveTopicPageImage: (_, { slug , file }) => {
     const endpointUrl = `${BASE_URL}/topicpage/${slug}/images`
     return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
   },
 
-  saveTopicPageLogo: (_, { slug , file} ) => {
+  saveTopicPageLogo: (_, { slug , file }) => {
     const endpointUrl = `${BASE_URL}/topicpage/${slug}/logo`
     return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
   },
 
-  deleteTopicPageImage: (_, { slug , imageId} ) => {
+  deleteTopicPageImage: (_, { slug , imageId }) => {
     return axios.delete(`${BASE_URL}/topicpage/${slug}/images/${imageId}`)
     .then((response) => {
       return response.data
@@ -72,20 +72,20 @@ export default {
   },
 
   mostRecentPages: ({ commit }) => {
-    return axios.get(`${BASE_URL}/topicpage/recentPages`).then(({ data }) => {
-      commit('setRecentTopicPages', data)
-      return data
+    return axios.get(`${BASE_URL}/topicpage/recentPages`).then((response) => {
+      commit('setRecentTopicPages', response.data)
+      return response.data
     })
   },
 
-  publishTopicPage: (_, { slug } ) => {
+  publishTopicPage: (_, { slug }) => {
     return axios.put(`${BASE_URL}/topicpage/${slug}/publish`)
     .then((response) => {
       return response.data
     })
   },
 
-  unpublishTopicPage: (_, { slug } ) => {
+  unpublishTopicPage: (_, { slug }) => {
     return axios.put(`${BASE_URL}/topicpage/${slug}/unpublish`)
     .then((response) => {
       return response.data

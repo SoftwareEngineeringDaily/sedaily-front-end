@@ -1,5 +1,5 @@
 <template>
-  <div class="comments-list" :class="{ 'is-preview': preview }">
+  <div class="comments-list" :class="{ 'is-preview': isPreview }">
     <div v-if="!filter && showCount" class="comment-item text-center">
       <div class="title">
         {{commentCount}} {{commentCount == 1 ? 'comment' : 'comments'}}
@@ -30,7 +30,15 @@
       v-for="comment in filteredComments"
       @click="() => openHighlights(comment._id)">
 
+      <div v-if="isPreview && comment.highlight">
+        {{getCommentAuthor(comment)}} left a highlight,
+        <comment-quote
+          :isPreview="true"
+          :highlight="comment.highlight" />
+      </div>
+
       <comment-view
+        v-else
         :rootEntityType="rootEntityType"
         :comment="comment"
         :onChange="onChange"
@@ -49,18 +57,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import CommentView from '@/components/comment/CommentView'
 import CommentCompose from '@/components/comment/CommentCompose'
+import CommentQuote from '@/components/comment/CommentQuote'
 import Spinner from '@/components/Spinner'
 
 export default {
   name: 'comments-list',
+
   props: {
     post: {
       type: Object
     },
-    preview: {
+    isPreview: {
       type: Boolean,
       default: false,
     },
@@ -105,12 +115,21 @@ export default {
 
   components: {
     CommentView,
+    CommentQuote,
     CommentCompose,
     Spinner,
   },
 
   computed: {
-    ...mapGetters([ 'isLoggedIn' ]),
+    ...mapGetters([
+      'isLoggedIn',
+    ]),
+
+    ...mapState({
+      me(state) {
+        return state.me
+      },
+    }),
 
     emptyComments () {
       return (!this.comments || !this.comments.length)
@@ -127,8 +146,13 @@ export default {
   },
 
   methods: {
+    getCommentAuthor (comment) {
+      const author = comment.author || this.$store.state.me
+      return author.name
+    },
+
     openHighlights (comment_id) {
-      if (!this.preview) {
+      if (!this.isPreview) {
         return
       }
 
@@ -192,6 +216,12 @@ export default {
   transform translateY(-50%)
   & + .title
     text-align center
+
+>>> .quote-scroll
+  margin 0.4rem 0 1rem
+  padding 0.8rem
+  border 1px solid #ccc
+  border-radius 4px
 
 .guest-message
   height 100%

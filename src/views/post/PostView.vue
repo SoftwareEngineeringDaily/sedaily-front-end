@@ -15,7 +15,7 @@
           <a :href="`https://twitter.com/${user.screen_name}`" target="_blank">@{{user.screen_name}}</a>
         </span>
       </div>
-      
+
       <post-action-buttons :post="post" />
       <div
         v-if="showPostContent"
@@ -81,7 +81,7 @@
           :filter="'highlight'"
           :initialComment="comment"
           :post="post"
-          :preview="true"
+          :isPreview="true"
           :forumThreadId="forumThreadId"
           :rootEntityType="'forumthread'"
           :commentCount="highlightCount"
@@ -251,8 +251,12 @@ export default {
     },
 
     comments () {
-      if (!(this.post && this.post.thread)) return []
+      if (!(this.post && this.post.thread)) {
+        return []
+      }
+
       const parentCommentIds = this.entityComments[this.post.thread._id] || []
+
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -343,7 +347,7 @@ export default {
       'getTopicsInSearch',
       'downvote',
       'fetchArticle',
-      'commentsFetch'
+      'commentsFetch',
     ]),
 
     async _fetchArticle () {
@@ -472,10 +476,10 @@ export default {
 
 .twitter-users
   margin 10px 0 25px 0
-  
+
   span:not(:first-child)
     margin-left 10px
-  
+
   a
     color #a591ff
 

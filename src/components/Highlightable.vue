@@ -237,6 +237,11 @@ export default {
         return this.resetTools()
       }
 
+      // If clicking a highlight, let's display the highlight modal
+      if (this.entityId && this.parentCommentId) {
+        return this.$router.push(`?thread_id=${this.entityId}&comment_id=${this.parentCommentId}`)
+      }
+
       if (this.selectedText && selection.toString() !== this.selectedText) {
         this.resetTools()
       }
