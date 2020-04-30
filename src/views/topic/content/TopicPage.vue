@@ -62,7 +62,7 @@
 
     <template v-if="topicPageData._id" v-slot:side>
       <div class="related-container">
-        <h6>related episodes</h6>
+        <h6>Related Episodes</h6>
         <spinner :show="loadingEpisodes"/>
         <router-link
           class="episode-link"
@@ -87,6 +87,7 @@
         :filter="'highlight'"
         :initialComment="''"
         :post="{}"
+        :isPreview="true"
         :forumThreadId="topicPageData._id"
         :rootEntityType="'topic'"
         :commentCount="highlightCount"
@@ -191,8 +192,12 @@ export default {
     },
 
     comments () {
-      if (!this.entityComments || !this.entityComments[this.topicPageData._id]) return []
+      if (!this.entityComments || !this.entityComments[this.topicPageData._id]) {
+        return []
+      }
+
       const parentCommentIds = this.entityComments[this.topicPageData._id] || []
+
       return parseIdsIntoComments({
         entityParentCommentIds: parentCommentIds,
         commentsMap: this.commentsMap
@@ -316,6 +321,8 @@ export default {
           content: cleanContent(content),
         }
 
+        // Fetch comments
+        this.commentsFetch({ entityId: topicPage._id })
         this.loadEpisodes()
       }
       catch (e) {
