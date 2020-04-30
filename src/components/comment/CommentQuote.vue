@@ -1,7 +1,8 @@
 <template>
   <div v-if="highlight" class="quote-scroll">
-    <blockquote class="quote">
-      "{{highlight}}"
+    <blockquote class="quote" :class="{ 'is-preview': isPreview }">
+      <div v-if="isPreview" :class="{ 'text-ellipsis': isPreview }">"{{highlight}}"</div>
+      <template v-else>"{{highlight}}"</template>
     </blockquote>
   </div>
 </template>
@@ -9,6 +10,9 @@
 <script>
 export default {
   props: {
+    isPreview: {
+      type: Boolean,
+    },
     highlight: {
       type: String,
     }
@@ -25,5 +29,14 @@ export default {
   font-size 1.2rem;
   color #fff;
   background-color: #a591ff;
+
+  &.is-preview
+    display block
+    margin-bottom 0
+
+.text-ellipsis
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
 
 </style>
