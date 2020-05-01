@@ -54,7 +54,14 @@ export default {
     })
   },
 
-  saveTopicPageImage: (_, { slug , file }) => {
+  saveTopicEpisode: (_, { slug, postSlug } ) => {
+    return axios.post(`${BASE_URL}/topic/${slug}/episodes`, { postSlug })
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  saveTopicPageImage: (_, { slug , file} ) => {
     const endpointUrl = `${BASE_URL}/topicpage/${slug}/images`
     return getS3SingedUploadUrlAndUpload({ imageFile: file, endpointUrl })
   },

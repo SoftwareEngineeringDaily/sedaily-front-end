@@ -81,6 +81,14 @@
         <div v-if="!relatedEpisodesTotal && !loadingEpisodes" class="no-episodes">
           0 Episodes
         </div>
+        <div v-if="isLoggedIn" class="related-input">
+          <spinner :show="savingRelatedEpisode"/>
+          <SelectPostInput
+            v-show="!savingRelatedEpisode"
+            v-model="newRelatedEpisode" 
+            @onChange="onChangeRelatedEpisode" 
+            placeholder="Add a related episode" />
+        </div>
       </div>
 
       <comments-list
@@ -117,6 +125,7 @@ import { parseIdsIntoComments } from '@/utils/comment.utils'
 import { cleanContent } from '@/utils/post.utils'
 import Highlightable from '@/components/Highlightable'
 import { PostHighlights } from '@/components/post'
+import SelectPostInput from '@/components/SelectPostInput'
 
 export default {
   name: 'topicpage-content',
@@ -130,7 +139,8 @@ export default {
     WriteRequest,
     CommentsList,
     Highlightable,
-    PostHighlights
+    PostHighlights,
+    SelectPostInput
   },
 
   beforeMount () {
@@ -141,12 +151,14 @@ export default {
     return {
       loading: false,
       loadingEpisodes: false,
+      savingRelatedEpisode: false,
       topicData: {},
       topicPageData: {},
       highlight: '',
       relatedEpisodes: [],
       relatedEpisodesTotal: 0,
       selectedTopic: '',
+      newRelatedEpisode: {}
     }
   },
 
@@ -280,6 +292,7 @@ export default {
       'commentsFetch',
       'setMaintainerInterest',
       'getTopicEpisodes',
+      'saveTopicEpisode',
       'getEntityQuestions',
     ]),
 
@@ -388,6 +401,24 @@ export default {
 
       return content
     },
+
+    onChangeRelatedEpisode () {
+      this.savingRelatedEpisode = true
+
+      const options = {
+        slug: this.$route.params.slug,
+        postSlug: this.newRelatedEpisode.slug
+      }
+      
+      this.saveTopicEpisode(options).then((data) => {
+        this.loadEpisodes()
+      }).catch((e) => {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }).finally(() => {
+        this.savingRelatedEpisode = false
+        this.newRelatedEpisode = {}
+      })
+    }
   },
 
   metaInfo() {
@@ -468,6 +499,22 @@ export default {
       color #9b9b9b
       text-align center
       margin-top 20px
+    
+    .related-input 
+      margin-top 10px
+      
+      .spinner
+        width 40px
+        height 40px
+
+      &>>> input
+      outline none
+      border 0
+
+      &:focus
+        outline none
+        -webkit-box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
+        box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
 
   >>> mark
     cursor pointer
