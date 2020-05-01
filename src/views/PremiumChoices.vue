@@ -3,6 +3,9 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <h1>Subscribe</h1>
+        <a v-if="notSubscribed" :href="applePodcastUrl" class="feed-link" target="_blank">
+          Apple Podcasts
+        </a>
         <a v-if="notSubscribed" :href="rssUrl" class="feed-link" target="_blank">
           RSS Feed
         </a>
@@ -112,6 +115,9 @@ export default {
     },
     rssUrl() {
       return `${apiConfig.BASE_URL}/rss/public/all`;
+    },
+    applePodcastUrl() {
+      return 'https://podcasts.apple.com/us/podcast/software-daily/id1501466970'
     }
   },
 
@@ -153,18 +159,19 @@ h1
 
 .feed-link
   display inline-block
-  padding 8px 15px
-  border none
+  padding 4px 15px
+  border 1px solid primary-color
   border-radius 3px
-  background primary-color
-  font-size 12px
-  color #FFF
+  background #fff
+  font-size 10px
+  color primary-color
   text-align center
   text-transform uppercase
   letter-spacing 2px
 
   &:hover
-    color #FFF
+    color #fff
+    background primary-color
     text-decoration none
 
 .subtitle
