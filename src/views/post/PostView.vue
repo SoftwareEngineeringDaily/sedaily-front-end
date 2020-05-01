@@ -350,7 +350,14 @@ export default {
       'commentsFetch',
     ]),
 
+    clearData () {
+      const { commit } = this.$store
+      commit('setPosts', { posts: [] })
+      commit('setPost', { post: {}})
+    },
+
     async _fetchArticle () {
+      this.clearData()
       const { post } = await this.fetchArticle({ id: this.postId })
       const post_keys = Object.keys(this.$store.state.posts)
 
