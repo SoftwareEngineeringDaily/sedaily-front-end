@@ -19,16 +19,16 @@
       <!-- header-->
       <h2 slot="header" v-if="post.title">{{ post.title.rendered }}</h2>
       <!-- body-->
-      <div slot="body">
-        <div v-if="isAddTopic">
+      <template slot="body">
+        <template v-if="isAddTopic">
           <div class='add-bar'>
             <input id="add-topic" class='add-bar-input' type='text' placeholder='Place for your own topic...' v-model='newTopic' debounce="900"/>
             <button type="button" class="btn-modal" @click="createNewTopic">Create Topic</button>
           </div>
           <div class='add-bar message-error' v-if="createError === 422">
-            <p>This topic is already exist</p>
+            <p>This topic already exist</p>
           </div>
-        </div>
+        </template>
         <div id="search-container" v-else>
           <div class='search-bar'>
             <input
@@ -67,7 +67,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </template>
       <!-- footer-->
       <span slot="footer">
         <button v-if="isAddTopic" type="button" class="btn-modal-secondary" @click="addTopic">Back</button>
