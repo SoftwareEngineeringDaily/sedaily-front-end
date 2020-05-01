@@ -108,12 +108,15 @@ export default {
       createError: null,
     }
   },
+  beforeMount () {
+    this.$store.commit('setPostTopics', [])
+  },
   mounted () {
     this.getTopics()
     document.addEventListener('click', this.handleClickOutside)
   },
   destroyed() {
-    document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('click', this.handleClickOutside)
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -189,6 +192,7 @@ export default {
       }
     },
     getTopics() {
+      this.$store.commit('setPostTopics', [])
       this.getPostTopics({ postId: this.post._id }).then(this.updateTopicsChecked)
     },
     updateTopicsChecked() {
