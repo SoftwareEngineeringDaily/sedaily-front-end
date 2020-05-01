@@ -81,7 +81,7 @@ export default {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
         this.loading = false
-        this.$refs.input.value = ''
+        if (this.$refs.input) this.$refs.input.value = ''
       })
     },
 
