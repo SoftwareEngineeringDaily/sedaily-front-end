@@ -4,6 +4,21 @@
       <profile-label
         :userData="user"
         :dateComment="commentDateFormat(comment)" />
+
+      <social-sharing
+        v-show="comment.highlight"
+        :url="shareUrl"
+        :href="shareUrl"
+        :title="shareText"
+        twitter-user="software_daily"
+        inline-template>
+        <div class="cursor-pointer hover-highlight">
+          <network network="twitter">
+            <i class="fa fa-2x fa-twitter" />
+          </network>
+        </div>
+      </social-sharing>
+
     </div>
     <comment-quote :highlight="comment.highlight" />
     <div v-html="compiledMarkdown" class="content-area" />
@@ -13,6 +28,7 @@
 <script>
 import moment from 'moment'
 import marked from 'marked'
+import SocialSharing from 'vue-social-sharing'
 import ProfileLabel from '@/components/profile/ProfileLabel'
 import CommentQuote from '@/components/comment/CommentQuote'
 
@@ -25,12 +41,21 @@ export default {
 
   components: {
     ProfileLabel,
+    SocialSharing,
     CommentQuote,
   },
 
   computed: {
     user () {
       return this.comment.author || this.$store.state.me
+    },
+
+    shareUrl () {
+      return window.location.href
+    },
+
+    shareText () {
+      return `${this.user.name} left a highlight, "${this.comment.highlight}"`
     },
 
     compiledMarkdown () {
@@ -97,7 +122,17 @@ export default {
 <style lang="stylus" scoped>
 .profile-container
   display flex
-  flex-direction column
+  align-items center
+
+  *:first-child
+    flex-grow 1
+
+.cursor-pointer
+  cursor pointer
+
+.hover-highlight:hover,
+.hover-highlight.active
+  color #a591ff
 
 >>> .quote-scroll
   margin 1rem 0
