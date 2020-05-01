@@ -1,35 +1,42 @@
 <template>
-  <div
-    v-if="post.type && post.type === 'answer'"
-    class="news-post">
-    {{post.content}}
-  </div>
-  <div
-    v-else
-    class="news-post"
-    :class="{ 'is-preview': isPreview }">
-    <router-link :to="postPrettyUrl" v-if="showImg" class="img-container">
-      <img :src="post.featuredImage"/>
-    </router-link>
-    <div class="body-container">
-      <post-preview-copy
-        :post="post"
-        :displayedPosts="displayedPosts"
-        :isPreview="isPreview"
-        :showGuest="showGuest"
-        :showTags="showTags"
-        :showCopy="showCopy" />
+  <div>
+    <answer-preview
+       v-if="post.type && post.type === 'answer'"
+      :answer="post" />
+
+    <div
+      v-if="post && post.type !== 'answer'"
+      class="news-post"
+      :class="{ 'is-preview': isPreview }">
+      <router-link :to="postPrettyUrl" v-if="showImg" class="img-container">
+        <img :src="post.featuredImage"/>
+      </router-link>
+      <div class="body-container">
+        <post-preview-copy
+          :post="post"
+          :displayedPosts="displayedPosts"
+          :isPreview="isPreview"
+          :showGuest="showGuest"
+          :showTags="showTags"
+          :showCopy="showCopy" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import PostPreviewCopy from './PostPreviewCopy'
+import AnswerPreview from '@/components/qa/AnswerPreview'
 import { postPrettyUrl } from '@/utils/post.utils'
 
 export default {
   name: "post-preview",
-  components: { PostPreviewCopy },
+
+  components: {
+    PostPreviewCopy,
+    AnswerPreview,
+  },
+
   props: {
     post: {
       type: Object
@@ -73,7 +80,11 @@ a
   text-decoration none !important
   cursor pointer
 
-.news-post
+.answer-post
+  padding 2rem
+
+.news-post,
+.answer-post
   display flex
   flex-direction column
   position relative
@@ -85,17 +96,21 @@ a
   &.is-preview
     margin 0 0 40px
     max-width 100%
+
   &.inverse
     background #222
+
   .img-container
     height 200px
     background #fff
     overflow hidden
+
     img
       width 100%
       height 100%
       object-fit cover
       transition all .2s
+
   @media (max-width: 750px)
     width 100%
     margin 15px auto

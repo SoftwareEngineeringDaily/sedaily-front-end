@@ -100,18 +100,23 @@ export default {
     return axios
       .delete(`${BASE_URL}/answer/${_id}`)
       .then((reply) => {
-        let questions = [
-          ...state.topics.questions
-        ]
+        const questions = [ ...state.topics.questions ]
 
-        questions.forEach((question) => {
+        let posts = { ...state.posts }
+        let postIds = Object.keys(posts)
+
+        questions.forEach(question => {
           if (question._id === reply.data.question)  {
             question.answers = question.answers || []
             question.answers = question.answers.filter(a => a._id !== reply.data._id)
           }
         })
 
+        postIds = postIds.filter(id => (id !== _id))
+        posts = postIds.map(id => posts[id])
+
         commit('setQuestions', questions)
+        commit('setPosts', { posts })
       })
   },
 

@@ -70,9 +70,10 @@ export default {
     this.onSearch({ target: { value: this.value } })
   },
   methods: {
-    toggleFocus() {
+    toggleFocus($event) {
       setTimeout(() => {
         this.isFocused = !this.isFocused
+        this.searchActive = ($event.type === 'focus')
       }, 300)
     },
 
@@ -119,6 +120,7 @@ export default {
 .search-bar
   display flex
   min-width 25px
+  padding 5px
 
   @media (max-width 600px)
     width 100%
@@ -146,7 +148,7 @@ export default {
     padding: 0
     padding-left 8px
     text-overflow: ellipsis
-    width: 0
+    width: 15rem
     z-index: 900
     border-width: 0px
     border-style: initial
@@ -160,11 +162,6 @@ export default {
 
     &:focus
       outline: none
-
-  &.open
-    padding 5px
-    input
-      width: 15rem
 
 .search-bar
   flex 1
@@ -206,10 +203,14 @@ export default {
   border-radius: 3px;
 }
 
-.search-bar.open {
-  box-shadow: 0 0 0 0.1rem rgba(133, 106, 255, 0.25);
+.search-bar {
+  border: 2px solid #e9ecef;
   margin-right: 1.5rem;
   border-radius: 3px;
+}
+
+.search-bar.focus {
+  box-shadow: 0 0 0 0.1rem rgba(133, 106, 255, 0.25);
 }
 
 .search ul {
