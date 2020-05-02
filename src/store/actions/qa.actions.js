@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import isObject from 'lodash/isObject'
 import remove from 'lodash/remove'
 import { apiConfig } from '../../../config/apiConfig'
 
@@ -149,7 +150,8 @@ export default {
 
       // Update Topic Questions
       questions.forEach(q => {
-        if (q._id === _id)  {
+        const questionId = isObject(question) ? question._id : question
+        if (q._id === questionId)  {
           q.answers.forEach(updateAnswer)
         }
       })
