@@ -142,9 +142,9 @@ export default {
 @import '../../../css/variables'
 
 .body
-  padding 2rem
   display flex
   flex-direction column
+  padding 2rem
   text-decoration none !important
   color #222 !important
 

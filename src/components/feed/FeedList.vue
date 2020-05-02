@@ -1,7 +1,7 @@
 <template>
   <div class="news-view">
     <div class="categories-container">
-      <div v-if="showUserTopics" class="topics-container">
+      <!-- <div v-if="showUserTopics" class="topics-container">
         <h4>Favourite</h4>
         <ul>
           <li
@@ -12,7 +12,7 @@
             :class="getClassForTopic(topic._id)"
           >{{ topic.name }}</li>
         </ul>
-      </div>
+      </div> -->
 
       <div class="topics-container">
         <router-link to="/popular">Most Popular</router-link>
@@ -70,48 +70,53 @@ export default {
       showFilteringElements: true,
       loading: false,
       endOfPosts: false,
-      transition: "slide-up",
-      displayedPosts: [],
-      topicId: "",
+      transition: 'slide-up',
+      topicId: '',
       routerTopic: false
     };
   },
+
   watch: {
     searchTerm() {
       let term = this.$store.state.searchTerm;
 
-      if (this.topicId === "") {
-        this.fetchSearch({ query: term }).then(
-          data => {
-            this.displayedPosts = data.posts
-            this.$store.commit('setPosts', {posts: data.posts})
-          }
-        );
-      } else {
-        let id = this.topicId;
-        this.getTopicsInSearch({ topic: id, search: term }).then(
-          data => {
-            this.displayedPosts = data.posts
-            this.$store.commit('setPosts', {posts: data.posts})
-          }
-        );
+      if (this.topicId === '') {
+        return this.fetchSearch({
+          query: term,
+        })
       }
-    }
+
+      this.getTopicsInSearch({
+        topic: this.topicId,
+        search: term,
+      })
+    },
   },
+
   computed: {
     ...mapState([
       'topics',
       'searchTerm'
     ]),
+
+    ...mapState({
+      displayedPosts ({ posts = {} }) {
+        return Object.keys(posts).map(id => posts[id])
+      },
+    }),
+
     search() {
       return this.searchTerm;
     },
+
     showTopics() {
       return this.topics.user;
     },
+
     showMostPopular() {
       return this.topics.mostPopular;
     },
+
     isLoggedIn() {
       if (this.$store.state.me._id === undefined) {
         return false;
@@ -119,6 +124,7 @@ export default {
         return true;
       }
     },
+
     showUserTopics() {
       if ((Object.entries(this.$store.state.me).length !== 0 && this.$store.state.me.constructor === Object) && this.$store.state.topics.user !== null) {
         if (this.$store.state.topics.user.length !== 0) {
@@ -127,7 +133,7 @@ export default {
       } else {
         return false
       }
-    }
+    },
   },
 
   created() {
@@ -149,10 +155,9 @@ export default {
 
     next(vm =>
       vm.$store
-        .dispatch("showTopic", topicSlug)
+        .dispatch('showTopic', topicSlug)
         .then(topics => {
           vm.routerTopic = true
-          vm.displayedPosts = topics.data.posts;
           vm.$store.commit('setPosts', {
             posts: topics.data.posts
           })
@@ -169,7 +174,6 @@ export default {
       .then(topics => {
         this.routerTopic = false
         this.endOfPosts = false
-        this.displayedPosts = topics.data.posts;
         this.$store.commit('setPosts', {
           posts: topics.data.posts
         })
@@ -219,13 +223,6 @@ export default {
       this.$router.push({ path: `/` });
 
       this.getTopicsInSearch({})
-        .then(data => {
-          this.displayedPosts = data.posts
-          this.$store.commit('setPosts', {
-            posts: data.posts
-          })
-        });
-
       this.resetPosts();
     },
 
@@ -268,17 +265,23 @@ export default {
       this.$store
         .dispatch(method, params)
         .then(result => {
+          let posts = []
+
           if (newSearch) {
-            this.displayedPosts = [];
+            this.$store.commit('setPosts', { posts })
           }
+
           if (result && result.posts && result.posts.length > 0 && this.routerTopic === false) {
-            this.displayedPosts = uniqBy(this.displayedPosts.concat(result.posts), '_id');
+            posts = uniqBy(this.displayedPosts.concat(result.posts), '_id');
+            this.$store.commit('setPosts', { posts })
           } else {
             this.endOfPosts = true;
           }
+
           if (isSearch) {
             this.endOfPosts = (params.page === result.nextPage)
           }
+
           this.loading = false;
         })
         .catch(_ => {
@@ -288,9 +291,11 @@ export default {
     },
 
     resetPosts() {
-      this.displayedPosts = [];
+      this.$store.commit('setPosts', { posts: [] })
+
       this.endOfPosts = false;
       this.loading = false;
+
       this.loadMore(true);
     }
   }
