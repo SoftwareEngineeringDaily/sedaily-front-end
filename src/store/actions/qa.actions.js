@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import remove from 'lodash/remove'
 import { apiConfig } from '../../../config/apiConfig'
+
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
@@ -122,28 +123,37 @@ export default {
 
   voteAnswer: ({ commit, getters, state }, { _id, question }) => {
     let questions = [ ...state.topics.questions ]
+    let posts = { ...state.posts } // clone(state.posts)
+    let postIds = Object.keys(posts)
 
     const url = `${BASE_URL}/answer/${_id}/vote`
     const { me } = state
     const toggleVote = () => {
-      questions.forEach(q => {
-        if (q._id === question)  {
-          q.answers.forEach(answer => {
-            if (answer._id === _id) {
-              answer.votes = answer.votes || []
+      const updateAnswer = (answer) => {
+        if (answer._id === _id) {
+          answer.votes = answer.votes || []
 
-              if (answer.votes.indexOf(me._id) >= 0) {
-                answer.votes = answer.votes.filter(v => v !== me._id)
-              }
-              else {
-                answer.votes.push(me._id)
-              }
-            }
-          })
+          if (answer.votes.indexOf(me._id) >= 0) {
+            answer.votes = answer.votes.filter(v => v !== me._id)
+          }
+          else {
+            answer.votes.push(me._id)
+          }
+        }
+      }
+
+      // Update Main Feed
+      if (posts[_id]) {
+        updateAnswer(posts[_id])
+      }
+
+      // Update Topic Questions
+      questions.forEach(q => {
+        if (q._id === _id)  {
+          q.answers.forEach(updateAnswer)
         }
       })
     }
-
 
     if (!getters.isLoggedIn) {
       Vue.toasted.error('You must be logged in to like a post', toastOptions)
@@ -152,6 +162,7 @@ export default {
     toggleVote() // Immediately update locally
 
     commit('setQuestions', questions)
+    commit('setPosts', { posts: postIds.map(id => posts[id]) })
 
     return axios.post(url)
       .then(({ data }) => {
@@ -167,6 +178,7 @@ export default {
         })
 
         commit('setQuestions', questions)
+        commit('setPosts', { posts: postIds.map(id => posts[id]) })
       })
       .catch((error) => {
 

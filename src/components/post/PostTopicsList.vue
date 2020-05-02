@@ -1,10 +1,11 @@
 <template>
-  <div class="tags" :class="[inverse ? 'inverse' : '']">
-    <span v-for="topic in postTopics" :key="topic.id">{{ topic }}</span>
+  <div class="tags" :class="[ inverse ? 'inverse' : '' ]">
+    <span v-for="topic in postTopics" :key="topic._id">{{ topic.name }}</span>
   </div>
 </template>
 
 <script>
+import isArray from 'lodash/isArray'
 import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
@@ -17,6 +18,7 @@ export default {
       type: Boolean
     }
   },
+
   data () {
     return {
       postTopics: [],
@@ -24,8 +26,11 @@ export default {
   },
 
   async mounted () {
-    const topicsResponse =  await this.getPostTopics({ postId: this.post._id })
-    this.postTopics = topicsResponse.data.map(item => item.name)
+    if (isArray(this.post.topics)) {
+      return this.postTopics = this.post.topics
+    }
+
+    this.postTopics =  await this.getPostTopics({ postId: this.post._id })
   },
 
   methods: {

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import { mapActions } from 'vuex'
 import { PostMeta, PostTitle, PostAuthor } from '@/components/post'
@@ -45,6 +46,10 @@ export default {
 
   async mounted () {
     const hasQuestion = (this.answer && isObject(this.answer.question))
+
+    if (this.answer && isArray(this.answer.topics) && this.answer.topics[0]) {
+      this.topicSlug = this.answer.topics[0].slug
+    }
 
     if (this.topicSlug || !hasQuestion) {
       return
