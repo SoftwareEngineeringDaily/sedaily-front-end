@@ -24,7 +24,7 @@
 <script>
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import { TopicPageTemplate } from '@/views/topic'
 import Spinner from '@/components/Spinner'
 import Answer from '@/components/qa/Answer'
@@ -52,6 +52,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['metaTag']),
     ...mapState({
       me (state) {
         return state.me
@@ -133,7 +134,23 @@ export default {
       await this.getTopicPage(slug)
       this.isLoading = false
     }
-  }
+  },
+  metaInfo() {
+    const meta = {
+      title: 'Software Daily',
+      meta: [
+        this.metaTag('twitter:card', 'summary_large_image'),
+        this.metaTag('twitter:site', '@software_daily'),
+      ]
+    }
+    if (this.questions.length) {
+      const question = this.questions[0]
+      meta.meta.push(this.metaTag('twitter:title', question.content))
+      meta.meta.push(this.metaTag('twitter:image', this.topicpage.logo))
+    }
+
+    return meta;
+  },
 }
 </script>
 

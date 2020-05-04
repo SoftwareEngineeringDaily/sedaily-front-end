@@ -137,7 +137,7 @@ export default {
 
     shareText () {
       const author = this.answer && this.answer.author && this.answer.author.name
-      return `Answer to ${this.question}${author ? ` by ${author}` : ''}`
+      return `${this.question}\n"${this.answer.content}"${author ? ` by ${author}` : ''}`
     },
 
     isMyVote () {
