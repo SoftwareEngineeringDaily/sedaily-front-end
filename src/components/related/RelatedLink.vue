@@ -2,7 +2,7 @@
   <div class="link-holder">
     <a
       :href="relatedLink.url | externalUrl"
-      target="_blank"
+      :target="relatedLink.target || '_blank'"
       rel="external nofollow">
       <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" @error.once="faviconFallback" />
       <div class="text-ellipsis">{{relatedLink.title || relatedLink.url}}</div>
