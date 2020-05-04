@@ -53,7 +53,7 @@ export default {
     'og:title': 'Software Daily',
     'og:description': 'Software Daily podcast episodes, forum, job board and more...',
     'description': 'Software Daily podcast episodes, forum, job board and more...',
-    'og:image': 'https://softwareengineeringdaily.com/wp-content/uploads/2015/08/sed_logo_updated.png',
+    'og:image': 'https://www.softwaredaily.com/static/sedailywords.png',
   },
   analytics: '',
   socket: null,
