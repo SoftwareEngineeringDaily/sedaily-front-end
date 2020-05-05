@@ -136,8 +136,14 @@ export default {
     },
 
     shareText () {
-      const author = this.answer && this.answer.author && this.answer.author.name
-      return `${this.question}\n"${this.answer.content}"${author ? ` by ${author}` : ''}`
+      let authorRef = '';
+      if (this.answer && this.answer.author) {
+        const { author } = this.answer
+        if (author.name || author.twitter) {
+          authorRef = ` by${author.name ? ` ${author.name}` : ''}${author.twitter ? ` @${author.twitter}` : ''}`
+        }
+      }
+      return `${this.question}\n"${this.answer.content}"${authorRef}`
     },
 
     isMyVote () {
