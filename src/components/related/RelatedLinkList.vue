@@ -2,7 +2,9 @@
   <div class="related-container" v-if="relatedLinks">
     <h6 class="section-title">{{ headline }}</h6>
     <div v-for="relatedLink in relatedLinks" class="related-links-list" :key="relatedLink._id">
-      <related-link :relatedLink="relatedLink"></related-link>
+      <related-link
+        :relatedLink="relatedLink"
+        :isTruncated="isTruncated" />
     </div>
     <slot />
   </div>
@@ -30,6 +32,9 @@ export default {
     isLoggedIn: {
       type: Boolean,
       required: true
+    },
+    isTruncated: {
+      type: Boolean,
     },
   },
   data () {

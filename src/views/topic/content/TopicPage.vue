@@ -95,6 +95,7 @@
         v-if="relatedQuestions.length"
         :headline="'Related Questions'"
         :related-links="relatedQuestions"
+        :isTruncated="false"
         :is-logged-in="isLoggedIn" />
 
       <comments-list
