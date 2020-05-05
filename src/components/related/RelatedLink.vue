@@ -3,6 +3,7 @@
     <a
       :href="relatedLink.url | externalUrl"
       :target="relatedLink.target || '_blank'"
+      :class="{ 'related-link--padded': !isTruncated }"
       rel="external nofollow">
       <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" @error.once="faviconFallback" />
       <div :class="{ 'text-ellipsis': isTruncated }">{{relatedLink.title || relatedLink.url}}</div>
@@ -109,9 +110,12 @@ export default {
     display flex
     align-items center
     width calc(100% - 2rem)
-    font-size 16px
+    font-size 14px
     font-weight normal
     color #1a0dab
+
+    &.related-link--padded
+      padding-bottom 10px
 
 .text-ellipsis
   overflow hidden

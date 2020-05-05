@@ -5,7 +5,7 @@
       <router-link v-for="topic in recentTopicPages" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
         {{topic.name}}
       </router-link>
-      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{ name: 'Posts', params: { slug: topic.slug } }">
+      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
         {{topic.name}}
       </router-link>
     </div>
@@ -39,6 +39,7 @@ export default {
         .filter(post => (
           this.recentTopicPages.filter(p => p.name !== post.name).length
         ))
+        .sort((a, b) => b.dateUpdated - a.dateUpdated)
     },
   }
 }
