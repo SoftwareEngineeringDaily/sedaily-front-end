@@ -18,7 +18,6 @@
           <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
         </span>
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
-        <router-link v-else to="/subscribe" class="subscribed">Subscribed</router-link>
         <notification v-if="isLoggedIn"></notification>
         <span class="active-without-border" v-if="isLoggedIn">
           <div>
@@ -288,7 +287,7 @@ export default {
 
         &:hover
           color #222
-        
+
         &.router-link-active
           border-bottom 0
           line-height 16px

@@ -12,7 +12,14 @@
         <profile-details
           :userData="me"
           :ownProfile="true" />
-        <router-link to="/settings" class="settings">E-mail Settings</router-link>
+
+        <div class="profile-footer">
+          <label class="text-muted">Settings:</label>
+          <router-link to="/settings" class="settings">E-mail</router-link>
+          <span v-if="alreadySubscribed" class="settings">|</span>
+          <router-link v-if="alreadySubscribed" to="/subscribe" class="settings">Subscription</router-link>
+        </div>
+
         <profile-activities
           :userData="me"
           :activities="activities"
@@ -60,7 +67,14 @@ export default {
     ...mapState({
       me (state) {
         return state.me
-      }
+      },
+      alreadySubscribed (state) {
+        return (
+          state.me &&
+          state.me.subscription &&
+          state.me.subscription.active
+        )
+      },
     })
   },
 
@@ -102,22 +116,29 @@ export default {
 }
 </script>
 <style lang="stylus">
-  @import '../../css/variables'
-  .center
-    text-align center
-    margin 5vh 0
+@import '../../css/variables'
 
-  .settings
-    display inline-block
-    margin-left 10px
-    font-weight 600
-    &:hover
-      color primary-color
+.center
+  text-align center
+  margin 5vh 0
 
-  .bg-danger
-    text-align center
-    color #ffffff
-    padding 10px
-    font-size 16px
-    font-weight 600
+.profile-footer
+  padding-left 10px
+
+  & > *
+    margin-right 10px
+
+.settings
+  display inline-block
+  font-weight 600
+
+  &:hover
+    color primary-color
+
+.bg-danger
+  text-align center
+  color #ffffff
+  padding 10px
+  font-size 16px
+  font-weight 600
 </style>
