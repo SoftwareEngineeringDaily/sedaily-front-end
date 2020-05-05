@@ -5,7 +5,7 @@
       :target="relatedLink.target || '_blank'"
       rel="external nofollow">
       <img v-if="relatedLink.icon" :src="relatedLink.icon" class="link-icon" @error.once="faviconFallback" />
-      <div class="text-ellipsis">{{relatedLink.title || relatedLink.url}}</div>
+      <div :class="{ 'text-ellipsis': isTruncated }">{{relatedLink.title || relatedLink.url}}</div>
     </a>
     <div v-if='myLink'>
       <button @click='remove' class='button-delete'>
@@ -20,13 +20,22 @@ import { mapActions, mapState } from 'vuex'
 import VotingArrows from '@/components/VotingArrows'
 export default {
   name: 'related-link',
-  components: { VotingArrows },
+
+  components: {
+    VotingArrows,
+  },
+
   props: {
     relatedLink: {
       type: Object,
       required: true
-    }
+    },
+    isTruncated: {
+      type: Boolean,
+      default: true,
+    },
   },
+
   methods: {
     ...mapActions([
       'upvoteRelatedLink',
@@ -68,6 +77,7 @@ export default {
       target.src = 'https://www.softwaredaily.com/static/favicon.png'
     }
   },
+
   computed: {
     ...mapState({
       me (state) {

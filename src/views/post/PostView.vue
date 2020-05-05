@@ -60,6 +60,7 @@
       <div class="popular-feed">
         <related-link-list
           :headline="'Related Episodes'"
+          :isTruncated="true"
           :related-links="relatedEpisodes"
           :is-logged-in="isLoggedIn">
           <related-link-compose
@@ -70,6 +71,7 @@
 
         <related-link-list
           :headline="'Related Links'"
+          :isTruncated="true"
           :related-links="relatedLinks"
           :is-logged-in="isLoggedIn">
           <related-link-compose
@@ -80,6 +82,7 @@
         <related-link-list
           v-if="relatedQuestions.length"
           :headline="'Related Questions'"
+          :isTruncated="false"
           :related-links="relatedQuestions"
           :is-logged-in="isLoggedIn" />
 
