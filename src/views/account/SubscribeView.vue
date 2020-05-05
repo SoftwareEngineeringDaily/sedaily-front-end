@@ -55,7 +55,7 @@
     <div v-else>
       <div class="main-title">
         <h1>Subscribe</h1>
-        <h3>Listen to Software Daily on Apple | Android | RSS</h3>
+        <h3>Become a paid subscriber and get access to more than 1200 episodes ad-free.</h3>
       </div>
 
       <input type="radio" id="monthly" value="monthly" v-model="planType">
