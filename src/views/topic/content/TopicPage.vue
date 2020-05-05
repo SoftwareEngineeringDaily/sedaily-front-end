@@ -357,7 +357,10 @@ export default {
         }
 
         // Fetch comments
-        this.commentsFetch({ entityId: topicPage._id })
+        if (topicPage._id) {
+          this.commentsFetch({ entityId: topicPage._id })
+        }
+
         this.loadEpisodes()
       }
       catch (e) {
