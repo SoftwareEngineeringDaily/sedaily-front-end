@@ -77,6 +77,12 @@
             :headline="'Add New Link'" />
         </related-link-list>
 
+        <related-link-list
+          v-if="relatedQuestions.length"
+          :headline="'Related Questions'"
+          :related-links="relatedQuestions"
+          :is-logged-in="isLoggedIn" />
+
         <comments-list
           :filter="'highlight'"
           :initialComment="comment"
@@ -207,7 +213,19 @@ export default {
       return this.post.relatedTweetUsers.map(user => ({
         twitter: user.screen_name
       }))
+    },
 
+    relatedQuestions () {
+      if (!this.post || (this.post && !isArray(this.post.questions))) {
+        return []
+      }
+
+      return this.post.questions.map(question => ({
+        ...question,
+        title: question.content,
+        url: `${window.location.origin}/topic/${question.entityId}/question/${question._id}`,
+        target: '_self',
+      }))
     },
 
     post () {

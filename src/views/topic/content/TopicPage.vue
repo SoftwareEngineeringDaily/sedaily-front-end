@@ -85,11 +85,17 @@
           <spinner :show="savingRelatedEpisode"/>
           <SelectPostInput
             v-show="!savingRelatedEpisode"
-            v-model="newRelatedEpisode" 
-            @onChange="onChangeRelatedEpisode" 
+            v-model="newRelatedEpisode"
+            @onChange="onChangeRelatedEpisode"
             placeholder="Add a related episode" />
         </div>
       </div>
+
+      <related-link-list
+        v-if="relatedQuestions.length"
+        :headline="'Related Questions'"
+        :related-links="relatedQuestions"
+        :is-logged-in="isLoggedIn" />
 
       <comments-list
         :filter="'highlight'"
@@ -115,7 +121,8 @@
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import { mapState, mapGetters, mapActions } from 'vuex'
-import Spinner from '@/components/Spinner';
+import Spinner from '@/components/Spinner'
+import RelatedLinkList from '@/components/related/RelatedLinkList'
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import WriteRequest from '@/views/write/WriteRequest'
 import Avatar from '@/components/Avatar'
@@ -135,6 +142,7 @@ export default {
     Question,
     TopicPageMaintainer,
     TopicPageTemplate,
+    RelatedLinkList,
     Avatar,
     WriteRequest,
     CommentsList,
@@ -253,6 +261,19 @@ export default {
       })
 
       return commentCount
+    },
+
+    relatedQuestions () {
+      if (!this.questions || !isArray(this.questions)) {
+        return []
+      }
+
+      return this.questions.map(question => ({
+        ...question,
+        title: question.content,
+        url: `${window.location.origin}/topic/${question.entityId}/question/${question._id}`,
+        target: '_self',
+      }))
     },
   },
 
@@ -409,7 +430,7 @@ export default {
         slug: this.$route.params.slug,
         postSlug: this.newRelatedEpisode.slug
       }
-      
+
       this.saveTopicEpisode(options).then((data) => {
         this.loadEpisodes()
       }).catch((e) => {
@@ -499,10 +520,10 @@ export default {
       color #9b9b9b
       text-align center
       margin-top 20px
-    
-    .related-input 
+
+    .related-input
       margin-top 10px
-      
+
       .spinner
         width 40px
         height 40px
