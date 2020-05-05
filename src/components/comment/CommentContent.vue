@@ -66,7 +66,12 @@ export default {
     },
 
     shareText () {
-      return `${this.user.name} left a highlight, "${this.comment.highlight}" ${this.shareGuests}`
+      const { highlight = '' } = this.comment
+      const start = `${this.user.name} left a highlight, "`
+      const end = `" ${this.shareGuests}`.trim()
+      const trimCount = Math.max(280 - (start.length + end.length), 24)
+
+      return `${start}${highlight.slice(0, trimCount)}${highlight.length > trimCount ? '...' : ''}${end}`
     },
 
     compiledMarkdown () {
