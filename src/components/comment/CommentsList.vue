@@ -40,6 +40,7 @@
       <comment-view
         v-else
         :rootEntityType="rootEntityType"
+        :socialShareUsers="socialShareUsers"
         :comment="comment"
         :onChange="onChange"
         :isParentComment="true" />
@@ -95,6 +96,10 @@ export default {
     rootEntityType: {
       type: String,
       default: 'forumthread'
+    },
+    socialShareUsers: {
+      type: Array,
+      default: () => [],
     },
     loading: {
       type: Boolean,

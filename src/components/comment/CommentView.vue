@@ -11,7 +11,9 @@
     </div>
     <div v-if="!editing && !wasDeleted" class="comment-holder">
 
-      <comment-content :comment="comment" />
+      <comment-content
+        :socialShareUsers="socialShareUsers"
+        :comment="comment" />
 
       <div class="misc-detail">
         <div class="comment-op">
@@ -84,6 +86,10 @@ export default {
     rootEntityType: {
       type: String,
       required: false
+    },
+    socialShareUsers: {
+      type: Array,
+      default: () => [],
     },
     onChange: {
       type: Function,

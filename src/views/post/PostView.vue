@@ -101,6 +101,7 @@
     <post-highlights
       :highlight="highlight"
       :comments="comments"
+      :socialShareUsers="relatedTweetUsers"
       :commentCount="highlightCount"
       :post="post" />
   </div>
@@ -418,8 +419,8 @@ export default {
       return content
     },
 
-    onForum (text) {
-      this.$router.push({ name: 'NewThread', params: {initialContent:text }})
+    onForum (initialContent) {
+      this.$router.push({ name: 'NewThread', params: { initialContent }})
     },
 
     onHighlight (highlight = '') {

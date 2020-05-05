@@ -37,6 +37,10 @@ export default {
     comment: {
       type: Object,
     },
+    socialShareUsers: {
+      type: Array,
+      defaut: () => [],
+    }
   },
 
   components: {
@@ -54,8 +58,15 @@ export default {
       return window.location.href
     },
 
+    shareGuests () {
+      return (this.socialShareUsers || [])
+        .map(user => user.twitter ? `@${user.twitter}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
     shareText () {
-      return `${this.user.name} left a highlight, "${this.comment.highlight}"`
+      return `${this.user.name} left a highlight, "${this.comment.highlight}" ${this.shareGuests}`
     },
 
     compiledMarkdown () {
