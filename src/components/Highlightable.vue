@@ -91,7 +91,7 @@ export default {
       default: 'forumthread'
     },
     socialShareUsers: {
-      type: Array
+      type: Array,
     }
   },
 
@@ -115,18 +115,22 @@ export default {
 
   computed: {
     ...mapGetters([ 'isLoggedIn' ]),
+
     highlightableEl () {
       return this.$slots.default[0].elm
     },
+
     twitterContent () {
       let users = ''
+
       if (this.socialShareUsers) {
         users = this.socialShareUsers.reduce((prev, user) => {
           if (!user) return prev
           prev += user.twitter ? ` @${user.twitter}` : ''
           return prev
-        },users)
+        }, users)
       }
+
       return `${this.selectedText}${users}`
     }
   },

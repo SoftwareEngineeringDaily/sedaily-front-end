@@ -23,6 +23,7 @@
           :onChange="onClose"
           :forumThreadId="threadId"
           :rootEntityType="rootEntityType"
+          :socialShareUsers="socialShareUsers"
           :commentCount="commentsSorted.length"
           :comments="commentsSorted" />
 
@@ -50,6 +51,10 @@ export default {
       type: Object
     },
     comments: {
+      type: Array,
+      default: () => [],
+    },
+    socialShareUsers: {
       type: Array,
       default: () => [],
     },

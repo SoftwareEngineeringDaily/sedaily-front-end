@@ -11,7 +11,7 @@
       @tribute-replaced="tributeReplaced"
       @tribute-no-match="tributeNoMatch">
       <textarea
-        placeholder="Your comment ..."
+        :placeholder="placeholder"
         class="comment-box"
         ref="contentTextarea"
         :disabled="isSubmitting"
@@ -63,6 +63,10 @@ export default {
           avatarUrl: ""
         };
       }
+    },
+    placeholder: {
+      type: String,
+      default: 'Your comment ...',
     },
     initialComment: {
       type: String

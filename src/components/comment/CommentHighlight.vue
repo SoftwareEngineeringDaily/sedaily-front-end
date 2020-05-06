@@ -5,6 +5,7 @@
       <div class="comment-compose">
         <comment-compose
           :highlight="highlight"
+          :placeholder="`Add a comment (optional)`"
           :entityId="forumThreadId"
           :rootEntityType="rootEntityType"
           :onSubmit="onSubmit" />
@@ -55,7 +56,7 @@ export default {
     ...mapGetters([
       'isLoggedIn',
     ]),
-  }
+  },
 }
 </script>
 

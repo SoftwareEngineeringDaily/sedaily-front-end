@@ -37,6 +37,10 @@ export default {
     comment: {
       type: Object,
     },
+    socialShareUsers: {
+      type: Array,
+      defaut: () => [],
+    }
   },
 
   components: {
@@ -54,8 +58,20 @@ export default {
       return window.location.href
     },
 
+    shareGuests () {
+      return (this.socialShareUsers || [])
+        .map(user => user.twitter ? `@${user.twitter}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
     shareText () {
-      return `${this.user.name} left a highlight, "${this.comment.highlight}"`
+      const { highlight = '' } = this.comment
+      const start = `${this.user.name} left a highlight, "`
+      const end = `" ${this.shareGuests}`.trim()
+      const trimCount = Math.max(280 - (start.length + end.length), 24)
+
+      return `${start}${highlight.slice(0, trimCount)}${highlight.length > trimCount ? '...' : ''}${end}`
     },
 
     compiledMarkdown () {

@@ -4,6 +4,7 @@
     :isSubmitting="isSubmitting"
     :initialComment="initialComment"
     :submitCallback="submitCallback"
+    :placeholder="placeholder"
   />
 </template>
 
@@ -21,6 +22,9 @@ export default  {
     },
     entityId: {
       required: true
+    },
+    placeholder: {
+      type: String,
     },
     initialComment: {
       type: String,
