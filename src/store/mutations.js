@@ -112,6 +112,10 @@ export default {
     Vue.set(state.postRelatedLinks, postId || topicSlug, relatedLinks)
   },
 
+  setRelatedEpisodes: (state, relatedEpisodes) => {
+    Vue.set(state, 'postRelatedEpisodes', relatedEpisodes)
+  },
+
   setFeedItems: (state, { feedItems }) => {
     state.feed = feedItems
   },
