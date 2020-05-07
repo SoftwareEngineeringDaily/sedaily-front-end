@@ -131,10 +131,10 @@ h6
     text-align right
 
     button
-      background: none;
-      outline: none;
-      border: none;
-      color: #c4c4c4;
+      background none
+      outline none
+      border none
+      color #c4c4c4
       padding 0 5px
   
   .related-input
