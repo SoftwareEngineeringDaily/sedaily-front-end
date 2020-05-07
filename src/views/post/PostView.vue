@@ -159,6 +159,7 @@ export default {
       showPostContent: true,
       comment: '',
       highlight: '',
+      contentUrl: window.location.href,
       isLoadingComments: false,
       loading: false,
     }
@@ -174,13 +175,13 @@ export default {
 
   computed: {
     forumThreadId () {
-      if (!this.isLoggedIn) return '' // Expects a string
-      if (!(this.post && this.post.thread)) return '' // Expects a string
-      return this.post.thread._id
-    },
+      const hasThread = (this.post && this.post.thread)
 
-    contentUrl () {
-      return window.location.href
+      if (!this.isLoggedIn || !hasThread) {
+        return '' // Expects a string
+      }
+
+      return this.post.thread._id
     },
 
     postContent () {
@@ -381,6 +382,7 @@ export default {
       const post_keys = Object.keys(this.$store.state.posts)
 
       this.loading = false
+      this.contentUrl = window.location.href
 
       // Fetch comments
       if (post.thread) {

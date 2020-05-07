@@ -81,6 +81,7 @@ export default {
   props: {
     contentUrl: {
       type: String,
+      default: () => window.location.href,
       required: true
     },
     forumThreadId: {
