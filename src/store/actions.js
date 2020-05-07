@@ -4,6 +4,7 @@ import topicsActions from './actions/topics.actions'
 import postActions from './actions/posts.actions'
 import commentActions from './actions/comments.actions'
 import relatedLinksActions from './actions/relatedLinks.actions'
+import relatedEpisodesActions from './actions/relatedEpisodes.actions'
 import playerActions from './actions/player.actions'
 import feedActions from './actions/feed.actions'
 import subscriptionActions from './actions/subscription.actions'
@@ -23,6 +24,7 @@ export default {
   ...topicsActions,
   ...commentActions,
   ...relatedLinksActions,
+  ...relatedEpisodesActions,
   ...playerActions,
   ...postActions,
   ...subscriptionActions,

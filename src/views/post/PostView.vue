@@ -58,16 +58,10 @@
 
     <div class="post-sidebar col-4">
       <div class="popular-feed">
-        <related-link-list
-          :headline="'Related Episodes'"
-          :isTruncated="true"
-          :related-links="relatedEpisodes"
-          :is-logged-in="isLoggedIn">
-          <related-link-compose
-            v-if="isLoggedIn"
-            :headline="'Add New Episode'"
-            :type="'episode'" />
-        </related-link-list>
+        <related-episode-list
+          :post="post"
+          :relatedEpisodes="relatedEpisodes"
+          @onChange="onAddRelatedEpisode"/>
 
         <related-link-list
           :headline="'Related Links'"
@@ -111,6 +105,7 @@
 import clone from 'lodash/clone'
 import isArray from 'lodash/isArray'
 import CommentsList from '@/components/comment/CommentsList'
+import RelatedEpisodeList from '@/components/related/RelatedEpisodeList'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import RelatedLinkCompose from '@/components/related/RelatedLinkCompose'
 import VotingArrows from '@/components/VotingArrows'
@@ -139,6 +134,7 @@ import { FETCH_POST, FETCH_COMMENTS } from '@/store/actions.type'
 export default {
   name: 'post-view',
   components: {
+    RelatedEpisodeList,
     RelatedLinkList,
     RelatedLinkCompose,
     PostSidebar,
@@ -264,12 +260,7 @@ export default {
     },
 
     relatedEpisodes () {
-      return (this.postRelatedLinks[this.$route.params.id] || [])
-        .filter(p => (
-          p.url &&
-          p.url.search(/softwaredaily\.com/g) >= 0 &&
-          p.type === 'episode'
-        ))
+      return this.postRelatedEpisodes || []
     },
 
     comments () {
@@ -353,6 +344,10 @@ export default {
         return state.postRelatedLinks
       },
 
+      postRelatedEpisodes (state) {
+        return state.postRelatedEpisodes
+      },
+
       commentsMap (state) {
         return state.comments
       },
@@ -366,6 +361,7 @@ export default {
     ...mapActions([
       'upvote',
       'relatedLinksFetch',
+      'fetchRelatedEpisodes',
       'getTopicsInSearch',
       'downvote',
       'fetchArticle',
@@ -376,6 +372,7 @@ export default {
       const { commit } = this.$store
       commit('setPosts', { posts: [] })
       commit('setPost', { post: {}})
+      commit('setRelatedEpisodes', [])
     },
 
     async _fetchArticle () {
@@ -392,6 +389,9 @@ export default {
         this.isLoadingComments = false
       }
 
+      // Fetch relatedEpisodes
+      await this.fetchRelatedEpisodes({ postId: this.postId })
+
       // Fetch relatedLinks
       await this.relatedLinksFetch({ postId: this.postId })
 
@@ -402,6 +402,10 @@ export default {
       const { posts } = await this.getTopicsInSearch({})
 
       this.$store.commit('setPosts', { posts })
+    },
+
+    async onAddRelatedEpisode () {
+      await this.fetchRelatedEpisodes({ postId: this.postId })
     },
 
     highlightContent (content = '') {
@@ -438,21 +442,6 @@ export default {
 
   beforeMount () {
     this._fetchArticle()
-  },
-
-  beforeRouteUpdate(to, from, next) {
-    store.dispatch('fetchArticle', { id: to.params.id })
-      .then(({ post }) => {
-        store.dispatch('commentsFetch', { entityId: post.thread._id})
-          .then(() => {
-
-            store.dispatch('relatedLinksFetch', { postId: to.params.id })
-
-            next();
-          }).catch((error) => {
-            next(error);
-          })
-      })
   },
 
   metaInfo() {
