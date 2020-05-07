@@ -14,6 +14,9 @@
       </div>
       <div class="body">
         <h4>{{post.title.rendered}}</h4>
+        <button @click.prevent="remove(post)" class='button-delete'>
+          <i class="fa fa-trash"/>
+        </button>
       </div>
     </router-link>  
   </div>
@@ -51,18 +54,34 @@ export default {
     this.loadBookmarks()
   },
 
+  watch: {
+    me (to) {
+      this.loadBookmarks()
+    }
+  },
+
   methods: {
-    ...mapActions(['getBookmarks']),
+    ...mapActions(['getBookmarks', 'removeBookmark']),
     
-    loadBookmarks () {
+    loadBookmarks (loading = true) {
       if (!this.me || !this.me._id) return
-      this.loading = true
+      if (this.loading) return
+
+      if (loading) this.loading = true
       this.getBookmarks().then((data) => {
         this.posts = data;
       }).catch((e) => {
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
-        this.loading = false
+        if (loading) this.loading = false
+      })
+    },
+
+    remove (post) {
+      this.removeBookmark(post._id).then((data) => {
+        this.loadBookmarks(false)
+      }).catch((e) => {
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
       })
     },
 
@@ -98,6 +117,7 @@ export default {
       background-color #e9ecef
       margin-bottom 30px
       display block
+      position relative
       color #222
 
       .body
@@ -113,4 +133,14 @@ export default {
       
       h4
         font-weight 800
+
+      .button-delete
+        background none
+        border 0
+        position absolute
+        bottom 0
+        right 0
+        padding 7px 10px
+        font-size 18px
+        color #c4c4c4
 </style>

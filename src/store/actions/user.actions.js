@@ -18,6 +18,13 @@ export default {
     })
   },
 
+  removeBookmark: (_, postId) => {
+    return axios.delete(`${BASE_URL}/users/me/bookmarked/${postId}`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   fetchMyProfileData: ({ commit, state, getters, dispatch }) => {
     if (!getters.isLoggedIn) {
       return Promise.reject('User not signed in.')
