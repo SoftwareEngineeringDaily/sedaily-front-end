@@ -403,6 +403,10 @@ const PostActions = {
         Vue.toasted.error(error.response.data.message)
       })
   },
+
+  updatePostTopics: (_, { topics, postId }) => {
+    return axios.put(`${BASE_URL}/posts/${postId}/topics`,{ topics })
+  },
 }
 
 export default PostActions

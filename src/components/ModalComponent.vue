@@ -8,9 +8,7 @@
         <header
           class="modal-header"
           id="modalTitle">
-          <slot name="header">
-            This is the default tile!
-          </slot>
+          <slot name="header"/>
           <button
             v-show="showCloseBtn"
             type="button"
@@ -24,15 +22,11 @@
         <section
           class="modal-body"
           id="modalDescription">
-          <slot name="body">
-            I'm the default body!
-          </slot>
+          <slot name="body"/>
         </section>
 
         <footer class="modal-footer">
-          <slot name="footer">
-            I'm the default footer!
-          </slot>
+          <slot name="footer"/>
         </footer>
       </div>
     </div>
