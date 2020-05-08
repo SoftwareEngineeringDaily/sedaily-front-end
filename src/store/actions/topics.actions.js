@@ -95,8 +95,8 @@ export default {
     )
   },
 
-  addTopicsToPost: ({ commit, state, getters }, {topics}) => {
-    return axios.post(`${BASE_URL}/topics/addTopicsToPost`,topics)
+  addTopicsToPost: (_, { topics, postId }) => {
+    return axios.post(`${BASE_URL}/topics/addTopicsToPost`,{ topics, postId })
   },
 
   deleteTopics: ({ commit, state, getters }) => {
