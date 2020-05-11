@@ -93,6 +93,7 @@ export default {
 .link-button
   cursor pointer
   display inline-block
+  margin-top 10px
   padding 4px 12px
   color #a591ff
   border 1px solid #a591ff
