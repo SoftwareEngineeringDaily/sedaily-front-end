@@ -50,7 +50,7 @@
       <template slot="body">
         <b-input 
           autocomplete="off" 
-          :autofocus="true" 
+          :autofocus="true"
           @keyup.enter="onNewTopic"
           placeholder="New topic name" 
           v-model="newTopicText" />

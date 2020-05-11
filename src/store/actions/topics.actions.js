@@ -8,7 +8,7 @@ export default {
     const createTopic = data
     return axios.post(`${BASE_URL}/topics`, createTopic)
     .then((response) => {
-      return response
+      return response.data
     })
   },
 
