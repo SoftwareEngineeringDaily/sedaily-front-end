@@ -1,20 +1,25 @@
 <template>
-  <div class="topicpage-maintainer" v-if="users.length">
-    <div class="avatars">
-      <router-link
-        v-for="user in users"
-        :key="user._id"
-        :to="profileRoute(user)">
-        <Avatar width="28px" :user="user" />
-      </router-link>
+  <div class="topicpage-maintainer">
+    <div class="maintainers" v-if="users.length">
+      <div class="avatars">
+        <router-link
+          v-for="user in users"
+          :key="user._id"
+          :to="profileRoute(user)">
+          <Avatar width="28px" :user="user" />
+        </router-link>
+      </div>
+
+      Maintained by
+
+      <div class="labels">
+        <router-link v-for="user in users" :to="profileRoute(user)" :key="user._id" class="link">
+          {{user.name}} {{user.lastName || ''}}
+        </router-link>
+      </div>
     </div>
-
-    Maintained by
-
-    <div class="labels">
-      <router-link v-for="user in users" :to="profileRoute(user)" :key="user._id" class="link">
-        {{user.name}} {{user.lastName || ''}}
-      </router-link>
+    <div v-if="!isMaintainer" @click="topicSelect" class="link-button">
+      Become a maintainer
     </div>
   </div>
 </template>
@@ -32,7 +37,15 @@ export default {
     users: {
       type: Array,
       default: () => [],
-    }
+    },
+    isMaintainer: {
+      type: Boolean,
+      default: false,
+    },
+    topicSelect: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   methods: {
@@ -50,10 +63,12 @@ export default {
 
 <style scoped lang="stylus">
 .topicpage-maintainer
+  margin 0 0 40px
+  font-size 14px
+
+.maintainers
   display flex
   align-items center
-  font-size 14px
-  margin 0 0 20px
 
 .avatars
   display flex
@@ -75,6 +90,19 @@ export default {
   display inline-block
   text-decoration underline
 
+.link-button
+  cursor pointer
+  display inline-block
+  padding 4px 12px
+  color #a591ff
+  border 1px solid #a591ff
+  border-radius 18px
+
+  &:hover
+    color #ffffff
+    background-color #a591ff
+
+.labels .link
   &::before
     content ' ,'
 

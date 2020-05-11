@@ -23,7 +23,10 @@
       </div>
 
       <template v-if="hasMaintainers">
-        <topic-page-maintainer :users="topicData.maintainers" />
+        <topic-page-maintainer
+          :users="topicData.maintainers"
+          :topicSelect="() => onClickTopic(topicData)"
+          :isMaintainer="isMaintainer" />
 
         <img
           v-if="topicPageData.logo"
