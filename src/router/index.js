@@ -11,7 +11,7 @@ import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
 import PremiumChoices from '@/views/PremiumChoices'
 import { AdminDashboard, AdminCompany, AdminTopic, AdminUser } from '@/views/admin'
-import { TopicPage, TopicForm, TopicPageEdit } from '@/views/topic'
+import { TopicPage, TopicForm, TopicPageEdit, TopicPageCreate } from '@/views/topic'
 import { CompanyCompose, CompanyLandingPage, UpdateCompanyProfile, CompanyEdit } from '@/views/company'
 import { JobView, AddJobView, EditJobView, JobsBoardView } from '@/views/job'
 import Contributors from '@/views/Contributors'
@@ -31,7 +31,7 @@ const router = new Router({
         { path: '', name: 'PostsAll', component: PostsFeed },
         { path: '/posts/:slug', name: 'Posts', component: PostsFeed },
         { path: '/search', name: 'Search', component: SearchView },
-        { path: '/popular', name: 'Popular', component: PopularView },
+        { path: '/popular', name: 'Popular', component: PopularView }, // TODO removed from home for now
       ]
     },
     { path: '/write', component: WriteInfoView },
@@ -75,6 +75,7 @@ const router = new Router({
         { path: 'user', component: AdminUser },
       ]
     },
+    { path: '/topic/create', name: 'TopicPageCreate', component: TopicPageCreate },
     { path: '/topic/:slug', name: 'TopicPage', component: TopicPage },
     { path: '/topic/:slug/question/:questionId', name: 'Question', component: QuestionView },
     { path: '/topic/:slug/edit', name: 'TopicPageEdit', component: TopicPageEdit },
