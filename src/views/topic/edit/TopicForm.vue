@@ -26,8 +26,8 @@
             placeholder="Automatically generates"/>
         </div>
         <div class="form-group">
-          <label for="inputRoute">Maintainer</label>
-          <select-user-input v-model="data.maintainer"/>
+          <label for="inputRoute">Maintainers</label>
+          <select-multi-user-input v-model="data.maintainers" />
         </div>
         <div v-if="errors && errors.items.length" class="form-validation alert-danger">
           <ul>
@@ -54,16 +54,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { pick } from 'lodash'
+import { pick, every } from 'lodash'
 import Spinner from "@/components/Spinner.vue";
-import SelectUserInput from '@/components/SelectUserInput'
+import SelectMultiUserInput from '@/components/SelectMultiUserInput'
 import EditQuestions from '@/components/questions/EditQuestions'
 
 export default {
   components: {
     Spinner,
-    SelectUserInput,
-    EditQuestions
+    SelectMultiUserInput,
+    EditQuestions,
   },
   name: 'topic-form',
   data () {
@@ -93,12 +93,16 @@ export default {
     showForm () {
       if (this.loadingTopic) return false
       if (!this.editing) return true
-      if (this.data._id) return  true
+      if (this.data._id) return true
       return false
     }
   },
   methods: {
-    ...mapActions(['getTopic', 'updateTopic', 'addTopic']),
+    ...mapActions([
+      'getTopic',
+      'updateTopic',
+      'addTopic'
+    ]),
 
     setupEditing () {
       if (!this.$route.params.id) return
@@ -110,7 +114,7 @@ export default {
     loadEditTopic () {
       this.loadingTopic = true
       this.getTopic({ topicId: this.editingId }).then((data) => {
-        this.data = { ...this.data, ...pick(data, '_id', 'name', 'slug', 'status', 'maintainer') }
+        this.data = { ...this.data, ...pick(data, '_id', 'name', 'slug', 'status', 'maintainers') }
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
@@ -119,11 +123,15 @@ export default {
     },
 
     getSaveData () {
+      const maintainers = every(this.data.maintainers || [], '_id')
+        ? this.data.maintainers
+        : undefined
+
       return {
         _id: this.data._id || undefined,
         name: this.data.name,
         status: this.data.status,
-        maintainer: (this.data.maintainer) ? (this.data.maintainer._id || undefined) : undefined
+        maintainers,
       }
     },
 

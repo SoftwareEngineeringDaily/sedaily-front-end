@@ -10,7 +10,7 @@
         </div>
       </template>
     </b-input-group>
-    <datalist id="usersList"> 
+    <datalist id="usersList">
       <option v-for="user in users" :key="user._id">
         {{ user.name }} ({{ user.email }})
       </option>
@@ -129,11 +129,11 @@ export default {
     .spinner
       width 30px
       height 30px
-    
+
     .erase
       width 20px
       cursor pointer
-  
+
   .selected-user
     display flex
 
@@ -147,5 +147,5 @@ export default {
 
     .user-details
       flex 1
-      padding 2px 10px 
+      padding 2px 10px
 </style>

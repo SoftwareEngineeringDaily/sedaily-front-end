@@ -11,18 +11,22 @@
       </div>
       <div class="topics-table-header">
         <div class="size-1">Name</div>
-        <div class="size-2 center">Mantainer</div>
+        <div class="size-2 center">Mantainers</div>
         <div class="size-1 center">Status</div>
         <div class="size-1 center">Actions</div>
       </div>
       <spinner :show="loading"/>
       <div class="topics-table-row" v-for="topic in filteredPage" :key="topic._id">
         <div class="size-1">{{topic.name}}</div>
-        <div class="size-2 maintainer">
-          <template v-if="topic.maintainer">
-            <Avatar width="40px" :user="topic.maintainer" />
-            <div>{{topic.maintainer ? topic.maintainer.name : ' '}}</div>
-          </template>
+        <div class="size-2 maintainers">
+          <div
+            v-if="topic.maintainers.length"
+            v-for="maintainer in topic.maintainers"
+            :key="maintainer._id"
+            class="maintainer">
+            <Avatar width="24px" :user="maintainer" />
+            <div>{{maintainer ? maintainer.name : ' '}}</div>
+          </div>
         </div>
         <div class="size-1 center">
           <b-badge :variant="getStatusBadge(topic)">{{topic.status}}</b-badge>
@@ -64,7 +68,7 @@ export default {
     filtered () {
       if (!this.search) return this.topics
       return this.topics.filter((topic) => {
-        return new RegExp(this.search, 'i').test(topic.name) 
+        return new RegExp(this.search, 'i').test(topic.name)
           || new RegExp(this.search, 'i').test(topic.maintainer)
           || new RegExp(this.search, 'i').test(topic.status)
       })
@@ -124,7 +128,8 @@ export default {
         font-weight  700
         background-color #fbfbfb
 
-      .topics-table-header, .topics-table-row    
+      .topics-table-header,
+      .topics-table-row
         border 1px solid #cecece
         margin-top -1px
         display flex
@@ -139,10 +144,10 @@ export default {
 
         .size-2
           flex 2
-        
+
         .center
           text-align center
-        
+
         a
           background-color inherit
           border 1px solid primary-color
@@ -150,20 +155,24 @@ export default {
           color primary-color
           border-radius 30px
 
-        .maintainer
+        .maintainers
           display flex
+          flex-direction column
           align-items center
+
+          .maintainer
+            display flex
 
         .badge
           color #ffffff
-          
+
         .badge-active
           background-color main-purple
 
-    >>> .page-link 
+    >>> .page-link
       color primary-color
 
-    >>> .page-item.active .page-link 
+    >>> .page-item.active .page-link
       z-index 1
       color #fff
       background-color primary-color
