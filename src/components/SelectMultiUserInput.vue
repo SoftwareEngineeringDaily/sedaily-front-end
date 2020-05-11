@@ -136,14 +136,10 @@ export default {
       this.selectedUsers.push(this.users.find((u) => u.email === match[1]))
       this.selectedUsers = uniqBy(this.selectedUsers, '_id')
       this.query = ''
-
-      // this.$emit('input', this.selectedUsers)
-      // this.$emit('onChange', this.selectedUsers)
     },
 
     erase () {
       this.selectedUsers = []
-      this.$emit('input', this.selectedUsers)
     }
   }
 }
