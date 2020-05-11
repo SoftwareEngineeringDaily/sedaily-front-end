@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import { isArray, find } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
 import Spinner from '@/components/Spinner'
@@ -119,15 +120,14 @@ export default {
         return state.me
       }
     }),
+
     editPermission () {
-      if (!this.topicData || !this.$store.state.me || !this.$store.state.me._id) return { canEdit: true }
-      if (!this.topicData.maintainer || !this.topicData.maintainer._id) {
-        return { canEdit: false, msg: 'This topic has no maintainer.' }
-      }
-      if (this.topicData.maintainer._id !== this.$store.state.me._id) {
-        return { canEdit: false, msg: 'No permission to edit.' }
-      }
-      return { canEdit: true }
+      const maintainers = (this.topicData && isArray(this.topicData.maintainers)) ? this.topicData.maintainers : []
+      const user = (this.$store.state.me && this.$store.state.me._id) ? this.$store.state.me : {}
+      const canEdit = find(maintainers, { _id: user._id })
+      const msg = !maintainers.length ? 'This topic has no maintainer.' : !canEdit ? 'No permission to edit.' : ''
+
+      return { canEdit, msg }
     },
 
     editor () {

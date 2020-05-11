@@ -13,19 +13,17 @@
       <div class="topicpage-header">
         <h1 class="header-title">
           {{topicData.name}}
-          <router-link
-            v-if="isMaintainer"
-            :to="{
-              path: `/topic/${$route.params.slug}/edit`,
-            }"
-            class="edit-link">
-            Edit
-          </router-link>
         </h1>
+        <router-link
+          v-if="isMaintainer"
+          :to="{ path: `/topic/${$route.params.slug}/edit` }"
+          class="edit-link">
+          <i class="fa fa-pencil" style="margin-right:4px" /> Edit
+        </router-link>
       </div>
 
-      <template v-if="topicData.maintainer">
-        <topic-page-maintainer :user="topicData.maintainer" />
+      <template v-if="hasMaintainers">
+        <topic-page-maintainer :users="topicData.maintainers" />
 
         <img :src="topicPageData.logo" width="100%" class="topic-logo" />
 
@@ -34,7 +32,7 @@
             :contentUrl="contentUrl"
             :forumThreadId="topicPageData._id"
             :rootEntityType="'topic'"
-            :socialShareUsers="[topicData.maintainer]"
+            :socialShareUsers="topicData.maintainers"
             @highlight="onHighlight">
             <div v-html="highlightedContent" />
           </highlightable>
@@ -203,12 +201,19 @@ export default {
       return window.location.href
     },
 
+    hasMaintainers () {
+      return (
+        isArray(this.topicData.maintainers) &&
+        this.topicData.maintainers.length
+      )
+    },
+
     isMaintainer () {
       return (
         this.topicData &&
         this.me &&
-        this.topicData.maintainer &&
-        this.topicData.maintainer._id === this.me._id
+        isArray(this.topicData.maintainers) &&
+        find(this.topicData.maintainers, { _id: this.me._id })
       )
     },
 
