@@ -25,7 +25,11 @@
       <template v-if="hasMaintainers">
         <topic-page-maintainer :users="topicData.maintainers" />
 
-        <img :src="topicPageData.logo" width="100%" class="topic-logo" />
+        <img
+          v-if="topicPageData.logo"
+          :src="topicPageData.logo"
+          width="100%"
+          class="topic-logo" />
 
         <div class="content-block">
           <highlightable

@@ -11,7 +11,7 @@
         @change="onChange" />
 
       <datalist id="usersList">
-        <option v-for="user in users" :key="user._id">
+        <option v-if="user" v-for="user in users" :key="user._id">
           {{ user.name }} ({{ user.email }})
         </option>
       </datalist>
@@ -20,7 +20,7 @@
     <small id="routeHelp" class="form-text text-muted">{{ message }}</small>
 
     <ul class="selector">
-      <li v-if="selectedUsers" v-for="selectedUser in selectedUsers" :key="selectedUser._id" class="selector-item">
+      <li v-if="selectedUser" v-for="selectedUser in selectedUsers" :key="selectedUser._id" class="selector-item">
         <div class="avatar">
           <img :src="getAvatar(selectedUser)" @error="onAvatarError(selectedUser)"/>
         </div>

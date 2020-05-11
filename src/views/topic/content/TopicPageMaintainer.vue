@@ -73,7 +73,6 @@ export default {
 
 .link
   display inline-block
-  margin-right -3px
   text-decoration underline
 
   &::before
