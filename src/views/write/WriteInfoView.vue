@@ -2,7 +2,10 @@
   <write-request
     :canSuggest="true">
     <spinner :show="loading"/>
-
+    <template v-slot:text>
+      We are looking for volunteer writers to summarize the topics on Software Daily.
+      If you want to write about one of the following topics,
+    </template>
     <div v-if="!me || !me._id" class="display-content">
       You need to login first.
     </div>

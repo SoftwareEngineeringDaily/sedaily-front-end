@@ -48,11 +48,11 @@
 
       <write-request
         v-else-if="!loading"
+        :showTitle="false"
         :topicName="topicData.name"
+        topicSelectText="Write Topic Page"
+        learnMoreText="What is a topic page?"
         :topicSelect="() => onClickTopic(topicData)">
-        <div v-if="!me || !me._id" class="display-content">
-          You need to login first.
-        </div>
       </write-request>
 
       <div class="content-block">
