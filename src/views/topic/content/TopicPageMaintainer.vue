@@ -18,9 +18,7 @@
         </router-link>
       </div>
     </div>
-    <div v-if="!isMaintainer" @click="topicSelect" class="link-button">
-      Become a maintainer
-    </div>
+    <slot />
   </div>
 </template>
 
@@ -37,10 +35,6 @@ export default {
     users: {
       type: Array,
       default: () => [],
-    },
-    isMaintainer: {
-      type: Boolean,
-      default: false,
     },
     topicSelect: {
       type: Function,
@@ -89,19 +83,6 @@ export default {
 .link
   display inline-block
   text-decoration underline
-
-.link-button
-  cursor pointer
-  display inline-block
-  margin-top 10px
-  padding 4px 12px
-  color #a591ff
-  border 1px solid #a591ff
-  border-radius 18px
-
-  &:hover
-    color #ffffff
-    background-color #a591ff
 
 .labels .link
   &::before
