@@ -30,8 +30,9 @@
         <profile-badges
           :userData="me"
           :badges="badges" />
-      </div>
 
+        <profile-topics v-if="me" :user="me" />
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +42,7 @@ import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
 import ProfileBadges from './ProfileBadges'
 import ProfileActivities from './ProfileActivities'
+import ProfileTopics from './ProfileTopics'
 import Spinner from '@/components/Spinner'
 
 export default {
@@ -50,6 +52,7 @@ export default {
     ProfileDetails,
     ProfileBadges,
     ProfileActivities,
+    ProfileTopics,
     Spinner
   },
 

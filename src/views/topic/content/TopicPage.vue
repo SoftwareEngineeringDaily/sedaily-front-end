@@ -26,7 +26,13 @@
         <topic-page-maintainer
           :users="topicData.maintainers"
           :topicSelect="() => onClickTopic(topicData)"
-          :isMaintainer="isMaintainer" />
+          :isMaintainer="isMaintainer">
+
+          <div v-if="!isMaintainer" @click="() => onClickTopic(topicData)" class="link-button">
+            Become a maintainer
+          </div>
+
+        </topic-page-maintainer>
 
         <img
           v-if="topicPageData.logo"
@@ -291,6 +297,12 @@ export default {
   },
 
   watch: {
+    $route(to, from) {
+      if (from.params.slug !== to.params.slug) {
+        this.loadTopic()
+      }
+    },
+
     async topicpage ({ topicId }) {
       const hasQuestions = (
         topicId &&
@@ -491,6 +503,19 @@ export default {
     font-weight 700
     color #1a0dab
     text-decoration underline
+
+  .link-button
+    cursor pointer
+    display inline-block
+    margin-top 10px
+    padding 4px 12px
+    color #a591ff
+    border 1px solid #a591ff
+    border-radius 18px
+
+    &:hover
+      color #ffffff
+      background-color #a591ff
 
   .edit-link
     border 1px solid #222

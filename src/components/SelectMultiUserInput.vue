@@ -33,7 +33,7 @@
           <div v-if="selectedUser.bio">{{ selectedUser.bio }}</div>
         </div>
         <button
-          @click="() => onRemoveOption(selectedUser._id)">
+          @click="onRemoveOption(selectedUser._id)">
           <i class="fa fa-close"></i>
         </button>
       </li>
@@ -120,6 +120,7 @@ export default {
 
     onRemoveOption (id) {
       this.selectedUsers = this.selectedUsers.filter(u => u._id !== id)
+      this.$emit('input', this.selectedUsers)
     },
 
     onAvatarError (user) {
@@ -137,10 +138,6 @@ export default {
       this.selectedUsers = uniqBy(this.selectedUsers, '_id')
       this.query = ''
     },
-
-    erase () {
-      this.selectedUsers = []
-    }
   }
 }
 </script>

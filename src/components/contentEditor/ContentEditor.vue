@@ -60,6 +60,11 @@ export default {
       }
     }
   },
+  watch: {
+    value (content) {
+      if (content != this.content) this.content = content
+    }
+  },
   beforeMount () {
     this.content = this.value
   },
@@ -80,6 +85,7 @@ export default {
 
     onContentChange () {
       this.$emit('input', this.content)
+      this.$emit('onChange', this.content)
     },
 
     getHTML () {

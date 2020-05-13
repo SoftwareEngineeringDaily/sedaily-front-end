@@ -95,17 +95,29 @@
         </p>
       </div>
     </div>
+
+    <div class="row justify-center">
+      <div class="col-md-12 text-center">
+        <app-download-buttons />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import AppDownloadButtons from '@/components/AppDownloadButtons.vue'
 import { selectSubscriptionPlan } from '@/utils/subscription.utils.js'
 import { apiConfig } from '@/../config/apiConfig'
+
 export default {
+  components: {
+    AppDownloadButtons,
+  },
+
   computed: {
     ...mapGetters(['isLoggedIn']),
-    ...mapState({    
+    ...mapState({
       me (state) {
         return state.me
       },
