@@ -225,18 +225,23 @@ export default {
       this.saveDraft()
     },
 
-    saveDraft: debounce( function(value)  {
+    localStorage () {
       const { localStorage } = window
+      const name = `edit.topicpage.${this.topicData.slug}`
+      if (!localStorage) return { localStorage: false, name }
+      return { localStorage, name }
+    },
+
+    saveDraft: debounce( function(value)  {
+      const { localStorage, name } = this.localStorage()
       if (!localStorage) return
-      const name = `edit.${this.topicData.slug}`
       localStorage.setItem(name, this.topicPageData.content)
       this.draft = true
     },500),
 
     loadDraft () {
-      const { localStorage } = window
+      const { localStorage, name } = this.localStorage()
       if (!localStorage) return
-      const name = `edit.${this.topicData.slug}`
 
       const draft = localStorage.getItem(name)
       if (!draft || this.savedContent === draft) return
@@ -252,10 +257,9 @@ export default {
     },
 
     clearDraft () {
-      const { localStorage } = window
       this.draft = false
+      const { localStorage, name } = this.localStorage()
       if (!localStorage) return
-      const name = `edit.${this.topicData.slug}`
       localStorage.setItem(name, '')
     },
 
