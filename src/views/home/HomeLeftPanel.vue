@@ -1,13 +1,18 @@
 <template>
   <div class="categories-container">
     <div class="topics-container">
-      <router-link to="/topic/create">+ Add Company or Topic</router-link>
-      <router-link v-for="topic in recentTopicPages" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-        {{topic.name}}
+      <router-link to="/topic/create" class="link-button">
+        + Add Company or Topic
       </router-link>
-      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-        {{topic.name}}
-      </router-link>
+
+      <div class="topics-scroll">
+        <router-link v-for="topic in recentTopicPages" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+          {{topic.name}}
+        </router-link>
+        <router-link v-for="topic in postsTopics" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+          {{topic.name}}
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -68,6 +73,35 @@ export default {
   margin 20px 0
 
 @media (max-width 750px)
+  .topics-scroll
+    overflow auto
+    white-space nowrap
+
+    a
+      display inline-block
+      margin-right 0.8rem
+      padding 4px 12px
+      font-size 14px
+      text-transform uppercase
+      color #ffffff
+      background-color #222
+      border-radius 2px
+
+  .topics-container .link-button
+    cursor pointer
+    display inline-block
+    margin 0 0 4px
+    padding 4px 12px
+    font-size 14px
+    color #a591ff
+    border 1px solid #a591ff
+    border-radius 18px
+
+    &:hover
+      color #ffffff
+      background-color #a591ff
+
   .categories-container
     padding 10px
+
 </style>
