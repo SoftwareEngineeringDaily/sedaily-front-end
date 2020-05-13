@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ais-instant-search :search-client="searchClient" v-bind:index-name="index">
+    <ais-instant-search :search-client="searchClient" v-bind:index-name="indexPosts">
       <ais-configure :hits-per-page.camel="4" />
       <ais-autocomplete
         :indices="[
           {
-            value: 'development_TOPICS',
+            value: indexTopics,
             label: 'Topics',
           },
         ]">
@@ -68,7 +68,8 @@ export default {
         'Posts',
         'Topics',
       ],
-      index: process.env.ALGOLIA_POSTS_INDEX,
+      indexPosts: process.env.ALGOLIA_POSTS_INDEX,
+      indexTopics: process.env.ALGOLIA_TOPICS_INDEX,
       value: this.$route.query.query,
       isFocused: false,
       searchActive: true,
