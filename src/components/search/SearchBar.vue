@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search-wrapper">
     <ais-instant-search :search-client="searchClient" v-bind:index-name="indexPosts">
       <ais-configure :hits-per-page.camel="4" />
       <ais-autocomplete
@@ -251,6 +251,7 @@ export default {
   overflow: hidden;
   position: absolute;
   top: 100%;
+  width: calc(100% - 22px);
   margin: 5px 22px 0 -1px;
   padding-left: 0;
   padding-bottom: 10px;
@@ -317,16 +318,26 @@ export default {
 }
 
 @media (max-width: 660px) {
+  .search-wrapper {
+    width: 100%;
+  }
+
   .search {
     margin-right: 0;
   }
 
+  .search-bar + ul {
+    width: 90%;
+    margin: auto 5%;
+  }
+
+  .search-bar + ul li button {
+    padding: 0.8rem;
+    background-color: #ffffff;
+  }
+
   .search-bar.focus + ul {
     display: block;
-    width: auto;
-    margin: auto 5%;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
   }
 
   .search-bar.open input {
