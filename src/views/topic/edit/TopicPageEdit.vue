@@ -40,12 +40,18 @@
           <content-editor
             v-show="!isPreviewing"
             v-model="topicPageData.content"
+            @onChange="onContentChange"
             ref="editor" />
+
+          <div v-if="draft" class="draft-warning">
+            This is not saved. Remember to save before you leave.
+            <button @click="discardDraft">Discard draft</button>
+          </div>
 
           <div v-show="!isPreviewing" class="button-bar">
             <div :class="['left-items', topicPublishStatus ? 'published' : 'unpublished']">Status: {{topicPublishMsg}}</div>
             <div class="center-items">
-              <button @click="save" :disabled="saving" class="button-submit button-save">
+              <button @click="save" :disabled="disabledSave" :class="['button-submit button-save', disabledClass]">
                 <spinner :show="saving"></spinner>
                 Save
               </button>
@@ -82,11 +88,17 @@
 import { isArray, find } from 'lodash'
 import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
+import { debounce } from 'lodash'
 import Spinner from '@/components/Spinner'
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import Avatar from '@/components/Avatar'
 import { ImageEditThumb } from '@/components/ImageEdit'
+
+const eventListener =  (e) => {
+  e.preventDefault();
+  e.returnValue = '';
+}
 
 export default {
   name: 'topicpage-edit',
@@ -109,8 +121,11 @@ export default {
       publishing: false,
       topicData: {},
       topicPageData: {},
+      savedContent: '',
+      draft: false,
       isPreviewing: false,
       htmlContent: '',
+      hasChanges: false,
       alerts: [1,2,3]
     }
   },
@@ -134,6 +149,14 @@ export default {
       return this.$refs.editor;
     },
 
+    disabledSave () {
+      return this.saving || !this.hasChanges
+    },
+
+    disabledClass () {
+      return this.disabledSave ? 'disabled' : ''
+    },
+
     buttonPreviewText () {
       return !!this.isPreviewing ? 'Edit' : 'Preview'
     },
@@ -154,6 +177,15 @@ export default {
       return 'Published'
     }
   },
+  watch: {
+    hasChanges (value) {
+      if (value) {
+        window.addEventListener('beforeunload', eventListener);
+      } else {
+        window.removeEventListener('beforeunload', eventListener)
+      }
+    }
+  },
   methods: {
     ...mapActions(['getTopicPageEdit', 'saveTopicPage', 'saveTopicPageLogo', 'publishTopicPage', 'unpublishTopicPage']),
 
@@ -165,6 +197,8 @@ export default {
           return o1.dateCreated >= o2.dateCreated ? -1 : 1;
         });
         this.topicPageData = data.topicPage
+        this.savedContent = this.topicPageData.content
+        this.loadDraft()
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
@@ -185,6 +219,50 @@ export default {
       this.isPreviewing = false
     },
 
+    onContentChange (content) {
+      if (this.savedContent === content ) return
+      this.hasChanges = true
+      this.saveDraft()
+    },
+
+    localStorage () {
+      const { localStorage } = window
+      const name = `edit.topicpage.${this.topicData.slug}`
+      if (!localStorage) return { localStorage: false, name }
+      return { localStorage, name }
+    },
+
+    saveDraft: debounce( function(value)  {
+      const { localStorage, name } = this.localStorage()
+      if (!localStorage) return
+      localStorage.setItem(name, this.topicPageData.content)
+      this.draft = true
+    },500),
+
+    loadDraft () {
+      const { localStorage, name } = this.localStorage()
+      if (!localStorage) return
+
+      const draft = localStorage.getItem(name)
+      if (!draft || this.savedContent === draft) return
+      this.draft = true
+      this.topicPageData.content = draft
+      this.$toasted.success('A local draft was been recovered', { duration : 4000 })
+    },
+
+    discardDraft () {
+      this.clearDraft()
+      this.topicPageData.content = this.savedContent
+      this.hasChanges = false
+    },
+
+    clearDraft () {
+      this.draft = false
+      const { localStorage, name } = this.localStorage()
+      if (!localStorage) return
+      localStorage.setItem(name, '')
+    },
+
     setPreviewMode () {
       this.htmlContent = this.getHTML()
       this.$nextTick(() => {
@@ -192,7 +270,7 @@ export default {
       })
     },
 
-    save () {
+    save (callback) {
       this.saving = true
 
       const saveData = {
@@ -203,8 +281,11 @@ export default {
           published: this.topicPageData.published
         }
       }
-
+      
       this.saveTopicPage(saveData).then((response) => {
+        this.hasChanges = false
+        this.clearDraft()        
+        if (typeof callback === 'function') return callback()
         this.$toasted.success('Saved!', { duration : 4000 })
         this.loadTopic()
       }).catch((e) => {
@@ -226,14 +307,15 @@ export default {
       const saveData = {
         slug: this.topicData.slug
       }
-
-      this[method].apply(this, [saveData]).then((response) => {
-        this.$toasted.success('Topic updated', { duration : 4000 })
-        this.loadTopic()
-      }).catch((e) => {
-        this.$toasted.error(e.response.data, { duration : 0 })
-      }).finally(() => {
-        this.publishing = false
+      this.save(() => {
+        this[method].apply(this, [saveData]).then((response) => {
+          this.$toasted.success('Topic updated', { duration : 4000 })
+          this.loadTopic()
+        }).catch((e) => {
+          this.$toasted.error(e.response.data, { duration : 0 })
+        }).finally(() => {
+          this.publishing = false
+        })
       })
     },
 
@@ -270,112 +352,129 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  @import '~@/css/variables'
-  @import '~simplemde/dist/simplemde.min.css';
+@import '~@/css/variables'
+@import '~simplemde/dist/simplemde.min.css';
 
-  .topicpage-edit
+.topicpage-edit
 
-    .spinner
-      margin: 0 auto;
-      display block
+  .spinner
+    margin: 0 auto;
+    display block
 
-    .no-edit
-      padding 20px
-      text-align center
-      font-size 22px
+  .no-edit
+    padding 20px
+    text-align center
+    font-size 22px
 
-    .button-bar
+  .button-bar
+    display flex
+    justify-content space-between
+    padding 20px 0
+
+    div
+      flex 1
       display flex
-      justify-content space-between
-      padding 20px 0
+      align-items: center;
 
-      div
-        flex 1
-        display flex
-        align-items: center;
+    .left-items
+      justify-content flex-start
+      font-weight 600
+      padding 0 5px
 
-      .left-items
-        justify-content flex-start
-        font-weight 600
-        padding 0 5px
+    .center-items
+      justify-content center
 
-      .center-items
-        justify-content center
+    .right-items
+      justify-content flex-end
 
-      .right-items
-        justify-content flex-end
-
-      .published
-        color #6c757d
-
-      .unpublished
-        color #b35454
-
-    .button-save
-      width 120px
-
-    .button-secundary
-      background-color inherit
-      border 1px solid #222
-      padding 7px 10px
-      font-size 12px
-      color #222
-      border-radius 30px
-
-    .button-secundary:hover
-      outline none
-
-    .button-secundary:focus
-      outline none
-
-    .button-preview
-      width 80px
-      margin-left 10px
-
-    button
-
-      .spinner
-        width 22px
-        height 22px
-        display inline-block
-
-        >>> circle
-          stroke #ffffff
-
-    .alert-block
-      background-color #ececec
-      padding 10px
-      margin 5px 0
+    .published
       color #6c757d
 
-      a
-        color main-purple
+    .unpublished
+      color #b35454
 
-    .topicpage-history
-      margin 30px 0
+  .button-save
+    width 120px
 
-      h4
-        margin-bottom 20px
-        padding 0 10px
+  .button-secundary
+    background-color inherit
+    border 1px solid #222
+    padding 7px 10px
+    font-size 12px
+    color #222
+    border-radius 30px
 
-      .topicpage-history-event
-        display flex
-        margin-bottom 15px
-        line-height 30px
-        background-color #f8f9fa
-        padding 10px
+  .button-secundary:hover
+    outline none
 
-        .time
-          width 120px
-          color #6c757d
-          font-size 12px
+  .button-secundary:focus
+    outline none
 
-        .event
-          width 100px
-          text-align center
-          color #6c757d
+  .button-preview
+    width 80px
+    margin-left 10px
 
-        .name
-          margin-left 10px
+  button
+
+    .spinner
+      width 22px
+      height 22px
+      display inline-block
+
+      >>> circle
+        stroke #ffffff
+
+  .button-submit.disabled
+    background-color #c4c4c4
+
+  .draft-warning
+    margin 3px 0
+    font-size 12px
+    text-align center
+    background-color #f4f4f4
+    color #8c3939
+
+    button
+      background none
+      border none
+      outline none
+      color #8c3939
+      text-decoration underline
+
+  .alert-block
+    background-color #ececec
+    padding 10px
+    margin 5px 0
+    color #6c757d
+
+    a
+      color main-purple
+
+  .topicpage-history
+    margin 30px 0
+
+    h4
+      margin-bottom 20px
+      padding 0 10px
+
+    .topicpage-history-event
+      display flex
+      margin-bottom 15px
+      line-height 30px
+      background-color #f8f9fa
+      padding 10px
+
+      .time
+        width 120px
+        color #6c757d
+        font-size 12px
+
+      .event
+        width 100px
+        text-align center
+        color #6c757d
+
+      .name
+        margin-left 10px
 
 </style>

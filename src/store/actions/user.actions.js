@@ -74,6 +74,13 @@ export default {
     return axios.get(`${BASE_URL}/profile/${userId}`)
   },
 
+  fetchUserTopics: (_, { userId }) => {
+    return axios.get(`${BASE_URL}/users/${userId}/topics`)
+      .then(({data}) => {
+        return data
+      })
+  },
+
   updateEmailNotiicationSettings: ({ commit, dispatch }, { emailNotificationSettings }) => {
 
     commit('analytics', {
