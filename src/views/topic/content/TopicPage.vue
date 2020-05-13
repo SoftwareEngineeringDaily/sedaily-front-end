@@ -297,6 +297,12 @@ export default {
   },
 
   watch: {
+    $route(to, from) {
+      if (from.params.slug !== to.params.slug) {
+        this.loadTopic()
+      }
+    },
+
     async topicpage ({ topicId }) {
       const hasQuestions = (
         topicId &&
