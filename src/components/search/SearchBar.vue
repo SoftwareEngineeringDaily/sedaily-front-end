@@ -154,12 +154,6 @@ export default {
   min-width 25px
   padding 5px
 
-  @media (max-width 600px)
-    width 100%
-    background-color #dee2e6
-    padding 10px
-    margin-right 0
-
   .search-icon
     cursor: pointer
     vertical-align: unset
@@ -180,7 +174,7 @@ export default {
     padding: 0
     padding-left 8px
     text-overflow: ellipsis
-    width: 15rem
+    width: 100%
     z-index: 900
     border-width: 0px
     border-style: initial
@@ -194,6 +188,12 @@ export default {
 
     &:focus
       outline: none
+
+  @media (max-width 600px)
+    width 100%
+    background-color #dee2e6
+    padding 10px
+    margin-right 0
 
 .search-bar
   flex 1
@@ -237,7 +237,6 @@ export default {
 
 .search-bar {
   border: 2px solid #e9ecef;
-  margin-right: 1.5rem;
   border-radius: 3px;
 }
 
@@ -251,8 +250,8 @@ export default {
   overflow: hidden;
   position: absolute;
   top: 100%;
-  width: calc(100% - 22px);
-  margin: 5px 22px 0 -1px;
+  width: calc(100% + 2px);
+  margin: 5px 0 0 -1px;
   padding-left: 0;
   padding-bottom: 10px;
   background-color: #fff;

@@ -1,23 +1,11 @@
 <template>
   <div class="job-summary">
-    <div class="row job-title">
-      <div class="col-12">
-        <router-link :to="'/jobs/' + job._id">
-          {{ job.title }} - {{ job.employmentType }}
-        </router-link>
-      </div>
-
-    </div>
-    <div class="row">
-       <div class="col-12">
-        {{ job.companyName }} - {{ job.location }}
-        <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span>
-       </div>
-    </div>
-    <div class="row job-short-description">
-      <div class="col-12">
-          {{ shortDescription }}
-      </div>
+    <router-link :to="'/jobs/' + job._id" class="job-title">
+      {{ job.title }} - {{ job.employmentType }}
+    </router-link>
+    <div class="job-short-description">
+      <div>{{ job.companyName }} - {{ job.location }} <span v-if="job.remoteWorkingConsidered">&nbsp;(Remote Ok)</span></div>
+      <p>{{ shortDescription }}</p>
     </div>
   </div>
 </template>
@@ -49,8 +37,6 @@ export default {
       }
     }
   },
-  methods: {
-  }
 }
 </script>
 
@@ -59,16 +45,24 @@ export default {
 
 .job-summary
   margin-bottom 30px
+
 .job-title
+  display block
+  padding 0.2rem 0.5rem
   font-size 1.2em
   background idle-background
+
   &:hover
+    color #ffffff
     background primary-color
-    a
-      color white
-  a
-    color primary-color
+    text-decoration none
+
 .job-short-description
-  color #999
-  font-size 0.85em
+  padding 0.2rem 0.5rem
+  font-size 14px
+  color #222
+
+  p
+    color #999
+
 </style>
