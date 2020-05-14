@@ -15,7 +15,7 @@
         <input type="text"
           v-model="newTopic"
           class="form-control"
-          placeholder="Suggest new topic">
+          placeholder="+ Add new company or topic">
       </form>
 
       <div class="display-content topics-block">

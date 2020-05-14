@@ -44,7 +44,7 @@ export default {
     })
   },
 
-  createQuestion: ({ commit, state, getters }, data) => {
+  createQuestion: (_, data) => {
     return axios.post(`${BASE_URL}/question`, data)
     .then((response) => {
       return response
