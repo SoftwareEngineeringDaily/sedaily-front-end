@@ -1,13 +1,22 @@
 <template>
   <div class="categories-container">
     <div class="topics-container">
-      <router-link to="/topic/create">+ Add Company or Topic</router-link>
-      <router-link v-for="topic in recentTopicPages" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-        {{topic.name}}
+      <router-link to="/topic/create" class="link-button">
+        <i class="fa fa-plus" /> Add Company or Topic
       </router-link>
-      <router-link v-for="topic in postsTopics" :key="topic._id" :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-        {{topic.name}}
-      </router-link>
+
+      <ul class="topics-scroll">
+        <li v-for="topic in recentTopicPages" :key="topic._id">
+          <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+            {{topic.name}}
+          </router-link>
+        </li>
+        <li v-for="topic in postsTopics" :key="topic._id">
+          <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+            {{topic.name}}
+          </router-link>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -50,15 +59,41 @@ export default {
   display flex
   flex-direction column
 
-.topics-container
-  a
-    margin 10px 0
-    color #808080
+.topics-container .link-button
+  cursor pointer
+  display inline-block
+  margin 0 0 20px -12px
+  padding 4px 12px
+  font-size 14px
+  font-weight 700
+  color #a591ff
+  border 2px solid #a591ff
+  border-radius 18px
+
+  &:hover
     text-decoration none
-    display block
+    color #ffffff
+    background-color #a591ff
+
+.topics-scroll
+  list-style none
+  padding 0
+  text-align left
+
+  a
+    display inline-block
+    margin 0 0 10px
+    padding 4px 12px
+    font-size 14px
+    text-decoration none
+    text-transform uppercase
+    color #ffffff
+    background-color #222
+    border-radius 2px
 
     &:hover
-      color primary-color !important
+      color #ffffff
+      background-color #a591ff
 
     &.router-link-exact-active
       color #856aff !important
@@ -68,6 +103,19 @@ export default {
   margin 20px 0
 
 @media (max-width 750px)
+  .topics-scroll
+    overflow auto
+    white-space nowrap
+    padding-left 10px
+
+    li
+      display inline-block
+      margin 0 10px 0 0
+
+  .topics-container .link-button
+    margin 0 0 10px 6px
+
   .categories-container
     padding 10px
+
 </style>

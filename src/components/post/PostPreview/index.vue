@@ -113,6 +113,7 @@ a
 
   @media (max-width: 750px)
     width 100%
-    margin 15px auto
+    margin 15px auto 40px
+    border none
 
 </style>

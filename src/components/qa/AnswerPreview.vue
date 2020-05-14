@@ -87,6 +87,10 @@ export default {
   background-color #ffffff
   border 2px solid #e9ecef
 
+  @media (max-width: 750px)
+    border-right none
+    border-left none
+
 .answer-content
   padding 1rem
   background-color #e9ecef
