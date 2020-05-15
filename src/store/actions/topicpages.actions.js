@@ -54,6 +54,13 @@ export default {
     })
   },
 
+  getTopicJobs: (_, slug) => {
+    return axios.get(`${BASE_URL}/topic/${slug}/jobs`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   saveTopicEpisode: (_, { slug, postSlug } ) => {
     return axios.post(`${BASE_URL}/topic/${slug}/episodes`, { postSlug })
     .then((response) => {

@@ -18,43 +18,31 @@ import JobForm from '@/components/job/JobForm'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'add-job-view',
+
   data () {
     return {
       loading: false,
       error: null
     }
   },
+
   created () {
     if (!this.isLoggedIn) {
       this.error = 'Unauthorized'
     }
   },
+
   components: {
-    JobForm
+    JobForm,
   },
+
   methods: {
     ...mapActions(['createJob']),
-    submitCreateJob ({
-      title,
-      description,
-      employmentType,
-      location,
-      remoteWorkingConsidered,
-      applicationEmailAddress,
-      companyName,
-      tags
-    }) {
+
+    submitCreateJob (data) {
       this.loading = true
-      this.createJob({
-        title,
-        description,
-        employmentType,
-        location,
-        remoteWorkingConsidered,
-        applicationEmailAddress,
-        companyName,
-        tags
-      })
+      console.log('data ', data)
+      this.createJob(data)
         .then(() => {
           this.$toasted.show('Successfully Posted!')
           this.$router.push('/jobs')
@@ -67,6 +55,7 @@ export default {
         })
     }
   },
+
   computed: {
     ...mapGetters(['isLoggedIn'])
   }

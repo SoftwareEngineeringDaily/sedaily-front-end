@@ -1,4 +1,3 @@
-
 <template>
   <div class="container">
     <div class="row">
@@ -16,14 +15,12 @@
               id="companyNameInput"
               name="companyName"
               v-model="jobFormData.companyName"
-              v-validate="'required'"
-            >
-          </div>
-          <div
-            class="col-sm-10 offset-sm-2 alert alert-danger"
-            v-show="errors.has('companyName')"
-          >
-            {{ errors.first('companyName') }}
+              v-validate="'required'">
+            <div
+              class="alert alert-danger"
+              v-show="errors.has('companyName')">
+              {{ errors.first('companyName') }}
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -36,8 +33,7 @@
               id="locationInput"
               name="location"
               v-model="jobFormData.location"
-              v-validate="'required'"
-            >
+              v-validate="'required'" />
           </div>
           <div
             class="hidden-sm-up alert alert-danger"
@@ -54,11 +50,6 @@
               > Remote Ok?
             </label>
           </div>
-          <div
-            class="hidden-xs-down col-sm-6 offset-sm-2 alert alert-danger"
-            v-show="errors.has('location')">
-            {{ errors.first('location') }}
-          </div>
         </div>
         <div class="form-group row">
           <label for="titleInput" class="col-sm-2 col-form-label">Title</label>
@@ -70,15 +61,15 @@
               id="titleInput"
               name="title"
               v-model="jobFormData.title"
-              v-validate="'required'"
-            >
-          </div>
-          <div
-            class="col-sm-10 offset-sm-2 alert alert-danger"
-            v-show="errors.has('title')">
-            {{ errors.first('title') }}
+              v-validate="'required'" />
+            <div
+              class="alert alert-danger"
+              v-show="errors.has('title')">
+              {{ errors.first('title') }}
+            </div>
           </div>
         </div>
+
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">Type</label>
           <div class="col-sm-8 mt-1">
@@ -108,27 +99,39 @@
             </div>
           </div>
         </div>
-        <div class="form-group row">
+
+        <div class="row">
           <div
             class="col-sm-10 offset-sm-2 alert alert-danger"
             v-show="errors.has('employmentType')">
             {{ errors.first('employmentType') }}
           </div>
         </div>
+
         <div class="form-group row">
-          <textarea
-            class="form-control"
-            rows="10"
-            cols="120"
-            placeholder="Job Description"
-            name="description"
-            v-model="jobFormData.description"
-            v-validate="'required'"
-          ></textarea>
-          <div
-            class="row alert alert-danger"
-            v-show="errors.has('description')">
-            {{ errors.first('description') }}
+          <label class="col-sm-2 col-form-label">Topics:</label>
+          <div class="col-sm-10">
+            <topics-auto-complete v-model="jobFormData.topics" />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <textarea
+              class="form-control"
+              rows="10"
+              cols="120"
+              placeholder="Job Description"
+              name="description"
+              v-model="jobFormData.description"
+              v-validate="'required'"
+            ></textarea>
+            <div
+              v-show="errors.has('description')"
+              class="alert alert-danger"
+              style="flex-grow:1; margin-top:10px;">
+              {{ errors.first('description') }}
+            </div>
           </div>
         </div>
           <div class="form-group row">
@@ -141,8 +144,7 @@
                 id="applicationEmailAddressInput"
                 name="applicationEmailAddress"
                 v-model="jobFormData.applicationEmailAddress"
-                v-validate="'required|email'"
-              >
+                v-validate="'required|email'" />
             </div>
             <div
               class="col-sm-10 offset-sm-2 alert alert-danger"
@@ -154,8 +156,7 @@
           <div class="pl-2 col-4">
             <button
               class="btn button-submit"
-              @click.prevent="submit"
-            >
+              @click.prevent="submit">
               <span v-if="editingJob">Update</span>
               <span v-else>Post</span>
             </button>
@@ -163,8 +164,7 @@
           <div v-if="editingJob" class="col-4 offset-4">
             <button
               class="btn button-delete"
-              @click.prevent="del"
-            >
+              @click.prevent="del">
               Delete
             </button>
           </div>
@@ -177,10 +177,14 @@
     </div>
   </div>
 </template>
+
 <script>
 import Spinner from '@/components/Spinner'
+import { TopicsAutoComplete } from '@/components/topic'
+
 export default {
   name: 'job-form',
+
   props: {
     loading: {
       type: Boolean,
@@ -210,31 +214,48 @@ export default {
           remoteWorkingConsidered: false,
           receivingEmail: '',
           companyName: '',
-          tags: []
+          topics: [],
+          tags: [],
         }
       }
     }
   },
+
   components: {
-    Spinner
+    Spinner,
+    TopicsAutoComplete,
   },
+
   data () {
     return {
       // use locally scoped data when updating form
       jobFormData: this.jobData
     }
   },
+
   // but update from parent also, e.g. if route changes
   watch: {
     jobData: function () {
       this.jobFormData = this.jobData
-    }
+    },
   },
+
   methods: {
     submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const { title, description, employmentType, location, remoteWorkingConsidered, applicationEmailAddress, companyName, tags } = this.jobFormData
+          const {
+            title,
+            description,
+            employmentType,
+            location,
+            remoteWorkingConsidered,
+            applicationEmailAddress,
+            companyName,
+            topics,
+            tags
+          } = this.jobFormData
+
           return this.submitCallback({
             title,
             description,
@@ -243,6 +264,7 @@ export default {
             remoteWorkingConsidered,
             applicationEmailAddress,
             companyName,
+            topics,
             tags
           })
         } else {
@@ -250,6 +272,7 @@ export default {
         }
       })
     },
+
     del () {
       return this.deleteCallback()
       // this.$toasted.error('TODO: implement delete')
@@ -259,3 +282,8 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="stylus">
+.alert
+  margin-top 10px
+</style>

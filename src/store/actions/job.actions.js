@@ -4,16 +4,15 @@ const BASE_URL = apiConfig.BASE_URL
 
 export default {
 
-  createJob: ({ commit, state, getters }, { companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) => {
+  createJob: ({ commit, state, getters }, data) => {
     if (!getters.isLoggedIn) {
-
       commit('analytics', {
         meta : {
           analytics: [
             ['event', {
               eventCategory: 'errors',
               eventAction: 'error, ',
-              eventLabel: `not signed in - creating company ${companyName}`,
+              eventLabel: `not signed in - creating company ${data.companyName}`,
               eventValue: 1
             }]
           ]
@@ -29,32 +28,25 @@ export default {
           ['event', {
             eventCategory: 'jobs',
             eventAction: `create job`,
-            eventLabel: `${companyName}`,
+            eventLabel: `${data.companyName}`,
             eventValue: 1
           }]
         ]
       }
     })
 
-    return axios.post(`${BASE_URL}/jobs`, {
-      companyName,
-      applicationEmailAddress,
-      location,
-      title,
-      description,
-      employmentType,
-      remoteWorkingConsidered
-    })
+    return axios.post(`${BASE_URL}/jobs`, data)
   },
-  updateJob: ({ commit, state, getters }, { jobId, companyName, applicationEmailAddress, location, title, description, employmentType, remoteWorkingConsidered }) => {
+
+  updateJob: ({ commit, state, getters }, data) => {
     if (!getters.isLoggedIn) {
       commit('analytics', {
         meta : {
           analytics: [
             ['event', {
               eventCategory: 'errors',
-              eventAction: `update job - not signed in, ${companyName}`,
-              eventLabel: `jobId: ${jobId}`,
+              eventAction: `update job - not signed in, ${data.companyName}`,
+              eventLabel: `jobId: ${data.jobId}`,
               eventValue: 1
             }]
           ]
@@ -64,30 +56,22 @@ export default {
       return Promise.reject('User not signed in.')
     }
 
-
-      commit('analytics', {
-        meta : {
-          analytics: [
-            ['event', {
-              eventCategory: 'jobs',
-              eventAction: `update job ${companyName}`,
-              eventLabel: `jobId: ${jobId}`,
-              eventValue: 1
-            }]
-          ]
-        }
-      })
-
-    return axios.put(`${BASE_URL}/jobs/${jobId}`, {
-      companyName,
-      applicationEmailAddress,
-      location,
-      title,
-      description,
-      employmentType,
-      remoteWorkingConsidered
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'jobs',
+            eventAction: `update job ${data.companyName}`,
+            eventLabel: `jobId: ${data.jobId}`,
+            eventValue: 1
+          }]
+        ]
+      }
     })
+
+    return axios.put(`${BASE_URL}/jobs/${data.jobId}`, data)
   },
+
   applyToJob: ({ commit, state, getters }, { jobId, coveringLetter, resume }) => {
     const token = getters.getToken
     const config = {}
