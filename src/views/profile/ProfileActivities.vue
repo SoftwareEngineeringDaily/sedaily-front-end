@@ -8,7 +8,7 @@
 
           <div v-if="activity.entity" class="content">
             <p class="activity-label text-ellipsis">
-              Added a {{activityType(activity)}} in <router-link :to="activity.entity.url">{{activity.entity.title}}</router-link>
+              {{activityType(activity)}} <router-link :to="activity.entity.url">{{activity.entity.title}}</router-link>
             </p>
             <div v-if="activity.activityType === 'comment'" class="comment comment-item">
               <CommentContent :comment="comment(activity)" />
@@ -68,23 +68,31 @@ export default {
   methods: {
     activityType (act) {
       if (act.activityType === 'comment' && !act.highlight) {
-        return 'new comment'
+        return 'Added a new comment'
       }
 
       if (act.activityType === 'comment' && act.highlight) {
-        return 'highlight and comment'
+        return 'Added a highlight and comment in'
       }
 
       if (act.activityType === 'relatedLink' && act.type === 'link') {
-        return 'related link'
+        return 'Added a related link in'
       }
 
       if (act.activityType === 'relatedLink' && act.type === 'episode') {
-        return 'related episode'
+        return 'Added a related episode in'
       }
 
       if (act.activityType === 'answer') {
-        return 'new answer'
+        return 'Added a new answer in'
+      }
+
+      if (act.activityType === 'topicPageChange') {
+        return 'Made changes in topic'
+      }
+      
+      if (act.activityType === 'topicPagePublish') {
+        return 'Published topic'
       }
     },
 
