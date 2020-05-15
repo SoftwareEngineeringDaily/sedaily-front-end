@@ -1,10 +1,16 @@
 <template>
   <div class="question" v-if="question">
-    <div class="question-header">
-      <router-link
-        :to="{ path: questionPath }">
-        <h3>{{question.content}}</h3>
-      </router-link>
+    <div v-if="!isEditing" class="question-header">
+      <div>
+        <router-link
+          :to="{ path: questionPath }">
+          <h3>{{question.content}}</h3>
+        </router-link>
+        <button v-if="canEdit" @click="showQuestionEdit" class="action-button">
+          <i class="fa fa-pencil"/>
+        </button>
+      </div>
+      
       <social-sharing
         :url="shareUrl"
         :href="shareUrl"
@@ -18,6 +24,28 @@
         </div>
       </social-sharing>
     </div>
+
+    <div v-else>
+      <b-form-textarea
+        placeholder="Edit your question"
+        :autofocus="true"
+        rows="2"
+        max-rows="3"
+        v-model="editContent"/>
+      <div class="edit-actions">
+        <button class="secondary" @click="onDeleteQuestion">
+          Delete
+        </button>
+        <button class="secondary" @click="onCancelEditQuestion">
+          Cancel
+        </button>
+        <button class="button-submit" @click="onEditQuestion">
+          <spinner :show="isSaving"/>
+          Submit
+        </button>
+      </div>
+    </div>
+
     <answer
       v-for="answer in answers"
       :key="answer._id"
@@ -31,14 +59,14 @@
         @click="showAnswerEdit">
         Add Answer
       </div>
-
-      <span v-if="question.answers.length > answerLimit">|</span>
-      <router-link
-        class="link"
-        v-if="question.answers.length > answerLimit"
-        :to="{ path: `/topic/${topicSlug}/question/${question._id}` }">
-        View {{question.answers.length - answerLimit}} More Answer{{(question.answers.length - answerLimit) > 1 ? 's' : ''}}
-      </router-link>
+      <template v-if="question.answers.length > answerLimit">
+        <span>|</span>
+        <router-link
+          class="link"
+          :to="{ path: `/topic/${topicSlug}/question/${question._id}` }">
+          View {{question.answers.length - answerLimit}} More Answer{{(question.answers.length - answerLimit) > 1 ? 's' : ''}}
+        </router-link>
+      </template>
     </div>
 
     <div class="answer" :class="{ 'is-disabled': isLoading }" v-show="isAnswering">
@@ -99,6 +127,9 @@ export default {
       content: '',
       isAnswering: false,
       isLoading: false,
+      isEditing: false,
+      isSaving: false,
+      editContent: ''
     }
   },
 
@@ -115,6 +146,11 @@ export default {
         return state.me
       },
     }),
+
+    canEdit () {
+      const { me, question} = this
+      return me && me._id && (question.author === me._id || me.isAdmin)
+    },
 
     answers () {
       return this.question ?
@@ -149,10 +185,55 @@ export default {
   methods: {
     ...mapActions([
       'createAnswer',
+      'updateQuestion',
+      'deleteQuestion'
     ]),
+
+    showQuestionEdit () {
+      this.editContent = this.question.content
+      this.isEditing = true
+    },
 
     showAnswerEdit () {
       this.isAnswering = !this.isAnswering
+    },
+
+    async onEditQuestion () {
+      if (!this.editContent) return false
+
+      try {
+        this.isSaving = true
+        const content = this.editContent
+        const questionId = this.question._id
+
+        await this.updateQuestion({ content, questionId })
+        this.isSaving = false
+        this.question.content = this.editContent
+        this.onCancelEditQuestion()
+      } catch (e) {
+        this.isSaving = false
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
+    },
+
+    onCancelEditQuestion () {
+      this.editContent = ''
+      this.isEditing = false
+    },
+
+    async onDeleteQuestion () {
+      try {
+        this.isSaving = true
+        const questionId = this.question._id
+
+        await this.deleteQuestion({ questionId })
+        this.isSaving = false
+        this.onCancelEditQuestion()
+        this.$emit('onChange')
+      } catch (e) {
+        this.isSaving = false
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
     },
 
     async onSubmitAnswer () {
@@ -176,17 +257,49 @@ export default {
   padding 1rem
   border 1px solid #e9ecef
   border-radius 4px
-
-  h3 
-    margin-bottom 0
   
+  .action-button
+    background none
+    border 0
+    outline 0
+    color #999
+
   .question-header
     display flex
     justify-content space-between
-    align-items center
+    align-items flex-start
+
+    h3 
+      margin-bottom 0
+      display inline
 
     .cursor-pointer
       cursor pointer
+  
+  .edit-actions
+    display flex
+    padding-top 1rem
+    justify-content flex-end
+
+    button
+      margin-right 0
+      margin-left 7px
+    
+    .secondary
+      color #222
+      background-color transparent
+      border 0 
+
+  textarea
+    outline none
+    font-size 14px
+    overflow hidden
+
+    &:focus
+      outline none
+      border 1px solid transparent
+      -webkit-box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
+      box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
 
   .question-footer 
     margin-top 1rem

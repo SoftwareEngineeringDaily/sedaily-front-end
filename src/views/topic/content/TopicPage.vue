@@ -54,20 +54,25 @@
 
       <write-request
         v-else-if="!loading"
+        :showTitle="false"
         :topicName="topicData.name"
+        topicSelectText="Write Topic Page"
+        learnMoreText="What is a topic page?"
         :topicSelect="() => onClickTopic(topicData)">
-        <div v-if="!me || !me._id" class="display-content">
-          You need to login first.
-        </div>
       </write-request>
 
       <div class="content-block">
+        <question-add 
+          :entity="topicData" 
+          entityType="topic"
+          @onQuestionAdded="onQuestionChanged"/>
         <question
           v-for="question in questions"
           :key="question._id"
           :topicSlug="topicData.slug"
           :answerLimit="1"
-          :question="question" />
+          :question="question"
+          @onChange="onQuestionChanged" />
       </div>
     </template>
 
@@ -146,6 +151,7 @@ import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import WriteRequest from '@/views/write/WriteRequest'
 import Avatar from '@/components/Avatar'
 import Question from '@/components/qa/Question'
+import QuestionAdd from '@/views/question/QuestionAdd'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
 import { cleanContent } from '@/utils/post.utils'
@@ -167,7 +173,8 @@ export default {
     CommentsList,
     Highlightable,
     PostHighlights,
-    SelectPostInput
+    SelectPostInput,
+    QuestionAdd
   },
 
   beforeMount () {
@@ -407,6 +414,15 @@ export default {
       }
 
       this.loading = false
+    },
+
+    onQuestionChanged () {
+      if (!this.topicData || !this.topicData._id) return
+
+      this.getEntityQuestions({
+        entityId: this.topicData._id,
+        entityType: 'topic',
+      })
     },
 
     redirectToPosts () {
