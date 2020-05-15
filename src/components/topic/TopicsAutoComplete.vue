@@ -20,7 +20,7 @@
     :hide-selected="true"
     @search-change="onSearch">
 
-    <span slot="noResult">Oops! No topics found.</span>
+    <span slot="noResult">No topics found.</span>
 
   </multiselect>
 </template>
