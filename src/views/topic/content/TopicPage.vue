@@ -62,8 +62,8 @@
       </write-request>
 
       <div class="content-block">
-        <question-add 
-          :entity="topicData" 
+        <question-add
+          :entity="topicData"
           entityType="topic"
           @onQuestionAdded="onQuestionChanged"/>
         <question
@@ -76,7 +76,7 @@
       </div>
     </template>
 
-    <template v-if="topicPageData._id" v-slot:side>
+    <template v-slot:side>
       <div class="related-container">
         <h6>Related Episodes</h6>
         <spinner :show="loadingEpisodes"/>
