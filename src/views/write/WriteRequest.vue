@@ -1,18 +1,17 @@
 <template>
   <div class="write-view">
-    <h1>Write on Software Daily</h1>
+    <h1 v-if="showTitle">Write on Software Daily</h1>
     <p>
-      We are looking for volunteer writers to summarize the topics on Software Daily.
-      If you want to write about {{topicName || 'one of the following topics'}},
+      <slot name="text"></slot>
       <span v-if="canSuggest">
         select the topic below or suggest your own topic.
       </span>
       <span v-else class="learn" @click="topicSelect">
-        click here.
+        {{topicSelectText}}
       </span>
     </p>
 
-    <button class="learn" @click="toggleLearn">Learn more</button>
+    <button class="learn" @click="toggleLearn">{{learnMoreText}}</button>
 
     <slot></slot>
 
@@ -51,9 +50,21 @@ export default {
   },
 
   props: {
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
     canSuggest: {
       type: Boolean,
       default: false,
+    },
+    topicSelectText: {
+      type: String,
+      default: 'click here.',
+    },
+    learnMoreText: {
+      type: String,
+      default: 'Learn more',
     },
     topicName: {
       type: String,

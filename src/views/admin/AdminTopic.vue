@@ -18,9 +18,8 @@
       <spinner :show="loading"/>
       <div class="topics-table-row" v-for="topic in filteredPage" :key="topic._id">
         <div class="size-1">{{topic.name}}</div>
-        <div class="size-2 maintainers">
+        <div v-if="topic.maintainers.length" class="size-2 maintainers">
           <div
-            v-if="topic.maintainers.length"
             v-for="maintainer in topic.maintainers"
             :key="maintainer._id"
             class="maintainer">

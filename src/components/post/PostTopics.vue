@@ -129,7 +129,7 @@ export default {
 
       this.updatePostTopics({ topics: selectedTopics, postId: this.post._id }).then((response) => {
           this.postTopics = response.data
-        this.$store.commit('setPostTopics', this.postTopics)
+          this.$store.commit('setPostTopics', this.postTopics)
           this.cancel()
         })
         .catch((e) => {
