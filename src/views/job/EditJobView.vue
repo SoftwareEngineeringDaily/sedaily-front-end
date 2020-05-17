@@ -71,27 +71,11 @@ export default {
           this.loading = false
         })
     },
-    submitUpdateJob ({
-      title,
-      description,
-      employmentType,
-      location,
-      remoteWorkingConsidered,
-      applicationEmailAddress,
-      companyName,
-      tags
-    }) {
+    submitUpdateJob (data) {
       this.loading = true
       this.updateJob({
         jobId: this.jobId,
-        title,
-        description,
-        employmentType,
-        location,
-        remoteWorkingConsidered,
-        applicationEmailAddress,
-        companyName,
-        tags
+        ...data,
       })
         .then(() => {
           this.$toasted.show('Successfully Edited!')

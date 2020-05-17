@@ -62,8 +62,8 @@
       </write-request>
 
       <div class="content-block">
-        <question-add 
-          :entity="topicData" 
+        <question-add
+          :entity="topicData"
           entityType="topic"
           @onQuestionAdded="onQuestionChanged"/>
         <question
@@ -76,7 +76,7 @@
       </div>
     </template>
 
-    <template v-if="topicPageData._id" v-slot:side>
+    <template v-slot:side>
       <div class="related-container">
         <h6>Related Episodes</h6>
         <spinner :show="loadingEpisodes"/>
@@ -111,6 +111,13 @@
         v-if="relatedQuestions.length"
         :headline="'Related Questions'"
         :related-links="relatedQuestions"
+        :isTruncated="false"
+        :is-logged-in="isLoggedIn" />
+
+      <related-link-list
+        v-if="relatedJobs.length"
+        :headline="'Related Jobs'"
+        :related-links="relatedJobs"
         :isTruncated="false"
         :is-logged-in="isLoggedIn" />
 
@@ -178,10 +185,12 @@ export default {
     return {
       loading: false,
       loadingEpisodes: false,
+      loadingJobs: false,
       savingRelatedEpisode: false,
       topicData: {},
       topicPageData: {},
       highlight: '',
+      relatedJobs: [],
       relatedEpisodes: [],
       relatedEpisodesTotal: 0,
       selectedTopic: '',
@@ -345,6 +354,7 @@ export default {
       'commentsFetch',
       'setMaintainerInterest',
       'getTopicEpisodes',
+      'getTopicJobs',
       'saveTopicEpisode',
       'getEntityQuestions',
     ]),
@@ -393,6 +403,7 @@ export default {
         }
 
         this.loadEpisodes()
+        this.loadJobs()
       }
       catch (e) {
         if (e.response && e.response.status === 404) {
@@ -446,6 +457,31 @@ export default {
       }).finally(() => {
         this.loadingEpisodes = false
       })
+    },
+
+    async loadJobs () {
+      this.loadingJobs = true
+
+      try {
+        const { jobs = [] } = await this.getTopicJobs(this.$route.params.slug)
+
+        this.relatedJobs = jobs
+          .map(job => ({
+            ...job,
+            url: `${window.location.origin}/jobs/${job._id}`,
+            target: '_self',
+          }))
+      }
+      catch (e) {
+        if (e.response && e.response.status === 404) {
+          this.relatedJobs = []
+          return
+        }
+
+        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+      }
+
+      this.loadingJobs = false
     },
 
     onHighlight (highlight = '') {

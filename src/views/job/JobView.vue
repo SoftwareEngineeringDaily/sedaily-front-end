@@ -45,6 +45,15 @@
           </div>
           <div class="row job-date">
             Posted on {{ date }}
+            <span v-if="job.topics && job.topics.length" class="divider">|</span>
+            <router-link
+              v-if="job.topics && job.topics.length"
+              v-for="topic in job.topics"
+              :to="`/topic/${topic.slug}`"
+              :key="topic._id"
+              class="topic">
+              #{{topic.name}}
+            </router-link>
           </div>
           <br>
         </div>
@@ -84,8 +93,7 @@ export default {
     ...mapActions(['fetchJob']),
     fetchData () {
       this.loading = true
-      this
-        .fetchJob({ jobId: this.jobId })
+      this.fetchJob({ jobId: this.jobId })
         .then((response) => {
           this.job = response.data
           this.error = null
@@ -157,4 +165,12 @@ export default {
 .job-date
   font-size 0.9em
   color #999
+
+.divider
+  margin 0 12px
+
+.topic
+  margin-right 6px
+  color #999
+
 </style>

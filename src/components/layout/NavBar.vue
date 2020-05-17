@@ -7,18 +7,28 @@
           <span class="site-name">Software Daily</span>
         </div>
         <div class="top-menu">
-          <router-link to="/write" class="write-button">
-            <i class="fa fa-pencil"/> Write
+          <router-link to="/write">
+            Write
+          </router-link>
+          <router-link to="/jobs">
+            Jobs
           </router-link>
         </div>
       </div>
       <span class="pull-right">
         <search-bar />
+
         <span v-if="!isLoggedIn" class="register">
           <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
         </span>
-        <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">Subscribe</router-link>
+
+        <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">
+          <i class="fa fa-rss" />
+          <span class="button-submit-label">Subscribe</span>
+        </router-link>
+
         <notification v-if="isLoggedIn"></notification>
+
         <span class="active-without-border" v-if="isLoggedIn">
           <div>
             <b-dropdown variant="link" class="user" right size="lg" no-caret>
@@ -174,6 +184,14 @@ export default {
 
 <style scoped lang="stylus">
 @import '../../css/variables'
+
+@keyframes dropdown
+  0%
+    display none
+
+  100%
+    display block
+
 .btn-sign-in
   font-size 14px
   font-weight 700
@@ -183,8 +201,12 @@ export default {
   padding 10px 20px
 
 .button-submit
+  min-width auto
   margin-left 15px
   font-weight 700
+
+  .fa-rss
+    display none
 
 .btn-secondary
   font-size 14px
@@ -226,13 +248,6 @@ export default {
 .dropdown-leave-active
   animation dropdown-in 0.1s reverse
 
-@keyframes dropdown
-  0%
-    display none
-
-  100%
-    display block
-
 .forum-nav-link
   margin-right 15px
   margin-left 15px
@@ -250,6 +265,7 @@ export default {
 
   .navbar-logo
     cursor pointer
+    white-space nowrap
 
   .navbar-centered
     text-transform uppercase
@@ -275,11 +291,13 @@ export default {
       margin-right 0.75em
 
     .top-menu
-      margin-left 20px
+      margin 0 20px
+      white-space nowrap
 
       a
         padding 5px 10px
         font-weight normal
+        text-transform capitalize
         border-radius 30px
 
         .fa
@@ -287,6 +305,7 @@ export default {
 
         &:hover
           color #222
+          text-decoration underline
 
         &.router-link-active
           border-bottom 0
@@ -344,7 +363,6 @@ export default {
     a.router-link-active
       text-decoration none
       border none
-      line-height 25px
   a
     font-size 14px
     line-height 16px
@@ -353,7 +371,6 @@ export default {
     display inline-block
     vertical-align middle
     letter-spacing .075em
-    margin-right 0.75em
 
     &:hover
       color #666
@@ -362,7 +379,6 @@ export default {
     &.router-link-active
       text-decoration none
       border-bottom 1.5px solid rgba(primary-color,1.0)
-      line-height 25px
 
     &:nth-child(2)
       margin-right 0
@@ -413,7 +429,7 @@ export default {
       box-shadow 0 5px 15px rgba(#222, 0.3)
 
   .call-to-action-secondary
-    padding 10px 30px
+    padding 10px 20px
     border-radius 2px
     color #fff !important
 
@@ -439,20 +455,32 @@ export default {
       -webkit-box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
       box-shadow: -1px -1px 0 0 rgba(0,0,0,0.1);
 
+@media (max-width 860px)
+  .button-submit
+    .button-submit-label
+      display none
+
+    .fa-rss
+      display block
+      font-size 16px
+
 @media (max-width 659px)
+  header .site-name
+    font-size 20px
+
   .inner
-    display none!important
+    display none !important
 
   .inner-mobile
     .search-bar
       justify-content center
-      margin 15px auto!important
+      margin 15px auto !important
       margin 15px
       margin-left 0
       width 90%
 
 @media (min-width 660px)
   .inner-mobile
-    display none!important
+    display none !important
 
 </style>

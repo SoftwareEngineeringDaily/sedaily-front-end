@@ -125,6 +125,7 @@ export default {
   text-align center
   transition all .15s ease
   cursor pointer
+
 .button-submit:hover
   background #a591ff
   outline none
@@ -210,14 +211,17 @@ a
 @media (max-width 660px)
   .header .inner-mobile
     flex-direction column
+
     .site-name
       margin auto
+
     .search-bar
       justify-content center
       margin 15px auto!important
       margin 15px
       margin-left 0
       width 90%
+
     .pull-right
       display flex
       align-items center
@@ -225,11 +229,6 @@ a
       max-width 300px
       width 100%
       margin-top 15px
-
-@media (max-width 700px)
-  .header .inner
-    .site-name
-      font-size 28px!important
 
 @media (max-width 860px)
   .header .inner

@@ -15,10 +15,8 @@
           Login to Apply or Post a Job
         </router-link>
     </div>
-    <div class="row justify-content-center">
-      <spinner :show="loading"></spinner>
-    </div>
-    <br>
+    <br />
+
     <div class="row">
       <div class="col-sm-12 offset-sm-1 col-md-8 offset-md-2">
         <div class="row justify-content-center">
@@ -63,7 +61,11 @@
         </div>
         </div>
       </div>
+
       <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+        <div class="row justify-content-center">
+          <spinner :show="loading"></spinner>
+        </div>
         <job-summary v-for="job in displayedJobs" :key="job._id" :job="job">
         </job-summary>
       </div>
