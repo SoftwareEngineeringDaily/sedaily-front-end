@@ -1,7 +1,8 @@
 <template>
   <div class="write-view">
     <h1 v-if="showTitle">Write on Software Daily</h1>
-    <p>
+
+    <!-- <p>
       <slot name="text"></slot>
       <span v-if="canSuggest">
         select the topic below or suggest your own topic.
@@ -11,7 +12,7 @@
       </span>
     </p>
 
-    <button class="learn" @click="toggleLearn">{{learnMoreText}}</button>
+    <button class="learn" @click="toggleLearn">{{learnMoreText}}</button> -->
 
     <slot></slot>
 
