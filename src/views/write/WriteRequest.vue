@@ -2,17 +2,13 @@
   <div class="write-view">
     <h1 v-if="showTitle">Write on Software Daily</h1>
 
-    <!-- <p>
-      <slot name="text"></slot>
-      <span v-if="canSuggest">
-        select the topic below or suggest your own topic.
-      </span>
-      <span v-else class="learn" @click="topicSelect">
+    <p v-if="topicSelectText">
+      <span class="learn" @click="topicSelect">
         {{topicSelectText}}
       </span>
     </p>
 
-    <button class="learn" @click="toggleLearn">{{learnMoreText}}</button> -->
+    <button v-if="topicSelectText" class="learn" @click="toggleLearn">{{learnMoreText}}</button>
 
     <slot></slot>
 
@@ -61,11 +57,9 @@ export default {
     },
     topicSelectText: {
       type: String,
-      default: 'click here.',
     },
     learnMoreText: {
       type: String,
-      default: 'Learn more',
     },
     topicName: {
       type: String,
