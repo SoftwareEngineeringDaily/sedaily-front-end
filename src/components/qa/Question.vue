@@ -10,7 +10,7 @@
           <i class="fa fa-pencil"/>
         </button>
       </div>
-      
+
       <social-sharing
         :url="shareUrl"
         :href="shareUrl"
@@ -55,7 +55,7 @@
     <div class="question-footer">
       <div
         class="link"
-        v-show="!hasAnswered"
+        v-show="!hasAnswered && canAnswer"
         @click="showAnswerEdit">
         Add Answer
       </div>
@@ -119,6 +119,10 @@ export default {
     },
     topicSlug: {
       type: String,
+    },
+    canAnswer: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -252,12 +256,12 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.question 
+.question
   margin-bottom 1rem
   padding 1rem
   border 1px solid #e9ecef
   border-radius 4px
-  
+
   .action-button
     background none
     border 0
@@ -269,13 +273,13 @@ export default {
     justify-content space-between
     align-items flex-start
 
-    h3 
+    h3
       margin-bottom 0
       display inline
 
     .cursor-pointer
       cursor pointer
-  
+
   .edit-actions
     display flex
     padding-top 1rem
@@ -284,11 +288,11 @@ export default {
     button
       margin-right 0
       margin-left 7px
-    
+
     .secondary
       color #222
       background-color transparent
-      border 0 
+      border 0
 
   textarea
     outline none
@@ -301,59 +305,59 @@ export default {
       -webkit-box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
       box-shadow 0 0 3px 3px rgba(165,145,255,0.4)
 
-  .question-footer 
+  .question-footer
     margin-top 1rem
     text-align right
 
-    > * 
+    > *
       display inline-block
-    
-    span 
+
+    span
       color #e9ecef
-    
+
     span,
-    *:last-child 
+    *:last-child
       margin-left 10px
-    
+
   .link,
-  >>> .link 
+  >>> .link
     cursor pointer
     font-weight 700
     color #a591ff
 
-    &:hover 
+    &:hover
       text-decoration underline
-  
-  .answer 
+
+  .answer
     margin-top 1rem
 
     .CodeMirror,
-    .CodeMirror-scroll 
+    .CodeMirror-scroll
       min-height 130px
-  
-    &.is-disabled 
+
+    &.is-disabled
       pointer-events none
       opacity 0.5
- 
-  .answer-footer 
+
+  .answer-footer
     display flex
     padding-top 1rem
- 
-  .button-submit 
+
+  .button-submit
     margin-right 0.5rem
 
-    .spinner 
+    .spinner
       width 22px
       height 22px
       display inline-block
 
-      >>> circle 
+      >>> circle
         stroke #ffffff
-      
-  .button-save 
+
+  .button-save
     min-width 120px
-  
-  .button-cancel 
+
+  .button-cancel
     color #222
-    background-color transparent  
+    background-color transparent
 </style>

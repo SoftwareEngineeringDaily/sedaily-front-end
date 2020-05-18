@@ -63,7 +63,8 @@
           <question
             :topicSlug="question.topic.slug"
             :answerLimit="0"
-            :question="question" />
+            :question="question"
+            :canAnswer="false" />
 
         </div>
       </div>
