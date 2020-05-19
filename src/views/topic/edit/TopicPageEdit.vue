@@ -7,9 +7,14 @@
         <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
 
           <div class="topicpage-header">
-            <h1 class="header-title">{{topicData.name}}
-              <button @click="previewEdit" class="button-secundary button-preview">{{buttonPreviewText}}</button>
-            </h1>
+            <h1 class="header-title">{{topicData.name}}</h1>
+            <button @click="previewEdit" class="button-secondary button-preview">{{buttonPreviewText}}</button>
+            <router-link
+              :to="`/topic/${topicData.slug}`"
+              target="_blank"
+              class="button-secondary button-preview">
+              View Page
+            </router-link>
           </div>
 
           <topic-page-maintainer :user="topicData.maintainer" />
@@ -281,10 +286,10 @@ export default {
           published: this.topicPageData.published
         }
       }
-      
+
       this.saveTopicPage(saveData).then((response) => {
         this.hasChanges = false
-        this.clearDraft()        
+        this.clearDraft()
         if (typeof callback === 'function') return callback()
         this.$toasted.success('Saved!', { duration : 4000 })
         this.loadTopic()
@@ -357,6 +362,18 @@ export default {
 
 .topicpage-edit
 
+  .topicpage-header
+    display flex
+    align-items flex-start
+
+    .header-title
+      flex-grow 1
+      margin 0
+
+    .button-secondary
+      margin-top 8px
+      margin-bottom 8px
+
   .spinner
     margin: 0 auto;
     display block
@@ -396,7 +413,7 @@ export default {
   .button-save
     width 120px
 
-  .button-secundary
+  .button-secondary
     background-color inherit
     border 1px solid #222
     padding 7px 10px
@@ -404,18 +421,18 @@ export default {
     color #222
     border-radius 30px
 
-  .button-secundary:hover
+  .button-secondary:hover
     outline none
 
-  .button-secundary:focus
+  .button-secondary:focus
     outline none
 
   .button-preview
-    width 80px
     margin-left 10px
+    padding-right 12px
+    padding-left 12px
 
   button
-
     .spinner
       width 22px
       height 22px
