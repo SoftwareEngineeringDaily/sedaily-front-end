@@ -13,7 +13,7 @@
               :to="`/topic/${topicData.slug}`"
               target="_blank"
               class="button-secondary button-preview">
-              View Page
+              View Page <i class="fa fa-external-link" />
             </router-link>
           </div>
 
@@ -431,6 +431,10 @@ export default {
     margin-left 10px
     padding-right 12px
     padding-left 12px
+
+    .fa
+      margin-left 4px
+      opacity 0.75
 
   button
     .spinner
