@@ -1,9 +1,8 @@
 <template>
   <div class="categories-container">
     <div class="topics-container">
-      <router-link to="/topic/create" class="link-button">
-        <i class="fa fa-plus" /> Add Company or Topic
-      </router-link>
+
+      <topic-create />
 
       <ul class="topics-scroll">
         <li v-for="topic in recentTopicPages" :key="topic._id">
@@ -23,9 +22,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import TopicCreate from '@/components/topic/TopicCreate'
 
 export default {
   name: 'home-left-panel',
+
+  components: {
+    TopicCreate,
+  },
 
   mounted() {
     this.$store.dispatch('mostRecentPages')
