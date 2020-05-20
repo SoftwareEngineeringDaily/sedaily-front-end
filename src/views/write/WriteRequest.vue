@@ -131,9 +131,6 @@ export default {
       height unset
       min-height unset
 
-      .modal-header
-        display none
-
       .modal-body
         padding 30px
         overflow auto

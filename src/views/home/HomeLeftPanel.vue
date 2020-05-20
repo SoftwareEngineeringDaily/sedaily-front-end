@@ -106,6 +106,9 @@ export default {
 .header-topic
   margin 20px 0
 
+>>> .topicpage-create .link-button
+  margin 0 0 20px -12px
+
 @media (max-width 750px)
   .topics-scroll
     overflow auto

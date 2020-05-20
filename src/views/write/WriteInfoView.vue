@@ -11,11 +11,6 @@
 
       <div class="list">
         <div class="form">
-          <h2 class="list-headline">Topics</h2>
-          <!-- <input type="text"
-            v-model="newTopic"
-            class="form-control"
-            placeholder="+ Add new company or topic"> -->
           <div class="list-input">
             <topics-auto-complete
               v-model="newTopic"
@@ -24,14 +19,16 @@
             <button
               :disabled="!newTopic"
               @click="onClickTopic(newTopic)">
-              Request
+              Write
             </button>
           </div>
         </div>
 
-        <div>
-          <spinner :show="loading"/>
+        <spinner :show="loading"/>
 
+        <strong class="list-label">Suggested topics</strong>
+
+        <div v-if="!loading" class="flex">
           <button
             v-for="topic in topics"
             :key="topic._id"
@@ -40,9 +37,7 @@
             {{topic.name}}
           </button>
 
-          <router-link to="/topic/create" class="link-button">
-            <i class="fa fa-plus" /> Add Company or Topic
-          </router-link>
+          <topic-create />
         </div>
       </div>
 
@@ -76,7 +71,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import Question from '@/components/qa/Question'
-import { TopicsAutoComplete } from '@/components/topic'
+import { TopicsAutoComplete, TopicCreate } from '@/components/topic'
 import WriteRequest from '@/views/write/WriteRequest'
 import Spinner from '@/components/Spinner'
 
@@ -84,6 +79,7 @@ export default {
   components: {
     Spinner,
     Question,
+    TopicCreate,
     TopicsAutoComplete,
     WriteRequest,
   },
@@ -177,6 +173,15 @@ export default {
   margin 10px auto
   background-color transparent
 
+.flex
+  display flex
+  align-items center
+
+.list-label
+  display block
+  margin-top 14px
+  margin-bottom 4px
+
 .list
   padding-bottom 2rem
 
@@ -253,6 +258,9 @@ export default {
     text-decoration none
     color #ffffff
     background-color #a591ff
+
+>>> .topicpage-create .link-button
+  margin-bottom 10px
 
 .topics
   cursor pointer

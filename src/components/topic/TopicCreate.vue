@@ -118,7 +118,6 @@ export default {
 .link-button
   cursor pointer
   display inline-block
-  margin 0 0 20px -12px
   padding 4px 12px
   font-size 14px
   font-weight 700
