@@ -3,68 +3,71 @@
     :showTitle="false"
     :canSuggest="true">
 
-    <div v-if="!me || !me._id" class="display-content">
-      You need to login first.
-    </div>
-
-    <template v-else>
-
-      <div class="list">
-        <div class="form">
-          <div class="list-input">
-            <topics-auto-complete
-              v-model="newTopic"
-              placeholder="Write about an existing topic"
-              :multiple="false" />
-            <button
-              :disabled="!newTopic"
-              @click="onClickTopic(newTopic)">
-              Write
-            </button>
-          </div>
-        </div>
-
-        <spinner :show="loading"/>
-
-        <strong class="list-label">Suggested topics</strong>
-
-        <div v-if="!loading" class="flex">
-          <button
-            v-for="topic in topics"
-            :key="topic._id"
-            class="list-item topic-select"
-            @click="onClickTopic(topic)">
-            {{topic.name}}
-          </button>
-
-          <topic-create />
-        </div>
+    <div class="write-info-view">
+      <div v-if="!me || !me._id" class="display-content">
+        You need to login first.
       </div>
 
-      <div class="list">
-        <h2 class="list-headline">Questions</h2>
-        <div
-          v-for="question in unansweredQuestions"
-          :key="question._id">
+      <template v-else>
 
-          <div class="topicpage-header">
-            <div class="post-topics">
-              <router-link :to="`/topic/${question.topic.slug}`" class="topics">
-                {{question.topic.name}}
-              </router-link>
+        <div class="list">
+          <div class="form">
+            <div class="list-input">
+              <topics-auto-complete
+                v-model="newTopic"
+                placeholder="Write about an existing topic"
+                :multiple="false" />
+              <button
+                :disabled="!newTopic"
+                @click="onClickTopic(newTopic)">
+                Write
+              </button>
             </div>
           </div>
 
-          <question
-            :topicSlug="question.topic.slug"
-            :answerLimit="0"
-            :question="question"
-            :canAnswer="false" />
+          <spinner :show="loading"/>
 
+          <strong class="list-label">Suggested topics</strong>
+
+          <div v-if="!loading" class="flex">
+            <button
+              v-for="topic in topics"
+              :key="topic._id"
+              class="list-item topic-select"
+              @click="onClickTopic(topic)">
+              {{topic.name}}
+            </button>
+
+            <topic-create />
+          </div>
         </div>
-      </div>
 
-    </template>
+        <div class="list">
+          <h2 class="list-headline">Questions</h2>
+          <div
+            v-for="question in unansweredQuestions"
+            :key="question._id">
+
+            <div class="topicpage-header">
+              <div class="post-topics">
+                <router-link :to="`/topic/${question.topic.slug}`" class="topics">
+                  {{question.topic.name}}
+                </router-link>
+              </div>
+            </div>
+
+            <question
+              :topicSlug="question.topic.slug"
+              :answerLimit="0"
+              :question="question"
+              :canAnswer="false" />
+
+          </div>
+        </div>
+
+      </template>
+    </div>
+
   </write-request>
 </template>
 
@@ -175,6 +178,7 @@ export default {
 
 .flex
   display flex
+  flex-wrap wrap
   align-items center
 
 .list-label
@@ -251,6 +255,7 @@ export default {
   font-size 14px
   font-weight 700
   color #a591ff
+  background-color transparent
   border 2px solid #a591ff
   border-radius 18px
 
@@ -258,9 +263,6 @@ export default {
     text-decoration none
     color #ffffff
     background-color #a591ff
-
->>> .topicpage-create .link-button
-  margin-bottom 10px
 
 .topics
   cursor pointer
@@ -275,5 +277,13 @@ export default {
   &:hover
     color #a591ff
     text-decoration none
+
+>>> .topicpage-create .link-button
+  margin-bottom 10px
+  background-color transparent
+
+@media (max-width 750px)
+  .write-info-view
+    padding 0 1rem
 
 </style>
