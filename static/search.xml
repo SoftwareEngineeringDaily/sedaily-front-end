@@ -3,6 +3,7 @@
   xmlns:moz="http://www.mozilla.org/2006/browser/search/">
   <ShortName>Software Daily</ShortName>
   <Description>Search Software Topics, Podcasts, and more</Description>
-  <Image width="16" height="16" type="image/x-icon">https://softwaredaily.com/static/favicon.png</Image>
   <Url type="text/html" template="https://www.softwaredaily.com/search?query={searchTerms}" />
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://softwaredaily.com/static/favicon.png</Image>
 </OpenSearchDescription>
