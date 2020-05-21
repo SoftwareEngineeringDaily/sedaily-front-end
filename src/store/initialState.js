@@ -37,6 +37,7 @@ export default {
     recentTopicPages: [],
     topicpage: {},
     questions: [],
+    unansweredQuestions: [],
     mostPosts: [],
   },
   searchTopic: [],

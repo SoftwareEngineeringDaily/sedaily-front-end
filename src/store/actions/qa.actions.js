@@ -23,6 +23,17 @@ export default {
     })
   },
 
+  getUnansweredQuestions: ({ commit }, limit) => {
+    return axios.get(`${BASE_URL}/question/unanswered/?limit=${limit || 10}`)
+    .then((response) => {
+      const questions = response.data || []
+
+      commit('setUnansweredQuestions', questions)
+
+      return response.data
+    })
+  },
+
   createQuestionBatch: (_, { questions, entityId, entityType } ) => {
     return axios.post(`${BASE_URL}/question`, { questions, entityId, entityType })
     .then((response) => {
