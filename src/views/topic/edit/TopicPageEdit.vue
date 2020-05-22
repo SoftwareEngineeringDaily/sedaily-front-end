@@ -7,9 +7,14 @@
         <div v-if="editPermission.canEdit && topicData._id" class="topic-page">
 
           <div class="topicpage-header">
-            <h1 class="header-title">{{topicData.name}}
-              <button @click="previewEdit" class="button-secondary button-preview">{{buttonPreviewText}}</button>
-            </h1>
+            <h1 class="header-title">{{topicData.name}}</h1>
+            <button @click="previewEdit" class="button-secondary button-preview">{{buttonPreviewText}}</button>
+            <router-link
+              :to="`/topic/${topicData.slug}`"
+              target="_blank"
+              class="button-secondary button-preview">
+              View Page <i class="fa fa-external-link" />
+            </router-link>
           </div>
 
           <topic-page-maintainer :user="topicData.maintainer" />
@@ -295,10 +300,10 @@ export default {
           published: this.topicPageData.published
         }
       }
-      
+
       this.saveTopicPage(saveData).then((response) => {
         this.hasChanges = false
-        this.clearDraft()        
+        this.clearDraft()
         if (typeof callback === 'function') return callback()
         this.$toasted.success('Saved!', { duration : 4000 })
         this.loadTopic()
@@ -368,6 +373,18 @@ export default {
 
 .topicpage-edit
 
+  .topicpage-header
+    display flex
+    align-items flex-start
+
+    .header-title
+      flex-grow 1
+      margin 0
+
+    .button-secondary
+      margin-top 8px
+      margin-bottom 8px
+
   .spinner
     margin: 0 auto;
     display block
@@ -422,11 +439,15 @@ export default {
     outline none
 
   .button-preview
-    width 80px
     margin-left 10px
+    padding-right 12px
+    padding-left 12px
+
+    .fa
+      margin-left 4px
+      opacity 0.75
 
   button
-
     .spinner
       width 22px
       height 22px

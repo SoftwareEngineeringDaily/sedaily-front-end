@@ -4,10 +4,10 @@
     id="topics"
     label="name"
     track-by="_id"
-    placeholder="Search topics"
+    :placeholder="placeholder"
     open-direction="bottom"
     :options="topics"
-    :multiple="true"
+    :multiple="multiple"
     :searchable="true"
     :loading="isLoading"
     :internal-search="false"
@@ -38,7 +38,18 @@ export default {
 
   props: {
     value: {
-      type: Array,
+      type: [
+        Array,
+        Object,
+      ],
+    },
+    placeholder: {
+      type: String,
+      default: 'Search topics',
+    },
+    multiple: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -50,6 +61,12 @@ export default {
   },
 
   watch: {
+    value (to, from) {
+      if (to !== from) {
+        this.selection = to
+      }
+    },
+
     selection (value) {
       this.$emit('input', value)
     },
@@ -97,7 +114,8 @@ export default {
 >>> .multiselect__select
   height 48px
 
->>> .multiselect__input
+>>> .multiselect__input,
+>>> .multiselect__single
   padding 4px 0 4px 8px
   font-size 14px
   line-height 22px
