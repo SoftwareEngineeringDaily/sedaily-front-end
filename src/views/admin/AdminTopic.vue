@@ -18,12 +18,12 @@
       <spinner :show="loading"/>
       <div class="topics-table-row" v-for="topic in filteredPage" :key="topic._id">
         <div class="size-1">{{topic.name}}</div>
-        <div v-if="topic.maintainers.length" class="size-2 maintainers">
+        <div class="size-2 maintainers">
           <div
             v-for="maintainer in topic.maintainers"
             :key="maintainer._id"
             class="maintainer">
-            <Avatar width="24px" :user="maintainer" />
+            <Avatar width="24px" height="24px" :user="maintainer" />
             <div>{{maintainer ? maintainer.name : ' '}}</div>
           </div>
         </div>

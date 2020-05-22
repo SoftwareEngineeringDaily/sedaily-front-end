@@ -207,7 +207,7 @@ a
 
 .fade-enter, .fade-leave-active
   opacity 0
-
+  
 @media (max-width 660px)
   .header .inner-mobile
     flex-direction column

@@ -1,5 +1,5 @@
 <template>
-  <topic-page-template>
+  <topic-page-template v-if="me && me._id">
     <template v-slot:content>
       <div class="topicpage-edit">
         <spinner :show="loading"/>
@@ -54,7 +54,10 @@
           </div>
 
           <div v-show="!isPreviewing" class="button-bar">
-            <div :class="['left-items', topicPublishStatus ? 'published' : 'unpublished']">Status: {{topicPublishMsg}}</div>
+            <div :class="['left-items', topicPublishStatus ? 'published' : 'unpublished']">
+              <div>Version: v{{topicPageData.revision || 1}}</div>
+              <div>Status: {{topicPublishMsg}}</div>
+            </div>
             <div class="center-items">
               <button @click="save" :disabled="disabledSave" :class="['button-submit button-save', disabledClass]">
                 <spinner :show="saving"></spinner>
@@ -73,16 +76,17 @@
             <router-link to="/edit-profile">Add a Twitter account</router-link> to your profile if you would like us to
             share your writing
           </div>
+          <template v-if="!isPreviewing">
+            <h4>Revisions</h4>
+            <topic-page-revisions 
+              :revisions="revisions" 
+              :topic="topicData" 
+              :topicPage="topicPageData"
+              @onRecover="onVersionChange" />
 
-          <div v-if="!isPreviewing" class="topicpage-history">
             <h4>Activities</h4>
-            <div class="topicpage-history-event" v-for="event in topicPageData.history" :key="event._id">
-              <div class="time">{{dateFormat(event.dateCreated)}}</div>
-              <div class="event"> {{getHistoryEvent(event.event)}}</div>
-              <avatar width="30px" :user="event.user" />
-              <div class="name"> {{event.user.name}}</div>
-            </div>
-          </div>
+            <topic-page-activities :history="topicPageData.history" />
+          </template>
         </div>
       </div>
     </template>
@@ -99,6 +103,8 @@ import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import Avatar from '@/components/Avatar'
 import { ImageEditThumb } from '@/components/ImageEdit'
+import TopicPageRevisions from './TopicPageRevisions'
+import TopicPageActivities from './TopicPageActivities'
 
 const eventListener =  (e) => {
   e.preventDefault();
@@ -111,6 +117,8 @@ export default {
     Spinner,
     TopicPageMaintainer,
     TopicPageTemplate,
+    TopicPageRevisions,
+    TopicPageActivities,
     ContentEditor,
     Avatar,
     ImageEditThumb,
@@ -126,6 +134,7 @@ export default {
       publishing: false,
       topicData: {},
       topicPageData: {},
+      revisions: [],
       savedContent: '',
       draft: false,
       isPreviewing: false,
@@ -185,7 +194,7 @@ export default {
   watch: {
     hasChanges (value) {
       if (value) {
-        window.addEventListener('beforeunload', eventListener);
+        window.addEventListener('beforeunload', eventListener)
       } else {
         window.removeEventListener('beforeunload', eventListener)
       }
@@ -199,9 +208,10 @@ export default {
       this.getTopicPageEdit(this.$route.params.slug).then((data) => {
         this.topicData = data.topic
         data.topicPage.history.sort((o1, o2) => {
-          return o1.dateCreated >= o2.dateCreated ? -1 : 1;
+          return o1.dateCreated >= o2.dateCreated ? -1 : 1
         });
         this.topicPageData = data.topicPage
+        this.revisions = data.revisions
         this.savedContent = this.topicPageData.content
         this.loadDraft()
       }).catch((e) => {
@@ -209,6 +219,10 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    },
+
+    onVersionChange () {
+      this.loadTopic()
     },
 
     getHTML () {
@@ -305,6 +319,13 @@ export default {
     },
 
     onClickPublish () {
+      if (this.hasChanges) {
+        return this.save(() => this.setPublishStatus())
+      }
+      this.setPublishStatus()
+    },
+
+    setPublishStatus () {
       this.publishing = true
 
       const method = (this.topicPageData.published) ? 'unpublishTopicPage' : 'publishTopicPage'
@@ -312,22 +333,21 @@ export default {
       const saveData = {
         slug: this.topicData.slug
       }
-      this.save(() => {
-        this[method].apply(this, [saveData]).then((response) => {
-          this.$toasted.success('Topic updated', { duration : 4000 })
-          this.loadTopic()
-        }).catch((e) => {
-          this.$toasted.error(e.response.data, { duration : 0 })
-        }).finally(() => {
-          this.publishing = false
-        })
+
+      this[method].apply(this, [saveData]).then((response) => {
+        this.$toasted.success('Topic updated', { duration : 4000 })
+        this.loadTopic()
+      }).catch((e) => {
+        this.$toasted.error(e.response.data, { duration : 0 })
+      }).finally(() => {
+        this.publishing = false
       })
     },
 
     saveLogoImage (file) {
       this.savingLogo = true
       this.saveTopicPageLogo({slug: this.$route.params.slug, file }).then(() => {
-
+        this.loadTopic()
       }).catch((e) => {
         this.$toasted.error((e && e.response) ? e.response.data : e, { duration : 0 })
       }).finally(() => {
@@ -338,15 +358,6 @@ export default {
     dateFormat (date) {
       if (moment().isSame(date, 'day')) return moment(date).format('[Today, ]HH[h]mm')
       return moment(date).format('MMMM Do, YYYY')
-    },
-
-    getHistoryEvent (event) {
-      switch(event) {
-        case 'edit': return 'Edited'
-        case 'publish': return 'Published'
-        case 'unpublish': return 'Unpublished'
-      }
-      return '-'
     },
 
     editorReplaceSelection (content) {
@@ -394,7 +405,7 @@ export default {
       align-items: center;
 
     .left-items
-      justify-content flex-start
+      display block
       font-weight 600
       padding 0 5px
 
@@ -471,31 +482,7 @@ export default {
     a
       color main-purple
 
-  .topicpage-history
-    margin 30px 0
-
-    h4
-      margin-bottom 20px
-      padding 0 10px
-
-    .topicpage-history-event
-      display flex
-      margin-bottom 15px
-      line-height 30px
-      background-color #f8f9fa
-      padding 10px
-
-      .time
-        width 120px
-        color #6c757d
-        font-size 12px
-
-      .event
-        width 100px
-        text-align center
-        color #6c757d
-
-      .name
-        margin-left 10px
+  h4
+    margin 20px 0
 
 </style>

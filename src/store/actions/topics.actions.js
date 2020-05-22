@@ -56,8 +56,8 @@ export default {
     })
   },
 
-  setMaintainerInterest: (_, data) => {
-    return axios.post(`${BASE_URL}/topics/interest`, data)
+  setMaintainer: (_, data) => {
+    return axios.post(`${BASE_URL}/topics/maintainer`, data)
     .then((response) => {
       return response.data
     })

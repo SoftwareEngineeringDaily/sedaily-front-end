@@ -352,7 +352,7 @@ export default {
     ...mapActions([
       'getTopicPage',
       'commentsFetch',
-      'setMaintainerInterest',
+      'setMaintainer',
       'getTopicEpisodes',
       'getTopicJobs',
       'saveTopicEpisode',
@@ -363,14 +363,13 @@ export default {
       this.saving = true
 
       const data = {
-        topicName: this.selectedTopic,
-        userName: this.me.name,
-        userEmail: this.me.email,
+        topicSlug: this.selectedTopic,
+        event: 'selfAssign'
       }
 
       try {
-        await this.setMaintainerInterest(data)
-        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+        await this.setMaintainer(data)
+        this.$router.push({ name: 'TopicPageEdit', params: { slug: this.selectedTopic }})
       }
       catch (e) {
         this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
@@ -434,7 +433,7 @@ export default {
         return this.$router.push(`/register`)
       }
 
-      this.selectedTopic = topic.name
+      this.selectedTopic = topic.slug
       this.$nextTick(() => {
         this.requestTopicOwnership()
       })
