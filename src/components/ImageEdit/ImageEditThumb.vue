@@ -79,6 +79,19 @@ export default {
       },
     }
   },
+  watch: {
+    src (newSrc, oldSrc) {
+      if (newSrc !== oldSrc) {
+        this.fileData = {
+          dataUrl: null,
+          type: null,
+          filename: null,
+          width: null,
+          height: null
+        }
+      }
+    }
+  },
   computed: {
     imgSrc () {
       return this.fileData.dataUrl || this.value || this.src

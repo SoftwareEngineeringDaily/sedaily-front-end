@@ -45,6 +45,13 @@ export default {
       })
   },
 
+  getUser: (_, userId) => {
+    return axios.get(`${BASE_URL}/users/admin/${userId}`)
+      .then(({data}) => {
+        return data
+      })
+  },
+
   updateUser: (_, { userId, fields }) => {
     return axios.put(`${BASE_URL}/users/admin/${userId}`, fields)
       .then(({data}) => {

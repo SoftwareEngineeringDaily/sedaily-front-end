@@ -62,7 +62,11 @@ export default {
   },
   watch: {
     value (content) {
-      if (content != this.content) this.content = content
+      if (content != this.content) {
+        this.content = content
+        // forces editor to change (needed in two consecutives changes with no direct update in text)
+        this.editor.value(this.content)
+      }
     }
   },
   beforeMount () {

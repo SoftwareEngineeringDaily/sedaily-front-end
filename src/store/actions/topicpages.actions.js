@@ -47,6 +47,20 @@ export default {
     })
   },
 
+  getTopicPageRevision: (_, { slug , revision}) => {
+    return axios.get(`${BASE_URL}/topicpage/${slug}/revision/${revision}`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  setTopicPageRevision: (_, { slug , revision}) => {
+    return axios.post(`${BASE_URL}/topicpage/${slug}/revision/${revision}`)
+    .then((response) => {
+      return response.data
+    })
+  },
+
   getTopicEpisodes: (_, slug) => {
     return axios.get(`${BASE_URL}/topic/${slug}/episodes`)
     .then((response) => {
