@@ -369,10 +369,13 @@ export default {
 
       try {
         await this.setMaintainer(data)
-        this.$router.push({ name: 'TopicPageEdit', params: { slug: this.selectedTopic }})
+        this.$router.push({
+          name: 'TopicPageEdit',
+          params: { slug: this.selectedTopic }
+        })
       }
       catch (e) {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+        this.$toasted.error((e.response) ? e.response.data : e)
       }
 
       this.saving = false

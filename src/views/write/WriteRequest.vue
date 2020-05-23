@@ -2,12 +2,7 @@
   <div class="write-view">
     <h1 v-if="showTitle">Write on Software Daily</h1>
 
-    <p v-if="topicSelectText">
-      <span class="learn" @click="topicSelect">
-        {{topicSelectText}}
-      </span>
-    </p>
-
+    <button v-if="topicSelectText" class="learn" @click="topicSelect">{{topicSelectText}}</button>
     <button v-if="topicSelectText" class="learn" @click="toggleLearn">{{learnMoreText}}</button>
 
     <slot></slot>
@@ -106,7 +101,8 @@ export default {
 
     .learn
       cursor pointer
-      margin 0 0 2rem
+      display block
+      margin 0 0 10px
       padding 0
       font-size 16px
       font-weight 600
