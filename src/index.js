@@ -49,9 +49,9 @@ Vue.use(InstantSearch)
 Vue.config.productionTip = false
 
 Vue.use(Toasted, {
-  theme: "bubble",
-  position: "bottom-center",
-  duration:'2000',
+  theme: 'bubble',
+  position: 'bottom-center',
+  duration: 5000,
   singleton: true,
   action: {
     text: 'Close',
@@ -88,7 +88,7 @@ Vue.directive('click-outside', {
 })
 
 Vue.use(new VueSocketIO({
-  connection: socketio(WS_URL), 
+  connection: socketio(WS_URL),
   vuex: {
     store,
     actionPrefix: "notification.",

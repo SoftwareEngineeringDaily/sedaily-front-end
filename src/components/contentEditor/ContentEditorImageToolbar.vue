@@ -3,7 +3,7 @@
     <div v-show="loading" class="spinner-container">
       <spinner :show="loading"/>
     </div>
-    
+
     <div class="buttons-toolbar">
       <button @click="insertEditorImage" :disabled="!selectedImage">Insert</button>
       <button @click="deleteEditorImage" :disabled="!selectedImage">
@@ -21,8 +21,8 @@
       </button>
 
       <div v-for="image in images" :key="image._id" :class="{ 'image-cell': true, selected: image.selected}">
-        <div 
-          class="image" 
+        <div
+          class="image"
           :style="{ 'background-image': `url(${image.url})`}"
           @click="onClickImage(image)"
         >
@@ -120,7 +120,7 @@ export default {
       if (!file) return
       this.readFile(file, (error, data) => {
         if (error) return this.$toasted.error('Error reading file', { duration : 0 })
-        this.handleUploadInput(data) 
+        this.handleUploadInput(data)
       })
     },
 
@@ -156,7 +156,7 @@ export default {
     getNewSize (img) {
       let width = img.width
       let height = img.height
-      
+
       if (this.sizeLimit < img.width) {
         if (img.width >= img.height) {
           height *= this.sizeLimit / img.width;
@@ -167,11 +167,11 @@ export default {
           width = this.sizeLimit / img.height;
         }
       }
-      
+
       return { width, height }
     },
 
-    cropImage (data) {      
+    cropImage (data) {
       const img = new Image();
       img.src = data.dataUrl;
 
@@ -197,13 +197,13 @@ export default {
 
 <style scoped lang="stylus">
   @import '~@/css/variables'
-  
+
   .content-editor-image-toolbar
     border-top 1px solid #ddd
     border-left 1px solid #ddd
     border-right 1px solid #ddd
     background-color #fbfbfb
-    position relative    
+    position relative
 
     .spinner-container
       position absolute
@@ -233,13 +233,13 @@ export default {
         font-size 12px
         color #222
         border-radius 30px
-      
+
       button:hover
         outline none
 
       button:focus
         outline none
-      
+
       button:disabled
         color #cecece
 
@@ -284,5 +284,5 @@ export default {
 
     input
       display none
-    
+
 </style>
