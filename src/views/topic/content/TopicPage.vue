@@ -144,6 +144,7 @@
         :comments="comments"
         :commentCount="highlightCount"
         :rootEntityType="'topic'"
+        :socialShareUsers="topicData.maintainers"
         :post="{}" />
     </template>
   </topic-page-template>
