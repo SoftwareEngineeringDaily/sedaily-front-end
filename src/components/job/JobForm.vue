@@ -179,6 +179,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Spinner from '@/components/Spinner'
 import { TopicsAutoComplete } from '@/components/topic'
 
@@ -226,6 +227,11 @@ export default {
     TopicsAutoComplete,
   },
 
+  mounted () {
+    const { topicId } = this.$router.history.current.query
+    this.setInitTopic(topicId)
+  },
+
   data () {
     return {
       // use locally scoped data when updating form
@@ -241,6 +247,27 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'getTopic',
+    ]),
+
+    async setInitTopic (topicId) {
+      if (!topicId) {
+        return
+      }
+
+      try {
+        const topic = await this.getTopic({ topicId })
+
+        if (topic) {
+          this.jobData.topics.push(topic);
+        }
+      }
+      catch (e) {
+        console.error('Unable to find topic with id: ', topicId)
+      }
+    },
+
     submit () {
       this.$validator.validateAll().then((result) => {
         if (result) {
