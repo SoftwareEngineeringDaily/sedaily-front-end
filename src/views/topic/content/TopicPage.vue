@@ -89,8 +89,8 @@
         </router-link>
         <div v-if="relatedEpisodes.length < relatedEpisodesTotal" class="total">
           <router-link
-          class="episode-see-all-link"
-          :to="`/posts/${$route.params.slug}`">
+            class="episode-see-all-link"
+            :to="`/posts/${$route.params.slug}`">
             See all {{relatedEpisodesTotal}}
           </router-link>
         </div>
@@ -115,11 +115,19 @@
         :is-logged-in="isLoggedIn" />
 
       <related-link-list
-        v-if="relatedJobs.length"
+        v-if="relatedJobs.length > 0 || isMaintainer"
         :headline="'Related Jobs'"
         :related-links="relatedJobs"
         :isTruncated="false"
-        :is-logged-in="isLoggedIn" />
+        :is-logged-in="isLoggedIn">
+        <div v-if="isMaintainer && topicData._id" class="total">
+          <router-link
+            class="episode-see-all-link"
+            :to="`/add-job/?topicId=${topicData._id}`">
+            Add Jobs
+          </router-link>
+        </div>
+      </related-link-list>
 
       <comments-list
         :filter="'highlight'"
@@ -238,7 +246,7 @@ export default {
     },
 
     isMaintainer () {
-      return (
+      return !!(
         this.topicData &&
         this.me &&
         isArray(this.topicData.maintainers) &&
