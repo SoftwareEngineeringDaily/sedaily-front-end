@@ -10,21 +10,20 @@
       <template slot="body">
         <form enctype="multipart/form-data">
           <div class="form-group">
-             <textarea
-               class="form-control"
-               rows="10"
-               cols="120"
-               placeholder="Cover Letter"
-               name="coveringLetter"
-               v-model="coveringLetter"
-               v-validate="'required'"
-               :disabled="applySucceeded"
-             ></textarea>
+            <textarea
+              class="form-control"
+              rows="10"
+              cols="120"
+              placeholder="Cover Letter"
+              name="coveringLetter"
+              v-model="coveringLetter"
+              v-validate="'required'"
+              :disabled="applySucceeded" />
           </div>
           <div
-              class="row alert alert-danger"
-              v-show="errors.has('coveringLetter')">
-              {{ errors.first('coveringLetter') }}
+            class="row alert alert-danger"
+            v-show="errors.has('coveringLetter')">
+            {{ errors.first('coveringLetter') }}
           </div>
           <div class="form-group">
             <label for="resumeInput">Resume (PDF)</label>
@@ -38,7 +37,7 @@
               v-validate="'required|ext:pdf|size:1024'"
               :disabled="applySucceeded || loading" />
           </div>
-          <!--TODO: determine why error shows after selecting file until users clicks in modal -->
+
           <div
             class="row alert alert-danger"
             v-show="errors.has('resume') && error">
@@ -124,7 +123,7 @@ export default {
       resume: null,
       applySucceeded: false,
       loading: false,
-      error: null
+      error: null,
     }
   },
 
