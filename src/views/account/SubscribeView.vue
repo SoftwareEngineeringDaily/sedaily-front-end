@@ -243,7 +243,7 @@ export default {
         return state.me
       },
       rssUrl(state) {
-        return `${apiConfig.BASE_URL}${state.me.rss || '/rss/public/all'}`;
+        return `https://www.softwaredaily.com${state.me.rss || '/rss/public/all'}`;
       }
     })
   }
