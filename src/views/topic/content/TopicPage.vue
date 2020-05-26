@@ -115,12 +115,11 @@
         :is-logged-in="isLoggedIn" />
 
       <related-link-list
-        v-if="relatedJobs.length > 0 || isMaintainer"
         :headline="'Related Jobs'"
         :related-links="relatedJobs"
         :isTruncated="false"
         :is-logged-in="isLoggedIn">
-        <div v-if="isMaintainer && topicData._id" class="total">
+        <div v-if="topicData._id" class="total">
           <router-link
             class="episode-see-all-link"
             :to="`/add-job/?topicId=${topicData._id}`">
