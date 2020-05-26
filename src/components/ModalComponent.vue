@@ -15,7 +15,7 @@
             class="btn-close"
             @click="close"
             aria-label="Close modal">
-            x
+            <i class="fa fa-close" />
           </button>
         </header>
 
@@ -36,7 +36,9 @@
 <script>
   export default {
     name: 'modal',
-    props: ['showCloseBtn'],
+    props: [
+      'showCloseBtn',
+    ],
     methods: {
       close() {
         this.$emit('close');
@@ -66,12 +68,14 @@
     justify-content center
     max-width 600px
     width: 90%
-    min-height 500px
+    min-height 0
+    height auto
     flex-direction column
     top 50%
     left 50%
+    border-radius 4px
+    box-shadow 0 2px 32px 1px rgba(0,0,0, 0.35)
     transform translate(-50%, -50%)
-    box-shadow 2px 2px 20px 1px
 
   .modal-header,
   .modal-search,
@@ -92,6 +96,9 @@
     justify-content space-between
     align-items center
 
+    >>> *
+      margin-bottom 0
+
   .modal-footer
     border-top 1px solid #eeeeee
     justify-content flex-end
@@ -102,8 +109,7 @@
 
   .btn-close
     border none
-    font-size 40px
-    padding-bottom 5px
+    font-size 1rem
     cursor pointer
     font-weight 900
     color primary-color

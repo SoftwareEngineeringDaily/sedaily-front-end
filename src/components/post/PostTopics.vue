@@ -17,12 +17,12 @@
         <div class="title">
           Search for a existing topic or create a new one <button @click="promptNewTopic()">here</button>.
         </div>
-        <div class="search-container"> 
-          <b-input 
-            autocomplete="off" 
-            :autofocus="true" 
-            type="search" 
-            placeholder="Search topics" 
+        <div class="search-container">
+          <b-input
+            autocomplete="off"
+            :autofocus="true"
+            type="search"
+            placeholder="Search topics"
             v-model="searchText" @input="onSearch" />
           <div v-if="searchTopics && searchTopics.length" class="search-panel">
             <button v-for="topic in searchTopics" @click="onClickSearchTopic(topic)" :key="topic.name">
@@ -48,11 +48,11 @@
     <modal v-if="isPromptVisible" @close="showModal" class="modal-prompt" showCloseBtn="true">
       <h4 slot="header">New topic</h4>
       <template slot="body">
-        <b-input 
-          autocomplete="off" 
+        <b-input
+          autocomplete="off"
           :autofocus="true"
           @keyup.enter="onNewTopic"
-          placeholder="New topic name" 
+          placeholder="New topic name"
           v-model="newTopicText" />
       </template>
       <template slot="footer">
@@ -60,13 +60,13 @@
         <button type="button" class="button-submit" @click="onNewTopic">Ok</button>
       </template>
     </modal>
-   
+
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState, mapActions } from 'vuex'
-import Spinner from "@/components/Spinner.vue";
+import Spinner from '@/components/Spinner.vue'
 import modal from '@/components/ModalComponent'
 
 export default {
@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     ...mapActions(['getPostTopics','getSearchedTopics','updatePostTopics']),
-    
+
     getTopicPath(topic) {
       return (topic.topicPage && topic.maintainer) ? `/topic/${topic.slug}` : `/posts/${topic.slug}`
     },
@@ -124,7 +124,7 @@ export default {
 
     onSubmit() {
       const selectedTopics = this.editTopics.filter(t => t.selected)
-      
+
       this.saving = true
 
       this.updatePostTopics({ topics: selectedTopics, postId: this.post._id }).then((response) => {
@@ -164,7 +164,7 @@ export default {
       if (!name) return
 
       if (this.editTopics.find(t => t.name === name)) return
-      
+
       this.addedTopics.unshift({
         name: name,
         selected: true,
@@ -175,7 +175,7 @@ export default {
     },
 
     clearSearchTopics() { this.$store.commit('setSearchedAllTopics', []) },
-    
+
     showModal() {
       this.isModalVisible = true
       this.isPromptVisible = false
@@ -238,13 +238,13 @@ export default {
   >>> .modal
     .btn-close
       font-size 18px
-    
+
     .modal-body
       padding 15px
       display flex
       flex-direction column
       min-height 0
-    
+
     input
       outline none
       font-size 14px
@@ -270,7 +270,7 @@ export default {
   >>> .modal-edit .modal
     height 70vh
 
-    .modal-body      
+    .modal-body
       .title
         margin-bottom 10px
 
@@ -295,16 +295,16 @@ export default {
         overflow auto
         z-index 10
 
-        button 
+        button
           display block
           width 100%
-          background none 
+          background none
           outline none
           border 0
           border-bottom 1px solid #edeaff
           text-align left
           padding 10px
-          
+
     .edit-topic-list
       margin-top 15px
       flex 1
