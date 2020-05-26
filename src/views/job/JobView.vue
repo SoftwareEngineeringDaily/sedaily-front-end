@@ -1,11 +1,5 @@
 <template>
   <div>
-    <job-apply-modal
-      v-if="job"
-      :id="'jobApplyModal'"
-      :title="job.title"
-      :jobId="jobId"
-    ></job-apply-modal>
     <div class="container">
       <div class="row">
         <div v-if="loading">
@@ -35,9 +29,23 @@
               </router-link>
             </span>
             <span v-else>
-              <button class="btn button-submit" data-toggle="modal" data-target="#jobApplyModal">
-                Apply to Job
-              </button>
+
+              <job-apply-modal
+                v-if="job"
+                :id="'jobApplyModal'"
+                :title="job.title"
+                :isModalVisible="isModalVisible"
+                :onClose="toggleJobApplyModal"
+                :jobId="jobId">
+
+                <button
+                  class="btn button-submit"
+                  @click="toggleJobApplyModal">
+                  Apply to Job
+                </button>
+
+              </job-apply-modal>
+
             </span>
           </div>
           <div class="row job-description">
@@ -69,28 +77,39 @@ import JobApplyModal from '@/components/job/JobApplyModal'
 import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   name: 'job-view',
+
   data () {
     return {
       loading: false,
       job: null,
+      isModalVisible: false,
       error: null
     }
   },
+
   created () {
     this.fetchData()
   },
+
   watch: {
     // re-fetch if route changes
     '$route': 'fetchData'
   },
+
   components: {
     Spinner,
     JobApplyModal
   },
+
   methods: {
     // TODO: once profile issue resolved, don't fetch profile here
     // https://github.com/SoftwareEngineeringDaily/sedaily-front-end/issues/239
     ...mapActions(['fetchJob']),
+
+    toggleJobApplyModal () {
+      this.isModalVisible = !this.isModalVisible
+    },
+
     fetchData () {
       this.loading = true
       this.fetchJob({ jobId: this.jobId })
@@ -106,8 +125,10 @@ export default {
         })
     }
   },
+
   computed: {
     ...mapGetters(['isLoggedIn', 'metaTag']),
+
     ...mapState({
       jobId (state) {
         return state.route.params.id
@@ -122,6 +143,7 @@ export default {
         return moment(this.job.postedDate).format('MMMM Do, YYYY')
       }
     }),
+
     metaDescription() {
       const maxLength = 400;
       const { job: { description } } = this
@@ -131,13 +153,16 @@ export default {
       return description
     }
   },
+
   metaInfo() {
     // wait for job before updating meta
     if (!this.job) {
       return {}
     }
+
     const title = `${this.job.title} | Software Daily`
     const { metaDescription } = this
+
     return {
       title,
       meta: [
@@ -147,8 +172,7 @@ export default {
         this.metaTag('og:description', metaDescription)
       ]
     }
-  }
-
+  },
 }
 </script>
 
