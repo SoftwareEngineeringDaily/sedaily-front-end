@@ -41,6 +41,7 @@
         v-else
         :rootEntityType="rootEntityType"
         :socialShareUsers="socialShareUsers"
+        :relatedTwitterAccounts="relatedTwitterAccounts"
         :comment="comment"
         :onChange="onChange"
         :isParentComment="true" />
@@ -98,6 +99,10 @@ export default {
       default: 'forumthread'
     },
     socialShareUsers: {
+      type: Array,
+      default: () => [],
+    },
+    relatedTwitterAccounts: {
       type: Array,
       default: () => [],
     },

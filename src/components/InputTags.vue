@@ -1,12 +1,11 @@
 <template>
   <multiselect
     v-model="selection"
-    id="topics"
-    label="name"
+    id="tags"
     track-by="_id"
     :placeholder="placeholder"
     open-direction="bottom"
-    :options="topics"
+    :options="options"
     :multiple="multiple"
     :searchable="true"
     :loading="isLoading"
@@ -20,7 +19,7 @@
     :hide-selected="true"
     @search-change="onSearch">
 
-    <span slot="noResult">No topics found.</span>
+    <span slot="noResult">No results found.</span>
 
   </multiselect>
 </template>
@@ -30,7 +29,7 @@ import Multiselect from 'vue-multiselect'
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'topics-auto-complete',
+  name: 'input-tags',
 
   components: {
     Multiselect,
@@ -43,13 +42,25 @@ export default {
         Object,
       ],
     },
+    options: {
+      type: Array,
+      default: () => {
+        return [
+          '@software_daily',
+        ]
+      },
+    },
     placeholder: {
       type: String,
-      default: 'Search topics',
+      default: 'Search',
     },
     multiple: {
       type: Boolean,
       default: true,
+    },
+    onSearch: {
+      type: Function,
+      default: () => {},
     },
   },
 
@@ -61,43 +72,18 @@ export default {
   },
 
   watch: {
-    value (to, from) {
-      if (to !== from) {
-        this.selection = to
-      }
-    },
-
     selection (value) {
       this.$emit('input', value)
     },
   },
 
-  computed: {
-    ...mapState({
-      topics ({ topics }) {
-        return topics.searchedAllTopics || []
-      }
-    }),
-  },
-
   methods: {
-    ...mapActions([
-      'setSearchedAllTopics',
-      'getSearchedTopics',
-    ]),
-
-    async onSearch (query) {
-      this.isLoading = true
-      await this.getSearchedTopics(query)
-      this.isLoading = false
-    },
-
     limitText (count) {
-      return `and ${count} other topics`
+      return `and ${count} others`
     },
 
     clearAll () {
-      this.$store.commit('setSearchedAllTopics', [])
+      this.selection = []
     },
   }
 }

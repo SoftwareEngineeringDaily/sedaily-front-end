@@ -19,13 +19,22 @@
 
           <topic-page-maintainer :user="topicData.maintainer" />
 
-          <div v-if="!me.avatarUrl" class="alert-block">
-            <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
-            share your writing
+          <div class="topicpage-item">
+            <p class="label">Related Twitter Accounts (Optional):</p>
+            <twitter-users-search
+              v-model="topicPageData.twitterAccounts"
+              :onAdd="onChange" />
           </div>
-           <div v-if="!me.lastName" class="alert-block">
-            <router-link to="/edit-profile">Add a Last Name</router-link> to your profile if you would like us to
-            share your writing
+
+          <div class="topicpage-item">
+            <div v-if="!me.avatarUrl" class="alert-block">
+              <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
+              share your writing
+            </div>
+             <div v-if="!me.lastName" class="alert-block">
+              <router-link to="/edit-profile">Add a Last Name</router-link> to your profile if you would like us to
+              share your writing
+            </div>
           </div>
 
           <ImageEditThumb
@@ -78,9 +87,9 @@
           </div>
           <template v-if="!isPreviewing">
             <h4>Revisions</h4>
-            <topic-page-revisions 
-              :revisions="revisions" 
-              :topic="topicData" 
+            <topic-page-revisions
+              :revisions="revisions"
+              :topic="topicData"
               :topicPage="topicPageData"
               @onRecover="onVersionChange" />
 
@@ -99,6 +108,7 @@ import { mapState, mapActions } from 'vuex'
 import moment from 'moment'
 import { debounce } from 'lodash'
 import Spinner from '@/components/Spinner'
+import TwitterUsersSearch from '@/components/topic/TwitterUsersSearch'
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import Avatar from '@/components/Avatar'
@@ -113,6 +123,7 @@ const eventListener =  (e) => {
 
 export default {
   name: 'topicpage-edit',
+
   components: {
     Spinner,
     TopicPageMaintainer,
@@ -122,10 +133,13 @@ export default {
     ContentEditor,
     Avatar,
     ImageEditThumb,
+    TwitterUsersSearch,
   },
+
   beforeMount () {
     this.loadTopic()
   },
+
   data () {
     return {
       loading: false,
@@ -143,6 +157,7 @@ export default {
       alerts: [1,2,3]
     }
   },
+
   computed: {
     ...mapState({
       me (state) {
@@ -207,12 +222,19 @@ export default {
       this.loading = true
       this.getTopicPageEdit(this.$route.params.slug).then((data) => {
         this.topicData = data.topic
+
         data.topicPage.history.sort((o1, o2) => {
           return o1.dateCreated >= o2.dateCreated ? -1 : 1
         });
-        this.topicPageData = data.topicPage
+
+        this.topicPageData = {
+          twitterAccounts: [],
+          ...data.topicPage,
+        }
+
         this.revisions = data.revisions
         this.savedContent = this.topicPageData.content
+
         this.loadDraft()
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
@@ -239,9 +261,14 @@ export default {
     },
 
     onContentChange (content) {
-      if (this.savedContent === content ) return
+      if (this.savedContent !== content) {
+        this.hasChanges = true
+        this.saveDraft()
+      }
+    },
+
+    onChange () {
       this.hasChanges = true
-      this.saveDraft()
     },
 
     localStorage () {
@@ -296,11 +323,12 @@ export default {
         slug: this.topicData.slug,
         data: {
           content: this.topicPageData.content,
+          twitterAccounts: this.topicPageData.twitterAccounts || [],
           event: 'edit',
           published: this.topicPageData.published
         }
       }
-
+console.log('saveData ', saveData)
       this.saveTopicPage(saveData).then((response) => {
         this.hasChanges = false
         this.clearDraft()
@@ -372,6 +400,14 @@ export default {
 @import '~simplemde/dist/simplemde.min.css';
 
 .topicpage-edit
+
+  .label
+    margin-bottom 5px
+    font-weight 600
+    color #6c757d
+
+  .topicpage-item
+    margin-bottom 30px
 
   .topicpage-header
     display flex
