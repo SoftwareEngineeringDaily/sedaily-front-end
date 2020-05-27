@@ -2,7 +2,7 @@
   <div class="write-view">
     <h1 v-if="showTitle">Write on Software Daily</h1>
 
-    <button v-if="topicSelectText" class="learn" @click="topicSelect">{{topicSelectText}}</button>
+    <button v-if="topicSelectText" class="select" @click="topicSelect">{{topicSelectText}}</button>
     <button v-if="topicSelectText" class="learn" @click="toggleLearn">{{learnMoreText}}</button>
 
     <slot></slot>
@@ -113,6 +113,21 @@ export default {
       &:hover
         color #222
         text-decoration underline
+    
+    .select
+      margin-bottom 20px
+      display inline-block
+      padding 4px 12px
+      font-size 14px
+      font-weight 700
+      color #a591ff
+      border 2px solid #a591ff
+      border-radius 18px
+
+      &:hover
+        text-decoration none
+        color #ffffff
+        background-color #a591ff
 
     .cancel
       font-weight 600

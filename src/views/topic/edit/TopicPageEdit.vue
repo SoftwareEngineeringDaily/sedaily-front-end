@@ -168,7 +168,7 @@ export default {
     editPermission () {
       const maintainers = (this.topicData && isArray(this.topicData.maintainers)) ? this.topicData.maintainers : []
       const user = (this.$store.state.me && this.$store.state.me._id) ? this.$store.state.me : {}
-      const canEdit = find(maintainers, { _id: user._id })
+      const canEdit = find(maintainers, { _id: user._id }) || user.isAdmin
       const msg = !maintainers.length ? 'This topic has no maintainer.' : !canEdit ? 'No permission to edit.' : ''
 
       return { canEdit, msg }
