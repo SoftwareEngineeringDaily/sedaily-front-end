@@ -8,8 +8,6 @@ app.use(require('prerender-node')
   .set('prerenderToken', process.env.PRERENDER_TOKEN)
 )
 
-app.use(serveStatic(__dirname + "/dist"))
-
 // enable ssl redirect
 app.use(sslRedirect())
 
@@ -21,6 +19,8 @@ app.get('/rss/private/:id', (req, res) => res.redirect(`${apiUrl}/rss/private/${
 app.use(require('connect-history-api-fallback')({
   verbose: true
 }))
+
+app.use(serveStatic(__dirname + "/dist"))
 
 const port = process.env.PORT || 5000
 app.listen(port)
