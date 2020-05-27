@@ -56,7 +56,7 @@
         v-else-if="!loading"
         :showTitle="false"
         :topicName="topicData.name"
-        topicSelectText="Write Topic Page"
+        topicSelectText="Become a maintainer"
         learnMoreText="What is a topic page?"
         :topicSelect="() => onClickTopic(topicData)">
       </write-request>
