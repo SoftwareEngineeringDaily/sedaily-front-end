@@ -25,8 +25,9 @@
       <div v-if="topicPageData.twitterAccounts" class="related-twitter-accounts">
         <a
           v-for="user in topicPageData.twitterAccounts"
-          :key="user.twitter"
-          :href="`https://twitter.com/${user.twitter}`">
+          :key="user.screen_name"
+          :href="`https://twitter.com/${user.screen_name}`"
+          target="_blank">
           {{user.label}}
         </a>
       </div>
