@@ -86,10 +86,6 @@ export default {
       'twitterUsersSearch',
     ]),
 
-    onRemove (removedOption) {
-      console.log('removedOption ', removedOption)
-    },
-
     onSearch (query) {
       if (!query) {
         return

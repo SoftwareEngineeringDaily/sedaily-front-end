@@ -328,7 +328,7 @@ export default {
           published: this.topicPageData.published
         }
       }
-console.log('saveData ', saveData)
+
       this.saveTopicPage(saveData).then((response) => {
         this.hasChanges = false
         this.clearDraft()

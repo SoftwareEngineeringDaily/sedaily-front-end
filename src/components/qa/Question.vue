@@ -100,7 +100,6 @@ import { mapState, mapActions } from 'vuex'
 import SocialSharing from 'vue-social-sharing'
 import Answer from './Answer'
 import Spinner from '@/components/Spinner'
-import { formatSocial } from '@/utils/post.utils'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import CommentQuote from '@/components/comment/CommentQuote'
 
@@ -187,7 +186,6 @@ export default {
     },
 
     shareGuests () {
-      console.log('this.relatedTwitterAccounts ', this.relatedTwitterAccounts)
       return (this.relatedTwitterAccounts || [])
         .map(user => user.screen_name ? `@${user.screen_name}` : '')
         .filter(user => !!(user.trim()))
@@ -198,7 +196,7 @@ export default {
       const end = ` ${this.shareGuests}`
       const trimCount = Math.max(280 - end.length, 24)
       const question = this.question.content
-console.log('end ', end)
+
       return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}\n`
     }
   },
