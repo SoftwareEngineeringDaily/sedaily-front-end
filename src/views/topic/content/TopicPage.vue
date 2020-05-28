@@ -14,12 +14,26 @@
         <h1 class="header-title">
           {{topicData.name}}
         </h1>
+
         <router-link
           v-if="isMaintainer"
           :to="{ path: `/topic/${$route.params.slug}/edit` }"
           class="edit-link">
           <i class="fa fa-pencil" style="margin-right:4px" /> Edit
         </router-link>
+
+        <social-sharing
+          :url="contentUrl"
+          :href="contentUrl"
+          :title="topicData.name"
+          twitter-user="software_daily"
+          inline-template>
+          <div class="cursor-pointer hover-highlight">
+            <network network="twitter">
+              <i class="fa fa-lg fa-twitter" />
+            </network>
+          </div>
+        </social-sharing>
       </div>
 
       <div v-if="topicPageData.twitterAccounts" class="related-twitter-accounts">
@@ -168,6 +182,7 @@
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import SocialSharing from 'vue-social-sharing'
 import Spinner from '@/components/Spinner'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
@@ -188,6 +203,7 @@ export default {
   components: {
     Spinner,
     Question,
+    SocialSharing,
     TopicPageMaintainer,
     TopicPageTemplate,
     RelatedLinkList,
@@ -606,6 +622,12 @@ export default {
 
     &:hover
       text-decoration none
+
+    & + .cursor-pointer
+      margin-left 1rem
+
+  .cursor-pointer
+    cursor pointer
 
   .content-block,
   >>> .write-view

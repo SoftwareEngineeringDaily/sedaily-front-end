@@ -20,7 +20,6 @@
     :show-no-results="true"
     :hide-selected="true"
     @search-change="onSearch"
-    @remove="onRemove"
     @select="onAdd">
 
     <span slot="noResult">No twitter users found.</span>
