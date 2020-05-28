@@ -197,17 +197,6 @@ export default {
       'deleteQuestion'
     ]),
 
-    formatDate (dateCreated) {
-      if (dateCreated) {
-        const date = moment(dateCreated).format('MMMM Do, YYYY')
-        const duration = moment(dateCreated).startOf('second').fromNow()
-
-        return `${date} | ${duration}`
-      }
-
-      return 'Now'
-    },
-
     showQuestionEdit () {
       this.editContent = this.question.content
       this.isEditing = true
