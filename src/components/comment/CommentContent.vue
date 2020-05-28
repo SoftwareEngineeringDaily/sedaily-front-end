@@ -29,6 +29,7 @@
 import moment from 'moment'
 import marked from 'marked'
 import SocialSharing from 'vue-social-sharing'
+import { formatSocial } from '@/utils/post.utils'
 import ProfileLabel from '@/components/profile/ProfileLabel'
 import CommentQuote from '@/components/comment/CommentQuote'
 
@@ -40,7 +41,11 @@ export default {
     socialShareUsers: {
       type: Array,
       defaut: () => [],
-    }
+    },
+    relatedTwitterAccounts: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   components: {
@@ -59,10 +64,19 @@ export default {
     },
 
     shareGuests () {
-      return (this.socialShareUsers || [])
+      let relatedTwitterAccounts = []
+      let users = (this.socialShareUsers || [])
         .map(user => user.twitter ? `@${user.twitter}` : '')
         .filter(user => !!(user.trim()))
         .join(' ')
+
+      if (this.relatedTwitterAccounts) {
+        relatedTwitterAccounts = this.relatedTwitterAccounts
+          .filter(t => users.indexOf(`@${t.screen_name}`) < 0)
+        users += formatSocial(relatedTwitterAccounts, 'screen_name', '')
+      }
+
+      return users
     },
 
     shareText () {

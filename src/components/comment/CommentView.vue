@@ -13,6 +13,7 @@
 
       <comment-content
         :socialShareUsers="socialShareUsers"
+        :relatedTwitterAccounts="relatedTwitterAccounts"
         :comment="comment" />
 
       <div class="misc-detail">
@@ -54,15 +55,15 @@
 </template>
 
 <script>
-import marked from "marked";
-import moment from "moment";
-import { mapState, mapActions, mapGetters } from "vuex";
-import VotingArrows from "@/components/VotingArrows";
-import ProfileLabel from "@/components/profile/ProfileLabel";
-import CommentReply from "@/components/comment/CommentReply";
-import CommentContent from "@/components/comment/CommentContent";
-import CommentEdit from "@/components/comment/CommentEdit";
-import LastEditedInfo from "@/components/LastEditedInfo";
+import marked from 'marked';
+import moment from 'moment';
+import { mapState, mapActions, mapGetters } from 'vuex';
+import VotingArrows from '@/components/VotingArrows';
+import ProfileLabel from '@/components/profile/ProfileLabel';
+import CommentReply from '@/components/comment/CommentReply';
+import CommentContent from '@/components/comment/CommentContent';
+import CommentEdit from '@/components/comment/CommentEdit';
+import LastEditedInfo from '@/components/LastEditedInfo';
 
 export default {
   name: "comment-view",
@@ -88,6 +89,10 @@ export default {
       required: false
     },
     socialShareUsers: {
+      type: Array,
+      default: () => [],
+    },
+    relatedTwitterAccounts: {
       type: Array,
       default: () => [],
     },

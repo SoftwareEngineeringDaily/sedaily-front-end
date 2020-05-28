@@ -76,6 +76,29 @@ export const isWithin = (parentEl, className, target) => {
   })
 }
 
+/**
+ * Creates a properly formatted list of social handles from an array of users
+ *
+ * @param {array} users - An array of users
+ *
+ * @return {string} list of social handles
+ */
+export const formatSocial = (users = [], key, init) => {
+  return users.reduce((prev, user) => {
+    if (!user || !user[key]) return prev
+    prev += user[key] ? ` @${user[key]}` : ''
+    return prev
+  }, init)
+}
+
+export const delay = (() => {
+  let timer = 0
+  return (callback, ms = 250) => {
+    clearTimeout (timer)
+    timer = setTimeout(callback, ms)
+  }
+})()
+
 export const isMobile = (() => {
   if (typeof navigator === 'undefined') {
     return false

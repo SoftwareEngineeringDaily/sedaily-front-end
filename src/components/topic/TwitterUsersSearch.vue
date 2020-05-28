@@ -2,11 +2,12 @@
   <multiselect
     v-model="selection"
     id="topics"
-    label="name"
-    track-by="_id"
+    label="label"
+    track-by="name"
     :placeholder="placeholder"
     open-direction="bottom"
-    :options="topics"
+    :max="3"
+    :options="options"
     :multiple="multiple"
     :searchable="true"
     :loading="isLoading"
@@ -18,9 +19,11 @@
     :max-height="300"
     :show-no-results="true"
     :hide-selected="true"
-    @search-change="onSearch">
+    @search-change="onSearch"
+    @remove="onRemove"
+    @select="onAdd">
 
-    <span slot="noResult">No topics found.</span>
+    <span slot="noResult">No twitter users found.</span>
 
   </multiselect>
 </template>
@@ -28,9 +31,10 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import { mapState, mapActions } from 'vuex'
+import { delay } from '@/utils/post.utils'
 
 export default {
-  name: 'topics-auto-complete',
+  name: 'twitter-users-search',
 
   components: {
     Multiselect,
@@ -51,12 +55,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    onAdd: {
+      type: Function,
+      default: () => {},
+    }
   },
 
   data() {
     return {
       isLoading: false,
       selection: this.value,
+      options: [],
     }
   },
 
@@ -72,32 +81,38 @@ export default {
     },
   },
 
-  computed: {
-    ...mapState({
-      topics ({ topics }) {
-        return topics.searchedAllTopics || []
-      }
-    }),
-  },
-
   methods: {
     ...mapActions([
-      'setSearchedAllTopics',
-      'getSearchedTopics',
+      'twitterUsersSearch',
     ]),
 
-    async onSearch (query) {
+    onSearch (query) {
+      if (!query) {
+        return
+      }
+
       this.isLoading = true
-      await this.getSearchedTopics(query)
-      this.isLoading = false
+
+      delay(async () => {
+        try {
+          const users = await this.twitterUsersSearch(query)
+          this.options = users
+        }
+        catch (err) {
+          console.error('err ', err)
+        }
+
+        this.isLoading = false
+      }, 300)
+
     },
 
     limitText (count) {
-      return `and ${count} other topics`
+      return `and ${count} other twitter users`
     },
 
     clearAll () {
-      this.$store.commit('setSearchedAllTopics', [])
+      this.$store.commit('twitterUsersSearch', [])
     },
   }
 }
@@ -126,18 +141,19 @@ export default {
 
 >>> .multiselect__tag
   padding 8px 26px 8px 10px
-  background-color #222
+  font-weight 700
+  background-color #1da1f2
   border-radius 2px
 
   .multiselect__tag-icon
     line-height 30px
 
     &:after
-      color #ccc
+      color #f5f8fa
 
     &:hover,
     &:focus
-      background #222
+      background #1da1f2
 
       &:after
         color #fff

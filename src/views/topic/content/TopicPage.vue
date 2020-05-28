@@ -22,6 +22,16 @@
         </router-link>
       </div>
 
+      <div v-if="topicPageData.twitterAccounts" class="related-twitter-accounts">
+        <a
+          v-for="user in topicPageData.twitterAccounts"
+          :key="user.screen_name"
+          :href="`https://twitter.com/${user.screen_name}`"
+          target="_blank">
+          {{user.label}}
+        </a>
+      </div>
+
       <template v-if="hasMaintainers">
         <topic-page-maintainer
           :users="topicData.maintainers"
@@ -46,6 +56,7 @@
             :forumThreadId="topicPageData._id"
             :rootEntityType="'topic'"
             :socialShareUsers="topicData.maintainers"
+            :relatedTwitterAccounts="topicPageData.twitterAccounts"
             @highlight="onHighlight">
             <div v-html="highlightedContent" />
           </highlightable>
@@ -66,12 +77,14 @@
           :entity="topicData"
           entityType="topic"
           @onQuestionAdded="onQuestionChanged"/>
+
         <question
           v-for="question in questions"
           :key="question._id"
           :topicSlug="topicData.slug"
           :answerLimit="1"
           :question="question"
+          :relatedTwitterAccounts="topicPageData.twitterAccounts"
           @onChange="onQuestionChanged" />
       </div>
     </template>
@@ -134,6 +147,7 @@
         :post="{}"
         :isPreview="true"
         :forumThreadId="topicPageData._id"
+        :relatedTwitterAccounts="topicPageData.twitterAccounts"
         :rootEntityType="'topic'"
         :commentCount="highlightCount"
         :comments="comments" />
@@ -144,6 +158,7 @@
         :commentCount="highlightCount"
         :rootEntityType="'topic'"
         :socialShareUsers="topicData.maintainers"
+        :relatedTwitterAccounts="topicPageData.twitterAccounts"
         :post="{}" />
     </template>
   </topic-page-template>
@@ -162,7 +177,7 @@ import Question from '@/components/qa/Question'
 import QuestionAdd from '@/views/question/QuestionAdd'
 import CommentsList from '@/components/comment/CommentsList'
 import { parseIdsIntoComments } from '@/utils/comment.utils'
-import { cleanContent } from '@/utils/post.utils'
+import { cleanContent, formatList } from '@/utils/post.utils'
 import Highlightable from '@/components/Highlightable'
 import { PostHighlights } from '@/components/post'
 import SelectPostInput from '@/components/SelectPostInput'
@@ -195,6 +210,7 @@ export default {
       loadingEpisodes: false,
       loadingJobs: false,
       savingRelatedEpisode: false,
+      relatedTwitterAccounts: [],
       topicData: {},
       topicPageData: {},
       highlight: '',
@@ -420,7 +436,7 @@ export default {
           return this.redirectToPosts()
         }
 
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+        this.$toasted.error((e.response) ? e.response.data : e)
       }
 
       this.loading = false
@@ -594,6 +610,31 @@ export default {
   .content-block,
   >>> .write-view
     margin-bottom 4rem
+
+  .related-twitter-accounts
+    list-style none
+    margin 0 0 14px
+    padding 0
+
+    a
+      display inline-block
+      font-weight 700
+      text-decoration none
+
+      &:hover
+        text-decoration underline
+
+      &::before
+        content ' ,'
+
+      &:first-child
+        margin-left 4px
+
+        &::before
+          content ''
+
+    li::after
+      content ', '
 
   .related-container
     margin 0 0 20px

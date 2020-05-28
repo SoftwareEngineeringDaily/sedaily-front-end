@@ -122,6 +122,10 @@ export default {
     topicSlug: {
       type: String,
     },
+    relatedTwitterAccounts: {
+      type: Array,
+      default: () => [],
+    },
     canAnswer: {
       type: Boolean,
       default: true,
@@ -185,8 +189,19 @@ export default {
       return `${window.location.origin}${this.questionPath}`
     },
 
+    shareGuests () {
+      return (this.relatedTwitterAccounts || [])
+        .map(user => user.screen_name ? `@${user.screen_name}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
     shareText () {
-      return `${this.question.content}\n`
+      const end = ` ${this.shareGuests}`
+      const trimCount = Math.max(280 - end.length, 24)
+      const question = this.question.content
+
+      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}\n`
     }
   },
 
