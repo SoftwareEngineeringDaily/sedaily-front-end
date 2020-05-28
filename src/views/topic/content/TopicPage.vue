@@ -61,7 +61,7 @@
         :topicSelect="() => onClickTopic(topicData)">
       </write-request>
 
-      <div class="content-block">
+      <div class="content-block pre-unformatted">
         <question-add
           :entity="topicData"
           entityType="topic"
