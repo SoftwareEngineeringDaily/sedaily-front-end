@@ -5,6 +5,11 @@
         :to="'/profile/' + userData._id"
         :style="imageStyle"
         class="avatar" />
+
+      <span v-if="prepend && displayName" class="prepend">
+        {{prepend}}
+      </span>
+
       <router-link
         v-if="showName"
         :to="'/profile/' + userData._id"
@@ -12,25 +17,29 @@
         {{displayName}}
       </router-link>
     </div>
-    <time class="date">{{dateComment}}</time>
+    <time v-if="dateComment" class="date">{{dateComment}}</time>
     <slot></slot>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
-  name: "profile-label",
+  name: 'profile-label',
+
   props: {
+    prepend: {
+      type: String,
+    },
     userData: {
       type: Object,
       default: function() {
         return {
-          _id: "",
-          username: "",
-          avatarUrl: "",
-          name: ""
+          _id: '',
+          username: '',
+          avatarUrl: '',
+          name: '',
         };
       }
     },
@@ -43,6 +52,7 @@ export default {
       type: String
     }
   },
+
   computed: {
     ...mapState({
       displayName() {
@@ -77,14 +87,23 @@ export default {
   text-transform uppercase
   color #9b9b9b
 
+.name
+  font-weight 700
+
 .user-info
   display flex
   align-items center
   justify-content flex-start
   margin-bottom 2px
+
   p
     margin 0
+
   span
     margin 0
+
+    &.prepend
+      margin-right 0.2rem
+      color #9b9b9b
 
 </style>

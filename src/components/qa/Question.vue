@@ -1,5 +1,10 @@
 <template>
   <div class="question" v-if="question">
+    <profile-label
+      v-if="question.author"
+      :userData="question.author"
+      prepend="Asked by, " />
+
     <div v-if="!isEditing" class="question-header">
       <div>
         <router-link
@@ -100,15 +105,12 @@ import { mapState, mapActions } from 'vuex'
 import SocialSharing from 'vue-social-sharing'
 import Answer from './Answer'
 import Spinner from '@/components/Spinner'
+import ProfileLabel from '@/components/profile/ProfileLabel'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import CommentQuote from '@/components/comment/CommentQuote'
 
 export default {
   name: 'question',
-
-  components: {
-    SocialSharing
-  },
 
   props: {
     question: {
@@ -141,6 +143,8 @@ export default {
     Answer,
     Spinner,
     ContentEditor,
+    SocialSharing,
+    ProfileLabel,
     CommentQuote,
   },
 
