@@ -39,13 +39,14 @@
     max-width 95%
     margin 20px auto
     display block
-  
+
   a
     color main-purple
-  
-  pre
-    background-color #f8f9fa
-    color #666
-    width 100%
-    padding 10px
+
+  &:not(.pre-unformatted)
+    pre
+      background-color #f8f9fa
+      color #666
+      width 100%
+      padding 10px
 </style>
