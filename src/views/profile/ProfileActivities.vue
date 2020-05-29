@@ -16,9 +16,10 @@
             <div v-if="activity.activityType === 'relatedLink'" class="comment comment-item">
               {{activity.title}} <a :href="activity.url">({{activity.url}})</a>
             </div>
-            <div v-if="activity.activityType === 'answer'" class="comment comment-item">
-              {{activity.content.slice(0, 240)}}{{activity.content.length > 240 ? '...' : ''}}
-            </div>
+            <div
+              v-if="activity.activityType === 'answer'"
+              v-html="getHtmlContent(activity.content)"
+              class="comment comment-item" />
           </div>
 
         </div>
@@ -33,6 +34,8 @@ import marked from 'marked'
 import ProfileLabel from '@/components/profile/ProfileLabel'
 import ActivityHeader from '@/components/profile/ActivityHeader'
 import CommentContent from '@/components/comment/CommentContent'
+
+marked.setOptions({ breaks: true })
 
 export default {
   name: 'profile-activities',
@@ -110,6 +113,11 @@ export default {
         author: this.userData,
       }
     },
+
+    getHtmlContent (content) {
+      const html = content.length > 240 ? `${content.slice(0, 240)}...` : content
+      return marked(html)
+    }
   }
 }
 </script>
@@ -169,6 +177,9 @@ export default {
 
   &.text-center
     text-align center
+
+  >>> img
+    max-width 100%
 
 .text-ellipsis
   overflow hidden
