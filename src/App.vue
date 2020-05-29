@@ -85,7 +85,6 @@ export default {
 #app
   background-color #fff
   min-height calc(100vh - 72px)
-  // width: 100vw;
   max-width: 100vw;
 
 .main-app
