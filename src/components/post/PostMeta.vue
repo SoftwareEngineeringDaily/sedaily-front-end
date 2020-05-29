@@ -4,15 +4,17 @@
     <span v-if="showDuration">|</span>
     <div v-if="showDuration" class="duration">40 mins</div>
     <span>|</span>
-    <div v-if="post.thread" class="comment-count">
+
+    <div v-if="post.thread && showComments" class="comment-count">
       {{ post.thread.commentsCount || 0 }} comment{{ post.thread.commentsCount !== 1 ? 's' : '' }}
+      <span>|</span>
     </div>
-    <div v-else class="comment-count">0 comments</div>
-    <span>|</span>
-    <div class="cursor-pointer" @click="like">
+
+    <div v-if="showLikes" class="cursor-pointer" @click="like">
       <i class="fa fa-lg" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
       {{ post.score }}
     </div>
+
     <div class="cursor-pointer" @click="bookmark">
       <i class="fa fa-lg" :class="{ 'fa-bookmark-o': !bookmarkActive, 'fa-bookmark': bookmarkActive }"></i>
     </div>
@@ -41,6 +43,14 @@ export default {
       type: Boolean,
       default: true
     },
+     showEmptyLikes: {
+      type: Boolean,
+      default: true,
+    },
+    showEmptyComments: {
+      type: Boolean,
+      default: true,
+    }
   },
 
   computed: {
@@ -49,6 +59,16 @@ export default {
       if (this.post) {
         return moment(this.post.date).format(format)
       }
+    },
+
+    showLikes () {
+      if (this.showEmptyLikes) return true
+      return this.post.score
+    },
+
+    showComments () {
+      if (this.showEmptyComments) return true
+      return this.post.thread.commentsCount || false
     },
 
     likeActive () {
