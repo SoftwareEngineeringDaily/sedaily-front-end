@@ -124,6 +124,7 @@ export default {
   color #a591ff
   border 2px solid #a591ff
   border-radius 18px
+  background-color #ffffff
 
   &:hover
     text-decoration none
