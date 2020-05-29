@@ -25,7 +25,7 @@
         <social-sharing
           :url="contentUrl"
           :href="contentUrl"
-          :title="topicData.name"
+          :title="shareText"
           twitter-user="software_daily"
           inline-template>
           <div class="cursor-pointer hover-highlight">
@@ -54,6 +54,9 @@
 
           <div v-if="!isMaintainer" @click="() => onClickTopic(topicData)" class="link-button">
             Become a maintainer
+          </div>
+          <div v-else @click="() => onLeaveTopic(topicData)" class="link-button">
+            Leave as maintainer
           </div>
 
         </topic-page-maintainer>
@@ -270,6 +273,21 @@ export default {
       return window.location.href
     },
 
+    shareGuests () {
+      return (this.topicPageData.twitterAccounts || [])
+        .map(user => user.screen_name ? `@${user.screen_name}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
+    shareText () {
+      const end = ` ${this.shareGuests}`
+      const trimCount = Math.max(280 - end.length, 24)
+      const question = this.topicData.name
+
+      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}`
+    },
+
     hasMaintainers () {
       return (
         isArray(this.topicData.maintainers) &&
@@ -393,6 +411,7 @@ export default {
       'getTopicPage',
       'commentsFetch',
       'setMaintainer',
+      'removeMaintainer',
       'getTopicEpisodes',
       'getTopicJobs',
       'saveTopicEpisode',
@@ -471,7 +490,7 @@ export default {
       this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
-    onClickTopic(topic) {
+    onClickTopic (topic) {
       if (!this.me || !this.me._id) {
         return this.$router.push(`/register`)
       }
@@ -480,6 +499,25 @@ export default {
       this.$nextTick(() => {
         this.requestTopicOwnership()
       })
+    },
+
+    async onLeaveTopic (topic) {
+      this.saving = true
+
+      const data = {
+        topicSlug: topic.slug,
+        event: 'selfUnassign',
+      }
+
+      try {
+        await this.removeMaintainer(data)
+        this.loadTopic()
+      }
+      catch (e) {
+        this.$toasted.error((e.response) ? e.response.data : e)
+      }
+
+      this.saving = false
     },
 
     loadEpisodes () {
