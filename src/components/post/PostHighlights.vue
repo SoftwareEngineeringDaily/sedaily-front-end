@@ -24,6 +24,7 @@
           :forumThreadId="threadId"
           :rootEntityType="rootEntityType"
           :socialShareUsers="socialShareUsers"
+          :relatedTwitterAccounts="relatedTwitterAccounts"
           :commentCount="commentsSorted.length"
           :comments="commentsSorted" />
 
@@ -55,6 +56,10 @@ export default {
       default: () => [],
     },
     socialShareUsers: {
+      type: Array,
+      default: () => [],
+    },
+    relatedTwitterAccounts: {
       type: Array,
       default: () => [],
     },

@@ -67,7 +67,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import CommentHighlight from '@/components/comment/CommentHighlight'
 import CommentReply from '@/components/comment/CommentReply'
-import { isWithin } from '@/utils/post.utils'
+import { isWithin, formatSocial } from '@/utils/post.utils'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import SocialSharing from 'vue-social-sharing'
 
@@ -92,6 +92,9 @@ export default {
       default: 'forumthread'
     },
     socialShareUsers: {
+      type: Array,
+    },
+    relatedTwitterAccounts: {
       type: Array,
     }
   },
@@ -123,13 +126,16 @@ export default {
 
     twitterContent () {
       let users = ''
+      let relatedTwitterAccounts = []
 
       if (this.socialShareUsers) {
-        users = this.socialShareUsers.reduce((prev, user) => {
-          if (!user) return prev
-          prev += user.twitter ? ` @${user.twitter}` : ''
-          return prev
-        }, users)
+        users = formatSocial(this.socialShareUsers, 'twitter', '')
+      }
+
+      if (this.relatedTwitterAccounts) {
+        relatedTwitterAccounts = this.relatedTwitterAccounts
+          .filter(t => users.indexOf(`@${t.screen_name}`) < 0)
+        users += formatSocial(relatedTwitterAccounts, 'screen_name', '')
       }
 
       return `${this.selectedText}${users}`

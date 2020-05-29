@@ -82,7 +82,11 @@ export default {
 
 .link
   display inline-block
-  text-decoration underline
+  font-weight 700
+  text-decoration none
+
+  &:hover
+    text-decoration underline
 
 .labels .link
   &::before

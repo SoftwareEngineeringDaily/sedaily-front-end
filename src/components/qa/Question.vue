@@ -1,5 +1,10 @@
 <template>
   <div class="question" v-if="question">
+    <profile-label
+      v-if="question.author"
+      :userData="question.author"
+      prepend="Asked by, " />
+
     <div v-if="!isEditing" class="question-header">
       <div>
         <router-link
@@ -100,15 +105,12 @@ import { mapState, mapActions } from 'vuex'
 import SocialSharing from 'vue-social-sharing'
 import Answer from './Answer'
 import Spinner from '@/components/Spinner'
+import ProfileLabel from '@/components/profile/ProfileLabel'
 import ContentEditor from '@/components/contentEditor/ContentEditor'
 import CommentQuote from '@/components/comment/CommentQuote'
 
 export default {
   name: 'question',
-
-  components: {
-    SocialSharing
-  },
 
   props: {
     question: {
@@ -119,6 +121,10 @@ export default {
     },
     topicSlug: {
       type: String,
+    },
+    relatedTwitterAccounts: {
+      type: Array,
+      default: () => [],
     },
     canAnswer: {
       type: Boolean,
@@ -141,6 +147,8 @@ export default {
     Answer,
     Spinner,
     ContentEditor,
+    SocialSharing,
+    ProfileLabel,
     CommentQuote,
   },
 
@@ -181,8 +189,19 @@ export default {
       return `${window.location.origin}${this.questionPath}`
     },
 
+    shareGuests () {
+      return (this.relatedTwitterAccounts || [])
+        .map(user => user.screen_name ? `@${user.screen_name}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
     shareText () {
-      return `${this.question.content}\n`
+      const end = ` ${this.shareGuests}`
+      const trimCount = Math.max(280 - end.length, 24)
+      const question = this.question.content
+
+      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}\n`
     }
   },
 

@@ -127,5 +127,11 @@ export default {
       commit('setMostPosts', data)
       return data
     })
-  }
+  },
+
+  twitterUsersSearch: (_, q) => {
+    return axios.get(`${BASE_URL}/twitter/users/search?q=${q}`).then(({ data }) => {
+      return data
+    })
+  },
 }
