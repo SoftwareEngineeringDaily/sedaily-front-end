@@ -14,12 +14,26 @@
         <h1 class="header-title">
           {{topicData.name}}
         </h1>
+
         <router-link
           v-if="isMaintainer"
           :to="{ path: `/topic/${$route.params.slug}/edit` }"
           class="edit-link">
           <i class="fa fa-pencil" style="margin-right:4px" /> Edit
         </router-link>
+
+        <social-sharing
+          :url="contentUrl"
+          :href="contentUrl"
+          :title="shareText"
+          twitter-user="software_daily"
+          inline-template>
+          <div class="cursor-pointer hover-highlight">
+            <network network="twitter">
+              <i class="fa fa-lg fa-twitter" />
+            </network>
+          </div>
+        </social-sharing>
       </div>
 
       <div v-if="topicPageData.twitterAccounts" class="related-twitter-accounts">
@@ -40,6 +54,9 @@
 
           <div v-if="!isMaintainer" @click="() => onClickTopic(topicData)" class="link-button">
             Become a maintainer
+          </div>
+          <div v-else @click="() => onLeaveTopic(topicData)" class="link-button">
+            Leave as maintainer
           </div>
 
         </topic-page-maintainer>
@@ -168,6 +185,7 @@
 import find from 'lodash/find'
 import isArray from 'lodash/isArray'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import SocialSharing from 'vue-social-sharing'
 import Spinner from '@/components/Spinner'
 import RelatedLinkList from '@/components/related/RelatedLinkList'
 import { TopicPageTemplate, TopicPageMaintainer } from '@/views/topic'
@@ -188,6 +206,7 @@ export default {
   components: {
     Spinner,
     Question,
+    SocialSharing,
     TopicPageMaintainer,
     TopicPageTemplate,
     RelatedLinkList,
@@ -252,6 +271,21 @@ export default {
 
     contentUrl () {
       return window.location.href
+    },
+
+    shareGuests () {
+      return (this.topicPageData.twitterAccounts || [])
+        .map(user => user.screen_name ? `@${user.screen_name}` : '')
+        .filter(user => !!(user.trim()))
+        .join(' ')
+    },
+
+    shareText () {
+      const end = ` ${this.shareGuests}`
+      const trimCount = Math.max(280 - end.length, 24)
+      const question = this.topicData.name
+
+      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}`
     },
 
     hasMaintainers () {
@@ -377,6 +411,7 @@ export default {
       'getTopicPage',
       'commentsFetch',
       'setMaintainer',
+      'removeMaintainer',
       'getTopicEpisodes',
       'getTopicJobs',
       'saveTopicEpisode',
@@ -455,7 +490,7 @@ export default {
       this.$router.replace(`/posts/${this.$route.params.slug}`)
     },
 
-    onClickTopic(topic) {
+    onClickTopic (topic) {
       if (!this.me || !this.me._id) {
         return this.$router.push(`/register`)
       }
@@ -464,6 +499,25 @@ export default {
       this.$nextTick(() => {
         this.requestTopicOwnership()
       })
+    },
+
+    async onLeaveTopic (topic) {
+      this.saving = true
+
+      const data = {
+        topicSlug: topic.slug,
+        event: 'selfUnassign',
+      }
+
+      try {
+        await this.removeMaintainer(data)
+        this.loadTopic()
+      }
+      catch (e) {
+        this.$toasted.error((e.response) ? e.response.data : e)
+      }
+
+      this.saving = false
     },
 
     loadEpisodes () {
@@ -606,6 +660,12 @@ export default {
 
     &:hover
       text-decoration none
+
+    & + .cursor-pointer
+      margin-left 1rem
+
+  .cursor-pointer
+    cursor pointer
 
   .content-block,
   >>> .write-view
