@@ -13,6 +13,7 @@
       :answer="answer"
       :question="question"
       :topicSlug="topicSlug"
+      :showEmptyLikes="false"
       :canEdit="false" />
   </div>
 </template>

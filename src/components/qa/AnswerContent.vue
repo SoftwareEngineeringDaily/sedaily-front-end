@@ -18,7 +18,7 @@
 
         <span>|</span>
 
-        <div class="cursor-pointer hover-highlight" :class="{ 'active': isMyVote }" @click="onVote">
+        <div v-if="showLikes" class="cursor-pointer hover-highlight" :class="{ 'active': isMyVote }" @click="onVote">
           <i class="fa fa-lg" :class="{ 'fa-heart-o': !isMyVote, 'fa-heart': isMyVote }"></i>
           {{ answer.votes.length }}
         </div>
@@ -89,6 +89,10 @@ export default {
     canEdit: {
       type: Boolean,
       default: true,
+    },
+    showEmptyLikes: {
+      type: Boolean,
+      default: true,
     }
   },
 
@@ -120,6 +124,11 @@ export default {
         return topics.topicpage
       },
     }),
+
+    showLikes () {
+      if (this.showEmptyLikes) return true
+      return this.answer.votes.length
+    },
 
     compiledMarkdown () {
       marked.setOptions({

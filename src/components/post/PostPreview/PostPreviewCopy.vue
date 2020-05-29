@@ -18,6 +18,8 @@
         :post="post"
         :displayedPosts="displayedPosts"
         :showDuration="false"
+        :showEmptyLikes="false"
+        :showEmptyComments="false"
         :isPreview="isPreview" />
       <post-author :post="post" />
     </div>
