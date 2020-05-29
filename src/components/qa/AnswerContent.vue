@@ -208,6 +208,13 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.answer-content {
+  .content-area {
+    >>> img {
+      max-width: 100%;
+    }
+  }
+}
 >>> .content-editor {
   margin-bottom: 1rem;
 
