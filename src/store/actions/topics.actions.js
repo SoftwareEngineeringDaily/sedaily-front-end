@@ -63,6 +63,13 @@ export default {
     })
   },
 
+  removeMaintainer: (_, data) => {
+    return axios.delete(`${BASE_URL}/topics/maintainer`, { data })
+    .then((response) => {
+      return response.data
+    })
+  },
+
   getPostTopics: ({ commit, state, getters }, { postId }) => {
     const post_id = postId
      return axios.get(`${BASE_URL}/topics?postId=${post_id}`)
