@@ -88,7 +88,13 @@ export default {
   &:hover
     text-decoration underline
 
+.labels
+  flex 1
+
 .labels .link
+  max-width 100%
+  display inline
+
   &::before
     content ' ,'
 
