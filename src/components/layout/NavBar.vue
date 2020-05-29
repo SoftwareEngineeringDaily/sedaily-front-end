@@ -41,6 +41,9 @@
                 <div class="arrow"></div>
                 Profile
               </b-dropdown-item>
+              <b-dropdown-item v-if="alreadySubscribed" to="/subscribe">
+                Subscription
+              </b-dropdown-item>
               <b-dropdown-item to="/bookmarks">
                 Bookmarks
               </b-dropdown-item>

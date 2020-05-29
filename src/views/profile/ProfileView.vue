@@ -16,8 +16,6 @@
         <div class="profile-footer">
           <label class="text-muted">Settings:</label>
           <router-link to="/settings" class="settings">E-mail</router-link>
-          <span v-if="alreadySubscribed" class="settings">|</span>
-          <router-link v-if="alreadySubscribed" to="/subscribe" class="settings">Subscription</router-link>
         </div>
 
         <profile-activities
