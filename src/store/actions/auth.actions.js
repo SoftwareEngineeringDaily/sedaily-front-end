@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
+
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
@@ -30,10 +31,10 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        Vue.toasted.error(error.response.data.message, { 
+        Vue.toasted.error(error.response.data.message, {
           singleton: true,
-          theme: "bubble", 
-          position: "bottom-center", 
+          theme: "bubble",
+          position: "bottom-center",
           duration : 700
       })
 
@@ -52,6 +53,85 @@ export default {
 
         return Promise.reject(error)
       })
+  },
+
+  twitterRequest: ({ commit, state }) => {
+    const analyticsEvent = {
+      eventCategory: 'auth',
+      eventAction: 'twitter-request',
+      eventValue: 1
+    }
+
+    const callback = `http://127.0.0.1:8080/callback/twitter`
+
+    commit('analytics', {
+      meta : { analytics: [ [ 'event', analyticsEvent ] ] }
+    })
+
+    return axios.post(`${BASE_URL}/auth/twitter-request`, { callback })
+      .then(({ data }) => {
+        return window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${data.oauth_token}`
+      })
+      .catch((error) => {
+        // @TODO: Add pretty pop up here
+        console.log(error)
+        Vue.toasted.error(error.response.data.message, {
+          singleton: true,
+          theme: "bubble",
+          position: "bottom-center",
+          duration : 700
+        })
+
+        analyticsEvent.eventCategory = 'errors'
+        analyticsEvent.eventAction = 'errors twitter request'
+
+        commit('analytics', {
+          meta : { analytics: [ [ 'event', analyticsEvent ] ] }
+        })
+
+        return Promise.reject(error)
+      });
+  },
+
+  twitterAccess: ({ commit, state }, { oauth_token, oauth_verifier }) => {
+    const analyticsEvent = {
+      eventCategory: 'auth',
+      eventAction: 'twitter-request',
+      eventValue: 1
+    }
+
+    const CALLBACK_URL = `${window.location.origin}/callback/twitter`
+    const options = {
+      oauth_token,
+      oauth_verifier,
+    }
+
+    commit('analytics', {
+      meta : { analytics: [ [ 'event', analyticsEvent ] ] }
+    })
+
+    return axios.post(`${BASE_URL}/auth/twitter-access`, options)
+      .then(response => {
+        return response
+      })
+      .catch((error) => {
+        // @TODO: Add pretty pop up here
+        Vue.toasted.error(error.response.data.message, {
+          singleton: true,
+          theme: "bubble",
+          position: "bottom-center",
+          duration : 700
+        })
+
+        analyticsEvent.eventCategory = 'errors'
+        analyticsEvent.eventAction = 'errors twitter request'
+
+        commit('analytics', {
+          meta : { analytics: [ [ 'event', analyticsEvent ] ] }
+        })
+
+        return Promise.reject(error)
+      });
   },
 
   register: ({ commit, dispatch },

@@ -48,6 +48,7 @@ const router = new Router({
     { path: '/login', component: LoginView },
     { path: '/edit-profile', beforeEnter: authorize, component: EditProfile },
     { path: '/register', component: RegisterView },
+    { path: '/callback/twitter', component: RegisterView },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/settings', name: 'NotificationSettings', beforeEnter: authorize, component: SettingsView },
     { path: '/profile', name: 'Profile', component: ProfileView },

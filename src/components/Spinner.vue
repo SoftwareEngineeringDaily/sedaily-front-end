@@ -1,5 +1,5 @@
 <template>
-  <svg class="spinner" :class="{ show: show }" v-show="show" width="66px" height="66px" viewBox="0 0 44 44">
+  <svg class="spinner" :class="{ show: show }" v-show="show" :width="`${size || 66}px`" :height="`${size || 66}px`" viewBox="0 0 44 44">
     <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
   </svg>
 </template>
@@ -11,8 +11,13 @@ export default {
     show: {
       type: Boolean,
       required: true
-    }
+    },
+    size: {
+      type: Number,
+      default: 66,
+    },
   },
+
   serverCacheKey: (props) => props.show
 }
 </script>

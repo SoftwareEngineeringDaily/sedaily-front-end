@@ -123,7 +123,7 @@ export default {
     },
     logoutHandler() {
       this.$auth.logout()
-      this.$router.replace('/')
+      this.$router.push('/')
     },
     mouseOverDropdown() {
       if (!this.showDropdown) this.showDropdown = true;
