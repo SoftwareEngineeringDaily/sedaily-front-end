@@ -62,7 +62,7 @@ export default {
       eventValue: 1
     }
 
-    const callback = `http://127.0.0.1:8080/callback/twitter`
+    const callback = `${window.location.origin}/callback/twitter`
 
     commit('analytics', {
       meta : { analytics: [ [ 'event', analyticsEvent ] ] }
@@ -100,7 +100,6 @@ export default {
       eventValue: 1
     }
 
-    const CALLBACK_URL = `${window.location.origin}/callback/twitter`
     const options = {
       oauth_token,
       oauth_verifier,
