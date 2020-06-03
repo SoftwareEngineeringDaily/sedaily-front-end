@@ -20,7 +20,7 @@
           </div>
         </div>
 
-        <div v-if="email">
+        <div v-show="email">
           <div class="form-group">
             <label for="passwordInput">Password</label>
             <input type="password"
@@ -70,7 +70,7 @@
             </div>
           </div>
         </div>
-        <div v-else>
+        <div v-show="!email">
           <div class="break" name="OR" />
           <twitter-login />
         </div>
