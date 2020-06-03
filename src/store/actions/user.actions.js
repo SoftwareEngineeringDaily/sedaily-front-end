@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { apiConfig } from '../../../config/apiConfig'
 import { getS3SingedUploadUrlAndUpload } from '@/utils/uploadImage.utils'
+
 const BASE_URL = apiConfig.BASE_URL
 
 export default {
@@ -110,10 +111,10 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        Vue.toasted.error(error.response.data.message, { 
+        Vue.toasted.error(error.response.data.message, {
               singleton: true,
-              theme: "bubble", 
-              position: "bottom-center", 
+              theme: "bubble",
+              position: "bottom-center",
               duration : 700
           })
         return error
@@ -149,10 +150,10 @@ export default {
       .catch((error) => {
         // @TODO: Add pretty pop up here
         console.log(error)
-        Vue.toasted.error(error.response.data.message, { 
+        Vue.toasted.error(error.response.data.message, {
           singleton: true,
-          theme: "bubble", 
-          position: "bottom-center", 
+          theme: "bubble",
+          position: "bottom-center",
           duration : 700
       })
         return error

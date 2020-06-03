@@ -35,3 +35,28 @@ export function extractRootDomain(url) {
     }
     return domain;
 }
+
+/**
+ * Get query value from window search
+ *
+ * @param {String} param - request key from query
+ * @return {String} - query value
+ */
+export const getQuery = (param) => {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
+  let params = window.location.search.substr(1).split('&')
+  let p;
+
+  for (let i = 0; i < params.length; i++) {
+    p = params[i].split('=');
+
+    if (p[0] == param) {
+      return decodeURIComponent(p[1]);
+    }
+  }
+
+  return '';
+}

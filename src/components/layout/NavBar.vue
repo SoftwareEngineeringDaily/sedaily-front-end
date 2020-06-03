@@ -121,10 +121,15 @@ export default {
     signIn() {
       this.$router.push({ path: `/login` })
     },
+
     logoutHandler() {
       this.$auth.logout()
-      this.$router.replace('/')
+
+      if (this.$router.history.current.path !== '/') {
+        this.$router.push('/')
+      }
     },
+
     mouseOverDropdown() {
       if (!this.showDropdown) this.showDropdown = true;
     },

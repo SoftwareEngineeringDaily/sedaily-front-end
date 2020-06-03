@@ -33,9 +33,15 @@
           {{ errors.first('password') }}</div>
         </div>
         <div class="form-group">
-          <button name='submit-button' class='button-submit' :disabled='loading'>Sign In</button>
+          <button name="submit-button" class="button button-submit" :disabled="loading">Sign In</button>
           <spinner :show="loading"></spinner>
         </div>
+
+        <div>
+          <div class="break" name="OR" />
+          <twitter-login copy="Sign In" />
+        </div>
+
         <div class="login-buttons col-md-12">
           <span>Don't have an account? <router-link to="/register" name="register" class="signup">Sign Up</router-link></span>
           <router-link to="/forgot-password" name="forgot-password">Forgot password?</router-link>
@@ -49,15 +55,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner'
 import { wantedToSubscribe } from '@/utils/subscription.utils.js'
-import { mapGetters } from 'vuex'
+import TwitterLogin from '@/components/account/TwitterLogin'
 
 export default {
   name: 'login',
 
   components: {
-    Spinner
+    Spinner,
+    TwitterLogin,
   },
 
   data () {
@@ -67,6 +75,7 @@ export default {
       loading: false
     }
   },
+
   methods: {
     login () {
       this.$validator.validateAll().then((result) => {
@@ -92,7 +101,7 @@ export default {
                   this.$router.replace('/')
                 }
               } else {
-                this.$toasted.error('Invalid login', { 
+                this.$toasted.error('Invalid login', {
                     theme: "bubble"
                 })
               }
@@ -103,10 +112,12 @@ export default {
         }
       })
     },
+
     logout () {
       this.$auth.logout()
-    }
+    },
   },
+
   computed: {
     ...mapGetters(['isLoggedIn'])
   }
@@ -114,28 +125,73 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.container  
+.container
   .login-buttons
     padding 15px 0
     display flex
     align-items center
     justify-content space-between
-    
+
     .button-submit
       min-width 100px
-  
+
   .signup
     text-decoration underline
     color #007bff
-  
+
     &:hover
       color #222
 
+.button,
+.twitter-button
+  appearance none
+  box-sizing border-box
+  display block
+  width 100%
+  padding 10px 20px
+  font-size 14px
+  font-weight 700
+  color #ffffff
+  border-radius 2px
+  border none
+
+  &[disabled]
+    pointer-events none
+    background-color #ccc
+
+.twitter-button
+  background-color #1da1f2
+
+  .fa
+    margin-right 6px
+
+  &[disabled]
+    pointer-events none
+    background-color #ccc
+
+.break
+  display: block;
+  position: relative;
+  margin: 2rem 0;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e9ecef;
+
+  &:before
+    content: attr(name);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0 1rem;
+    background-color: #ffffff;
+    transform: translate(-50%, -50%);
+
 @media (max-width 500px)
-  .container    
+  .container
     .container-input
       text-align center
-    
+
     .login-buttons
       flex-direction column
       align-items flex-start

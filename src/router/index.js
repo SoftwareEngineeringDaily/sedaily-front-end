@@ -5,7 +5,7 @@ import PostsFeed  from '@/views/postsFeed/PostsFeed'
 import PostView from '@/views/post/PostView'
 import PopularView from '@/views/PopularView'
 import SearchView  from '@/views/search/SearchView'
-import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword } from '@/views/account'
+import { LoginView, SubscribeView, RegisterView, RegainAccount, SettingsView, ForgotPassword, CallbackTwitter } from '@/views/account'
 import RecomendationListView from '@/views/RecomendationListView'
 import FeedView from '@/views/FeedView'
 import { ProfileView, PublicProfileView, EditProfile }  from '@/views/profile'
@@ -48,6 +48,7 @@ const router = new Router({
     { path: '/login', component: LoginView },
     { path: '/edit-profile', beforeEnter: authorize, component: EditProfile },
     { path: '/register', component: RegisterView },
+    { path: '/callback/twitter', component: CallbackTwitter },
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/settings', name: 'NotificationSettings', beforeEnter: authorize, component: SettingsView },
     { path: '/profile', name: 'Profile', component: ProfileView },
