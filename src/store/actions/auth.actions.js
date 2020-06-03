@@ -110,8 +110,9 @@ export default {
     })
 
     return axios.post(`${BASE_URL}/auth/twitter-access`, options)
-      .then(response => {
-        return response
+      .then(({ data }) => {
+        commit('setToken', data.token)
+        return data
       })
       .catch((error) => {
         // @TODO: Add pretty pop up here

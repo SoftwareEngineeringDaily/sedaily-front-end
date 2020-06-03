@@ -39,12 +39,7 @@
 
         <div>
           <div class="break" name="OR" />
-          <button
-            class="twitter-button"
-            :disabled="loading"
-            @click="twitter">
-            <i class="fa fa-lg fa-twitter" /> Sign In with Twitter
-          </button>
+          <twitter-login copy="Sign In" />
         </div>
 
         <div class="login-buttons col-md-12">
@@ -60,15 +55,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner'
 import { wantedToSubscribe } from '@/utils/subscription.utils.js'
-import { mapActions, mapGetters } from 'vuex'
+import TwitterLogin from '@/components/account/TwitterLogin'
 
 export default {
   name: 'login',
 
   components: {
-    Spinner
+    Spinner,
+    TwitterLogin,
   },
 
   data () {
@@ -80,10 +77,6 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'twitterRequest',
-    ]),
-
     login () {
       this.$validator.validateAll().then((result) => {
         if (result) {
@@ -118,22 +111,6 @@ export default {
           this.loading = false
         }
       })
-    },
-
-    async twitter () {
-      this.loading = true
-
-      try {
-        await this.twitterRequest()
-      }
-      catch (e) {
-        const msg = (e.response.data && e.response.data.message)
-          ? e.response.data.message
-          : 'Failed to register'
-
-        this.$toasted.error(msg, { duration : 6000 })
-        this.loading = false
-      }
     },
 
     logout () {

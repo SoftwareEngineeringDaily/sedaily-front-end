@@ -2,9 +2,9 @@
   <div class="container">
     <div class="row" v-if="!isLoggedIn">
       <form class="col-md-6 offset-md-3" @submit.prevent="() => {}">
-        <h1 v-show="!twitterConnecting">Register</h1>
+        <h1>Register</h1>
 
-        <div class="form-group" v-show="!twitterConnecting">
+        <div class="form-group">
           <label for="emailInput">E-mail address</label>
           <input type="email"
           v-model="email"
@@ -20,7 +20,7 @@
           </div>
         </div>
 
-        <div v-if="email && !twitterConnecting">
+        <div v-if="email">
           <div class="form-group">
             <label for="passwordInput">Password</label>
             <input type="password"
@@ -71,13 +71,8 @@
           </div>
         </div>
         <div v-else>
-          <div class="break" name="OR" v-show="!twitterConnecting" />
-          <button
-            class="twitter-button"
-            :disabled="loading"
-            @click="twitter">
-            <i class="fa fa-lg fa-twitter" /> Sign Up with Twitter
-          </button>
+          <div class="break" name="OR" />
+          <twitter-login />
         </div>
 
         <div class="login-buttons col-md-12" v-if="!isLoggedIn">
@@ -113,12 +108,14 @@ import { mapActions, mapGetters } from 'vuex'
 import { getQuery } from '@/utils/link.utils'
 import { wantedToSubscribe } from '@/utils/subscription.utils'
 import Spinner from '@/components/Spinner'
+import TwitterLogin from '@/components/account/TwitterLogin'
 
 export default {
-  name: 'top-list',
+  name: 'register-view',
 
   components: {
-    Spinner
+    Spinner,
+    TwitterLogin,
   },
 
   data () {
@@ -128,53 +125,12 @@ export default {
       lastName: '',
       email: '',
       loading: false,
-      twitterConnecting: false,
     }
-  },
-
-  async mounted () {
-    const oauth_token = getQuery('oauth_token')
-    const oauth_verifier = getQuery('oauth_verifier')
-
-    if (!oauth_token || !oauth_verifier) {
-      return
-    }
-
-    this.$router.replace(`/register`)
-    this.twitterConnecting = true
-    this.loading = true
-
-    try {
-      const response = await this.twitterAccess({
-        oauth_token,
-        oauth_verifier
-      })
-
-      this.$store.commit('setToken', response.data.token)
-      this.$store.dispatch('fetchMyProfileData')
-
-      if (wantedToSubscribe()) {
-        this.$router.push('/subscribe')
-      } else {
-        this.$router.push('/')
-      }
-    }
-    catch (e) {
-      const msg = (e.response.data && e.response.data.message)
-        ? e.response.data.message
-        : 'Failed to register'
-
-      this.$toasted.error(msg, { duration : 6000 })
-    }
-
-    this.loading = false
   },
 
   methods: {
     ...mapActions([
       'register',
-      'twitterRequest',
-      'twitterAccess'
     ]),
 
     registerHandler (evt) {
@@ -205,24 +161,6 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
-
-    async twitter () {
-      this.loading = true
-      this.twitterConnecting = true
-
-      try {
-        await this.twitterRequest()
-      }
-      catch (e) {
-        const msg = (e.response.data && e.response.data.message)
-          ? e.response.data.message
-          : 'Failed to register'
-
-        this.$toasted.error(msg, { duration : 6000 })
-        this.twitterConnecting = false
-        this.loading = false
-      }
     },
 
     logout () {
