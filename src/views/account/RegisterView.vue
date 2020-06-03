@@ -24,14 +24,14 @@
           <div class="form-group">
             <label for="passwordInput">Password</label>
             <input type="password"
-            v-model="password"
-            id="passwordInput"
-            name="password"
-            v-validate="'required'"
-            class="form-control"
-            aria-describedby="passwordHelp"
-            placeholder="Password"
-            ref="password">
+              v-model="password"
+              id="passwordInput"
+              name="password"
+              v-validate="'required'"
+              class="form-control"
+              aria-describedby="passwordHelp"
+              placeholder="Password"
+              ref="password" />
 
             <div v-show="errors.has('password')" class="alert alert-danger">
               {{ errors.first('password') }}
