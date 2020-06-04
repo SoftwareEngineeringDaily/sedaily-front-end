@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <navigation-bar
-      :userData="me"
-    />
+    <navigation-bar :userData="me" />
     <div class="container-fluid main-app">
       <div class="row">
         <transition
@@ -82,6 +80,7 @@ export default {
 
 <style lang="stylus">
 @import './css/variables'
+
 #app
   background-color #fff
   min-height calc(100vh - 72px)
@@ -93,13 +92,18 @@ export default {
   min-height 100vh
   padding-top 15px
 
-.login-view,.register-view,.settings-view,.forgot-password-view
+.login-view,
+.register-view,
+.settings-view,
+.forgot-password-view
   margin 45px!important
+
   h1
     padding-bottom 15px
-@media (max-width 500px)
-  .login-view,.register-view,.settings-view,.forgot-password-view
-    margin 45px 0!important
+
+  @media (max-width 500px)
+    margin 45px 0 !important
+
 .call-to-action
   background accent-color
   color white
@@ -206,7 +210,7 @@ a
 
 .fade-enter, .fade-leave-active
   opacity 0
-  
+
 @media (max-width 660px)
   .header .inner-mobile
     flex-direction column

@@ -129,6 +129,35 @@ const PostActions = {
       })
   },
 
+  fetchPopular: ({ commit }) => {
+    const url = `${BASE_URL}/posts/popular`
+
+    commit('analytics', {
+      meta : {
+        analytics: [
+          ['event', {
+            eventCategory: 'posts',
+            eventAction: 'fetchPopularPosts',
+            eventLabel: `url: ${url}`,
+            eventValue: 1,
+          }]
+        ]
+      }
+    })
+
+    return axios.get(url)
+      .then((response) => {
+        const posts = response.data.posts || []
+
+        commit('setPopularPosts', { posts })
+
+        return { posts }
+      })
+      .catch((error) => {
+        Vue.toasted.error(error.response.data.message)
+      })
+  },
+
   fetchRecommendations: ({ commit, dispatch, state, getters }, { page = 1, category, createdAtBefore, type }) => {
     commit('setActiveType', { type })
     let url = `${BASE_URL}/posts/recommendations?page=${page}`

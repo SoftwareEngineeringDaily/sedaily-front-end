@@ -162,12 +162,7 @@ export default {
   },
 
   setPopularPosts: (state, { posts }) => {
-    state.popularPosts = {}
-    posts.forEach(post => {
-      if (post) {
-        Vue.set(state.popularPosts, post._id, post)
-      }
-    })
+    state.popularPosts = posts
   },
 
   setNextPage: (state, { nextPage }) => {

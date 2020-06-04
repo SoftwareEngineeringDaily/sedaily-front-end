@@ -8,6 +8,7 @@ export default {
   post: {},
   nextPage: 0,
   posts: {},
+  popularPosts: [],
   entityComments: {}, // arrays of ids, only root comments
   comments: {}, // Map of all comments, key is comment._id
   postRelatedLinks: {},

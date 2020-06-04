@@ -279,7 +279,7 @@ export default {
     margin 7px
   .title
     a
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size 2em
       font-weight bold
       color black
