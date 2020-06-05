@@ -121,8 +121,8 @@ export default {
       this.loading = true
       this.getTopicsInSearch({})
         .then(data => {
-          this.displayedSamplePosts = data.posts.slice(0, 3)
-          this.displayedFeaturedPosts = data.posts.slice(3, 5)
+          this.displayedSamplePosts = data.posts.slice(0, 2)
+          this.displayedFeaturedPosts = data.posts.slice(2, 5)
           this.displayedPosts = data.posts.slice(5)
           this.$store.commit('setPosts', {
             posts: data.posts,
@@ -219,6 +219,11 @@ export default {
 .posts-header
   padding-bottom 2rem
 
+.posts-sample
+  >>> .tags,
+  >>> .img-container
+    display none
+
 .posts-feed,
 .posts-header
   display flex
@@ -243,7 +248,10 @@ export default {
   padding-right 1.5rem
 
   .spinner
-      margin: 0 auto;
-      display block
+    margin 0 auto
+    display block
+
+  >>> .news-post .img-container
+    border none
 
 </style>

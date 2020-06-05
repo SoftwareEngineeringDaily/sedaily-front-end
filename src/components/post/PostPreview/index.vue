@@ -92,6 +92,11 @@ a
 .answer-post
   padding 1rem
 
+.news-post
+  .body
+    padding-right 0
+    padding-left 0
+
 .news-post,
 .answer-post
   display flex
@@ -107,9 +112,10 @@ a
     background #222
 
   .img-container
+    overflow hidden
     height 200px
     background #fff
-    overflow hidden
+    border 2px solid #e9ecef
 
     img
       width 100%
@@ -131,7 +137,8 @@ a
     flex-grow 1
     max-width 25%
     height auto
-    padding-top 2rem
+    margin-top 2rem
+    margin-right 1rem
 
   .body-container
     flex-grow 3
