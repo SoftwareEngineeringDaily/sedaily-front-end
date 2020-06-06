@@ -73,7 +73,7 @@ export default {
   cursor pointer
   display inline-block
   margin 0 0 20px -12px
-  padding 4px 12px
+  padding 4px 10px
   font-size 14px
   font-weight 700
   color #a591ff
@@ -100,7 +100,7 @@ export default {
   a
     display inline-block
     margin 0
-    padding 4px 12px
+    padding 4px 10px
     font-size 14px
     text-decoration none
     text-transform uppercase
@@ -127,6 +127,9 @@ export default {
     white-space nowrap
 
 @media (max-width 750px)
+  .topics-container
+    padding 1rem 0
+
   .topics-container .link-button
     margin 0 0 10px 6px
 

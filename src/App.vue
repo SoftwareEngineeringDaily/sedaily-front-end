@@ -92,6 +92,9 @@ export default {
   min-height 100vh
   padding-top 15px
 
+  @media (max-width 1050px)
+    max-width 90vw
+
 .login-view,
 .register-view,
 .settings-view,

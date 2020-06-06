@@ -19,7 +19,7 @@
         <search-bar />
 
         <span v-if="!isLoggedIn" class="register">
-          <button @click="signIn" name="submit-button" class="btn-sign-in">SIGN IN</button>
+          <button @click="signIn" name="submit-button" class="btn-sign-in">Sign In</button>
         </span>
 
         <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">
@@ -199,6 +199,11 @@ export default {
 
   100%
     display block
+
+.btn-sign-in,
+.btn-secondary
+  white-space nowrap
+  text-transform uppercase
 
 .btn-sign-in
   font-size 14px

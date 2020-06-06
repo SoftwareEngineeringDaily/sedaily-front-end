@@ -40,6 +40,7 @@ export default {
     questions: [],
     unansweredQuestions: [],
     mostPosts: [],
+    topTopics: [],
   },
   searchTopic: [],
   token: localStorage.getItem('token'),

@@ -49,9 +49,10 @@ export default {
     })
   },
 
-  getTopTopics: (_, top) => {
-    return axios.get(`${BASE_URL}/topics/top/${top}`)
+  getTopTopics: ({ commit }, count) => {
+    return axios.get(`${BASE_URL}/topics/top/${count}`)
     .then((response) => {
+      commit('setTopTopics', response.data || [])
       return response.data
     })
   },

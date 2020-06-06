@@ -1,18 +1,6 @@
 <template>
   <div class="news-view">
     <div class="categories-container">
-      <!-- <topic-favorite-list
-        :showTopics="showTopics"
-        :topicHandler="topicHandler"
-        :getClassForTopic="getClassForTopic"
-        :showUserTopics="showUserTopics"
-        />
-      <topic-popular-list
-        :topics="topics"
-        :fetchPosts="fetchPosts"
-        :topicHandler="topicHandler"
-        :getClassForTopic="getClassForTopic"
-      /> -->
       <div v-if="showUserTopics" class="topics-container">
         <h4>Favourite</h4>
         <ul>
@@ -60,7 +48,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner'
 import { PostSummary, PostPreview } from '@/components/post'
 import CategoryList from '@/components/feed/FeedCategoryList'
-import { TopicFavoriteList, TopicPopularList } from '@/components/topic'
 
 export default {
   name: "top-list",
@@ -70,8 +57,6 @@ export default {
     CategoryList,
     PostSummary,
     PostPreview,
-    TopicFavoriteList,
-    TopicPopularList
   },
 
   data() {

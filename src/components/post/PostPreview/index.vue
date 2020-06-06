@@ -128,19 +128,20 @@ a
     margin 15px auto 40px
     border none
 
-.layout-line
-  .news-post
-    align-items flex-start
-    flex-direction row
+@media (min-width 751px)
+  .layout-line
+    .news-post
+      align-items flex-start
+      flex-direction row
 
-  .img-container
-    flex-grow 1
-    max-width 25%
-    height auto
-    margin-top 2rem
-    margin-right 1rem
+    .img-container
+      flex-grow 1
+      max-width 25%
+      height auto
+      margin-top 2rem
+      margin-right 1rem
 
-  .body-container
-    flex-grow 3
+    .body-container
+      flex-grow 3
 
 </style>

@@ -32,9 +32,15 @@
           <spinner :show="loading"></spinner>
         </div>
       </div>
-      <div class="posts-popular">
-        <sub-headline>Popular Posts</sub-headline>
-        <popular-posts />
+      <div class="posts-sidebar">
+        <div class="posts-sidebar-item">
+          <sub-headline>Popular Posts</sub-headline>
+          <popular-posts />
+        </div>
+        <div class="posts-sidebar-item">
+          <sub-headline>Top Topics</sub-headline>
+          <topic-popular-list />
+        </div>
       </div>
     </div>
   </transition>
@@ -45,6 +51,7 @@ import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 import uniqBy from 'lodash/uniqBy'
 import Spinner from '@/components/Spinner';
+import { TopicPopularList } from '@/components/topic'
 import { PopularPosts, PostPreview } from '@/components/post'
 import { SubHeadline } from '@/components/typography'
 
@@ -55,6 +62,7 @@ export default {
     Spinner,
     PostPreview,
     PopularPosts,
+    TopicPopularList,
     SubHeadline,
   },
 
@@ -72,14 +80,21 @@ export default {
   },
 
   computed: {
-    ...mapState(["topics", "searchTerm"]),
+    ...mapState([
+      'topics',
+      'searchTerm'
+    ]),
+
     search() {
       return this.searchTerm;
     },
   },
 
   mounted () {
-    if (this.$route.params.slug) return this.fetchTopicPosts()
+    if (this.$route.params.slug) {
+      return this.fetchTopicPosts()
+    }
+
     return this.fetchPosts()
   },
 
@@ -113,7 +128,7 @@ export default {
     ...mapActions([
       'showTopic',
       'getTopicsInSearch',
-      'fetchSearch'
+      'fetchSearch',
     ]),
 
     fetchPosts() {
@@ -220,6 +235,9 @@ export default {
   padding-bottom 2rem
 
 .posts-sample
+  >>> .body
+    padding-top 0
+
   >>> .tags,
   >>> .img-container
     display none
@@ -228,18 +246,21 @@ export default {
 .posts-header
   display flex
 
-  .posts-sample
-    flex-grow 1
-    max-width 33%
+.posts-sample
+  flex-grow 1
+  max-width 33%
 
-  .posts-featured
-    flex-grow 2
-    margin 0 1.5rem
-    padding 0 1.5rem
-    border-right 1px solid #e9ecef
-    border-left 1px solid #e9ecef
+.posts-featured
+  flex-grow 2
+  margin 0 1.5rem
+  padding 0 1.5rem
+  border-right 1px solid #e9ecef
+  border-left 1px solid #e9ecef
 
-.posts-popular
+  >>> .news-post .body
+    padding 1.5rem 0 3rem
+
+.posts-sidebar
   max-width 25%
 
 .posts-list
@@ -252,6 +273,46 @@ export default {
     display block
 
   >>> .news-post .img-container
-    border none
+    border-width 0
+
+@media (max-width 990px)
+  .posts-featured
+    margin-right 0
+    padding-right 0
+    border-right none
+
+  .posts-sidebar
+    display none
+
+@media (max-width 767px)
+  .posts-header
+    flex-direction column-reverse
+
+    .posts-sample
+      max-width none
+
+      >>> .body
+        padding-top 1.5rem
+
+      >>> .tags,
+      >>> .img-container
+        display block
+
+    .posts-featured
+      margin 0
+      padding 0
+      border-left none
+
+      >>> .news-post .body
+        padding 1.5rem 0
+
+  .posts-feed
+    padding-top 0
+
+  .posts-list
+    padding-right 0
+
+    >>> .news-post .img-container
+      border-width 2px
 
 </style>

@@ -52,6 +52,9 @@ export default {
   setUnansweredQuestions: (state, questions = []) => {
     state.topics.unansweredQuestions = questions
   },
+  setTopTopics: (state, topTopics = []) => {
+    state.topics.topTopics = topTopics
+  },
   setMostPosts: (state, mostPosts = []) => {
     state.topics.mostPosts = mostPosts
   },
