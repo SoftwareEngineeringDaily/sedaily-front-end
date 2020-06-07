@@ -87,15 +87,18 @@ export default {
 
 .topics-scroll
   list-style none
-  overflow auto
-  white-space nowrap
-  margin 0 0 -20px 10px
-  padding 0 0 20px
+  overflow hidden
+  display flex
+  flex-wrap wrap
+  max-height 29px
+  margin 0 0 0 10px
+  padding 0
   text-align left
+  white-space nowrap
 
   li
     display inline-block
-    margin 0 10px 0 0
+    margin 0 10px 2rem 0
 
   a
     display inline-block

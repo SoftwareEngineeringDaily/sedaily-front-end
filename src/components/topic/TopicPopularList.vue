@@ -64,6 +64,7 @@ li
     text-decoration none
     text-transform uppercase
     color #ffffff
+    white-space nowrap
     background-color #222
     border-radius 2px
 

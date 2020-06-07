@@ -261,7 +261,7 @@ export default {
     padding 1.5rem 0 3rem
 
 .posts-sidebar
-  max-width 25%
+  width 25%
 
 .posts-list
   flex: 1
