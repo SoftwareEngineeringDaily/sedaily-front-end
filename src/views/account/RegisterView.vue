@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="login-view container">
     <div class="row" v-if="!isLoggedIn">
       <form class="col-md-6 offset-md-3" @submit.prevent="() => {}">
         <h1>Register</h1>
