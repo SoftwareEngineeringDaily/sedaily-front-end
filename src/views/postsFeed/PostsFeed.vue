@@ -1,16 +1,47 @@
 <template>
   <transition :name="transition">
-    <div class="posts-feed"
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10"
-      >
-        <post-preview 
-          v-for="post in displayedPosts"
-          :key="post._id"
-          :displayedPosts="displayedPosts"
-          :post="post" />
-        <spinner :show="loading"></spinner>
+    <div class="posts-feed">
+      <div class="posts-main">
+        <div class="posts-header">
+          <div class="posts-sample">
+            <post-preview
+              v-for="post in displayedSamplePosts"
+              :key="post._id"
+              :displayedPosts="displayedSamplePosts"
+              :post="post" />
+          </div>
+          <div class="posts-featured">
+            <post-preview
+              v-for="post in displayedFeaturedPosts"
+              :key="post._id"
+              :displayedPosts="displayedFeaturedPosts"
+              :post="post" />
+          </div>
+        </div>
+
+        <div class="posts-list"
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10">
+          <post-preview
+            v-for="post in displayedPosts"
+            layout="line"
+            :key="post._id"
+            :displayedPosts="displayedPosts"
+            :post="post" />
+          <spinner :show="loading"></spinner>
+        </div>
+      </div>
+      <div class="posts-sidebar">
+        <div class="posts-sidebar-item">
+          <sub-headline>Popular Posts</sub-headline>
+          <popular-posts />
+        </div>
+        <div class="posts-sidebar-item">
+          <sub-headline>Top Topics</sub-headline>
+          <topic-popular-list />
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -20,34 +51,53 @@ import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 import uniqBy from 'lodash/uniqBy'
 import Spinner from '@/components/Spinner';
-import PostPreview from '@/components/post/PostPreview'
+import { TopicPopularList } from '@/components/topic'
+import { PopularPosts, PostPreview } from '@/components/post'
+import { SubHeadline } from '@/components/typography'
 
 export default {
+  name: 'posts-feed',
+
   components: {
     Spinner,
-    PostPreview
+    PostPreview,
+    PopularPosts,
+    TopicPopularList,
+    SubHeadline,
   },
-  name: 'posts-feed',
+
   data () {
     return {
       loading: false,
       endOfPosts: false,
-      transition: "slide-up",
+      transition: 'slide-up',
+      displayedSamplePosts: [],
+      displayedFeaturedPosts: [],
       displayedPosts: [],
       topicId: "",
       routerTopic: false
     }
   },
+
   computed: {
-    ...mapState(["topics", "searchTerm"]),
+    ...mapState([
+      'topics',
+      'searchTerm'
+    ]),
+
     search() {
       return this.searchTerm;
     },
   },
+
   mounted () {
-    if (this.$route.params.slug) return this.fetchTopicPosts()
+    if (this.$route.params.slug) {
+      return this.fetchTopicPosts()
+    }
+
     return this.fetchPosts()
   },
+
   watch: {
     searchTerm() {
       let term = this.$store.state.searchTerm;
@@ -75,20 +125,30 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["showTopic", "getTopicsInSearch", "fetchSearch"]),
+    ...mapActions([
+      'showTopic',
+      'getTopicsInSearch',
+      'fetchSearch',
+    ]),
+
     fetchPosts() {
-      this.topicId = ""
+      this.topicId = ''
       this.loading = true
-      this.getTopicsInSearch({}).then(
-        data => {
-          this.displayedPosts = data.posts
-          this.$store.commit('setPosts', {posts: data.posts})
+      this.getTopicsInSearch({})
+        .then(data => {
+          this.displayedSamplePosts = data.posts.slice(0, 2)
+          this.displayedFeaturedPosts = data.posts.slice(2, 5)
+          this.displayedPosts = data.posts.slice(5)
+          this.$store.commit('setPosts', {
+            posts: data.posts,
+          })
         }
       ).finally(() => {
         this.loading = false
       })
       this.resetPosts();
     },
+
     fetchTopicPosts() {
       this.loading = true
       this.$store.dispatch('showTopic', this.$route.params.slug).then((response) => {
@@ -102,6 +162,7 @@ export default {
         this.loading = false
       })
     },
+
     loadMore(newSearch = false) {
       let isSearch = !!(this.$store.state.searchTerm)
       let method = isSearch ? 'fetchSearch' : 'getTopicsInSearch'
@@ -152,6 +213,7 @@ export default {
           this.loading = false;
         });
     },
+
     resetPosts() {
       this.displayedPosts = [];
       this.endOfPosts = false;
@@ -163,11 +225,94 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .posts-feed
-    flex: 1
+.posts-main
+  width 100%
 
-    .spinner
-        margin: 0 auto;
+.posts-feed
+  padding-top 2rem
+
+.posts-header
+  padding-bottom 2rem
+
+.posts-sample
+  >>> .body
+    padding-top 0
+
+  >>> .tags,
+  >>> .img-container
+    display none
+
+.posts-feed,
+.posts-header
+  display flex
+
+.posts-sample
+  flex-grow 1
+  max-width 33%
+
+.posts-featured
+  flex-grow 2
+  margin 0 1.5rem
+  padding 0 1.5rem
+  border-right 1px solid #e9ecef
+  border-left 1px solid #e9ecef
+
+  >>> .news-post .body
+    padding 1.5rem 0 3rem
+
+.posts-sidebar
+  width 25%
+
+.posts-list
+  flex: 1
+  width 100%
+  padding-right 1.5rem
+
+  .spinner
+    margin 0 auto
+    display block
+
+  >>> .news-post .img-container
+    border-width 0
+
+@media (max-width 990px)
+  .posts-featured
+    margin-right 0
+    padding-right 0
+    border-right none
+
+  .posts-sidebar
+    display none
+
+@media (max-width 767px)
+  .posts-header
+    flex-direction column-reverse
+
+    .posts-sample
+      max-width none
+
+      >>> .body
+        padding-top 1.5rem
+
+      >>> .tags,
+      >>> .img-container
         display block
+
+    .posts-featured
+      margin 0
+      padding 0
+      border-left none
+
+      >>> .news-post .body
+        padding 1.5rem 0
+
+  .posts-feed
+    padding-top 0
+
+  .posts-list
+    padding-right 0
+
+    >>> .news-post .img-container
+      border-width 2px
 
 </style>

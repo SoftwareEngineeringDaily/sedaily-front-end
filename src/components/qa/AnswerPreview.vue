@@ -84,9 +84,11 @@ export default {
 
 <style lang="stylus" scoped>
 .answer-post
-  padding 1rem
+  padding 1rem 0
   background-color #ffffff
-  border 2px solid #e9ecef
+
+  p
+    margin-bottom 0.6rem
 
   @media (max-width: 750px)
     border-right none

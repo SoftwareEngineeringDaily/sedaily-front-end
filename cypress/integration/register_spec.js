@@ -27,10 +27,10 @@ describe('The Register Page', function () {
     // require hash when visiting directly
     cy.visit('/#/register')
     .then(() => {
+      cy.get('#emailInput').type(newUser.email)
       cy.get('input[name=password]').type(newUser.password)
       cy.get('input[name=name]').type(newUser.name)
       cy.get('input[name=lastName]').type(newUser.lastName)
-      cy.get('#emailInput').type(newUser.email)
       cy.get('.login-view button[name=submit-button]').click()
     })
     cy.location().should((loc) => {

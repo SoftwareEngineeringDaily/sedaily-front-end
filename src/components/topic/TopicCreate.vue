@@ -4,7 +4,7 @@
     <button
       class="link-button"
       @click="toggleModal">
-      <i class="fa fa-plus" /> Add Company or Topic
+      <i class="fa fa-plus" /> Company or Topic
     </button>
 
     <modal

@@ -3,9 +3,9 @@
     <router-link :to="postPrettyUrl">
       <post-topics-list :post="post" v-if="showTags"/>
 
-      <h3 class="title">
+      <news-title>
         {{ post.title.rendered | decodeString }}
-      </h3>
+      </news-title>
 
       <div class="copy" v-if="showCopy">
         <span v-if="post.excerpt.rendered !== '' && metaDescription === ''" v-html="post.excerpt.rendered"></span>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { NewsTitle } from '@/components/typography'
 import { PostMeta, PostTopicsList, PostTopics, PostTitle, PostAuthor } from '@/components/post'
 import VotingArrows from '@/components/VotingArrows'
 import { postPrettyUrl } from '@/utils/post.utils'
@@ -51,6 +52,7 @@ export default {
   components: {
     VotingArrows,
     PostMeta,
+    NewsTitle,
     PostTopicsList,
     PostTopics,
     PostTitle,

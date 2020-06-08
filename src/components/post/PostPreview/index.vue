@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="`layout-${layout}`">
     <answer-preview
        v-if="post.type && post.type === 'answer'"
       :answer="post" />
@@ -27,10 +27,11 @@
 <script>
 import PostPreviewCopy from './PostPreviewCopy'
 import AnswerPreview from '@/components/qa/AnswerPreview'
+import { NewsTitle } from '@/components/typography'
 import { postPrettyUrl } from '@/utils/post.utils'
 
 export default {
-  name: "post-preview",
+  name: 'post-preview',
 
   components: {
     PostPreviewCopy,
@@ -40,6 +41,14 @@ export default {
   props: {
     post: {
       type: Object
+    },
+    layout: {
+      type: String,
+      default: 'stack',
+      validator: function (prop = 'stack') {
+        const oneOf = ['stack', 'line']
+        return (oneOf.indexOf(prop) !== -1)
+      },
     },
     displayedPosts: {
       type: Array,
@@ -81,17 +90,19 @@ a
   cursor pointer
 
 .answer-post
-  padding 2rem
+  padding 1rem
+
+.news-post
+  .body
+    padding-right 0
+    padding-left 0
 
 .news-post,
 .answer-post
   display flex
   flex-direction column
   position relative
-  max-width 525px
-  margin 15px 16% 40px
-  border 2px solid #e9ecef
-  background #e9ecef
+  margin 0 0 2rem
 
   &.is-preview
     margin 0 0 40px
@@ -101,9 +112,10 @@ a
     background #222
 
   .img-container
+    overflow hidden
     height 200px
     background #fff
-    overflow hidden
+    border 2px solid #e9ecef
 
     img
       width 100%
@@ -115,5 +127,21 @@ a
     width 100%
     margin 15px auto 40px
     border none
+
+@media (min-width 751px)
+  .layout-line
+    .news-post
+      align-items flex-start
+      flex-direction row
+
+    .img-container
+      flex-grow 1
+      max-width 25%
+      height auto
+      margin-top 2rem
+      margin-right 1rem
+
+    .body-container
+      flex-grow 3
 
 </style>

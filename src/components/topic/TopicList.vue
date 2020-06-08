@@ -1,22 +1,21 @@
 <template>
-  <div class="categories-container">
-    <div class="topics-container">
+  <div class="topics-container">
 
-      <topic-create />
+    <topic-create />
 
-      <ul class="topics-scroll">
-        <li v-for="topic in recentTopicPages" :key="topic._id">
-          <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-            {{topic.name}}
-          </router-link>
-        </li>
-        <li v-for="topic in postsTopics" :key="topic._id">
-          <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
-            {{topic.name}}
-          </router-link>
-        </li>
-      </ul>
-    </div>
+    <ul class="topics-scroll">
+      <li v-for="topic in recentTopicPages" :key="topic._id">
+        <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+          {{topic.name}}
+        </router-link>
+      </li>
+      <li v-for="topic in mostPostsTopics" :key="topic._id" class="most">
+        <router-link :to="{ name: 'TopicPage', params: { slug: topic.slug } }">
+          {{topic.name}}
+        </router-link>
+      </li>
+    </ul>
+
   </div>
 </template>
 
@@ -47,7 +46,7 @@ export default {
       },
     }),
 
-    postsTopics () {
+    mostPostsTopics () {
       return this.mostPosts
         .filter(post => (
           this.recentTopicPages.filter(p => p.name !== post.name).length
@@ -63,11 +62,18 @@ export default {
   display flex
   flex-direction column
 
-.topics-container .link-button
+.topics-container
+  display flex
+  align-items center
+  padding 1.5rem 0 1.6rem
+  border-top 4px solid #222
+  border-bottom 1px solid #222
+
+.link-button
   cursor pointer
   display inline-block
   margin 0 0 20px -12px
-  padding 4px 12px
+  padding 4px 10px
   font-size 14px
   font-weight 700
   color #a591ff
@@ -81,13 +87,23 @@ export default {
 
 .topics-scroll
   list-style none
+  overflow hidden
+  display flex
+  flex-wrap wrap
+  max-height 29px
+  margin 0 0 0 10px
   padding 0
   text-align left
+  white-space nowrap
+
+  li
+    display inline-block
+    margin 0 10px 2rem 0
 
   a
     display inline-block
-    margin 0 0 10px
-    padding 4px 12px
+    margin 0
+    padding 4px 10px
     font-size 14px
     text-decoration none
     text-transform uppercase
@@ -106,18 +122,16 @@ export default {
 .header-topic
   margin 20px 0
 
->>> .topicpage-create .link-button
-  margin 0 0 20px -12px
+>>> .topicpage-create
+  flex-grow 1
+
+  .link-button
+    margin 0
+    white-space nowrap
 
 @media (max-width 750px)
-  .topics-scroll
-    overflow auto
-    white-space nowrap
-    padding-left 10px
-
-    li
-      display inline-block
-      margin 0 10px 0 0
+  .topics-container
+    padding 1rem 0
 
   .topics-container .link-button
     margin 0 0 10px 6px

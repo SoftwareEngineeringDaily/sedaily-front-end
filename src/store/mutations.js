@@ -52,6 +52,9 @@ export default {
   setUnansweredQuestions: (state, questions = []) => {
     state.topics.unansweredQuestions = questions
   },
+  setTopTopics: (state, topTopics = []) => {
+    state.topics.topTopics = topTopics
+  },
   setMostPosts: (state, mostPosts = []) => {
     state.topics.mostPosts = mostPosts
   },
@@ -162,12 +165,7 @@ export default {
   },
 
   setPopularPosts: (state, { posts }) => {
-    state.popularPosts = {}
-    posts.forEach(post => {
-      if (post) {
-        Vue.set(state.popularPosts, post._id, post)
-      }
-    })
+    state.popularPosts = posts
   },
 
   setNextPage: (state, { nextPage }) => {
