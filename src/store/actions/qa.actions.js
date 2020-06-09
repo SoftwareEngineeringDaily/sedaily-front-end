@@ -34,8 +34,8 @@ export default {
     })
   },
 
-  createQuestionBatch: (_, { questions, entityId, entityType } ) => {
-    return axios.post(`${BASE_URL}/question`, { questions, entityId, entityType })
+  createQuestionBatch: (_, { startOrder, questions, entityId, entityType } ) => {
+    return axios.post(`${BASE_URL}/question`, { startOrder, questions, entityId, entityType })
     .then((response) => {
       return response.data
     })
@@ -43,6 +43,13 @@ export default {
 
   updateQuestion: (_, { content, questionId } ) => {
     return axios.put(`${BASE_URL}/question/${questionId}`, { content })
+    .then((response) => {
+      return response.data
+    })
+  },
+
+  updateQuestionOrder: (_, { entityType, entityId, questions }) => {
+    return axios.put(`${BASE_URL}/question/entity/${entityType}/${entityId}/order`, { questions })
     .then((response) => {
       return response.data
     })
