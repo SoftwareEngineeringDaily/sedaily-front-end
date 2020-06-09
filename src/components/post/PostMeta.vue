@@ -10,9 +10,9 @@
       <span>|</span>
     </div>
 
-    <div v-if="showLikes" class="cursor-pointer" @click="like">
+    <div class="cursor-pointer" @click="like">
       <i class="fa fa-lg" :class="{ 'fa-heart-o': !likeActive, 'fa-heart': likeActive }"></i>
-      {{ post.score }}
+      <span v-if="showLikes">{{ post.score }}</span>
     </div>
 
     <div class="cursor-pointer" @click="bookmark">
