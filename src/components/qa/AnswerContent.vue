@@ -18,9 +18,9 @@
 
         <span>|</span>
 
-        <div v-if="showLikes" class="cursor-pointer hover-highlight" :class="{ 'active': isMyVote }" @click="onVote">
+        <div class="cursor-pointer hover-highlight" :class="{ 'active': isMyVote }" @click="onVote">
           <i class="fa fa-lg" :class="{ 'fa-heart-o': !isMyVote, 'fa-heart': isMyVote }"></i>
-          {{ answer.votes.length }}
+          <span v-if="showLikes">{{ answer.votes.length }}</span>
         </div>
 
         <social-sharing
