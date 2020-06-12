@@ -12,28 +12,6 @@
         :userData="me"
         :ownProfile="true" />
 
-      <div class="profile-footer" v-if="hasConnections">
-        <label class="text-muted">Connect:</label>
-
-        <a
-          v-if="me.twitter"
-          :href="`https://twitter.com/${me.twitter}`"
-          :title="me.twitter"
-          target="_blank"
-          rel="external nofollow">
-          <i class="fa fa-twitter fa-2x" />
-        </a>
-
-        <a
-          v-if="me.website"
-          :href="me.website | externalUrl"
-          :title="me.website | host"
-          target="_blank"
-          rel="external nofollow">
-          <i class="fa fa-globe fa-2x" />
-        </a>
-      </div>
-
       <div class="row">
         <div class="profile-item col-md-8">
           <profile-activities
@@ -91,10 +69,6 @@ export default {
         )
       },
     }),
-
-    hasConnections () {
-      return (this.me && (this.me.twitter || this.me.website))
-    },
   },
 
   watch: {
@@ -144,35 +118,6 @@ export default {
 .center
   text-align center
   margin 5vh 0
-
-.profile-footer
-  display flex
-  align-items center
-  justify-content flex-start
-  margin-top -2rem
-  margin-bottom 2rem
-  padding 1rem 10px
-  border-top 1px solid #e9ecef
-  border-bottom 1px solid #e9ecef
-
-  .fa-twitter:hover
-    color #1da1f2
-
-  .fa-globe:hover
-    color #a591ff
-
-  label
-    margin-bottom 0
-
-  & > *
-    margin-right 1.5rem
-
-.settings
-  display inline-block
-  font-weight 600
-
-  &:hover
-    color primary-color
 
 .bg-danger
   text-align center

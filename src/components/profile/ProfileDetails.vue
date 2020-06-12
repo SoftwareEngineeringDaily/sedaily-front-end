@@ -1,23 +1,47 @@
 <template>
-  <div class="display-details">
-    <div class="crop-image">
-      <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
-    </div>
-    <div v-if="userData" class="user-details">
-      <div class="row-name">
-        <h3 class="display-name">
-          {{ displayName }} {{ displayLastName }}
-        </h3>
-        <router-link
-          v-if="ownProfile"
-          class="button-submit button-submit-reverse"
-          to="/edit-profile">
-          <i class="fa fa-pencil" />
-          <span>Edit Profile</span>
-        </router-link>
+  <div>
+    <div class="display-details">
+      <div class="crop-image">
+        <img class="profile-img" :src="errorImg || avatarUrl" @error="imgOnError">
       </div>
+      <div v-if="userData" class="user-details">
+        <div class="row-name">
+          <h3 class="display-name">
+            {{ displayName }} {{ displayLastName }}
+          </h3>
+          <router-link
+            v-if="ownProfile"
+            class="button-submit button-submit-reverse"
+            to="/edit-profile">
+            <i class="fa fa-pencil" />
+            <span>Edit Profile</span>
+          </router-link>
+        </div>
 
-      <p>{{ displayBio }}</p>
+        <p>{{ displayBio }}</p>
+      </div>
+    </div>
+
+    <div class="profile-footer" v-if="hasConnections">
+      <label class="text-muted">Connect:</label>
+
+      <a
+        v-if="userData.twitter"
+        :href="`https://twitter.com/${userData.twitter}`"
+        :title="userData.twitter"
+        target="_blank"
+        rel="external nofollow">
+        <i class="fa fa-twitter fa-2x" />
+      </a>
+
+      <a
+        v-if="userData.website"
+        :href="userData.website | externalUrl"
+        :title="userData.website | host"
+        target="_blank"
+        rel="external nofollow">
+        <i class="fa fa-globe fa-2x" />
+      </a>
     </div>
   </div>
 </template>
@@ -82,7 +106,11 @@ export default {
         if (!this.userData || !this.userData.name) return null;
         return `/profile/${this.userData._id}`
       }
-    })
+    }),
+
+    hasConnections () {
+      return (this.userData && (this.userData.twitter || this.userData.website))
+    },
   },
 
   methods: {
@@ -106,10 +134,8 @@ export default {
 .display-details
   display flex
   justify-content stretch
-  margin-left auto
-  margin-right auto
+  margin 0 auto 1rem
   padding 10px
-  margin-bottom 2rem
 
 .row-name
   display flex
@@ -170,6 +196,27 @@ export default {
 
 .profile-img
   width inherit
+
+.profile-footer
+  display flex
+  align-items center
+  justify-content flex-start
+  margin-bottom 2rem
+  padding 1rem 10px
+  border-top 1px solid #e9ecef
+  border-bottom 1px solid #e9ecef
+
+  .fa-twitter:hover
+    color #1da1f2
+
+  .fa-globe:hover
+    color #a591ff
+
+  label
+    margin-bottom 0
+
+  & > *
+    margin-right 1.5rem
 
 @media (max-width 750px)
   .crop-image
