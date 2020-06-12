@@ -7,8 +7,8 @@
 <style lang="stylus" scoped>
 .activity-header
   position relative
+  padding-bottom 0.8rem
   font-size 20px
-  padding 2rem 0 0.8rem
   font-weight 600
 
 </style>

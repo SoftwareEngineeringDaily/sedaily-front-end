@@ -6,31 +6,25 @@
     <div v-else-if="error" class="bg-danger">
       Error: {{ error }}
     </div>
-    <div v-else class="row">
+    <div v-else>
 
-      <div class="profile-view col-md-8">
-        <profile-details
-          :userData="me"
-          :ownProfile="true" />
+      <profile-details
+        :userData="me"
+        :ownProfile="true" />
 
-        <div class="profile-footer">
-          <label class="text-muted">Settings:</label>
-          <router-link to="/settings" class="settings">E-mail</router-link>
+      <div class="row">
+        <div class="profile-item col-md-8">
+          <profile-activities
+            :userData="me"
+            :activities="activities"
+            :activityDays="activityDays" />
         </div>
 
-        <profile-activities
-          :userData="me"
-          :activities="activities"
-          :activityDays="activityDays" />
+        <div class="profile-item col-md-4">
+          <profile-topics v-if="me" :user="me" />
+        </div>
       </div>
 
-      <div class="profile-view col-md-4">
-        <profile-badges
-          :userData="me"
-          :badges="badges" />
-
-        <profile-topics v-if="me" :user="me" />
-      </div>
     </div>
   </div>
 </template>
@@ -38,7 +32,6 @@
 <script type="text/javascript">
 import { mapActions, mapState } from 'vuex'
 import ProfileDetails from '@/components/profile/ProfileDetails'
-import ProfileBadges from './ProfileBadges'
 import ProfileActivities from './ProfileActivities'
 import ProfileTopics from './ProfileTopics'
 import Spinner from '@/components/Spinner'
@@ -48,7 +41,6 @@ export default {
 
   components: {
     ProfileDetails,
-    ProfileBadges,
     ProfileActivities,
     ProfileTopics,
     Spinner
@@ -76,7 +68,7 @@ export default {
           state.me.subscription.active
         )
       },
-    })
+    }),
   },
 
   watch: {
@@ -95,8 +87,12 @@ export default {
     ]),
 
     async fetchData () {
-      if (!this.me || !this.me._id) return;
+      if (!this.me || !this.me._id) {
+        return;
+      }
+
       this.loading = true
+
       try {
         const response = await this.fetchPublicActivities({ userId: this.me._id })
 
@@ -123,23 +119,11 @@ export default {
   text-align center
   margin 5vh 0
 
-.profile-footer
-  padding-left 10px
-
-  & > *
-    margin-right 10px
-
-.settings
-  display inline-block
-  font-weight 600
-
-  &:hover
-    color primary-color
-
 .bg-danger
   text-align center
   color #ffffff
   padding 10px
   font-size 16px
   font-weight 600
+
 </style>

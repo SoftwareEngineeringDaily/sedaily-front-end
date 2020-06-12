@@ -2,24 +2,25 @@
   <div>
     <div class="row">
       <form class="col-md-6 offset-md-3" v-on:submit.prevent="submit">
-        <div class="row">
-        </div>
+
         <h1>Edit Profile</h1>
+
         <div class="crop-edit-image" v-if="showExistingAvatarUrl">
           <img class="edit-profile-img" :src="avatarUrl" />
         </div>
 
         <div class="form-group">
           <label for="emailInput">Email address</label>
+
           <input type="email"
-          id="emailInput"
-          v-model="email"
-          v-validate="{ required: false, email: true}"
-          disabled
-          name="email"
-          class="form-control"
-          aria-describedby="emailHelp"
-          placeholder="youremail@email.com">
+            id="emailInput"
+            v-model="email"
+            v-validate="{ required: false, email: true}"
+            disabled
+            name="email"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="youremail@email.com" />
 
           <div v-show="errors.has('email')" class="alert alert-danger">
             {{ errors.first("email") }}
@@ -41,14 +42,14 @@
 
         <div class="form-group">
           <label for="nameInput">Name <span class="public-info"/></label>
-          <input type="text" 
-          v-model="name"
-          name="name"
-          id="nameInput"
-          class="form-control"
-          v-validate="'required'"
-          aria-describedby="nameHelp"
-          placeholder="Alex">
+          <input type="text"
+            v-model="name"
+            name="name"
+            id="nameInput"
+            class="form-control"
+            v-validate="'required'"
+            aria-describedby="nameHelp"
+            placeholder="Alex" />
 
           <div v-show="errors.has('name')" class="alert alert-danger">
             {{ errors.first("name") }}
@@ -57,14 +58,14 @@
 
         <div class="form-group">
           <label for="LastNameInput">Last name <span class="public-info"/></label>
-          <input type="text" 
-          v-model="lastName"
-          name="lastName"
-          id="LastNameInput"
-          class="form-control"
-          v-validate="'required'"
-          aria-describedby="lastNameHelp"
-          placeholder="Smith">
+          <input type="text"
+            v-model="lastName"
+            name="lastName"
+            id="LastNameInput"
+            class="form-control"
+            v-validate="'required'"
+            aria-describedby="lastNameHelp"
+            placeholder="Smith" />
 
           <div v-show="errors.has('LastName')" class="alert alert-danger">
             {{ errors.first("LastName") }}
@@ -73,13 +74,13 @@
 
         <div class="form-group">
           <label for="twitterInput">Twitter account <span class="public-info"/></label>
-          <input type="text" 
-          v-model="twitter"
-          name="twitter"
-          id="twitterInput"
-          class="form-control"
-          aria-describedby="twitterHelp"
-          placeholder="alexsmith">
+          <input type="text"
+            v-model="twitter"
+            name="twitter"
+            id="twitterInput"
+            class="form-control"
+            aria-describedby="twitterHelp"
+            placeholder="alexsmith" />
 
           <div v-show="errors.has('twitter')" class="alert alert-danger">
             {{ errors.first("twitter") }}
@@ -88,29 +89,35 @@
 
         <div class="form-group">
           <label for="bioInput">Bio <span class="public-info"/></label>
-          <input type="text" 
-          v-model="bio"
-          id="bioInput"
-          class="form-control"
-          aria-describedby="bioHelp"
-          placeholder="A short bio">
+          <b-form-textarea
+            v-model="bio"
+            id="bioInput"
+            class="form-control"
+            aria-describedby="bioHelp"
+            rows="2"
+            max-rows="6"
+            placeholder="A short bio" />
         </div>
 
         <div class="form-group">
           <label for="websiteInput">Website</label>
-          <input type="text" 
-          v-model="website"
-          id="websiteInput"
-          class="form-control"
-          aria-describedby="websiteHelp"
-          placeholder="yourWebsite.com">
+          <input type="text"
+            v-model="website"
+            id="websiteInput"
+            class="form-control"
+            aria-describedby="websiteHelp"
+            placeholder="yourWebsite.com" />
         </div>
 
         <button
-        class="button-submit" @click.prevent="submit" :disabled="loading">
+          class="button-submit"
+          @click.prevent="submit"
+          :disabled="loading">
           Update
         </button>
+
         {{msg}}
+
         <spinner :show="loading"></spinner>
       </form>
     </div>
@@ -200,9 +207,11 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.loading = true
+
           const { bio, website, name, id, lastName, twitter } = this
           const cleanTwitter = (twitter) ? twitter.replace('@','') : null
           let updatePromise = null
+
           if (this.file) {
             updatePromise = this.uploadAvatarImage({ imageFile: this.file })
               .then((imageSuccess) => {
@@ -218,10 +227,10 @@ export default {
               })
               .catch((error) => {
                 console.log('Error uploading', error)
-                this.$toasted.error('Error uploading', { 
+                this.$toasted.error('Error uploading', {
                     singleton: true,
-                    theme: "bubble", 
-                    position: "bottom-center", 
+                    theme: "bubble",
+                    position: "bottom-center",
                     duration : 700
                 })
               })
@@ -249,10 +258,10 @@ export default {
             })
             .catch((error) => {
               console.log('Error Updaating', error)
-              this.$toasted.error('There was a problem updating your profile', { 
+              this.$toasted.error('There was a problem updating your profile', {
                   singleton: true,
-                  theme: "bubble", 
-                  position: "bottom-center", 
+                  theme: "bubble",
+                  position: "bottom-center",
                   duration : 700
               })
             })
@@ -264,28 +273,48 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus">
-  @import '../../css/variables'
-  .fileInput
-    padding 3px !important
-    display ruby-text-container
-  .edit-profile-img
-    display: inline;
-    height: 100%;
-    width: auto;
+@import '../../css/variables'
 
-  .crop-edit-image
-    background-position 50%
-    background-repeat no-repeat
-    border-radius 50%
-    margin 15px 0
-    width 100px
-    height 100px
-    overflow hidden
-  
-  .public-info
-    color light-grey
+.fileInput
+  padding 3px !important
+  display ruby-text-container
 
-  .public-info:before
-    content "*Public"
+.edit-profile-img
+  display: inline;
+  height: 100%;
+  width: auto;
+
+.crop-edit-image
+  background-position 50%
+  background-repeat no-repeat
+  border-radius 50%
+  margin 15px 0
+  width 100px
+  height 100px
+  overflow hidden
+
+.public-info
+  color light-grey
+
+.public-info:before
+  content "*Public"
+
+input.form-control::-webkit-input-placeholder {
+  color light-grey
+}
+
+input.form-control::-moz-placeholder {
+  color light-grey
+}
+
+input.form-control:-ms-input-placeholder {
+  color light-grey
+}
+
+input.form-control:-moz-placeholder {
+  color light-grey
+}
+
 </style>

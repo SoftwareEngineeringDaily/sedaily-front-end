@@ -1,6 +1,6 @@
 <template>
   <div class="display-activities" v-if="activities">
-    <activity-header>Last {{activityDays}} Days of Activities</activity-header>
+    <activity-header>Latest from {{userData.name}}</activity-header>
     <div v-for="(items, date) in activities" class="activity-group" :key="date">
       <div class="activity-group-date">{{groupDateFormat(date)}}</div>
       <div class="activity-group-content">
@@ -93,7 +93,7 @@ export default {
       if (act.activityType === 'topicPageChange') {
         return 'Made changes in topic'
       }
-      
+
       if (act.activityType === 'topicPagePublish') {
         return 'Published topic'
       }

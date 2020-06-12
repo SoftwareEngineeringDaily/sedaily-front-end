@@ -47,6 +47,9 @@
               <b-dropdown-item to="/bookmarks">
                 Bookmarks
               </b-dropdown-item>
+              <b-dropdown-item v-if="isLoggedIn" to="/settings">
+                Settings
+              </b-dropdown-item>
               <b-dropdown-item @click.prevent="logoutHandler">
                 Logout
               </b-dropdown-item>
@@ -215,7 +218,7 @@ export default {
 
 .button-submit
   min-width auto
-  margin-left 15px
+  margin-left 10px
   font-weight 700
 
   .fa-rss
@@ -327,7 +330,7 @@ export default {
   .register
     display flex
     align-items center
-    margin-left 5px
+    margin-left 10px
 
   .logo-img
     max-height 30px
