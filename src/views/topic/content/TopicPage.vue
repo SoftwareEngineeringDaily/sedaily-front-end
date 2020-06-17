@@ -642,6 +642,7 @@ export default {
     margin-top 10px
     padding 4px 12px
     color #a591ff
+    background-color transparent
     border 1px solid #a591ff
     border-radius 18px
 

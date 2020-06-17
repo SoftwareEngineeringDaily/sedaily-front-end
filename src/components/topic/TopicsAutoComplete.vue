@@ -20,6 +20,7 @@
     :hide-selected="true"
     @search-change="onSearch">
 
+    <span slot="noOptions"></span>
     <span slot="noResult">No topics found.</span>
 
   </multiselect>
@@ -28,6 +29,7 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import { mapState, mapActions } from 'vuex'
+import { delay } from '@/utils/post.utils'
 
 export default {
   name: 'topics-auto-complete',
@@ -86,10 +88,16 @@ export default {
       'getSearchedTopics',
     ]),
 
-    async onSearch (query) {
-      this.isLoading = true
-      await this.getSearchedTopics(query)
-      this.isLoading = false
+    async onSearch (query = '') {
+      if (!query || (query && query.length < 2)) {
+        return
+      }
+
+      delay(async () => {
+        this.isLoading = true
+        await this.getSearchedTopics(query)
+        this.isLoading = false
+      }, 300)
     },
 
     limitText (count) {
@@ -141,6 +149,9 @@ export default {
 
       &:after
         color #fff
+
+>>> .multiselect__content li:last-child
+  display none
 
 >>> .multiselect__option.multiselect__option--highlight
   &,

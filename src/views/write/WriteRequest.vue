@@ -113,7 +113,7 @@ export default {
       &:hover
         color #222
         text-decoration underline
-    
+
     .select
       margin-bottom 20px
       display inline-block
@@ -121,6 +121,7 @@ export default {
       font-size 14px
       font-weight 700
       color #a591ff
+      background-color transparent
       border 2px solid #a591ff
       border-radius 18px
 
