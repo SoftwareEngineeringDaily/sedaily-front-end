@@ -214,6 +214,26 @@ a
 .fade-enter, .fade-leave-active
   opacity 0
 
+.toasted-container .bubble
+  padding 6px 20px
+  font-weight 700
+
+.toasted-container .toasted .action
+  box-sizing border-box
+  margin-left 14px
+  padding 4px 12px
+  font-size 0.75em
+  color #222
+  background-color #fff
+  border 2px solid #fff
+  border-radius 36px
+
+  &:hover
+    color #fff
+    text-decoration none
+    background-color transparent
+    border 2px solid #fff
+
 @media (max-width 660px)
   .header .inner-mobile
     flex-direction column

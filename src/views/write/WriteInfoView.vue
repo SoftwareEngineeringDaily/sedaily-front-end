@@ -4,75 +4,72 @@
     :canSuggest="true">
 
     <div class="write-info-view">
-      <div v-if="!me || !me._id" class="display-content">
-        You need to login first.
+      <div class="list">
+        <div class="form">
+          <div class="list-input">
+            <topics-auto-complete
+              v-model="newTopic"
+              placeholder="Search an existing topic to write about"
+              :multiple="false" />
+            <button
+              :disabled="!newTopic"
+              @click="onClickTopic(newTopic)">
+              <span v-if="hasMaintainers(newTopic)">
+                View
+              </span>
+              <span v-else>
+                Write
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <spinner :show="loading"/>
+
+        <strong class="list-label">Suggested topics</strong>
+
+        <div v-if="!loading" class="flex">
+          <button
+            v-for="topic in topics"
+            :key="topic._id"
+            class="list-item topic-select"
+            @click="onClickTopic(topic)">
+            {{topic.name}}
+          </button>
+
+          <topic-create />
+        </div>
       </div>
 
-      <template v-else>
+      <div class="list">
+        <h2 class="list-headline">Questions</h2>
+        <div
+          v-for="question in unansweredQuestions"
+          :key="question._id">
 
-        <div class="list">
-          <div class="form">
-            <div class="list-input">
-              <topics-auto-complete
-                v-model="newTopic"
-                placeholder="Write about an existing topic"
-                :multiple="false" />
-              <button
-                :disabled="!newTopic"
-                @click="onClickTopic(newTopic)">
-                Write
-              </button>
+          <div class="topicpage-header">
+            <div class="post-topics">
+              <router-link :to="`/topic/${question.topic.slug}`" class="topics">
+                {{question.topic.name}}
+              </router-link>
             </div>
           </div>
 
-          <spinner :show="loading"/>
+          <question
+            :topicSlug="question.topic.slug"
+            :answerLimit="0"
+            :question="question"
+            :canAnswer="false" />
 
-          <strong class="list-label">Suggested topics</strong>
-
-          <div v-if="!loading" class="flex">
-            <button
-              v-for="topic in topics"
-              :key="topic._id"
-              class="list-item topic-select"
-              @click="onClickTopic(topic)">
-              {{topic.name}}
-            </button>
-
-            <topic-create />
-          </div>
         </div>
-
-        <div class="list">
-          <h2 class="list-headline">Questions</h2>
-          <div
-            v-for="question in unansweredQuestions"
-            :key="question._id">
-
-            <div class="topicpage-header">
-              <div class="post-topics">
-                <router-link :to="`/topic/${question.topic.slug}`" class="topics">
-                  {{question.topic.name}}
-                </router-link>
-              </div>
-            </div>
-
-            <question
-              :topicSlug="question.topic.slug"
-              :answerLimit="0"
-              :question="question"
-              :canAnswer="false" />
-
-          </div>
-        </div>
-
-      </template>
+      </div>
     </div>
 
   </write-request>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Question from '@/components/qa/Question'
 import { TopicsAutoComplete, TopicCreate } from '@/components/topic'
 import WriteRequest from '@/views/write/WriteRequest'
@@ -102,6 +99,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
+
     ...mapState({
       me (state) {
         return state.me
@@ -117,12 +118,8 @@ export default {
     ...mapActions([
       'getTopTopics',
       'getUnansweredQuestions',
-      'setMaintainerInterest',
+      'setMaintainer',
     ]),
-
-    onCancelSelection() {
-      this.newTopic = null
-    },
 
     loadTopics() {
       this.loading = true
@@ -130,14 +127,51 @@ export default {
         this.getUnansweredQuestions(10)
         this.topics = data
       }).catch((e) => {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+        this.$toasted.error((e.response) ? e.response.data : e, { duration: 0 })
       }).finally(() => {
         this.loading = false
       })
     },
 
+    hasMaintainers (topic) {
+      return (
+        topic &&
+        topic.maintainers &&
+        topic.maintainers.length > 0
+      )
+    },
+
+    onCancelSelection() {
+      this.newTopic = null
+    },
+
     onClickTopic(topic) {
-      this.selectedTopic = topic.name
+      if (this.hasMaintainers(topic)) {
+        return this.$router.history.push(`/topic/${topic.slug}`)
+      }
+
+      if (!this.isLoggedIn) {
+        return this.$toasted.success('Please, login or sign up first.', {
+          action: [
+            {
+                text: 'Sign In',
+                onClick : (e, toastObject) => {
+                    this.$router.history.push('/login');
+                    toastObject.goAway(0);
+                },
+            },
+            {
+                text: 'Close',
+                onClick : (e, toastObject) => {
+                    toastObject.goAway(0);
+                },
+            },
+          ],
+          duration: 0,
+        })
+      }
+
+      this.selectedTopic = topic.slug
       this.$nextTick(() => {
         this.requestTopicOwnership()
       })
@@ -147,17 +181,16 @@ export default {
       this.saving = true
 
       const data = {
-        topicName: this.selectedTopic,
-        userName: this.me.name,
-        userEmail: this.me.email,
+        topicSlug: this.selectedTopic,
+        event: 'selfAssign'
       }
 
       try {
-        await this.setMaintainerInterest(data)
-        this.$toasted.success('Great! We will be in touch with you.', { duration : 8000 })
+        await this.setMaintainer(data)
+        this.$router.history.push(`/topic/${this.selectedTopic}/edit`)
       }
       catch (e) {
-        this.$toasted.error((e.response) ? e.response.data : e, { duration : 0 })
+        this.$toasted.error((e.message) ? e.message : e, { duration: 0 })
       }
 
       if (typeof this.onCancelSelection === 'function') {
