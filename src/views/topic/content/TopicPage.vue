@@ -284,8 +284,9 @@ export default {
       const end = ` ${this.shareGuests}`
       const trimCount = Math.max(280 - end.length, 24)
       const question = this.topicData.name
+      const relatedTwitter = this.getMaintainerTwitter()
 
-      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${end}`
+      return `${question.slice(0, trimCount)}${question.length > trimCount ? '...' : ''}${relatedTwitter}${end}`
     },
 
     hasMaintainers () {
@@ -417,6 +418,18 @@ export default {
       'saveTopicEpisode',
       'getEntityQuestions',
     ]),
+
+    getMaintainerTwitter () {
+      if (!this.hasMaintainers) {
+        return ''
+      }
+
+      const maintainersWithTwitter = this.topicData.maintainers
+        .sort((a, b) => new Date(b.dateUpdated) - new Date(a.dateUpdated))
+        .filter(m => !!(m.twitter))
+
+      return maintainersWithTwitter.length > 0 ? ` @${maintainersWithTwitter[0].twitter} ` : ''
+    },
 
     async requestTopicOwnership() {
       this.saving = true
