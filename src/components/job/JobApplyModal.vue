@@ -151,12 +151,14 @@ export default {
             })
             .catch((error) => {
               this.error = error.response.data.message
+              Sentry.captureException(error)
             })
             .finally(() => {
               this.loading = false
             })
         } else {
           this.error = 'Invalid fields on form'
+          Sentry.captureMessage(this.error)
         }
       })
     }

@@ -78,7 +78,7 @@ export default {
         ...data,
       })
         .then(() => {
-          this.$toasted.show('Successfully Edited!')
+          this.$toasted.success('Successfully Edited!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
@@ -92,7 +92,7 @@ export default {
       this.loading = true
       this.deleteJob({ jobId: this.jobId })
         .then(() => {
-          this.$toasted.show('Successfully Deleted!')
+          this.$toasted.success('Successfully Deleted!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
