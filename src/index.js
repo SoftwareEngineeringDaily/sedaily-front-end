@@ -20,6 +20,7 @@ import SmartBanner from 'smart-app-banner'
 import BootstrapVue from 'bootstrap-vue'
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io'
+import * as Sentry from '@sentry/browser';
 import { apiConfig } from '../config/apiConfig'
 
 import 'smart-app-banner/dist/smart-app-banner.css'
@@ -107,6 +108,15 @@ new Vue({
     if (store.getters.isLoggedIn) {
       store.dispatch('fetchMyProfileData')
     }
+
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      debug: (process.env.NODE_ENV == 'development'),
+    });
+
+    window.Sentry = Sentry;
+
     new SmartBanner({
       daysHidden: -1,
       daysReminder: -1,

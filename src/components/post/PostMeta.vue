@@ -107,11 +107,14 @@ export default {
 
 <style>
 .post-details {
+  overflow: auto;
   display: flex;
+  white-space: nowrap;
   font-size: 0.8rem;
   letter-spacing: 0.6px;
   font-weight: 600;
   text-transform: uppercase;
+
 }
 
 .post-details > * {

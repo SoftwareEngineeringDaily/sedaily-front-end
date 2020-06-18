@@ -23,6 +23,8 @@
     "test:e2e": "start-server-and-test dev http-get://localhost:8080 cy:e2e"
   },
   "dependencies": {
+    "@sentry/browser": "^5.17.0",
+    "@sentry/integrations": "^5.17.0",
     "algoliasearch": "^3.35.1",
     "aplayer": "^1.10.0",
     "axios": "^0.18.1",
