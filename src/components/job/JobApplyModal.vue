@@ -158,7 +158,7 @@ export default {
             })
         } else {
           this.error = 'Invalid fields on form'
-          console.log(this.Sentry);
+          Sentry.captureMessage(error)
         }
       })
     }

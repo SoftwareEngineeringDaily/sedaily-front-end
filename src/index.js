@@ -109,10 +109,12 @@ new Vue({
       store.dispatch('fetchMyProfileData')
     }
 
+    const debug = (process.env.NODE_ENV === 'development')
+
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV,
-      debug: (process.env.NODE_ENV == 'development'),
+      debug,
     });
 
     window.Sentry = Sentry;
