@@ -109,15 +109,10 @@ new Vue({
       store.dispatch('fetchMyProfileData')
     }
 
-    const debug = (process.env.NODE_ENV === 'development')
-
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV,
-      debug,
+      environment: process.env.NODE_ENV
     });
-
-    window.Sentry = Sentry;
 
     new SmartBanner({
       daysHidden: -1,
@@ -134,6 +129,8 @@ new Vue({
         ios: 'FREE',
         android: 'FREE'
       },
-    })
+    });
+
+    window.Sentry = Sentry;
   }
 })
