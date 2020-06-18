@@ -44,7 +44,7 @@ export default {
       console.log('data ', data)
       this.createJob(data)
         .then(() => {
-          this.$toasted.show('Successfully Posted!')
+          this.$toasted.success('Successfully Posted!')
           this.$router.push('/jobs')
         })
         .catch((error) => {
