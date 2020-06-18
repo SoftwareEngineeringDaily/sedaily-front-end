@@ -286,6 +286,7 @@ export default {
   padding: 0.4rem 0.8rem;
   text-align: left;
   outline: 0;
+  background-color: transparent;
   border: 0;
   border-bottom: 1px solid #edeaff;
 }
