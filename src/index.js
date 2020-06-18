@@ -97,13 +97,6 @@ Vue.use(new VueSocketIO({
   }
 }));
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV
-});
-
-window.Sentry = Sentry;
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -115,6 +108,16 @@ new Vue({
     if (store.getters.isLoggedIn) {
       store.dispatch('fetchMyProfileData')
     }
+
+    const debug = (process.env.NODE_ENV === 'development')
+
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      debug,
+    });
+
+    window.Sentry = Sentry;
 
     new SmartBanner({
       daysHidden: -1,
@@ -131,6 +134,6 @@ new Vue({
         ios: 'FREE',
         android: 'FREE'
       },
-    });
+    })
   }
 })
