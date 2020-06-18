@@ -9,16 +9,16 @@
         <div v-if="!this.lastShowNotifications.length" class="no-data">
           You have no notifications
         </div>
-        <b-dropdown-item 
-        v-for="item in this.lastShowNotifications" 
-        :key="item._id" 
+        <b-dropdown-item
+        v-for="item in this.lastShowNotifications"
+        :key="item._id"
         active-class=""
         :class="[item.read ? 'read' : 'unread']"
         :to="item.notification.data.url">
           <div class="date">{{formatDate(item.dateCreated)}}</div>
           <div class="title">{{item.notification.title}}</div>
-          <div class="body">{{item.notification.body}}</div>
-        </b-dropdown-item>        
+          <div class="body">{{trim(item.notification.body)}}</div>
+        </b-dropdown-item>
       </b-dropdown>
     </div>
   </span>
@@ -31,13 +31,16 @@ import BellIcon from './BellIcon'
 
 export default {
   name: "notification",
+
   data: () => ({
     lastShowNotifications: [],
     shown: false
   }),
-  components: { 
-    BellIcon 
+
+  components: {
+    BellIcon
   },
+
   mounted() {
     this.$root.$on('bv::dropdown::show', bvEvent => {
       this.lastShowNotifications = this.notifications
@@ -48,7 +51,9 @@ export default {
       this.shown = false
     })
   },
+
   props: {},
+
   computed: {
     ...mapState(['notifications']),
     unread () {
@@ -56,6 +61,7 @@ export default {
       return unread.length;
     }
   },
+
   watch :{
     notifications (newNotifications, oldNotifications) {
       if (this.shown) {
@@ -69,11 +75,15 @@ export default {
       }
     }
   },
+
   methods: {
     markRead () {
       setTimeout(() => {
         this.$nextTick(() => { this.$store.dispatch('notification.markread.all') })
       }, 1000);
+    },
+    trim (content = '') {
+      return content.length > 140 ? `${content.slice(0, 140)}...` : content
     },
     formatDate (date) {
       const notificationDate = moment(date)
@@ -86,14 +96,14 @@ export default {
 
 <style lang="stylus" scoped>
   @import '../../css/variables'
-  .notification >>> .dropdown-menu 
+  .notification >>> .dropdown-menu
     max-height 50vh
     overflow auto
-  
-  .notification-icon 
+
+  .notification-icon
     height 32px
     width 32px
-  
+
   .badge
     position absolute
     background-color #a591ff
@@ -102,16 +112,16 @@ export default {
     color #ffffff
     padding 4px 6px
     z-index 10
-  
+
   .inner .badge
-    top 5px
-    right 6px
-  
+    top -3px
+    right -6px
+
   .inner-mobile .badge
     top -3px
     right -11px
-  
-  .notification >>> .dropdown-menu 
+
+  .notification >>> .dropdown-menu
     padding 0
 
   .notification >>> li:not(:last-child)
@@ -120,7 +130,7 @@ export default {
   .notification >>> li a
     border-left 3px solid transparent
     user-select: none;
-  
+
   .notification >>> .dropdown-item:active
     font-weight: inherit;
     background-color #ffffff
@@ -135,18 +145,18 @@ export default {
 
   .notification >>> li.read a:hover
     border-left 3px solid #eaecef
-  
+
   .notification >>> .no-data
     text-align center
     padding 20px 0
-    width 350px 
+    width 350px
 
-  .date 
+  .date
     font-size 12px
     color #808080
     text-align right
 
-  .title 
+  .title
     font-size 16px
     font-weight 500
     margin 10px 0
@@ -157,6 +167,6 @@ export default {
     font-size 14px
     width 350px
     white-space normal
-    font-style italic 
+    font-style italic
 
 </style>

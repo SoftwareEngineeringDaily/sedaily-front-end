@@ -10,7 +10,7 @@
     </p>
 
     <answer-content
-      :answer="answer"
+      :answer="trim(answer)"
       :question="question"
       :topicSlug="topicSlug"
       :showEmptyLikes="false"
@@ -78,6 +78,14 @@ export default {
     ...mapActions([
       'getTopic',
     ]),
+
+    trim (answer) {
+      const { content } = answer
+      return {
+        ...answer,
+        content: content.length > 200 ? `${content.slice(0, 196)}...` : content,
+      }
+    },
   }
 }
 </script>

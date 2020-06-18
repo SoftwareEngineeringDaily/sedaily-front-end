@@ -379,6 +379,11 @@ export default {
     a.router-link-active
       text-decoration none
       border none
+
+    >>> .btn-lg
+      padding 0
+      margin-left 1rem
+
   a
     font-size 14px
     line-height 16px
@@ -453,6 +458,8 @@ export default {
     margin-right 1em
 
   .arrow
+    display none
+
     &:before
       content: '';
       width: 10px;

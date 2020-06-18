@@ -14,7 +14,7 @@
 
     <div class="answer-footer">
       <div class="answer-actions">
-        <div class="date">{{ formatDate(answer.date) }}</div>
+        <router-link :to="shareUrl.path" class="date">{{ formatDate(answer.date) }}</router-link>
 
         <span>|</span>
 
@@ -24,8 +24,8 @@
         </div>
 
         <social-sharing
-          :url="shareUrl"
-          :href="shareUrl"
+          :url="shareUrl.url"
+          :href="shareUrl.url"
           :title="shareText"
           twitter-user="software_daily"
           inline-template>
@@ -141,7 +141,12 @@ export default {
     shareUrl () {
       const { topicpage, answer, topicSlug } = this
       const questionId = isObject(answer.question) ? answer.question._id : answer.question
-      return `${window.location.origin}/topic/${topicpage.slug || topicSlug}/question/${questionId}#answer-${answer._id}`
+      const path = `/topic/${topicpage.slug || topicSlug}/question/${questionId}#answer-${answer._id}`
+
+      return {
+        url: `${window.location.origin}${path}`,
+        path,
+      }
     },
 
     shareText () {
