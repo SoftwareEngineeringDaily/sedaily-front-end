@@ -106,7 +106,7 @@ export default {
         this.fetchSearch({ query: term }).then(
           data => {
             this.displayedPosts = data.posts
-            this.$store.commit('setPosts', {posts: data.posts})
+            this.$store.commit('setPosts', { posts: data.posts })
           }
         );
       } else {
@@ -114,11 +114,12 @@ export default {
         this.getTopicsInSearch({ topic: id, search: term }).then(
           data => {
             this.displayedPosts = data.posts
-            this.$store.commit('setPosts', {posts: data.posts})
+            this.$store.commit('setPosts', { posts: data.posts })
           }
         );
       }
     },
+
     $route(to, from) {
       if (to.name === 'PostsAll') return this.fetchPosts()
       if (to.name === 'Posts') return this.fetchTopicPosts()
@@ -132,13 +133,18 @@ export default {
     ]),
 
     fetchPosts() {
-      this.topicId = ''
+      if (this.loading) {
+        return
+      }
+
       this.loading = true
+      this.topicId = ''
+
       this.getTopicsInSearch({})
         .then(data => {
+          this.displayedPosts = data.posts.slice(5)
           this.displayedSamplePosts = data.posts.slice(0, 2)
           this.displayedFeaturedPosts = data.posts.slice(2, 5)
-          this.displayedPosts = data.posts.slice(5)
           this.$store.commit('setPosts', {
             posts: data.posts,
           })
@@ -146,6 +152,7 @@ export default {
       ).finally(() => {
         this.loading = false
       })
+
       this.resetPosts();
     },
 
@@ -166,27 +173,33 @@ export default {
     loadMore(newSearch = false) {
       let isSearch = !!(this.$store.state.searchTerm)
       let method = isSearch ? 'fetchSearch' : 'getTopicsInSearch'
-      if(this.routerTopic === true){
+
+      if (this.routerTopic === true) {
         if(this.topicId){
           this.routerTopic = false
           this.endOfPosts = false
         }
       }
+
       if (this.endOfPosts) {
         return;
       }
+
       this.loading = true;
+
       let params = {
         topic: this.topicId || undefined,
         search: undefined,
         createdAtBefore: undefined
       };
+
       if (isSearch) {
         params = {
           query: this.$store.state.searchTerm,
           page: this.$store.state.nextPage,
         }
       }
+
       if (this.displayedPosts.length) {
         const lastPost = this.displayedPosts[this.displayedPosts.length - 1];
         params.createdAtBefore = moment(lastPost.date).toISOString();
