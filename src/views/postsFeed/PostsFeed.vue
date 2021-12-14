@@ -269,6 +269,7 @@ export default {
   padding 0 1.5rem
   border-right 1px solid #e9ecef
   border-left 1px solid #e9ecef
+  max-width: calc(100% - 3rem)
 
   >>> .news-post .body
     padding 1.5rem 0 3rem
