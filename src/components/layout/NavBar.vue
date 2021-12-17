@@ -22,11 +22,6 @@
           <button @click="signIn" name="submit-button" class="btn-sign-in">Sign In</button>
         </span>
 
-        <router-link v-if="!alreadySubscribed" to="/premium" class="button-submit call-to-action-secondary">
-          <i class="fa fa-rss" />
-          <span class="button-submit-label">Subscribe</span>
-        </router-link>
-
         <notification v-if="isLoggedIn"></notification>
 
         <span class="active-without-border" v-if="isLoggedIn">
