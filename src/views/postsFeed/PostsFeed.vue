@@ -32,16 +32,6 @@
           <spinner :show="loading"></spinner>
         </div>
       </div>
-      <div class="posts-sidebar">
-        <div class="posts-sidebar-item">
-          <sub-headline>Popular Posts</sub-headline>
-          <popular-posts />
-        </div>
-        <div class="posts-sidebar-item">
-          <sub-headline>Top Topics</sub-headline>
-          <topic-popular-list />
-        </div>
-      </div>
     </div>
   </transition>
 </template>
@@ -274,9 +264,6 @@ export default {
   >>> .news-post .body
     padding 1.5rem 0 3rem
 
-.posts-sidebar
-  width 25%
-
 .posts-list
   flex: 1
   width 100%
@@ -294,9 +281,6 @@ export default {
     margin-right 0
     padding-right 0
     border-right none
-
-  .posts-sidebar
-    display none
 
 @media (max-width 767px)
   .posts-header
