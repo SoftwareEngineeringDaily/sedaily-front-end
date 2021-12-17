@@ -20,18 +20,11 @@
           <topic-page-maintainer :user="topicData.maintainer" />
 
           <div class="topicpage-item">
-            <p class="label">Related Twitter Accounts (Optional):</p>
-            <twitter-users-search
-              v-model="topicPageData.twitterAccounts"
-              :onAdd="onChange" />
-          </div>
-
-          <div class="topicpage-item">
             <div v-if="!me.avatarUrl" class="alert-block">
               <router-link to="/edit-profile">Add a picture</router-link> to your profile if you would like us to
               share your writing
             </div>
-             <div v-if="!me.lastName" class="alert-block">
+            <div v-if="!me.lastName" class="alert-block">
               <router-link to="/edit-profile">Add a Last Name</router-link> to your profile if you would like us to
               share your writing
             </div>
