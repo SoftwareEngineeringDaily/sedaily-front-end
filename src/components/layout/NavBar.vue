@@ -7,9 +7,6 @@
           <span class="site-name">Software Daily</span>
         </div>
         <div class="top-menu">
-          <router-link to="/write">
-            Write
-          </router-link>
           <router-link to="/jobs">
             Jobs
           </router-link>
