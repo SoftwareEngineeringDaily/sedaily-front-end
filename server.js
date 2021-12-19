@@ -5,7 +5,7 @@ const prerender = require('prerender-node')
 const app = express()
 
 // enable ssl redirect
-app.use(sslRedirect)
+app.use(sslRedirect())
 
 // prerender-node must be used before connect-history-api-fallback
 app.use(prerender.set('prerenderToken', process.env.PRERENDER_TOKEN))
