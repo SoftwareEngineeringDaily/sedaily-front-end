@@ -3,13 +3,6 @@
     <div class="posts-feed">
       <div class="posts-main">
         <div class="posts-header">
-          <div class="posts-sample">
-            <post-preview
-              v-for="post in displayedSamplePosts"
-              :key="post._id"
-              :displayedPosts="displayedSamplePosts"
-              :post="post" />
-          </div>
           <div class="posts-featured">
             <post-preview
               v-for="post in displayedFeaturedPosts"
