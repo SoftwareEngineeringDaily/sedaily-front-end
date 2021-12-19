@@ -88,7 +88,7 @@ export default {
         unsubscribedFromMentions: !this.subscribedFromMentions,
         unsubscribedFromCommentReplies: !this.subscribedFromCommentReplies
       }}).then( () => {
-        this.msg = 'Succesfully updated your emailsettings.'
+        this.msg = 'Successfully updated your email settings.'
       })
 
     }
