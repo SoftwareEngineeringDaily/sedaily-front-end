@@ -19,7 +19,7 @@
     "launch": "npm run build && npm start",
     "lint": "eslint --ext .js,.vue src test/unit/specs cypress",
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs cypress --fix",
-    "start": "webpack-dev-server --config build/webpack.dev.conf.js",
+    "start": "node server.js",
     "test:e2e": "start-server-and-test dev http-get://localhost:8080 cy:e2e"
   },
   "dependencies": {
