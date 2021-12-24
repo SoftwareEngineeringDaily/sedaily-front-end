@@ -31,17 +31,6 @@
             @keydown.enter="search"
           />
         </div>
-        <div class="form-group col-sm-5">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Location or Remote..."
-            id="locationSearchInput"
-            name="locationSearch"
-            v-model="locationSearch"
-            @keydown.enter="search"
-          />
-        </div>
         <div class="form-group col-sm-2 job-search-button">
           <!--<div class="row align-items-center">-->
             <button
