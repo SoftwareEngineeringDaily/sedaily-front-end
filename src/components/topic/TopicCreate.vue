@@ -4,7 +4,7 @@
     <button
       class="link-button"
       @click="toggleModal">
-      <i class="fa fa-plus" /> Write
+      <i class="fa fa-plus" /> Post 
     </button>
 
     <modal
