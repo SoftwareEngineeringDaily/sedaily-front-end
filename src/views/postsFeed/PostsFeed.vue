@@ -250,8 +250,6 @@ export default {
   flex-grow 2
   margin 0 1.5rem
   padding 0 1.5rem
-  border-right 1px solid #e9ecef
-  border-left 1px solid #e9ecef
   max-width: calc(100% - 3rem)
 
   >>> .news-post .body
