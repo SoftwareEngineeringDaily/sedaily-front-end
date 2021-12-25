@@ -184,7 +184,7 @@ export default {
 }
 
 .job-description {
-  white-space: normal;
+  white-space: pre;
 }
 
 .job-date {
