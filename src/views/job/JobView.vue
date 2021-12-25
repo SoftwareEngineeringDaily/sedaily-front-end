@@ -185,6 +185,7 @@ export default {
 
 .job-description {
   white-space: wrap;
+  overflow: auto;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
