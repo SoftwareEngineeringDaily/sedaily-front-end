@@ -43,7 +43,7 @@
               v-else
               class="btn button-submit"
               @click="search"
-              :disabled="!locationSearch && !keywordSearch"
+              :disabled="!keywordSearch"
             >Search
             </button>
           <!--</div>-->
@@ -79,7 +79,6 @@ export default {
       loading: false,
       error: null,
       filtered: false,
-      locationSearch: '',
       keywordSearch: '',
       displayedJobs: []
     }
@@ -102,23 +101,19 @@ export default {
     ...mapActions(['fetchJobsList']),
     // TODO: determine best approach to search
     search () {
-      if (!this.keywordSearch && !this.locationSearch) {
+      if (!this.keywordSearch) {
         // if both blank clear search instead
         return this.clearSearch()
       }
       this.filtered = true
       const keywordSearchRe = !this.keywordSearch ? null : new RegExp(this.keywordSearch, 'i')
-      const locationSearchRe = !this.locationSearch ? null : new RegExp(this.locationSearch, 'i')
-      const includeRemote = this.locationSearch.trim().toLowerCase() === 'remote'
       this.displayedJobs = this.jobs.filter((job) => {
         const keywordResult = keywordSearchRe === null ? true : job.title.search(keywordSearchRe) >= 0 || job.companyName.search(keywordSearchRe) >= 0
-        const locationResult = locationSearchRe === null ? true : job.location.search(locationSearchRe) >= 0 || includeRemote && job.remoteWorkingConsidered
-        return keywordResult && locationResult
+        return keywordResult
       })
     },
     clearSearch () {
       this.keywordSearch = ''
-      this.locationSearch = ''
       this.filtered = false
       this.displayedJobs = this.jobs
     }
