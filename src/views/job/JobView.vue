@@ -56,7 +56,7 @@
             </span>
           </div>
           <div class="row job-description">
-            <pre>{{ job.description }}</pre>
+            {{ job.description }}
           </div>
           <div class="row job-date">Posted on {{ date }}</div>
           <br />
@@ -184,10 +184,7 @@ export default {
 }
 
 .job-description {
-  white-space: wrap;
-  overflow: auto;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  white-space: pre-wrap;
 }
 
 .job-date {
