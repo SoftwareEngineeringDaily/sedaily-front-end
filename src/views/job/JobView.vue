@@ -184,7 +184,7 @@ export default {
     color accent-color
 
 .job-description
-  white-space: pre-wrap;
+  white-space: normal;
 
 .job-date
   font-size 0.9em
