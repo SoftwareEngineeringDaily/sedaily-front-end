@@ -195,7 +195,7 @@ export default {
           title: "",
           description: "",
           employmentType: "",
-          location: "Remote",
+          location: "Worldwide",
           remoteWorkingConsidered: true,
           receivingEmail: "",
           companyName: "",
