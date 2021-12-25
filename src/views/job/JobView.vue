@@ -184,7 +184,7 @@ export default {
 }
 
 .job-description {
-  white-space: pre-wrap;
+  white-space: pre-line;
 }
 
 .job-date {
