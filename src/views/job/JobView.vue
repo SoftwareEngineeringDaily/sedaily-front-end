@@ -56,7 +56,7 @@
             </span>
           </div>
           <div class="row job-description">
-            {{ job.description }}
+            <pre>{{ job.description }}</pre>
           </div>
           <div class="row job-date">Posted on {{ date }}</div>
           <br />
