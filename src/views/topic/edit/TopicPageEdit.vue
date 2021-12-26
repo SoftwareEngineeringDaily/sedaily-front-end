@@ -358,6 +358,9 @@ export default {
       this[method].apply(this, [saveData]).then((response) => {
         this.$toasted.success('Topic updated', { duration : 4000 })
         this.loadTopic()
+        if (!this.topicPageData.published) {
+          this.$router.push(`/topic/${this.topicData.slug}`)
+        }
       }).catch((e) => {
         this.$toasted.error(e.response.data, { duration : 0 })
       }).finally(() => {
