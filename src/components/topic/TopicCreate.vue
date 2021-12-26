@@ -95,6 +95,7 @@ export default {
           params: { slug: saved.slug },
         });
       } catch (e) {
+        this.$router.push(`/topic/${name}`);
         this.$toasted.error(e.response ? e.response.data : e, { duration: 0 });
       }
 
