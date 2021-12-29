@@ -114,7 +114,6 @@ a
   .img-container
     overflow hidden
     background #fff
-    border 2px solid #e9ecef
 
     img
       width 100%
