@@ -113,7 +113,6 @@ a
 
   .img-container
     overflow hidden
-    height 400px
     background #fff
     border 2px solid #e9ecef
 
